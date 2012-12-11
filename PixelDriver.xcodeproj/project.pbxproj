@@ -14,6 +14,7 @@
 		66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B641676FC2F00453E8F /* AppDelegate.m */; };
 		66DC7B681676FC3000453E8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B661676FC3000453E8F /* MainMenu.xib */; };
 		66DC7B751676FFE400453E8F /* p9813.c in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B731676FFE400453E8F /* p9813.c */; };
+		66DC7B7C167725E900453E8F /* PHWallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7B167725E900453E8F /* PHWallView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,8 @@
 		66DC7B731676FFE400453E8F /* p9813.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = p9813.c; path = p9813/p9813.c; sourceTree = SOURCE_ROOT; };
 		66DC7B741676FFE400453E8F /* p9813.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p9813.h; path = p9813/p9813.h; sourceTree = SOURCE_ROOT; };
 		66DC7B77167724C300453E8F /* target.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = target.xcconfig; sourceTree = "<group>"; };
+		66DC7B7A167725E900453E8F /* PHWallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHWallView.h; sourceTree = "<group>"; };
+		66DC7B7B167725E900453E8F /* PHWallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHWallView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,18 +97,12 @@
 			children = (
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
+				66DC7B7A167725E900453E8F /* PHWallView.h */,
+				66DC7B7B167725E900453E8F /* PHWallView.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
-				66DC7B581676FC2F00453E8F /* Supporting Files */,
 			);
 			name = src;
 			path = PixelDriver;
-			sourceTree = "<group>";
-		};
-		66DC7B581676FC2F00453E8F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */ = {
@@ -195,6 +192,7 @@
 				66DC7B5E1676FC2F00453E8F /* main.m in Sources */,
 				66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */,
 				66DC7B751676FFE400453E8F /* p9813.c in Sources */,
+				66DC7B7C167725E900453E8F /* PHWallView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
