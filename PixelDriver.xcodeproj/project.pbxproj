@@ -16,6 +16,9 @@
 		66DC7B751676FFE400453E8F /* p9813.c in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B731676FFE400453E8F /* p9813.c */; };
 		66DC7B7C167725E900453E8F /* PHWallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7B167725E900453E8F /* PHWallView.m */; };
 		66DC7B7F1677299300453E8F /* PHDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7E1677299300453E8F /* PHDriver.m */; };
+		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
+		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
+		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,11 @@
 		66DC7B7B167725E900453E8F /* PHWallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHWallView.m; sourceTree = "<group>"; };
 		66DC7B7D1677299300453E8F /* PHDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDriver.h; sourceTree = "<group>"; };
 		66DC7B7E1677299300453E8F /* PHDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDriver.m; sourceTree = "<group>"; };
+		66DC7B8216773BE200453E8F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		66DC7B8416773EE000453E8F /* PHUSBNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHUSBNotifier.h; sourceTree = "<group>"; };
+		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
+		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +88,7 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				66DC7B8216773BE200453E8F /* IOKit.framework */,
 				66DC7B511676FC2F00453E8F /* Cocoa.framework */,
 				66DC7B531676FC2F00453E8F /* Other Frameworks */,
 			);
@@ -98,10 +108,12 @@
 		66DC7B571676FC2F00453E8F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				66DC7B81167738F100453E8F /* Driver */,
+				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
+				66DC7B8716773FC200453E8F /* Utilities.h */,
+				66DC7B8816773FC200453E8F /* Utilities.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
 			);
 			name = src;
@@ -137,13 +149,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		66DC7B81167738F100453E8F /* Driver */ = {
+		66DC7B81167738F100453E8F /* FTDI Driver */ = {
 			isa = PBXGroup;
 			children = (
 				66DC7B7D1677299300453E8F /* PHDriver.h */,
 				66DC7B7E1677299300453E8F /* PHDriver.m */,
+				66DC7B8416773EE000453E8F /* PHUSBNotifier.h */,
+				66DC7B8516773EE000453E8F /* PHUSBNotifier.m */,
 			);
-			name = Driver;
+			name = "FTDI Driver";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +229,8 @@
 				66DC7B751676FFE400453E8F /* p9813.c in Sources */,
 				66DC7B7C167725E900453E8F /* PHWallView.m in Sources */,
 				66DC7B7F1677299300453E8F /* PHDriver.m in Sources */,
+				66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */,
+				66DC7B8916773FC200453E8F /* Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,11 +322,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Jeffrey Verkoeyen";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -319,11 +337,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: Jeffrey Verkoeyen";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

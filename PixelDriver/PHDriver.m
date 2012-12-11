@@ -16,7 +16,9 @@
 
 #import "PHDriver.h"
 
+#import "PHUSBNotifier.h"
 #import "p9813.h"
+#import "Utilities.h"
 
 NSString* const PHDriverConnectionStateDidChangeNotification = @"PHDriverConnectionStateDidChangeNotification";
 
@@ -34,13 +36,6 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 #define PHStrandIndexFromXY(x, y) ((x) * kTileHeight + (((x) % 2) ? ((kTileHeight - 1) - (y)) : (y)))
 #define PHPixelMapIndexFromTopXY(x, y) ((y) * kWallWidth + (x))
 #define PHPixelMapIndexFromBottomXY(x, y) ((((kTileHeight - 1) - (y)) + kTileHeight) * kWallWidth + (x))
-
-void PHAlert(NSString *message) {
-  NSAlert *alert = [[NSAlert alloc] init];
-  alert.alertStyle = NSCriticalAlertStyle;
-  alert.messageText = message;
-  [alert runModal];
-}
 
 @implementation PHDriver {
   TCpixel *_pixelBuffer;
@@ -61,6 +56,11 @@ void PHAlert(NSString *message) {
 
 - (id)init {
   if ((self = [super init])) {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(ft232ConnectionStateDidChange)
+               name:PHFT232ConnectionStateDidChangeNotification
+             object:nil];
+
     // Allocate the pixel buffer.
     _sizeOfPixelBuffer = kNumberOfPixels * sizeof(TCpixel);
     _pixelBuffer = (TCpixel *)malloc(_sizeOfPixelBuffer);
@@ -148,6 +148,20 @@ void PHAlert(NSString *message) {
 
   _connected = YES;
   return YES;
+}
+
+#pragma mark - FT232 Connection State
+
+- (void)ft232ConnectionStateDidChange {
+  if (_connected) {
+    TCclose();
+    _connected = NO;
+  }
+
+  [self attemptFTDIConnection];
+
+  [[NSNotificationCenter defaultCenter] postNotificationName:PHDriverConnectionStateDidChangeNotification
+                                                      object:nil];
 }
 
 @end

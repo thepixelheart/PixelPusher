@@ -14,25 +14,11 @@
 // limitations under the License.
 //
 
-#import "AppDelegate.h"
+#import "Utilities.h"
 
-#import "PHDriver.h"
-#import "PHUSBNotifier.h"
-
-AppDelegate *PHApp() {
-  return (AppDelegate *)[NSApplication sharedApplication].delegate;
+void PHAlert(NSString *message) {
+  NSAlert *alert = [[NSAlert alloc] init];
+  alert.alertStyle = NSCriticalAlertStyle;
+  alert.messageText = message;
+  [alert runModal];
 }
-
-@implementation AppDelegate {
-  PHUSBNotifier* _usbNotifier;
-}
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-  [self.window setAcceptsMouseMovedEvents:YES];
-  [self.window setMovableByWindowBackground:YES];
-
-  self.driver = [[PHDriver alloc] init];
-  _usbNotifier = [[PHUSBNotifier alloc] init];
-}
-
-@end

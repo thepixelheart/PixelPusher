@@ -21,15 +21,15 @@
 
 @implementation PHWallView
 
-- (id)initWithFrame:(NSRect)frameRect {
-  if ((self = [super initWithFrame:frameRect])) {
-    [self updateDriverConnectedState];
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(updateDriverConnectedState)
-               name:PHDriverConnectionStateDidChangeNotification
-             object:nil];
-  }
-  return self;
+- (void)awakeFromNib {
+  [super awakeFromNib];
+
+  [self driverConnectionDidChange];
+
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self selector:@selector(driverConnectionDidChange)
+             name:PHDriverConnectionStateDidChangeNotification
+           object:nil];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -40,11 +40,11 @@
   CGContextFillRect(cx, self.bounds);
 }
 
-- (void)updateDriverConnectedState {
+- (void)driverConnectionDidChange {
   if (PHApp().driver.isConnected) {
-    // Show a connected state.
+    NSLog(@"Driver is attached");
   } else {
-    // Show a disconnected state.
+    NSLog(@"Driver is detached");
   }
 }
 
