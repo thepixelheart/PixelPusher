@@ -14,16 +14,12 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@class PHDriver;
-@class AppDelegate;
+extern NSString* const PHDriverConnectionStateDidChangeNotification;
 
-AppDelegate *PHApp();
+@interface PHDriver : NSObject
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-
-@property (assign) IBOutlet NSWindow *window;
-@property (strong) PHDriver *driver;
+@property (assign, getter = isConnected) BOOL connected;
 
 @end

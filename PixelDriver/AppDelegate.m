@@ -16,9 +16,19 @@
 
 #import "AppDelegate.h"
 
+#import "PHDriver.h"
+
+AppDelegate *PHApp() {
+  return (AppDelegate *)[NSApplication sharedApplication].delegate;
+}
+
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  [self.window setAcceptsMouseMovedEvents:YES];
+  [self.window setMovableByWindowBackground:YES];
+
+  self.driver = [[PHDriver alloc] init];
 }
 
 @end

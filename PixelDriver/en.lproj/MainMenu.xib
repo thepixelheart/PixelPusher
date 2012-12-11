@@ -1290,7 +1290,6 @@
 				<string key="NSName">_NSMainMenu</string>
 			</object>
 			<object class="NSWindowTemplate" id="972006081">
-				<int key="NSWindowStyleMask">5</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{335, 390}, {480, 320}}</string>
 				<int key="NSWTFlags">1954021376</int>
@@ -1309,8 +1308,8 @@
 					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{480, 342}</string>
-				<string key="NSMaxSize">{480, 342}</string>
+				<string key="NSMinSize">{480, 320}</string>
+				<string key="NSMaxSize">{480, 320}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="976324537">

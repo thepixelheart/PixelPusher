@@ -16,7 +16,21 @@
 
 #import "PHWallView.h"
 
+#import "AppDelegate.h"
+#import "PHDriver.h"
+
 @implementation PHWallView
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    [self updateDriverConnectedState];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(updateDriverConnectedState)
+               name:PHDriverConnectionStateDidChangeNotification
+             object:nil];
+  }
+  return self;
+}
 
 - (void)drawRect:(NSRect)dirtyRect {
   [super drawRect:dirtyRect];
@@ -26,5 +40,12 @@
   CGContextFillRect(cx, self.bounds);
 }
 
+- (void)updateDriverConnectedState {
+  if (PHApp().driver.isConnected) {
+    // Show a connected state.
+  } else {
+    // Show a disconnected state.
+  }
+}
 
 @end
