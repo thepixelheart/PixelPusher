@@ -22,10 +22,10 @@
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		66DC7B551676FC2F00453E8F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		66DC7B561676FC2F00453E8F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PixelDriver-Info.plist"; sourceTree = "<group>"; };
+		66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PixelDriver-Info.plist"; path = "PixelDriver/PixelDriver-Info.plist"; sourceTree = "<group>"; };
 		66DC7B5B1676FC2F00453E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		66DC7B5D1676FC2F00453E8F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixelDriver-Prefix.pch"; sourceTree = "<group>"; };
+		66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "PixelDriver-Prefix.pch"; path = "PixelDriver/PixelDriver-Prefix.pch"; sourceTree = "<group>"; };
 		66DC7B611676FC2F00453E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		66DC7B631676FC2F00453E8F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66DC7B641676FC2F00453E8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -53,8 +53,10 @@
 			children = (
 				66DC7B711676FF6500453E8F /* README.md */,
 				66DC7B77167724C300453E8F /* target.xcconfig */,
+				66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */,
+				66DC7B571676FC2F00453E8F /* src */,
+				66DC7B791677255D00453E8F /* Resources */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
-				66DC7B571676FC2F00453E8F /* PixelDriver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
 			);
@@ -87,25 +89,21 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		66DC7B571676FC2F00453E8F /* PixelDriver */ = {
+		66DC7B571676FC2F00453E8F /* src */ = {
 			isa = PBXGroup;
 			children = (
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
-				66DC7B661676FC3000453E8F /* MainMenu.xib */,
+				66DC7B5D1676FC2F00453E8F /* main.m */,
 				66DC7B581676FC2F00453E8F /* Supporting Files */,
 			);
+			name = src;
 			path = PixelDriver;
 			sourceTree = "<group>";
 		};
 		66DC7B581676FC2F00453E8F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */,
-				66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */,
-				66DC7B5D1676FC2F00453E8F /* main.m */,
-				66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */,
-				66DC7B601676FC2F00453E8F /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -117,6 +115,17 @@
 				66DC7B731676FFE400453E8F /* p9813.c */,
 			);
 			name = "p9813 - USB<->FTDI Driver";
+			sourceTree = "<group>";
+		};
+		66DC7B791677255D00453E8F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				66DC7B661676FC3000453E8F /* MainMenu.xib */,
+				66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */,
+				66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */,
+				66DC7B601676FC2F00453E8F /* Credits.rtf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +207,7 @@
 				66DC7B5B1676FC2F00453E8F /* en */,
 			);
 			name = InfoPlist.strings;
+			path = PixelDriver;
 			sourceTree = "<group>";
 		};
 		66DC7B601676FC2F00453E8F /* Credits.rtf */ = {
@@ -206,6 +216,7 @@
 				66DC7B611676FC2F00453E8F /* en */,
 			);
 			name = Credits.rtf;
+			path = PixelDriver;
 			sourceTree = "<group>";
 		};
 		66DC7B661676FC3000453E8F /* MainMenu.xib */ = {
@@ -214,6 +225,7 @@
 				66DC7B671676FC3000453E8F /* en */,
 			);
 			name = MainMenu.xib;
+			path = PixelDriver;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
