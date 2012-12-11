@@ -33,6 +33,7 @@
 		66DC7B711676FF6500453E8F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		66DC7B731676FFE400453E8F /* p9813.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = p9813.c; path = p9813/p9813.c; sourceTree = SOURCE_ROOT; };
 		66DC7B741676FFE400453E8F /* p9813.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p9813.h; path = p9813/p9813.h; sourceTree = SOURCE_ROOT; };
+		66DC7B77167724C300453E8F /* target.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = target.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				66DC7B711676FF6500453E8F /* README.md */,
+				66DC7B77167724C300453E8F /* target.xcconfig */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B571676FC2F00453E8F /* PixelDriver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
@@ -270,6 +272,7 @@
 		};
 		66DC7B6C1676FC3000453E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -282,6 +285,7 @@
 		};
 		66DC7B6D1676FC3000453E8F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
