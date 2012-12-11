@@ -20,7 +20,7 @@
 #import "PHDriver.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 10;
+const NSInteger kPixelSize = 16;
 
 @implementation PHWallView
 
@@ -45,7 +45,7 @@ const NSInteger kPixelSize = 10;
   if (PHApp().driver.isConnected) {
     [[NSColor colorWithDeviceRed:32.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
   } else {
-    [[NSColor colorWithDeviceRed:1.0f green:0.0f blue:0.0f alpha:1] set];
+    [[NSColor colorWithDeviceRed:32.f / 255.f green:8.f / 255.f blue:8.f / 255.f alpha:1] set];
   }
   CGRect frame = CGRectMake(0, 0, kPixelBorderSize, self.bounds.size.height);
   for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {
