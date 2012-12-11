@@ -19,6 +19,9 @@
 #import "AppDelegate.h"
 #import "PHDriver.h"
 
+const NSInteger kPixelBorderSize = 1;
+const NSInteger kPixelSize = 10;
+
 @implementation PHWallView
 
 - (void)awakeFromNib {
@@ -36,8 +39,24 @@
   [super drawRect:dirtyRect];
 
   CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-  [[NSColor colorWithDeviceRed:255 green:0 blue:0 alpha:1] set];
+  [[NSColor blackColor] set];
   CGContextFillRect(cx, self.bounds);
+
+  if (PHApp().driver.isConnected) {
+    [[NSColor colorWithDeviceRed:32.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
+  } else {
+    [[NSColor colorWithDeviceRed:1.0f green:0.0f blue:0.0f alpha:1] set];
+  }
+  CGRect frame = CGRectMake(0, 0, kPixelBorderSize, self.bounds.size.height);
+  for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {
+    frame.origin.x = ix * (kPixelBorderSize + kPixelSize);
+    CGContextFillRect(cx, frame);
+  }
+  frame = CGRectMake(0, 0, self.bounds.size.width, kPixelBorderSize);
+  for (NSInteger iy = 0; iy <= kWallHeight; ++iy) {
+    frame.origin.y = iy * (kPixelBorderSize + kPixelSize);
+    CGContextFillRect(cx, frame);
+  }
 }
 
 - (void)driverConnectionDidChange {
@@ -46,6 +65,7 @@
   } else {
     NSLog(@"Driver is detached");
   }
+  [self setNeedsDisplay:YES];
 }
 
 @end

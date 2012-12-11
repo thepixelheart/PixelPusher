@@ -16,6 +16,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern const NSInteger kPixelBorderSize;
+extern const NSInteger kPixelSize;
+
 @interface PHWallView : NSView
 
 @end

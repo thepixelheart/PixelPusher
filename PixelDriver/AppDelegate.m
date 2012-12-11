@@ -18,6 +18,7 @@
 
 #import "PHDriver.h"
 #import "PHUSBNotifier.h"
+#import "PHWallView.h"
 
 AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
@@ -27,12 +28,33 @@ AppDelegate *PHApp() {
   PHUSBNotifier* _usbNotifier;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
   [self.window setAcceptsMouseMovedEvents:YES];
   [self.window setMovableByWindowBackground:YES];
+  NSRect frame = self.window.frame;
+
+  CGFloat midX = NSMidX(frame);
+  CGFloat midY = NSMidY(frame);
+
+  frame.size.width = kWallWidth * kPixelSize + (kWallWidth + 1) * kPixelBorderSize;
+  frame.size.height = kWallHeight * kPixelSize + (kWallHeight + 1) * kPixelBorderSize;
+  [self.window setMaxSize:frame.size];
+  [self.window setMinSize:frame.size];
+
+  [self.window setFrame:NSMakeRect(floorf(midX - frame.size.width * 0.5f),
+                                   floorf(midY - frame.size.height * 0.5f),
+                                   frame.size.width,
+                                   frame.size.height)
+                display:YES];
+
+  [self.window center];
 
   self.driver = [[PHDriver alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  [self.window performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
 }
 
 @end

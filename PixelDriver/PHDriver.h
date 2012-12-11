@@ -16,6 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
+const NSInteger kWallWidth;
+const NSInteger kWallHeight;
+
 extern NSString* const PHDriverConnectionStateDidChangeNotification;
 
 @interface PHDriver : NSObject

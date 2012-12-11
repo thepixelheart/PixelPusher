@@ -25,8 +25,8 @@ NSString* const PHDriverConnectionStateDidChangeNotification = @"PHDriverConnect
 // Dimensions
 static const NSInteger kTileWidth = 16;
 static const NSInteger kTileHeight = 16;
-static const NSInteger kWallWidth = 48;
-static const NSInteger kWallHeight = 32;
+const NSInteger kWallWidth = 48;
+const NSInteger kWallHeight = 32;
 
 // Pixels
 static const NSInteger kNumberOfStrands = 6;
