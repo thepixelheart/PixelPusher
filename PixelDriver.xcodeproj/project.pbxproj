@@ -13,6 +13,7 @@
 		66DC7B621676FC2F00453E8F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B601676FC2F00453E8F /* Credits.rtf */; };
 		66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B641676FC2F00453E8F /* AppDelegate.m */; };
 		66DC7B681676FC3000453E8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B661676FC3000453E8F /* MainMenu.xib */; };
+		66DC7B751676FFE400453E8F /* p9813.c in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B731676FFE400453E8F /* p9813.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,8 @@
 		66DC7B641676FC2F00453E8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		66DC7B671676FC3000453E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		66DC7B711676FF6500453E8F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		66DC7B731676FFE400453E8F /* p9813.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = p9813.c; path = p9813/p9813.c; sourceTree = SOURCE_ROOT; };
+		66DC7B741676FFE400453E8F /* p9813.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p9813.h; path = p9813/p9813.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				66DC7B711676FF6500453E8F /* README.md */,
+				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B571676FC2F00453E8F /* PixelDriver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
@@ -102,6 +106,15 @@
 				66DC7B601676FC2F00453E8F /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */ = {
+			isa = PBXGroup;
+			children = (
+				66DC7B741676FFE400453E8F /* p9813.h */,
+				66DC7B731676FFE400453E8F /* p9813.c */,
+			);
+			name = "p9813 - USB<->FTDI Driver";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +183,7 @@
 			files = (
 				66DC7B5E1676FC2F00453E8F /* main.m in Sources */,
 				66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */,
+				66DC7B751676FFE400453E8F /* p9813.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
