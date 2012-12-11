@@ -29,6 +29,7 @@
 		66DC7B631676FC2F00453E8F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		66DC7B641676FC2F00453E8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		66DC7B671676FC3000453E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		66DC7B711676FF6500453E8F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +47,7 @@
 		66DC7B421676FC2F00453E8F = {
 			isa = PBXGroup;
 			children = (
+				66DC7B711676FF6500453E8F /* README.md */,
 				66DC7B571676FC2F00453E8F /* PixelDriver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
