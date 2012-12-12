@@ -99,6 +99,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
   NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
   NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
+  NSDictionary* hints = @{NSImageHintInterpolation: [NSNumber numberWithInt:NSImageInterpolationNone]};
   for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
     pixelFrame.origin.y = iy;
     viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
@@ -107,7 +108,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
       pixelFrame.origin.x = ix;
       viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
       [bitmap drawInRect:viewFrame fromRect:pixelFrame
-               operation:NSCompositeCopy fraction:1 respectFlipped:NO hints:nil];
+               operation:NSCompositeCopy fraction:1 respectFlipped:NO hints:hints];
     }
   }
 
