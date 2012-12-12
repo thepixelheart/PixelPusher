@@ -15,16 +15,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Quartz/Quartz.h>
 
-const NSInteger kWallWidth;
-const NSInteger kWallHeight;
+@interface PHQuartzRenderer : NSObject {
+  QCRenderer* _renderer;
+}
 
-extern NSString* const PHDriverConnectionStateDidChangeNotification;
-
-@interface PHDriver : NSObject
-
-@property (assign, getter = isConnected) BOOL connected;
-
-- (void)setFrameBitmap:(NSBitmapImageRep *)bitmap;
+- (id)initWithCompositionPath:(NSString*)path pixelsWide:(CGFloat)width pixelsHigh:(CGFloat)height;
+- (NSBitmapImageRep *)bitmapImageForTime:(NSTimeInterval)time;
 
 @end

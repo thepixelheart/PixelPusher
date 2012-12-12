@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662F59131678477900ADE02C /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F59121678477900ADE02C /* PHApplication.m */; };
+		662F5916167849E500ADE02C /* clouds.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F5915167849E500ADE02C /* clouds.qtz */; };
+		662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591716784B2F00ADE02C /* Quartz.framework */; };
+		662F591A16784B3D00ADE02C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591916784B3D00ADE02C /* OpenGL.framework */; };
+		662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F591D16784B8900ADE02C /* PHQuartzRenderer.m */; };
+		662F5920167858FD00ADE02C /* mesh.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F591F167858FD00ADE02C /* mesh.qtz */; };
+		662F592216785B0300ADE02C /* particlerain.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592116785B0300ADE02C /* particlerain.qtz */; };
+		662F592416785D3400ADE02C /* terremouvante4.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592316785D3400ADE02C /* terremouvante4.qtz */; };
+		662F592616785D7200ADE02C /* balls.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592516785D7200ADE02C /* balls.qtz */; };
+		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -19,9 +29,27 @@
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
+		66FC91E316785FA100C02C59 /* slime.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E216785FA100C02C59 /* slime.qtz */; };
+		66FC91E7167863CB00C02C59 /* fire.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E6167863CB00C02C59 /* fire.qtz */; };
+		66FC91E9167864B200C02C59 /* mouse.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E8167864B200C02C59 /* mouse.qtz */; };
+		66FC91EB167864EA00C02C59 /* cube.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91EA167864EA00C02C59 /* cube.qtz */; };
+		66FC91ED167865A400C02C59 /* meteor.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91EC167865A400C02C59 /* meteor.qtz */; };
+		66FC91EF167865E900C02C59 /* clock.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91EE167865E900C02C59 /* clock.qtz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		662F59111678477900ADE02C /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
+		662F59121678477900ADE02C /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
+		662F5915167849E500ADE02C /* clouds.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clouds.qtz; path = QuartzCompositions/clouds.qtz; sourceTree = SOURCE_ROOT; };
+		662F591716784B2F00ADE02C /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		662F591916784B3D00ADE02C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		662F591C16784B8900ADE02C /* PHQuartzRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHQuartzRenderer.h; sourceTree = "<group>"; };
+		662F591D16784B8900ADE02C /* PHQuartzRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHQuartzRenderer.m; sourceTree = "<group>"; };
+		662F591F167858FD00ADE02C /* mesh.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = mesh.qtz; path = QuartzCompositions/mesh.qtz; sourceTree = SOURCE_ROOT; };
+		662F592116785B0300ADE02C /* particlerain.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = particlerain.qtz; path = QuartzCompositions/particlerain.qtz; sourceTree = SOURCE_ROOT; };
+		662F592316785D3400ADE02C /* terremouvante4.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = terremouvante4.qtz; path = QuartzCompositions/terremouvante4.qtz; sourceTree = SOURCE_ROOT; };
+		662F592516785D7200ADE02C /* balls.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = balls.qtz; path = QuartzCompositions/balls.qtz; sourceTree = SOURCE_ROOT; };
+		662F592716785DF700ADE02C /* tree.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = tree.qtz; path = QuartzCompositions/tree.qtz; sourceTree = SOURCE_ROOT; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -48,6 +76,12 @@
 		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
 		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		66FC91E216785FA100C02C59 /* slime.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = slime.qtz; path = QuartzCompositions/slime.qtz; sourceTree = SOURCE_ROOT; };
+		66FC91E6167863CB00C02C59 /* fire.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = fire.qtz; path = QuartzCompositions/fire.qtz; sourceTree = SOURCE_ROOT; };
+		66FC91E8167864B200C02C59 /* mouse.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = mouse.qtz; path = QuartzCompositions/mouse.qtz; sourceTree = SOURCE_ROOT; };
+		66FC91EA167864EA00C02C59 /* cube.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = cube.qtz; path = QuartzCompositions/cube.qtz; sourceTree = SOURCE_ROOT; };
+		66FC91EC167865A400C02C59 /* meteor.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = meteor.qtz; path = QuartzCompositions/meteor.qtz; sourceTree = SOURCE_ROOT; };
+		66FC91EE167865E900C02C59 /* clock.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clock.qtz; path = QuartzCompositions/clock.qtz; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +89,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				662F591A16784B3D00ADE02C /* OpenGL.framework in Frameworks */,
+				662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */,
 				66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
 			);
@@ -63,6 +99,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		662F5914167849DA00ADE02C /* Quartz Compositions */ = {
+			isa = PBXGroup;
+			children = (
+				662F592516785D7200ADE02C /* balls.qtz */,
+				66FC91E6167863CB00C02C59 /* fire.qtz */,
+				66FC91EA167864EA00C02C59 /* cube.qtz */,
+				66FC91EE167865E900C02C59 /* clock.qtz */,
+				662F591F167858FD00ADE02C /* mesh.qtz */,
+				662F5915167849E500ADE02C /* clouds.qtz */,
+				66FC91EC167865A400C02C59 /* meteor.qtz */,
+				66FC91E8167864B200C02C59 /* mouse.qtz */,
+				662F592116785B0300ADE02C /* particlerain.qtz */,
+				66FC91E216785FA100C02C59 /* slime.qtz */,
+				662F592316785D3400ADE02C /* terremouvante4.qtz */,
+				662F592716785DF700ADE02C /* tree.qtz */,
+			);
+			name = "Quartz Compositions";
+			path = PixelDriver;
+			sourceTree = "<group>";
+		};
+		662F591B16784B7A00ADE02C /* Quartz Renderer */ = {
+			isa = PBXGroup;
+			children = (
+				662F591C16784B8900ADE02C /* PHQuartzRenderer.h */,
+				662F591D16784B8900ADE02C /* PHQuartzRenderer.m */,
+			);
+			name = "Quartz Renderer";
+			sourceTree = "<group>";
+		};
 		66DC7B421676FC2F00453E8F = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +153,8 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				662F591916784B3D00ADE02C /* OpenGL.framework */,
+				662F591716784B2F00ADE02C /* Quartz.framework */,
 				66DC7B8216773BE200453E8F /* IOKit.framework */,
 				66DC7B511676FC2F00453E8F /* Cocoa.framework */,
 				66DC7B531676FC2F00453E8F /* Other Frameworks */,
@@ -108,10 +175,13 @@
 		66DC7B571676FC2F00453E8F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
+				662F59111678477900ADE02C /* PHApplication.h */,
+				662F59121678477900ADE02C /* PHApplication.m */,
 				66DC7B8716773FC200453E8F /* Utilities.h */,
 				66DC7B8816773FC200453E8F /* Utilities.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
@@ -136,6 +206,7 @@
 				66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */,
 				66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */,
 				66DC7B601676FC2F00453E8F /* Credits.rtf */,
+				662F5914167849DA00ADE02C /* Quartz Compositions */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -214,6 +285,18 @@
 				66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */,
 				66DC7B621676FC2F00453E8F /* Credits.rtf in Resources */,
 				66DC7B681676FC3000453E8F /* MainMenu.xib in Resources */,
+				662F5916167849E500ADE02C /* clouds.qtz in Resources */,
+				662F5920167858FD00ADE02C /* mesh.qtz in Resources */,
+				662F592216785B0300ADE02C /* particlerain.qtz in Resources */,
+				662F592416785D3400ADE02C /* terremouvante4.qtz in Resources */,
+				662F592616785D7200ADE02C /* balls.qtz in Resources */,
+				662F592816785DF700ADE02C /* tree.qtz in Resources */,
+				66FC91E316785FA100C02C59 /* slime.qtz in Resources */,
+				66FC91E7167863CB00C02C59 /* fire.qtz in Resources */,
+				66FC91E9167864B200C02C59 /* mouse.qtz in Resources */,
+				66FC91EB167864EA00C02C59 /* cube.qtz in Resources */,
+				66FC91ED167865A400C02C59 /* meteor.qtz in Resources */,
+				66FC91EF167865E900C02C59 /* clock.qtz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +314,8 @@
 				66DC7B7F1677299300453E8F /* PHDriver.m in Sources */,
 				66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */,
 				66DC7B8916773FC200453E8F /* Utilities.m in Sources */,
+				662F59131678477900ADE02C /* PHApplication.m in Sources */,
+				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +452,7 @@
 				66DC7B6D1676FC3000453E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

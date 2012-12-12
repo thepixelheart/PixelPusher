@@ -14,17 +14,8 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHApplication.h"
 
-const NSInteger kWallWidth;
-const NSInteger kWallHeight;
-
-extern NSString* const PHDriverConnectionStateDidChangeNotification;
-
-@interface PHDriver : NSObject
-
-@property (assign, getter = isConnected) BOOL connected;
-
-- (void)setFrameBitmap:(NSBitmapImageRep *)bitmap;
+@implementation PHApplication
 
 @end

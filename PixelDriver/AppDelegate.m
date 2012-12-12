@@ -56,4 +56,9 @@ AppDelegate *PHApp() {
   [self.window center];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
+  return YES;
+}
+
+
 @end
