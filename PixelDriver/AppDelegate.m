@@ -47,14 +47,13 @@ AppDelegate *PHApp() {
                                    frame.size.height)
                 display:YES];
 
-  [self.window center];
-
   self.driver = [[PHDriver alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
   [self.window performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
+  [self.window center];
 }
 
 @end
