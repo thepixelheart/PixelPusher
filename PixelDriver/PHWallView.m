@@ -24,7 +24,7 @@
 #import "Utilities.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 8;
+const NSInteger kPixelSize = 16;
 
 @interface PHWallView() <PHBitmapReceiver>
 @end

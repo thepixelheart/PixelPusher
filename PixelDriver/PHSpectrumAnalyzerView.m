@@ -86,7 +86,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     }
     if (max > 0) {
       for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
-        CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / 0.01) * self.bounds.size.height);
+        CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / 0.002) * self.bounds.size.height);
         CGContextFillRect(cx, rect);
       }
     }
