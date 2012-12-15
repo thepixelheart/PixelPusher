@@ -18,11 +18,13 @@
 
 @interface PHBitmapRenderOperation : NSOperation
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size;
+- (NSImage *)renderedImage;
 @end
 
 @implementation PHBitmapRenderOperation {
   PHBitmapRenderBlock _block;
   CGSize _imageSize;
+  NSImage* _renderedImage;
 }
 
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size {
@@ -34,15 +36,54 @@
 }
 
 - (void)main {
+  NSImage* image = [[NSImage alloc] initWithSize:_imageSize];
+  [image lockFocus];
+  {
+    CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+    _block(cx, _imageSize);
+  }
+  [image unlockFocus];
 
+  if (nil == image) {
+    NSLog(@"JSDLFJSDLFJDS");
+  }
+  _renderedImage = image;
+}
+
+- (NSImage *)renderedImage {
+  return _renderedImage;
 }
 
 @end
 
-@implementation PHBitmapPipeline
+@implementation PHBitmapPipeline {
+  NSOperationQueue* _queue;
+}
 
-- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size {
-  
+- (id)init {
+  if ((self = [super init])) {
+    _queue = [[NSOperationQueue alloc] init];
+    _queue.maxConcurrentOperationCount = 1;
+  }
+  return self;
+}
+
+- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate {
+  [_queue cancelAllOperations];
+
+  PHBitmapRenderOperation* op = [[PHBitmapRenderOperation alloc] initWithBlock:block imageSize:size];
+  __weak PHBitmapRenderOperation* weakOp = op;
+  op.completionBlock = ^() {
+    if (weakOp.isCancelled) {
+      return;
+    }
+
+    NSImage* image = weakOp.renderedImage;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [delegate bitmapDidFinishRendering:image];
+    });
+  };
+  [_queue addOperation:op];
 }
 
 @end

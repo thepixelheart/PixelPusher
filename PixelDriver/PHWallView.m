@@ -17,6 +17,7 @@
 #import "PHWallView.h"
 
 #import "AppDelegate.h"
+#import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHQuartzRenderer.h"
@@ -25,9 +26,14 @@
 const NSInteger kPixelBorderSize = 1;
 const NSInteger kPixelSize = 8;
 
+@interface PHWallView() <PHBitmapReceiver>
+@end
+
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
+  PHBitmapPipeline* _pipeline;
+  NSImage* _renderedImage;
 }
 
 - (void)dealloc {
@@ -37,7 +43,9 @@ const NSInteger kPixelSize = 8;
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
+  _pipeline = [[PHBitmapPipeline alloc] init];
+
+  NSString* filename = @"PixelDriver.app/Contents/Resources/particlerain.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];
@@ -54,7 +62,7 @@ const NSInteger kPixelSize = 8;
 }
 
 - (void)displayLinkDidFire {
-  [self setNeedsDisplay:YES];
+  [self queueBitmap];
 }
 
 #pragma mark - Rendering
@@ -62,44 +70,50 @@ const NSInteger kPixelSize = 8;
 - (void)drawRect:(NSRect)dirtyRect {
   [super drawRect:dirtyRect];
 
-  CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-  [[NSColor blackColor] set];
-  CGContextFillRect(cx, self.bounds);
+  [_renderedImage drawAtPoint:CGPointZero fromRect:CGRectZero operation:NSCompositeCopy fraction:1];
+}
 
-  if (PHApp().driver.isConnected) {
-    [[NSColor colorWithDeviceRed:32.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
-  } else {
-    [[NSColor colorWithDeviceRed:64.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
-  }
-  CGRect frame = CGRectMake(0, 0, kPixelBorderSize, self.bounds.size.height);
-  for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {
-    frame.origin.x = ix * (kPixelBorderSize + kPixelSize);
-    CGContextFillRect(cx, frame);
-  }
-  frame = CGRectMake(0, 0, self.bounds.size.width, kPixelBorderSize);
-  for (NSInteger iy = 0; iy <= kWallHeight; ++iy) {
-    frame.origin.y = iy * (kPixelBorderSize + kPixelSize);
-    CGContextFillRect(cx, frame);
-  }
+- (void)queueBitmap {
+  [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
+    [[NSColor blackColor] set];
+    CGRect bounds = CGRectMake(0, 0, size.width, size.height);
+    CGContextFillRect(cx, bounds);
 
-  NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
-  NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
-  NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
-  for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
-    pixelFrame.origin.y = iy;
-    viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
-
-    for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
-      pixelFrame.origin.x = ix;
-      viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
-      NSColor* color = [bitmap colorAtX:ix y:iy];
-      [color set];
-      CGContextFillRect(cx, viewFrame);
+    if (PHApp().driver.isConnected) {
+      [[NSColor colorWithDeviceRed:32.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
+    } else {
+      [[NSColor colorWithDeviceRed:64.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
     }
-  }
+    CGRect frame = CGRectMake(0, 0, kPixelBorderSize, size.height);
+    for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {
+      frame.origin.x = ix * (kPixelBorderSize + kPixelSize);
+      CGContextFillRect(cx, frame);
+    }
+    frame = CGRectMake(0, 0, size.width, kPixelBorderSize);
+    for (NSInteger iy = 0; iy <= kWallHeight; ++iy) {
+      frame.origin.y = iy * (kPixelBorderSize + kPixelSize);
+      CGContextFillRect(cx, frame);
+    }
 
-  [PHApp().driver setFrameBitmap:bitmap];
-  [bitmap draw];
+    NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
+    NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
+    NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
+    for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
+      pixelFrame.origin.y = iy;
+      viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
+
+      for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
+        pixelFrame.origin.x = ix;
+        viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
+        NSColor* color = [bitmap colorAtX:ix y:kWallHeight - iy - 1];
+        [color set];
+        CGContextFillRect(cx, viewFrame);
+      }
+    }
+
+    [PHApp().driver setFrameBitmap:bitmap];
+    [bitmap draw];
+  } imageSize:self.bounds.size delegate:self];
 }
 
 #pragma mark - Driver Notifications
@@ -110,7 +124,17 @@ const NSInteger kPixelSize = 8;
   } else {
     NSLog(@"Driver is detached");
   }
+  [self queueBitmap];
   [self setNeedsDisplay:YES];
+}
+
+#pragma mark - PHBitmapReceiver
+
+- (void)bitmapDidFinishRendering:(NSImage *)image {
+  if (nil != image) {
+    _renderedImage = image;
+    [self setNeedsDisplay:YES];
+  }
 }
 
 @end

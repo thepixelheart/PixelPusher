@@ -18,10 +18,18 @@
 
 typedef void (^PHBitmapRenderBlock)(CGContextRef context, CGSize size);
 
+@protocol PHBitmapReceiver;
+
 // Use a block to render an image on a separate thread. Once the execution completes the thread
 // notifies the view that it can blit the new image.
 @interface PHBitmapPipeline : NSObject
 
-- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size;
+- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate;
+
+@end
+
+@protocol PHBitmapReceiver <NSObject>
+
+- (void)bitmapDidFinishRendering:(NSImage *)image;
 
 @end

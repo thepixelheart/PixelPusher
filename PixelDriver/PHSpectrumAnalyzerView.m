@@ -17,6 +17,7 @@
 #import "PHSpectrumAnalyzerView.h"
 
 #import "AppDelegate.h"
+#import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "PHFMODRecorder.h"
 #import "Utilities.h"
@@ -33,7 +34,13 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   }
 }
 
-@implementation PHSpectrumAnalyzerView
+@interface PHSpectrumAnalyzerView() <PHBitmapReceiver>
+@end
+
+@implementation PHSpectrumAnalyzerView {
+  PHBitmapPipeline* _pipeline;
+  NSImage* _renderedImage;
+}
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -42,12 +49,14 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 - (void)awakeFromNib {
   [super awakeFromNib];
 
+  _pipeline = [[PHBitmapPipeline alloc] init];
+
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserver:self selector:@selector(displayLinkDidFire) name:PHDisplayLinkFiredNotification object:nil];
 }
 
 - (void)displayLinkDidFire {
-  [self setNeedsDisplay:YES];
+  [self queueBitmap];
 }
 
 #pragma mark - Rendering
@@ -55,26 +64,41 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 - (void)drawRect:(NSRect)dirtyRect {
   [super drawRect:dirtyRect];
 
-  CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-  [[NSColor blackColor] set];
-  CGContextFillRect(cx, self.bounds);
+  [_renderedImage drawAtPoint:CGPointZero fromRect:CGRectZero operation:NSCompositeCopy fraction:1];
+}
 
-  PHFMODRecorder* recorder = PHApp().audioRecorder;
+- (void)queueBitmap {
+  [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
+    CGRect bounds = CGRectMake(0, 0, size.width, size.height);
+    [[NSColor blackColor] set];
+    CGContextFillRect(cx, bounds);
 
-  NSInteger numberOfSpectrumValues = recorder.numberOfSpectrumValues;
-  float* spectrum = recorder.spectrum;
+    PHFMODRecorder* recorder = PHApp().audioRecorder;
 
-  [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
-  CGFloat colWidth = self.bounds.size.width / (CGFloat)numberOfSpectrumValues;
-  CGFloat max = 0;
-  for (int ix = 30; ix < numberOfSpectrumValues; ++ix) {
-    max = MAX(max, spectrum[ix]);
-  }
-  if (max > 0) {
-    for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
-      CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / 0.01) * self.bounds.size.height);
-      CGContextFillRect(cx, rect);
+    NSInteger numberOfSpectrumValues = recorder.numberOfSpectrumValues;
+    float* spectrum = recorder.spectrum;
+
+    [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
+    CGFloat colWidth = size.width / (CGFloat)numberOfSpectrumValues;
+    CGFloat max = 0;
+    for (int ix = 30; ix < numberOfSpectrumValues; ++ix) {
+      max = MAX(max, spectrum[ix]);
     }
+    if (max > 0) {
+      for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
+        CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / 0.01) * self.bounds.size.height);
+        CGContextFillRect(cx, rect);
+      }
+    }
+  } imageSize:self.bounds.size delegate:self];
+}
+
+#pragma mark - PHBitmapReceiver
+
+- (void)bitmapDidFinishRendering:(NSImage *)image {
+  if (nil != image) {
+    _renderedImage = image;
+    [self setNeedsDisplay:YES];
   }
 }
 
