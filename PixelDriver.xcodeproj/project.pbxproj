@@ -21,6 +21,7 @@
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
 		66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */; };
+		66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -69,6 +70,8 @@
 		66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumAnalyzerView.m; sourceTree = "<group>"; };
 		66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHInfoPanel.h; sourceTree = "<group>"; };
 		66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHInfoPanel.m; sourceTree = "<group>"; };
+		66A8E02A167C202B00FBAFE8 /* PHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDisplayLink.h; sourceTree = "<group>"; };
+		66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDisplayLink.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -173,6 +176,15 @@
 			name = "FMOD Recorder";
 			sourceTree = "<group>";
 		};
+		66A8E029167C1FFC00FBAFE8 /* Display Link */ = {
+			isa = PBXGroup;
+			children = (
+				66A8E02A167C202B00FBAFE8 /* PHDisplayLink.h */,
+				66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */,
+			);
+			name = "Display Link";
+			sourceTree = "<group>";
+		};
 		66DC7B421676FC2F00453E8F = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +233,7 @@
 		66DC7B571676FC2F00453E8F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				66A8E029167C1FFC00FBAFE8 /* Display Link */,
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
@@ -387,6 +400,7 @@
 				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
 				66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */,
 				66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */,
+				66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,6 +19,8 @@
 #import "fmod.hpp"
 #import "fmod_errors.h"
 
+static const NSInteger kNumberOfSpectrumValues = (1 << 12);
+
 #define INITCHECKFMODRESULT(result) do {\
   if (result != FMOD_OK) { \
     NSLog(@"Failed to initialize FMOD recorder: %s", FMOD_ErrorString(result)); \
@@ -29,13 +31,15 @@
 
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
-static const unsigned int kRecordingDuration = 60 * 60 * 2;
+static const unsigned int kRecordingDuration = 60 * 5;
 
 @implementation PHFMODRecorder {
   FMOD::System* _system;
   FMOD::Sound* _sound;
   FMOD::Channel* _channel;
   BOOL _listening;
+
+  float _spectrum[kNumberOfSpectrumValues];
 }
 
 - (void)dealloc {
@@ -138,9 +142,9 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
   _listening = !_listening;
 
   if (_listening) {
-    FMOD_RESULT result = _system->recordStart(_recordDriverIndex, _sound, NO);
+    FMOD_RESULT result = _system->recordStart(_recordDriverIndex, _sound, YES);
     if (result == FMOD_OK) {
-      usleep(12 * 1000);
+      usleep(25 * 1000);
       [self startPlaying];
     } else {
       _listening = NO;
@@ -153,6 +157,12 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
 
 - (void)startPlaying {
   if (_listening) {
+    if (_channel) {
+      _channel->stop();
+      _channel = nil;
+    }
+
+    _sound->setMode(FMOD_LOOP_NORMAL);
     FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
     if (result != FMOD_OK) {
       [self stopListening];
@@ -199,6 +209,16 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
     [self stopListening];
     [self toggleListening];
   }
+}
+
+- (NSInteger)numberOfSpectrumValues {
+  return kNumberOfSpectrumValues;
+}
+
+- (float *)spectrum {
+  memset(_spectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
+  _channel->getSpectrum(_spectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
+  return _spectrum;
 }
 
 @end

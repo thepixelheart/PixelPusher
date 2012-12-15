@@ -17,6 +17,7 @@
 #import "PHWallView.h"
 
 #import "AppDelegate.h"
+#import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHQuartzRenderer.h"
 #import "Utilities.h"
@@ -24,32 +25,19 @@
 const NSInteger kPixelBorderSize = 1;
 const NSInteger kPixelSize = 16;
 
-static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
-                                    const CVTimeStamp* now,
-                                    const CVTimeStamp* outputTime,
-                                    CVOptionFlags flagsIn,
-                                    CVOptionFlags* flagsOut,
-                                    void* displayLinkContext) {
-  @autoreleasepool {
-    [((__bridge PHWallView*)displayLinkContext) setNeedsDisplay:YES];
-    return kCVReturnSuccess;
-  }
-}
-
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
-  CVDisplayLinkRef _displayLink;
   NSDate* _firstTick;
 }
 
 - (void)dealloc {
-  CVDisplayLinkRelease(_displayLink);
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  NSString* filename = @"PixelDriver.app/Contents/Resources/particlerain.qtz";
+  NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];
@@ -60,15 +48,13 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   [nc addObserver:self selector:@selector(driverConnectionDidChange)
              name:PHDriverConnectionStateDidChangeNotification
            object:nil];
-
-  if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink)) {
-    PHAlert(@"Unable to set up a timer for the animations.");
-    return;
-  }
-  CVDisplayLinkSetOutputCallback(_displayLink, &displayLinkCallback, (__bridge void*)self);
-  CVDisplayLinkStart(_displayLink);
+  [nc addObserver:self selector:@selector(displayLinkDidFire) name:PHDisplayLinkFiredNotification object:nil];
 
   _firstTick = [NSDate date];
+}
+
+- (void)displayLinkDidFire {
+  [self setNeedsDisplay:YES];
 }
 
 #pragma mark - Rendering
@@ -99,7 +85,6 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
   NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
   NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
-  NSDictionary* hints = @{NSImageHintInterpolation: [NSNumber numberWithInt:NSImageInterpolationNone]};
   for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
     pixelFrame.origin.y = iy;
     viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
@@ -107,8 +92,9 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
       pixelFrame.origin.x = ix;
       viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
-      [bitmap drawInRect:viewFrame fromRect:pixelFrame
-               operation:NSCompositeCopy fraction:1 respectFlipped:NO hints:hints];
+      NSColor* color = [bitmap colorAtX:ix y:iy];
+      [color set];
+      CGContextFillRect(cx, viewFrame);
     }
   }
 

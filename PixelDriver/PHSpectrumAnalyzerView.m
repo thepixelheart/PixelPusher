@@ -16,7 +16,39 @@
 
 #import "PHSpectrumAnalyzerView.h"
 
+#import "AppDelegate.h"
+#import "PHDisplayLink.h"
+#import "PHFMODRecorder.h"
+#import "Utilities.h"
+
+static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
+                                    const CVTimeStamp* now,
+                                    const CVTimeStamp* outputTime,
+                                    CVOptionFlags flagsIn,
+                                    CVOptionFlags* flagsOut,
+                                    void* displayLinkContext) {
+  @autoreleasepool {
+    [((__bridge PHSpectrumAnalyzerView*)displayLinkContext) setNeedsDisplay:YES];
+    return kCVReturnSuccess;
+  }
+}
+
 @implementation PHSpectrumAnalyzerView
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self selector:@selector(displayLinkDidFire) name:PHDisplayLinkFiredNotification object:nil];
+}
+
+- (void)displayLinkDidFire {
+  [self setNeedsDisplay:YES];
+}
 
 #pragma mark - Rendering
 
@@ -24,8 +56,26 @@
   [super drawRect:dirtyRect];
 
   CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-  [[NSColor redColor] set];
+  [[NSColor blackColor] set];
   CGContextFillRect(cx, self.bounds);
+
+  PHFMODRecorder* recorder = PHApp().audioRecorder;
+
+  NSInteger numberOfSpectrumValues = recorder.numberOfSpectrumValues;
+  float* spectrum = recorder.spectrum;
+
+  [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
+  CGFloat colWidth = self.bounds.size.width / (CGFloat)numberOfSpectrumValues;
+  CGFloat max = 0;
+  for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
+    max = MAX(max, spectrum[ix]);
+  }
+  if (max > 0) {
+    for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
+      CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / .01f) * self.bounds.size.height);
+      CGContextFillRect(cx, rect);
+    }
+  }
 }
 
 @end

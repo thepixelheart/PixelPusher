@@ -16,6 +16,7 @@
 
 #import "AppDelegate.h"
 
+#import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
 #import "PHUSBNotifier.h"
@@ -26,6 +27,7 @@ AppDelegate *PHApp() {
 }
 
 @implementation AppDelegate {
+  PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
 }
 
@@ -52,6 +54,7 @@ AppDelegate *PHApp() {
                 display:YES];
 
   _driver = [[PHDriver alloc] init];
+  _displayLink = [[PHDisplayLink alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
 }
 

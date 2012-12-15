@@ -16,18 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PHFMODRecorder : NSObject
+extern NSString* const PHDisplayLinkFiredNotification;
 
-- (BOOL)isListening;
-- (void)toggleListening;
-
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
-
-@property (nonatomic, assign) int playbackDriverIndex;
-@property (nonatomic, assign) int recordDriverIndex;
-
-- (NSInteger)numberOfSpectrumValues;
-- (float *)spectrum;
+@interface PHDisplayLink : NSObject
 
 @end
