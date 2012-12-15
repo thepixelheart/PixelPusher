@@ -67,12 +67,12 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
   CGFloat colWidth = self.bounds.size.width / (CGFloat)numberOfSpectrumValues;
   CGFloat max = 0;
-  for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
+  for (int ix = 30; ix < numberOfSpectrumValues; ++ix) {
     max = MAX(max, spectrum[ix]);
   }
   if (max > 0) {
     for (int ix = 0; ix < numberOfSpectrumValues; ++ix) {
-      CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / .01f) * self.bounds.size.height);
+      CGRect rect = CGRectMake(colWidth * ix, 0, colWidth, (spectrum[ix] / 0.01) * self.bounds.size.height);
       CGContextFillRect(cx, rect);
     }
   }

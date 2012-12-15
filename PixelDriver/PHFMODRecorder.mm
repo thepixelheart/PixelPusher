@@ -20,6 +20,7 @@
 #import "fmod_errors.h"
 
 static const NSInteger kNumberOfSpectrumValues = (1 << 12);
+static const CGFloat kMaxUsefulSpectrumValues = (1 << 11) + 700;
 
 #define INITCHECKFMODRESULT(result) do {\
   if (result != FMOD_OK) { \
@@ -212,7 +213,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
 }
 
 - (NSInteger)numberOfSpectrumValues {
-  return kNumberOfSpectrumValues;
+  return kMaxUsefulSpectrumValues;
 }
 
 - (float *)spectrum {

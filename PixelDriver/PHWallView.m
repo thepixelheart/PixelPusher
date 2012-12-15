@@ -23,7 +23,7 @@
 #import "Utilities.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 16;
+const NSInteger kPixelSize = 8;
 
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
