@@ -110,6 +110,7 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 - (id)init {
   if ((self = [super init])) {
     _operationQueue = [[NSOperationQueue alloc] init];
+    // We only want one thread talking to the wall at a time.
     _operationQueue.maxConcurrentOperationCount = 1;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -212,6 +213,8 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 #pragma mark - Public Methods
 
 - (void)setFrameBitmap:(NSBitmapImageRep *)bitmap {
+  // Kill any frames that are queued so that we don't get delayed animations.
+  // This won't kill the currently active operation.
   [_operationQueue cancelAllOperations];
 
   if ([self isConnected]) {
