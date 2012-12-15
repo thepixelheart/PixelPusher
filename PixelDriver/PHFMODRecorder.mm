@@ -27,13 +27,15 @@
   } \
 } while(0)
 
+static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
+static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
 static const unsigned int kRecordingDuration = 60 * 60 * 2;
 
 @implementation PHFMODRecorder {
   FMOD::System* _system;
   FMOD::Sound* _sound;
   FMOD::Channel* _channel;
-  int _recordDriverIndex;
+  BOOL _listening;
 }
 
 - (void)dealloc {
@@ -67,17 +69,24 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
     result = _system->getNumDrivers(&numberOfDrivers);
     INITCHECKFMODRESULT(result);
 
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSString* playbackDriverName = [prefs valueForKey:kPlaybackDriverNameUserDefaultsKey];
+
     NSMutableArray *driverNames = [NSMutableArray array];
     for (int ix = 0; ix < numberOfDrivers; ++ix) {
       char name[256];
 
       result = _system->getDriverInfo(ix, name, 256, 0);
       INITCHECKFMODRESULT(result);
-      [driverNames addObject:[NSString stringWithCString:name encoding:NSASCIIStringEncoding]];
+      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
+      if ([playbackDriverName isEqualToString:driverName]) {
+        _playbackDriverIndex = ix;
+      }
+      [driverNames addObject:driverName];
     }
     _playbackDriverNames = [driverNames copy];
 
-    result = _system->setDriver(0);
+    result = _system->setDriver(_playbackDriverIndex);
     INITCHECKFMODRESULT(result);
 
 
@@ -87,20 +96,21 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
     result = _system->getRecordNumDrivers(&numberOfDrivers);
     INITCHECKFMODRESULT(result);
 
+    NSString* recordingDriverName = [prefs valueForKey:kRecordingDriverNameUserDefaultsKey];
+
     driverNames = [NSMutableArray array];
     for (int ix = 0; ix < numberOfDrivers; ++ix) {
       char name[256];
 
       result = _system->getRecordDriverInfo(ix, name, 256, 0);
       INITCHECKFMODRESULT(result);
-      [driverNames addObject:[NSString stringWithCString:name encoding:NSASCIIStringEncoding]];
+      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
+      if ([recordingDriverName isEqualToString:driverName]) {
+        _recordDriverIndex = ix;
+      }
+      [driverNames addObject:driverName];
     }
     _recordDriverNames = [driverNames copy];
-    if (_recordDriverNames.count > 0) {
-      _recordDriverIndex = 0;
-    } else {
-      _recordDriverIndex = -1;
-    }
 
     result = _system->init(8, FMOD_INIT_NORMAL, 0);
     INITCHECKFMODRESULT(result);
@@ -118,6 +128,77 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
     INITCHECKFMODRESULT(result);
   }
   return self;
+}
+
+- (BOOL)isListening {
+  return _listening;
+}
+
+- (void)toggleListening {
+  _listening = !_listening;
+
+  if (_listening) {
+    FMOD_RESULT result = _system->recordStart(_recordDriverIndex, _sound, NO);
+    if (result == FMOD_OK) {
+      usleep(12 * 1000);
+      [self startPlaying];
+    } else {
+      _listening = NO;
+    }
+
+  } else {
+    [self stopListening];
+  }
+}
+
+- (void)startPlaying {
+  if (_listening) {
+    FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
+    if (result != FMOD_OK) {
+      [self stopListening];
+    }
+  }
+}
+
+- (void)stopListening {
+  _listening = NO;
+  if (_channel) {
+    _channel->stop();
+    _channel = nil;
+  }
+  _system->recordStop(_recordDriverIndex);
+}
+
+- (void)setPlaybackDriverIndex:(int)playbackDriverIndex {
+  _playbackDriverIndex = playbackDriverIndex;
+
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  [prefs setValue:[_playbackDriverNames objectAtIndex:_playbackDriverIndex]
+           forKey:kPlaybackDriverNameUserDefaultsKey];
+  [prefs synchronize];
+
+  FMOD_RESULT result = _system->setDriver(_playbackDriverIndex);
+
+  if (_listening) {
+    [self stopListening];
+    if (result == FMOD_OK) {
+      [self toggleListening];
+    }
+  }
+}
+
+- (void)setRecordDriverIndex:(int)recordDriverIndex {
+  _recordDriverIndex = recordDriverIndex;
+
+  NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+  [prefs setValue:[_recordDriverNames objectAtIndex:_recordDriverIndex]
+           forKey:kRecordingDriverNameUserDefaultsKey];
+  [prefs synchronize];
+
+  if (_listening) {
+    [self stopListening];
+    [self toggleListening];
+  }
 }
 
 @end

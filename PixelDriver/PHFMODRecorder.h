@@ -18,7 +18,13 @@
 
 @interface PHFMODRecorder : NSObject
 
+- (BOOL)isListening;
+- (void)toggleListening;
+
 @property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
 @property (nonatomic, copy, readonly) NSArray* recordDriverNames;
+
+@property (nonatomic, assign) int playbackDriverIndex;
+@property (nonatomic, assign) int recordDriverIndex;
 
 @end

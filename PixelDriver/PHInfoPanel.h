@@ -20,5 +20,6 @@
 
 @property (nonatomic, strong) IBOutlet NSPopUpButton* audioRecordingButton;
 @property (nonatomic, strong) IBOutlet NSPopUpButton* audioOutputButton;
+@property (nonatomic, strong) IBOutlet NSButton* listeningButton;
 
 @end

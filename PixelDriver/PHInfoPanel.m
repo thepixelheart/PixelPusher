@@ -26,6 +26,32 @@
 
   [self.audioRecordingButton addItemsWithTitles:PHApp().audioRecorder.recordDriverNames];
   [self.audioOutputButton addItemsWithTitles:PHApp().audioRecorder.playbackDriverNames];
+
+  [self updateListeningState];
+}
+
+- (void)updateListeningState {
+  [self.audioRecordingButton selectItemAtIndex:PHApp().audioRecorder.recordDriverIndex];
+  [self.audioOutputButton selectItemAtIndex:PHApp().audioRecorder.playbackDriverIndex];
+  self.listeningButton.title = PHApp().audioRecorder.isListening ? @"Stop Listening" : @"Start Listening";
+}
+
+#pragma mark - Actions
+
+- (IBAction)didTapListeningButton:(id)sender {
+  [PHApp().audioRecorder toggleListening];
+
+  [self updateListeningState];
+}
+
+- (IBAction)setAudioOutput:(NSPopUpButton *)sender {
+  [PHApp().audioRecorder setPlaybackDriverIndex:(int)sender.indexOfSelectedItem];
+  [self updateListeningState];
+}
+
+- (IBAction)setAudioInput:(NSPopUpButton *)sender {
+  [PHApp().audioRecorder setRecordDriverIndex:(int)sender.indexOfSelectedItem];
+  [self updateListeningState];
 }
 
 @end
