@@ -14,11 +14,7 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@interface PHFMODRecorder : NSObject
-
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
-
+@interface PHSpectrumAnalyzerView : NSView
 @end

@@ -17,6 +17,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class PHDriver;
+@class PHFMODRecorder;
 @class AppDelegate;
 
 AppDelegate *PHApp();
@@ -24,6 +25,7 @@ AppDelegate *PHApp();
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
-@property (strong) PHDriver *driver;
+@property (strong, readonly) PHDriver *driver;
+@property (strong, readonly) PHFMODRecorder *audioRecorder;
 
 @end

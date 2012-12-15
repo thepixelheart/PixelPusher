@@ -14,11 +14,18 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHSpectrumAnalyzerView.h"
 
-@interface PHFMODRecorder : NSObject
+@implementation PHSpectrumAnalyzerView
 
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
+#pragma mark - Rendering
+
+- (void)drawRect:(NSRect)dirtyRect {
+  [super drawRect:dirtyRect];
+
+  CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+  [[NSColor redColor] set];
+  CGContextFillRect(cx, self.bounds);
+}
 
 @end

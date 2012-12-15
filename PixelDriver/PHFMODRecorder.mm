@@ -33,8 +33,6 @@ static const unsigned int kRecordingDuration = 60 * 60 * 2;
   FMOD::System* _system;
   FMOD::Sound* _sound;
   FMOD::Channel* _channel;
-  NSArray* _playbackDriverNames;
-  NSArray* _recordDriverNames;
   int _recordDriverIndex;
 }
 

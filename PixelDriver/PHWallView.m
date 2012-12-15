@@ -49,7 +49,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  NSString* filename = @"PixelDriver.app/Contents/Resources/slime.qtz";
+  NSString* filename = @"PixelDriver.app/Contents/Resources/particlerain.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];

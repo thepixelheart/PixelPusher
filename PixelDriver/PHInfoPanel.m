@@ -14,11 +14,18 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHInfoPanel.h"
 
-@interface PHFMODRecorder : NSObject
+#import "AppDelegate.h"
+#import "PHFMODRecorder.h"
 
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
+@implementation PHInfoPanel
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+
+  [self.audioRecordingButton addItemsWithTitles:PHApp().audioRecorder.recordDriverNames];
+  [self.audioOutputButton addItemsWithTitles:PHApp().audioRecorder.playbackDriverNames];
+}
 
 @end

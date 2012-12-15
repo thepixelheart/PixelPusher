@@ -19,6 +19,8 @@
 		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
+		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
+		66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -63,6 +65,10 @@
 		66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = fmod/libfmodex.dylib; sourceTree = "<group>"; };
 		66A8E01F167C078700FBAFE8 /* PHFMODRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFMODRecorder.h; sourceTree = "<group>"; };
 		66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHFMODRecorder.mm; sourceTree = "<group>"; };
+		66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumAnalyzerView.h; sourceTree = "<group>"; };
+		66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumAnalyzerView.m; sourceTree = "<group>"; };
+		66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHInfoPanel.h; sourceTree = "<group>"; };
+		66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHInfoPanel.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -257,6 +263,10 @@
 			children = (
 				66DC7B7A167725E900453E8F /* PHWallView.h */,
 				66DC7B7B167725E900453E8F /* PHWallView.m */,
+				66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */,
+				66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */,
+				66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */,
+				66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -375,6 +385,8 @@
 				662F59131678477900ADE02C /* PHApplication.m in Sources */,
 				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
 				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
+				66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */,
+				66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

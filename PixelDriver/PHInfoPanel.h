@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
-@interface PHFMODRecorder : NSObject
+@interface PHInfoPanel : NSPanel
 
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
+@property (nonatomic, strong) IBOutlet NSPopUpButton* audioRecordingButton;
+@property (nonatomic, strong) IBOutlet NSPopUpButton* audioOutputButton;
 
 @end

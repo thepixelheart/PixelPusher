@@ -27,12 +27,14 @@ AppDelegate *PHApp() {
 
 @implementation AppDelegate {
   PHUSBNotifier* _usbNotifier;
-  PHFMODRecorder* _fmodRecorder;
 }
+
+@synthesize audioRecorder = _audioRecorder;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   [self.window setAcceptsMouseMovedEvents:YES];
   [self.window setMovableByWindowBackground:YES];
+
   NSRect frame = self.window.frame;
 
   CGFloat midX = NSMidX(frame);
@@ -49,9 +51,8 @@ AppDelegate *PHApp() {
                                    frame.size.height)
                 display:YES];
 
-  self.driver = [[PHDriver alloc] init];
+  _driver = [[PHDriver alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
-  _fmodRecorder = [[PHFMODRecorder alloc] init];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -63,5 +64,11 @@ AppDelegate *PHApp() {
   return YES;
 }
 
+- (PHFMODRecorder *)audioRecorder {
+  if (nil == _audioRecorder) {
+    _audioRecorder = [[PHFMODRecorder alloc] init];
+  }
+  return _audioRecorder;
+}
 
 @end
