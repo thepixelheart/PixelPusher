@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 
 #import "PHDriver.h"
+#import "PHFMODRecorder.h"
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 
@@ -26,6 +27,7 @@ AppDelegate *PHApp() {
 
 @implementation AppDelegate {
   PHUSBNotifier* _usbNotifier;
+  PHFMODRecorder* _fmodRecorder;
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
@@ -49,6 +51,7 @@ AppDelegate *PHApp() {
 
   self.driver = [[PHDriver alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
+  _fmodRecorder = [[PHFMODRecorder alloc] init];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

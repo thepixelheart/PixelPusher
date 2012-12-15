@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHApplication.h"
+#import <Foundation/Foundation.h>
 
-@implementation PHApplication
+@interface PHFMODRecorder : NSObject
 @end

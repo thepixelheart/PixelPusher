@@ -17,6 +17,8 @@
 		662F592416785D3400ADE02C /* terremouvante4.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592316785D3400ADE02C /* terremouvante4.qtz */; };
 		662F592616785D7200ADE02C /* balls.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592516785D7200ADE02C /* balls.qtz */; };
 		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
+		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
+		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -50,6 +52,17 @@
 		662F592316785D3400ADE02C /* terremouvante4.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = terremouvante4.qtz; path = QuartzCompositions/terremouvante4.qtz; sourceTree = SOURCE_ROOT; };
 		662F592516785D7200ADE02C /* balls.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = balls.qtz; path = QuartzCompositions/balls.qtz; sourceTree = SOURCE_ROOT; };
 		662F592716785DF700ADE02C /* tree.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = tree.qtz; path = QuartzCompositions/tree.qtz; sourceTree = SOURCE_ROOT; };
+		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
+		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
+		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
+		66A8E017167C074F00FBAFE8 /* fmod_memoryinfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_memoryinfo.h; path = fmod/fmod_memoryinfo.h; sourceTree = "<group>"; };
+		66A8E018167C074F00FBAFE8 /* fmod_output.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_output.h; path = fmod/fmod_output.h; sourceTree = "<group>"; };
+		66A8E019167C074F00FBAFE8 /* fmod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod.h; path = fmod/fmod.h; sourceTree = "<group>"; };
+		66A8E01A167C074F00FBAFE8 /* fmod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = fmod.hpp; path = fmod/fmod.hpp; sourceTree = "<group>"; };
+		66A8E01B167C074F00FBAFE8 /* fmodex.chm */ = {isa = PBXFileReference; lastKnownFileType = file; name = fmodex.chm; path = fmod/fmodex.chm; sourceTree = "<group>"; };
+		66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = fmod/libfmodex.dylib; sourceTree = "<group>"; };
+		66A8E01F167C078700FBAFE8 /* PHFMODRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFMODRecorder.h; sourceTree = "<group>"; };
+		66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHFMODRecorder.mm; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -93,6 +106,7 @@
 				662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */,
 				66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
+				66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +142,31 @@
 			name = "Quartz Renderer";
 			sourceTree = "<group>";
 		};
+		66A8E013167C074100FBAFE8 /* FMOD */ = {
+			isa = PBXGroup;
+			children = (
+				66A8E014167C074F00FBAFE8 /* fmod_codec.h */,
+				66A8E015167C074F00FBAFE8 /* fmod_dsp.h */,
+				66A8E016167C074F00FBAFE8 /* fmod_errors.h */,
+				66A8E017167C074F00FBAFE8 /* fmod_memoryinfo.h */,
+				66A8E018167C074F00FBAFE8 /* fmod_output.h */,
+				66A8E019167C074F00FBAFE8 /* fmod.h */,
+				66A8E01A167C074F00FBAFE8 /* fmod.hpp */,
+				66A8E01B167C074F00FBAFE8 /* fmodex.chm */,
+				66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */,
+			);
+			name = FMOD;
+			sourceTree = "<group>";
+		};
+		66A8E01E167C076A00FBAFE8 /* FMOD Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				66A8E01F167C078700FBAFE8 /* PHFMODRecorder.h */,
+				66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */,
+			);
+			name = "FMOD Recorder";
+			sourceTree = "<group>";
+		};
 		66DC7B421676FC2F00453E8F = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +175,7 @@
 				66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */,
 				66DC7B571676FC2F00453E8F /* src */,
 				66DC7B791677255D00453E8F /* Resources */,
+				66A8E013167C074100FBAFE8 /* FMOD */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
@@ -176,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
+				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
@@ -241,6 +282,7 @@
 				66DC7B491676FC2F00453E8F /* Sources */,
 				66DC7B4A1676FC2F00453E8F /* Frameworks */,
 				66DC7B4B1676FC2F00453E8F /* Resources */,
+				66A8E022167C0B8700FBAFE8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -302,6 +344,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		66A8E022167C0B8700FBAFE8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp fmod/libfmodex.dylib \"$TARGET_BUILD_DIR\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		66DC7B491676FC2F00453E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -316,6 +374,7 @@
 				66DC7B8916773FC200453E8F /* Utilities.m in Sources */,
 				662F59131678477900ADE02C /* PHApplication.m in Sources */,
 				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
+				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +470,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/fmod\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -424,6 +487,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/fmod\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
