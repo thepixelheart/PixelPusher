@@ -16,7 +16,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "PHBitmapView.h"
+@interface PHBitmapView : NSView
 
-@interface PHSpectrumAnalyzerView : PHBitmapView
+- (void)queueBitmap;
+
+// Subclassing. Do not call directly.
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+
 @end

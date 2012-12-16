@@ -16,8 +16,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "PHBitmapView.h"
+
 extern const NSInteger kPixelBorderSize;
 extern const NSInteger kPixelSize;
 
-@interface PHWallView : NSView
+@interface PHWallView : PHBitmapView
 @end
