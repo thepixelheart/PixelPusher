@@ -16,5 +16,45 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+  PHLaunchpadTopButtonUpArrow,
+  PHLaunchpadTopButtonDownArrow,
+  PHLaunchpadTopButtonLeftArrow,
+  PHLaunchpadTopButtonRightArrow,
+  PHLaunchpadTopButtonSession,
+  PHLaunchpadTopButtonUser1,
+  PHLaunchpadTopButtonUser2,
+  PHLaunchpadTopButtonMixer,
+} PHLaunchpadTopButton;
+
+typedef enum {
+  PHLaunchpadSideButtonVolume,
+  PHLaunchpadSideButtonPan,
+  PHLaunchpadSideButtonSendA,
+  PHLaunchpadSideButtonSendB,
+  PHLaunchpadSideButtonStop,
+  PHLaunchpadSideButtonTrackOn,
+  PHLaunchpadSideButtonSolo,
+  PHLaunchpadSideButtonArm,
+} PHLaunchpadSideButton;
+
+typedef enum {
+  PHLaunchpadEventGridButtonState,
+  PHLaunchpadEventTopButtonState,
+  PHLaunchpadEventRightButtonState,
+} PHLaunchpadEvent;
+
+// Notifications
+extern NSString* const PHLaunchpadDidReceiveStateChangeNotification;
+
+// User info keys for PHLaunchpadDidReceiveStateChangeNotification
+extern NSString* const PHLaunchpadEventTypeUserInfoKey; // PHLaunchpadEvent
+// PHLaunchpadEvent*ButtonState
+extern NSString* const PHLaunchpadButtonPressedUserInfoKey; // BOOL
+extern NSString* const PHLaunchpadButtonIndexInfoKey; // NSInteger
+
+#define PHGRIDXFROMBUTTONINDEX(index) (NSInteger)((index) % 16)
+#define PHGRIDYFROMBUTTONINDEX(index) (NSInteger)((index) / 16)
+
 @interface PHLaunchpadMIDIDriver : NSObject
 @end

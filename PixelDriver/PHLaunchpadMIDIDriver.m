@@ -18,6 +18,11 @@
 
 #import <CoreMIDI/CoreMIDI.h>
 
+NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
+NSString* const PHLaunchpadEventTypeUserInfoKey = @"PHLaunchpadEventTypeUserInfoKey";
+NSString* const PHLaunchpadButtonPressedUserInfoKey = @"PHLaunchpadButtonPressedUserInfoKey";
+NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey";
+
 // http://www.midi.org/techspecs/midimessages.php
 typedef enum {
   // Channel voice messages
@@ -163,7 +168,37 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)receivedMessages:(NSArray *)messages {
-  NSLog(@"Received messages: %@", messages);
+  for (PHMIDIMessage* message in messages) {
+    //NSLog(@"%@", message);
+
+    if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
+      BOOL pressed = (message.data2 == 0x7F);
+      Byte keyValue = message.data1;
+      PHLaunchpadEvent event;
+      int buttonIndex;
+      if (keyValue & 0x08) {
+        if (message.status == PHMIDIStatusControlChange) {
+          event = PHLaunchpadEventTopButtonState;
+          buttonIndex = keyValue - 0x68;
+        } else {
+          event = PHLaunchpadEventRightButtonState;
+          buttonIndex = ((keyValue & 0xF0) >> 4) & 0x0F;
+        }
+      } else {
+        event = PHLaunchpadEventGridButtonState;
+        int x = keyValue & 0x0F;
+        int y = ((keyValue & 0xF0) >> 4) & 0x0F;
+        buttonIndex = x + y * 8;
+      }
+      NSDictionary* userInfo =
+      @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
+        PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:pressed],
+        PHLaunchpadButtonIndexInfoKey: [NSNumber numberWithInt:buttonIndex]};
+
+      NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+      [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
+    }
+  }
 }
 
 @end
