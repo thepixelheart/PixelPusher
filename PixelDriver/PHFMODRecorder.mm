@@ -20,7 +20,7 @@
 #import "fmod_errors.h"
 
 static const NSInteger kNumberOfSpectrumValues = (1 << 12);
-static const CGFloat kMaxUsefulSpectrumValues = (1 << 11) + 700;
+static const CGFloat kMaxUsefulSpectrumValues = (1 << 11) + 600;
 
 #define INITCHECKFMODRESULT(result) do {\
   if (result != FMOD_OK) { \
@@ -40,7 +40,8 @@ static const unsigned int kRecordingDuration = 60 * 5;
   FMOD::Channel* _channel;
   BOOL _listening;
 
-  float _spectrum[kNumberOfSpectrumValues];
+  float _leftSpectrum[kNumberOfSpectrumValues];
+  float _rightSpectrum[kNumberOfSpectrumValues];
 }
 
 - (void)dealloc {
@@ -216,10 +217,16 @@ static const unsigned int kRecordingDuration = 60 * 5;
   return kMaxUsefulSpectrumValues;
 }
 
-- (float *)spectrum {
-  memset(_spectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
-  _channel->getSpectrum(_spectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
-  return _spectrum;
+- (float *)leftSpectrum {
+  memset(_leftSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
+  _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
+  return _leftSpectrum;
+}
+
+- (float *)rightSpectrum {
+  memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
+  _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
+  return _rightSpectrum;
 }
 
 @end

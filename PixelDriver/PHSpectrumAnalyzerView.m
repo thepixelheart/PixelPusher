@@ -76,7 +76,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     PHFMODRecorder* recorder = PHApp().audioRecorder;
 
     NSInteger numberOfSpectrumValues = recorder.numberOfSpectrumValues;
-    float* spectrum = recorder.spectrum;
+    float* spectrum = recorder.leftSpectrum;
 
     [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
     CGFloat colWidth = size.width / (CGFloat)numberOfSpectrumValues;

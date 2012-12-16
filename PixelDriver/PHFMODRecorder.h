@@ -28,6 +28,7 @@
 @property (nonatomic, assign) int recordDriverIndex;
 
 - (NSInteger)numberOfSpectrumValues;
-- (float *)spectrum;
+- (float *)leftSpectrum;
+- (float *)rightSpectrum;
 
 @end
