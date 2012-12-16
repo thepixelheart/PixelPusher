@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHMIDIDriver.h"
+#import "PHLaunchpadMIDIDriver.h"
 
 #import <CoreMIDI/CoreMIDI.h>
 
@@ -91,13 +91,13 @@ static NSString* const kMIDISenderName = @"PixelDriver to MIDI";
 void PHMIDINotifyProc(const MIDINotification *msg, void *refCon);
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon);
 
-@interface PHMIDIDriver()
+@interface PHLaunchpadMIDIDriver()
 // MIDI state
 @property (nonatomic, assign, getter = isSysExDumping) BOOL sysExDumping;
 @property (nonatomic, assign) NSInteger numberOfSysExReads;
 @end
 
-@implementation PHMIDIDriver {
+@implementation PHLaunchpadMIDIDriver {
   MIDIClientRef _clientRef;
   MIDIEndpointRef _endpointRef;
   MIDIPortRef _portRef;
@@ -171,14 +171,14 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 void PHMIDINotifyProc(const MIDINotification *msg, void *refCon) {
   @autoreleasepool {
     if (msg->messageID == kMIDIMsgSetupChanged) {
-      [(__bridge PHMIDIDriver *)refCon setupDidChange];
+      [(__bridge PHLaunchpadMIDIDriver *)refCon setupDidChange];
     }
   }
 }
 
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon) {
   @autoreleasepool {
-    PHMIDIDriver* driver = (__bridge PHMIDIDriver *)(readProcRefCon);
+    PHLaunchpadMIDIDriver* driver = (__bridge PHLaunchpadMIDIDriver *)(readProcRefCon);
 
     if (driver.isSysExDumping) {
       ++driver.numberOfSysExReads;

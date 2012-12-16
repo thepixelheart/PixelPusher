@@ -19,7 +19,7 @@
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
-#import "PHMIDIDriver.h"
+#import "PHLaunchpadMIDIDriver.h"
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 
@@ -30,7 +30,7 @@ AppDelegate *PHApp() {
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
-  PHMIDIDriver* _midiDriver;
+  PHLaunchpadMIDIDriver* _midiDriver;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -58,7 +58,7 @@ AppDelegate *PHApp() {
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
-  _midiDriver = [[PHMIDIDriver alloc] init];
+  _midiDriver = [[PHLaunchpadMIDIDriver alloc] init];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
