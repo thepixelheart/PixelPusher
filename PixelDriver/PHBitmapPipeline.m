@@ -69,7 +69,12 @@
 }
 
 - (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate {
-  [_queue cancelAllOperations];
+  NSArray* operations = [_queue.operations copy];
+  for (NSOperation* op in operations) {
+    if (op != [operations objectAtIndex:0]) {
+      [op cancel];
+    }
+  }
 
   PHBitmapRenderOperation* op = [[PHBitmapRenderOperation alloc] initWithBlock:block imageSize:size];
   __weak PHBitmapRenderOperation* weakOp = op;
