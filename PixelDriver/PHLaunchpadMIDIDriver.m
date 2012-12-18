@@ -105,15 +105,24 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 @implementation PHLaunchpadMIDIDriver {
   MIDIClientRef _clientRef;
   MIDIEndpointRef _endpointRef;
-  MIDIPortRef _portRef;
+  MIDIPortRef _inputPortRef;
+  MIDIPortRef _outputPortRef;
 
   // Launchpad
   MIDIEndpointRef _launchpadSourceRef;
+  MIDIEndpointRef _launchpadDestinationRef;
+
+  MIDIPacketList* _packetList;
+  MIDIPacket* _currentPacket;
 }
 
 - (void)dealloc {
   if (_clientRef) {
     MIDIClientDispose(_clientRef);
+  }
+
+  if (_packetList)  {
+    free(_packetList);
   }
 }
 
@@ -123,26 +132,34 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     INITCHECKOSSTATUS(status);
 
     CFStringRef destinationName = (__bridge CFStringRef)kMIDIDestinationName;
+    CFStringRef senderName = (__bridge CFStringRef)kMIDISenderName;
 
     status = MIDIDestinationCreate(_clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self)
                                    , &_endpointRef);
     INITCHECKOSSTATUS(status);
 
-    status = MIDIInputPortCreate(_clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self), &_portRef);
+    status = MIDIInputPortCreate(_clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self), &_inputPortRef);
     INITCHECKOSSTATUS(status);
+
+    status = MIDIOutputPortCreate(_clientRef, senderName, &_outputPortRef);
+    INITCHECKOSSTATUS(status);
+
+    _packetList = (MIDIPacketList *)malloc(1024 * sizeof(char));
+    _currentPacket = MIDIPacketListInit(_packetList);
   }
   return self;
 }
 
 - (void)setupDidChange {
   if (_launchpadSourceRef) {
-    MIDIPortDisconnectSource(_portRef, _launchpadSourceRef);
+    MIDIPortDisconnectSource(_inputPortRef, _launchpadSourceRef);
     _launchpadSourceRef = nil;
   }
+  _launchpadDestinationRef = nil;
 
-	ItemCount numberOfSources = MIDIGetNumberOfSources();
-	for (ItemCount ix = 0; ix < numberOfSources; ++ix)	{
-		MIDIEndpointRef endpoint = MIDIGetSource(ix);
+  ItemCount numberOfSources = MIDIGetNumberOfSources();
+  for (ItemCount ix = 0; ix < numberOfSources; ++ix)  {
+    MIDIEndpointRef endpoint = MIDIGetSource(ix);
     CFStringRef endpointNameRef = nil;
     OSStatus status = MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &endpointNameRef);
     if (status != noErr) {
@@ -154,10 +171,27 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     }
 
     _launchpadSourceRef = endpoint;
-	}
+  }
+
+  ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
+  for (ItemCount ix = 0; ix < numberOfDestinations; ++ix)  {
+    MIDIEndpointRef endpoint = MIDIGetDestination(ix);
+
+    CFStringRef endpointNameRef = nil;
+    OSStatus status = MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &endpointNameRef);
+    if (status != noErr) {
+      continue;
+    }
+    NSString* endpointName = (__bridge NSString *)endpointNameRef;
+    if (![endpointName isEqualToString:kLaunchpadDeviceName]) {
+      continue;
+    }
+
+    _launchpadDestinationRef = endpoint;
+  }
 
   if (_launchpadSourceRef) {
-    OSStatus status = MIDIPortConnectSource(_portRef, _launchpadSourceRef, NULL);
+    OSStatus status = MIDIPortConnectSource(_inputPortRef, _launchpadSourceRef, NULL);
     if (status != noErr) {
       NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
       NSLog(@"Failed to create the MIDI source: %@", error);
@@ -167,12 +201,50 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   }
 }
 
+- (void)sendMessage:(PHMIDIMessage *)message {
+  MIDIPacket* newPacket = nil;
+  OSStatus err = noErr;
+  Byte scratchStruct[4];
+  memset(scratchStruct, 0, sizeof(Byte) * 4);
+
+  scratchStruct[0] = message.status | message.channel;
+  switch (message.status)  {
+    case PHMIDIStatusNoteOff:
+    case PHMIDIStatusNoteOn:
+    case PHMIDIStatusControlChange:
+      scratchStruct[1] = message.data1;
+      scratchStruct[2] = message.data2;
+      newPacket = MIDIPacketListAdd(_packetList, 1024, _currentPacket, 0, 3, scratchStruct);
+      break;
+  }
+  if (newPacket == NULL)  {
+    NSLog(@"\t\terror adding new packet %s",__func__);
+    return;
+  }
+
+  _currentPacket = newPacket;
+
+  err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+  if (err != noErr)  {
+    NSLog(@"\t\terr %ld at MIDISend A",(long)err);
+    return;
+  }
+
+  _currentPacket = MIDIPacketListInit(_packetList);
+}
+
 - (void)receivedMessages:(NSArray *)messages {
   for (PHMIDIMessage* message in messages) {
-    //NSLog(@"%@", message);
-
     if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
       BOOL pressed = (message.data2 == 0x7F);
+
+      PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:message.status channel:message.channel];
+      lightMessage.data1 = message.data1;
+      lightMessage.data2 = pressed ? 0x3E : 0x0C;
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self sendMessage:lightMessage];
+      });
+
       Byte keyValue = message.data1;
       PHLaunchpadEvent event;
       int buttonIndex;
@@ -197,6 +269,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
       NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
       [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
+      //NSLog(@"Event: %@", userInfo);
     }
   }
 }

@@ -57,4 +57,7 @@ extern NSString* const PHLaunchpadButtonIndexInfoKey; // NSInteger
 #define PHGRIDYFROMBUTTONINDEX(index) (NSInteger)((index) / 16)
 
 @interface PHLaunchpadMIDIDriver : NSObject
+
+- (void)setColorAt
+
 @end
