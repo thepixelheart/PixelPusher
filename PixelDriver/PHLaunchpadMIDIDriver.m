@@ -23,6 +23,11 @@ NSString* const PHLaunchpadEventTypeUserInfoKey = @"PHLaunchpadEventTypeUserInfo
 NSString* const PHLaunchpadButtonPressedUserInfoKey = @"PHLaunchpadButtonPressedUserInfoKey";
 NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey";
 
+const NSInteger PHLaunchpadButtonGridWidth = 8;
+const NSInteger PHLaunchpadButtonGridHeight = 8;
+
+#define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
+
 // http://www.midi.org/techspecs/midimessages.php
 typedef enum {
   // Channel voice messages
@@ -38,6 +43,21 @@ typedef enum {
   PHMIDIStatusBeginSysex = 0xF0,
   PHMIDIStatusEndSysex = 0xF7,
 } PHMIDIStatus;
+
+static const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
+  0x0C, // Off
+  0x0D, // Red dim
+  0x0F, // Red bright
+  0x0B, // Red flashing
+  0x1D, // Amber dim
+  0x3F, // Amber bright
+  0x3B, // Amber flashing
+  0x3E, // Yellow bright
+  0x3A, // Yellow flashing
+  0x1C, // Green dim
+  0x3C, // Green bright
+  0x38, // Green flashing
+};
 
 #define INITCHECKOSSTATUS(result) do {\
   if (result != noErr) { \
@@ -153,9 +173,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 - (void)setupDidChange {
   if (_launchpadSourceRef) {
     MIDIPortDisconnectSource(_inputPortRef, _launchpadSourceRef);
-    _launchpadSourceRef = nil;
+    _launchpadSourceRef = 0;
   }
-  _launchpadDestinationRef = nil;
+  _launchpadDestinationRef = 0;
 
   ItemCount numberOfSources = MIDIGetNumberOfSources();
   for (ItemCount ix = 0; ix < numberOfSources; ++ix)  {
@@ -195,55 +215,50 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     if (status != noErr) {
       NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
       NSLog(@"Failed to create the MIDI source: %@", error);
-      _launchpadSourceRef = nil;
+      _launchpadSourceRef = 0;
       return;
     }
   }
 }
 
 - (void)sendMessage:(PHMIDIMessage *)message {
-  MIDIPacket* newPacket = nil;
-  OSStatus err = noErr;
-  Byte scratchStruct[4];
-  memset(scratchStruct, 0, sizeof(Byte) * 4);
+  @synchronized(self) {
+    MIDIPacket* newPacket = nil;
+    OSStatus err = noErr;
+    Byte scratchStruct[4];
+    memset(scratchStruct, 0, sizeof(Byte) * 4);
 
-  scratchStruct[0] = message.status | message.channel;
-  switch (message.status)  {
-    case PHMIDIStatusNoteOff:
-    case PHMIDIStatusNoteOn:
-    case PHMIDIStatusControlChange:
-      scratchStruct[1] = message.data1;
-      scratchStruct[2] = message.data2;
-      newPacket = MIDIPacketListAdd(_packetList, 1024, _currentPacket, 0, 3, scratchStruct);
-      break;
+    scratchStruct[0] = message.status | message.channel;
+    switch (message.status)  {
+      case PHMIDIStatusNoteOff:
+      case PHMIDIStatusNoteOn:
+      case PHMIDIStatusControlChange:
+        scratchStruct[1] = message.data1;
+        scratchStruct[2] = message.data2;
+        newPacket = MIDIPacketListAdd(_packetList, 1024, _currentPacket, 0, 3, scratchStruct);
+        break;
+    }
+    if (newPacket == NULL)  {
+      NSLog(@"\t\terror adding new packet %s",__func__);
+      return;
+    }
+
+    _currentPacket = newPacket;
+
+    err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+    if (err != noErr)  {
+      NSLog(@"\t\terr %ld at MIDISend A",(long)err);
+      return;
+    }
+
+    _currentPacket = MIDIPacketListInit(_packetList);
   }
-  if (newPacket == NULL)  {
-    NSLog(@"\t\terror adding new packet %s",__func__);
-    return;
-  }
-
-  _currentPacket = newPacket;
-
-  err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
-  if (err != noErr)  {
-    NSLog(@"\t\terr %ld at MIDISend A",(long)err);
-    return;
-  }
-
-  _currentPacket = MIDIPacketListInit(_packetList);
 }
 
 - (void)receivedMessages:(NSArray *)messages {
   for (PHMIDIMessage* message in messages) {
     if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
       BOOL pressed = (message.data2 == 0x7F);
-
-      PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:message.status channel:message.channel];
-      lightMessage.data1 = message.data1;
-      lightMessage.data2 = pressed ? 0x3E : 0x0C;
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self sendMessage:lightMessage];
-      });
 
       Byte keyValue = message.data1;
       PHLaunchpadEvent event;
@@ -252,15 +267,21 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
         if (message.status == PHMIDIStatusControlChange) {
           event = PHLaunchpadEventTopButtonState;
           buttonIndex = keyValue - 0x68;
+
+          [self setTopButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorRedDim atIndex:buttonIndex];
         } else {
           event = PHLaunchpadEventRightButtonState;
           buttonIndex = ((keyValue & 0xF0) >> 4) & 0x0F;
+
+          [self setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim atIndex:buttonIndex];
         }
       } else {
         event = PHLaunchpadEventGridButtonState;
         int x = keyValue & 0x0F;
         int y = ((keyValue & 0xF0) >> 4) & 0x0F;
         buttonIndex = x + y * 8;
+
+        [self setButtonColor:pressed ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim atX:x y:y];
       }
       NSDictionary* userInfo =
       @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
@@ -269,9 +290,40 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
       NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
       [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
-      //NSLog(@"Event: %@", userInfo);
     }
   }
+}
+
+#pragma mark - Public Methods
+
+- (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y {
+  PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
+                                                              channel:0];
+  lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
+  lightMessage.data2 = PHLaunchpadColorToByte[color];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:lightMessage];
+  });
+}
+
+- (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
+  PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
+                                                              channel:0];
+  lightMessage.data1 = (buttonIndex & 0x0F) + 0x68;
+  lightMessage.data2 = PHLaunchpadColorToByte[color];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:lightMessage];
+  });
+}
+
+- (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
+  PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
+                                                              channel:0];
+  lightMessage.data1 = ((buttonIndex & 0x0F) << 4) | 0x08;
+  lightMessage.data2 = PHLaunchpadColorToByte[color];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:lightMessage];
+  });
 }
 
 @end

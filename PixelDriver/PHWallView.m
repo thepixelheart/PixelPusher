@@ -24,7 +24,7 @@
 #import "Utilities.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 16;
+const NSInteger kPixelSize = 8;
 
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
@@ -38,7 +38,7 @@ const NSInteger kPixelSize = 16;
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  NSString* filename = @"PixelDriver.app/Contents/Resources/particlerain.qtz";
+  NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];

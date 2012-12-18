@@ -44,6 +44,23 @@ typedef enum {
   PHLaunchpadEventRightButtonState,
 } PHLaunchpadEvent;
 
+typedef enum {
+  PHLaunchpadColorOff,
+  PHLaunchpadColorRedDim,
+  PHLaunchpadColorRedBright,
+  PHLaunchpadColorRedFlashing,
+  PHLaunchpadColorAmberDim,
+  PHLaunchpadColorAmberBright,
+  PHLaunchpadColorAmberFlashing,
+  PHLaunchpadColorYellowBright,
+  PHLaunchpadColorYellowFlashing,
+  PHLaunchpadColorGreenDim,
+  PHLaunchpadColorGreenBright,
+  PHLaunchpadColorGreenFlashing,
+
+  PHLaunchpadColorCount,
+} PHLaunchpadColor;
+
 // Notifications
 extern NSString* const PHLaunchpadDidReceiveStateChangeNotification;
 
@@ -53,11 +70,16 @@ extern NSString* const PHLaunchpadEventTypeUserInfoKey; // PHLaunchpadEvent
 extern NSString* const PHLaunchpadButtonPressedUserInfoKey; // BOOL
 extern NSString* const PHLaunchpadButtonIndexInfoKey; // NSInteger
 
-#define PHGRIDXFROMBUTTONINDEX(index) (NSInteger)((index) % 16)
-#define PHGRIDYFROMBUTTONINDEX(index) (NSInteger)((index) / 16)
+extern const NSInteger PHLaunchpadButtonGridWidth;
+extern const NSInteger PHLaunchpadButtonGridHeight;
+
+#define PHGRIDXFROMBUTTONINDEX(index) (NSInteger)((index) % PHLaunchpadButtonGridWidth)
+#define PHGRIDYFROMBUTTONINDEX(index) (NSInteger)((index) / PHLaunchpadButtonGridWidth)
 
 @interface PHLaunchpadMIDIDriver : NSObject
 
-- (void)setColorAt
+- (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
+- (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
+- (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 
 @end
