@@ -40,7 +40,7 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 
 @interface PHPixelPusherOperation : NSOperation
 - (id)initWithPixelMap:(int *)pixelMap stats:(TCstats *)stats;
-@property (nonatomic, copy) NSBitmapImageRep *bitmap;
+@property (nonatomic, assign) CGContextRef context;
 @property (nonatomic, readonly) int *pixelMap;
 @property (nonatomic, readonly) TCstats *stats;
 @end
@@ -65,21 +65,18 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   }
   memset(pixelBuffer, 0, sizeOfPixelBuffer);
 
-  if (_bitmap) {
-    NSInteger imageScaleX = _bitmap.pixelsWide / _bitmap.size.width;
-    NSInteger imageScaleY = _bitmap.pixelsHigh / _bitmap.size.height;
+  if (_context) {
+    float* data = (float *)CGBitmapContextGetData(_context);
+    size_t bytesPerRow = CGBitmapContextGetBytesPerRow(_context);
+
     for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
       for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
         NSInteger pixelIndex = PHPixelIndexFromXY(ix, iy);
-        NSColor *color = [_bitmap colorAtX:ix * imageScaleX y:(kWallHeight - iy - 1) * imageScaleY];
-        CGFloat redValue = 0;
-        CGFloat greenValue = 0;
-        CGFloat blueValue = 0;
-        CGFloat alphaValue = 0;
-        [color getRed:&redValue green:&greenValue blue:&blueValue alpha:&alphaValue];
-        uint32_t red = (uint32_t)roundf(redValue * alphaValue * 255);
-        uint32_t green = (uint32_t)roundf(greenValue * alphaValue * 255);
-        uint32_t blue = (uint32_t)roundf(blueValue * alphaValue * 255);
+        NSInteger offset = ix * 4 + iy * (bytesPerRow / 4);
+
+        uint32_t red = (uint32_t)roundf(data[offset] * 255);
+        uint32_t green = (uint32_t)roundf(data[offset + 1] * 255);
+        uint32_t blue = (uint32_t)roundf(data[offset + 2] * 255);
         pixelBuffer[pixelIndex] = TCrgb(red, green, blue);
       }
     }
@@ -90,6 +87,17 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
     NSLog(@"Failed to refresh");
   }
   free(pixelBuffer);
+}
+
+- (void)setContext:(CGContextRef)context {
+  if (_context == context) {
+    return;
+  }
+  if (nil != _context) {
+    CGContextRelease(_context);
+  }
+  CGContextRetain(context);
+  _context = context;
 }
 
 @end
@@ -214,7 +222,7 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 
 #pragma mark - Public Methods
 
-- (void)setFrameBitmap:(NSBitmapImageRep *)bitmap {
+- (void)queueContext:(CGContextRef)context {
   NSArray* operations = [_operationQueue.operations copy];
   for (NSOperation* op in operations) {
     if (op != [operations objectAtIndex:0]) {
@@ -225,7 +233,7 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   if ([self isConnected]) {
     PHPixelPusherOperation *pusherOp = [[PHPixelPusherOperation alloc] initWithPixelMap:_pixelMap
                                                                                   stats:&_stats];
-    pusherOp.bitmap = bitmap;
+    pusherOp.context = context;
     [_operationQueue addOperation:pusherOp];
   }
 }

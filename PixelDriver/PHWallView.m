@@ -87,7 +87,7 @@ const NSInteger kPixelSize = 16;
                            spectrum:spectrum
              numberOfSpectrumValues:numberOfSpectrumValues];
 
-//  [PHApp().driver setFrameBitmap:bitmap];
+  [PHApp().driver queueContext:wallContext];
 
   [[NSColor blackColor] set];
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);

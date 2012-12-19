@@ -27,6 +27,6 @@ extern NSString* const PHDriverConnectionStateDidChangeNotification;
 
 @property (assign, getter = isConnected) BOOL connected;
 
-- (void)setFrameBitmap:(NSBitmapImageRep *)bitmap;
+- (void)queueContext:(CGContextRef)context;
 
 @end
