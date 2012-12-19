@@ -105,7 +105,67 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 @end
 
-@interface PHMIDIClient : NSObject
+@interface PHMIDISenderOperation : NSOperation
+- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message;
+- (void)appendMessage:(PHMIDIMessage *)message;
+@end
+
+@implementation PHMIDISenderOperation {
+  MIDIPacketList* _packetList;
+  MIDIPortRef _outputPortRef;
+  MIDIEndpointRef _launchpadDestinationRef;
+  NSMutableArray* _messages;
+}
+
+- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message {
+  if ((self = [super init])) {
+    _packetList = list;
+    _outputPortRef = outputPortRef;
+    _launchpadDestinationRef = launchpadDestinationRef;
+    _messages = [NSMutableArray arrayWithObject:message];
+  }
+  return self;
+}
+
+- (void)appendMessage:(PHMIDIMessage *)message {
+  [_messages addObject:message];
+}
+
+- (void)main {
+  MIDIPacket* newPacket = nil;
+  OSStatus err = noErr;
+  Byte scratchStruct[4];
+  memset(scratchStruct, 0, sizeof(Byte) * 4);
+
+  MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
+
+  for (PHMIDIMessage* message in _messages) {
+    scratchStruct[0] = message.status | message.channel;
+    switch (message.status)  {
+      case PHMIDIStatusNoteOff:
+      case PHMIDIStatusNoteOn:
+      case PHMIDIStatusControlChange:
+        scratchStruct[1] = message.data1;
+        scratchStruct[2] = message.data2;
+        newPacket = MIDIPacketListAdd(_packetList, 1024, currentPacket, 0, 3, scratchStruct);
+        break;
+    }
+    if (newPacket == NULL)  {
+      NSLog(@"\t\terror adding new packet %s",__func__);
+      return;
+    }
+
+    currentPacket = newPacket;
+  }
+
+  NSLog(@"Sent %ld messages", _messages.count);
+
+  err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+  if (err != noErr)  {
+    NSLog(@"Error sending packet: %ld", (long)err);
+    return;
+  }
+}
 
 @end
 
@@ -133,7 +193,8 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   MIDIEndpointRef _launchpadDestinationRef;
 
   MIDIPacketList* _packetList;
-  MIDIPacket* _currentPacket;
+
+  NSOperationQueue* _sendQueue;
 }
 
 - (void)dealloc {
@@ -148,6 +209,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
 - (id)init {
   if ((self = [super init])) {
+    _sendQueue = [[NSOperationQueue alloc] init];
+    _sendQueue.maxConcurrentOperationCount = 1;
+
     OSStatus status = MIDIClientCreate((__bridge CFStringRef)kMIDIClientName, PHMIDINotifyProc, (__bridge void *)(self), &_clientRef);
     INITCHECKOSSTATUS(status);
 
@@ -165,7 +229,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     INITCHECKOSSTATUS(status);
 
     _packetList = (MIDIPacketList *)malloc(1024 * sizeof(char));
-    _currentPacket = MIDIPacketListInit(_packetList);
   }
   return self;
 }
@@ -223,35 +286,15 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
 - (void)sendMessage:(PHMIDIMessage *)message {
   @synchronized(self) {
-    MIDIPacket* newPacket = nil;
-    OSStatus err = noErr;
-    Byte scratchStruct[4];
-    memset(scratchStruct, 0, sizeof(Byte) * 4);
-
-    scratchStruct[0] = message.status | message.channel;
-    switch (message.status)  {
-      case PHMIDIStatusNoteOff:
-      case PHMIDIStatusNoteOn:
-      case PHMIDIStatusControlChange:
-        scratchStruct[1] = message.data1;
-        scratchStruct[2] = message.data2;
-        newPacket = MIDIPacketListAdd(_packetList, 1024, _currentPacket, 0, 3, scratchStruct);
-        break;
-    }
-    if (newPacket == NULL)  {
-      NSLog(@"\t\terror adding new packet %s",__func__);
-      return;
+    for (PHMIDISenderOperation* op in _sendQueue.operations) {
+      if (!op.isExecuting) {
+        [op appendMessage:message];
+        return;
+      }
     }
 
-    _currentPacket = newPacket;
-
-    err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
-    if (err != noErr)  {
-      NSLog(@"\t\terr %ld at MIDISend A",(long)err);
-      return;
-    }
-
-    _currentPacket = MIDIPacketListInit(_packetList);
+    PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_launchpadDestinationRef message:message];
+    [_sendQueue addOperation:op];
   }
 }
 
