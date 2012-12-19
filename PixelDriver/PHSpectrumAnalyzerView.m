@@ -28,8 +28,6 @@
   [[NSColor blackColor] set];
   CGContextFillRect(cx, bounds);
 
-  PHFMODRecorder* recorder = PHApp().audioRecorder;
-
   [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
   CGFloat colWidth = size.width / (CGFloat)numberOfSpectrumValues;
   CGFloat max = 0;

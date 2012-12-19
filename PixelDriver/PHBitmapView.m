@@ -49,6 +49,9 @@
 - (void)drawRect:(NSRect)dirtyRect {
   [super drawRect:dirtyRect];
 
+  CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
+
   [_renderedImage drawAtPoint:CGPointZero fromRect:CGRectZero operation:NSCompositeCopy fraction:1];
 }
 
