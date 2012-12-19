@@ -166,7 +166,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
     _sound->setMode(FMOD_LOOP_NORMAL);
     FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
-    _channel->setVolume(0.4);
+    _channel->setVolume(1);
     if (result != FMOD_OK) {
       [self stopListening];
     }

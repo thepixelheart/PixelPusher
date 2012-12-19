@@ -58,19 +58,18 @@
 
       NSColor* color = nil;
       if (maxix == 0) {
-        color = [NSColor redColor];
+        color = [NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:1];
       } else if (maxix == 1) {
-        color = [NSColor orangeColor];
+        color = [NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1];
       } else if (maxix == 2) {
-        color = [NSColor blueColor];
+        color = [NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1];
       } else if (maxix == 3) {
-        color = [NSColor magentaColor];
+        color = [NSColor colorWithDeviceRed:1 green:0 blue:1 alpha:1];
       } else if (maxix == 4) {
-        color = [NSColor yellowColor];
+        color = [NSColor colorWithDeviceRed:1 green:1 blue:0 alpha:1];
       } else {
-        color = [NSColor greenColor];
+        color = [NSColor colorWithDeviceRed:0 green:1 blue:1 alpha:1];
       }
-      color = [color colorWithAlphaComponent:1];
       CGContextSetFillColorWithColor(cx, color.CGColor);
 
       NSInteger xCol = maxix % 3;
@@ -81,7 +80,6 @@
       CGRect boundingRect = CGRectMake(leftEdge, bottomEdge - kTileHeight, kTileWidth, kTileHeight);
       CGFloat shrinkAmount = (kTileHeight / 2) * (1 - max);
       CGRect shrunkRect = CGRectInset(boundingRect, shrinkAmount, shrinkAmount);
-      CGContextSetBlendMode(cx, kCGBlendModeLighten);
       CGContextFillEllipseInRect(cx, shrunkRect);
 //      CGContextFillRect(cx, CGRectMake(leftEdge, bottomEdge - max * kTileHeight, kTileWidth, max * kTileHeight));
     }

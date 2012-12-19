@@ -47,6 +47,10 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 
 @implementation PHPixelPusherOperation
 
+- (void)dealloc {
+  CGContextRelease(_context);
+}
+
 - (id)initWithPixelMap:(int *)pixelMap stats:(TCstats *)stats {
   if ((self = [super init])) {
     _pixelMap = pixelMap;
@@ -72,11 +76,14 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
     for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
       for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
         NSInteger pixelIndex = PHPixelIndexFromXY(ix, iy);
-        NSInteger offset = ix * 4 + iy * (bytesPerRow / 4);
+        NSInteger offset = ix * 4 + (kWallHeight - 1 - iy) * (bytesPerRow / 4);
 
-        uint32_t red = (uint32_t)roundf(data[offset] * 255);
-        uint32_t green = (uint32_t)roundf(data[offset + 1] * 255);
-        uint32_t blue = (uint32_t)roundf(data[offset + 2] * 255);
+        float redFloat = data[offset];
+        float greenFloat = data[offset + 1];
+        float blueFloat = data[offset + 2];
+        uint32_t red = MAX(0, MIN(255, (uint32_t)roundf(redFloat * 255.f)));
+        uint32_t green = MAX(0, MIN(255, (uint32_t)roundf(greenFloat * 255.f)));
+        uint32_t blue = MAX(0, MIN(255, (uint32_t)roundf(blueFloat * 255.f)));
         pixelBuffer[pixelIndex] = TCrgb(red, green, blue);
       }
     }
