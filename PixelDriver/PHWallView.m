@@ -29,7 +29,7 @@
 #import "PHBouncingCircleAnimation.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 8;
+const NSInteger kPixelSize = 16;
 
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
@@ -65,16 +65,29 @@ const NSInteger kPixelSize = 8;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-  NSImage* image = [[NSImage alloc] initWithSize:wallSize];
-  [image lockFocus];
-  {
-    CGContextRef wallContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-    [_animation renderBitmapInContext:wallContext size:wallSize spectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
-  }
-  [image unlockFocus];
 
-  NSBitmapImageRep* bitmap = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
-  [PHApp().driver setFrameBitmap:bitmap];
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  if (nil == colorSpace) {
+    return;
+  }
+  CGContextRef wallContext = CGBitmapContextCreate(NULL,
+                                                   wallSize.width,
+                                                   wallSize.height,
+                                                   32,
+                                                   0,
+                                                   colorSpace,
+                                                   kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Host|kCGBitmapFloatComponents);
+  CGColorSpaceRelease(colorSpace);
+  if (nil == wallContext) {
+    return;
+  }
+
+  [_animation renderBitmapInContext:wallContext
+                               size:wallSize
+                           spectrum:spectrum
+             numberOfSpectrumValues:numberOfSpectrumValues];
+
+//  [PHApp().driver setFrameBitmap:bitmap];
 
   [[NSColor blackColor] set];
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
@@ -96,12 +109,11 @@ const NSInteger kPixelSize = 8;
     CGContextFillRect(cx, frame);
   }
 
-  //NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
+  float* data = (float *)CGBitmapContextGetData(wallContext);
+  size_t bytesPerRow = CGBitmapContextGetBytesPerRow(wallContext);
 
   NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
   NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
-  NSInteger imageScaleX = bitmap.pixelsWide / bitmap.size.width;
-  NSInteger imageScaleY = bitmap.pixelsHigh / bitmap.size.height;
   for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
     pixelFrame.origin.y = iy;
     viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
@@ -109,11 +121,14 @@ const NSInteger kPixelSize = 8;
     for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
       pixelFrame.origin.x = ix;
       viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
-      NSColor* color = [bitmap colorAtX:ix * imageScaleX y:iy * imageScaleY];
-      [color set];
+
+      NSInteger offset = ix * 4 + iy * (bytesPerRow / 4);
+      CGContextSetRGBFillColor(cx, data[offset] / data[offset + 3], data[offset + 1] / data[offset + 3], data[offset + 2] / data[offset + 3], data[offset + 3]);
       CGContextFillRect(cx, viewFrame);
     }
   }
+
+  CGContextRelease(wallContext);
 }
 
 #pragma mark - Driver Notifications

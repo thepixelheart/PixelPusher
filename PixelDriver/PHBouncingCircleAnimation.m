@@ -70,8 +70,8 @@
       } else {
         color = [NSColor greenColor];
       }
-      color = [color colorWithAlphaComponent:0.8];
-      [color set];
+      color = [color colorWithAlphaComponent:1];
+      CGContextSetFillColorWithColor(cx, color.CGColor);
 
       NSInteger xCol = maxix % 3;
       NSInteger yCol = maxix / 3;
