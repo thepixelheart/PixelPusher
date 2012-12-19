@@ -37,11 +37,13 @@
   _pipeline = [[PHBitmapPipeline alloc] init];
 
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-  [nc addObserver:self selector:@selector(displayLinkDidFire) name:PHDisplayLinkFiredNotification object:nil];
+  [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
 }
 
-- (void)displayLinkDidFire {
-  [self queueBitmap];
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
+  NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
+  [self queueBitmapWithSpectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -50,9 +52,9 @@
   [_renderedImage drawAtPoint:CGPointZero fromRect:CGRectZero operation:NSCompositeCopy fraction:1];
 }
 
-- (void)queueBitmap {
+- (void)queueBitmapWithSpectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
-    [self renderBitmapInContext:cx size:size];
+    [self renderBitmapInContext:cx size:size spectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
   } imageSize:self.bounds.size delegate:self];
 }
 
@@ -67,7 +69,7 @@
 
 #pragma mark - Subclassing
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   // No-op
 }
 

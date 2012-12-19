@@ -19,20 +19,16 @@
 #import "AppDelegate.h"
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
-#import "PHFMODRecorder.h"
 #import "Utilities.h"
 
 @implementation PHSpectrumAnalyzerView
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   [[NSColor blackColor] set];
   CGContextFillRect(cx, bounds);
 
   PHFMODRecorder* recorder = PHApp().audioRecorder;
-
-  NSInteger numberOfSpectrumValues = recorder.numberOfSpectrumValues;
-  float* spectrum = recorder.leftSpectrum;
 
   [[NSColor colorWithDeviceRed:1 green:1 blue:1 alpha:1] set];
   CGFloat colWidth = size.width / (CGFloat)numberOfSpectrumValues;

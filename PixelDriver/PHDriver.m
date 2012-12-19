@@ -23,8 +23,8 @@
 NSString* const PHDriverConnectionStateDidChangeNotification = @"PHDriverConnectionStateDidChangeNotification";
 
 // Dimensions
-static const NSInteger kTileWidth = 16;
-static const NSInteger kTileHeight = 16;
+const NSInteger kTileWidth = 16;
+const NSInteger kTileHeight = 16;
 const NSInteger kWallWidth = 48;
 const NSInteger kWallHeight = 32;
 
@@ -66,10 +66,12 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   memset(pixelBuffer, 0, sizeOfPixelBuffer);
 
   if (_bitmap) {
+    NSInteger imageScaleX = _bitmap.pixelsWide / _bitmap.size.width;
+    NSInteger imageScaleY = _bitmap.pixelsHigh / _bitmap.size.height;
     for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
       for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
         NSInteger pixelIndex = PHPixelIndexFromXY(ix, iy);
-        NSColor *color = [_bitmap colorAtX:ix y:iy];
+        NSColor *color = [_bitmap colorAtX:ix * imageScaleX y:(kWallHeight - iy - 1) * imageScaleY];
         CGFloat redValue = 0;
         CGFloat greenValue = 0;
         CGFloat blueValue = 0;
@@ -213,9 +215,12 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
 #pragma mark - Public Methods
 
 - (void)setFrameBitmap:(NSBitmapImageRep *)bitmap {
-  // Kill any frames that are queued so that we don't get delayed animations.
-  // This won't kill the currently active operation.
-  [_operationQueue cancelAllOperations];
+  NSArray* operations = [_operationQueue.operations copy];
+  for (NSOperation* op in operations) {
+    if (op != [operations objectAtIndex:0]) {
+      [op cancel];
+    }
+  }
 
   if ([self isConnected]) {
     PHPixelPusherOperation *pusherOp = [[PHPixelPusherOperation alloc] initWithPixelMap:_pixelMap

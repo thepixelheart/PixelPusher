@@ -14,11 +14,8 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import "PHAnimation.h"
 
-@interface PHBitmapView : NSView
-
-// Subclassing. Do not call directly.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues;
-
+@interface PHBouncingCircleAnimation : NSObject <PHAnimation>
 @end

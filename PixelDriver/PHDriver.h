@@ -16,8 +16,10 @@
 
 #import <Foundation/Foundation.h>
 
-const NSInteger kWallWidth;
-const NSInteger kWallHeight;
+extern const NSInteger kTileWidth;
+extern const NSInteger kTileHeight;
+extern const NSInteger kWallWidth;
+extern const NSInteger kWallHeight;
 
 extern NSString* const PHDriverConnectionStateDidChangeNotification;
 

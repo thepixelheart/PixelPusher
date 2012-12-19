@@ -17,6 +17,8 @@
 #import <Foundation/Foundation.h>
 
 extern NSString* const PHDisplayLinkFiredNotification;
+extern NSString* const PHDisplayLinkFiredSpectrumKey;
+extern NSString* const PHDisplayLinkFiredNumberOfSpectrumValuesKey;
 
 @interface PHDisplayLink : NSObject
 

@@ -44,9 +44,6 @@
   }
   [image unlockFocus];
 
-  if (nil == image) {
-    NSLog(@"JSDLFJSDLFJDS");
-  }
   _renderedImage = image;
 }
 

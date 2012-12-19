@@ -20,15 +20,21 @@
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
+#import "PHFMODRecorder.h"
 #import "PHQuartzRenderer.h"
 #import "Utilities.h"
 
+// Animations
+#import "PHAnimation.h"
+#import "PHBouncingCircleAnimation.h"
+
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 16;
+const NSInteger kPixelSize = 8;
 
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
+  id<PHAnimation> _animation;
 }
 
 - (void)dealloc {
@@ -37,6 +43,8 @@ const NSInteger kPixelSize = 16;
 
 - (void)awakeFromNib {
   [super awakeFromNib];
+
+  _animation = [[PHBouncingCircleAnimation alloc] init];
 
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
@@ -55,7 +63,19 @@ const NSInteger kPixelSize = 16;
 
 #pragma mark - Rendering
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  NSImage* image = [[NSImage alloc] initWithSize:wallSize];
+  [image lockFocus];
+  {
+    CGContextRef wallContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+    [_animation renderBitmapInContext:wallContext size:wallSize spectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
+  }
+  [image unlockFocus];
+
+  NSBitmapImageRep* bitmap = [NSBitmapImageRep imageRepWithData:[image TIFFRepresentation]];
+  [PHApp().driver setFrameBitmap:bitmap];
+
   [[NSColor blackColor] set];
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);
@@ -76,9 +96,12 @@ const NSInteger kPixelSize = 16;
     CGContextFillRect(cx, frame);
   }
 
-  NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
+  //NSBitmapImageRep* bitmap = [_renderer bitmapImageForTime:[[NSDate date] timeIntervalSinceDate:_firstTick]];
+
   NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
   NSRect viewFrame = NSMakeRect(0, 0, kPixelSize, kPixelSize);
+  NSInteger imageScaleX = bitmap.pixelsWide / bitmap.size.width;
+  NSInteger imageScaleY = bitmap.pixelsHigh / bitmap.size.height;
   for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
     pixelFrame.origin.y = iy;
     viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * kPixelSize;
@@ -86,14 +109,11 @@ const NSInteger kPixelSize = 16;
     for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
       pixelFrame.origin.x = ix;
       viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * kPixelSize;
-      NSColor* color = [bitmap colorAtX:ix y:kWallHeight - iy - 1];
+      NSColor* color = [bitmap colorAtX:ix * imageScaleX y:iy * imageScaleY];
       [color set];
       CGContextFillRect(cx, viewFrame);
     }
   }
-
-  [PHApp().driver setFrameBitmap:bitmap];
-  [bitmap draw];
 }
 
 #pragma mark - Driver Notifications
@@ -104,7 +124,6 @@ const NSInteger kPixelSize = 16;
   } else {
     NSLog(@"Driver is detached");
   }
-  [self queueBitmap];
 }
 
 @end

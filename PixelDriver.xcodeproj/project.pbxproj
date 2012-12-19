@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */; };
 		662F59131678477900ADE02C /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F59121678477900ADE02C /* PHApplication.m */; };
 		662F5916167849E500ADE02C /* clouds.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F5915167849E500ADE02C /* clouds.qtz */; };
 		662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591716784B2F00ADE02C /* Quartz.framework */; };
@@ -47,6 +48,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBouncingCircleAnimation.h; sourceTree = "<group>"; };
+		662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBouncingCircleAnimation.m; sourceTree = "<group>"; };
+		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
 		662F59111678477900ADE02C /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
 		662F59121678477900ADE02C /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
 		662F5915167849E500ADE02C /* clouds.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clouds.qtz; path = QuartzCompositions/clouds.qtz; sourceTree = SOURCE_ROOT; };
@@ -134,6 +138,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		662CA845167FFF7800FC800F /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				662CA84A167FFFE400FC800F /* PHAnimation.h */,
+				662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */,
+				662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */,
+			);
+			name = Animations;
+			sourceTree = "<group>";
+		};
 		662F5914167849DA00ADE02C /* Quartz Compositions */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +285,7 @@
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
+				662CA845167FFF7800FC800F /* Animations */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
@@ -439,6 +454,7 @@
 				66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */,
 				66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */,
 				66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */,
+				662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
