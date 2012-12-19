@@ -19,6 +19,8 @@
 #import "AppDelegate.h"
 #import "PHFMODRecorder.h"
 
+static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
+
 @implementation PHInfoPanel
 
 - (void)awakeFromNib {
@@ -27,6 +29,11 @@
   [self.audioRecordingButton addItemsWithTitles:PHApp().audioRecorder.recordDriverNames];
   [self.audioOutputButton addItemsWithTitles:PHApp().audioRecorder.playbackDriverNames];
 
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+  if ([defaults objectForKey:PHInfoPanelVolumeLevelKey]) {
+    PHApp().audioRecorder.volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
+  }
+
   [self updateListeningState];
 }
 
@@ -34,6 +41,8 @@
   [self.audioRecordingButton selectItemAtIndex:PHApp().audioRecorder.recordDriverIndex];
   [self.audioOutputButton selectItemAtIndex:PHApp().audioRecorder.playbackDriverIndex];
   self.listeningButton.title = PHApp().audioRecorder.isListening ? @"Stop Listening" : @"Start Listening";
+  [self.volumeSlider setEnabled:PHApp().audioRecorder.isListening];
+  [self.volumeSlider setDoubleValue:PHApp().audioRecorder.volume * self.volumeSlider.maxValue];
 }
 
 #pragma mark - Actions
@@ -51,6 +60,15 @@
 
 - (IBAction)setAudioInput:(NSPopUpButton *)sender {
   [PHApp().audioRecorder setRecordDriverIndex:(int)sender.indexOfSelectedItem];
+  [self updateListeningState];
+}
+
+- (IBAction)setVolumeLevel:(NSSlider *)sender {
+  PHApp().audioRecorder.volume = self.volumeSlider.doubleValue / self.volumeSlider.maxValue;
+
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+  [defaults setFloat:PHApp().audioRecorder.volume forKey:PHInfoPanelVolumeLevelKey];
+
   [self updateListeningState];
 }
 

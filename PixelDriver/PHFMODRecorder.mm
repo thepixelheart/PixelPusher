@@ -55,6 +55,8 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
 - (id)init {
   if ((self = [super init])) {
+    _volume = 1;
+
     FMOD_RESULT result = FMOD::System_Create(&_system);
     INITCHECKFMODRESULT(result);
 
@@ -166,7 +168,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
     _sound->setMode(FMOD_LOOP_NORMAL);
     FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
-    _channel->setVolume(1);
+    _channel->setVolume(_volume);
     if (result != FMOD_OK) {
       [self stopListening];
     }
@@ -228,6 +230,14 @@ static const unsigned int kRecordingDuration = 60 * 5;
   memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
   _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
   return _rightSpectrum;
+}
+
+- (void)setVolume:(float)volume {
+  _volume = volume;
+
+  if (nil != _channel) {
+    _channel->setVolume(_volume);
+  }
 }
 
 @end

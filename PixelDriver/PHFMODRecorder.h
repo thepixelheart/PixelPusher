@@ -27,6 +27,8 @@
 @property (nonatomic, assign) int playbackDriverIndex;
 @property (nonatomic, assign) int recordDriverIndex;
 
+@property (nonatomic, assign) float volume;
+
 - (NSInteger)numberOfSpectrumValues;
 - (float *)leftSpectrum;
 - (float *)rightSpectrum;
