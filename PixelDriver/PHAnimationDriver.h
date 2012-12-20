@@ -19,7 +19,18 @@
 @interface PHAnimationDriver : NSObject
 
 // Raw values
-@property (nonatomic, assign) float* spectrum;
-@property (nonatomic, assign) NSInteger numberOfSpectrumValues;
+@property (nonatomic, readonly) float* spectrum;
+@property (nonatomic, readonly) NSInteger numberOfSpectrumValues;
+
+// Processed values
+@property (nonatomic, readonly) CGFloat subBassAmplitude;
+@property (nonatomic, readonly) CGFloat hihatAmplitude;
+@property (nonatomic, readonly) CGFloat vocalAmplitude;
+
+@end
+
+@interface PHAnimationDriver()
+
+- (void)setSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues;
 
 @end

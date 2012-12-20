@@ -31,7 +31,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     CVOptionFlags* flagsOut,
                                     void* displayLinkContext) {
   @autoreleasepool {
-    float* leftSpectrum = [PHApp().audioRecorder leftSpectrum];
+    float* leftSpectrum = [PHApp().audioRecorder spectrum];
     NSInteger numberOfSpectrumValues = [PHApp().audioRecorder numberOfSpectrumValues];
 
     NSDictionary* userInfo = @{

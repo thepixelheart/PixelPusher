@@ -30,7 +30,6 @@
 @property (nonatomic, assign) float volume;
 
 - (NSInteger)numberOfSpectrumValues;
-- (float *)leftSpectrum;
-- (float *)rightSpectrum;
+- (float *)spectrum;
 
 @end

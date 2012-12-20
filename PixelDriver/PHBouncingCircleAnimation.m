@@ -18,71 +18,85 @@
 
 #import "AppDelegate.h"
 #import "PHDriver.h"
-#import "PHLaunchpadMIDIDriver.h"
+
+#define NHISTOGRAMS 3
 
 @implementation PHBouncingCircleAnimation {
-  CGFloat _maxes[6];
+  CGFloat _maxes[8];
   NSTimeInterval _lastTick;
   CGFloat _totalMax;
-}
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  CGFloat _histograms[48*NHISTOGRAMS];
 }
 
 - (id)init {
   if ((self = [super init])) {
-    memset(_maxes, 0, sizeof(CGFloat) * 6);
-
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(launchpadStateDidChange:) name:PHLaunchpadDidReceiveStateChangeNotification object:nil];
+    memset(_maxes, 0, sizeof(CGFloat) * 8);
+    memset(_histograms, 0, sizeof(CGFloat) * 48 * NHISTOGRAMS);
+    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
   return self;
 }
 
-- (void)launchpadStateDidChange:(NSNotification *)notification {
-  PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
-  NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
-  BOOL pressed = [[notification.userInfo objectForKey:PHLaunchpadButtonPressedUserInfoKey] boolValue];
-
-  switch (event) {
-    case PHLaunchpadEventRightButtonState:
-      if (buttonIndex == PHLaunchpadSideButtonArm) {
-        PHLaunchpadMIDIDriver* midi = PHApp().midiDriver;
-        if (pressed) {
-          [midi reset];
-        }
-        [midi setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atIndex:buttonIndex];
-        for (NSInteger iy = 0; iy < 8; ++iy) {
-          for (NSInteger ix = 0; ix < 8; ++ix) {
-            [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:iy];
-          }
-        }
-      }
-      break;
-    default:
-      break;
-  }
-}
-
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.spectrum) {
-    NSInteger chunkSize = self.driver.numberOfSpectrumValues / 6;
+    CGFloat histogramHeight = floorf(kWallHeight / NHISTOGRAMS);
+    for (NSInteger ix = 0; ix < NHISTOGRAMS; ++ix) {
+      NSColor* color = nil;
+      if (ix == 0) {
+        color = [NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:1];
+      } else if (ix == 1) {
+        color = [NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1];
+      } else if (ix == 2) {
+        color = [NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1];
+      }
+
+      // Shift all values back.
+      for (NSInteger col = 0; col < kWallWidth - 1; ++col) {
+        _histograms[ix * 48 + col] = _histograms[ix * 48 + col + 1];
+      }
+
+      _lastTick = [NSDate timeIntervalSinceReferenceDate];
+
+      CGFloat amplitude = 0;
+      if (ix == 0) {
+        amplitude = self.driver.subBassAmplitude;
+      } else if (ix == 1) {
+        amplitude = self.driver.hihatAmplitude;
+      } else if (ix == 2) {
+        amplitude = self.driver.vocalAmplitude;
+      }
+      _histograms[ix * 48 + 47] = amplitude;
+      CGContextSetFillColorWithColor(cx, color.CGColor);
+      for (NSInteger col = 0; col < kWallWidth; ++col) {
+        CGFloat val = _histograms[col + ix * 48];
+        CGFloat height = val * histogramHeight;
+        CGRect line = CGRectMake(col, (ix + 1) * histogramHeight - height, 1, height);
+        CGContextFillRect(cx, line);
+      }
+    }
+    
+    /*
+    NSInteger chunkSize = self.driver.numberOfSpectrumValues / 8;
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
 
-    for (NSInteger maxix = 0; maxix < 6; ++maxix) {
+    for (NSInteger maxix = 0; maxix < 8; ++maxix) {
       CGFloat max = _maxes[maxix];
 
       CGFloat average = 0;
       for (NSInteger ix = maxix * chunkSize; ix < (maxix + 1) * chunkSize; ++ix) {
-        if (maxix == 0) {
-          average += self.driver.spectrum[ix] / 0.01;
-        } else {
-          average += self.driver.spectrum[ix] / 0.004;
-        }
+        average += self.driver.spectrum[ix] / 0.002;
       }
       average /= (CGFloat)chunkSize;
       average = MIN(average, 1);
+
+      if (maxix == 0) {
+        average = self.driver.subBassAmplitude;
+      } else if (maxix == 1) {
+        average = self.driver.hihatAmplitude;
+      } else if (maxix == 2) {
+        average = self.driver.vocalAmplitude;
+      }
 
       max = MAX(max, average);
       max -= delta * 1;
@@ -101,23 +115,27 @@
         color = [NSColor colorWithDeviceRed:1 green:0 blue:1 alpha:1];
       } else if (maxix == 4) {
         color = [NSColor colorWithDeviceRed:1 green:1 blue:0 alpha:1];
+      } else if (maxix == 5) {
+        color = [NSColor colorWithDeviceRed:0.25 green:0.5 blue:0.75 alpha:1];
+      } else if (maxix == 6) {
+        color = [NSColor colorWithDeviceRed:0.75 green:0 blue:0.5 alpha:1];
       } else {
         color = [NSColor colorWithDeviceRed:0 green:1 blue:1 alpha:1];
       }
       CGContextSetFillColorWithColor(cx, color.CGColor);
 
-      NSInteger xCol = maxix % 3;
-      NSInteger yCol = maxix / 3;
-      CGFloat leftEdge = xCol * kTileWidth;
-      CGFloat bottomEdge = (yCol + 1) * kTileHeight;
+      NSInteger xCol = maxix % 4;
+      NSInteger yCol = maxix / 4;
+      CGFloat leftEdge = xCol * kWallWidth / 4;
+      CGFloat bottomEdge = (yCol + 1) * kWallHeight / 2;
 
-      CGRect boundingRect = CGRectMake(leftEdge, bottomEdge - kTileHeight, kTileWidth, kTileHeight);
-      CGFloat shrinkAmount = (kTileHeight / 2) * (1 - max);
+      CGRect boundingRect = CGRectMake(leftEdge, bottomEdge - kWallHeight / 2 + kWallWidth / 16, kWallWidth / 4, kWallWidth / 4);
+      CGFloat shrinkAmount = ((kWallWidth / 4) / 2) * (1 - max);
       CGRect shrunkRect = CGRectInset(boundingRect, shrinkAmount, shrinkAmount);
       CGContextFillEllipseInRect(cx, shrunkRect);
 //      CGContextFillRect(cx, CGRectMake(leftEdge, bottomEdge - max * kTileHeight, kTileWidth, max * kTileHeight));
     }
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
+    _lastTick = [NSDate timeIntervalSinceReferenceDate];*/
   }
 }
 

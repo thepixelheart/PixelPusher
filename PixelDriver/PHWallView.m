@@ -21,6 +21,7 @@
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
+#import "PHLaunchpadMIDIDriver.h"
 #import "PHQuartzRenderer.h"
 #import "Utilities.h"
 
@@ -35,6 +36,7 @@ const NSInteger kPixelSize = 16;
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
   PHAnimation* _animation;
+  PHAnimationDriver* _driver;
 }
 
 - (void)dealloc {
@@ -45,6 +47,7 @@ const NSInteger kPixelSize = 16;
   [super awakeFromNib];
 
   _animation = [[PHBouncingCircleAnimation alloc] init];
+  _driver = [[PHAnimationDriver alloc] init];
 
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
@@ -59,6 +62,37 @@ const NSInteger kPixelSize = 16;
            object:nil];
 
   _firstTick = [NSDate date];
+
+
+  [nc addObserver:self
+         selector:@selector(launchpadStateDidChange:)
+             name:PHLaunchpadDidReceiveStateChangeNotification
+           object:nil];
+}
+
+- (void)launchpadStateDidChange:(NSNotification *)notification {
+  PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
+  NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
+  BOOL pressed = [[notification.userInfo objectForKey:PHLaunchpadButtonPressedUserInfoKey] boolValue];
+
+  switch (event) {
+    case PHLaunchpadEventRightButtonState:
+      if (buttonIndex == PHLaunchpadSideButtonArm) {
+        PHLaunchpadMIDIDriver* midi = PHApp().midiDriver;
+        if (pressed) {
+          [midi reset];
+        }
+        [midi setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atIndex:buttonIndex];
+        for (NSInteger iy = 0; iy < 8; ++iy) {
+          for (NSInteger ix = 0; ix < 8; ++ix) {
+            [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:iy];
+          }
+        }
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 #pragma mark - Rendering
@@ -88,11 +122,9 @@ const NSInteger kPixelSize = 16;
     return;
   }
 
-  PHAnimationDriver* driver = [[PHAnimationDriver alloc] init];
-  driver.spectrum = spectrum;
-  driver.numberOfSpectrumValues = numberOfSpectrumValues;
+  [_driver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
 
-  _animation.driver = driver;
+  _animation.driver = _driver;
   [_animation renderBitmapInContext:wallContext
                                size:wallSize];
 

@@ -509,7 +509,7 @@
 						</object>
 						<object class="NSSlider" id="321865933">
 							<reference key="NSNextResponder" ref="805406511"/>
-							<int key="NSvFlags">268</int>
+							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{18, 98}, {214, 26}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
