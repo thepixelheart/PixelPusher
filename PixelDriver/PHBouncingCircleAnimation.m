@@ -47,14 +47,16 @@
 
   switch (event) {
     case PHLaunchpadEventRightButtonState:
-      if (buttonIndex == 7) {
+      if (buttonIndex == PHLaunchpadSideButtonArm) {
         PHLaunchpadMIDIDriver* midi = PHApp().midiDriver;
         if (pressed) {
           [midi reset];
         }
         [midi setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atIndex:buttonIndex];
-        for (NSInteger ix = 0; ix < 8; ++ix) {
-          [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:7];
+        for (NSInteger iy = 0; iy < 8; ++iy) {
+          for (NSInteger ix = 0; ix < 8; ++ix) {
+            [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:iy];
+          }
         }
       }
       break;
@@ -63,9 +65,9 @@
   }
 }
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
-  if (spectrum) {
-    NSInteger chunkSize = numberOfSpectrumValues / 6;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  if (self.driver.spectrum) {
+    NSInteger chunkSize = self.driver.numberOfSpectrumValues / 6;
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
 
     for (NSInteger maxix = 0; maxix < 6; ++maxix) {
@@ -74,9 +76,9 @@
       CGFloat average = 0;
       for (NSInteger ix = maxix * chunkSize; ix < (maxix + 1) * chunkSize; ++ix) {
         if (maxix == 0) {
-          average += spectrum[ix] / 0.01;
+          average += self.driver.spectrum[ix] / 0.01;
         } else {
-          average += spectrum[ix] / 0.004;
+          average += self.driver.spectrum[ix] / 0.004;
         }
       }
       average /= (CGFloat)chunkSize;

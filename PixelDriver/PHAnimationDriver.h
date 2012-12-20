@@ -15,13 +15,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
 
-@interface PHAnimation : NSObject
+@interface PHAnimationDriver : NSObject
 
-@property (nonatomic, strong) PHAnimationDriver* driver;
-
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+// Raw values
+@property (nonatomic, assign) float* spectrum;
+@property (nonatomic, assign) NSInteger numberOfSpectrumValues;
 
 @end

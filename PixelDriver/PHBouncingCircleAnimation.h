@@ -17,5 +17,5 @@
 #import <Foundation/Foundation.h>
 #import "PHAnimation.h"
 
-@interface PHBouncingCircleAnimation : NSObject <PHAnimation>
+@interface PHBouncingCircleAnimation : PHAnimation
 @end

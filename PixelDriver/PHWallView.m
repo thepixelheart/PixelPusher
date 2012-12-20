@@ -34,7 +34,7 @@ const NSInteger kPixelSize = 16;
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
-  id<PHAnimation> _animation;
+  PHAnimation* _animation;
 }
 
 - (void)dealloc {
@@ -63,29 +63,38 @@ const NSInteger kPixelSize = 16;
 
 #pragma mark - Rendering
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (void)renderBitmapInContext:(CGContextRef)cx
+                         size:(CGSize)size
+                     spectrum:(float *)spectrum
+       numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
   if (nil == colorSpace) {
     return;
   }
-  CGContextRef wallContext = CGBitmapContextCreate(NULL,
-                                                   wallSize.width,
-                                                   wallSize.height,
-                                                   32,
-                                                   0,
-                                                   colorSpace,
-                                                   kCGImageAlphaPremultipliedLast|kCGBitmapByteOrder32Host|kCGBitmapFloatComponents);
+  CGContextRef wallContext =
+  CGBitmapContextCreate(NULL,
+                        wallSize.width,
+                        wallSize.height,
+                        32,
+                        0,
+                        colorSpace,
+                        kCGImageAlphaPremultipliedLast
+                        | kCGBitmapByteOrder32Host // Necessary for intel macs.
+                        | kCGBitmapFloatComponents);
   CGColorSpaceRelease(colorSpace);
   if (nil == wallContext) {
     return;
   }
 
+  PHAnimationDriver* driver = [[PHAnimationDriver alloc] init];
+  driver.spectrum = spectrum;
+  driver.numberOfSpectrumValues = numberOfSpectrumValues;
+
+  _animation.driver = driver;
   [_animation renderBitmapInContext:wallContext
-                               size:wallSize
-                           spectrum:spectrum
-             numberOfSpectrumValues:numberOfSpectrumValues];
+                               size:wallSize];
 
   [PHApp().driver queueContext:wallContext];
 
