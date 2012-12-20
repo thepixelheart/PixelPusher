@@ -30,10 +30,10 @@ AppDelegate *PHApp() {
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
-  PHLaunchpadMIDIDriver* _midiDriver;
 }
 
 @synthesize audioRecorder = _audioRecorder;
+@synthesize midiDriver = _midiDriver;
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   [self.window setAcceptsMouseMovedEvents:YES];
@@ -58,7 +58,7 @@ AppDelegate *PHApp() {
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];
   _usbNotifier = [[PHUSBNotifier alloc] init];
-  _midiDriver = [[PHLaunchpadMIDIDriver alloc] init];
+  [self midiDriver];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -75,6 +75,13 @@ AppDelegate *PHApp() {
     _audioRecorder = [[PHFMODRecorder alloc] init];
   }
   return _audioRecorder;
+}
+
+- (PHLaunchpadMIDIDriver *)midiDriver {
+  if (nil == _midiDriver) {
+    _midiDriver = [[PHLaunchpadMIDIDriver alloc] init];
+  }
+  return _midiDriver;
 }
 
 @end

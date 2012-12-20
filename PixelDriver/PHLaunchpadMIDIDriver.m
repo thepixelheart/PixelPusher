@@ -311,20 +311,15 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
           event = PHLaunchpadEventTopButtonState;
           buttonIndex = keyValue - 0x68;
 
-          [self setTopButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorRedDim atIndex:buttonIndex];
         } else {
           event = PHLaunchpadEventRightButtonState;
           buttonIndex = ((keyValue & 0xF0) >> 4) & 0x0F;
-
-          [self setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim atIndex:buttonIndex];
         }
       } else {
         event = PHLaunchpadEventGridButtonState;
         int x = keyValue & 0x0F;
         int y = ((keyValue & 0xF0) >> 4) & 0x0F;
         buttonIndex = x + y * 8;
-
-        [self setButtonColor:pressed ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim atX:x y:y];
       }
       NSDictionary* userInfo =
       @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
@@ -366,6 +361,16 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   lightMessage.data2 = PHLaunchpadColorToByte[color];
   dispatch_async(dispatch_get_main_queue(), ^{
     [self sendMessage:lightMessage];
+  });
+}
+
+- (void)reset {
+  PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
+                                                         channel:0];
+  message.data1 = 0;
+  message.data2 = 0;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:message];
   });
 }
 

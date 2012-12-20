@@ -16,7 +16,9 @@
 
 #import "PHBouncingCircleAnimation.h"
 
+#import "AppDelegate.h"
 #import "PHDriver.h"
+#import "PHLaunchpadMIDIDriver.h"
 
 @implementation PHBouncingCircleAnimation {
   CGFloat _maxes[6];
@@ -24,11 +26,41 @@
   CGFloat _totalMax;
 }
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (id)init {
   if ((self = [super init])) {
     memset(_maxes, 0, sizeof(CGFloat) * 6);
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(launchpadStateDidChange:) name:PHLaunchpadDidReceiveStateChangeNotification object:nil];
   }
   return self;
+}
+
+- (void)launchpadStateDidChange:(NSNotification *)notification {
+  PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
+  NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
+  BOOL pressed = [[notification.userInfo objectForKey:PHLaunchpadButtonPressedUserInfoKey] boolValue];
+
+  switch (event) {
+    case PHLaunchpadEventRightButtonState:
+      if (buttonIndex == 7) {
+        PHLaunchpadMIDIDriver* midi = PHApp().midiDriver;
+        if (pressed) {
+          [midi reset];
+        }
+        [midi setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atIndex:buttonIndex];
+        for (NSInteger ix = 0; ix < 8; ++ix) {
+          [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:7];
+        }
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {

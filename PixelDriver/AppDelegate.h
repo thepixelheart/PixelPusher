@@ -19,6 +19,7 @@
 @class PHDriver;
 @class PHFMODRecorder;
 @class AppDelegate;
+@class PHLaunchpadMIDIDriver;
 
 AppDelegate *PHApp();
 
@@ -27,5 +28,6 @@ AppDelegate *PHApp();
 @property (assign) IBOutlet NSWindow *window;
 @property (strong, readonly) PHDriver *driver;
 @property (strong, readonly) PHFMODRecorder *audioRecorder;
+@property (strong, readonly) PHLaunchpadMIDIDriver* midiDriver;
 
 @end

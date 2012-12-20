@@ -78,6 +78,7 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 
 @interface PHLaunchpadMIDIDriver : NSObject
 
+- (void)reset;
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 - (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
