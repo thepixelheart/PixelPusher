@@ -16,14 +16,24 @@
 
 #import "PHAnimationDriver.h"
 
-static const NSRange kSubBassRange = {0, 100};
-static const NSRange khihatRange = {11500, 14000 - 11500};
-static const NSRange kVocalRange = {300, 3400 - 300};
+// Breakdown of electronic music frequencies
+// http://howtomakeelectronicmusic.com/wp-content/uploads/2011/07/FM_clubmix_dsktp.jpg
+typedef struct {
+  float start;
+  float end;
+  float center;
+} PHFrequencyRange;
+
+static const PHFrequencyRange kSubBassRange = {0, 100, -1};
+static const PHFrequencyRange kHihatRange = {11500, 14000, -1};
+static const PHFrequencyRange kVocalRange = {300, 3400, -1};
+static const PHFrequencyRange kSnareRange = {500, 6000, 1000};
 
 @implementation PHAnimationDriver {
   CGFloat _subBassScale;
   CGFloat _hihatScale;
   CGFloat _vocalScale;
+  CGFloat _snareScale;
 }
 
 - (id)init {
@@ -31,19 +41,31 @@ static const NSRange kVocalRange = {300, 3400 - 300};
     _subBassScale = 50;
     _hihatScale = 1200;
     _vocalScale = 400;
+    _snareScale = 400;
   }
   return self;
 }
 
-- (float)amplitudeOfSpectrumWithRange:(NSRange)range scale:(CGFloat *)scale {
+- (float)amplitudeOfSpectrumWithRange:(PHFrequencyRange)range scale:(CGFloat *)scale {
   float nyquist = 44100 / 2;
   float bandHz = nyquist / (float)_numberOfSpectrumValues;
 
   float amplitude = 0;
-  NSInteger start = range.location / bandHz;
-  NSInteger end = NSMaxRange(range) / bandHz;
+  NSInteger start = range.start / bandHz;
+  NSInteger end = range.end / bandHz;
   for (NSInteger ix = start; ix < end; ++ix) {
     float decibels = log10f(_spectrum[ix] + 1.0f) * (*scale);
+    if (range.center >= 0) {
+      float hz = (float)ix * bandHz;
+      float distanceRatio;
+      if (hz < range.center) {
+        distanceRatio = (hz - range.start) / (range.center - range.start);
+      } else {
+        distanceRatio = (range.end - hz) / (range.end - range.center);
+      }
+      float scale = sinf((distanceRatio - 0.5) * M_PI) / 2.f + 0.5f;
+      decibels *= scale;
+    }
     amplitude += decibels;
   }
   amplitude /= (float)(end - start);
@@ -59,8 +81,9 @@ static const NSRange kVocalRange = {300, 3400 - 300};
   _numberOfSpectrumValues = numberOfValues;
 
   _subBassAmplitude = [self amplitudeOfSpectrumWithRange:kSubBassRange scale:&_subBassScale];
-  _hihatAmplitude = [self amplitudeOfSpectrumWithRange:khihatRange scale:&_hihatScale];
+  _hihatAmplitude = [self amplitudeOfSpectrumWithRange:kHihatRange scale:&_hihatScale];
   _vocalAmplitude = [self amplitudeOfSpectrumWithRange:kVocalRange scale:&_vocalScale];
+  _snareAmplitude = [self amplitudeOfSpectrumWithRange:kSnareRange scale:&_snareScale];
 }
 
 @end

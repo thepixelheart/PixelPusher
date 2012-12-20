@@ -26,6 +26,7 @@
 @property (nonatomic, readonly) CGFloat subBassAmplitude;
 @property (nonatomic, readonly) CGFloat hihatAmplitude;
 @property (nonatomic, readonly) CGFloat vocalAmplitude;
+@property (nonatomic, readonly) CGFloat snareAmplitude;
 
 @end
 

@@ -19,7 +19,7 @@
 #import "AppDelegate.h"
 #import "PHDriver.h"
 
-#define NHISTOGRAMS 3
+#define NHISTOGRAMS 4
 
 @implementation PHBouncingCircleAnimation {
   CGFloat _maxes[8];
@@ -49,6 +49,8 @@
         color = [NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1];
       } else if (ix == 2) {
         color = [NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1];
+      } else if (ix == 3) {
+        color = [NSColor colorWithDeviceRed:1 green:0 blue:1 alpha:1];
       }
 
       // Shift all values back.
@@ -65,6 +67,11 @@
         amplitude = self.driver.hihatAmplitude;
       } else if (ix == 2) {
         amplitude = self.driver.vocalAmplitude;
+      } else if (ix == 3) {
+        amplitude = self.driver.snareAmplitude;
+      }
+      if (amplitude == 0) {
+        NSLog(@"%f", amplitude);
       }
       _histograms[ix * 48 + 47] = amplitude;
       CGContextSetFillColorWithColor(cx, color.CGColor);
