@@ -29,6 +29,7 @@
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
 		66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
+		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -92,6 +93,8 @@
 		66A8E038167D747400FBAFE8 /* PHLaunchpadMIDIDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadMIDIDriver.h; sourceTree = "<group>"; };
 		66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadMIDIDriver.m; sourceTree = "<group>"; };
 		66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
+		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -152,6 +155,8 @@
 				668520E9168290B90063A95A /* PHAnimation.m */,
 				662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */,
 				662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */,
+				66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */,
+				66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -465,6 +470,7 @@
 				662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */,
 				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
 				668520EE168292200063A95A /* PHAnimationDriver.m in Sources */,
+				66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

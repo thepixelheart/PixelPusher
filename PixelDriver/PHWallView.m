@@ -28,9 +28,10 @@
 // Animations
 #import "PHAnimation.h"
 #import "PHBouncingCircleAnimation.h"
+#import "PHBassPlate.h"
 
 const NSInteger kPixelBorderSize = 1;
-const NSInteger kPixelSize = 16;
+const NSInteger kPixelSize = 8;
 
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
@@ -46,7 +47,7 @@ const NSInteger kPixelSize = 16;
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  _animation = [[PHBouncingCircleAnimation alloc] init];
+  _animation = [[PHBassPlate alloc] init];
   _driver = [[PHAnimationDriver alloc] init];
 
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
@@ -125,6 +126,7 @@ const NSInteger kPixelSize = 16;
   [_driver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
 
   _animation.driver = _driver;
+  CGContextClearRect(wallContext, CGRectMake(0, 0, wallSize.width, wallSize.height));
   [_animation renderBitmapInContext:wallContext
                                size:wallSize];
 

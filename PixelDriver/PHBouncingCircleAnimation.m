@@ -70,9 +70,6 @@
       } else if (ix == 3) {
         amplitude = self.driver.snareAmplitude;
       }
-      if (amplitude == 0) {
-        NSLog(@"%f", amplitude);
-      }
       _histograms[ix * 48 + 47] = amplitude;
       CGContextSetFillColorWithColor(cx, color.CGColor);
       for (NSInteger col = 0; col < kWallWidth; ++col) {

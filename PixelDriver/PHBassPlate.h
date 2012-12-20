@@ -14,15 +14,8 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
-#import "PHDriver.h"
+#import "PHAnimation.h"
 
-@interface PHAnimation : NSObject
-
-@property (nonatomic, strong) PHAnimationDriver* driver;
-
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+@interface PHBassPlate : PHAnimation
 
 @end

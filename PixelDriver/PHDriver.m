@@ -81,9 +81,12 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
         float redFloat = data[offset];
         float greenFloat = data[offset + 1];
         float blueFloat = data[offset + 2];
-        uint32_t red = MAX(0, MIN(255, (uint32_t)roundf(redFloat * 255.f)));
-        uint32_t green = MAX(0, MIN(255, (uint32_t)roundf(greenFloat * 255.f)));
-        uint32_t blue = MAX(0, MIN(255, (uint32_t)roundf(blueFloat * 255.f)));
+        int red = (int)roundf(redFloat * 255.f);
+        int green = (int)roundf(greenFloat * 255.f);
+        int blue = (int)roundf(blueFloat * 255.f);
+        red = MAX(0, MIN(255, red));
+        green = MAX(0, MIN(255, green));
+        blue = MAX(0, MIN(255, blue));
         pixelBuffer[pixelIndex] = TCrgb(red, green, blue);
       }
     }
@@ -206,6 +209,8 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   TCsetStrandPin(3, TC_FTDI_DTR);
   TCsetStrandPin(4, TC_FTDI_DCD);
   TCsetStrandPin(5, TC_FTDI_DSR);
+
+  TCsetGammaSimple(1);
 
   TCinitStats(&_stats);
 
