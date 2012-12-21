@@ -45,6 +45,8 @@ AppDelegate *PHApp() {
   NSMutableArray* _animations;
   NSMutableArray* _previewAnimations;
   NSInteger _activeAnimationIndex;
+
+  BOOL _instantCrossfade;
   PHLaunchpadMode _launchpadMode;
 
   NSInteger _previousAnimationIndex;
@@ -123,8 +125,6 @@ AppDelegate *PHApp() {
   _previewAnimations = [self createAnimations];
   _activeAnimationIndex = 0;
   _previousAnimationIndex = -1;
-
-  [self updateLaunchpad];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -151,6 +151,14 @@ AppDelegate *PHApp() {
   return _midiDriver;
 }
 
+- (void)commitTransitionAnimation {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setButtonColor:PHLaunchpadColorGreenDim atButtonIndex:_previousAnimationIndex];
+  [launchpad setButtonColor:PHLaunchpadColorGreenBright atButtonIndex:_activeAnimationIndex];
+
+  _previousAnimationIndex = -1;
+}
+
 - (void)displayLinkDidFire:(NSNotification *)notification {
   float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
   NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
@@ -159,11 +167,7 @@ AppDelegate *PHApp() {
   if (_previousAnimationIndex >= 0) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
     if (delta >= kCrossFadeDuration) {
-      PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-      [launchpad setButtonColor:PHLaunchpadColorGreenDim atButtonIndex:_previousAnimationIndex];
-      [launchpad setButtonColor:PHLaunchpadColorGreenBright atButtonIndex:_activeAnimationIndex];
-
-      _previousAnimationIndex = -1;
+      [self commitTransitionAnimation];
     }
   }
 }
@@ -192,6 +196,9 @@ AppDelegate *PHApp() {
 
   if (_launchpadMode != PHLaunchpadModeTest) {
     [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonArm];
+  }
+  if (_instantCrossfade) {
+    [launchpad setTopButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadTopButtonSession];
   }
 
   switch (_launchpadMode) {
@@ -238,16 +245,32 @@ AppDelegate *PHApp() {
           [_previewAnimations replaceObjectAtIndex:_activeAnimationIndex withObject:[_animations objectAtIndex:_activeAnimationIndex]];
           [_animations replaceObjectAtIndex:_activeAnimationIndex withObject:animation];
 
-          [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
+          if (_instantCrossfade) {
+            [self commitTransitionAnimation];
+          } else {
+            [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
+          }
         }
 
       } else if (buttonIndex >= _animations.count) {
         [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atButtonIndex:buttonIndex];
       }
       break;
+
     case PHLaunchpadEventRightButtonState:
       if (pressed && buttonIndex == PHLaunchpadSideButtonArm) {
         [self toggleLaunchpadMode:PHLaunchpadModeTest];
+      }
+      break;
+
+    case PHLaunchpadEventTopButtonState:
+      if (pressed && buttonIndex == PHLaunchpadTopButtonSession) {
+        _instantCrossfade = !_instantCrossfade;
+        if (_previousAnimationIndex >= 0) {
+          [self commitTransitionAnimation];
+        }
+        [launchpad setTopButtonColor:_instantCrossfade ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
+                             atIndex:buttonIndex];
       }
       break;
     default:

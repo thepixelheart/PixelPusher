@@ -361,7 +361,16 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y {
-  [self setButtonColor:color atButtonIndex:PHBUTTONINDEXFROMGRIDXY(x, y)];
+  if ([self isFlashingColor:color]) {
+    _anyFlashers = YES;
+  }
+  PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
+                                                              channel:0];
+  lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
+  lightMessage.data2 = PHLaunchpadColorToByte[color];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:lightMessage];
+  });
 }
 
 - (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex {
@@ -370,7 +379,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   }
   PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
                                                               channel:0];
-  lightMessage.data1 = buttonIndex;
+  lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(buttonIndex % 8, buttonIndex / 8);
   lightMessage.data2 = PHLaunchpadColorToByte[color];
   dispatch_async(dispatch_get_main_queue(), ^{
     [self sendMessage:lightMessage];
