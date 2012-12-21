@@ -22,12 +22,14 @@
 @class PHFMODRecorder;
 @class AppDelegate;
 @class PHLaunchpadMIDIDriver;
+@class PHWallWindow;
 
 AppDelegate *PHApp();
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow* window;
+@property (assign) IBOutlet PHWallWindow* window;
+@property (assign) IBOutlet PHWallWindow* previewWindow;
 @property (strong, readonly) PHDriver* driver;
 @property (strong, readonly) PHAnimationDriver* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;
@@ -38,5 +40,6 @@ AppDelegate *PHApp();
 
 // Must be released.
 - (CGContextRef)currentWallContext;
+- (CGContextRef)previewWallContext;
 
 @end

@@ -43,6 +43,7 @@ AppDelegate *PHApp() {
   PHUSBNotifier* _usbNotifier;
 
   NSArray* _animations;
+  NSArray* _previewAnimations;
   NSInteger _activeAnimationIndex;
   PHLaunchpadMode _launchpadMode;
 
@@ -52,6 +53,41 @@ AppDelegate *PHApp() {
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
+
+- (void)prepareWindow:(PHWallWindow *)window {
+  [window setAcceptsMouseMovedEvents:YES];
+  [window setMovableByWindowBackground:YES];
+
+  NSRect frame = self.window.frame;
+
+  CGFloat midX = NSMidX(frame);
+  CGFloat midY = NSMidY(frame);
+
+  frame.size.width = kWallWidth * window.wallView.pixelSize + (kWallWidth + 1) * kPixelBorderSize;
+  frame.size.height = kWallHeight * window.wallView.pixelSize + (kWallHeight + 1) * kPixelBorderSize;
+  [window setMaxSize:frame.size];
+  [window setMinSize:frame.size];
+
+  [window setFrame:NSMakeRect(floorf(midX - frame.size.width * 0.5f),
+                              floorf(midY - frame.size.height * 0.5f),
+                              frame.size.width,
+                              frame.size.height)
+                display:YES];
+}
+
+- (NSArray *)createAnimations {
+  NSArray* animations = @[
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  ];
+
+  for (PHAnimation* animation in animations) {
+    animation.driver = _animationDriver;
+  }
+
+  return animations;
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -68,24 +104,12 @@ AppDelegate *PHApp() {
              name:PHDisplayLinkFiredNotification
            object:nil];
 
-  [self.window setAcceptsMouseMovedEvents:YES];
-  [self.window setMovableByWindowBackground:YES];
+  self.window.wallView.pixelSize = 16;
+  [self prepareWindow:self.window];
+  self.previewWindow.wallView.pixelSize = 8;
+  [self prepareWindow:self.previewWindow];
 
-  NSRect frame = self.window.frame;
-
-  CGFloat midX = NSMidX(frame);
-  CGFloat midY = NSMidY(frame);
-
-  frame.size.width = kWallWidth * kPixelSize + (kWallWidth + 1) * kPixelBorderSize;
-  frame.size.height = kWallHeight * kPixelSize + (kWallHeight + 1) * kPixelBorderSize;
-  [self.window setMaxSize:frame.size];
-  [self.window setMinSize:frame.size];
-
-  [self.window setFrame:NSMakeRect(floorf(midX - frame.size.width * 0.5f),
-                                   floorf(midY - frame.size.height * 0.5f),
-                                   frame.size.width,
-                                   frame.size.height)
-                display:YES];
+  self.window.wallView.primary = YES;
 
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];
@@ -94,21 +118,13 @@ AppDelegate *PHApp() {
 
   _launchpadMode = PHLaunchpadModeAnimations;
 
-  _animations = @[
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  ];
+  _animationDriver = [[PHAnimationDriver alloc] init];
+  _animations = [self createAnimations];
+  _previewAnimations = [self createAnimations];
   _activeAnimationIndex = 0;
   _previousAnimationIndex = -1;
 
   [self updateLaunchpad];
-
-  _animationDriver = [[PHAnimationDriver alloc] init];
-
-  for (PHAnimation* animation in _animations) {
-    animation.driver = _animationDriver;
-  }
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -250,6 +266,14 @@ AppDelegate *PHApp() {
   }
 }
 
+- (PHAnimation *)activePreviewAnimation {
+  if (_activeAnimationIndex >= 0 && _activeAnimationIndex < _animations.count) {
+    return [_previewAnimations objectAtIndex:_activeAnimationIndex];
+  } else {
+    return nil;
+  }
+}
+
 - (CGContextRef)createWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
@@ -290,8 +314,8 @@ AppDelegate *PHApp() {
   CGContextRef wallContext = [self createWallContext];
   CGContextClearRect(wallContext, wallFrame);
 
-  PHAnimation* previousAnimation = PHApp().previousAnimation;
-  PHAnimation* activeAnimation = PHApp().activeAnimation;
+  PHAnimation* previousAnimation = [self previousAnimation];
+  PHAnimation* activeAnimation = [self activeAnimation];
   if (nil != previousAnimation) {
     CGContextRef previousContext = [self createWallContext];
     CGContextRef activeContext = [self createWallContext];
@@ -319,6 +343,19 @@ AppDelegate *PHApp() {
   } else {
     [activeAnimation renderBitmapInContext:wallContext size:wallSize];
   }
+
+  return wallContext;
+}
+
+- (CGContextRef)previewWallContext {
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  CGRect wallFrame = CGRectMake(0, 0, wallSize.width, wallSize.height);
+
+  CGContextRef wallContext = [self createWallContext];
+  CGContextClearRect(wallContext, wallFrame);
+
+  PHAnimation* activeAnimation = [self activePreviewAnimation];
+  [activeAnimation renderBitmapInContext:wallContext size:wallSize];
 
   return wallContext;
 }
