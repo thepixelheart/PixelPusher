@@ -41,6 +41,8 @@ This will allow you to route sound through the driver.
 
 #### Listening to audio in the PixelDriver
 
+[![](https://raw.github.com/ThePixelHeart/PixelDriver/master/pixeldriverinfopanel.png)](https://raw.github.com/ThePixelHeart/PixelDriver/master/pixeldriverinfopanel.png)
+
 - Once your audio is being sent through Soundflower, run the PixelDriver.
 - Select "Soundflower (2ch)" in the top dropdown box of the info page.
 - Select "Built-in Output" to have the audio play through your speakers.
