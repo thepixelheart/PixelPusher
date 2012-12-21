@@ -21,6 +21,9 @@
 
 @interface PHAnimation : NSObject
 
+// Convenience method
++ (id)animation;
+
 @property (nonatomic, strong) PHAnimationDriver* driver;
 
 // Subclassing.

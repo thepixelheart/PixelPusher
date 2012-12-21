@@ -34,11 +34,19 @@
 const NSInteger kPixelBorderSize = 1;
 const NSInteger kPixelSize = 8;
 
+typedef enum {
+  PHLaunchpadModeAnimations,
+  PHLaunchpadModeTest,
+} PHLaunchpadMode;
+
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
   PHAnimation* _animation;
   PHAnimationDriver* _driver;
+
+  NSArray* _animations;
+  PHLaunchpadMode _launchpadMode;
 }
 
 - (void)dealloc {
@@ -47,6 +55,16 @@ const NSInteger kPixelSize = 8;
 
 - (void)awakeFromNib {
   [super awakeFromNib];
+
+  _launchpadMode = PHLaunchpadModeAnimations;
+
+  _animations = @[
+    [PHBasicSpectrumAnimation animation],
+    [PHBassPlate animation],
+    [PHBouncingCircleAnimation animation],
+  ];
+
+  [self animationLaunchpadMode];
 
   _animation = [[PHBasicSpectrumAnimation alloc] init];
   _driver = [[PHAnimationDriver alloc] init];
@@ -71,28 +89,60 @@ const NSInteger kPixelSize = 8;
            object:nil];
 }
 
+- (void)animationLaunchpadMode {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+
+  [launchpad reset];
+  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+    NSInteger x = PHGRIDXFROMBUTTONINDEX(ix);
+    NSInteger y = PHGRIDYFROMBUTTONINDEX(ix);
+    [launchpad setButtonColor:PHLaunchpadColorGreenDim atX:x y:y];
+  }
+}
+
+- (void)testLaunchpadMode {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+
+  [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonArm];
+}
+
+- (void)toggleLaunchpadMode:(PHLaunchpadMode)mode {
+  if (_launchpadMode == mode) {
+    _launchpadMode = PHLaunchpadModeAnimations;
+  } else {
+    _launchpadMode = mode;
+  }
+
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad reset];
+
+  switch (_launchpadMode) {
+    case PHLaunchpadModeAnimations: {
+      [self animationLaunchpadMode];
+      break;
+    }
+    case PHLaunchpadModeTest: {
+      [self testLaunchpadMode];
+      break;
+    }
+  }
+}
+
 - (void)launchpadStateDidChange:(NSNotification *)notification {
   PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
   NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
   BOOL pressed = [[notification.userInfo objectForKey:PHLaunchpadButtonPressedUserInfoKey] boolValue];
 
-  switch (event) {
-    case PHLaunchpadEventRightButtonState:
-      if (buttonIndex == PHLaunchpadSideButtonArm) {
-        PHLaunchpadMIDIDriver* midi = PHApp().midiDriver;
-        if (pressed) {
-          [midi reset];
+  if (pressed) {
+    switch (event) {
+      case PHLaunchpadEventRightButtonState:
+        if (buttonIndex == PHLaunchpadSideButtonArm) {
+          [self toggleLaunchpadMode:PHLaunchpadModeTest];
         }
-        [midi setRightButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atIndex:buttonIndex];
-        for (NSInteger iy = 0; iy < 8; ++iy) {
-          for (NSInteger ix = 0; ix < 8; ++ix) {
-            [midi setButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff atX:ix y:iy];
-          }
-        }
-      }
-      break;
-    default:
-      break;
+        break;
+      default:
+        break;
+    }
   }
 }
 

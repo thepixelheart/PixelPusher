@@ -18,6 +18,10 @@
 
 @implementation PHAnimation
 
++ (id)animation {
+  return [[self alloc] init];
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   // No-op.
 }
