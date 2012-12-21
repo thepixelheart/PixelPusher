@@ -98,7 +98,7 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 - (NSString *)description {
   return [NSString stringWithFormat:
-          @"<%@: 0x%X : %d : 0x%X : 0x%X : %ld>",
+          @"<%@: 0x%X : %d : 0x%X : 0x%X>",
           [super description],
           _status,
           _channel,
