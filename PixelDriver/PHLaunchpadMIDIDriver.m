@@ -310,8 +310,10 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       }
     }
 
-    PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_launchpadDestinationRef message:message];
-    [_sendQueue addOperation:op];
+    if (_launchpadDestinationRef) {
+      PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_launchpadDestinationRef message:message];
+      [_sendQueue addOperation:op];
+    }
   }
 }
 
