@@ -30,6 +30,6 @@ typedef void (^PHBitmapRenderBlock)(CGContextRef context, CGSize size);
 
 @protocol PHBitmapReceiver <NSObject>
 
-- (void)bitmapDidFinishRendering:(NSImage *)image;
+- (void)bitmapDidFinishRendering:(CGImageRef)imageRef;
 
 @end

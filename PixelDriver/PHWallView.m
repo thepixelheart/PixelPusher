@@ -59,14 +59,14 @@ const NSInteger kPixelBorderSize = 1;
                          size:(CGSize)size
                      spectrum:(float *)spectrum
        numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
-  [[NSColor blackColor] set];
+  CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);
 
   if (PHApp().driver.isConnected || !_primary) {
-    [[NSColor colorWithDeviceRed:32.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
+    CGContextSetRGBFillColor(cx, 32.f / 255.f, 32.f / 255.f, 32.f / 255.f, 1);
   } else {
-    [[NSColor colorWithDeviceRed:64.f / 255.f green:32.f / 255.f blue:32.f / 255.f alpha:1] set];
+    CGContextSetRGBFillColor(cx, 64.f / 255.f, 64.f / 255.f, 64.f / 255.f, 1);
   }
   CGRect frame = CGRectMake(0, 0, kPixelBorderSize, size.height);
   for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {

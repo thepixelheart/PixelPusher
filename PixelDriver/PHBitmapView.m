@@ -24,10 +24,13 @@
 
 @implementation PHBitmapView {
   PHBitmapPipeline* _pipeline;
-  NSImage* _renderedImage;
+  CGImageRef _renderedImage;
 }
 
 - (void)dealloc {
+  if (nil != _renderedImage) {
+    CGImageRelease(_renderedImage);
+  }
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -52,7 +55,11 @@
   CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
-  [_renderedImage drawAtPoint:CGPointZero fromRect:CGRectZero operation:NSCompositeCopy fraction:1];
+  if (nil != _renderedImage) {
+    CGContextDrawImage(cx, CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height), _renderedImage);
+    CGImageRelease(_renderedImage);
+    _renderedImage = nil;
+  }
 }
 
 - (void)queueBitmapWithSpectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
@@ -63,9 +70,13 @@
 
 #pragma mark - PHBitmapReceiver
 
-- (void)bitmapDidFinishRendering:(NSImage *)image {
-  if (nil != image) {
-    _renderedImage = image;
+- (void)bitmapDidFinishRendering:(CGImageRef)imageRef {
+  if (nil != imageRef) {
+    if (nil != _renderedImage) {
+      CGImageRelease(_renderedImage);
+    }
+    CGImageRetain(imageRef);
+    _renderedImage = imageRef;
     [self setNeedsDisplay:YES];
   }
 }

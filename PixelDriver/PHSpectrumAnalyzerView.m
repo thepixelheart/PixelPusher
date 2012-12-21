@@ -25,7 +25,7 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
-  [[NSColor colorWithDeviceRed:(float)0xED / 255.f green:(float)0xED / 255.f blue:(float)0xED / 255.f alpha:1] set];
+  CGContextSetRGBFillColor(cx, (float)0xED / 255.f, (float)0xED / 255.f, (float)0xED / 255.f, 1);
   CGContextFillRect(cx, bounds);
 
   CGFloat max = 0;
@@ -45,11 +45,13 @@
         total += decibels;
       }
       float hz = ((float)ix / size.width) * (float)numberOfSpectrumValues * bandHz;
+      NSColor* color = nil;
       if (hz >= 0 && hz < 100) {
-        [[NSColor redColor] set];
+        color = [NSColor colorWithDeviceRed:1 green:0 blue:1 alpha:1];
       } else {
-        [[NSColor darkGrayColor] set];
+        color = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
       }
+      CGContextSetFillColorWithColor(cx, color.CGColor);
       float average = total / (float)windowSize;
       CGRect rect = CGRectMake(ix, 0, 1, average * self.bounds.size.height);
       CGContextFillRect(cx, rect);

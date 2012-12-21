@@ -18,13 +18,13 @@
 
 @interface PHBitmapRenderOperation : NSOperation
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size;
-- (NSImage *)renderedImage;
+- (CGImageRef)renderedImage;
 @end
 
 @implementation PHBitmapRenderOperation {
   PHBitmapRenderBlock _block;
   CGSize _imageSize;
-  NSImage* _renderedImage;
+  CGImageRef _renderedImage;
 }
 
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size {
@@ -36,18 +36,29 @@
 }
 
 - (void)main {
-  NSImage* image = [[NSImage alloc] initWithSize:_imageSize];
-  [image lockFocus];
-  {
-    CGContextRef cx = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-    _block(cx, _imageSize);
-  }
-  [image unlockFocus];
 
-  _renderedImage = image;
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  if (nil == colorSpace) {
+    return;
+  }
+  CGContextRef cx =
+  CGBitmapContextCreate(NULL,
+                        _imageSize.width,
+                        _imageSize.height,
+                        32,
+                        0,
+                        colorSpace,
+                        kCGImageAlphaPremultipliedLast
+                        | kCGBitmapByteOrder32Host // Necessary for intel macs.
+                        | kCGBitmapFloatComponents);
+  CGColorSpaceRelease(colorSpace);
+
+  _block(cx, _imageSize);
+
+  _renderedImage = CGBitmapContextCreateImage(cx);
 }
 
-- (NSImage *)renderedImage {
+- (CGImageRef)renderedImage {
   return _renderedImage;
 }
 
@@ -80,9 +91,10 @@
       return;
     }
 
-    NSImage* image = weakOp.renderedImage;
+    CGImageRef imageRef = weakOp.renderedImage;
     dispatch_async(dispatch_get_main_queue(), ^{
-      [delegate bitmapDidFinishRendering:image];
+      [delegate bitmapDidFinishRendering:imageRef];
+      CGImageRelease(imageRef);
     });
   };
   [_queue addOperation:op];
