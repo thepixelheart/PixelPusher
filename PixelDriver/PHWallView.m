@@ -42,7 +42,6 @@ typedef enum {
 @implementation PHWallView {
   PHQuartzRenderer *_renderer;
   NSDate* _firstTick;
-  PHAnimation* _animation;
   PHAnimationDriver* _driver;
 
   NSArray* _animations;
@@ -68,8 +67,11 @@ typedef enum {
 
   [self updateLaunchpad];
 
-  _animation = [[PHBasicSpectrumAnimation alloc] init];
   _driver = [[PHAnimationDriver alloc] init];
+
+  for (PHAnimation* animation in _animations) {
+    animation.driver = _driver;
+  }
 
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
@@ -192,10 +194,10 @@ typedef enum {
 
   [_driver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
 
-  _animation.driver = _driver;
   CGContextClearRect(wallContext, CGRectMake(0, 0, wallSize.width, wallSize.height));
-  [_animation renderBitmapInContext:wallContext
-                               size:wallSize];
+  PHAnimation* animation = [_animations objectAtIndex:_activeAnimation];
+  [animation renderBitmapInContext:wallContext
+                              size:wallSize];
 
   [PHApp().driver queueContext:wallContext];
 
