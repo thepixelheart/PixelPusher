@@ -84,14 +84,10 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 @end
 
-@implementation PHMIDIMessage {
-  NSInteger _msgNo;
-}
+@implementation PHMIDIMessage
 
 - (id)initWithStatus:(Byte)status channel:(Byte)channel {
   if ((self = [super init])) {
-    static NSInteger msgNo = 0;
-    _msgNo = ++msgNo;
     _status = status;
     _channel = channel;
     _data1 = -1;
@@ -107,8 +103,7 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
           _status,
           _channel,
           _data1,
-          _data2,
-          _msgNo];
+          _data2];
 }
 
 @end
