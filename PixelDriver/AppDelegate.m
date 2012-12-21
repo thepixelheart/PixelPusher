@@ -42,8 +42,8 @@ AppDelegate *PHApp() {
   PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
 
-  NSArray* _animations;
-  NSArray* _previewAnimations;
+  NSMutableArray* _animations;
+  NSMutableArray* _previewAnimations;
   NSInteger _activeAnimationIndex;
   PHLaunchpadMode _launchpadMode;
 
@@ -75,7 +75,7 @@ AppDelegate *PHApp() {
                 display:YES];
 }
 
-- (NSArray *)createAnimations {
+- (NSMutableArray *)createAnimations {
   NSArray* animations = @[
   [PHBasicSpectrumAnimation animation],
   [PHBassPlate animation],
@@ -86,7 +86,7 @@ AppDelegate *PHApp() {
     animation.driver = _animationDriver;
   }
 
-  return animations;
+  return [animations mutableCopy];
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
@@ -129,6 +129,7 @@ AppDelegate *PHApp() {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
   [self.window performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
+  [self.previewWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.window center];
 }
 
@@ -232,6 +233,10 @@ AppDelegate *PHApp() {
           _previousAnimationIndex = _activeAnimationIndex;
           _crossFadeStartTime = [NSDate timeIntervalSinceReferenceDate];
           _activeAnimationIndex = buttonIndex;
+
+          PHAnimation* animation = [_previewAnimations objectAtIndex:_activeAnimationIndex];
+          [_previewAnimations replaceObjectAtIndex:_activeAnimationIndex withObject:[_animations objectAtIndex:_activeAnimationIndex]];
+          [_animations replaceObjectAtIndex:_activeAnimationIndex withObject:animation];
 
           [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
         }
