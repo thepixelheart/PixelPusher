@@ -175,7 +175,7 @@ AppDelegate *PHApp() {
              name:PHDisplayLinkFiredNotification
            object:nil];
 
-  self.window.wallView.pixelSize = 10;
+  self.window.wallView.pixelSize = 16;
   [self prepareWindow:self.window];
   self.previewWindow.wallView.pixelSize = 8;
   [self prepareWindow:self.previewWindow];

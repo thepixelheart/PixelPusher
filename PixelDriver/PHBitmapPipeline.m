@@ -36,7 +36,6 @@
 }
 
 - (void)main {
-
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
   if (nil == colorSpace) {
     return;
@@ -45,12 +44,10 @@
   CGBitmapContextCreate(NULL,
                         _imageSize.width,
                         _imageSize.height,
-                        32,
+                        8,
                         0,
                         colorSpace,
-                        kCGImageAlphaPremultipliedLast
-                        | kCGBitmapByteOrder32Host // Necessary for intel macs.
-                        | kCGBitmapFloatComponents);
+                        kCGImageAlphaPremultipliedLast);
   CGColorSpaceRelease(colorSpace);
 
   _block(cx, _imageSize);
