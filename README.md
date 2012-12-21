@@ -47,3 +47,54 @@ This will allow you to route sound through the driver.
 - Select "Soundflower (2ch)" in the top dropdown box of the info page.
 - Select "Built-in Output" to have the audio play through your speakers.
 - Click the "Start Listening" button and then adjust the audio levels accordingly.
+
+Writing Animations
+------------------
+
+Start by creating an animation class:
+
+```obj-c
+#import "PHAnimation.h"
+
+@interface PHBasicSpectrumAnimation : PHAnimation
+@end
+```
+
+```obj-c
+#import "PHBasicSpectrumAnimation.h"
+
+@implementation PHBasicSpectrumAnimation {
+  PHDegrader* _bassDegrader;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _bassDegrader = [[PHDegrader alloc] init];
+  }
+  return self;
+}
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  if (self.driver.spectrum) {
+    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
+
+    CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
+    CGContextFillRect(cx, CGRectMake(0, 0, _bassDegrader.value * size.width, kWallHeight));
+  }
+}
+
+@end
+```
+
+Next open the PHWallView class and find the line where `_animation` is being set. Change the class that's
+being instantiated to the one you've just created.
+
+```obj-c
+_animation = [[PHBasicSpectrumAnimation alloc] init];
+```
+
+You also need to import the class header.
+
+```obj-c
+#import "PHBasicSpectrumAnimation.h"
+````
