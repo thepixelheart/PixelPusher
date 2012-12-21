@@ -249,11 +249,10 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       continue;
     }
     NSString* endpointName = (__bridge NSString *)endpointNameRef;
-    if (![endpointName isEqualToString:kLaunchpadDeviceName]) {
-      continue;
+    if ([endpointName isEqualToString:kLaunchpadDeviceName]) {
+      _launchpadSourceRef = endpoint;
     }
-
-    _launchpadSourceRef = endpoint;
+    CFRelease(endpointNameRef);
   }
 
   ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
@@ -266,11 +265,10 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       continue;
     }
     NSString* endpointName = (__bridge NSString *)endpointNameRef;
-    if (![endpointName isEqualToString:kLaunchpadDeviceName]) {
-      continue;
+    if ([endpointName isEqualToString:kLaunchpadDeviceName]) {
+      _launchpadDestinationRef = endpoint;
     }
-
-    _launchpadDestinationRef = endpoint;
+    CFRelease(endpointNameRef);
   }
 
   if (_launchpadSourceRef) {
