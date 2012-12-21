@@ -83,6 +83,74 @@ AppDelegate *PHApp() {
   [PHBasicSpectrumAnimation animation],
   [PHBassPlate animation],
   [PHBouncingCircleAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+  [PHBassPlate animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBasicSpectrumAnimation animation],
+
+  [PHBasicSpectrumAnimation animation],
   ];
 
   for (PHAnimation* animation in animations) {
@@ -156,7 +224,6 @@ AppDelegate *PHApp() {
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
   if (_launchpadMode == PHLaunchpadModeAnimations) {
     BOOL isActive = _activeAnimationIndex == buttonIndex;
-    NSLog(@"%ld %ld", _previewAnimationIndex, _activeAnimationIndex);
     return isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
 
   } else if (_launchpadMode == PHLaunchpadModeTest) {
@@ -268,7 +335,10 @@ AppDelegate *PHApp() {
       [self commitTransitionAnimation];
     } else {
       PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-      [launchpad setButtonColor:PHLaunchpadColorAmberDim atButtonIndex:_activeAnimationIndex];
+      [launchpad setButtonColor:((_launchpadMode == PHLaunchpadModeAnimations)
+                                 ? PHLaunchpadColorAmberDim
+                                 : PHLaunchpadColorRedDim)
+                  atButtonIndex:_activeAnimationIndex];
       [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
     }
   }
