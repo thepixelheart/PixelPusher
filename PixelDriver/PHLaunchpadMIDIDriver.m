@@ -324,6 +324,12 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)sendMessage:(PHMIDIMessage *)message {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+     [self sendMessage:message];
+    });
+    return;
+  }
   @synchronized(self) {
     for (PHMIDISenderOperation* op in _sendQueue.operations) {
       if ([op appendedMessageIfInactive:message]) {

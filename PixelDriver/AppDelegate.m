@@ -352,6 +352,8 @@ AppDelegate *PHApp() {
 
 - (void)setPreviewAnimationIndex:(NSInteger)animationIndex {
   if (animationIndex == _activeAnimationIndex) {
+    _previewAnimationIndex = animationIndex;
+    [self testLaunchpadMode];
     return;
   }
   BOOL shouldChange = _previewAnimationIndex == animationIndex;
