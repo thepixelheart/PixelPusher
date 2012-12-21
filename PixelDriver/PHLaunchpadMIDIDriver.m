@@ -16,6 +16,7 @@
 
 #import "PHLaunchpadMIDIDriver.h"
 
+#import "PHDisplayLink.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
@@ -25,6 +26,7 @@ NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey"
 
 const NSInteger PHLaunchpadButtonGridWidth = 8;
 const NSInteger PHLaunchpadButtonGridHeight = 8;
+static const NSTimeInterval kFlashInterval = 0.5;
 
 #define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
 
@@ -158,7 +160,7 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     currentPacket = newPacket;
   }
 
-  NSLog(@"Sent %ld messages", _messages.count);
+  NSLog(@"Sent messages %@", _messages);
 
   err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
   if (err != noErr)  {
@@ -195,9 +197,15 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   MIDIPacketList* _packetList;
 
   NSOperationQueue* _sendQueue;
+  BOOL _bufferFlipper;
+  NSTimeInterval _lastFlashTimestamp;
+  BOOL _flashingOn;
+  BOOL _anyFlashers;
 }
 
 - (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+
   if (_clientRef) {
     MIDIClientDispose(_clientRef);
   }
@@ -229,8 +237,15 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     INITCHECKOSSTATUS(status);
 
     _packetList = (MIDIPacketList *)malloc(1024 * sizeof(char));
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
   }
   return self;
+}
+
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  [self tickFlashers];
 }
 
 - (void)setupDidChange {
@@ -332,7 +347,17 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
 #pragma mark - Public Methods
 
+- (BOOL)isFlashingColor:(PHLaunchpadColor)color {
+  return (color == PHLaunchpadColorAmberFlashing
+          || color == PHLaunchpadColorGreenFlashing
+          || color == PHLaunchpadColorRedFlashing
+          || color == PHLaunchpadColorYellowFlashing);
+}
+
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y {
+  if ([self isFlashingColor:color]) {
+    _anyFlashers = YES;
+  }
   PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
                                                               channel:0];
   lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
@@ -343,6 +368,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
+  if ([self isFlashingColor:color]) {
+    _anyFlashers = YES;
+  }
   PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                               channel:0];
   lightMessage.data1 = (buttonIndex & 0x0F) + 0x68;
@@ -353,6 +381,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
+  if ([self isFlashingColor:color]) {
+    _anyFlashers = YES;
+  }
   PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
                                                               channel:0];
   lightMessage.data1 = ((buttonIndex & 0x0F) << 4) | 0x08;
@@ -362,7 +393,30 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   });
 }
 
+- (void)startDoubleBuffering {
+  _bufferFlipper = YES;
+  PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
+                                                         channel:0];
+  message.data1 = 0;
+  message.data2 = 0x31;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:message];
+  });
+}
+
+- (void)flipBuffer {
+  PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
+                                                         channel:0];
+  message.data1 = 0;
+  message.data2 = _bufferFlipper ? 0x34 : 0x31;
+  _bufferFlipper = !_bufferFlipper;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self sendMessage:message];
+  });
+}
+
 - (void)reset {
+  _anyFlashers = NO;
   PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                          channel:0];
   message.data1 = 0;
@@ -370,6 +424,21 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   dispatch_async(dispatch_get_main_queue(), ^{
     [self sendMessage:message];
   });
+}
+
+- (void)tickFlashers {
+  if (_anyFlashers && (0 == _lastFlashTimestamp || [NSDate timeIntervalSinceReferenceDate] - _lastFlashTimestamp > kFlashInterval)) {
+    PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
+                                                           channel:0];
+    message.data1 = 0;
+    message.data2 = _flashingOn ? 0x20 : 0x21;
+    _flashingOn = !_flashingOn;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self sendMessage:message];
+    });
+
+    _lastFlashTimestamp = [NSDate timeIntervalSinceReferenceDate];
+  }
 }
 
 @end

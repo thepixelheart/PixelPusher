@@ -46,6 +46,7 @@ typedef enum {
   PHAnimationDriver* _driver;
 
   NSArray* _animations;
+  NSInteger _activeAnimation;
   PHLaunchpadMode _launchpadMode;
 }
 
@@ -63,6 +64,11 @@ typedef enum {
     [PHBassPlate animation],
     [PHBouncingCircleAnimation animation],
   ];
+  _activeAnimation = 0;
+
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad reset];
+  [launchpad startDoubleBuffering];
 
   [self animationLaunchpadMode];
 
@@ -92,11 +98,11 @@ typedef enum {
 - (void)animationLaunchpadMode {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  [launchpad reset];
   for (NSInteger ix = 0; ix < _animations.count; ++ix) {
     NSInteger x = PHGRIDXFROMBUTTONINDEX(ix);
     NSInteger y = PHGRIDYFROMBUTTONINDEX(ix);
-    [launchpad setButtonColor:PHLaunchpadColorGreenDim atX:x y:y];
+    BOOL isActive = _activeAnimation == ix;
+    [launchpad setButtonColor:isActive ? PHLaunchpadColorGreenFlashing : PHLaunchpadColorGreenDim atX:x y:y];
   }
 }
 
@@ -126,6 +132,8 @@ typedef enum {
       break;
     }
   }
+
+  //[launchpad flipBuffer];
 }
 
 - (void)launchpadStateDidChange:(NSNotification *)notification {
