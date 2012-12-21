@@ -275,6 +275,9 @@ AppDelegate *PHApp() {
 }
 
 - (void)setPreviewAnimationIndex:(NSInteger)animationIndex {
+  if (animationIndex == _activeAnimationIndex) {
+    return;
+  }
   BOOL shouldChange = _previewAnimationIndex == animationIndex;
   _previewAnimationIndex = animationIndex;
   if (shouldChange) {
