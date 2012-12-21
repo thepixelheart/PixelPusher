@@ -21,6 +21,7 @@
 		6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */; };
 		6637527116843E3C009A2F22 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637527016843E3C009A2F22 /* PHDegrader.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
+		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
 		668520EA168290B90063A95A /* PHAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520E9168290B90063A95A /* PHAnimation.m */; };
 		668520EE168292200063A95A /* PHAnimationDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHAnimationDriver.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
@@ -75,6 +76,8 @@
 		6637527016843E3C009A2F22 /* PHDegrader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegrader.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
 		66753A9A168486220092EDF0 /* PHFireworksAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFireworksAnimation.m; sourceTree = "<group>"; };
+		66753A9D168499010092EDF0 /* PHFlyingFireballAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingFireballAnimation.h; sourceTree = "<group>"; };
+		66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingFireballAnimation.m; sourceTree = "<group>"; };
 		668520E9168290B90063A95A /* PHAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHAnimationDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationDriver.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHAnimationDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationDriver.m; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 				66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */,
 				66753A99168486220092EDF0 /* PHFireworksAnimation.h */,
 				66753A9A168486220092EDF0 /* PHFireworksAnimation.m */,
+				66753A9D168499010092EDF0 /* PHFlyingFireballAnimation.h */,
+				66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -489,6 +494,7 @@
 				6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */,
 				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,
 				66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */,
+				66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
