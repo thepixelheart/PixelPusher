@@ -53,6 +53,7 @@
   _block(cx, _imageSize);
 
   _renderedImage = CGBitmapContextCreateImage(cx);
+  CGContextRelease(cx);
 }
 
 - (CGImageRef)renderedImage {
