@@ -84,23 +84,24 @@ typedef enum {
   [nc addObserver:self selector:@selector(driverConnectionDidChange)
              name:PHDriverConnectionStateDidChangeNotification
            object:nil];
-
-  _firstTick = [NSDate date];
-
   [nc addObserver:self
          selector:@selector(launchpadStateDidChange:)
              name:PHLaunchpadDidReceiveStateChangeNotification
            object:nil];
+  [nc addObserver:self
+         selector:@selector(launchpadDidConnect:)
+             name:PHLaunchpadDidConnectNotification
+           object:nil];
+
+  _firstTick = [NSDate date];
 }
 
 - (void)animationLaunchpadMode {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
   for (NSInteger ix = 0; ix < _animations.count; ++ix) {
-    NSInteger x = PHGRIDXFROMBUTTONINDEX(ix);
-    NSInteger y = PHGRIDYFROMBUTTONINDEX(ix);
     BOOL isActive = _activeAnimation == ix;
-    [launchpad setButtonColor:isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim atX:x y:y];
+    [launchpad setButtonColor:isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim atButtonIndex:ix];
   }
 }
 
@@ -140,6 +141,10 @@ typedef enum {
   [self updateLaunchpad];
 }
 
+- (void)launchpadDidConnect:(NSNotification *)notification {
+  [self updateLaunchpad];
+}
+
 - (void)launchpadStateDidChange:(NSNotification *)notification {
   PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
   NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
@@ -152,7 +157,7 @@ typedef enum {
         _activeAnimation = buttonIndex;
         [self animationLaunchpadMode];
       } else if (buttonIndex >= _animations.count) {
-        [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atX:PHGRIDXFROMBUTTONINDEX(buttonIndex) y:PHGRIDYFROMBUTTONINDEX(buttonIndex)];
+        [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atButtonIndex:buttonIndex];
       }
       break;
     case PHLaunchpadEventRightButtonState:

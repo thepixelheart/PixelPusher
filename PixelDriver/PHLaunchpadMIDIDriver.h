@@ -63,6 +63,7 @@ typedef enum {
 
 // Notifications
 extern NSString* const PHLaunchpadDidReceiveStateChangeNotification;
+extern NSString* const PHLaunchpadDidConnectNotification;
 
 // User info keys for PHLaunchpadDidReceiveStateChangeNotification
 extern NSString* const PHLaunchpadEventTypeUserInfoKey; // PHLaunchpadEvent
@@ -83,6 +84,7 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 - (void)tickFlashers;
 - (void)reset;
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
+- (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex;
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 - (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 

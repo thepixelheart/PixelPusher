@@ -20,6 +20,7 @@
 #import <CoreMIDI/CoreMIDI.h>
 
 NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
+NSString* const PHLaunchpadDidConnectNotification = @"PHLaunchpadDidConnectNotification";
 NSString* const PHLaunchpadEventTypeUserInfoKey = @"PHLaunchpadEventTypeUserInfoKey";
 NSString* const PHLaunchpadButtonPressedUserInfoKey = @"PHLaunchpadButtonPressedUserInfoKey";
 NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey";
@@ -294,6 +295,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       _launchpadSourceRef = 0;
       return;
     }
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHLaunchpadDidConnectNotification object:nil];
   }
 }
 
@@ -355,12 +359,16 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y {
+  [self setButtonColor:color atButtonIndex:PHBUTTONINDEXFROMGRIDXY(x, y)];
+}
+
+- (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex {
   if ([self isFlashingColor:color]) {
     _anyFlashers = YES;
   }
   PHMIDIMessage* lightMessage = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn
                                                               channel:0];
-  lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
+  lightMessage.data1 = buttonIndex;
   lightMessage.data2 = PHLaunchpadColorToByte[color];
   dispatch_async(dispatch_get_main_queue(), ^{
     [self sendMessage:lightMessage];
