@@ -17,6 +17,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class PHDriver;
+@class PHAnimationDriver;
+@class PHAnimation;
 @class PHFMODRecorder;
 @class AppDelegate;
 @class PHLaunchpadMIDIDriver;
@@ -25,9 +27,16 @@ AppDelegate *PHApp();
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
-@property (strong, readonly) PHDriver *driver;
-@property (strong, readonly) PHFMODRecorder *audioRecorder;
+@property (assign) IBOutlet NSWindow* window;
+@property (strong, readonly) PHDriver* driver;
+@property (strong, readonly) PHAnimationDriver* animationDriver;
+@property (strong, readonly) PHFMODRecorder* audioRecorder;
 @property (strong, readonly) PHLaunchpadMIDIDriver* midiDriver;
+
+@property (strong, readonly) PHAnimation* previousAnimation;
+@property (strong, readonly) PHAnimation* activeAnimation;
+
+// Must be released.
+- (CGContextRef)currentWallContext;
 
 @end

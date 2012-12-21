@@ -21,7 +21,4 @@
 // Subclassing. Do not call directly.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues;
 
-// Must call super if implemented.
-- (void)displayLinkDidFire:(NSNotification *)notification;
-
 @end
