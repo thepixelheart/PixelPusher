@@ -15,15 +15,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
-#import "PHDriver.h"
-#import "PHDegrader.h"
 
-@interface PHAnimation : NSObject
+@interface PHDegrader : NSObject
 
-@property (nonatomic, strong) PHAnimationDriver* driver;
+@property (nonatomic, assign) CGFloat deltaPerSecond; // Default: 1
+@property (nonatomic, readonly) CGFloat value;
 
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+- (void)tickWithPeak:(CGFloat)peak;
 
 @end

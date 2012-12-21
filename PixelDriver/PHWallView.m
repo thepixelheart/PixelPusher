@@ -27,6 +27,7 @@
 
 // Animations
 #import "PHAnimation.h"
+#import "PHBasicSpectrumAnimation.h"
 #import "PHBouncingCircleAnimation.h"
 #import "PHBassPlate.h"
 
@@ -47,7 +48,7 @@ const NSInteger kPixelSize = 8;
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  _animation = [[PHBassPlate alloc] init];
+  _animation = [[PHBasicSpectrumAnimation alloc] init];
   _driver = [[PHAnimationDriver alloc] init];
 
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
@@ -63,7 +64,6 @@ const NSInteger kPixelSize = 8;
            object:nil];
 
   _firstTick = [NSDate date];
-
 
   [nc addObserver:self
          selector:@selector(launchpadStateDidChange:)

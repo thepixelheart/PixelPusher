@@ -18,10 +18,17 @@
 
 @implementation PHBassPlate {
   CGImageRef _imageOfPreviousFrame;
-  CGFloat _bassDegrader;
+  PHDegrader* _bassDegrader;
   NSTimeInterval _lastTick;
   CGFloat _advance;
   CGFloat _rotationAdvance;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _bassDegrader = [[PHDegrader alloc] init];
+  }
+  return self;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
@@ -39,20 +46,18 @@
 
     CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
     CGFloat bass = self.driver.subBassAmplitude;
-
-    _bassDegrader = MAX(_bassDegrader, bass);
+    [_bassDegrader tickWithPeak:bass];
 
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
-    _bassDegrader -= delta;
     _advance += delta * 10 * self.driver.hihatAmplitude;
     _rotationAdvance += delta * self.driver.snareAmplitude / 4;
 
-    if (_bassDegrader > 0.01) {
+    if (_bassDegrader.value > 0.01) {
       CGFloat red = sin(_advance) * 0.5 + 0.5;
       CGFloat green = cos(_advance + M_PI_2) * 0.5 + 0.5;
       CGFloat blue = sin(_advance - M_PI_4) * 0.5 + 0.5;
       CGContextSetRGBFillColor(cx, red, green, blue, 1);
-      CGFloat bassLineWidth = size.width * _bassDegrader;
+      CGFloat bassLineWidth = size.width * _bassDegrader.value;
       CGContextFillRect(cx, CGRectMake(size.width / 2 - bassLineWidth / 2, size.height - 1, bassLineWidth, 1));
     }
 

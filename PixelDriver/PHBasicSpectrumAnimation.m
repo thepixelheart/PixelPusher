@@ -14,16 +14,26 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
-#import "PHDriver.h"
-#import "PHDegrader.h"
+#import "PHBasicSpectrumAnimation.h"
 
-@interface PHAnimation : NSObject
+@implementation PHBasicSpectrumAnimation {
+  PHDegrader* _bassDegrader;
+}
 
-@property (nonatomic, strong) PHAnimationDriver* driver;
+- (id)init {
+  if ((self = [super init])) {
+    _bassDegrader = [[PHDegrader alloc] init];
+  }
+  return self;
+}
 
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  if (self.driver.spectrum) {
+    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
+
+    CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
+    CGContextFillRect(cx, CGRectMake(0, 0, _bassDegrader.value * size.width, kWallHeight));
+  }
+}
 
 @end

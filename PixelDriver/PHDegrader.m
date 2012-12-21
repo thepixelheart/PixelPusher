@@ -14,16 +14,29 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
-#import "PHDriver.h"
 #import "PHDegrader.h"
 
-@interface PHAnimation : NSObject
+@implementation PHDegrader {
+  NSTimeInterval _lastTick;
+  CGFloat _value;
+}
 
-@property (nonatomic, strong) PHAnimationDriver* driver;
+- (id)init {
+  if ((self = [super init])) {
+    _deltaPerSecond = 1;
+  }
+  return self;
+}
 
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+- (void)tickWithPeak:(CGFloat)peak {
+  if (_lastTick > 0) {
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
+    _value -= delta * _deltaPerSecond;
+  }
+
+  _value = MAX(_value, peak);
+
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
+}
 
 @end

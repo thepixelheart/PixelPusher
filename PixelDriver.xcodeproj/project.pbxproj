@@ -18,6 +18,8 @@
 		662F592416785D3400ADE02C /* terremouvante4.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592316785D3400ADE02C /* terremouvante4.qtz */; };
 		662F592616785D7200ADE02C /* balls.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592516785D7200ADE02C /* balls.qtz */; };
 		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
+		6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */; };
+		6637527116843E3C009A2F22 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637527016843E3C009A2F22 /* PHDegrader.m */; };
 		668520EA168290B90063A95A /* PHAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520E9168290B90063A95A /* PHAnimation.m */; };
 		668520EE168292200063A95A /* PHAnimationDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHAnimationDriver.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
@@ -66,6 +68,10 @@
 		662F592316785D3400ADE02C /* terremouvante4.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = terremouvante4.qtz; path = QuartzCompositions/terremouvante4.qtz; sourceTree = SOURCE_ROOT; };
 		662F592516785D7200ADE02C /* balls.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = balls.qtz; path = QuartzCompositions/balls.qtz; sourceTree = SOURCE_ROOT; };
 		662F592716785DF700ADE02C /* tree.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = tree.qtz; path = QuartzCompositions/tree.qtz; sourceTree = SOURCE_ROOT; };
+		6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBasicSpectrumAnimation.h; sourceTree = "<group>"; };
+		6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBasicSpectrumAnimation.m; sourceTree = "<group>"; };
+		6637526F16843E3C009A2F22 /* PHDegrader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegrader.h; sourceTree = "<group>"; };
+		6637527016843E3C009A2F22 /* PHDegrader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegrader.m; sourceTree = "<group>"; };
 		668520E9168290B90063A95A /* PHAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHAnimationDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationDriver.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHAnimationDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationDriver.m; sourceTree = "<group>"; };
@@ -153,10 +159,14 @@
 				668520ED168292200063A95A /* PHAnimationDriver.m */,
 				662CA84A167FFFE400FC800F /* PHAnimation.h */,
 				668520E9168290B90063A95A /* PHAnimation.m */,
+				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
+				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */,
 				662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */,
 				66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */,
 				66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */,
+				6637526F16843E3C009A2F22 /* PHDegrader.h */,
+				6637527016843E3C009A2F22 /* PHDegrader.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -471,6 +481,8 @@
 				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
 				668520EE168292200063A95A /* PHAnimationDriver.m in Sources */,
 				66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */,
+				6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */,
+				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
