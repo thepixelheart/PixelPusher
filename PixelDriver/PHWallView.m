@@ -34,6 +34,8 @@
 const NSInteger kPixelBorderSize = 1;
 const NSInteger kPixelSize = 8;
 
+static const NSTimeInterval kCrossFadeDuration = 1;
+
 typedef enum {
   PHLaunchpadModeAnimations,
   PHLaunchpadModeTest,
@@ -47,6 +49,9 @@ typedef enum {
   NSArray* _animations;
   NSInteger _activeAnimation;
   PHLaunchpadMode _launchpadMode;
+
+  NSInteger _previousAnimation;
+  NSTimeInterval _crossFadeStartTime;
 }
 
 - (void)dealloc {
@@ -64,6 +69,7 @@ typedef enum {
     [PHBouncingCircleAnimation animation],
   ];
   _activeAnimation = 0;
+  _previousAnimation = -1;
 
   [self updateLaunchpad];
 
@@ -101,7 +107,8 @@ typedef enum {
 
   for (NSInteger ix = 0; ix < _animations.count; ++ix) {
     BOOL isActive = _activeAnimation == ix;
-    [launchpad setButtonColor:isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim atButtonIndex:ix];
+    [launchpad setButtonColor:isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim
+                atButtonIndex:ix];
   }
 }
 
@@ -154,8 +161,14 @@ typedef enum {
   switch (event) {
     case PHLaunchpadEventGridButtonState:
       if (pressed && buttonIndex < _animations.count) {
-        _activeAnimation = buttonIndex;
-        [self animationLaunchpadMode];
+        if (_previousAnimation == -1) {
+          _previousAnimation = _activeAnimation;
+          _crossFadeStartTime = [NSDate timeIntervalSinceReferenceDate];
+          _activeAnimation = buttonIndex;
+
+          [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimation];
+        }
+
       } else if (buttonIndex >= _animations.count) {
         [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atButtonIndex:buttonIndex];
       }
@@ -170,17 +183,29 @@ typedef enum {
   }
 }
 
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  [super displayLinkDidFire:notification];
+
+  if (_previousAnimation >= 0) {
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
+    if (delta >= kCrossFadeDuration) {
+      PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+      [launchpad setButtonColor:PHLaunchpadColorGreenDim atButtonIndex:_previousAnimation];
+      [launchpad setButtonColor:PHLaunchpadColorGreenBright atButtonIndex:_activeAnimation];
+
+      _previousAnimation = -1;
+    }
+  }
+}
+
 #pragma mark - Rendering
 
-- (void)renderBitmapInContext:(CGContextRef)cx
-                         size:(CGSize)size
-                     spectrum:(float *)spectrum
-       numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (CGContextRef)createWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
   if (nil == colorSpace) {
-    return;
+    return nil;
   }
   CGContextRef wallContext =
   CGBitmapContextCreate(NULL,
@@ -194,15 +219,65 @@ typedef enum {
                         | kCGBitmapFloatComponents);
   CGColorSpaceRelease(colorSpace);
   if (nil == wallContext) {
+    return nil;
+  }
+  return wallContext;
+}
+
+- (NSTimeInterval)easeInEaseOut:(NSTimeInterval)t {
+  t *= 2.0f;
+  if (t < 1) {
+    return 0.5f * t * t;
+  }
+  t--;
+  return -0.5f * (t * (t - 2.0f) - 1.0f);
+}
+
+- (void)renderBitmapInContext:(CGContextRef)cx
+                         size:(CGSize)size
+                     spectrum:(float *)spectrum
+       numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  CGRect wallFrame = CGRectMake(0, 0, wallSize.width, wallSize.height);
+
+  CGContextRef wallContext = [self createWallContext];
+  if (nil == wallContext) {
     return;
   }
 
   [_driver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
 
   CGContextClearRect(wallContext, CGRectMake(0, 0, wallSize.width, wallSize.height));
-  PHAnimation* animation = [_animations objectAtIndex:_activeAnimation];
-  [animation renderBitmapInContext:wallContext
-                              size:wallSize];
+
+  if (_previousAnimation >= 0) {
+    CGContextRef previousContext = [self createWallContext];
+    CGContextRef activeContext = [self createWallContext];
+    PHAnimation* previous = [_animations objectAtIndex:_previousAnimation];
+    [previous renderBitmapInContext:previousContext size:wallSize];
+    PHAnimation* active = [_animations objectAtIndex:_activeAnimation];
+    [active renderBitmapInContext:activeContext size:wallSize];
+
+    CGImageRef previousImage = CGBitmapContextCreateImage(previousContext);
+    CGImageRef activeImage = CGBitmapContextCreateImage(activeContext);
+
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
+    CGFloat t = [self easeInEaseOut:MIN(1, delta / kCrossFadeDuration)];
+
+    CGContextSaveGState(wallContext);
+    CGContextSetAlpha(wallContext, 1 - t);
+    CGContextDrawImage(wallContext, wallFrame, previousImage);
+    CGContextSetAlpha(wallContext, t);
+    CGContextDrawImage(wallContext, wallFrame, activeImage);
+    CGContextRestoreGState(wallContext);
+
+    CGImageRelease(previousImage);
+    CGImageRelease(activeImage);
+    CGContextRelease(previousContext);
+    CGContextRelease(activeContext);
+  } else {
+    PHAnimation* animation = [_animations objectAtIndex:_activeAnimation];
+    [animation renderBitmapInContext:wallContext size:wallSize];
+  }
 
   [PHApp().driver queueContext:wallContext];
 

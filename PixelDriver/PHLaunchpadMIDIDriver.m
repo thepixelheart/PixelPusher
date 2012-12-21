@@ -27,7 +27,7 @@ NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey"
 
 const NSInteger PHLaunchpadButtonGridWidth = 8;
 const NSInteger PHLaunchpadButtonGridHeight = 8;
-static const NSTimeInterval kFlashInterval = 0.5;
+static const NSTimeInterval kFlashInterval = 0.1;
 
 #define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
 
