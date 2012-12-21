@@ -80,6 +80,7 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 @interface PHLaunchpadMIDIDriver : NSObject
 
 - (void)startDoubleBuffering;
+- (void)enableFlashing;
 - (void)flipBuffer;
 - (void)tickFlashers;
 - (void)reset;

@@ -84,10 +84,14 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 @end
 
-@implementation PHMIDIMessage
+@implementation PHMIDIMessage {
+  NSInteger _msgNo;
+}
 
 - (id)initWithStatus:(Byte)status channel:(Byte)channel {
   if ((self = [super init])) {
+    static NSInteger msgNo = 0;
+    _msgNo = ++msgNo;
     _status = status;
     _channel = channel;
     _data1 = -1;
@@ -98,19 +102,20 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 - (NSString *)description {
   return [NSString stringWithFormat:
-          @"<%@: 0x%X : %d : 0x%X : 0x%X>",
+          @"<%@: 0x%X : %d : 0x%X : 0x%X : %ld>",
           [super description],
           _status,
           _channel,
           _data1,
-          _data2];
+          _data2,
+          _msgNo];
 }
 
 @end
 
 @interface PHMIDISenderOperation : NSOperation
 - (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message;
-- (void)appendMessage:(PHMIDIMessage *)message;
+- (BOOL)appendedMessageIfInactive:(PHMIDIMessage *)message;
 @end
 
 @implementation PHMIDISenderOperation {
@@ -118,6 +123,7 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
   MIDIPortRef _outputPortRef;
   MIDIEndpointRef _launchpadDestinationRef;
   NSMutableArray* _messages;
+  BOOL _running;
 }
 
 - (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message {
@@ -130,43 +136,58 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
   return self;
 }
 
-- (void)appendMessage:(PHMIDIMessage *)message {
-  [_messages addObject:message];
+- (BOOL)appendedMessageIfInactive:(PHMIDIMessage *)message {
+  @synchronized(self) {
+    if (self.isExecuting) {
+      return NO;
+    } else {
+      [_messages addObject:message];
+      return YES;
+    }
+  }
+}
+
+- (BOOL)isExecuting {
+  @synchronized(self) {
+    return [super isExecuting] || _running;
+  }
 }
 
 - (void)main {
-  MIDIPacket* newPacket = nil;
-  OSStatus err = noErr;
-  Byte scratchStruct[4];
-  memset(scratchStruct, 0, sizeof(Byte) * 4);
+  @synchronized(self) {
+    _running = YES;
 
-  MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
+    MIDIPacket* newPacket = nil;
+    OSStatus err = noErr;
+    Byte scratchStruct[4];
+    memset(scratchStruct, 0, sizeof(Byte) * 4);
 
-  for (PHMIDIMessage* message in _messages) {
-    scratchStruct[0] = message.status | message.channel;
-    switch (message.status)  {
-      case PHMIDIStatusNoteOff:
-      case PHMIDIStatusNoteOn:
-      case PHMIDIStatusControlChange:
-        scratchStruct[1] = message.data1;
-        scratchStruct[2] = message.data2;
-        newPacket = MIDIPacketListAdd(_packetList, 1024, currentPacket, 0, 3, scratchStruct);
-        break;
+    MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
+
+    for (PHMIDIMessage* message in _messages) {
+      scratchStruct[0] = message.status | message.channel;
+      switch (message.status)  {
+        case PHMIDIStatusNoteOff:
+        case PHMIDIStatusNoteOn:
+        case PHMIDIStatusControlChange:
+          scratchStruct[1] = message.data1;
+          scratchStruct[2] = message.data2;
+          newPacket = MIDIPacketListAdd(_packetList, 1024, currentPacket, 0, 3, scratchStruct);
+          break;
+      }
+      if (newPacket == NULL)  {
+        NSLog(@"\t\terror adding new packet %s",__func__);
+        return;
+      }
+
+      currentPacket = newPacket;
     }
-    if (newPacket == NULL)  {
-      NSLog(@"\t\terror adding new packet %s",__func__);
+
+    err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+    if (err != noErr)  {
+      NSLog(@"Error sending packet: %ld", (long)err);
       return;
     }
-
-    currentPacket = newPacket;
-  }
-
-  NSLog(@"Sent messages %@", _messages);
-
-  err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
-  if (err != noErr)  {
-    NSLog(@"Error sending packet: %ld", (long)err);
-    return;
   }
 }
 
@@ -201,6 +222,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   BOOL _bufferFlipper;
   NSTimeInterval _lastFlashTimestamp;
   BOOL _flashingOn;
+  BOOL _flashingEnabled;
   BOOL _anyFlashers;
 }
 
@@ -246,7 +268,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
-  [self tickFlashers];
+  //[self tickFlashers];
 }
 
 - (void)setupDidChange {
@@ -304,8 +326,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 - (void)sendMessage:(PHMIDIMessage *)message {
   @synchronized(self) {
     for (PHMIDISenderOperation* op in _sendQueue.operations) {
-      if (!op.isExecuting) {
-        [op appendMessage:message];
+      if ([op appendedMessageIfInactive:message]) {
         return;
       }
     }
@@ -368,9 +389,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
                                                               channel:0];
   lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
   lightMessage.data2 = PHLaunchpadColorToByte[color];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:lightMessage];
-  });
+  [self sendMessage:lightMessage];
 }
 
 - (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex {
@@ -381,9 +400,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
                                                               channel:0];
   lightMessage.data1 = PHBUTTONINDEXFROMGRIDXY(buttonIndex % 8, buttonIndex / 8);
   lightMessage.data2 = PHLaunchpadColorToByte[color];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:lightMessage];
-  });
+  [self sendMessage:lightMessage];
 }
 
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
@@ -394,9 +411,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
                                                               channel:0];
   lightMessage.data1 = (buttonIndex & 0x0F) + 0x68;
   lightMessage.data2 = PHLaunchpadColorToByte[color];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:lightMessage];
-  });
+  [self sendMessage:lightMessage];
 }
 
 - (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
@@ -407,31 +422,30 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
                                                               channel:0];
   lightMessage.data1 = ((buttonIndex & 0x0F) << 4) | 0x08;
   lightMessage.data2 = PHLaunchpadColorToByte[color];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:lightMessage];
-  });
+  [self sendMessage:lightMessage];
 }
 
 - (void)startDoubleBuffering {
   _bufferFlipper = YES;
+  [self flipBuffer];
+}
+
+- (void)enableFlashing {
+  _flashingEnabled = YES;
   PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                          channel:0];
   message.data1 = 0;
-  message.data2 = 0x31;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:message];
-  });
+  message.data2 = 0x28;
+  [self sendMessage:message];
 }
 
 - (void)flipBuffer {
   PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                          channel:0];
   message.data1 = 0;
-  message.data2 = _bufferFlipper ? 0x34 : 0x31;
+  message.data2 = (_bufferFlipper ? 0x31 : 0x34) | (_flashingEnabled ? 0x08 : 0);
   _bufferFlipper = !_bufferFlipper;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:message];
-  });
+  [self sendMessage:message];
 }
 
 - (void)reset {
@@ -440,9 +454,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
                                                          channel:0];
   message.data1 = 0;
   message.data2 = 0;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [self sendMessage:message];
-  });
+  [self sendMessage:message];
 }
 
 - (void)tickFlashers {
@@ -452,9 +464,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     message.data1 = 0;
     message.data2 = _flashingOn ? 0x20 : 0x21;
     _flashingOn = !_flashingOn;
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self sendMessage:message];
-    });
+    [self sendMessage:message];
 
     _lastFlashTimestamp = [NSDate timeIntervalSinceReferenceDate];
   }

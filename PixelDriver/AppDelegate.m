@@ -266,7 +266,7 @@ AppDelegate *PHApp() {
 - (void)animationLaunchpadMode {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+  for (NSInteger ix = 0; ix < 64; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }
@@ -277,7 +277,7 @@ AppDelegate *PHApp() {
 
   [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonArm];
 
-  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+  for (NSInteger ix = 0; ix < 64; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }
@@ -285,7 +285,6 @@ AppDelegate *PHApp() {
 
 - (void)updateLaunchpad {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad reset];
 
   if (_launchpadMode != PHLaunchpadModeTest) {
     [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonArm];
@@ -317,7 +316,14 @@ AppDelegate *PHApp() {
 }
 
 - (void)launchpadDidConnect:(NSNotification *)notification {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad reset];
+  [launchpad enableFlashing];
+  [launchpad startDoubleBuffering];
+
   [self updateLaunchpad];
+
+  [launchpad flipBuffer];
 }
 
 - (void)setActiveAnimationIndex:(NSInteger)animationIndex {
@@ -395,6 +401,10 @@ AppDelegate *PHApp() {
       break;
     default:
       break;
+  }
+
+  if (pressed) {
+    [launchpad flipBuffer];
   }
 }
 
