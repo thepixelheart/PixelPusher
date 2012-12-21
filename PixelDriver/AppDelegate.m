@@ -26,6 +26,7 @@
 #import "PHBasicSpectrumAnimation.h"
 #import "PHBouncingCircleAnimation.h"
 #import "PHBassPlate.h"
+#import "PHFireworksAnimation.h"
 
 static const NSTimeInterval kCrossFadeDuration = 1;
 
@@ -83,74 +84,7 @@ AppDelegate *PHApp() {
   [PHBasicSpectrumAnimation animation],
   [PHBassPlate animation],
   [PHBouncingCircleAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHBasicSpectrumAnimation animation],
-
-  [PHBasicSpectrumAnimation animation],
+  [PHFireworksAnimation animation],
   ];
 
   for (PHAnimation* animation in animations) {
@@ -161,6 +95,8 @@ AppDelegate *PHApp() {
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
+  [[self audioRecorder] toggleListening];
+
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserver:self
          selector:@selector(launchpadStateDidChange:)
@@ -192,8 +128,8 @@ AppDelegate *PHApp() {
   _animationDriver = [[PHAnimationDriver alloc] init];
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
-  _activeAnimationIndex = 0;
-  _previewAnimationIndex = 0;
+  _activeAnimationIndex = 3;
+  _previewAnimationIndex = 2;
   _previousAnimationIndex = -1;
 }
 
@@ -266,7 +202,7 @@ AppDelegate *PHApp() {
 - (void)animationLaunchpadMode {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  for (NSInteger ix = 0; ix < 64; ++ix) {
+  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }
@@ -277,7 +213,7 @@ AppDelegate *PHApp() {
 
   [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonArm];
 
-  for (NSInteger ix = 0; ix < 64; ++ix) {
+  for (NSInteger ix = 0; ix < _previewAnimations.count; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }

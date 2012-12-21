@@ -34,7 +34,7 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
     PHApp().audioRecorder.volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
   }
 
-  [self updateListeningState];
+  [self performSelector:@selector(updateListeningState) withObject:nil afterDelay:0.2];
 }
 
 - (void)updateListeningState {
