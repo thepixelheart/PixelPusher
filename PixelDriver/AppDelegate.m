@@ -248,6 +248,7 @@ AppDelegate *PHApp() {
           if (_instantCrossfade) {
             [self commitTransitionAnimation];
           } else {
+            [launchpad setButtonColor:PHLaunchpadColorAmberDim atButtonIndex:_activeAnimationIndex];
             [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
           }
         }
