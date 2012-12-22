@@ -18,6 +18,7 @@
 
 static const NSTimeInterval kMinimumAnimationChangeInterval = 1;
 static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
+static const NSTimeInterval kTimeUntilSleeping = 4;
 
 @implementation PHPikachuEmotingAnimation {
   PHSpritesheet* _pikachuSpritesheet;
@@ -26,14 +27,17 @@ static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
   PHSpriteAnimation* _contentAnimation;
   PHSpriteAnimation* _happyAnimation;
   PHSpriteAnimation* _ecstaticAnimation;
+  PHSpriteAnimation* _sleepingAnimation;
 
   PHSpriteAnimation* _activeAnimation;
   NSTimeInterval _nextAllowedAnimationChangeTime;
+  NSTimeInterval _nextSleepTime;
 
   PHDegrader* _bassDegrader;
-  CGFloat _bassAbsorber;
+  CGFloat _hihatAbsorber;
   CGFloat _vocalAbsorber;
   BOOL _hasBeenLulling;
+  BOOL _isFrightened;
 }
 
 - (id)init {
@@ -70,6 +74,14 @@ static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
     [_ecstaticAnimation addFrameAtX:4 y:0 duration:kMinimumDelayBetweenHits];
     _ecstaticAnimation.repeats = YES;
     _ecstaticAnimation.bounces = NO;
+
+    _sleepingAnimation = [[PHSpriteAnimation alloc] initWithSpritesheet:_pikachuSpritesheet];
+    [_sleepingAnimation addFrameAtX:1 y:2 duration:0.9];
+    [_sleepingAnimation addFrameAtX:2 y:2 duration:1.1];
+    [_sleepingAnimation addFrameAtX:3 y:2 duration:0.2];
+    _sleepingAnimation.repeats = YES;
+    _sleepingAnimation.bounces = NO;
+    _sleepingAnimation.rightBoundary = 1;
   }
   return self;
 }
@@ -80,40 +92,69 @@ static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
     CGContextFillRect(cx, CGRectMake(0, 0, size.width, size.height));
 
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-    _bassAbsorber = _bassAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
+    _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
     _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
 
     _hasBeenLulling = _hasBeenLulling || (self.driver.subBassAmplitude < 0.5);
 
     if (_activeAnimation.currentFrameIndex == 0 && [NSDate timeIntervalSinceReferenceDate] >= _nextAllowedAnimationChangeTime) {
       PHSpriteAnimation* nextAnimation = _activeAnimation;
-      if (_bassAbsorber > 0.5 && _vocalAbsorber > 0.5) {
+      if (_isFrightened && _sleepingAnimation.currentFrameIndex < 2) {
+        _isFrightened = NO;
+        _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
+      }
+      if (_isFrightened) {
+        nextAnimation = _sleepingAnimation;
+      } else if (_hihatAbsorber > 0.5 && _vocalAbsorber > 0.5) {
         nextAnimation = _ecstaticAnimation;
-      } else if (_bassAbsorber > 0.3) {
+      } else if (_hihatAbsorber > 0.3) {
         nextAnimation = _happyAnimation;
       } else if (_vocalAbsorber > 0.3) {
         nextAnimation = _contentAnimation;
+
+        if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
+          nextAnimation = _sleepingAnimation;
+        }
+
       } else {
         nextAnimation = _idleAnimation;
+
+        if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
+          nextAnimation = _sleepingAnimation;
+        }
       }
 
       if (nextAnimation != _activeAnimation) {
         _activeAnimation = nextAnimation;
         [_activeAnimation setCurrentFrameIndex:0];
 
-        _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
+        if (_activeAnimation != _sleepingAnimation) {
+          _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
+        }
       }
     }
 
-    if (_hasBeenLulling && self.driver.subBassAmplitude > 0.5
-        && _activeAnimation.currentFrameIndex == 0) {
-      [_activeAnimation advanceToNextAnimation];
+    if (_hasBeenLulling && self.driver.subBassAmplitude > 0.5) {
+      if (!_isFrightened && _activeAnimation == _sleepingAnimation && _sleepingAnimation.currentFrameIndex < 2) {
+        [_sleepingAnimation setCurrentFrameIndex:2];
+        _isFrightened = YES;
+        _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
+
+      } else if (_activeAnimation.currentFrameIndex == 0) {
+        [_activeAnimation advanceToNextAnimation];
+        _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
+      }
       _hasBeenLulling = NO;
     }
 
     CGSize size = _pikachuSpritesheet.spriteSize;
 
-    CGImageRef imageRef = [_activeAnimation imageRefAtCurrentTick];
+    CGImageRef imageRef = nil;
+    imageRef = [_activeAnimation imageRefAtCurrentTick];
+    if (_isFrightened) {
+      CGImageRelease(imageRef);
+      imageRef = [_pikachuSpritesheet imageAtX:3 y:2];
+    }
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
 
     CGImageRelease(imageRef);
