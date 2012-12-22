@@ -255,9 +255,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     INITCHECKOSSTATUS(status);
 
     _packetList = (MIDIPacketList *)malloc(1024 * sizeof(char));
-
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
   }
   return self;
 }
