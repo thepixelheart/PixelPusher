@@ -118,7 +118,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
       _lastBlinkTime = [NSDate timeIntervalSinceReferenceDate];
     } else {
       if (!_isBlinking && _hasBeenLulling
-          && (self.driver.hihatAmplitude > 0.6
+          && (self.driver.hihatAmplitude > 0.4
               || [NSDate timeIntervalSinceReferenceDate] - _lastBlinkTime > kMinimumBlinkInterval)) {
         _isBlinking = YES;
          _hasBeenLulling = NO;

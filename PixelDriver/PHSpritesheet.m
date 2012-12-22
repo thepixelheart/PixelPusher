@@ -150,7 +150,7 @@
       if (_animating) {
         _currentFrame = nextFrame;
         frame = [_frames objectAtIndex:_currentFrame];
-        _currentFrameAge = _currentFrameAge - frame.duration;
+        _currentFrameAge = MIN(0.2, _currentFrameAge - frame.duration);
       }
     }
   }
