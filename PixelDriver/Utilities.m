@@ -22,3 +22,24 @@ void PHAlert(NSString *message) {
   alert.messageText = message;
   [alert runModal];
 }
+
+NSString* PHFilenameForResourcePath(NSString* resourcePath) {
+  return [@"PixelDriver.app/Contents/Resources/" stringByAppendingPathComponent:resourcePath];
+}
+
+CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  if (nil == colorSpace) {
+    return nil;
+  }
+  CGContextRef cx =
+  CGBitmapContextCreate(NULL,
+                        size.width,
+                        size.height,
+                        8,
+                        0,
+                        colorSpace,
+                        kCGImageAlphaPremultipliedLast);
+  CGColorSpaceRelease(colorSpace);
+  return cx;
+}

@@ -29,6 +29,7 @@
 #import "PHFireworksAnimation.h"
 #import "PHFlyingFireballAnimation.h"
 #import "PHNoAnimation.h"
+#import "PHMegamanAnimation.h"
 
 static const NSTimeInterval kCrossFadeDuration = 1;
 
@@ -87,7 +88,8 @@ AppDelegate *PHApp() {
     [PHBouncingCircleAnimation animation],
     [PHBassPlate animation],
     [PHFireworksAnimation animation],
-    [PHFlyingFireballAnimation animation]];
+    [PHFlyingFireballAnimation animation],
+    [PHMegamanAnimation animation]];
 
   for (PHAnimation* animation in animations) {
     animation.driver = _animationDriver;
@@ -130,7 +132,7 @@ AppDelegate *PHApp() {
   _animationDriver = [[PHAnimationDriver alloc] init];
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
-  _activeAnimationIndex = 4;
+  _activeAnimationIndex = 5;
   _previewAnimationIndex = 2;
   _previousAnimationIndex = -1;
 }

@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+// A peak degrader that maxes out a value with each tick and degrades it over
+// time by some delta.
 @interface PHDegrader : NSObject
 
 @property (nonatomic, assign) CGFloat deltaPerSecond; // Default: 1

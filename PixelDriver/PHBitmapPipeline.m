@@ -16,6 +16,8 @@
 
 #import "PHBitmapPipeline.h"
 
+#import "Utilities.h"
+
 @interface PHBitmapRenderOperation : NSOperation
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size;
 - (CGImageRef)renderedImage;
@@ -36,19 +38,7 @@
 }
 
 - (void)main {
-  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-  if (nil == colorSpace) {
-    return;
-  }
-  CGContextRef cx =
-  CGBitmapContextCreate(NULL,
-                        _imageSize.width,
-                        _imageSize.height,
-                        8,
-                        0,
-                        colorSpace,
-                        kCGImageAlphaPremultipliedLast);
-  CGColorSpaceRelease(colorSpace);
+  CGContextRef cx = PHCreate8BitBitmapContextWithSize(_imageSize);
 
   _block(cx, _imageSize);
 

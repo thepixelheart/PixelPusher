@@ -16,4 +16,7 @@
 
 #import <Foundation/Foundation.h>
 
-void PHAlert(NSString *message);
+void PHAlert(NSString* message);
+NSString* PHFilenameForResourcePath(NSString* resourcePath);
+
+CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size);

@@ -15,19 +15,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
-#import "PHDriver.h"
-#import "PHDegrader.h"
-#import "PHSpritesheet.h"
 
-@interface PHAnimation : NSObject
+@interface PHSpritesheet : NSObject
 
-// Convenience method
-+ (id)animation;
+- (id)initWithName:(NSString *)name spriteSize:(CGSize)spriteSize;
 
-@property (nonatomic, strong) PHAnimationDriver* driver;
+@property (nonatomic, readonly) CGSize spriteSize;
+@property (nonatomic, readonly) CGSize numberOfSprites;
 
-// Subclassing.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+@end
+
+@interface PHSpriteAnimation : NSObject
+
+- (id)initWithSpritesheet:(PHSpritesheet *)spritesheet;
+- (void)addFrameAtX:(NSInteger)x y:(NSInteger)y duration:(NSTimeInterval)duration;
+
+- (CGImageRef)imageRefAtCurrentTick;
+
+@property (nonatomic, assign) BOOL repeats; // Default: YES
+@property (nonatomic, assign) BOOL bounces; // Default: NO
 
 @end
