@@ -29,7 +29,6 @@
   if ((self = [super init])) {
     _bassDegrader = [[PHDegrader alloc] init];
     _movementDegrader = [[PHDegrader alloc] init];
-    _movementDegrader.deltaPerSecond = 4;
   }
   return self;
 }
@@ -42,10 +41,10 @@
                             radius * 2,
                             radius * 2);
   size_t num_locations = 2;
-  CGFloat locations[2] = { 0.0, 1.0 };
+  CGFloat locations[2] = { 0.0, 0.7 };
   CGFloat components[8] = {
     (sin(_advance) / 4) + 0.5,  (cos(_advance * 2) / 4) + 0.2,  (cos(_advance) * sin(_advance * 2) / 4) + 0.2, 1.0,
-    0.4,  0,0  , 0 };
+    0.2,  0,0  , 0 };
 
   CGColorSpaceRef myColorspace = CGColorSpaceCreateDeviceRGB();
   CGGradientRef myGradient = CGGradientCreateWithColorComponents(myColorspace, components, locations, num_locations);
@@ -59,17 +58,17 @@
 }
 
 - (void)renderBall2AtX:(CGFloat)xOff2 context:(CGContextRef)cx {
-  CGFloat radius = _movementDegrader.value * 7 + 3;
+  CGFloat radius = _movementDegrader.value * 5 + 1;
   CGFloat yOff = cos(_advance2 * 3) * 7;
   CGRect frame = CGRectMake(kWallWidth - radius * 2 - 15 + xOff2,
                             kWallHeight / 2 - radius + yOff + 5,
                             radius * 2,
                             radius * 2);
   size_t num_locations = 2;
-  CGFloat locations[2] = { 0.0, 1.0 };
+  CGFloat locations[2] = { 0.0, 0.7 };
   CGFloat components[8] = {
     (cos(_advance2) * sin(_advance2 * 2) / 4) + 0.2,  (cos(_advance2 * 2) / 4) + 0.2,  (sin(_advance2) / 4) + 0.5, 1.0,
-    0,  0,0.4, 0 };
+    0,  0,0.2, 0 };
 
   CGColorSpaceRef myColorspace = CGColorSpaceCreateDeviceRGB();
   CGGradientRef myGradient = CGGradientCreateWithColorComponents(myColorspace, components, locations, num_locations);

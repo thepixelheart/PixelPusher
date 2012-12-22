@@ -28,6 +28,7 @@
 #import "PHBassPlate.h"
 #import "PHFireworksAnimation.h"
 #import "PHFlyingFireballAnimation.h"
+#import "PHNoAnimation.h"
 
 static const NSTimeInterval kCrossFadeDuration = 1;
 
@@ -81,13 +82,12 @@ AppDelegate *PHApp() {
 }
 
 - (NSMutableArray *)createAnimations {
-  NSArray* animations = @[
-  [PHBasicSpectrumAnimation animation],
-  [PHBassPlate animation],
-  [PHBouncingCircleAnimation animation],
-  [PHFireworksAnimation animation],
-  [PHFlyingFireballAnimation animation],
-  ];
+  NSArray* animations =
+  @[[PHNoAnimation animation],
+    [PHBouncingCircleAnimation animation],
+    [PHBassPlate animation],
+    [PHFireworksAnimation animation],
+    [PHFlyingFireballAnimation animation]];
 
   for (PHAnimation* animation in animations) {
     animation.driver = _animationDriver;

@@ -46,6 +46,7 @@
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
+		66DF3F9416854C15008E8105 /* PHNoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHNoAnimation.m */; };
 		66FC91E316785FA100C02C59 /* slime.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E216785FA100C02C59 /* slime.qtz */; };
 		66FC91E7167863CB00C02C59 /* fire.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E6167863CB00C02C59 /* fire.qtz */; };
 		66FC91E9167864B200C02C59 /* mouse.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E8167864B200C02C59 /* mouse.qtz */; };
@@ -133,6 +134,8 @@
 		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
 		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		66DF3F9216854C15008E8105 /* PHNoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoAnimation.h; sourceTree = "<group>"; };
+		66DF3F9316854C15008E8105 /* PHNoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoAnimation.m; sourceTree = "<group>"; };
 		66FC91E216785FA100C02C59 /* slime.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = slime.qtz; path = QuartzCompositions/slime.qtz; sourceTree = SOURCE_ROOT; };
 		66FC91E6167863CB00C02C59 /* fire.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = fire.qtz; path = QuartzCompositions/fire.qtz; sourceTree = SOURCE_ROOT; };
 		66FC91E8167864B200C02C59 /* mouse.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = mouse.qtz; path = QuartzCompositions/mouse.qtz; sourceTree = SOURCE_ROOT; };
@@ -167,6 +170,8 @@
 				6637527016843E3C009A2F22 /* PHDegrader.m */,
 				662CA84A167FFFE400FC800F /* PHAnimation.h */,
 				668520E9168290B90063A95A /* PHAnimation.m */,
+				66DF3F9216854C15008E8105 /* PHNoAnimation.h */,
+				66DF3F9316854C15008E8105 /* PHNoAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */,
@@ -495,6 +500,7 @@
 				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,
 				66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */,
 				66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */,
+				66DF3F9416854C15008E8105 /* PHNoAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
