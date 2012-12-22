@@ -23,6 +23,8 @@
 @property (nonatomic, readonly) CGSize spriteSize;
 @property (nonatomic, readonly) CGSize numberOfSprites;
 
+- (CGImageRef)imageAtX:(NSInteger)x y:(NSInteger)y;
+
 @end
 
 @interface PHSpriteAnimation : NSObject
@@ -34,5 +36,12 @@
 
 @property (nonatomic, assign) BOOL repeats; // Default: YES
 @property (nonatomic, assign) BOOL bounces; // Default: NO
+
+@property (nonatomic, assign) NSInteger leftBoundary; // Default: 0
+@property (nonatomic, assign) NSInteger rightBoundary; // Default: count - 1
+
+@property (nonatomic, assign) CGFloat animationScale; // Default: 1
+
+- (void)setCurrentFrameIndex:(NSInteger)frameIndex;
 
 @end

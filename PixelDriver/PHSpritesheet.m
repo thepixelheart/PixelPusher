@@ -41,6 +41,31 @@
   return self;
 }
 
+- (CGImageRef)imageAtX:(NSInteger)x y:(NSInteger)y {
+  CGSize spriteSize = _spriteSize;
+  CGContextRef cx = PHCreate8BitBitmapContextWithSize(spriteSize);
+
+  CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
+
+  CGFloat offsetX = x * spriteSize.width;
+  CGFloat offsetY = y * spriteSize.height;
+
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -spriteSize.height);
+
+  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
+  [NSGraphicsContext setCurrentContext:graphicsContext];
+  [_image drawInRect:CGRectMake(0, 0, spriteSize.width, spriteSize.height)
+            fromRect:CGRectMake(offsetX, offsetY, spriteSize.width, spriteSize.height)
+           operation:NSCompositeCopy
+            fraction:1];
+
+  CGImageRef imageRef = CGBitmapContextCreateImage(cx);
+  CGContextRelease(cx);
+
+  return imageRef;
+}
+
 @end
 
 @interface PHSpriteAnimationFrame : NSObject
@@ -58,8 +83,10 @@
 
   BOOL _animating;
   NSInteger _currentFrame;
-  NSTimeInterval _nextFrameTick;
+  NSTimeInterval _currentFrameAge;
   NSInteger _direction;
+
+  NSTimeInterval _lastTick;
 }
 
 - (id)initWithSpritesheet:(PHSpritesheet *)spritesheet {
@@ -70,6 +97,7 @@
     _bounces = NO;
     _direction = 1;
     _animating = YES;
+    _animationScale = 1;
   }
   return self;
 }
@@ -80,6 +108,9 @@
   frame.y = y;
   frame.duration = duration;
   [_frames addObject:frame];
+
+  _leftBoundary = 0;
+  _rightBoundary = _frames.count - 1;
 }
 
 - (CGImageRef)imageRefAtCurrentTick {
@@ -88,60 +119,51 @@
   }
   PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrame];
 
-  if (_nextFrameTick == 0) {
-    _nextFrameTick = [NSDate timeIntervalSinceReferenceDate] + frame.duration;
-  }
-  if (_animating
-      && _nextFrameTick > 0 && [NSDate timeIntervalSinceReferenceDate] >= _nextFrameTick) {
-    NSInteger nextFrame = _currentFrame + _direction;
+  if (_lastTick > 0) {
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
+    _currentFrameAge += delta * _animationScale;
 
-    if (nextFrame < 0) {
-      if (_bounces && _repeats) {
-        nextFrame = 1;
-        _direction = -_direction;
-      } else {
-        _animating = NO;
+    if (_animating
+        && _currentFrameAge >= frame.duration) {
+      NSInteger nextFrame = _currentFrame + _direction;
+
+      if (nextFrame < _leftBoundary) {
+        if (_bounces && _repeats) {
+          nextFrame = _leftBoundary + 1;
+          _direction = -_direction;
+        } else {
+          _animating = NO;
+        }
+      }
+
+      if (nextFrame >= _rightBoundary + 1) {
+        if (_bounces) {
+          nextFrame = _rightBoundary - 1;
+          _direction = -_direction;
+        } else if (_repeats) {
+          nextFrame = _leftBoundary;
+        } else {
+          _animating = NO;
+        }
+      }
+
+      if (_animating) {
+        _currentFrame = nextFrame;
+        frame = [_frames objectAtIndex:_currentFrame];
+        _currentFrameAge = _currentFrameAge - frame.duration;
       }
     }
-    if (nextFrame >= _frames.count) {
-      if (_bounces) {
-        nextFrame = _frames.count - 2;
-        _direction = -_direction;
-      } else if (_repeats) {
-        nextFrame = 0;
-      } else {
-        _animating = NO;
-      }
-    }
-    if (_animating) {
-      _currentFrame = nextFrame;
-      frame = [_frames objectAtIndex:_currentFrame];
-      _nextFrameTick = [NSDate timeIntervalSinceReferenceDate] + frame.duration;
-    }
   }
 
-  CGSize spriteSize = _spritesheet.spriteSize;
-  CGContextRef cx = PHCreate8BitBitmapContextWithSize(spriteSize);
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
 
-  CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
+  return [_spritesheet imageAtX:frame.x y:frame.y];
+}
 
-  CGFloat x = frame.x * spriteSize.width;
-  CGFloat y = frame.y * spriteSize.height;
-
-  CGContextScaleCTM(cx, 1, -1);
-  CGContextTranslateCTM(cx, 0, -spriteSize.height);
-
-  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
-  [NSGraphicsContext setCurrentContext:graphicsContext];
-  [_spritesheet.image drawInRect:CGRectMake(0, 0, spriteSize.width, spriteSize.height)
-                        fromRect:CGRectMake(x, y, spriteSize.width, spriteSize.height)
-                       operation:NSCompositeCopy
-                        fraction:1];
-
-  CGImageRef imageRef = CGBitmapContextCreateImage(cx);
-  CGContextRelease(cx);
-
-  return imageRef;
+- (void)setCurrentFrameIndex:(NSInteger)frameIndex {
+  _currentFrame = frameIndex;
+  _currentFrameAge = 0;
+  _direction = 1;
 }
 
 @end
