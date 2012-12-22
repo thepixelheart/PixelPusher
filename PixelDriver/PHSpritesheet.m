@@ -48,7 +48,7 @@
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
   CGFloat offsetX = x * spriteSize.width;
-  CGFloat offsetY = y * spriteSize.height;
+  CGFloat offsetY = (_numberOfSprites.height - 1 - y) * spriteSize.height;
 
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -spriteSize.height);
@@ -82,7 +82,6 @@
   NSMutableArray* _frames;
 
   BOOL _animating;
-  NSInteger _currentFrame;
   NSTimeInterval _currentFrameAge;
   NSInteger _direction;
 
@@ -113,45 +112,23 @@
   _rightBoundary = _frames.count - 1;
 }
 
+- (void)addStillFrameAtX:(NSInteger)x y:(NSInteger)y {
+  [self addFrameAtX:x y:y duration:-1];
+}
+
 - (CGImageRef)imageRefAtCurrentTick {
   if (_frames.count == 0) {
     return nil;
   }
-  PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrame];
+  PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrameIndex];
 
-  if (_lastTick > 0) {
+  if (frame.duration >= 0 && _lastTick > 0) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
     _currentFrameAge += delta * _animationScale;
 
-    if (_animating
-        && _currentFrameAge >= frame.duration) {
-      NSInteger nextFrame = _currentFrame + _direction;
-
-      if (nextFrame < _leftBoundary) {
-        if (_bounces && _repeats) {
-          nextFrame = _leftBoundary + 1;
-          _direction = -_direction;
-        } else {
-          _animating = NO;
-        }
-      }
-
-      if (nextFrame >= _rightBoundary + 1) {
-        if (_bounces) {
-          nextFrame = _rightBoundary - 1;
-          _direction = -_direction;
-        } else if (_repeats) {
-          nextFrame = _leftBoundary;
-        } else {
-          _animating = NO;
-        }
-      }
-
-      if (_animating) {
-        _currentFrame = nextFrame;
-        frame = [_frames objectAtIndex:_currentFrame];
-        _currentFrameAge = MIN(0.2, _currentFrameAge - frame.duration);
-      }
+    if (_animating && _currentFrameAge >= frame.duration) {
+      [self advanceToNextAnimation];
+      frame = [_frames objectAtIndex:_currentFrameIndex];
     }
   }
 
@@ -161,9 +138,43 @@
 }
 
 - (void)setCurrentFrameIndex:(NSInteger)frameIndex {
-  _currentFrame = frameIndex;
+  _currentFrameIndex = frameIndex;
   _currentFrameAge = 0;
   _direction = 1;
+}
+
+- (void)advanceToNextAnimation {
+  NSInteger nextFrame = _currentFrameIndex + _direction;
+
+  if (nextFrame < _leftBoundary) {
+    if (_bounces && _repeats) {
+      nextFrame = _leftBoundary + 1;
+      _direction = -_direction;
+    } else {
+      _animating = NO;
+    }
+  }
+
+  if (nextFrame >= _rightBoundary + 1) {
+    if (_bounces) {
+      nextFrame = _rightBoundary - 1;
+      _direction = -_direction;
+    } else if (_repeats) {
+      nextFrame = _leftBoundary;
+    } else {
+      _animating = NO;
+    }
+  }
+
+  if (_animating) {
+    _currentFrameIndex = nextFrame;
+    PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrameIndex];
+    if (frame.duration >= 0) {
+      _currentFrameAge = MIN(0.2, _currentFrameAge - frame.duration);
+    } else {
+      _currentFrameAge = 0;
+    }
+  }
 }
 
 @end

@@ -32,6 +32,10 @@
 - (id)initWithSpritesheet:(PHSpritesheet *)spritesheet;
 - (void)addFrameAtX:(NSInteger)x y:(NSInteger)y duration:(NSTimeInterval)duration;
 
+// When this frame is shown it will only change when advanceToNextAnimation is
+// explicitly called.
+- (void)addStillFrameAtX:(NSInteger)x y:(NSInteger)y;
+
 - (CGImageRef)imageRefAtCurrentTick;
 
 @property (nonatomic, assign) BOOL repeats; // Default: YES
@@ -42,6 +46,9 @@
 
 @property (nonatomic, assign) CGFloat animationScale; // Default: 1
 
-- (void)setCurrentFrameIndex:(NSInteger)frameIndex;
+@property (nonatomic, assign) NSInteger currentFrameIndex;
+
+// Forcefully move to the next frame in the animation.
+- (void)advanceToNextAnimation;
 
 @end
