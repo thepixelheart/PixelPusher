@@ -111,17 +111,12 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
         nextAnimation = _happyAnimation;
       } else if (_vocalAbsorber > 0.3) {
         nextAnimation = _contentAnimation;
-
-        if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
-          nextAnimation = _sleepingAnimation;
-        }
-
       } else {
         nextAnimation = _idleAnimation;
+      }
 
-        if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
-          nextAnimation = _sleepingAnimation;
-        }
+      if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
+        nextAnimation = _sleepingAnimation;
       }
 
       if (nextAnimation != _activeAnimation) {
@@ -140,7 +135,7 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
         _isFrightened = YES;
         _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
 
-      } else if (_activeAnimation.currentFrameIndex == 0) {
+      } else if (_activeAnimation.currentFrameIndex == 0 && _activeAnimation != _sleepingAnimation) {
         [_activeAnimation advanceToNextAnimation];
         _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
       }
