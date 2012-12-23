@@ -28,7 +28,8 @@ static const NSTimeInterval kCrossFadeDuration = 1;
 
 typedef enum {
   PHLaunchpadModeAnimations,
-  PHLaunchpadModeTest,
+  PHLaunchpadModePreview,
+  PHLaunchpadModeComposite,
 } PHLaunchpadMode;
 
 AppDelegate *PHApp() {
@@ -159,7 +160,7 @@ AppDelegate *PHApp() {
     BOOL isActive = _activeAnimationIndex == buttonIndex;
     return isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
 
-  } else if (_launchpadMode == PHLaunchpadModeTest) {
+  } else if (_launchpadMode == PHLaunchpadModePreview) {
     BOOL isActive = _activeAnimationIndex == buttonIndex;
     BOOL isPreview = _previewAnimationIndex == buttonIndex;
     return (isActive
@@ -205,7 +206,7 @@ AppDelegate *PHApp() {
   }
 }
 
-- (void)testLaunchpadMode {
+- (void)previewLaunchpadMode {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
   [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonArm];
@@ -216,11 +217,24 @@ AppDelegate *PHApp() {
   }
 }
 
+- (void)compositeLaunchpadMode {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonTrackOn];
+
+  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+    [launchpad setButtonColor:PHLaunchpadColorOff
+                atButtonIndex:ix];
+  }
+}
+
 - (void)updateLaunchpad {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  if (_launchpadMode != PHLaunchpadModeTest) {
+  if (_launchpadMode != PHLaunchpadModePreview) {
     [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonArm];
+  }
+  if (_launchpadMode != PHLaunchpadModeComposite) {
+    [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonTrackOn];
   }
   if (_instantCrossfade) {
     [launchpad setTopButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadTopButtonSession];
@@ -231,8 +245,12 @@ AppDelegate *PHApp() {
       [self animationLaunchpadMode];
       break;
     }
-    case PHLaunchpadModeTest: {
-      [self testLaunchpadMode];
+    case PHLaunchpadModePreview: {
+      [self previewLaunchpadMode];
+      break;
+    }
+    case PHLaunchpadModeComposite: {
+      [self compositeLaunchpadMode];
       break;
     }
   }
@@ -286,7 +304,7 @@ AppDelegate *PHApp() {
 - (void)setPreviewAnimationIndex:(NSInteger)animationIndex {
   if (animationIndex == _activeAnimationIndex) {
     _previewAnimationIndex = animationIndex;
-    [self testLaunchpadMode];
+    [self previewLaunchpadMode];
     return;
   }
   BOOL shouldChange = _previewAnimationIndex == animationIndex;
@@ -294,7 +312,7 @@ AppDelegate *PHApp() {
   if (shouldChange) {
     [self setActiveAnimationIndex:animationIndex];
   } else {
-    [self testLaunchpadMode];
+    [self previewLaunchpadMode];
   }
 }
 
@@ -309,7 +327,7 @@ AppDelegate *PHApp() {
       if (pressed && buttonIndex < _animations.count) {
         if (_launchpadMode == PHLaunchpadModeAnimations) {
           [self setActiveAnimationIndex:buttonIndex];
-        } else if (_launchpadMode == PHLaunchpadModeTest) {
+        } else if (_launchpadMode == PHLaunchpadModePreview) {
           [self setPreviewAnimationIndex:buttonIndex];
         }
 
@@ -319,8 +337,12 @@ AppDelegate *PHApp() {
       break;
 
     case PHLaunchpadEventRightButtonState:
-      if (pressed && buttonIndex == PHLaunchpadSideButtonArm) {
-        [self toggleLaunchpadMode:PHLaunchpadModeTest];
+      if (pressed) {
+        if (buttonIndex == PHLaunchpadSideButtonArm) {
+          [self toggleLaunchpadMode:PHLaunchpadModePreview];
+        } else if (buttonIndex == PHLaunchpadSideButtonTrackOn) {
+          [self toggleLaunchpadMode:PHLaunchpadModeComposite];
+        }
       }
       break;
 
