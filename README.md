@@ -86,15 +86,54 @@ Start by creating an animation class:
 @end
 ```
 
-Next open the PHWallView class and find the line where `_animation` is being set. Change the class that's
-being instantiated to the one you've just created.
+Next open PHAnimation.m in the Animations folder and add your new class to the
+list of animations returned by allAnimations.
 
-```obj-c
-_animation = [[PHBasicSpectrumAnimation alloc] init];
-```
-
-You also need to import the class header.
+You'll also need to import the class header at the top of the PHAnimation.m
+file.
 
 ```obj-c
 #import "PHBasicSpectrumAnimation.h"
 ````
+
+
+Using the Launchpad
+===================
+
+The launchpad is the input mechanism that controls all animations on the Pixel Heart.
+
+Default Mode
+------------
+
+[![](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad.png)](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad.png)
+
+This mode allows you to switch between animations with a single tap of any animation button.
+
+By default animations will transition with a one second cross-fade. If you want the transition
+to be instant you can tap the "inst" button (5th button in on the top row) to enable instant
+transitions. Tapping this button again will turn off instant transitions.
+
+When you tap an animation to transition to it, the previous animation's button will flash until
+the transition has completed. You can not start another transition while this is happening.
+
+Preview Mode
+------------
+
+[![](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad_previewmode.png)](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad_previewmode.png)
+
+Preview mode allows you to preview animations before showing them on the Pixel Heart. To enter
+Preview mode, tap the "arm" button (the bottom right button). This will enter Preview mode and
+the light will change to green to reflect this fact.
+
+When in preview mode, tapping an animation will instantly show it in the Pixel Driver's preview
+window.
+
+The currently playing animation's button is green.
+
+The currently previewing animation's button is yellow.
+
+If the currently previewing animation is the playing animation, then the corresponding button will
+be red.
+
+To transition to an animation while in preview mode, double tap any animation button. This will
+queue a transition similar to the Default Mode (the instant button is respected, for example).
