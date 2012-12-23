@@ -10,9 +10,11 @@ You'll need Xcode to build and run the Pixel Driver.
 
 https://itunes.apple.com/us/app/xcode/id497799835?mt=12
 
-### 1. Check out the submodules by running the following:
+### 1. Check out the code and submodules by running the following:
 
 ```
+git clone git://github.com/ThePixelHeart/PixelDriver.git
+cd PixelDriver
 git submodule init
 git submodule update
 ```
@@ -31,7 +33,11 @@ PixelDriver application correctly.
 
 This will allow you to route sound through the driver.
 
-### 4. Routing sound through the driver
+### 4. Build and run the Pixel Driver
+
+Open the PixelDriver.xcodeproj project and build + run the app.
+
+### 5. Routing sound through the driver
 
 #### System audio
 
