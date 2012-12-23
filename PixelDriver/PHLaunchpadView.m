@@ -50,27 +50,29 @@
 }
 
 - (NSColor *)NSColorFromLaunchpadColor:(PHLaunchpadColor)color {
+  CGFloat dimValue = 0.4;
+  CGFloat brightValue = 0.85;
   switch (color) {
     case PHLaunchpadColorOff:
       return [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
     case PHLaunchpadColorRedDim:
-      return [NSColor colorWithDeviceRed:0.5 green:0 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:dimValue green:0 blue:0 alpha:1];
     case PHLaunchpadColorRedFlashing:
     case PHLaunchpadColorRedBright:
-      return [NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:brightValue green:0 blue:0 alpha:1];
     case PHLaunchpadColorAmberDim:
-      return [NSColor colorWithDeviceRed:0.5 green:0.25 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:dimValue green:dimValue / 2 blue:0 alpha:1];
     case PHLaunchpadColorAmberFlashing:
     case PHLaunchpadColorAmberBright:
-      return [NSColor colorWithDeviceRed:1 green:0.5 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:brightValue green:dimValue blue:0 alpha:1];
     case PHLaunchpadColorYellowFlashing:
     case PHLaunchpadColorYellowBright:
-      return [NSColor colorWithDeviceRed:1 green:1 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:brightValue green:brightValue blue:0 alpha:1];
     case PHLaunchpadColorGreenDim:
-      return [NSColor colorWithDeviceRed:0 green:0.5 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:0 green:dimValue blue:0 alpha:1];
     case PHLaunchpadColorGreenFlashing:
     case PHLaunchpadColorGreenBright:
-      return [NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1];
+      return [NSColor colorWithDeviceRed:0 green:brightValue blue:0 alpha:1];
     default:
       return nil;
   }
@@ -89,12 +91,17 @@
   CGFloat s = 0;
   CGFloat br = 0;
   [buttonColor getHue:&h saturation:&s brightness:&br alpha:nil];
-  NSColor* highlightedButtonColor = [NSColor colorWithDeviceHue:h saturation:s brightness:MIN(1, br * 1.4) alpha:a];
+  NSColor* highlightedButtonColor = [NSColor colorWithDeviceHue:h saturation:MAX(0, s * 0.5) brightness:MIN(1, br * 1.4) alpha:a];
   CGFloat rh = 0;
   CGFloat gh = 0;
   CGFloat bh = 0;
   CGFloat ah = 0;
   [highlightedButtonColor getRed:&rh green:&gh blue:&bh alpha:&ah];
+
+  if (self.isHighlighted && _color != PHLaunchpadColorOff) {
+    NSColor* highlightedButtonColor = [NSColor colorWithDeviceHue:h saturation:MAX(0, s * 0.2) brightness:MIN(1, br * 1.4) alpha:a];
+    [highlightedButtonColor getRed:&rh green:&gh blue:&bh alpha:&ah];
+  }
 
   CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
 
@@ -152,7 +159,7 @@
                       -M_PI / 2, M_PI, 1);
     }
 
-    if (self.isHighlighted) {
+    if (self.isHighlighted || _color != PHLaunchpadColorOff) {
       size_t num_locations = 2;
       CGFloat locations[2] = { 0, 1 };
       CGFloat components[8] = {
@@ -184,8 +191,7 @@
     circleFrame.origin.y += 1;
     circleFrame.size.width -= 9;
     circleFrame.size.height -= 8;
-    if (self.isHighlighted) {
-
+    if (self.isHighlighted || _color != PHLaunchpadColorOff) {
       size_t num_locations = 2;
       CGFloat locations[2] = { 0, 1 };
       CGFloat components[8] = {
@@ -266,7 +272,8 @@
 
 - (IBAction)didTapButton:(NSButton *)sender {
   NSLog(@"%ld", sender.tag);
-  [(NSButtonCell *)sender.cell setBackgroundColor:[NSColor redColor]];
+  PHLaunchpadButtonCell* cell = sender.cell;
+  cell.color = PHLaunchpadColorRedBright;
 }
 
 @end
