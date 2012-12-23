@@ -36,15 +36,32 @@ AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
 
+@interface PHCompositeAnimation : PHAnimation
+@end
+
+@implementation PHCompositeAnimation
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+
+}
+
+@end
+
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
 
   NSMutableArray* _animations;
   NSMutableArray* _previewAnimations;
+  NSMutableArray* _compositeAnimations;
 
-  BOOL _instantCrossfade;
   PHLaunchpadMode _launchpadMode;
+
+  // Animation/preview top button modes
+  BOOL _instantCrossfade;
+
+  // Composite mode
+  PHLaunchpadTopButton _activeCompositeLayer;
 
   NSInteger _activeAnimationIndex;
   NSInteger _previousAnimationIndex;
@@ -126,6 +143,7 @@ AppDelegate *PHApp() {
   _activeAnimationIndex = 6;
   _previewAnimationIndex = 1;
   _previousAnimationIndex = -1;
+  _activeCompositeLayer = 0;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -156,6 +174,10 @@ AppDelegate *PHApp() {
 }
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex >= _animations.count) {
+    return PHLaunchpadColorOff;
+  }
+
   if (_launchpadMode == PHLaunchpadModeAnimations) {
     BOOL isActive = _activeAnimationIndex == buttonIndex;
     return isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
@@ -172,6 +194,34 @@ AppDelegate *PHApp() {
                : PHLaunchpadColorAmberDim));
   }
   return PHLaunchpadColorOff;
+}
+
+- (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
+  if (_launchpadMode == PHLaunchpadModeAnimations
+      || _launchpadMode == PHLaunchpadModePreview) {
+    if (buttonIndex == PHLaunchpadTopButtonSession && _instantCrossfade) {
+      return PHLaunchpadColorGreenBright;
+    } else {
+      return PHLaunchpadColorOff;
+    }
+  } else if (_launchpadMode == PHLaunchpadModeComposite) {
+    return (_activeCompositeLayer == buttonIndex) ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim;
+
+  } else {
+    return PHLaunchpadColorOff;
+  }
+}
+
+- (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
+  if (buttonIndex == PHLaunchpadSideButtonArm) {
+    return (_launchpadMode == PHLaunchpadModePreview) ? PHLaunchpadColorGreenBright : PHLaunchpadColorAmberDim;
+
+  } else if (buttonIndex == PHLaunchpadSideButtonTrackOn) {
+    return (_launchpadMode == PHLaunchpadModeComposite) ? PHLaunchpadColorGreenBright : PHLaunchpadColorAmberDim;
+
+  } else {
+    return PHLaunchpadColorOff;
+  }
 }
 
 - (void)commitTransitionAnimation {
@@ -197,62 +247,20 @@ AppDelegate *PHApp() {
 
 #pragma mark - Launchpad
 
-- (void)animationLaunchpadMode {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-
-  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
-    [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
-                atButtonIndex:ix];
-  }
-}
-
-- (void)previewLaunchpadMode {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-
-  [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonArm];
-
-  for (NSInteger ix = 0; ix < _previewAnimations.count; ++ix) {
-    [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
-                atButtonIndex:ix];
-  }
-}
-
-- (void)compositeLaunchpadMode {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setRightButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadSideButtonTrackOn];
-
-  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
-    [launchpad setButtonColor:PHLaunchpadColorOff
-                atButtonIndex:ix];
-  }
-}
-
 - (void)updateLaunchpad {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  if (_launchpadMode != PHLaunchpadModePreview) {
-    [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonArm];
+  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+    [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
+                atButtonIndex:ix];
   }
-  if (_launchpadMode != PHLaunchpadModeComposite) {
-    [launchpad setRightButtonColor:PHLaunchpadColorAmberDim atIndex:PHLaunchpadSideButtonTrackOn];
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)ix]
+                         atIndex:ix];
   }
-  if (_instantCrossfade) {
-    [launchpad setTopButtonColor:PHLaunchpadColorGreenBright atIndex:PHLaunchpadTopButtonSession];
-  }
-
-  switch (_launchpadMode) {
-    case PHLaunchpadModeAnimations: {
-      [self animationLaunchpadMode];
-      break;
-    }
-    case PHLaunchpadModePreview: {
-      [self previewLaunchpadMode];
-      break;
-    }
-    case PHLaunchpadModeComposite: {
-      [self compositeLaunchpadMode];
-      break;
-    }
+  for (NSInteger ix = 0; ix < PHLaunchpadSideButtonCount; ++ix) {
+    [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)ix]
+                           atIndex:ix];
   }
 }
 
@@ -304,7 +312,7 @@ AppDelegate *PHApp() {
 - (void)setPreviewAnimationIndex:(NSInteger)animationIndex {
   if (animationIndex == _activeAnimationIndex) {
     _previewAnimationIndex = animationIndex;
-    [self previewLaunchpadMode];
+    [self updateLaunchpad];
     return;
   }
   BOOL shouldChange = _previewAnimationIndex == animationIndex;
@@ -312,7 +320,7 @@ AppDelegate *PHApp() {
   if (shouldChange) {
     [self setActiveAnimationIndex:animationIndex];
   } else {
-    [self previewLaunchpadMode];
+    [self updateLaunchpad];
   }
 }
 
@@ -347,13 +355,27 @@ AppDelegate *PHApp() {
       break;
 
     case PHLaunchpadEventTopButtonState:
-      if (pressed && buttonIndex == PHLaunchpadTopButtonSession) {
-        _instantCrossfade = !_instantCrossfade;
-        if (_previousAnimationIndex >= 0) {
-          [self commitTransitionAnimation];
+      if (pressed) {
+        if (_launchpadMode == PHLaunchpadModeComposite) {
+          PHLaunchpadTopButton previousActiveLayer = _activeCompositeLayer;
+          if (previousActiveLayer != buttonIndex) {
+            _activeCompositeLayer = (PHLaunchpadTopButton)buttonIndex;
+            [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)previousActiveLayer]
+                                 atIndex:previousActiveLayer];
+            [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)_activeCompositeLayer]
+                                 atIndex:_activeCompositeLayer];
         }
-        [launchpad setTopButtonColor:_instantCrossfade ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
-                             atIndex:buttonIndex];
+
+        } else if (buttonIndex == PHLaunchpadTopButtonSession
+            && (_launchpadMode == PHLaunchpadModeAnimations
+                || _launchpadMode == PHLaunchpadModePreview)) {
+          _instantCrossfade = !_instantCrossfade;
+          if (_previousAnimationIndex >= 0) {
+            [self commitTransitionAnimation];
+          }
+          [launchpad setTopButtonColor:_instantCrossfade ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
+                               atIndex:buttonIndex];
+        }
       }
       break;
     default:

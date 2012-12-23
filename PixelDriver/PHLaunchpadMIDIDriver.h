@@ -25,6 +25,7 @@ typedef enum {
   PHLaunchpadTopButtonUser1,
   PHLaunchpadTopButtonUser2,
   PHLaunchpadTopButtonMixer,
+  PHLaunchpadTopButtonCount,
 } PHLaunchpadTopButton;
 
 typedef enum {
@@ -36,6 +37,7 @@ typedef enum {
   PHLaunchpadSideButtonTrackOn,
   PHLaunchpadSideButtonSolo,
   PHLaunchpadSideButtonArm,
+  PHLaunchpadSideButtonCount,
 } PHLaunchpadSideButton;
 
 typedef enum {
