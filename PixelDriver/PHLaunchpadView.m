@@ -271,9 +271,28 @@
 }
 
 - (IBAction)didTapButton:(NSButton *)sender {
-  NSLog(@"%ld", sender.tag);
   PHLaunchpadButtonCell* cell = sender.cell;
   cell.color = PHLaunchpadColorRedBright;
+
+  PHLaunchpadEvent event;
+  int buttonIndex;
+  if (sender.tag < 64) {
+    event = PHLaunchpadEventGridButtonState;
+    buttonIndex = (int)sender.tag;
+  } else if (sender.tag < 72) {
+    event = PHLaunchpadEventTopButtonState;
+    buttonIndex = (int)sender.tag - 64;
+  } else {
+    event = PHLaunchpadEventRightButtonState;
+    buttonIndex = (int)sender.tag - 72;
+  }
+  NSDictionary* userInfo =
+  @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
+    PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:YES],
+    PHLaunchpadButtonIndexInfoKey: [NSNumber numberWithInt:buttonIndex]};
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
 }
 
 @end
