@@ -45,19 +45,26 @@ AppDelegate *PHApp() {
 
 @implementation PHCompositeAnimation {
   NSInteger _layerAnimationIndex[PHLaunchpadTopButtonCount];
+  PHAnimation* _layerAnimation[PHLaunchpadTopButtonCount];
 }
 
 - (id)init {
   if ((self = [super init])) {
     for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
       _layerAnimationIndex[ix] = -1;
+      _layerAnimation[ix] = nil;
     }
   }
   return self;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    PHAnimation* animation = _layerAnimation[ix];
+    if (nil != animation) {
+      [animation renderBitmapInContext:cx size:size];
+    }
+  }
 }
 
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer {
@@ -66,6 +73,13 @@ AppDelegate *PHApp() {
 
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer {
   _layerAnimationIndex[layer] = animationIndex;
+  if (animationIndex >= 0) {
+    NSArray* animations = [PHAnimation allAnimations];
+    _layerAnimation[layer] = [animations objectAtIndex:animationIndex];
+    _layerAnimation[layer].driver = self.driver;
+  } else {
+    _layerAnimation[layer] = nil;
+  }
 }
 
 @end
@@ -299,6 +313,7 @@ AppDelegate *PHApp() {
       if (nil == _compositeAnimationBeingEdited) {
         // If we're not editing one, create a default one.
         _compositeAnimationBeingEdited = [PHCompositeAnimation animation];
+        _compositeAnimationBeingEdited.driver = self.animationDriver;
       }
     }
   }

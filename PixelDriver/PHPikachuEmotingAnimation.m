@@ -88,9 +88,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.spectrum) {
-    CGContextSetRGBFillColor(cx, 1, 1, 1, 0.2);
-    CGContextFillRect(cx, CGRectMake(0, 0, size.width, size.height));
-
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
     _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
     _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
