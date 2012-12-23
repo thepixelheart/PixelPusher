@@ -64,12 +64,16 @@ typedef enum {
 // Notifications
 extern NSString* const PHLaunchpadDidReceiveStateChangeNotification;
 extern NSString* const PHLaunchpadDidConnectNotification;
+extern NSString* const PHLaunchpadDidSendMIDIMessagesNotification;
 
 // User info keys for PHLaunchpadDidReceiveStateChangeNotification
 extern NSString* const PHLaunchpadEventTypeUserInfoKey; // PHLaunchpadEvent
 // PHLaunchpadEvent*ButtonState
 extern NSString* const PHLaunchpadButtonPressedUserInfoKey; // BOOL
 extern NSString* const PHLaunchpadButtonIndexInfoKey; // NSInteger
+
+// User info keys for NSString* const PHLaunchpadDidSendMIDIMessagesNotification
+extern NSString* const PHLaunchpadMessagesUserInfoKey; // NSArray of PHMIDIMessage
 
 extern const NSInteger PHLaunchpadButtonGridWidth;
 extern const NSInteger PHLaunchpadButtonGridHeight;

@@ -17,50 +17,22 @@
 #import "PHLaunchpadMIDIDriver.h"
 
 #import "PHDisplayLink.h"
+#import "PHMIDIMessage.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
 NSString* const PHLaunchpadDidConnectNotification = @"PHLaunchpadDidConnectNotification";
+NSString* const PHLaunchpadDidSendMIDIMessagesNotification = @"PHLaunchpadDidSendMIDIMessagesNotification";
 NSString* const PHLaunchpadEventTypeUserInfoKey = @"PHLaunchpadEventTypeUserInfoKey";
 NSString* const PHLaunchpadButtonPressedUserInfoKey = @"PHLaunchpadButtonPressedUserInfoKey";
 NSString* const PHLaunchpadButtonIndexInfoKey = @"PHLaunchpadButtonIndexInfoKey";
+NSString* const PHLaunchpadMessagesUserInfoKey = @"PHLaunchpadMessagesUserInfoKey";
 
 const NSInteger PHLaunchpadButtonGridWidth = 8;
 const NSInteger PHLaunchpadButtonGridHeight = 8;
 static const NSTimeInterval kFlashInterval = 0.1;
 
 #define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
-
-// http://www.midi.org/techspecs/midimessages.php
-typedef enum {
-  // Channel voice messages
-  PHMIDIStatusNoteOff = 0x80,
-  PHMIDIStatusNoteOn = 0x90,
-  PHMIDIStatusAfterTouch = 0xA0,
-  PHMIDIStatusControlChange = 0xB0,
-  PHMIDIStatusProgramChange = 0xC0,
-  PHMIDIStatusChannelPressure = 0xD0,
-  PHMIDIStatusPitchWheel = 0xE0,
-
-  // Channel mode messages
-  PHMIDIStatusBeginSysex = 0xF0,
-  PHMIDIStatusEndSysex = 0xF7,
-} PHMIDIStatus;
-
-static const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
-  0x0C, // Off
-  0x0D, // Red dim
-  0x0F, // Red bright
-  0x0B, // Red flashing
-  0x1D, // Amber dim
-  0x3F, // Amber bright
-  0x3B, // Amber flashing
-  0x3E, // Yellow bright
-  0x3A, // Yellow flashing
-  0x1C, // Green dim
-  0x3C, // Green bright
-  0x38, // Green flashing
-};
 
 #define INITCHECKOSSTATUS(result) do {\
   if (result != noErr) { \
@@ -72,41 +44,6 @@ static const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
 } while(0)
 
 static NSString* const kLaunchpadDeviceName = @"Launchpad";
-
-@interface PHMIDIMessage : NSObject
-
-- (id)initWithStatus:(Byte)type channel:(Byte)channel;
-
-@property (nonatomic, readonly) Byte status;
-@property (nonatomic, readonly) Byte channel;
-@property (nonatomic, assign) Byte data1;
-@property (nonatomic, assign) Byte data2;
-
-@end
-
-@implementation PHMIDIMessage
-
-- (id)initWithStatus:(Byte)status channel:(Byte)channel {
-  if ((self = [super init])) {
-    _status = status;
-    _channel = channel;
-    _data1 = -1;
-    _data2 = -1;
-  }
-  return self;
-}
-
-- (NSString *)description {
-  return [NSString stringWithFormat:
-          @"<%@: 0x%X : %d : 0x%X : 0x%X>",
-          [super description],
-          _status,
-          _channel,
-          _data1,
-          _data2];
-}
-
-@end
 
 @interface PHMIDISenderOperation : NSOperation
 - (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message;
@@ -152,37 +89,44 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
   @synchronized(self) {
     _running = YES;
 
-    MIDIPacket* newPacket = nil;
-    OSStatus err = noErr;
-    Byte scratchStruct[4];
-    memset(scratchStruct, 0, sizeof(Byte) * 4);
+    if (_launchpadDestinationRef) {
+      MIDIPacket* newPacket = nil;
+      OSStatus err = noErr;
+      Byte scratchStruct[4];
+      memset(scratchStruct, 0, sizeof(Byte) * 4);
 
-    MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
+      MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
 
-    for (PHMIDIMessage* message in _messages) {
-      scratchStruct[0] = message.status | message.channel;
-      switch (message.status)  {
-        case PHMIDIStatusNoteOff:
-        case PHMIDIStatusNoteOn:
-        case PHMIDIStatusControlChange:
-          scratchStruct[1] = message.data1;
-          scratchStruct[2] = message.data2;
-          newPacket = MIDIPacketListAdd(_packetList, 1024, currentPacket, 0, 3, scratchStruct);
-          break;
+      for (PHMIDIMessage* message in _messages) {
+        scratchStruct[0] = message.status | message.channel;
+        switch (message.status)  {
+          case PHMIDIStatusNoteOff:
+          case PHMIDIStatusNoteOn:
+          case PHMIDIStatusControlChange:
+            scratchStruct[1] = message.data1;
+            scratchStruct[2] = message.data2;
+            newPacket = MIDIPacketListAdd(_packetList, 1024, currentPacket, 0, 3, scratchStruct);
+            break;
+        }
+        if (newPacket == NULL)  {
+          NSLog(@"\t\terror adding new packet %s",__func__);
+          return;
+        }
+
+        currentPacket = newPacket;
       }
-      if (newPacket == NULL)  {
-        NSLog(@"\t\terror adding new packet %s",__func__);
+
+      err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+      if (err != noErr)  {
+        NSLog(@"Error sending packet: %ld", (long)err);
         return;
       }
-
-      currentPacket = newPacket;
     }
 
-    err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
-    if (err != noErr)  {
-      NSLog(@"Error sending packet: %ld", (long)err);
-      return;
-    }
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHLaunchpadDidSendMIDIMessagesNotification
+                      object:nil
+                    userInfo:@{PHLaunchpadMessagesUserInfoKey: _messages}];
   }
 }
 
@@ -329,10 +273,8 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       }
     }
 
-    if (_launchpadDestinationRef) {
-      PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_launchpadDestinationRef message:message];
-      [_sendQueue addOperation:op];
-    }
+    PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_launchpadDestinationRef message:message];
+    [_sendQueue addOperation:op];
   }
 }
 
@@ -341,24 +283,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
       BOOL pressed = (message.data2 == 0x7F);
 
-      Byte keyValue = message.data1;
-      PHLaunchpadEvent event;
-      int buttonIndex;
-      if (keyValue & 0x08) {
-        if (message.status == PHMIDIStatusControlChange) {
-          event = PHLaunchpadEventTopButtonState;
-          buttonIndex = keyValue - 0x68;
+      PHLaunchpadEvent event = message.event;
+      int buttonIndex = message.buttonIndex;
 
-        } else {
-          event = PHLaunchpadEventRightButtonState;
-          buttonIndex = ((keyValue & 0xF0) >> 4) & 0x0F;
-        }
-      } else {
-        event = PHLaunchpadEventGridButtonState;
-        int x = keyValue & 0x0F;
-        int y = ((keyValue & 0xF0) >> 4) & 0x0F;
-        buttonIndex = x + y * 8;
-      }
       NSDictionary* userInfo =
       @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
         PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:pressed],

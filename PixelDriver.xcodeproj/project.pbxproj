@@ -13,6 +13,7 @@
 		662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE5521686894B00F300CE /* PHLaunchpadWindow.m */; };
 		662DE55516868AF400F300CE /* novation.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55416868AF400F300CE /* novation.png */; };
 		662DE55716868BB100F300CE /* launchpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55616868BB100F300CE /* launchpad.png */; };
+		662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */; };
 		662F59131678477900ADE02C /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F59121678477900ADE02C /* PHApplication.m */; };
 		662F5916167849E500ADE02C /* clouds.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F5915167849E500ADE02C /* clouds.qtz */; };
 		662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591716784B2F00ADE02C /* Quartz.framework */; };
@@ -75,6 +76,8 @@
 		662DE5521686894B00F300CE /* PHLaunchpadWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadWindow.m; sourceTree = "<group>"; };
 		662DE55416868AF400F300CE /* novation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = novation.png; path = PixelDriver/novation.png; sourceTree = "<group>"; };
 		662DE55616868BB100F300CE /* launchpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchpad.png; path = PixelDriver/launchpad.png; sourceTree = "<group>"; };
+		662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIMessage.h; sourceTree = "<group>"; };
+		662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIMessage.m; sourceTree = "<group>"; };
 		662F59111678477900ADE02C /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
 		662F59121678477900ADE02C /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
 		662F5915167849E500ADE02C /* clouds.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clouds.qtz; path = QuartzCompositions/clouds.qtz; sourceTree = SOURCE_ROOT; };
@@ -289,6 +292,8 @@
 			children = (
 				66A8E038167D747400FBAFE8 /* PHLaunchpadMIDIDriver.h */,
 				66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */,
+				662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */,
+				662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */,
 			);
 			name = Launchpad;
 			sourceTree = "<group>";
@@ -555,6 +560,7 @@
 				66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */,
 				662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */,
 				662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */,
+				662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

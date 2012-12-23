@@ -17,13 +17,33 @@
 #import "PHLaunchpadView.h"
 
 #import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIMessage.h"
 
 @interface PHLaunchpadButtonCell : NSButtonCell
 @property (nonatomic, assign) PHLaunchpadColor color;
 @end
 
+@interface PHLaunchpadButton : NSButton
+@end
+
+@implementation PHLaunchpadButton
+
++ (Class)cellClass {
+  return [PHLaunchpadButtonCell class];
+}
+
+@end
+
 @implementation PHLaunchpadButtonCell {
   BOOL _square;
+  NSTimer* _strobeTimer;
+  PHLaunchpadColor _strobeColor;
+}
+
+- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
+  [self.target performSelector:self.action withObject:self];
+
+  return [super startTrackingAt:startPoint inView:controlView];
 }
 
 - (id)initTextCell:(NSString *)aString {
@@ -49,33 +69,80 @@
   return self;
 }
 
+- (void)setColor:(PHLaunchpadColor)color {
+  _color = color;
+
+  [_strobeTimer invalidate];
+  _strobeTimer = nil;
+
+  [self.controlView setNeedsDisplay:YES];
+}
+
 - (NSColor *)NSColorFromLaunchpadColor:(PHLaunchpadColor)color {
   CGFloat dimValue = 0.4;
   CGFloat brightValue = 0.85;
+  NSColor* nsColor;
   switch (color) {
     case PHLaunchpadColorOff:
-      return [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
+      break;
+      
     case PHLaunchpadColorRedDim:
-      return [NSColor colorWithDeviceRed:dimValue green:0 blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:dimValue green:0 blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorRedFlashing:
     case PHLaunchpadColorRedBright:
-      return [NSColor colorWithDeviceRed:brightValue green:0 blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:brightValue green:0 blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorAmberDim:
-      return [NSColor colorWithDeviceRed:dimValue green:dimValue / 2 blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:dimValue green:dimValue / 2 blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorAmberFlashing:
     case PHLaunchpadColorAmberBright:
-      return [NSColor colorWithDeviceRed:brightValue green:dimValue blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:brightValue green:dimValue blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorYellowFlashing:
     case PHLaunchpadColorYellowBright:
-      return [NSColor colorWithDeviceRed:brightValue green:brightValue blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:brightValue green:brightValue blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorGreenDim:
-      return [NSColor colorWithDeviceRed:0 green:dimValue blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:0 green:dimValue blue:0 alpha:1];
+      break;
+      
     case PHLaunchpadColorGreenFlashing:
     case PHLaunchpadColorGreenBright:
-      return [NSColor colorWithDeviceRed:0 green:brightValue blue:0 alpha:1];
+      nsColor = [NSColor colorWithDeviceRed:0 green:brightValue blue:0 alpha:1];
+      break;
+      
     default:
-      return nil;
+      nsColor = nil;
+      break;
   }
+
+  if (color == PHLaunchpadColorRedFlashing
+      || color == PHLaunchpadColorAmberFlashing
+      || color == PHLaunchpadColorYellowFlashing
+      || color == PHLaunchpadColorGreenFlashing) {
+    _strobeColor = color;
+    [_strobeTimer invalidate];
+    _strobeTimer = [NSTimer scheduledTimerWithTimeInterval:0.15 target:self selector:@selector(strobeTimerDidFire:) userInfo:nil repeats:YES];
+  }
+
+  return nsColor;
+}
+
+- (void)strobeTimerDidFire:(NSTimer *)timer {
+  if (_color == _strobeColor) {
+    _color = PHLaunchpadColorOff;
+  } else {
+    _color = _strobeColor;
+  }
+  [self.controlView setNeedsDisplay:YES];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
@@ -221,12 +288,18 @@
 
 @implementation PHLaunchpadView
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)awakeFromNib {
   [super awakeFromNib];
 
-  for (NSView* view in self.subviews) {
+  NSArray* views = [self.subviews copy];
+  for (NSView* view in views) {
     if ([view isKindOfClass:[NSButton class]]) {
       NSButton* button = (NSButton *)view;
+
       if (button.tag < 64) {
         button.cell = [[PHLaunchpadButtonCell alloc] initSquareButton];
       } else {
@@ -237,6 +310,12 @@
       button.action = @selector(didTapButton:);
     }
   }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self
+         selector:@selector(midiDidSendMessageNotification:)
+             name:PHLaunchpadDidSendMIDIMessagesNotification
+           object:nil];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -271,9 +350,6 @@
 }
 
 - (IBAction)didTapButton:(NSButton *)sender {
-  PHLaunchpadButtonCell* cell = sender.cell;
-  cell.color = PHLaunchpadColorRedBright;
-
   PHLaunchpadEvent event;
   int buttonIndex;
   if (sender.tag < 64) {
@@ -288,11 +364,64 @@
   }
   NSDictionary* userInfo =
   @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
-    PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:YES],
+    PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:[sender isKindOfClass:[NSCell class]]],
     PHLaunchpadButtonIndexInfoKey: [NSNumber numberWithInt:buttonIndex]};
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
+}
+
+- (void)midiDidSendMessageNotification:(NSNotification *)notification {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self midiDidSendMessageNotification:notification];
+    });
+    return;
+  }
+  NSArray* messages = [notification.userInfo objectForKey:PHLaunchpadMessagesUserInfoKey];
+  for (PHMIDIMessage* midiMessage in messages) {
+    if (midiMessage.status == PHMIDIStatusControlChange) {
+      if (midiMessage.data1 == 0 && midiMessage.data2 == 0) {
+        // Reset
+        for (NSView* view in self.subviews) {
+          if ([view isKindOfClass:[NSButton class]]) {
+            NSButton* button = (NSButton *)view;
+            PHLaunchpadButtonCell* cell = button.cell;
+            cell.color = PHLaunchpadColorOff;
+          }
+        }
+        continue;
+      } else if (midiMessage.data1 == 0) {
+        continue;
+      }
+    }
+    if (midiMessage.status == PHMIDIStatusNoteOn
+        || midiMessage.status == PHMIDIStatusControlChange) {
+      // Changing a button color.
+      int launchpadColor = 0;
+      for (int ix = 0; ix < PHLaunchpadColorCount; ++ix) {
+        if (PHLaunchpadColorToByte[ix] == midiMessage.data2) {
+          launchpadColor = ix;
+          break;
+        }
+      }
+
+      int buttonIndex = midiMessage.buttonIndex;
+      PHLaunchpadEvent event = midiMessage.event;
+      int tag;
+      if (event == PHLaunchpadEventGridButtonState) {
+        tag = buttonIndex;
+      } else if (event == PHLaunchpadEventTopButtonState) {
+        tag = buttonIndex + 64;
+      } else {
+        tag = buttonIndex + 72;
+      }
+
+      NSButton* button = [self viewWithTag:tag];
+      PHLaunchpadButtonCell* cell = button.cell;
+      cell.color = launchpadColor;
+    }
+  }
 }
 
 @end
