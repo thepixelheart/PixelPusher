@@ -30,6 +30,7 @@ AppDelegate *PHApp();
 
 @property (assign) IBOutlet PHWallWindow* window;
 @property (assign) IBOutlet PHWallWindow* previewWindow;
+@property (assign) IBOutlet NSWindow* launchpadWindow;
 @property (strong, readonly) PHDriver* driver;
 @property (strong, readonly) PHAnimationDriver* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;

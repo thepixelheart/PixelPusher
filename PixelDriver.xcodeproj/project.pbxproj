@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */; };
+		662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE54C1686854B00F300CE /* PHLaunchpadView.m */; };
+		662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE54F1686875D00F300CE /* ableton_logo_screen.png */; };
+		662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE5521686894B00F300CE /* PHLaunchpadWindow.m */; };
+		662DE55516868AF400F300CE /* novation.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55416868AF400F300CE /* novation.png */; };
+		662DE55716868BB100F300CE /* launchpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55616868BB100F300CE /* launchpad.png */; };
 		662F59131678477900ADE02C /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F59121678477900ADE02C /* PHApplication.m */; };
 		662F5916167849E500ADE02C /* clouds.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F5915167849E500ADE02C /* clouds.qtz */; };
 		662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591716784B2F00ADE02C /* Quartz.framework */; };
@@ -63,6 +68,13 @@
 		662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBouncingCircleAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBouncingCircleAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
+		662DE54B1686854B00F300CE /* PHLaunchpadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadView.h; sourceTree = "<group>"; };
+		662DE54C1686854B00F300CE /* PHLaunchpadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadView.m; sourceTree = "<group>"; };
+		662DE54F1686875D00F300CE /* ableton_logo_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ableton_logo_screen.png; path = PixelDriver/ableton_logo_screen.png; sourceTree = "<group>"; };
+		662DE5511686894B00F300CE /* PHLaunchpadWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadWindow.h; sourceTree = "<group>"; };
+		662DE5521686894B00F300CE /* PHLaunchpadWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadWindow.m; sourceTree = "<group>"; };
+		662DE55416868AF400F300CE /* novation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = novation.png; path = PixelDriver/novation.png; sourceTree = "<group>"; };
+		662DE55616868BB100F300CE /* launchpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchpad.png; path = PixelDriver/launchpad.png; sourceTree = "<group>"; };
 		662F59111678477900ADE02C /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
 		662F59121678477900ADE02C /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
 		662F5915167849E500ADE02C /* clouds.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clouds.qtz; path = QuartzCompositions/clouds.qtz; sourceTree = SOURCE_ROOT; };
@@ -363,6 +375,9 @@
 			children = (
 				66F6640716854FA3001E77BC /* spritesheets */,
 				66DC7B661676FC3000453E8F /* MainMenu.xib */,
+				662DE54F1686875D00F300CE /* ableton_logo_screen.png */,
+				662DE55416868AF400F300CE /* novation.png */,
+				662DE55616868BB100F300CE /* launchpad.png */,
 				66DC7B591676FC2F00453E8F /* PixelDriver-Info.plist */,
 				66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */,
 				66DC7B601676FC2F00453E8F /* Credits.rtf */,
@@ -381,6 +396,10 @@
 				66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */,
 				66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */,
 				66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */,
+				662DE5511686894B00F300CE /* PHLaunchpadWindow.h */,
+				662DE5521686894B00F300CE /* PHLaunchpadWindow.m */,
+				662DE54B1686854B00F300CE /* PHLaunchpadView.h */,
+				662DE54C1686854B00F300CE /* PHLaunchpadView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -477,6 +496,9 @@
 				66FC91ED167865A400C02C59 /* meteor.qtz in Resources */,
 				66FC91EF167865E900C02C59 /* clock.qtz in Resources */,
 				66F6640816854FA3001E77BC /* spritesheets in Resources */,
+				662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */,
+				662DE55516868AF400F300CE /* novation.png in Resources */,
+				662DE55716868BB100F300CE /* launchpad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +553,8 @@
 				66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */,
 				66F664101685504F001E77BC /* PHSpritesheet.m in Sources */,
 				66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */,
+				662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */,
+				662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

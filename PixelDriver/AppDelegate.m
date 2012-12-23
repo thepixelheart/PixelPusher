@@ -122,6 +122,9 @@ AppDelegate *PHApp() {
   self.previewWindow.wallView.pixelSize = 8;
   [self prepareWindow:self.previewWindow];
 
+  [self.launchpadWindow setAcceptsMouseMovedEvents:YES];
+  [self.launchpadWindow setMovableByWindowBackground:YES];
+
   self.window.wallView.primary = YES;
 
   _driver = [[PHDriver alloc] init];
@@ -142,6 +145,7 @@ AppDelegate *PHApp() {
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
   [self.window performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.previewWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
+  [self.launchpadWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.window center];
 }
 
