@@ -37,12 +37,35 @@ AppDelegate *PHApp() {
 }
 
 @interface PHCompositeAnimation : PHAnimation
+
+- (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
+- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
+
 @end
 
-@implementation PHCompositeAnimation
+@implementation PHCompositeAnimation {
+  NSInteger _layerAnimationIndex[PHLaunchpadTopButtonCount];
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+      _layerAnimationIndex[ix] = -1;
+    }
+  }
+  return self;
+}
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
 
+}
+
+- (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer {
+  return _layerAnimationIndex[layer];
+}
+
+- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer {
+  _layerAnimationIndex[layer] = animationIndex;
 }
 
 @end
@@ -62,6 +85,7 @@ AppDelegate *PHApp() {
 
   // Composite mode
   PHLaunchpadTopButton _activeCompositeLayer;
+  PHCompositeAnimation* _compositeAnimationBeingEdited;
 
   NSInteger _activeAnimationIndex;
   NSInteger _previousAnimationIndex;
@@ -192,6 +216,10 @@ AppDelegate *PHApp() {
             : (isPreview
                ? PHLaunchpadColorYellowBright
                : PHLaunchpadColorAmberDim));
+
+  } else if (_launchpadMode == PHLaunchpadModeComposite) {
+    NSInteger activeAnimation = [_compositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
+    return (buttonIndex == activeAnimation) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
   }
   return PHLaunchpadColorOff;
 }
@@ -205,7 +233,13 @@ AppDelegate *PHApp() {
       return PHLaunchpadColorOff;
     }
   } else if (_launchpadMode == PHLaunchpadModeComposite) {
-    return (_activeCompositeLayer == buttonIndex) ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim;
+    NSInteger animationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:buttonIndex];
+
+    if (_activeCompositeLayer == buttonIndex) {
+      return (animationIndex >= 0) ? PHLaunchpadColorGreenBright : PHLaunchpadColorAmberBright;
+    } else {
+      return (animationIndex >= 0) ? PHLaunchpadColorGreenDim : PHLaunchpadColorAmberDim;
+    }
 
   } else {
     return PHLaunchpadColorOff;
@@ -224,40 +258,31 @@ AppDelegate *PHApp() {
   }
 }
 
-- (void)commitTransitionAnimation {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:_previousAnimationIndex] atButtonIndex:_previousAnimationIndex];
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:_activeAnimationIndex] atButtonIndex:_activeAnimationIndex];
-
-  _previousAnimationIndex = -1;
-}
-
-- (void)displayLinkDidFire:(NSNotification *)notification {
-  float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
-  NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
-  [_animationDriver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
-
-  if (_previousAnimationIndex >= 0) {
-    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
-    if (delta >= kCrossFadeDuration) {
-      [self commitTransitionAnimation];
-    }
-  }
-}
-
 #pragma mark - Launchpad
 
-- (void)updateLaunchpad {
+- (void)updateGrid {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
   for (NSInteger ix = 0; ix < _animations.count; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }
+}
+
+- (void)updateTopButtons {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  
   for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
     [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)ix]
                          atIndex:ix];
   }
+}
+
+- (void)updateLaunchpad {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+
+  [self updateGrid];
+  [self updateTopButtons];
   for (NSInteger ix = 0; ix < PHLaunchpadSideButtonCount; ++ix) {
     [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)ix]
                            atIndex:ix];
@@ -269,6 +294,13 @@ AppDelegate *PHApp() {
     _launchpadMode = PHLaunchpadModeAnimations;
   } else {
     _launchpadMode = mode;
+
+    if (_launchpadMode == PHLaunchpadModeComposite) {
+      if (nil == _compositeAnimationBeingEdited) {
+        // If we're not editing one, create a default one.
+        _compositeAnimationBeingEdited = [PHCompositeAnimation animation];
+      }
+    }
   }
 
   [self updateLaunchpad];
@@ -324,6 +356,17 @@ AppDelegate *PHApp() {
   }
 }
 
+- (void)setCompositeLayerAnimationIndex:(NSInteger)animationindex {
+  NSInteger currentAnimationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
+  if (currentAnimationIndex == animationindex) {
+    // Tapping the current animation removes the animation from this layer.
+    animationindex = -1;
+  }
+  [_compositeAnimationBeingEdited setAnimationIndex:animationindex forLayer:_activeCompositeLayer];
+  [self updateGrid];
+  [self updateTopButtons];
+}
+
 - (void)launchpadStateDidChange:(NSNotification *)notification {
   PHLaunchpadEvent event = [[notification.userInfo objectForKey:PHLaunchpadEventTypeUserInfoKey] intValue];
   NSInteger buttonIndex = [[notification.userInfo objectForKey:PHLaunchpadButtonIndexInfoKey] intValue];
@@ -335,8 +378,12 @@ AppDelegate *PHApp() {
       if (pressed && buttonIndex < _animations.count) {
         if (_launchpadMode == PHLaunchpadModeAnimations) {
           [self setActiveAnimationIndex:buttonIndex];
+          
         } else if (_launchpadMode == PHLaunchpadModePreview) {
           [self setPreviewAnimationIndex:buttonIndex];
+
+        } else if (_launchpadMode == PHLaunchpadModeComposite) {
+          [self setCompositeLayerAnimationIndex:buttonIndex];
         }
 
       } else if (buttonIndex >= _animations.count) {
@@ -358,13 +405,16 @@ AppDelegate *PHApp() {
       if (pressed) {
         if (_launchpadMode == PHLaunchpadModeComposite) {
           PHLaunchpadTopButton previousActiveLayer = _activeCompositeLayer;
+
           if (previousActiveLayer != buttonIndex) {
             _activeCompositeLayer = (PHLaunchpadTopButton)buttonIndex;
             [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)previousActiveLayer]
                                  atIndex:previousActiveLayer];
             [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)_activeCompositeLayer]
                                  atIndex:_activeCompositeLayer];
-        }
+
+            [self updateGrid];
+          }
 
         } else if (buttonIndex == PHLaunchpadTopButtonSession
             && (_launchpadMode == PHLaunchpadModeAnimations
@@ -404,10 +454,36 @@ AppDelegate *PHApp() {
 }
 
 - (PHAnimation *)activePreviewAnimation {
-  if (_previewAnimationIndex >= 0 && _previewAnimationIndex < _animations.count) {
+  if (_launchpadMode == PHLaunchpadModeComposite) {
+    return _compositeAnimationBeingEdited;
+
+  } else if (_previewAnimationIndex >= 0 && _previewAnimationIndex < _animations.count) {
     return [_previewAnimations objectAtIndex:_previewAnimationIndex];
   } else {
     return nil;
+  }
+}
+
+#pragma mark - Display Link
+
+- (void)commitTransitionAnimation {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setButtonColor:[self buttonColorForButtonIndex:_previousAnimationIndex] atButtonIndex:_previousAnimationIndex];
+  [launchpad setButtonColor:[self buttonColorForButtonIndex:_activeAnimationIndex] atButtonIndex:_activeAnimationIndex];
+
+  _previousAnimationIndex = -1;
+}
+
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
+  NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
+  [_animationDriver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
+
+  if (_previousAnimationIndex >= 0) {
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
+    if (delta >= kCrossFadeDuration) {
+      [self commitTransitionAnimation];
+    }
   }
 }
 
