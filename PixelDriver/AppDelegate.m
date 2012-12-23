@@ -16,21 +16,13 @@
 
 #import "AppDelegate.h"
 
+#import "PHAnimation.h"
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
 #import "PHLaunchpadMIDIDriver.h"
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
-
-#import "PHBasicSpectrumAnimation.h"
-#import "PHBouncingCircleAnimation.h"
-#import "PHBassPlate.h"
-#import "PHFireworksAnimation.h"
-#import "PHFlyingFireballAnimation.h"
-#import "PHNoAnimation.h"
-#import "PHMegamanAnimation.h"
-#import "PHPikachuEmotingAnimation.h"
 
 static const NSTimeInterval kCrossFadeDuration = 1;
 
@@ -84,14 +76,7 @@ AppDelegate *PHApp() {
 }
 
 - (NSMutableArray *)createAnimations {
-  NSArray* animations =
-  @[[PHNoAnimation animation],
-    [PHBouncingCircleAnimation animation],
-    [PHBassPlate animation],
-    [PHFireworksAnimation animation],
-    [PHFlyingFireballAnimation animation],
-    [PHMegamanAnimation animation],
-    [PHPikachuEmotingAnimation animation]];
+  NSArray* animations = [PHAnimation allAnimations];
 
   for (PHAnimation* animation in animations) {
     animation.driver = _animationDriver;

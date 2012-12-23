@@ -16,6 +16,15 @@
 
 #import "PHAnimation.h"
 
+#import "PHBasicSpectrumAnimation.h"
+#import "PHBouncingCircleAnimation.h"
+#import "PHBassPlate.h"
+#import "PHFireworksAnimation.h"
+#import "PHFlyingFireballAnimation.h"
+#import "PHNoAnimation.h"
+#import "PHMegamanAnimation.h"
+#import "PHPikachuEmotingAnimation.h"
+
 @implementation PHAnimation
 
 + (id)animation {
@@ -24,6 +33,17 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   // No-op.
+}
+
++ (NSArray *)allAnimations {
+  return
+  @[[PHNoAnimation animation],
+  [PHBouncingCircleAnimation animation],
+  [PHBassPlate animation],
+  [PHFireworksAnimation animation],
+  [PHFlyingFireballAnimation animation],
+  [PHMegamanAnimation animation],
+  [PHPikachuEmotingAnimation animation]];
 }
 
 @end

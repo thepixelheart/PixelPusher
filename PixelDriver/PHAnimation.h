@@ -37,4 +37,6 @@
 // This method will be called frequently.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
 
++ (NSArray *)allAnimations;
+
 @end
