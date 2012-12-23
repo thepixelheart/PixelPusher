@@ -16,5 +16,8 @@
 
 #import "PHAnimation.h"
 
+/**
+ * The PHNoAnimimation class is an animation that does nothing.
+ */
 @interface PHNoAnimation : PHAnimation
 @end

@@ -17,4 +17,7 @@
 #import "PHNoAnimation.h"
 
 @implementation PHNoAnimation
+
+// Intentionally empty.
+
 @end

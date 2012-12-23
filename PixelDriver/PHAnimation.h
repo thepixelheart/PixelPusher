@@ -20,14 +20,21 @@
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
 
+/**
+ * The PHAnimation class exposes the fundamental tools and API for creating
+ * Pixel Heart animations.
+ */
 @interface PHAnimation : NSObject
 
-// Convenience method
+// Convenience method for creating an animation object.
 + (id)animation;
 
+// The driver exposes a number of pre-calculated values that all animations
+// share.
 @property (nonatomic, strong) PHAnimationDriver* driver;
 
-// Subclassing.
+// Subclasses must implement this method to render their frames.
+// This method will be called frequently.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
 
 @end
