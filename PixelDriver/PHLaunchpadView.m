@@ -79,7 +79,23 @@
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
   [NSGraphicsContext saveGraphicsState];
 
-  [[self NSColorFromLaunchpadColor:_color] set];
+  NSColor* buttonColor = [self NSColorFromLaunchpadColor:_color];
+  CGFloat r = 0;
+  CGFloat g = 0;
+  CGFloat b = 0;
+  CGFloat a = 0;
+  [buttonColor getRed:&r green:&g blue:&b alpha:&a];
+  CGFloat h = 0;
+  CGFloat s = 0;
+  CGFloat br = 0;
+  [buttonColor getHue:&h saturation:&s brightness:&br alpha:nil];
+  NSColor* highlightedButtonColor = [NSColor colorWithDeviceHue:h saturation:s brightness:MIN(1, br * 1.4) alpha:a];
+  CGFloat rh = 0;
+  CGFloat gh = 0;
+  CGFloat bh = 0;
+  CGFloat ah = 0;
+  [highlightedButtonColor getRed:&rh green:&gh blue:&bh alpha:&ah];
+
   CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
 
   if (_square) {
@@ -136,14 +152,60 @@
                       -M_PI / 2, M_PI, 1);
     }
 
-    CGContextFillPath(cx);
+    if (self.isHighlighted) {
+      size_t num_locations = 2;
+      CGFloat locations[2] = { 0, 1 };
+      CGFloat components[8] = {
+        rh, gh, bh, ah,
+        r, g, b, a
+      };
+
+      CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
+      CGGradientRef gradient = CGGradientCreateWithColorComponents(cs, components, locations, num_locations);
+      CGColorSpaceRelease(cs);
+
+      CGContextClip(cx);
+
+      CGPoint midPoint = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
+      CGContextDrawRadialGradient(cx, gradient, midPoint,
+                                   0, midPoint, rect.size.width,
+                                   kCGGradientDrawsBeforeStartLocation);
+      CGGradientRelease(gradient);
+
+    } else {
+      CGContextSetFillColorWithColor(cx, buttonColor.CGColor);
+      CGContextFillPath(cx);
+    }
   } else {
+    // Rounded circle cells are really big and a fixed size for some reason, so
+    // we need to compensate for that fact.
     CGRect circleFrame = cellFrame;
     circleFrame.origin.x += 4;
     circleFrame.origin.y += 1;
     circleFrame.size.width -= 9;
     circleFrame.size.height -= 8;
-    CGContextFillEllipseInRect(cx, circleFrame);
+    if (self.isHighlighted) {
+
+      size_t num_locations = 2;
+      CGFloat locations[2] = { 0, 1 };
+      CGFloat components[8] = {
+        rh, gh, bh, ah,
+        r, g, b, a
+      };
+
+      CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
+      CGGradientRef gradient = CGGradientCreateWithColorComponents(cs, components, locations, num_locations);
+      CGColorSpaceRelease(cs);
+
+      CGPoint midPoint = CGPointMake(CGRectGetMidX(circleFrame), CGRectGetMidY(circleFrame));
+      CGContextDrawRadialGradient(cx, gradient, midPoint,
+                                  0, midPoint, circleFrame.size.width / 2,
+                                  kCGGradientDrawsBeforeStartLocation);
+      CGGradientRelease(gradient);
+    } else {
+      CGContextSetFillColorWithColor(cx, buttonColor.CGColor);
+      CGContextFillEllipseInRect(cx, circleFrame);
+    }
   }
 
   [NSGraphicsContext restoreGraphicsState];
@@ -159,14 +221,14 @@
   for (NSView* view in self.subviews) {
     if ([view isKindOfClass:[NSButton class]]) {
       NSButton* button = (NSButton *)view;
-      button.target = self;
-      button.action = @selector(didTapButton:);
       if (button.tag < 64) {
         button.cell = [[PHLaunchpadButtonCell alloc] initSquareButton];
       } else {
         button.cell = [[PHLaunchpadButtonCell alloc] initRoundButton];
       }
       [button.cell setTag:button.tag];
+      button.target = self;
+      button.action = @selector(didTapButton:);
     }
   }
 }
