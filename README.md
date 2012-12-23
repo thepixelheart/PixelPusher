@@ -6,6 +6,10 @@ The Pixel Heart Driver
 Getting Started
 ---------------
 
+You'll need Xcode to build and run the Pixel Driver.
+
+https://itunes.apple.com/us/app/xcode/id497799835?mt=12
+
 ### 1. Check out the submodules by running the following:
 
 ```
@@ -19,6 +23,9 @@ git submodule update
 cd D2XX
 sudo bash install.sh
 ```
+
+D2XX is a library we use to interface with the PixelHeart. You'll need these to be able to link the
+PixelDriver application correctly.
 
 ### 3. Install SoundFlower by running the installer in the soundflower/ folder.
 
