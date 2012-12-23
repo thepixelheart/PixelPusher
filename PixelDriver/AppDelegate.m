@@ -40,6 +40,7 @@ AppDelegate *PHApp() {
 
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
+- (void)reset;
 
 @end
 
@@ -50,10 +51,7 @@ AppDelegate *PHApp() {
 
 - (id)init {
   if ((self = [super init])) {
-    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
-      _layerAnimationIndex[ix] = -1;
-      _layerAnimation[ix] = nil;
-    }
+    [self reset];
   }
   return self;
 }
@@ -82,6 +80,13 @@ AppDelegate *PHApp() {
   }
 }
 
+- (void)reset {
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    _layerAnimationIndex[ix] = -1;
+    _layerAnimation[ix] = nil;
+  }
+}
+
 @end
 
 @implementation AppDelegate {
@@ -100,6 +105,7 @@ AppDelegate *PHApp() {
   // Composite mode
   PHLaunchpadTopButton _activeCompositeLayer;
   PHCompositeAnimation* _compositeAnimationBeingEdited;
+  BOOL _isConfirmingDeletion;
 
   NSInteger _activeAnimationIndex;
   NSInteger _previousAnimationIndex;
@@ -261,6 +267,14 @@ AppDelegate *PHApp() {
 }
 
 - (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
+  if (_launchpadMode == PHLaunchpadModeComposite) {
+    if (buttonIndex == PHLaunchpadSideButtonSendA) {
+      return PHLaunchpadColorGreenDim;
+
+    } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
+      return _isConfirmingDeletion ? PHLaunchpadColorRedFlashing : PHLaunchpadColorRedDim;
+    }
+  }
   if (buttonIndex == PHLaunchpadSideButtonArm) {
     return (_launchpadMode == PHLaunchpadModePreview) ? PHLaunchpadColorGreenBright : PHLaunchpadColorAmberDim;
 
@@ -388,6 +402,16 @@ AppDelegate *PHApp() {
   BOOL pressed = [[notification.userInfo objectForKey:PHLaunchpadButtonPressedUserInfoKey] boolValue];
 
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  if (pressed && _isConfirmingDeletion && (event != PHLaunchpadEventRightButtonState || buttonIndex != PHLaunchpadSideButtonSendB)) {
+    // When confirming the deletion, tapping any other button will cancel the
+    // request for deletion.
+    _isConfirmingDeletion = NO;
+    [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)PHLaunchpadSideButtonSendB]
+                           atIndex:PHLaunchpadSideButtonSendB];
+    [launchpad flipBuffer];
+    return;
+  }
+
   switch (event) {
     case PHLaunchpadEventGridButtonState:
       if (pressed && buttonIndex < _animations.count) {
@@ -410,8 +434,27 @@ AppDelegate *PHApp() {
       if (pressed) {
         if (buttonIndex == PHLaunchpadSideButtonArm) {
           [self toggleLaunchpadMode:PHLaunchpadModePreview];
+
         } else if (buttonIndex == PHLaunchpadSideButtonTrackOn) {
           [self toggleLaunchpadMode:PHLaunchpadModeComposite];
+
+        } else if (_launchpadMode == PHLaunchpadModeComposite) {
+          if (buttonIndex == PHLaunchpadSideButtonSendA) {
+            // Save
+
+          } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
+            // Delete/reset
+            _isConfirmingDeletion = !_isConfirmingDeletion;
+            if (!_isConfirmingDeletion) {
+              // We've confirmed the deletion, reset the animation.
+              [_compositeAnimationBeingEdited reset];
+              [self updateLaunchpad];
+
+            } else {
+              [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex]
+                                     atIndex:buttonIndex];
+            }
+          }
         }
       }
       break;
