@@ -41,6 +41,7 @@
 		66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
+		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
@@ -130,6 +131,8 @@
 		66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
+		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
+		66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPsychadelicBackgroundAnimation.m; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,6 +217,8 @@
 				66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */,
 				66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */,
 				66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */,
+				66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */,
+				66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -567,6 +572,7 @@
 				662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */,
 				662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */,
 				66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */,
+				66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

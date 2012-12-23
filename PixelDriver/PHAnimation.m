@@ -25,6 +25,7 @@
 #import "PHMegamanAnimation.h"
 #import "PHPikachuEmotingAnimation.h"
 #import "PHSineWaveAnimation.h"
+#import "PHPsychadelicBackgroundAnimation.h"
 
 @implementation PHAnimation
 
@@ -45,7 +46,8 @@
   [PHFlyingFireballAnimation animation],
   [PHMegamanAnimation animation],
   [PHPikachuEmotingAnimation animation],
-  [PHSineWaveAnimation animation]];
+  [PHSineWaveAnimation animation],
+  [PHPsychadelicBackgroundAnimation animation]];
 }
 
 @end
