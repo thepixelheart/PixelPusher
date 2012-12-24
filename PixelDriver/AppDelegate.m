@@ -343,7 +343,7 @@ AppDelegate *PHApp() {
       // If the composite animation is already in the set of animations then we
       // don't show a "save" button for it.
       BOOL editingExistingComposite = [self buttonIndexOfAnimation:_previewCompositeAnimationBeingEdited] >= 0;
-      return editingExistingComposite ? PHLaunchpadColorOff : PHLaunchpadColorGreenDim;
+      return editingExistingComposite ? PHLaunchpadColorAmberDim : PHLaunchpadColorGreenDim;
 
     } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
       return _isConfirmingDeletion ? PHLaunchpadColorRedFlashing : PHLaunchpadColorRedDim;
@@ -521,6 +521,7 @@ AppDelegate *PHApp() {
   } else {
     _compositeAnimationBeingEdited = (PHCompositeAnimation *)[self animationFromButtonIndex:animationindex];
     _previewCompositeAnimationBeingEdited = (PHCompositeAnimation *)[self previewAnimationFromButtonIndex:animationindex];
+    [self updateSideButtons];
   }
   [self updateGrid];
   [self updateTopButtons];
@@ -573,8 +574,19 @@ AppDelegate *PHApp() {
 
         } else if (_launchpadMode == PHLaunchpadModeComposite) {
           if (buttonIndex == PHLaunchpadSideButtonSendA) {
-            [_compositeAnimations addObject:_compositeAnimationBeingEdited];
-            [_previewCompositeAnimations addObject:_previewCompositeAnimationBeingEdited];
+            NSInteger indexOfObject = [_previewCompositeAnimations indexOfObject:_previewCompositeAnimationBeingEdited];
+            if (indexOfObject == NSNotFound) {
+              // Working on a new composite, save it to the list.
+              [_compositeAnimations addObject:_compositeAnimationBeingEdited];
+              [_previewCompositeAnimations addObject:_previewCompositeAnimationBeingEdited];
+
+            } else {
+              // Otherwise we want to create a new composite.
+              _compositeAnimationBeingEdited = [PHCompositeAnimation animation];
+              _compositeAnimationBeingEdited.driver = self.animationDriver;
+              _previewCompositeAnimationBeingEdited = [PHCompositeAnimation animation];
+              _previewCompositeAnimationBeingEdited.driver = self.animationDriver;
+            }
             [self updateGrid];
             [self updateSideButtons];
 
