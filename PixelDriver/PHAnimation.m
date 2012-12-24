@@ -27,6 +27,7 @@
 #import "PHPikachuEmotingAnimation.h"
 #import "PHSineWaveAnimation.h"
 #import "PHPsychadelicBackgroundAnimation.h"
+#import "PHFlyingRectAnimation.h"
 
 @implementation PHAnimation
 
@@ -49,7 +50,8 @@
   [PHPikachuEmotingAnimation animation],
   [PHSineWaveAnimation animation],
   [PHPsychadelicBackgroundAnimation animation],
-  [PHLevelsHorizAnimation animation]];
+  [PHLevelsHorizAnimation animation],
+  [PHFlyingRectAnimation animation]];
 }
 
 @end

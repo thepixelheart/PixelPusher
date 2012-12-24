@@ -44,7 +44,8 @@ CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
   return cx;
 }
 
-#if __MAC_OS_X_VERSION_MAX_ALLOWED <= __MAC_10_7
+
+
 
 // Cuz Anton's running 10.7
 // https://gist.github.com/707921
@@ -66,5 +67,3 @@ CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
 }
  
 @end
-
-#endif
