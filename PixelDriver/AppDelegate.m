@@ -84,10 +84,12 @@ AppDelegate *PHApp() {
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
-    PHAnimation* animation = _layerAnimation[ix];
-    if (nil != animation) {
-      [animation renderBitmapInContext:cx size:size];
+  @synchronized(self) {
+    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+      PHAnimation* animation = _layerAnimation[ix];
+      if (nil != animation) {
+        [animation renderBitmapInContext:cx size:size];
+      }
     }
   }
 }
@@ -97,20 +99,24 @@ AppDelegate *PHApp() {
 }
 
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer {
-  _layerAnimationIndex[layer] = animationIndex;
-  if (animationIndex >= 0) {
-    NSArray* animations = [PHAnimation allAnimations];
-    _layerAnimation[layer] = animations[animationIndex];
-    _layerAnimation[layer].driver = self.driver;
-  } else {
-    _layerAnimation[layer] = nil;
+  @synchronized(self) {
+    _layerAnimationIndex[layer] = animationIndex;
+    if (animationIndex >= 0) {
+      NSArray* animations = [PHAnimation allAnimations];
+      _layerAnimation[layer] = animations[animationIndex];
+      _layerAnimation[layer].driver = self.driver;
+    } else {
+      _layerAnimation[layer] = nil;
+    }
   }
 }
 
 - (void)reset {
-  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
-    _layerAnimationIndex[ix] = -1;
-    _layerAnimation[ix] = nil;
+  @synchronized(self) {
+    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+      _layerAnimationIndex[ix] = -1;
+      _layerAnimation[ix] = nil;
+    }
   }
 }
 
