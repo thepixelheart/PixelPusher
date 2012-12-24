@@ -21,9 +21,7 @@ static const int kMaxRectanglesAddedPerStep = 2;
     CGRect _rect;
     CGFloat _distance;
     CGFloat _speed;
-    CGFloat _r;
-    CGFloat _g;
-    CGFloat _b;
+    NSColor*    _color;
 }
 
 -(id)initWithRect:(CGRect) rect {
@@ -31,9 +29,7 @@ static const int kMaxRectanglesAddedPerStep = 2;
         _rect = rect;
         _distance = 0;
         _speed = kDistanceStep;
-        _r = 0.25 + arc4random_uniform(125) / 255.0f;
-        _g = 0.25 + arc4random_uniform(125) / 255.0f;
-        _b = 0.25 + arc4random_uniform(125) / 255.0f;
+        _color = generateRandomColor();
     }
     return self;
 }
@@ -53,7 +49,7 @@ static const int kMaxRectanglesAddedPerStep = 2;
 
 -(void)renderInContext:(CGContextRef)cx size:(CGSize)size {
     // project the rect on the screen
-    CGContextSetRGBFillColor(cx, _r, _g, _b, 0.9);
+    CGContextSetRGBFillColor(cx, [_color redComponent], [_color greenComponent], [_color blueComponent], [_color alphaComponent]);
     CGContextFillRect(cx, [self computeDrawRect:size]);
 }
 

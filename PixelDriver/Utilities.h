@@ -21,6 +21,8 @@ NSString* PHFilenameForResourcePath(NSString* resourcePath);
 
 CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size);
 
+NSColor* generateRandomColor();
+
 #if __MAC_OS_X_VERSION_MAX_ALLOWED <= __MAC_10_7
 
 // Cuz Anton's running 10.7

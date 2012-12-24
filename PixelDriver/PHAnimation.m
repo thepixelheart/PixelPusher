@@ -53,7 +53,7 @@
   [PHSineWaveAnimation animation],
   [PHPsychadelicBackgroundAnimation animation],
   [PHLevelsHorizAnimation animation],
-  [PHFlyingRectAnimation animation]];
+  [PHFlyingRectAnimation animation],
   [PHNyanCatBgAnimation animation],
   [PHNyanCatFgAnimation animation]];
 }

@@ -44,6 +44,12 @@ CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
   return cx;
 }
 
+NSColor* generateRandomColor() {
+    CGFloat hue = ( arc4random_uniform(256) / 256.0f );  //  0.0 to 1.0
+    CGFloat saturation = ( arc4random_uniform(256) / 256.0f ) + 0.5f;  //  0.5 to 1.0, away from white
+    CGFloat brightness = ( arc4random_uniform(256) / 256.0f ) + 0.5f;  //  0.5 to 1.0, away from black
+    return [NSColor colorWithDeviceHue:hue saturation:saturation brightness:brightness alpha:0.8];
+}
 
 
 
