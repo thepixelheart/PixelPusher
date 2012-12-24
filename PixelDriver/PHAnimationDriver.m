@@ -46,17 +46,25 @@ static const PHFrequencyRange kSnareRange = {500, 6000, 1000};
   return self;
 }
 
+- (float)nyquist {
+  // The sample rate divided by two. This is the range of the spectrum's values.
+  return 44100 / 2;
+}
+
+- (float)hzPerSpectrumValue {
+  return [self nyquist] / (float)_numberOfSpectrumValues;
+}
+
 - (float)amplitudeOfSpectrumWithRange:(PHFrequencyRange)range scale:(CGFloat *)scale {
-  float nyquist = 44100 / 2;
-  float bandHz = nyquist / (float)_numberOfSpectrumValues;
+  float hzPerSpectrumValue = [self hzPerSpectrumValue];
 
   float amplitude = 0;
-  NSInteger start = range.start / bandHz;
-  NSInteger end = range.end / bandHz;
+  NSInteger start = range.start / hzPerSpectrumValue;
+  NSInteger end = range.end / hzPerSpectrumValue;
   for (NSInteger ix = start; ix < end; ++ix) {
     float decibels = log10f(_spectrum[ix] + 1.0f) * (*scale);
     if (range.center >= 0) {
-      float hz = (float)ix * bandHz;
+      float hz = (float)ix * hzPerSpectrumValue;
       float distanceRatio;
       if (hz < range.center) {
         distanceRatio = (hz - range.start) / (range.center - range.start);

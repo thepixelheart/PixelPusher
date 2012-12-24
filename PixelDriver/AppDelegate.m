@@ -484,7 +484,6 @@ AppDelegate *PHApp() {
       [self commitTransitionAnimation];
 
     } else {
-      PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
       [self refreshButtonColorAtIndex:buttonIndex];
       [self refreshButtonColorAtIndex:previousAnimationButtonIndex];
     }
