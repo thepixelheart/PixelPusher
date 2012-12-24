@@ -150,3 +150,35 @@ be red.
 
 To transition to an animation while in preview mode, double tap any animation button. This will
 queue a transition similar to the Default Mode (the instant button is respected, for example).
+
+Composite Mode
+--------------
+
+[![](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad_compositemode.png)](https://raw.github.com/ThePixelHeart/PixelDriver/master/launchpad_compositemode.png)
+
+Composite mode allows you to create new animations that are composites of other animations. In
+this sense you can think of each animation as a program and a composite pipes the output from one
+to the input of another.
+
+Compositing makes it possible to create an animation whose sole purpose is to rotate its input to
+the beat of the music. You can then use this animation to rotate any other animation.
+
+The driver currently allows up to 8 animations to be composited at once.
+
+When composite mode is entered, the top row of buttons on the launchpad become the layer selector.
+Layers are ordered such that the left-most layer is the first animation that's run.
+
+The currently selected layer is brightly lit.
+
+Animations in the grid are colored green. Composites are colored yellow.
+
+If a layer has an animation attached to it, the layer button will glow green instead of amber.
+
+For any layer you can select any animation. Tap the selected animation to clear the animation for
+that layer. You can also double tap the layer button to clear it.
+
+To modify an existing composite you can tap any of the composite buttons.
+
+To create a new composite, tap the "snd A" button (third down on the right). When creating a new
+composite none of the existing composites will be selected and the "snd A" button will glow green.
+Tapping the "snd A" button again will add the current composite to the list of composites.
