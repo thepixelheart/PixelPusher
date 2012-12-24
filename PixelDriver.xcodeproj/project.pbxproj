@@ -42,6 +42,7 @@
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
+		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
@@ -133,6 +134,8 @@
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
 		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
 		66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPsychadelicBackgroundAnimation.m; sourceTree = "<group>"; };
+		66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCompositeAnimation.h; sourceTree = "<group>"; };
+		66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCompositeAnimation.m; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -366,6 +369,8 @@
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
+				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
+				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
 				662F59111678477900ADE02C /* PHApplication.h */,
 				662F59121678477900ADE02C /* PHApplication.m */,
 				66DC7B8716773FC200453E8F /* Utilities.h */,
@@ -573,6 +578,7 @@
 				662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */,
 				66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */,
 				66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */,
+				66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
