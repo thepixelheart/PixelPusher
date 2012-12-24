@@ -43,3 +43,28 @@ CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
   CGColorSpaceRelease(colorSpace);
   return cx;
 }
+
+#if __MAC_OS_X_VERSION_MAX_ALLOWED <= __MAC_10_7
+
+// Cuz Anton's running 10.7
+// https://gist.github.com/707921
+@implementation NSColor (CGColor)
+ 
+- (CGColorRef)CGColor {
+    const NSInteger numberOfComponents = [self numberOfComponents];
+    CGFloat components[numberOfComponents];
+    CGColorSpaceRef colorSpace = [[self colorSpace] CGColorSpace];
+ 
+    [self getComponents:(CGFloat *)&components];
+ 
+    return CGColorCreate(colorSpace, components);
+}
+ 
++ (NSColor *)colorWithCGColor:(CGColorRef)CGColor {
+    if (CGColor == NULL) return nil;
+    return [NSColor colorWithCIColor:[CIColor colorWithCGColor:CGColor]];
+}
+ 
+@end
+
+#endif

@@ -20,3 +20,23 @@ void PHAlert(NSString* message);
 NSString* PHFilenameForResourcePath(NSString* resourcePath);
 
 CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size);
+
+#if __MAC_OS_X_VERSION_MAX_ALLOWED <= __MAC_10_7
+
+// Cuz Anton's running 10.7
+// https://gist.github.com/707921
+@interface NSColor (CGColor)
+
+//
+// The Quartz color reference that corresponds to the receiver's color.
+//
+@property (nonatomic, readonly) CGColorRef CGColor;
+
+//
+// Converts a Quartz color reference to its NSColor equivalent.
+//
++ (NSColor *)colorWithCGColor:(CGColorRef)color;
+
+@end
+
+#endif
