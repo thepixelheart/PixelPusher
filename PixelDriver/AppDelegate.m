@@ -96,6 +96,7 @@ AppDelegate *PHApp() {
   NSMutableArray* _animations;
   NSMutableArray* _previewAnimations;
   NSMutableArray* _compositeAnimations;
+  NSMutableArray* _previewCompositeAnimations;
 
   PHLaunchpadMode _launchpadMode;
 
@@ -107,9 +108,9 @@ AppDelegate *PHApp() {
   PHCompositeAnimation* _compositeAnimationBeingEdited;
   BOOL _isConfirmingDeletion;
 
-  NSInteger _activeAnimationIndex;
-  NSInteger _previousAnimationIndex;
-  NSInteger _previewAnimationIndex;
+  PHAnimation* _activeAnimation;
+  PHAnimation* _previousAnimation;
+  PHAnimation* _previewAnimation;
   NSTimeInterval _crossFadeStartTime;
 }
 
@@ -185,9 +186,10 @@ AppDelegate *PHApp() {
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
   _compositeAnimations = [NSMutableArray array]; // TODO Load this from disk.
-  _activeAnimationIndex = 6;
-  _previewAnimationIndex = 1;
-  _previousAnimationIndex = -1;
+  _previewCompositeAnimations = [NSMutableArray array];
+  _activeAnimation = [_animations objectAtIndex:6];
+  _previewAnimation = [_animations objectAtIndex:1];
+  _previousAnimation = nil;
   _activeCompositeLayer = 0;
 }
 
@@ -218,29 +220,52 @@ AppDelegate *PHApp() {
   return _midiDriver;
 }
 
+- (NSInteger)buttonIndexOfAnimation:(PHAnimation *)animation {
+  if (nil == animation) {
+    return -1;
+  }
+
+  NSInteger buttonIndex = [_animations indexOfObject:animation];
+  if (buttonIndex == NSNotFound) {
+    buttonIndex = [_compositeAnimations indexOfObject:animation];
+    if (buttonIndex == NSNotFound) {
+      NSLog(@"Couldn't find animation! %@", animation);
+      return -1;
+    }
+
+    buttonIndex += _animations.count;
+  }
+  return buttonIndex;
+}
+
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
-  if (buttonIndex >= _animations.count) {
+  if (buttonIndex >= (_animations.count + _compositeAnimations.count)) {
     return PHLaunchpadColorOff;
   }
 
+  BOOL isActiveAnimation = [self buttonIndexOfAnimation:_activeAnimation] == buttonIndex;
+  BOOL isPreviousAnimation = [self buttonIndexOfAnimation:_previousAnimation] == buttonIndex;
+
   if (_launchpadMode == PHLaunchpadModeAnimations) {
-    BOOL isActive = _activeAnimationIndex == buttonIndex;
-    return isActive ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
+    return (isPreviousAnimation
+            ? PHLaunchpadColorGreenFlashing
+            : (isActiveAnimation ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim));
 
   } else if (_launchpadMode == PHLaunchpadModePreview) {
-    BOOL isActive = _activeAnimationIndex == buttonIndex;
-    BOOL isPreview = _previewAnimationIndex == buttonIndex;
-    return (isActive
-            ? (isPreview
-               ? PHLaunchpadColorRedBright
-               : PHLaunchpadColorGreenBright)
-            : (isPreview
-               ? PHLaunchpadColorYellowBright
-               : PHLaunchpadColorAmberDim));
+    BOOL isPreviewAnimation = [self buttonIndexOfAnimation:_previewAnimation] == buttonIndex;
+    return (isPreviousAnimation
+            ? PHLaunchpadColorGreenFlashing
+            : (isActiveAnimation
+               ? (isPreviewAnimation
+                  ? PHLaunchpadColorRedBright
+                  : PHLaunchpadColorGreenBright)
+               : (isPreviewAnimation
+                  ? PHLaunchpadColorYellowBright
+                  : PHLaunchpadColorAmberDim)));
 
   } else if (_launchpadMode == PHLaunchpadModeComposite) {
-    NSInteger activeAnimation = [_compositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
-    return (buttonIndex == activeAnimation) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
+    NSInteger activeAnimationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
+    return (buttonIndex == activeAnimationIndex) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
   }
   return PHLaunchpadColorOff;
 }
@@ -353,40 +378,76 @@ AppDelegate *PHApp() {
   [launchpad flipBuffer];
 }
 
-- (void)setActiveAnimationIndex:(NSInteger)animationIndex {
-  if (_previousAnimationIndex == -1) {
-    _previousAnimationIndex = _activeAnimationIndex;
-    _crossFadeStartTime = [NSDate timeIntervalSinceReferenceDate];
-    _activeAnimationIndex = animationIndex;
-    _previewAnimationIndex = animationIndex;
+- (PHAnimation *)animationFromButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex < _animations.count) {
+    return [_animations objectAtIndex:buttonIndex];
+  } else {
+    return [_compositeAnimations objectAtIndex:buttonIndex - _animations.count];
+  }
+}
 
-    PHAnimation* animation = [_previewAnimations objectAtIndex:_activeAnimationIndex];
-    [_previewAnimations replaceObjectAtIndex:_activeAnimationIndex withObject:[_animations objectAtIndex:_activeAnimationIndex]];
-    [_animations replaceObjectAtIndex:_activeAnimationIndex withObject:animation];
+- (PHAnimation *)previewAnimationFromButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex < _animations.count) {
+    return [_previewAnimations objectAtIndex:buttonIndex];
+  } else {
+    return [_previewCompositeAnimations objectAtIndex:buttonIndex - _animations.count];
+  }
+}
+
+- (void)swapAnimationsAtButtonIndex:(NSInteger)buttonIndex {
+  PHAnimation* previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
+
+  if (buttonIndex < _animations.count) {
+    [_previewAnimations replaceObjectAtIndex:buttonIndex withObject:[self animationFromButtonIndex:buttonIndex]];
+    [_animations replaceObjectAtIndex:buttonIndex withObject:previewAnimation];
+  } else {
+    NSInteger index = buttonIndex - _animations.count;
+    [_previewCompositeAnimations replaceObjectAtIndex:index withObject:[self animationFromButtonIndex:buttonIndex]];
+    [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
+  }
+}
+
+- (void)setActiveAnimationIndex:(NSInteger)buttonIndex {
+  if (_previousAnimation == nil) {
+
+    // Start the transition.
+    _previousAnimation = _activeAnimation;
+    _crossFadeStartTime = [NSDate timeIntervalSinceReferenceDate];
+
+    NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
+
+    [self swapAnimationsAtButtonIndex:buttonIndex];
+
+    _activeAnimation = [self animationFromButtonIndex:buttonIndex];
+    _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
 
     if (_instantCrossfade) {
       [self commitTransitionAnimation];
+
     } else {
       PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-      [launchpad setButtonColor:((_launchpadMode == PHLaunchpadModeAnimations)
-                                 ? PHLaunchpadColorAmberDim
-                                 : PHLaunchpadColorRedDim)
-                  atButtonIndex:_activeAnimationIndex];
-      [launchpad setButtonColor:PHLaunchpadColorGreenFlashing atButtonIndex:_previousAnimationIndex];
+      [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
+                  atButtonIndex:buttonIndex];
+      [launchpad setButtonColor:[self buttonColorForButtonIndex:previousAnimationButtonIndex]
+                  atButtonIndex:previousAnimationButtonIndex];
     }
   }
 }
 
-- (void)setPreviewAnimationIndex:(NSInteger)animationIndex {
-  if (animationIndex == _activeAnimationIndex) {
-    _previewAnimationIndex = animationIndex;
+- (void)setPreviewAnimationIndex:(NSInteger)buttonIndex {
+  PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
+  if (animation == _activeAnimation) {
+    // Switching to the active animation is redundant, so just set the preview
+    // and bail out.
+    _previewAnimation = animation;
     [self updateLaunchpad];
     return;
   }
-  BOOL shouldChange = _previewAnimationIndex == animationIndex;
-  _previewAnimationIndex = animationIndex;
+  // Tapped the previewing animation again and we're not already on this animation.
+  BOOL shouldChange = _previewAnimation == animation;
+  _previewAnimation = animation;
   if (shouldChange) {
-    [self setActiveAnimationIndex:animationIndex];
+    [self setActiveAnimationIndex:buttonIndex];
   } else {
     [self updateLaunchpad];
   }
@@ -489,7 +550,7 @@ AppDelegate *PHApp() {
             && (_launchpadMode == PHLaunchpadModeAnimations
                 || _launchpadMode == PHLaunchpadModePreview)) {
           _instantCrossfade = !_instantCrossfade;
-          if (_previousAnimationIndex >= 0) {
+          if (nil != _previousAnimation) {
             [self commitTransitionAnimation];
           }
           [launchpad setTopButtonColor:_instantCrossfade ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
@@ -507,40 +568,34 @@ AppDelegate *PHApp() {
 }
 
 - (PHAnimation *)previousAnimation {
-  if (_previousAnimationIndex >= 0 && _previousAnimationIndex < _animations.count) {
-    return [_animations objectAtIndex:_previousAnimationIndex];
-  } else {
-    return nil;
-  }
+  return _previousAnimation;
 }
 
 - (PHAnimation *)activeAnimation {
-  if (_activeAnimationIndex >= 0 && _activeAnimationIndex < _animations.count) {
-    return [_animations objectAtIndex:_activeAnimationIndex];
-  } else {
-    return nil;
-  }
+  return _activeAnimation;
 }
 
 - (PHAnimation *)activePreviewAnimation {
   if (_launchpadMode == PHLaunchpadModeComposite) {
     return _compositeAnimationBeingEdited;
-
-  } else if (_previewAnimationIndex >= 0 && _previewAnimationIndex < _animations.count) {
-    return [_previewAnimations objectAtIndex:_previewAnimationIndex];
-  } else {
-    return nil;
   }
+  return _previewAnimation;
 }
 
 #pragma mark - Display Link
 
 - (void)commitTransitionAnimation {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:_previousAnimationIndex] atButtonIndex:_previousAnimationIndex];
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:_activeAnimationIndex] atButtonIndex:_activeAnimationIndex];
 
-  _previousAnimationIndex = -1;
+  NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
+  _previousAnimation = nil;
+
+  [launchpad setButtonColor:[self buttonColorForButtonIndex:previousAnimationButtonIndex]
+              atButtonIndex:previousAnimationButtonIndex];
+
+  NSInteger activeAnimationButtonIndex = [self buttonIndexOfAnimation:_activeAnimation];
+  [launchpad setButtonColor:[self buttonColorForButtonIndex:activeAnimationButtonIndex]
+              atButtonIndex:activeAnimationButtonIndex];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
@@ -548,7 +603,7 @@ AppDelegate *PHApp() {
   NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
   [_animationDriver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
 
-  if (_previousAnimationIndex >= 0) {
+  if (nil != _previousAnimation) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
     if (delta >= kCrossFadeDuration) {
       [self commitTransitionAnimation];
