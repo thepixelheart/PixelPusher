@@ -23,6 +23,8 @@
 #import "PHFlyingFireballAnimation.h"
 #import "PHLevelsHorizAnimation.h"
 #import "PHNoAnimation.h"
+#import "PHNyanCatBgAnimation.h"
+#import "PHNyanCatFgAnimation.h"
 #import "PHMegamanAnimation.h"
 #import "PHPikachuEmotingAnimation.h"
 #import "PHSineWaveAnimation.h"
@@ -52,6 +54,8 @@
   [PHPsychadelicBackgroundAnimation animation],
   [PHLevelsHorizAnimation animation],
   [PHFlyingRectAnimation animation]];
+  [PHNyanCatBgAnimation animation],
+  [PHNyanCatFgAnimation animation]];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012 Jeff Verkoeyen, Greg Marra
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#ifdef __OBJC__
-  #import <Cocoa/Cocoa.h>
-  #import "Utilities.h"
-#endif
+#import "PHAnimation.h"
+
+@interface PHNyanCatBgAnimation : PHAnimation
+@end

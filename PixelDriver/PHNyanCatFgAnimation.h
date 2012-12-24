@@ -14,7 +14,8 @@
 // limitations under the License.
 //
 
-#ifdef __OBJC__
-  #import <Cocoa/Cocoa.h>
-  #import "Utilities.h"
-#endif
+#import "PHAnimation.h"
+
+@interface PHNyanCatFgAnimation : PHAnimation
+
+@end
