@@ -21,6 +21,7 @@
 #import "PHBassPlate.h"
 #import "PHFireworksAnimation.h"
 #import "PHFlyingFireballAnimation.h"
+#import "PHLevelsHorizAnimation.h"
 #import "PHNoAnimation.h"
 #import "PHMegamanAnimation.h"
 #import "PHPikachuEmotingAnimation.h"
@@ -47,7 +48,8 @@
   [PHMegamanAnimation animation],
   [PHPikachuEmotingAnimation animation],
   [PHSineWaveAnimation animation],
-  [PHPsychadelicBackgroundAnimation animation]];
+  [PHPsychadelicBackgroundAnimation animation],
+  [PHLevelsHorizAnimation animation]];
 }
 
 @end
