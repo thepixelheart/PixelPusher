@@ -17,7 +17,7 @@
 #import "PHNyanCatBgAnimation.h"
 
 #define NHISTOGRAMS 6
-#define TICKEVERY 8
+#define TICKEVERY 6
 #define TICKMULTIPLIER 3 // how much faster do rainbows run than oscillate?
 
 @implementation PHNyanCatBgAnimation {
