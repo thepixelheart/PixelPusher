@@ -23,6 +23,7 @@
 #import "PHLaunchpadMIDIDriver.h"
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
+#import "Utilities.h"
 
 static const NSTimeInterval kCrossFadeDuration = 1;
 
@@ -36,7 +37,7 @@ AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
 
-@interface PHCompositeAnimation : PHAnimation <NSCopying>
+@interface PHCompositeAnimation : PHAnimation <NSCopying, NSCoding>
 
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
@@ -64,6 +65,32 @@ AppDelegate *PHApp() {
   [description appendString:@">"];
   return description;
 }
+
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    [coder encodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
+  }
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+  if ((self = [super init])) {
+    NSArray* animations = [PHAnimation allAnimations];
+
+    for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+      [decoder decodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
+
+      if (_layerAnimationIndex[ix] >= 0) {
+        _layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
+        _layerAnimation[ix].driver = self.driver;
+      }
+    }
+  }
+  return self;
+}
+
+#pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
   PHCompositeAnimation* animation = [[[self class] allocWithZone:zone] init];
@@ -107,6 +134,16 @@ AppDelegate *PHApp() {
       _layerAnimation[layer].driver = self.driver;
     } else {
       _layerAnimation[layer] = nil;
+    }
+  }
+}
+
+- (void)setDriver:(PHAnimationDriver *)driver {
+  [super setDriver:driver];
+
+  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    if (_layerAnimationIndex[ix] >= 0) {
+      _layerAnimation[ix].driver = self.driver;
     }
   }
 }
@@ -225,6 +262,8 @@ AppDelegate *PHApp() {
   _previewAnimation = [_animations objectAtIndex:1];
   _previousAnimation = nil;
   _activeCompositeLayer = 0;
+
+  [self loadComposites];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
@@ -234,6 +273,33 @@ AppDelegate *PHApp() {
   [self.window center];
 
   [self launchpadDidConnect:nil];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification {
+  [self saveComposites];
+}
+
+- (NSString *)compositeFilename {
+  return PHFilenameForResourcePath(@"composites");
+}
+
+- (void)loadComposites {
+  NSData* data = [NSData dataWithContentsOfFile:[self compositeFilename]];
+  if (nil != data) {
+    NSArray* compositeAnimations = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    for (PHCompositeAnimation* animation in compositeAnimations) {
+      animation.driver = self.animationDriver;
+      [_compositeAnimations addObject:[animation copy]];
+      [_previewCompositeAnimations addObject:[animation copy]];
+    }
+  }
+}
+
+- (void)saveComposites {
+  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:_previewCompositeAnimations];
+  if (nil != data) {
+    [data writeToFile:[self compositeFilename] atomically:YES];
+  }
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
@@ -592,6 +658,7 @@ AppDelegate *PHApp() {
               _compositeAnimationBeingEdited.driver = self.animationDriver;
               _previewCompositeAnimationBeingEdited = [PHCompositeAnimation animation];
               _previewCompositeAnimationBeingEdited.driver = self.animationDriver;
+              [self updateTopButtons];
             }
             [self updateGrid];
             [self updateSideButtons];
@@ -605,17 +672,17 @@ AppDelegate *PHApp() {
               [_previewCompositeAnimationBeingEdited reset];
               NSInteger indexOfObject = [_previewCompositeAnimations indexOfObject:_previewCompositeAnimationBeingEdited];
               if (indexOfObject != NSNotFound) {
-                NSInteger buttonIndex = [self buttonIndexOfAnimation:_previewCompositeAnimationBeingEdited];
                 [_compositeAnimations removeObjectAtIndex:indexOfObject];
                 [_previewCompositeAnimations removeObjectAtIndex:indexOfObject];
                 if (_compositeAnimations.count > 0) {
                   // If there are any composite animations left, let's edit the one around where we just were.
-                  indexOfObject = MIN(_compositeAnimations.count - 1, indexOfObject + 1);
+                  indexOfObject = MIN(_compositeAnimations.count - 1, indexOfObject);
                   _compositeAnimationBeingEdited = _compositeAnimations[indexOfObject];
                   _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[indexOfObject];
                 }
 
-                [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex] atButtonIndex:buttonIndex];
+                [launchpad setButtonColor:[self buttonColorForButtonIndex:[self numberOfAnimations]]
+                            atButtonIndex:[self numberOfAnimations]];
               }
               [self updateLaunchpad];
 
