@@ -28,9 +28,9 @@ static const PHFrequencyRange kSubBassRange = {0, 100, -1};
 static const PHFrequencyRange kHihatRange = {11500, 14000, -1};
 static const PHFrequencyRange kVocalRange = {300, 3400, -1};
 static const PHFrequencyRange kSnareRange = {500, 6000, 1000};
+static const PHFrequencyRange kPitchDetectionRange = {200, 8000, -1};
 
-// Ported from the pitch detection example in the FMOD samples.
-static const char *note[120] = {
+static const char *note[PHPitch_Count] = {
   "C 0", "C#0", "D 0", "D#0", "E 0", "F 0", "F#0", "G 0", "G#0", "A 0", "A#0", "B 0",
   "C 1", "C#1", "D 1", "D#1", "E 1", "F 1", "F#1", "G 1", "G#1", "A 1", "A#1", "B 1",
   "C 2", "C#2", "D 2", "D#2", "E 2", "F 2", "F#2", "G 2", "G#2", "A 2", "A#2", "B 2",
@@ -43,7 +43,7 @@ static const char *note[120] = {
   "C 9", "C#9", "D 9", "D#9", "E 9", "F 9", "F#9", "G 9", "G#9", "A 9", "A#9", "B 9"
 };
 
-static const float notefreq[120] = {
+static const float notefreq[PHPitch_Count] = {
   16.35f,   17.32f,   18.35f,   19.45f,    20.60f,    21.83f,    23.12f,    24.50f,    25.96f,    27.50f,    29.14f,    30.87f,
   32.70f,   34.65f,   36.71f,   38.89f,    41.20f,    43.65f,    46.25f,    49.00f,    51.91f,    55.00f,    58.27f,    61.74f,
   65.41f,   69.30f,   73.42f,   77.78f,    82.41f,    87.31f,    92.50f,    98.00f,   103.83f,   110.00f,   116.54f,   123.47f,
@@ -55,7 +55,6 @@ static const float notefreq[120] = {
   4186.01f, 4434.92f, 4698.64f, 4978.03f,  5274.04f,  5587.65f,  5919.91f,  6271.92f,  6644.87f,  7040.00f,  7458.62f,  7902.13f,
   8372.01f, 8869.84f, 9397.27f, 9956.06f, 10548.08f, 11175.30f, 11839.82f, 12543.85f, 13289.75f, 14080.00f, 14917.24f, 15804.26f
 };
-
 
 @implementation PHAnimationDriver {
   CGFloat _subBassScale;
@@ -132,16 +131,34 @@ static const float notefreq[120] = {
   NSInteger indexOfMax = 0;
 
   float hzPerSpectrumValue = [self hzPerHighResSpectrumValue];
-  NSInteger leftEdge = floorf(kSubBassRange.end / hzPerSpectrumValue);
-  
-  for (NSInteger ix = leftEdge; ix < numberOfValues; ++ix) {
+  NSInteger leftEdge = floorf(kPitchDetectionRange.start / hzPerSpectrumValue);
+  NSInteger rightEdge = floorf(kPitchDetectionRange.end / hzPerSpectrumValue);
+
+  for (NSInteger ix = leftEdge; ix < rightEdge; ++ix) {
     if (spectrum[ix] > 0.01f && spectrum[ix] > max) {
       max = spectrum[ix];
       indexOfMax = ix;
     }
   }
 
-  
+  float hzOfMaxValue = (float)indexOfMax * hzPerSpectrumValue;
+  NSInteger indexOfNote = 0;
+  for (NSInteger ix = 0; ix < PHPitch_Count; ++ix) {
+    if (hzOfMaxValue >= notefreq[ix] && hzOfMaxValue < notefreq[ix + 1]) {
+      if (fabs(hzOfMaxValue - notefreq[ix]) < fabs(hzOfMaxValue - notefreq[ix + 1])) {
+        indexOfNote = ix;
+      } else {
+        indexOfNote = ix + 1;
+      }
+      break;
+    }
+  }
+
+  if (indexOfNote > 0) {
+    _dominantPitch = (PHPitch)indexOfNote;
+  } else {
+    _dominantPitch = PHPitch_Unknown;
+  }
 }
 
 - (void)resetScales {
