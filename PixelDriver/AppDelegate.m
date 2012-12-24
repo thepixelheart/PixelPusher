@@ -184,6 +184,7 @@ AppDelegate *PHApp() {
   _animationDriver = [[PHAnimationDriver alloc] init];
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
+  _compositeAnimations = [NSMutableArray array]; // TODO Load this from disk.
   _activeAnimationIndex = 6;
   _previewAnimationIndex = 1;
   _previousAnimationIndex = -1;
@@ -269,7 +270,9 @@ AppDelegate *PHApp() {
 - (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
   if (_launchpadMode == PHLaunchpadModeComposite) {
     if (buttonIndex == PHLaunchpadSideButtonSendA) {
-      return PHLaunchpadColorGreenDim;
+      // If the composite animation is already in the set of animations then we
+      // don't show a "save" button for it.
+      return [_compositeAnimations containsObject:_compositeAnimationBeingEdited] ? PHLaunchpadColorOff : PHLaunchpadColorGreenDim;
 
     } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
       return _isConfirmingDeletion ? PHLaunchpadColorRedFlashing : PHLaunchpadColorRedDim;
@@ -306,15 +309,19 @@ AppDelegate *PHApp() {
   }
 }
 
-- (void)updateLaunchpad {
+- (void)updateSideButtons {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-
-  [self updateGrid];
-  [self updateTopButtons];
+  
   for (NSInteger ix = 0; ix < PHLaunchpadSideButtonCount; ++ix) {
     [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)ix]
                            atIndex:ix];
   }
+}
+
+- (void)updateLaunchpad {
+  [self updateGrid];
+  [self updateTopButtons];
+  [self updateSideButtons];
 }
 
 - (void)toggleLaunchpadMode:(PHLaunchpadMode)mode {
@@ -417,7 +424,7 @@ AppDelegate *PHApp() {
       if (pressed && buttonIndex < _animations.count) {
         if (_launchpadMode == PHLaunchpadModeAnimations) {
           [self setActiveAnimationIndex:buttonIndex];
-          
+
         } else if (_launchpadMode == PHLaunchpadModePreview) {
           [self setPreviewAnimationIndex:buttonIndex];
 
@@ -440,7 +447,8 @@ AppDelegate *PHApp() {
 
         } else if (_launchpadMode == PHLaunchpadModeComposite) {
           if (buttonIndex == PHLaunchpadSideButtonSendA) {
-            // Save
+            [_compositeAnimations addObject:_compositeAnimationBeingEdited];
+            [self updateSideButtons];
 
           } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
             // Delete/reset
@@ -448,6 +456,7 @@ AppDelegate *PHApp() {
             if (!_isConfirmingDeletion) {
               // We've confirmed the deletion, reset the animation.
               [_compositeAnimationBeingEdited reset];
+              [_compositeAnimations removeObject:_compositeAnimationBeingEdited];
               [self updateLaunchpad];
 
             } else {
