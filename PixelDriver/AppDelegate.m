@@ -723,8 +723,6 @@ AppDelegate *PHApp() {
                                  atIndex:_activeCompositeLayer];
 
             [self updateGrid];
-          } else {
-            [self setCompositeLayerAnimationIndex:-1];
           }
 
         } else if (buttonIndex == PHLaunchpadTopButtonSession
