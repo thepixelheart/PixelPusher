@@ -51,7 +51,7 @@ NSColor* generateRandomColor() {
     return [NSColor colorWithDeviceHue:hue saturation:saturation brightness:brightness alpha:0.8];
 }
 
-
+#if 0
 
 // Cuz Anton's running 10.7
 // https://gist.github.com/707921
@@ -73,3 +73,5 @@ NSColor* generateRandomColor() {
 }
  
 @end
+
+#endif
