@@ -643,10 +643,18 @@ AppDelegate *PHApp() {
               [self commitTransitionAnimation];
             }
             [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
+          }
+        }
+      }
 
-          } else if (buttonIndex == PHLaunchpadTopButtonUpArrow) {
+      if (_launchpadMode == PHLaunchpadModeAnimations
+          || _launchpadMode == PHLaunchpadModePreview) {
+        if (buttonIndex == PHLaunchpadTopButtonUpArrow) {
+          if (pressed) {
             [self.animationDriver resetScales];
           }
+          [launchpad setTopButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff
+                               atIndex:buttonIndex];
         }
       }
       break;
