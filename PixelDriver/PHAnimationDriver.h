@@ -31,6 +31,7 @@
 // This can be used to calculate an average over a specific Hz range in the
 // spectrum and is what the amplitude values below use.
 - (float)hzPerSpectrumValue;
+- (float)hzPerHighResSpectrumValue;
 
 // Processed values
 // Each of these values is from 0..1, with 1 being peak amplitude.

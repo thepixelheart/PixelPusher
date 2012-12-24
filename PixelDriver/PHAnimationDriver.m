@@ -80,6 +80,10 @@ static const float notefreq[120] = {
   return [self nyquist] / (float)_numberOfSpectrumValues;
 }
 
+- (float)hzPerHighResSpectrumValue {
+  return [self nyquist] / (float)_numberOfHighResSpectrumValues;
+}
+
 - (float)amplitudeOfSpectrumWithRange:(PHFrequencyRange)range scale:(CGFloat *)scale {
   float hzPerSpectrumValue = [self hzPerSpectrumValue];
 
@@ -122,6 +126,22 @@ static const float notefreq[120] = {
 - (void)setHighResSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues {
   _highResSpectrum = spectrum;
   _numberOfHighResSpectrumValues = numberOfValues;
+
+  // First find the loudest frequency, ignoring the bass.
+  float max = 0;
+  NSInteger indexOfMax = 0;
+
+  float hzPerSpectrumValue = [self hzPerHighResSpectrumValue];
+  NSInteger leftEdge = floorf(kSubBassRange.end / hzPerSpectrumValue);
+  
+  for (NSInteger ix = leftEdge; ix < numberOfValues; ++ix) {
+    if (spectrum[ix] > 0.01f && spectrum[ix] > max) {
+      max = spectrum[ix];
+      indexOfMax = ix;
+    }
+  }
+
+  
 }
 
 - (void)resetScales {
