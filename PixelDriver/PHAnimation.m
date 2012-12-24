@@ -31,6 +31,7 @@
 #import "PHPsychadelicBackgroundAnimation.h"
 #import "PHFlyingRectAnimation.h"
 #import "PHPixelHeartAnimation.h"
+#import "PHGameOfLifeAnimation.h"
 
 @implementation PHAnimation
 
@@ -57,7 +58,8 @@
   [PHNyanCatBgAnimation animation],
   [PHNyanCatFgAnimation animation],
   [PHPixelHeartAnimation animation],
-  [PHFlyingRectAnimation animation]];
+  [PHFlyingRectAnimation animation],
+  [PHGameOfLifeAnimation animation]];
 }
 
 @end
