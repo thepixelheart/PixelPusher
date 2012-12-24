@@ -26,7 +26,11 @@
 #import "PHWallView.h"
 #import "Utilities.h"
 
+static const CGFloat kPixelHeartPixelSize = 16;
+static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
+static const NSInteger kInitialAnimationIndex = 6;
+static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {
   PHLaunchpadModeAnimations,
@@ -115,14 +119,15 @@ AppDelegate *PHApp() {
              name:PHDisplayLinkFiredNotification
            object:nil];
 
-  self.window.wallView.pixelSize = 16;
+  self.window.wallView.pixelSize = kPixelHeartPixelSize;
+  self.previewWindow.wallView.pixelSize = kPreviewPixelSize;
   [self prepareWindow:self.window];
-  self.previewWindow.wallView.pixelSize = 8;
   [self prepareWindow:self.previewWindow];
-
   [self.launchpadWindow setAcceptsMouseMovedEvents:YES];
   [self.launchpadWindow setMovableByWindowBackground:YES];
 
+  // Because the two wall windows use the same views we need to let one know
+  // that it's the "main" view. This main view will pipe its output to the wall.
   self.window.wallView.primary = YES;
 
   _driver = [[PHDriver alloc] init];
@@ -133,12 +138,20 @@ AppDelegate *PHApp() {
   _launchpadMode = PHLaunchpadModeAnimations;
 
   _animationDriver = [[PHAnimationDriver alloc] init];
+
+  // We duplicate the arrays here for each set of animations so that each window
+  // can have its own instances of animations. This is so that an animation
+  // instance is only ever run once per run-loop.
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
-  _compositeAnimations = [NSMutableArray array]; // TODO Load this from disk.
+  _compositeAnimations = [NSMutableArray array];
   _previewCompositeAnimations = [NSMutableArray array];
-  _activeAnimation = [_animations objectAtIndex:6];
-  _previewAnimation = [_animations objectAtIndex:1];
+
+  // Arbitrary starting animations. Change these if you're working on animations
+  // and want the startup animation to be something else.
+  _activeAnimation = [_animations objectAtIndex:kInitialAnimationIndex];
+  _previewAnimation = [_animations objectAtIndex:kInitialPreviewAnimationIndex];
+
   _previousAnimation = nil;
   _activeCompositeLayer = 0;
 
@@ -151,12 +164,20 @@ AppDelegate *PHApp() {
   [self.launchpadWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.window center];
 
+  // Simulate a connection to the launchpad at least once, regardless of whether
+  // we've actually connected. This initializes the simulator.
   [self launchpadDidConnect:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
   [self saveComposites];
 }
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
+  return YES;
+}
+
+#pragma mark - Saving/Loading Composites
 
 - (NSString *)compositeFilename {
   NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -189,9 +210,7 @@ AppDelegate *PHApp() {
   }
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
-  return YES;
-}
+#pragma mark - Public Accessors
 
 - (PHFMODRecorder *)audioRecorder {
   if (nil == _audioRecorder) {
@@ -207,15 +226,22 @@ AppDelegate *PHApp() {
   return _midiDriver;
 }
 
+#pragma mark - Button Indices
+
+// Find an animation instance in any of the animation arrays and return its
+// corresponding button index.
 - (NSInteger)buttonIndexOfAnimation:(PHAnimation *)animation {
   if (nil == animation) {
     return -1;
   }
 
+  // Check animation arrays.
   NSInteger buttonIndex = [_animations indexOfObject:animation];
   if (buttonIndex == NSNotFound) {
     buttonIndex = [_previewAnimations indexOfObject:animation];
   }
+
+  // Check composite arrays.
   if (buttonIndex == NSNotFound) {
     buttonIndex = [_compositeAnimations indexOfObject:animation];
     if (buttonIndex != NSNotFound) {
@@ -228,13 +254,34 @@ AppDelegate *PHApp() {
       buttonIndex += _animations.count;
     }
   }
+
+  // Not in any array.
   if (buttonIndex == NSNotFound) {
-    return -1;
+    buttonIndex = -1;
   }
+
   return buttonIndex;
 }
 
 #pragma mark - Colors
+
+- (void)refreshButtonColorAtIndex:(NSInteger)buttonIndex {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
+              atButtonIndex:buttonIndex];
+}
+
+- (void)refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setTopButtonColor:[self topButtonColorForIndex:buttonIndex]
+                       atIndex:buttonIndex];
+}
+
+- (void)refreshSideButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex {
+  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+  [launchpad setRightButtonColor:[self sideButtonColorForIndex:buttonIndex]
+                         atIndex:buttonIndex];
+}
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
   if (buttonIndex >= (_animations.count + _compositeAnimations.count)) {
@@ -326,29 +373,20 @@ AppDelegate *PHApp() {
 }
 
 - (void)updateGrid {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-
   for (NSInteger ix = 0; ix < [self numberOfAnimations]; ++ix) {
-    [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
-                atButtonIndex:ix];
+    [self refreshButtonColorAtIndex:ix];
   }
 }
 
 - (void)updateTopButtons {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  
   for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
-    [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)ix]
-                         atIndex:ix];
+    [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)ix];
   }
 }
 
 - (void)updateSideButtons {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  
   for (NSInteger ix = 0; ix < PHLaunchpadSideButtonCount; ++ix) {
-    [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)ix]
-                           atIndex:ix];
+    [self refreshSideButtonColorAtIndex:(PHLaunchpadSideButton)ix];
   }
 }
 
@@ -447,10 +485,8 @@ AppDelegate *PHApp() {
 
     } else {
       PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-      [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
-                  atButtonIndex:buttonIndex];
-      [launchpad setButtonColor:[self buttonColorForButtonIndex:previousAnimationButtonIndex]
-                  atButtonIndex:previousAnimationButtonIndex];
+      [self refreshButtonColorAtIndex:buttonIndex];
+      [self refreshButtonColorAtIndex:previousAnimationButtonIndex];
     }
   }
 }
@@ -503,8 +539,7 @@ AppDelegate *PHApp() {
     // When confirming the deletion, tapping any other button will cancel the
     // request for deletion.
     _isConfirmingDeletion = NO;
-    [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)PHLaunchpadSideButtonSendB]
-                           atIndex:PHLaunchpadSideButtonSendB];
+    [self refreshSideButtonColorAtIndex:PHLaunchpadSideButtonSendB];
     [launchpad flipBuffer];
     return;
   }
@@ -525,7 +560,8 @@ AppDelegate *PHApp() {
         }
 
       } else {
-        [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atButtonIndex:buttonIndex];
+        [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff
+                    atButtonIndex:buttonIndex];
       }
       break;
     }
@@ -575,14 +611,12 @@ AppDelegate *PHApp() {
                   _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[indexOfObject];
                 }
 
-                [launchpad setButtonColor:[self buttonColorForButtonIndex:[self numberOfAnimations]]
-                            atButtonIndex:[self numberOfAnimations]];
+                [self refreshButtonColorAtIndex:[self numberOfAnimations]];
               }
               [self updateLaunchpad];
 
             } else {
-              [launchpad setRightButtonColor:[self sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex]
-                                     atIndex:buttonIndex];
+              [self refreshSideButtonColorAtIndex:(PHLaunchpadSideButton)buttonIndex];
             }
           }
         }
@@ -596,10 +630,8 @@ AppDelegate *PHApp() {
 
           if (previousActiveLayer != buttonIndex) {
             _activeCompositeLayer = (PHLaunchpadTopButton)buttonIndex;
-            [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)previousActiveLayer]
-                                 atIndex:previousActiveLayer];
-            [launchpad setTopButtonColor:[self topButtonColorForIndex:(PHLaunchpadTopButton)_activeCompositeLayer]
-                                 atIndex:_activeCompositeLayer];
+            [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)previousActiveLayer];
+            [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)_activeCompositeLayer];
 
             [self updateGrid];
           }
@@ -611,8 +643,7 @@ AppDelegate *PHApp() {
           if (nil != _previousAnimation) {
             [self commitTransitionAnimation];
           }
-          [launchpad setTopButtonColor:_instantCrossfade ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
-                               atIndex:buttonIndex];
+          [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
         }
       }
       break;
@@ -643,17 +674,13 @@ AppDelegate *PHApp() {
 #pragma mark - Display Link
 
 - (void)commitTransitionAnimation {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-
   NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
+  NSInteger activeAnimationButtonIndex = [self buttonIndexOfAnimation:_activeAnimation];
+
   _previousAnimation = nil;
 
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:previousAnimationButtonIndex]
-              atButtonIndex:previousAnimationButtonIndex];
-
-  NSInteger activeAnimationButtonIndex = [self buttonIndexOfAnimation:_activeAnimation];
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:activeAnimationButtonIndex]
-              atButtonIndex:activeAnimationButtonIndex];
+  [self refreshButtonColorAtIndex:previousAnimationButtonIndex];
+  [self refreshButtonColorAtIndex:activeAnimationButtonIndex];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
