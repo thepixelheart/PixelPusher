@@ -482,6 +482,8 @@ AppDelegate *PHApp() {
 - (void)toggleLaunchpadMode:(PHLaunchpadMode)mode {
   if (_launchpadMode == mode) {
     _launchpadMode = PHLaunchpadModeAnimations;
+    [self saveComposites];
+
   } else {
     _launchpadMode = mode;
 
@@ -556,10 +558,10 @@ AppDelegate *PHApp() {
 
     NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
 
-    [self swapAnimationsAtButtonIndex:buttonIndex];
-
     _activeAnimation = [self animationFromButtonIndex:buttonIndex];
     _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
+
+    [self swapAnimationsAtButtonIndex:buttonIndex];
 
     if (_instantCrossfade) {
       [self commitTransitionAnimation];
