@@ -170,6 +170,7 @@ typedef enum {
 @property (nonatomic, readonly) CGFloat snareAmplitude;
 
 @property (nonatomic, readonly) PHPitch dominantPitch;
+- (NSString *)nameOfPitch:(PHPitch)pitch;
 
 @end
 

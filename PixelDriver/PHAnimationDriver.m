@@ -161,6 +161,13 @@ static const float notefreq[PHPitch_Count] = {
   }
 }
 
+- (NSString *)nameOfPitch:(PHPitch)pitch {
+  if (pitch < PHPitch_Count) {
+    return [NSString stringWithFormat:@"%s", note[pitch]];
+  }
+  return nil;
+}
+
 - (void)resetScales {
   _subBassScale = 50;
   _hihatScale = 1200;
