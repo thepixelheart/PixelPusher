@@ -48,12 +48,12 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
         _idleAnimation.rightBoundary = 1;
         
         _runningAnimation = [[PHSpriteAnimation alloc] initWithSpritesheet:_nyancatSpritesheet];
-        [_runningAnimation addFrameAtX:0 y:0 duration:kMinimumDelayBetweenHits];
-        [_runningAnimation addFrameAtX:1 y:0 duration:kMinimumDelayBetweenHits];
-        [_runningAnimation addFrameAtX:2 y:0 duration:kMinimumDelayBetweenHits];
-        [_runningAnimation addFrameAtX:3 y:0 duration:kMinimumDelayBetweenHits];
-        [_runningAnimation addFrameAtX:4 y:0 duration:kMinimumDelayBetweenHits];
         [_runningAnimation addFrameAtX:5 y:0 duration:kMinimumDelayBetweenHits];
+        [_runningAnimation addFrameAtX:4 y:0 duration:kMinimumDelayBetweenHits];
+        [_runningAnimation addFrameAtX:3 y:0 duration:kMinimumDelayBetweenHits];
+        [_runningAnimation addFrameAtX:2 y:0 duration:kMinimumDelayBetweenHits];
+        [_runningAnimation addFrameAtX:1 y:0 duration:kMinimumDelayBetweenHits];
+        [_runningAnimation addFrameAtX:0 y:0 duration:kMinimumDelayBetweenHits];
         _runningAnimation.repeats = YES;
         _runningAnimation.bounces = NO;
     }
