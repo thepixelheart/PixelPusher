@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */; };
 		662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */; };
 		662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE54C1686854B00F300CE /* PHLaunchpadView.m */; };
 		662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE54F1686875D00F300CE /* ableton_logo_screen.png */; };
@@ -69,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E791A6F1688122E008106F3 /* PHLevelsHorizAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLevelsHorizAnimation.h; sourceTree = "<group>"; };
+		1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLevelsHorizAnimation.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBouncingCircleAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBouncingCircleAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 				66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */,
 				66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */,
 				66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */,
+				1E791A6F1688122E008106F3 /* PHLevelsHorizAnimation.h */,
+				1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -579,6 +584,7 @@
 				66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */,
 				66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */,
 				66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */,
+				1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
