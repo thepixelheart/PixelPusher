@@ -280,7 +280,15 @@ AppDelegate *PHApp() {
 }
 
 - (NSString *)compositeFilename {
-  return PHFilenameForResourcePath(@"composites");
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+
+  NSString *folder = @"~/Library/Application Support/PixelDriver/";
+  folder = [folder stringByExpandingTildeInPath];
+
+  if ([fileManager fileExistsAtPath:folder] == NO) {
+    [fileManager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
+  }
+  return [[folder stringByAppendingPathComponent:@"composites"] stringByAppendingPathExtension:@".plist"];
 }
 
 - (void)loadComposites {
@@ -480,10 +488,15 @@ AppDelegate *PHApp() {
     if (_launchpadMode == PHLaunchpadModeComposite) {
       if (nil == _previewCompositeAnimationBeingEdited) {
         // If we're not editing one, create a default one.
-        _compositeAnimationBeingEdited = [PHCompositeAnimation animation];
-        _compositeAnimationBeingEdited.driver = self.animationDriver;
-        _previewCompositeAnimationBeingEdited = [PHCompositeAnimation animation];
-        _previewCompositeAnimationBeingEdited.driver = self.animationDriver;
+        if (_compositeAnimations.count == 0) {
+          _compositeAnimationBeingEdited = [PHCompositeAnimation animation];
+          _compositeAnimationBeingEdited.driver = self.animationDriver;
+          _previewCompositeAnimationBeingEdited = [PHCompositeAnimation animation];
+          _previewCompositeAnimationBeingEdited.driver = self.animationDriver;
+        } else {
+          _compositeAnimationBeingEdited = [_compositeAnimations objectAtIndex:0];
+          _previewCompositeAnimationBeingEdited = [_previewCompositeAnimations objectAtIndex:0];
+        }
       }
     }
   }
