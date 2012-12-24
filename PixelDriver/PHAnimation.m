@@ -54,10 +54,10 @@
   [PHSineWaveAnimation animation],
   [PHPsychadelicBackgroundAnimation animation],
   [PHLevelsHorizAnimation animation],
-  [PHFlyingRectAnimation animation],
   [PHNyanCatBgAnimation animation],
   [PHNyanCatFgAnimation animation],
-  [PHPixelHeartAnimation animation]];
+  [PHPixelHeartAnimation animation],
+  [PHFlyingRectAnimation animation]];
 }
 
 @end
