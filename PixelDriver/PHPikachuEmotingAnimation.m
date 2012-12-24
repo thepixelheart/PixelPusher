@@ -150,7 +150,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
 
     CGImageRelease(imageRef);
-
   }
 }
 

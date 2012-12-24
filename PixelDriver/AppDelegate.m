@@ -36,7 +36,7 @@ AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
 
-@interface PHCompositeAnimation : PHAnimation
+@interface PHCompositeAnimation : PHAnimation <NSCopying>
 
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
@@ -56,6 +56,33 @@ AppDelegate *PHApp() {
   return self;
 }
 
+- (NSString *)description {
+  NSMutableString* description = [[super description] mutableCopy];
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    [description appendFormat:@" %@", _layerAnimation[ix]];
+  }
+  [description appendString:@">"];
+  return description;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  PHCompositeAnimation* animation = [[[self class] allocWithZone:zone] init];
+
+  animation.driver = self.driver;
+
+  // Create fresh animations for this copy.
+  NSArray* animations = [PHAnimation allAnimations];
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    animation->_layerAnimationIndex[ix] = _layerAnimationIndex[ix];
+    if (_layerAnimationIndex[ix] >= 0) {
+      animation->_layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
+      animation->_layerAnimation[ix].driver = self.driver;
+    }
+  }
+
+  return animation;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
     PHAnimation* animation = _layerAnimation[ix];
@@ -73,7 +100,7 @@ AppDelegate *PHApp() {
   _layerAnimationIndex[layer] = animationIndex;
   if (animationIndex >= 0) {
     NSArray* animations = [PHAnimation allAnimations];
-    _layerAnimation[layer] = [animations objectAtIndex:animationIndex];
+    _layerAnimation[layer] = animations[animationIndex];
     _layerAnimation[layer].driver = self.driver;
   } else {
     _layerAnimation[layer] = nil;
@@ -227,16 +254,28 @@ AppDelegate *PHApp() {
 
   NSInteger buttonIndex = [_animations indexOfObject:animation];
   if (buttonIndex == NSNotFound) {
+    buttonIndex = [_previewAnimations indexOfObject:animation];
+  }
+  if (buttonIndex == NSNotFound) {
     buttonIndex = [_compositeAnimations indexOfObject:animation];
-    if (buttonIndex == NSNotFound) {
-      NSLog(@"Couldn't find animation! %@", animation);
-      return -1;
+    if (buttonIndex != NSNotFound) {
+      buttonIndex += _animations.count;
     }
-
-    buttonIndex += _animations.count;
+  }
+  if (buttonIndex == NSNotFound) {
+    buttonIndex = [_previewCompositeAnimations indexOfObject:animation];
+    if (buttonIndex != NSNotFound) {
+      buttonIndex += _animations.count;
+    }
+  }
+  if (buttonIndex == NSNotFound) {
+    NSLog(@"Couldn't find animation! %@", animation);
+    return -1;
   }
   return buttonIndex;
 }
+
+#pragma mark - Colors
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
   if (buttonIndex >= (_animations.count + _compositeAnimations.count)) {
@@ -263,7 +302,8 @@ AppDelegate *PHApp() {
                   ? PHLaunchpadColorYellowBright
                   : PHLaunchpadColorAmberDim)));
 
-  } else if (_launchpadMode == PHLaunchpadModeComposite) {
+  } else if (_launchpadMode == PHLaunchpadModeComposite
+             && buttonIndex < _animations.count) {
     NSInteger activeAnimationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
     return (buttonIndex == activeAnimationIndex) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
   }
@@ -297,7 +337,7 @@ AppDelegate *PHApp() {
     if (buttonIndex == PHLaunchpadSideButtonSendA) {
       // If the composite animation is already in the set of animations then we
       // don't show a "save" button for it.
-      return [_compositeAnimations containsObject:_compositeAnimationBeingEdited] ? PHLaunchpadColorOff : PHLaunchpadColorGreenDim;
+      return [_previewCompositeAnimations containsObject:_compositeAnimationBeingEdited] ? PHLaunchpadColorOff : PHLaunchpadColorGreenDim;
 
     } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
       return _isConfirmingDeletion ? PHLaunchpadColorRedFlashing : PHLaunchpadColorRedDim;
@@ -316,10 +356,14 @@ AppDelegate *PHApp() {
 
 #pragma mark - Launchpad
 
+- (NSInteger)numberOfAnimations {
+  return _animations.count + _compositeAnimations.count;
+}
+
 - (void)updateGrid {
   PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
 
-  for (NSInteger ix = 0; ix < _animations.count; ++ix) {
+  for (NSInteger ix = 0; ix < [self numberOfAnimations]; ++ix) {
     [launchpad setButtonColor:[self buttonColorForButtonIndex:ix]
                 atButtonIndex:ix];
   }
@@ -378,6 +422,8 @@ AppDelegate *PHApp() {
   [launchpad flipBuffer];
 }
 
+#pragma mark - Animations
+
 - (PHAnimation *)animationFromButtonIndex:(NSInteger)buttonIndex {
   if (buttonIndex < _animations.count) {
     return [_animations objectAtIndex:buttonIndex];
@@ -402,7 +448,8 @@ AppDelegate *PHApp() {
     [_animations replaceObjectAtIndex:buttonIndex withObject:previewAnimation];
   } else {
     NSInteger index = buttonIndex - _animations.count;
-    [_previewCompositeAnimations replaceObjectAtIndex:index withObject:[self animationFromButtonIndex:buttonIndex]];
+    PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
+    [_previewCompositeAnimations replaceObjectAtIndex:index withObject:animation];
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
   }
 }
@@ -481,22 +528,40 @@ AppDelegate *PHApp() {
   }
 
   switch (event) {
-    case PHLaunchpadEventGridButtonState:
-      if (pressed && buttonIndex < _animations.count) {
-        if (_launchpadMode == PHLaunchpadModeAnimations) {
+    case PHLaunchpadEventGridButtonState: {
+      // We assume that the user tapped a button that isn't showing an animation.
+      BOOL isInvalidButton = YES;
+
+      // Animations and Preview mode both have show the all animations.
+      // Composite mode only shows the non-composite animations.
+
+      if (_launchpadMode == PHLaunchpadModeAnimations
+          && buttonIndex < [self numberOfAnimations]) {
+        if (pressed) {
           [self setActiveAnimationIndex:buttonIndex];
+        }
+        isInvalidButton = NO;
 
-        } else if (_launchpadMode == PHLaunchpadModePreview) {
+      } else if (_launchpadMode == PHLaunchpadModePreview
+                 && buttonIndex < [self numberOfAnimations]) {
+        if (pressed) {
           [self setPreviewAnimationIndex:buttonIndex];
+        }
+        isInvalidButton = NO;
 
-        } else if (_launchpadMode == PHLaunchpadModeComposite) {
+      } else if (_launchpadMode == PHLaunchpadModeComposite
+                 && buttonIndex < _animations.count) {
+        if (pressed) {
           [self setCompositeLayerAnimationIndex:buttonIndex];
         }
+        isInvalidButton = NO;
+      }
 
-      } else if (buttonIndex >= _animations.count) {
+      if (isInvalidButton) {
         [launchpad setButtonColor:pressed ? PHLaunchpadColorRedBright : PHLaunchpadColorOff atButtonIndex:buttonIndex];
       }
       break;
+    }
 
     case PHLaunchpadEventRightButtonState:
       if (pressed) {
@@ -508,7 +573,8 @@ AppDelegate *PHApp() {
 
         } else if (_launchpadMode == PHLaunchpadModeComposite) {
           if (buttonIndex == PHLaunchpadSideButtonSendA) {
-            [_compositeAnimations addObject:_compositeAnimationBeingEdited];
+            [_compositeAnimations addObject:[_compositeAnimationBeingEdited copy]];
+            [_previewCompositeAnimations addObject:_compositeAnimationBeingEdited];
             [self updateSideButtons];
 
           } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
@@ -517,7 +583,9 @@ AppDelegate *PHApp() {
             if (!_isConfirmingDeletion) {
               // We've confirmed the deletion, reset the animation.
               [_compositeAnimationBeingEdited reset];
-              [_compositeAnimations removeObject:_compositeAnimationBeingEdited];
+              NSInteger indexOfObject = [_previewCompositeAnimations indexOfObject:_compositeAnimationBeingEdited];
+              [_compositeAnimations removeObjectAtIndex:indexOfObject];
+              [_previewAnimations removeObjectAtIndex:indexOfObject];
               [self updateLaunchpad];
 
             } else {
@@ -636,12 +704,12 @@ AppDelegate *PHApp() {
 }
 
 - (NSTimeInterval)easeInEaseOut:(NSTimeInterval)t {
-  t *= 2.0f;
+  t *= 2;
   if (t < 1) {
-    return 0.5f * t * t;
+    return 0.5 * t * t;
   }
-  t--;
-  return -0.5f * (t * (t - 2.0f) - 1.0f);
+  --t;
+  return -0.5 * (t * (t - 2) - 1);
 }
 
 - (CGContextRef)currentWallContext {
