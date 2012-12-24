@@ -29,7 +29,10 @@
 
 @property (nonatomic, assign) float volume;
 
-- (NSInteger)numberOfSpectrumValues;
 - (float *)spectrum;
+- (NSInteger)numberOfSpectrumValues;
+
+- (float *)highResSpectrum;
+- (NSInteger)numberOfHighResSpectrumValues;
 
 @end

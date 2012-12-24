@@ -20,6 +20,7 @@
 #import "fmod_errors.h"
 
 static const NSInteger kNumberOfSpectrumValues = (1 << 11);
+static const NSInteger kNumberOfHighResSpectrumValues = (1 << 13);
 
 #define INITCHECKFMODRESULT(result) do {\
   if (result != FMOD_OK) { \
@@ -42,6 +43,10 @@ static const unsigned int kRecordingDuration = 60 * 5;
   float _spectrum[kNumberOfSpectrumValues];
   float _leftSpectrum[kNumberOfSpectrumValues];
   float _rightSpectrum[kNumberOfSpectrumValues];
+
+  float _highResSpectrum[kNumberOfHighResSpectrumValues];
+  float _highResLeftSpectrum[kNumberOfHighResSpectrumValues];
+  float _highResRightSpectrum[kNumberOfHighResSpectrumValues];
 }
 
 - (void)dealloc {
@@ -216,23 +221,40 @@ static const unsigned int kRecordingDuration = 60 * 5;
   }
 }
 
-- (NSInteger)numberOfSpectrumValues {
-  return kNumberOfSpectrumValues;
-}
-
 - (float *)spectrum {
-  memset(_spectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
   memset(_leftSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
   memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
   
-  _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
-  _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS);
+  _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
+  _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
 
   for (NSInteger ix = 0; ix < kNumberOfSpectrumValues; ++ix) {
     _spectrum[ix] = (_leftSpectrum[ix] + _rightSpectrum[ix]) / 2;
   }
 
   return _spectrum;
+}
+
+- (NSInteger)numberOfSpectrumValues {
+  return kNumberOfSpectrumValues;
+}
+
+- (float *)highResSpectrum {
+  memset(_highResLeftSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
+  memset(_highResRightSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
+
+  _channel->getSpectrum(_highResLeftSpectrum, kNumberOfHighResSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
+  _channel->getSpectrum(_highResRightSpectrum, kNumberOfHighResSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
+
+  for (NSInteger ix = 0; ix < kNumberOfHighResSpectrumValues; ++ix) {
+    _highResSpectrum[ix] = (_highResLeftSpectrum[ix] + _highResRightSpectrum[ix]) / 2;
+  }
+
+  return _highResSpectrum;
+}
+
+- (NSInteger)numberOfHighResSpectrumValues {
+  return kNumberOfHighResSpectrumValues;
 }
 
 - (void)setVolume:(float)volume {

@@ -635,14 +635,18 @@ AppDelegate *PHApp() {
             [self updateGrid];
           }
 
-        } else if (buttonIndex == PHLaunchpadTopButtonSession
-            && (_launchpadMode == PHLaunchpadModeAnimations
-                || _launchpadMode == PHLaunchpadModePreview)) {
-          _instantCrossfade = !_instantCrossfade;
-          if (nil != _previousAnimation) {
-            [self commitTransitionAnimation];
+        } else if (_launchpadMode == PHLaunchpadModeAnimations
+                   || _launchpadMode == PHLaunchpadModePreview) {
+          if (buttonIndex == PHLaunchpadTopButtonSession) {
+            _instantCrossfade = !_instantCrossfade;
+            if (nil != _previousAnimation) {
+              [self commitTransitionAnimation];
+            }
+            [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
+
+          } else if (buttonIndex == PHLaunchpadTopButtonUpArrow) {
+            [self.animationDriver resetScales];
           }
-          [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
         }
       }
       break;
@@ -686,6 +690,10 @@ AppDelegate *PHApp() {
   float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
   NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
   [_animationDriver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
+
+  float* highResSpectrum = [notification.userInfo[PHDisplayLinkFiredHighResSpectrumKey] pointerValue];
+  NSInteger numberOfHighResSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey] longValue];
+  [_animationDriver setHighResSpectrum:highResSpectrum numberOfValues:numberOfHighResSpectrumValues];
 
   if (nil != _previousAnimation) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;

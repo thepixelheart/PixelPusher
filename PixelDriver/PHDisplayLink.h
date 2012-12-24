@@ -19,6 +19,8 @@
 extern NSString* const PHDisplayLinkFiredNotification;
 extern NSString* const PHDisplayLinkFiredSpectrumKey;
 extern NSString* const PHDisplayLinkFiredNumberOfSpectrumValuesKey;
+extern NSString* const PHDisplayLinkFiredHighResSpectrumKey;
+extern NSString* const PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey;
 
 @interface PHDisplayLink : NSObject
 

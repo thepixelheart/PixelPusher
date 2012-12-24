@@ -22,6 +22,9 @@
 @property (nonatomic, readonly) float* spectrum;
 @property (nonatomic, readonly) NSInteger numberOfSpectrumValues;
 
+@property (nonatomic, readonly) float* highResSpectrum;
+@property (nonatomic, readonly) NSInteger numberOfHighResSpectrumValues;
+
 // The number of Hz represented in each index of the spectrum.
 // Let's say this is 10Hz. Then spectrum[0] will represent the frequency of the
 // sound between 0 and 10Hz. spectrum[1] will be 10Hz and 20Hz, and so forth.
@@ -43,5 +46,11 @@
 @interface PHAnimationDriver()
 
 - (void)setSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues;
+- (void)setHighResSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues;
+
+// Forcefully resets the frequency scales back to their original (slightly too high)
+// values. This may be necessary when a song peaked out all of the values way too
+// much.
+- (void)resetScales;
 
 @end

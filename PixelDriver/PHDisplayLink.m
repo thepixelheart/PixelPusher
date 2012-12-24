@@ -23,6 +23,8 @@
 NSString* const PHDisplayLinkFiredNotification = @"PHDisplayLinkFiredNotification";
 NSString* const PHDisplayLinkFiredSpectrumKey = @"PHDisplayLinkFiredSpectrumKey";
 NSString* const PHDisplayLinkFiredNumberOfSpectrumValuesKey = @"PHDisplayLinkFiredNumberOfSpectrumValuesKey";
+NSString* const PHDisplayLinkFiredHighResSpectrumKey = @"PHDisplayLinkFiredHighResSpectrumKey";
+NSString* const PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey = @"PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey";
 
 static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     const CVTimeStamp* now,
@@ -31,12 +33,16 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     CVOptionFlags* flagsOut,
                                     void* displayLinkContext) {
   @autoreleasepool {
-    float* leftSpectrum = [PHApp().audioRecorder spectrum];
+    float* spectrum = [PHApp().audioRecorder spectrum];
     NSInteger numberOfSpectrumValues = [PHApp().audioRecorder numberOfSpectrumValues];
+    float* highResSpectrum = [PHApp().audioRecorder highResSpectrum];
+    NSInteger numberOfHighResSpectrumValues = [PHApp().audioRecorder numberOfHighResSpectrumValues];
 
     NSDictionary* userInfo = @{
-      PHDisplayLinkFiredSpectrumKey : [NSValue valueWithPointer:leftSpectrum],
-      PHDisplayLinkFiredNumberOfSpectrumValuesKey: [NSNumber numberWithLong:numberOfSpectrumValues]
+      PHDisplayLinkFiredSpectrumKey : [NSValue valueWithPointer:spectrum],
+      PHDisplayLinkFiredNumberOfSpectrumValuesKey: [NSNumber numberWithLong:numberOfSpectrumValues],
+      PHDisplayLinkFiredHighResSpectrumKey : [NSValue valueWithPointer:highResSpectrum],
+      PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey: [NSNumber numberWithLong:numberOfHighResSpectrumValues]
     };
     [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification object:nil userInfo:userInfo];
     return kCVReturnSuccess;
