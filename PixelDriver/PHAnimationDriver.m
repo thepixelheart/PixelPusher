@@ -174,7 +174,7 @@ static const float notefreq[PHPitch_Count] = {
 }
 
 - (void)updateWaveWithAudio:(PHFMODRecorder *)audio {
-  [audio getWaveLeft:&_leftWaveData right:&_rightWaveData unified:&_unifiedWaveData];
+  [audio getWaveLeft:&_leftWaveData right:&_rightWaveData unified:&_unifiedWaveData difference:&_differenceWaveData];
   _numberOfWaveDataValues = audio.numberOfWaveDataValues;
 }
 

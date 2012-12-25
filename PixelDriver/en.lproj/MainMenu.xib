@@ -294,11 +294,9 @@
 				<string key="NSWindowContentMaxSize">{480, 320}</string>
 				<string key="NSWindowContentMinSize">{480, 320}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 320}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{480, 320}</string>
@@ -316,11 +314,9 @@
 				<string key="NSWindowContentMaxSize">{480, 320}</string>
 				<string key="NSWindowContentMinSize">{480, 320}</string>
 				<object class="NSView" key="NSWindowView" id="575175848">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 320}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{480, 320}</string>
@@ -378,7 +374,8 @@
 						<object class="NSCustomView" id="87739655">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{250, 179}, {250, 168}}</string>
+							<array class="NSMutableArray" key="NSSubviews"/>
+							<string key="NSFrame">{{250, 179}, {250, 84}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="778642719"/>
@@ -527,7 +524,6 @@
 							<string key="NSFrame">{{311, 13}, {131, 32}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="74539022">
@@ -573,6 +569,16 @@
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
+						<object class="NSCustomView" id="194314630">
+							<reference key="NSNextResponder" ref="805406511"/>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{250, 263}, {250, 84}}</string>
+							<reference key="NSSuperview" ref="805406511"/>
+							<reference key="NSWindow"/>
+							<string key="NSReuseIdentifierKey">_NS:9</string>
+							<string key="NSHuggingPriority">{250, 250}</string>
+							<string key="NSClassName">PHWaveFormView</string>
+						</object>
 					</array>
 					<string key="NSFrameSize">{750, 515}</string>
 					<reference key="NSSuperview"/>
@@ -602,7 +608,7 @@
 				<string key="NSWindowContentMaxSize">{404, 392}</string>
 				<string key="NSWindowContentMinSize">{404, 392}</string>
 				<object class="NSView" key="NSWindowView" id="609554370">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="632752525">
@@ -2584,7 +2590,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{334, 15}, {39, 38}}</string>
 							<reference key="NSSuperview" ref="609554370"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSTag">79</int>
 							<bool key="NSEnabled">YES</bool>
@@ -2702,7 +2707,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{404, 392}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="617930603"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -2936,6 +2940,14 @@
 						<reference key="destination" ref="778642719"/>
 					</object>
 					<int key="connectionID">822</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">differenceWaveView</string>
+						<reference key="source" ref="915157730"/>
+						<reference key="destination" ref="194314630"/>
+					</object>
+					<int key="connectionID">824</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3203,6 +3215,7 @@
 							<reference ref="850215795"/>
 							<reference ref="321865933"/>
 							<reference ref="843522758"/>
+							<reference ref="194314630"/>
 						</array>
 						<reference key="parent" ref="915157730"/>
 					</object>
@@ -4497,6 +4510,7 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">812</int>
 						<reference key="object" ref="87739655"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="805406511"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4507,6 +4521,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">814</int>
 						<reference key="object" ref="778642719"/>
+						<reference key="parent" ref="805406511"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">823</int>
+						<reference key="object" ref="194314630"/>
 						<reference key="parent" ref="805406511"/>
 					</object>
 				</array>
@@ -4913,13 +4932,14 @@
 				<string key="812.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="813.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="814.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="823.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">822</int>
+			<int key="maxID">824</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4972,6 +4992,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="audioOutputButton">NSPopUpButton</string>
 						<string key="audioRecordingButton">NSPopUpButton</string>
+						<string key="differenceWaveView">PHWaveFormView</string>
 						<string key="leftSpectrumView">PHSpectrumAnalyzerView</string>
 						<string key="leftWaveView">PHWaveFormView</string>
 						<string key="listeningButton">NSButton</string>
@@ -4989,6 +5010,10 @@
 						<object class="IBToOneOutletInfo" key="audioRecordingButton">
 							<string key="name">audioRecordingButton</string>
 							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="differenceWaveView">
+							<string key="name">differenceWaveView</string>
+							<string key="candidateClassName">PHWaveFormView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="leftSpectrumView">
 							<string key="name">leftSpectrumView</string>

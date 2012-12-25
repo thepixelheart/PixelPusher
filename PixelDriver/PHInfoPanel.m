@@ -44,6 +44,7 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   self.leftWaveView.audioChannel = PHAudioChannelLeft;
   self.rightWaveView.audioChannel = PHAudioChannelRight;
   self.unifiedWaveView.audioChannel = PHAudioChannelUnified;
+  self.differenceWaveView.audioChannel = PHAudioChannelDifference;
 }
 
 - (void)updateListeningState {

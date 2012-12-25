@@ -35,7 +35,7 @@
 - (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified;
 - (NSInteger)numberOfHighResSpectrumValues;
 
-- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified;
+- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference;
 - (NSInteger)numberOfWaveDataValues;
 
 @end

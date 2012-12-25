@@ -21,6 +21,7 @@ typedef enum {
   PHAudioChannelLeft,
   PHAudioChannelRight,
   PHAudioChannelUnified,
+  PHAudioChannelDifference,
 } PHAudioChannel;
 
 @interface PHBitmapView : NSView

@@ -52,6 +52,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
   float _leftWaveData[kNumberOfWaveDataValues];
   float _rightWaveData[kNumberOfWaveDataValues];
   float _unifiedWaveData[kNumberOfWaveDataValues];
+  float _differenceWaveData[kNumberOfWaveDataValues];
 }
 
 - (void)dealloc {
@@ -266,7 +267,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
   return kNumberOfHighResSpectrumValues;
 }
 
-- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified {
+- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference {
   memset(_leftWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
   memset(_rightWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
 
@@ -275,11 +276,13 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
   for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
     _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;
+    _differenceWaveData[ix] = fabsf(_leftWaveData[ix] - _rightWaveData[ix]);
   }
 
   *left = _leftWaveData;
   *right = _rightWaveData;
   *unified = _unifiedWaveData;
+  *difference = _differenceWaveData;
 }
 
 - (NSInteger)numberOfWaveDataValues {

@@ -161,6 +161,7 @@ typedef enum {
 @property (nonatomic, readonly) float* unifiedWaveData;
 @property (nonatomic, readonly) float* leftWaveData;
 @property (nonatomic, readonly) float* rightWaveData;
+@property (nonatomic, readonly) float* differenceWaveData;
 @property (nonatomic, readonly) NSInteger numberOfWaveDataValues;
 
 // The number of Hz represented in each index of the spectrum.

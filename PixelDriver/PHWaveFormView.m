@@ -30,6 +30,8 @@
     waveData = driver.rightWaveData;
   } else if (self.audioChannel == PHAudioChannelUnified) {
     waveData = driver.unifiedWaveData;
+  } else if (self.audioChannel == PHAudioChannelDifference) {
+    waveData = driver.differenceWaveData;
   }
   if (nil == waveData) {
     NSLog(@"No wave data found");
