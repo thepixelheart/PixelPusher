@@ -276,7 +276,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
   for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
     _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;
-    _differenceWaveData[ix] = fabsf(_leftWaveData[ix] - _rightWaveData[ix]);
+    _differenceWaveData[ix] = fabsf(fabsf(_leftWaveData[ix]) - fabsf(_rightWaveData[ix]));
   }
 
   *left = _leftWaveData;
