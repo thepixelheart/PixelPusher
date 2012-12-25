@@ -24,7 +24,7 @@ typedef void (^PHBitmapRenderBlock)(CGContextRef context, CGSize size);
 // notifies the view that it can blit the new image.
 @interface PHBitmapPipeline : NSObject
 
-- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate;
+- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate priority:(double)priority;
 
 @end
 

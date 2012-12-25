@@ -57,4 +57,8 @@
   CGContextStrokePath(cx);
 }
 
+- (double)threadPriority {
+  return 0.2;
+}
+
 @end

@@ -112,4 +112,8 @@ const NSInteger kPixelBorderSize = 1;
   CGContextRelease(wallContext);
 }
 
+- (double)threadPriority {
+  return _primary ? 0.9 : 0.7;
+}
+
 @end

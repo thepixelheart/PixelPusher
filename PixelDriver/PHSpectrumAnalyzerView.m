@@ -74,4 +74,8 @@
   }
 }
 
+- (double)threadPriority {
+  return 0.2;
+}
+
 @end

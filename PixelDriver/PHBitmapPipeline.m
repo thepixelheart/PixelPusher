@@ -64,7 +64,7 @@
   return self;
 }
 
-- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate {
+- (void)queueRenderBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size delegate:(id<PHBitmapReceiver>)delegate priority:(double)priority {
   NSArray* operations = [_queue.operations copy];
   for (NSOperation* op in operations) {
     if (op != [operations objectAtIndex:0]) {
@@ -73,6 +73,7 @@
   }
 
   PHBitmapRenderOperation* op = [[PHBitmapRenderOperation alloc] initWithBlock:block imageSize:size];
+  op.threadPriority = priority;
   __weak PHBitmapRenderOperation* weakOp = op;
   op.completionBlock = ^() {
     if (weakOp.isCancelled) {

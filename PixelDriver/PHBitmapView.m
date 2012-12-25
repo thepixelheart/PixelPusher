@@ -65,7 +65,7 @@
 - (void)queueBitmapWithDriver:(PHAnimationDriver *)driver {
   [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
     [self renderBitmapInContext:cx size:size driver:driver];
-  } imageSize:self.bounds.size delegate:self];
+  } imageSize:self.bounds.size delegate:self priority:self.threadPriority];
 }
 
 #pragma mark - PHBitmapReceiver
@@ -85,6 +85,10 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
   // No-op
+}
+
+- (double)threadPriority {
+  return 0.5;
 }
 
 @end

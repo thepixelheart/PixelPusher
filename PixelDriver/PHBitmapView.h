@@ -27,5 +27,6 @@ typedef enum {
 
 // Subclassing. Do not call directly.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver;
+- (double)threadPriority;
 
 @end
