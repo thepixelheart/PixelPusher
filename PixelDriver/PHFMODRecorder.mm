@@ -21,6 +21,7 @@
 
 static const NSInteger kNumberOfSpectrumValues = (1 << 11);
 static const NSInteger kNumberOfHighResSpectrumValues = (1 << 13);
+static const NSInteger kNumberOfWaveDataValues = 16384;
 
 #define INITCHECKFMODRESULT(result) do {\
   if (result != FMOD_OK) { \
@@ -47,6 +48,8 @@ static const unsigned int kRecordingDuration = 60 * 5;
   float _highResSpectrum[kNumberOfHighResSpectrumValues];
   float _highResLeftSpectrum[kNumberOfHighResSpectrumValues];
   float _highResRightSpectrum[kNumberOfHighResSpectrumValues];
+
+  float _waveData[kNumberOfWaveDataValues];
 }
 
 - (void)dealloc {
@@ -255,6 +258,18 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
 - (NSInteger)numberOfHighResSpectrumValues {
   return kNumberOfHighResSpectrumValues;
+}
+
+- (float *)waveData {
+  memset(_waveData, 0, sizeof(float) * kNumberOfWaveDataValues);
+
+  _channel->getWaveData(_waveData, kNumberOfWaveDataValues, 0);
+
+  return _waveData;
+}
+
+- (NSInteger)numberOfWaveDataValues {
+  return kNumberOfWaveDataValues;
 }
 
 - (void)setVolume:(float)volume {

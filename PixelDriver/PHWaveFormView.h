@@ -14,28 +14,7 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHBitmapView.h"
 
-@interface PHFMODRecorder : NSObject
-
-- (BOOL)isListening;
-- (void)toggleListening;
-
-@property (nonatomic, copy, readonly) NSArray* playbackDriverNames;
-@property (nonatomic, copy, readonly) NSArray* recordDriverNames;
-
-@property (nonatomic, assign) int playbackDriverIndex;
-@property (nonatomic, assign) int recordDriverIndex;
-
-@property (nonatomic, assign) float volume;
-
-- (float *)spectrum;
-- (NSInteger)numberOfSpectrumValues;
-
-- (float *)highResSpectrum;
-- (NSInteger)numberOfHighResSpectrumValues;
-
-- (float *)waveData;
-- (NSInteger)numberOfWaveDataValues;
-
+@interface PHWaveFormView : PHBitmapView
 @end
