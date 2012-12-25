@@ -62,6 +62,12 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   self.hiHatLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.hihatScale];
   self.vocalLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.vocalScale];
   self.snareLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.snareScale];
+  PHPitch pitch = driver.dominantPitch;
+  if (pitch != PHPitch_Unknown) {
+    self.pitchLabel.stringValue = [driver nameOfPitch:pitch];
+  } else {
+    self.pitchLabel.stringValue = @"";
+  }
 }
 
 - (void)updateListeningState {
