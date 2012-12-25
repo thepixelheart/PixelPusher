@@ -18,6 +18,7 @@
 
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
+#import "PHAnimationDriver.h"
 
 @interface PHBitmapView() <PHBitmapReceiver>
 @end
@@ -44,9 +45,8 @@
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
-  float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
-  NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
-  [self queueBitmapWithSpectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
+  PHAnimationDriver* driver = notification.userInfo[PHDisplayLinkFiredDriverKey];
+  [self queueBitmapWithSpectrum:driver.spectrum numberOfSpectrumValues:driver.numberOfSpectrumValues];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

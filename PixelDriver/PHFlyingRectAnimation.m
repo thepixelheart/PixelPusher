@@ -24,7 +24,7 @@ static const int kMaxRectanglesAddedPerStep = 5;
     NSColor*    _color;
 }
 
--(id)initWithRect:(CGRect) rect {
+- (id)initWithRect:(CGRect) rect {
     if ((self = [super init])) {
         _rect = rect;
         _distance = 0;

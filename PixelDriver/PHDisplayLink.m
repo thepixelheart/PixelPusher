@@ -17,14 +17,12 @@
 #import "PHDisplayLink.h"
 
 #import "PHFMODRecorder.h"
+#import "PHAnimationDriver.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 
 NSString* const PHDisplayLinkFiredNotification = @"PHDisplayLinkFiredNotification";
-NSString* const PHDisplayLinkFiredSpectrumKey = @"PHDisplayLinkFiredSpectrumKey";
-NSString* const PHDisplayLinkFiredNumberOfSpectrumValuesKey = @"PHDisplayLinkFiredNumberOfSpectrumValuesKey";
-NSString* const PHDisplayLinkFiredHighResSpectrumKey = @"PHDisplayLinkFiredHighResSpectrumKey";
-NSString* const PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey = @"PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey";
+NSString* const PHDisplayLinkFiredDriverKey = @"PHDisplayLinkFiredDriverKey";
 
 static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     const CVTimeStamp* now,
@@ -33,18 +31,15 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     CVOptionFlags* flagsOut,
                                     void* displayLinkContext) {
   @autoreleasepool {
-    float* spectrum = [PHApp().audioRecorder spectrum];
-    NSInteger numberOfSpectrumValues = [PHApp().audioRecorder numberOfSpectrumValues];
-    float* highResSpectrum = [PHApp().audioRecorder highResSpectrum];
-    NSInteger numberOfHighResSpectrumValues = [PHApp().audioRecorder numberOfHighResSpectrumValues];
+    PHDisplayLink* displayLink = (__bridge PHDisplayLink *)(displayLinkContext);
+    [displayLink.animationDriver updateWithAudioRecorder:PHApp().audioRecorder];
 
     NSDictionary* userInfo = @{
-      PHDisplayLinkFiredSpectrumKey : [NSValue valueWithPointer:spectrum],
-      PHDisplayLinkFiredNumberOfSpectrumValuesKey: [NSNumber numberWithLong:numberOfSpectrumValues],
-      PHDisplayLinkFiredHighResSpectrumKey : [NSValue valueWithPointer:highResSpectrum],
-      PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey: [NSNumber numberWithLong:numberOfHighResSpectrumValues]
+      PHDisplayLinkFiredDriverKey : displayLink.animationDriver
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification object:nil userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification
+                                                        object:nil
+                                                      userInfo:userInfo];
     return kCVReturnSuccess;
   }
 }
@@ -59,6 +54,8 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 
 - (id)init {
   if ((self = [super init])) {
+    _animationDriver = [[PHAnimationDriver alloc] init];
+
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink)) {
       PHAlert(@"Unable to set up a timer for the animations.");
       self = nil;

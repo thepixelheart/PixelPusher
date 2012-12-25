@@ -17,11 +17,10 @@
 #import <Foundation/Foundation.h>
 
 extern NSString* const PHDisplayLinkFiredNotification;
-extern NSString* const PHDisplayLinkFiredSpectrumKey;
-extern NSString* const PHDisplayLinkFiredNumberOfSpectrumValuesKey;
-extern NSString* const PHDisplayLinkFiredHighResSpectrumKey;
-extern NSString* const PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey;
+extern NSString* const PHDisplayLinkFiredDriverKey;
+
+@class PHAnimationDriver;
 
 @interface PHDisplayLink : NSObject
-
+@property (nonatomic, readonly, strong) PHAnimationDriver* animationDriver;
 @end

@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class PHFMODRecorder;
+
 // Ported from the pitch detection example in the FMOD samples.
 typedef enum {
   PHPitchC0,
@@ -176,8 +178,7 @@ typedef enum {
 
 @interface PHAnimationDriver()
 
-- (void)setSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues;
-- (void)setHighResSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues;
+- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)
 // values. This may be necessary when a song peaked out all of the values way too

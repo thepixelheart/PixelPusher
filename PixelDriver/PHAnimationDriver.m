@@ -16,6 +16,8 @@
 
 #import "PHAnimationDriver.h"
 
+#import "PHFMODRecorder.h"
+
 // Breakdown of electronic music frequencies
 // http://howtomakeelectronicmusic.com/wp-content/uploads/2011/07/FM_clubmix_dsktp.jpg
 typedef struct {
@@ -112,6 +114,16 @@ static const float notefreq[PHPitch_Count] = {
   return amplitude;
 }
 
+- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio {
+  float* spectrum = [audio spectrum];
+  NSInteger numberOfSpectrumValues = [audio numberOfSpectrumValues];
+  float* highResSpectrum = [audio highResSpectrum];
+  NSInteger numberOfHighResSpectrumValues = [audio numberOfHighResSpectrumValues];
+
+  [self setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
+  [self setHighResSpectrum:highResSpectrum numberOfValues:numberOfHighResSpectrumValues];
+}
+
 - (void)setSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues {
   _spectrum = spectrum;
   _numberOfSpectrumValues = numberOfValues;
@@ -120,6 +132,7 @@ static const float notefreq[PHPitch_Count] = {
   _hihatAmplitude = [self amplitudeOfSpectrumWithRange:kHihatRange scale:&_hihatScale];
   _vocalAmplitude = [self amplitudeOfSpectrumWithRange:kVocalRange scale:&_vocalScale];
   _snareAmplitude = [self amplitudeOfSpectrumWithRange:kSnareRange scale:&_snareScale];
+
 }
 
 - (void)setHighResSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues {

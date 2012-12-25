@@ -89,14 +89,14 @@ AppDelegate *PHApp() {
                               floorf(midY - frame.size.height * 0.5f),
                               frame.size.width,
                               frame.size.height)
-                display:YES];
+           display:YES];
 }
 
 - (NSMutableArray *)createAnimations {
   NSArray* animations = [PHAnimation allAnimations];
 
   for (PHAnimation* animation in animations) {
-    animation.driver = _animationDriver;
+    animation.driver = self.animationDriver;
   }
 
   return [animations mutableCopy];
@@ -132,12 +132,11 @@ AppDelegate *PHApp() {
 
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];
+  _animationDriver = _displayLink.animationDriver;
   _usbNotifier = [[PHUSBNotifier alloc] init];
   [self midiDriver];
 
   _launchpadMode = PHLaunchpadModeAnimations;
-
-  _animationDriver = [[PHAnimationDriver alloc] init];
 
   // We duplicate the arrays here for each set of animations so that each window
   // can have its own instances of animations. This is so that an animation
@@ -695,14 +694,6 @@ AppDelegate *PHApp() {
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
-  float* spectrum = [notification.userInfo[PHDisplayLinkFiredSpectrumKey] pointerValue];
-  NSInteger numberOfSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfSpectrumValuesKey] longValue];
-  [_animationDriver setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
-
-  float* highResSpectrum = [notification.userInfo[PHDisplayLinkFiredHighResSpectrumKey] pointerValue];
-  NSInteger numberOfHighResSpectrumValues = [notification.userInfo[PHDisplayLinkFiredNumberOfHighResSpectrumValuesKey] longValue];
-  [_animationDriver setHighResSpectrum:highResSpectrum numberOfValues:numberOfHighResSpectrumValues];
-
   if (nil != _previousAnimation) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
     if (delta >= kCrossFadeDuration) {
