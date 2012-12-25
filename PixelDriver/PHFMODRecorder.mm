@@ -271,7 +271,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
   memset(_rightWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
 
   _channel->getWaveData(_leftWaveData, kNumberOfWaveDataValues, 0);
-  _channel->getWaveData(_rightWaveData, kNumberOfWaveDataValues, 0);
+  _channel->getWaveData(_rightWaveData, kNumberOfWaveDataValues, 1);
 
   for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
     _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;

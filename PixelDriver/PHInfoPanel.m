@@ -38,10 +38,12 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 
   [self performSelector:@selector(updateListeningState) withObject:nil afterDelay:0.2];
 
-  self.leftSpectrumView.audioChannel = 0;
-  self.rightSpectrumView.audioChannel = 0;
-  self.leftWaveView.audioChannel = 0;
-  self.rightWaveView.audioChannel = 0;
+  self.leftSpectrumView.audioChannel = PHAudioChannelLeft;
+  self.rightSpectrumView.audioChannel = PHAudioChannelRight;
+  self.unifiedSpectrumView.audioChannel = PHAudioChannelUnified;
+  self.leftWaveView.audioChannel = PHAudioChannelLeft;
+  self.rightWaveView.audioChannel = PHAudioChannelRight;
+  self.unifiedWaveView.audioChannel = PHAudioChannelUnified;
 }
 
 - (void)updateListeningState {

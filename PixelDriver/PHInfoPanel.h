@@ -23,8 +23,10 @@
 
 @property (nonatomic, strong) IBOutlet PHSpectrumAnalyzerView* leftSpectrumView;
 @property (nonatomic, strong) IBOutlet PHSpectrumAnalyzerView* rightSpectrumView;
+@property (nonatomic, strong) IBOutlet PHSpectrumAnalyzerView* unifiedSpectrumView;
 @property (nonatomic, strong) IBOutlet PHWaveFormView* leftWaveView;
 @property (nonatomic, strong) IBOutlet PHWaveFormView* rightWaveView;
+@property (nonatomic, strong) IBOutlet PHWaveFormView* unifiedWaveView;
 @property (nonatomic, strong) IBOutlet NSPopUpButton* audioRecordingButton;
 @property (nonatomic, strong) IBOutlet NSPopUpButton* audioOutputButton;
 @property (nonatomic, strong) IBOutlet NSSlider* volumeSlider;
