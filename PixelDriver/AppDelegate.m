@@ -509,7 +509,7 @@ AppDelegate *PHApp() {
 }
 
 - (void)setCompositeLayerAnimationIndex:(NSInteger)animationindex {
-  if (animationindex < _animations.count) {
+  if (animationindex == -1 || animationindex < _animations.count) {
     NSInteger currentAnimationIndex = [_previewCompositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
     if (currentAnimationIndex == animationindex) {
       // Tapping the current animation removes the animation from this layer.
@@ -632,6 +632,8 @@ AppDelegate *PHApp() {
             [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)_activeCompositeLayer];
 
             [self updateGrid];
+          } else {
+            [self setCompositeLayerAnimationIndex:-1];
           }
 
         } else if (_launchpadMode == PHLaunchpadModeAnimations
