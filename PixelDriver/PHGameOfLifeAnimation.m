@@ -69,12 +69,22 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
       NSInteger offset = ix * 4 + iy * bytesPerRow;
 
       BOOL isAlive = (arc4random_uniform(1000) < 200);
-      data[offset + 0] = arc4random_uniform(128) + 128;
-      data[offset + 1] = arc4random_uniform(128) + 128;
-      data[offset + 2] = arc4random_uniform(128) + 128;
+      data[offset + 0] = arc4random_uniform(256 - 32) + 32;
+      data[offset + 1] = arc4random_uniform(256 - 32) + 32;
+      data[offset + 2] = arc4random_uniform(256 - 32) + 32;
       data[offset + 3] = isAlive ? 255 : 0;
     }
   }
+}
+
+- (void)addRandomLife {
+  unsigned char* data = (unsigned char *)CGBitmapContextGetData(_worldContextRef);
+  size_t bytesPerRow = CGBitmapContextGetBytesPerRow(_worldContextRef);
+
+  NSInteger x = arc4random_uniform((u_int32_t)kWallWidth);
+  NSInteger y = arc4random_uniform((u_int32_t)kWallHeight);
+  NSInteger offset = WORLDOFFSETFROMXY(x, y);
+  data[offset + 3] = 255;
 }
 
 - (void)tickWorld {
@@ -90,28 +100,22 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 
       BOOL isAlive = (_oldWorldBuffer[offset + 3] == 255);
       NSInteger numberOfNeighbors = 0;
-      // Left
-      numberOfNeighbors += ISCELLALIVEAT(ix - 1, iy);
 
-      // Top left
-      numberOfNeighbors += ISCELLALIVEAT(ix - 1, iy - 1);
-
-      // Bottom left
-      numberOfNeighbors += ISCELLALIVEAT(ix - 1, iy + 1);
-
-      // Right
-      numberOfNeighbors += ISCELLALIVEAT(ix + 1, iy);
-
-      // Top right
-      numberOfNeighbors += ISCELLALIVEAT(ix + 1, iy - 1);
-
-      // Bottom right
-      numberOfNeighbors += ISCELLALIVEAT(ix + 1, iy + 1);
-
-      // Top
-      numberOfNeighbors += ISCELLALIVEAT(ix, iy - 1);
-      // Bottom
-      numberOfNeighbors += ISCELLALIVEAT(ix, iy + 1);
+      NSInteger redTotal = 0;
+      NSInteger greenTotal = 0;
+      NSInteger blueTotal = 0;
+      for (NSInteger yn = iy - 1; yn <= iy + 1; ++yn) {
+        for (NSInteger xn = ix - 1; xn <= ix + 1; ++xn) {
+          NSInteger neighborOffset = WORLDOFFSETFROMXY(xn, yn);
+          BOOL isNeighborAlive = ((_oldWorldBuffer[neighborOffset + 3] == 255) ? 1 : 0);
+          if (isNeighborAlive) {
+            ++numberOfNeighbors;
+            redTotal += _oldWorldBuffer[neighborOffset + 0];
+            greenTotal += _oldWorldBuffer[neighborOffset + 1];
+            blueTotal += _oldWorldBuffer[neighborOffset + 2];
+          }
+        }
+      }
 
       if (isAlive) {
         if (numberOfNeighbors < 2 || numberOfNeighbors >= 4) {
@@ -124,6 +128,9 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 
       } else if (numberOfNeighbors == 3) {
         // Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+        data[offset + 0] = MIN(255, redTotal / numberOfNeighbors);
+        data[offset + 1] = MIN(255, greenTotal / numberOfNeighbors);
+        data[offset + 2] = MIN(255, blueTotal / numberOfNeighbors);
         data[offset + 3] = 255;
         didChange = YES;
       }
@@ -143,6 +150,10 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.spectrum) {
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
+
+    if (self.driver.hihatAmplitude > 0.5) {
+      [self addRandomLife];
+    }
 
     if (_bassDegrader.value > 0.1 && [NSDate timeIntervalSinceReferenceDate] >= _lastTick + _deltaToNextTick * (1 - _bassDegrader.value)) {
       if (_shouldRestartWorld) {
