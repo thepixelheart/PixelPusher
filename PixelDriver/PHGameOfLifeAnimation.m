@@ -64,10 +64,13 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
     for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
       NSInteger offset = ix * 4 + iy * bytesPerRow;
 
+      NSColor* color = generateRandomColor();
+      CGFloat r,g,b,a;
+      [color getRed:&r green:&g blue:&b alpha:&a];
       BOOL isAlive = (arc4random_uniform(1000) < 200);
-      data[offset + 0] = arc4random_uniform(256 - 32) + 32;
-      data[offset + 1] = arc4random_uniform(256 - 32) + 32;
-      data[offset + 2] = arc4random_uniform(256 - 32) + 32;
+      data[offset + 0] = r * 255;
+      data[offset + 1] = g * 255;
+      data[offset + 2] = b * 255;
       data[offset + 3] = isAlive ? 255 : 0;
     }
   }
