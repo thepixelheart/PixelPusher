@@ -8,8 +8,10 @@
 
 #import "PHFlyingRectAnimation.h"
 #include <stdlib.h>
+#import "Utilities.h"
 
 static const CGFloat kEmitDistance = 100.0f;
+static const CGFloat kBeginToFadeDistance = 80.0f;
 static const CGFloat kDistanceStep = 1.0;
 static const int kMaxRectanglesOnScreen = 20;
 static const int kMaxRectanglesAddedPerStep = 5;
@@ -49,7 +51,10 @@ static const int kMaxRectanglesAddedPerStep = 5;
 
 -(void)renderInContext:(CGContextRef)cx size:(CGSize)size {
     // project the rect on the screen
-    CGContextSetRGBFillColor(cx, [_color redComponent], [_color greenComponent], [_color blueComponent], [_color alphaComponent]);
+  CGFloat alpha = ((_distance < kBeginToFadeDistance)
+                   ? 1
+                   : PHEaseInEaseOut(1 - ((_distance - kBeginToFadeDistance) / (kEmitDistance - kBeginToFadeDistance))));
+    CGContextSetRGBFillColor(cx, [_color redComponent], [_color greenComponent], [_color blueComponent], [_color alphaComponent] * alpha);
     CGContextFillRect(cx, [self computeDrawRect:size]);
 }
 

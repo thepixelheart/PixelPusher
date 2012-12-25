@@ -726,15 +726,6 @@ AppDelegate *PHApp() {
   return wallContext;
 }
 
-- (NSTimeInterval)easeInEaseOut:(NSTimeInterval)t {
-  t *= 2;
-  if (t < 1) {
-    return 0.5 * t * t;
-  }
-  --t;
-  return -0.5 * (t * (t - 2) - 1);
-}
-
 - (CGContextRef)currentWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
   CGRect wallFrame = CGRectMake(0, 0, wallSize.width, wallSize.height);
@@ -754,7 +745,7 @@ AppDelegate *PHApp() {
     CGImageRef activeImage = CGBitmapContextCreateImage(activeContext);
 
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _crossFadeStartTime;
-    CGFloat t = [self easeInEaseOut:MIN(1, delta / kCrossFadeDuration)];
+    CGFloat t = PHEaseInEaseOut(MIN(1, delta / kCrossFadeDuration));
 
     CGContextSaveGState(wallContext);
     CGContextSetAlpha(wallContext, 1 - t);

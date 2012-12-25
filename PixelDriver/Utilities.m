@@ -44,6 +44,15 @@ CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
   return cx;
 }
 
+NSTimeInterval PHEaseInEaseOut(NSTimeInterval t) {
+  t *= 2;
+  if (t < 1) {
+    return 0.5 * t * t;
+  }
+  --t;
+  return -0.5 * (t * (t - 2) - 1);
+}
+
 NSColor* generateRandomColor() {
     CGFloat hue = ( arc4random_uniform(256) / 256.0f );  //  0.0 to 1.0
     CGFloat saturation = ( arc4random_uniform(256) / 256.0f ) + 0.5f;  //  0.5 to 1.0, away from white
