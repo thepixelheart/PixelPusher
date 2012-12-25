@@ -19,4 +19,5 @@
 #import "PHBitmapView.h"
 
 @interface PHSpectrumAnalyzerView : PHBitmapView
+@property (nonatomic, assign) PHAudioChannel audioChannel;
 @end

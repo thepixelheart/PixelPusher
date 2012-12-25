@@ -65,7 +65,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
 
     _hasBeenLulling = _hasBeenLulling || (self.driver.hihatAmplitude < 0.3);

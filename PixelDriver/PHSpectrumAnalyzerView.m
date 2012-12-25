@@ -17,17 +17,32 @@
 #import "PHSpectrumAnalyzerView.h"
 
 #import "AppDelegate.h"
+#import "PHAnimationDriver.h"
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "Utilities.h"
 
 @implementation PHSpectrumAnalyzerView
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextSetRGBFillColor(cx, (float)0xED / 255.f, (float)0xED / 255.f, (float)0xED / 255.f, 1);
   CGContextFillRect(cx, bounds);
 
+  float* spectrum = nil;
+  if (self.audioChannel == PHAudioChannelLeft) {
+    spectrum = driver.leftSpectrum;
+  } else if (self.audioChannel == PHAudioChannelRight) {
+    spectrum = driver.rightSpectrum;
+  } else if (self.audioChannel == PHAudioChannelUnified) {
+    spectrum = driver.unifiedSpectrum;
+  }
+  if (nil == spectrum) {
+    NSLog(@"No spectrum found.");
+    return;
+  }
+
+  NSInteger numberOfSpectrumValues = driver.numberOfSpectrumValues;
   CGFloat max = 0;
   for (int ix = 30; ix < numberOfSpectrumValues; ++ix) {
     max = MAX(max, spectrum[ix]);

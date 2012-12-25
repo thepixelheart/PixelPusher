@@ -148,11 +148,20 @@ typedef enum {
 @interface PHAnimationDriver : NSObject
 
 // Raw values
-@property (nonatomic, readonly) float* spectrum;
+@property (nonatomic, readonly) float* unifiedSpectrum;
+@property (nonatomic, readonly) float* leftSpectrum;
+@property (nonatomic, readonly) float* rightSpectrum;
 @property (nonatomic, readonly) NSInteger numberOfSpectrumValues;
 
-@property (nonatomic, readonly) float* highResSpectrum;
+@property (nonatomic, readonly) float* highResUnifiedSpectrum;
+@property (nonatomic, readonly) float* highResLeftSpectrum;
+@property (nonatomic, readonly) float* highResRightSpectrum;
 @property (nonatomic, readonly) NSInteger numberOfHighResSpectrumValues;
+
+@property (nonatomic, readonly) float* unifiedWaveData;
+@property (nonatomic, readonly) float* leftWaveData;
+@property (nonatomic, readonly) float* rightWaveData;
+@property (nonatomic, readonly) NSInteger numberOfWaveDataValues;
 
 // The number of Hz represented in each index of the spectrum.
 // Let's say this is 10Hz. Then spectrum[0] will represent the frequency of the

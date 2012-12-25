@@ -55,10 +55,7 @@ const NSInteger kPixelBorderSize = 1;
 
 #pragma mark - Rendering
 
-- (void)renderBitmapInContext:(CGContextRef)cx
-                         size:(CGSize)size
-                     spectrum:(float *)spectrum
-       numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
   CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);

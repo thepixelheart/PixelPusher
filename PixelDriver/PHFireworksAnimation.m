@@ -57,7 +57,7 @@ static const CGFloat kGravity = 9.8;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     if (0 == _lastTick) {
       _lastTick = [NSDate timeIntervalSinceReferenceDate];
     }

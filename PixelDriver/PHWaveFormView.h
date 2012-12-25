@@ -17,4 +17,5 @@
 #import "PHBitmapView.h"
 
 @interface PHWaveFormView : PHBitmapView
+@property (nonatomic, assign) PHAudioChannel audioChannel;
 @end

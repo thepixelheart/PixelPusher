@@ -39,7 +39,7 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     CGFloat histogramHeight = floorf(kWallHeight / NHISTOGRAMS);
     for (NSInteger ix = 0; ix < NHISTOGRAMS; ++ix) {
       NSColor* color = nil;

@@ -32,7 +32,7 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
     CGContextRotateCTM(cx, _rotationAdvance);
 

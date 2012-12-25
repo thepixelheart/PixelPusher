@@ -29,13 +29,13 @@
 
 @property (nonatomic, assign) float volume;
 
-- (float *)spectrum;
+- (void)getSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified;
 - (NSInteger)numberOfSpectrumValues;
 
-- (float *)highResSpectrum;
+- (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified;
 - (NSInteger)numberOfHighResSpectrumValues;
 
-- (float *)waveData;
+- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified;
 - (NSInteger)numberOfWaveDataValues;
 
 @end

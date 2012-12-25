@@ -92,7 +92,8 @@ static const float notefreq[PHPitch_Count] = {
   NSInteger start = range.start / hzPerSpectrumValue;
   NSInteger end = range.end / hzPerSpectrumValue;
   for (NSInteger ix = start; ix < end; ++ix) {
-    float decibels = log10f(_spectrum[ix] + 1.0f) * (*scale);
+    float decibels = log10f(_unifiedSpectrum[ix] + 1.0f) * (*scale);
+
     if (range.center >= 0) {
       float hz = (float)ix * hzPerSpectrumValue;
       float distanceRatio;
@@ -104,6 +105,7 @@ static const float notefreq[PHPitch_Count] = {
       float scale = sinf((distanceRatio - 0.5) * M_PI) / 2.f + 0.5f;
       decibels *= scale;
     }
+
     amplitude += decibels;
   }
   amplitude /= (float)(end - start);
@@ -115,29 +117,24 @@ static const float notefreq[PHPitch_Count] = {
 }
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio {
-  float* spectrum = [audio spectrum];
-  NSInteger numberOfSpectrumValues = [audio numberOfSpectrumValues];
-  float* highResSpectrum = [audio highResSpectrum];
-  NSInteger numberOfHighResSpectrumValues = [audio numberOfHighResSpectrumValues];
-
-  [self setSpectrum:spectrum numberOfValues:numberOfSpectrumValues];
-  [self setHighResSpectrum:highResSpectrum numberOfValues:numberOfHighResSpectrumValues];
+  [self updateSpectrumWithAudio:audio];
+  [self updateHighResSpectrumWithAudio:audio];
+  [self updateWaveWithAudio:audio];
 }
 
-- (void)setSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues {
-  _spectrum = spectrum;
-  _numberOfSpectrumValues = numberOfValues;
+- (void)updateSpectrumWithAudio:(PHFMODRecorder *)audio {
+  [audio getSpectrumLeft:&_leftSpectrum right:&_rightSpectrum unified:&_unifiedSpectrum];
+  _numberOfSpectrumValues = audio.numberOfSpectrumValues;
 
   _subBassAmplitude = [self amplitudeOfSpectrumWithRange:kSubBassRange scale:&_subBassScale];
   _hihatAmplitude = [self amplitudeOfSpectrumWithRange:kHihatRange scale:&_hihatScale];
   _vocalAmplitude = [self amplitudeOfSpectrumWithRange:kVocalRange scale:&_vocalScale];
   _snareAmplitude = [self amplitudeOfSpectrumWithRange:kSnareRange scale:&_snareScale];
-
 }
 
-- (void)setHighResSpectrum:(float *)spectrum numberOfValues:(NSInteger)numberOfValues {
-  _highResSpectrum = spectrum;
-  _numberOfHighResSpectrumValues = numberOfValues;
+- (void)updateHighResSpectrumWithAudio:(PHFMODRecorder *)audio {
+  [audio getHighResSpectrumLeft:&_highResLeftSpectrum right:&_highResRightSpectrum unified:&_highResUnifiedSpectrum];
+  _numberOfHighResSpectrumValues = audio.numberOfHighResSpectrumValues;
 
   // First find the loudest frequency, ignoring the bass.
   float max = 0;
@@ -147,9 +144,11 @@ static const float notefreq[PHPitch_Count] = {
   NSInteger leftEdge = floorf(kPitchDetectionRange.start / hzPerSpectrumValue);
   NSInteger rightEdge = floorf(kPitchDetectionRange.end / hzPerSpectrumValue);
 
-  for (NSInteger ix = leftEdge; ix < rightEdge; ++ix) {
-    if (spectrum[ix] > 0.01f && spectrum[ix] > max) {
-      max = spectrum[ix];
+  for (NSInteger ix = MIN(_numberOfHighResSpectrumValues, leftEdge);
+       ix < MIN(_numberOfHighResSpectrumValues, rightEdge);
+       ++ix) {
+    if (_highResUnifiedSpectrum[ix] > 0.01f && _highResUnifiedSpectrum[ix] > max) {
+      max = _highResUnifiedSpectrum[ix];
       indexOfMax = ix;
     }
   }
@@ -172,6 +171,11 @@ static const float notefreq[PHPitch_Count] = {
   } else {
     _dominantPitch = PHPitch_Unknown;
   }
+}
+
+- (void)updateWaveWithAudio:(PHFMODRecorder *)audio {
+  [audio getWaveLeft:&_leftWaveData right:&_rightWaveData unified:&_unifiedWaveData];
+  _numberOfWaveDataValues = audio.numberOfWaveDataValues;
 }
 
 - (NSString *)nameOfPitch:(PHPitch)pitch {

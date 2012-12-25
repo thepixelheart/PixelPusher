@@ -46,7 +46,7 @@
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
   PHAnimationDriver* driver = notification.userInfo[PHDisplayLinkFiredDriverKey];
-  [self queueBitmapWithSpectrum:driver.spectrum numberOfSpectrumValues:driver.numberOfSpectrumValues];
+  [self queueBitmapWithDriver:driver];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -62,9 +62,9 @@
   }
 }
 
-- (void)queueBitmapWithSpectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (void)queueBitmapWithDriver:(PHAnimationDriver *)driver {
   [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
-    [self renderBitmapInContext:cx size:size spectrum:spectrum numberOfSpectrumValues:numberOfSpectrumValues];
+    [self renderBitmapInContext:cx size:size driver:driver];
   } imageSize:self.bounds.size delegate:self];
 }
 
@@ -83,7 +83,7 @@
 
 #pragma mark - Subclassing
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
   // No-op
 }
 

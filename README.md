@@ -88,7 +88,7 @@ Start by creating an animation class:
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
 
     CGContextSetRGBFillColor(cx, 1, 0, 0, 1);

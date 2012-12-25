@@ -39,7 +39,7 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
     [_snareDegrader tickWithPeak:self.driver.hihatAmplitude];
 

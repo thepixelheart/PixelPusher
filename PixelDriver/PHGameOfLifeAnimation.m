@@ -148,7 +148,7 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.spectrum) {
+  if (self.driver.unifiedSpectrum) {
     [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
 
     if (self.driver.hihatAmplitude > 0.5) {

@@ -16,14 +16,27 @@
 
 #import "PHWaveFormView.h"
 
+#import "PHAnimationDriver.h"
 #import "PHFMODRecorder.h"
 #import "AppDelegate.h"
 
 @implementation PHWaveFormView
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues {
-  float* waveData = PHApp().audioRecorder.waveData;
-  NSInteger numberOfWaveDataValues = PHApp().audioRecorder.numberOfWaveDataValues;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
+  float* waveData = nil;
+  if (self.audioChannel == PHAudioChannelLeft) {
+    waveData = driver.leftWaveData;
+  } else if (self.audioChannel == PHAudioChannelRight) {
+    waveData = driver.rightWaveData;
+  } else if (self.audioChannel == PHAudioChannelUnified) {
+    waveData = driver.unifiedWaveData;
+  }
+  if (nil == waveData) {
+    NSLog(@"No wave data found");
+    return;
+  }
+
+  NSInteger numberOfWaveDataValues = driver.numberOfWaveDataValues;
 
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextSetRGBFillColor(cx, (float)0xED / 255.f, (float)0xED / 255.f, (float)0xED / 255.f, 1);

@@ -41,15 +41,17 @@ static const unsigned int kRecordingDuration = 60 * 5;
   FMOD::Channel* _channel;
   BOOL _listening;
 
-  float _spectrum[kNumberOfSpectrumValues];
   float _leftSpectrum[kNumberOfSpectrumValues];
   float _rightSpectrum[kNumberOfSpectrumValues];
+  float _unifiedSpectrum[kNumberOfSpectrumValues];
 
-  float _highResSpectrum[kNumberOfHighResSpectrumValues];
-  float _highResLeftSpectrum[kNumberOfHighResSpectrumValues];
-  float _highResRightSpectrum[kNumberOfHighResSpectrumValues];
+  float _leftHighResSpectrum[kNumberOfHighResSpectrumValues];
+  float _rightHighResSpectrum[kNumberOfHighResSpectrumValues];
+  float _unifiedHighResSpectrum[kNumberOfHighResSpectrumValues];
 
-  float _waveData[kNumberOfWaveDataValues];
+  float _leftWaveData[kNumberOfWaveDataValues];
+  float _rightWaveData[kNumberOfWaveDataValues];
+  float _unifiedWaveData[kNumberOfWaveDataValues];
 }
 
 - (void)dealloc {
@@ -224,48 +226,60 @@ static const unsigned int kRecordingDuration = 60 * 5;
   }
 }
 
-- (float *)spectrum {
+- (void)getSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
   memset(_leftSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
   memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
-  
+
   _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
   _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
 
   for (NSInteger ix = 0; ix < kNumberOfSpectrumValues; ++ix) {
-    _spectrum[ix] = (_leftSpectrum[ix] + _rightSpectrum[ix]) / 2;
+    _unifiedSpectrum[ix] = (_leftSpectrum[ix] + _rightSpectrum[ix]) / 2;
   }
 
-  return _spectrum;
+  *left = _leftSpectrum;
+  *right = _rightSpectrum;
+  *unified = _unifiedSpectrum;
 }
 
 - (NSInteger)numberOfSpectrumValues {
   return kNumberOfSpectrumValues;
 }
 
-- (float *)highResSpectrum {
-  memset(_highResLeftSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
-  memset(_highResRightSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
+- (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
+  memset(_leftHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
+  memset(_rightHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
 
-  _channel->getSpectrum(_highResLeftSpectrum, kNumberOfHighResSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-  _channel->getSpectrum(_highResRightSpectrum, kNumberOfHighResSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
+  _channel->getSpectrum(_leftHighResSpectrum, kNumberOfHighResSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
+  _channel->getSpectrum(_rightHighResSpectrum, kNumberOfHighResSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
 
   for (NSInteger ix = 0; ix < kNumberOfHighResSpectrumValues; ++ix) {
-    _highResSpectrum[ix] = (_highResLeftSpectrum[ix] + _highResRightSpectrum[ix]) / 2;
+    _unifiedHighResSpectrum[ix] = (_leftHighResSpectrum[ix] + _rightHighResSpectrum[ix]) / 2;
   }
 
-  return _highResSpectrum;
+  *left = _leftHighResSpectrum;
+  *right = _rightHighResSpectrum;
+  *unified = _unifiedHighResSpectrum;
 }
 
 - (NSInteger)numberOfHighResSpectrumValues {
   return kNumberOfHighResSpectrumValues;
 }
 
-- (float *)waveData {
-  memset(_waveData, 0, sizeof(float) * kNumberOfWaveDataValues);
+- (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified {
+  memset(_leftWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
+  memset(_rightWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
 
-  _channel->getWaveData(_waveData, kNumberOfWaveDataValues, 0);
+  _channel->getWaveData(_leftWaveData, kNumberOfWaveDataValues, 0);
+  _channel->getWaveData(_rightWaveData, kNumberOfWaveDataValues, 0);
 
-  return _waveData;
+  for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
+    _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;
+  }
+
+  *left = _leftWaveData;
+  *right = _rightWaveData;
+  *unified = _unifiedWaveData;
 }
 
 - (NSInteger)numberOfWaveDataValues {

@@ -18,6 +18,8 @@
 
 #import "AppDelegate.h"
 #import "PHFMODRecorder.h"
+#import "PHSpectrumAnalyzerView.h"
+#import "PHWaveFormView.h"
 
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 
@@ -35,6 +37,11 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   }
 
   [self performSelector:@selector(updateListeningState) withObject:nil afterDelay:0.2];
+
+  self.leftSpectrumView.audioChannel = 0;
+  self.rightSpectrumView.audioChannel = 0;
+  self.leftWaveView.audioChannel = 0;
+  self.rightWaveView.audioChannel = 0;
 }
 
 - (void)updateListeningState {

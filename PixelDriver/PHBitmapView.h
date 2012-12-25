@@ -16,9 +16,16 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PHAnimationDriver;
+typedef enum {
+  PHAudioChannelLeft,
+  PHAudioChannelRight,
+  PHAudioChannelUnified,
+} PHAudioChannel;
+
 @interface PHBitmapView : NSView
 
 // Subclassing. Do not call directly.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size spectrum:(float *)spectrum numberOfSpectrumValues:(NSInteger)numberOfSpectrumValues;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver;
 
 @end
