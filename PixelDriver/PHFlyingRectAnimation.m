@@ -12,7 +12,7 @@
 static const CGFloat kEmitDistance = 100.0f;
 static const CGFloat kDistanceStep = 1.0;
 static const int kMaxRectanglesOnScreen = 20;
-static const int kMaxRectanglesAddedPerStep = 2;
+static const int kMaxRectanglesAddedPerStep = 5;
 
 @interface PHRect : NSObject
 @end
@@ -35,7 +35,7 @@ static const int kMaxRectanglesAddedPerStep = 2;
 }
 
 -(void)tickWithSpeedMultiplier:(CGFloat)speedMultiplier {
-    _distance += (speedMultiplier + 1) * _speed;
+    _distance += speedMultiplier * _speed;
 }
 
 -(CGRect)computeDrawRect:(CGSize)size
@@ -105,8 +105,8 @@ static const int kMaxRectanglesAddedPerStep = 2;
         [_rects removeObjectsInArray:invisibleRects];
         
         
-        if ([_rects count] < kMaxRectanglesOnScreen) {
-            for (int i = 0; i < kMaxRectanglesAddedPerStep; ++i) {
+        if (_hihatDegrader.value > 0.2 && [_rects count] < kMaxRectanglesOnScreen) {
+            for (int i = 0; i < kMaxRectanglesAddedPerStep * _hihatDegrader.value; ++i) {
                 PHRect* rect = [[PHRect alloc] initWithRect:CGRectMake(arc4random_uniform(size.width * 2) / size.width - 1,
                                                                        arc4random_uniform(size.height * 2) / size.height - 1,
                                                                        arc4random_uniform(size.width / 2) / size.width,
@@ -117,8 +117,8 @@ static const int kMaxRectanglesAddedPerStep = 2;
         
         // tick and render the rects;
         for(PHRect* rect in _rects) {
-//            [rect tickWithSpeedMultiplier: _bassDegrader.value];
-            [rect tickWithSpeedMultiplier: 1];
+            [rect tickWithSpeedMultiplier: _bassDegrader.value];
+//            [rect tickWithSpeedMultiplier: 1];
             [rect renderInContext:cx size:size];
         }        
     }
