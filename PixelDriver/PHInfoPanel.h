@@ -33,4 +33,10 @@
 @property (nonatomic, strong) IBOutlet NSSlider* volumeSlider;
 @property (nonatomic, strong) IBOutlet NSButton* listeningButton;
 
+// Labels
+@property (nonatomic, strong) IBOutlet NSTextField* bassLabel;
+@property (nonatomic, strong) IBOutlet NSTextField* hiHatLabel;
+@property (nonatomic, strong) IBOutlet NSTextField* vocalLabel;
+@property (nonatomic, strong) IBOutlet NSTextField* snareLabel;
+
 @end

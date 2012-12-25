@@ -164,6 +164,14 @@ typedef enum {
 @property (nonatomic, readonly) float* differenceWaveData;
 @property (nonatomic, readonly) NSInteger numberOfWaveDataValues;
 
+// These values scale the intensity calculated from the spectrum for their corresponding
+// range. These values degrade over time and can only be reset by calling resetScales.
+// The "Learn" button (top left button) on the Launchpad calls resetScales.
+@property (nonatomic, readonly) CGFloat subBassScale;
+@property (nonatomic, readonly) CGFloat hihatScale;
+@property (nonatomic, readonly) CGFloat vocalScale;
+@property (nonatomic, readonly) CGFloat snareScale;
+
 // The number of Hz represented in each index of the spectrum.
 // Let's say this is 10Hz. Then spectrum[0] will represent the frequency of the
 // sound between 0 and 10Hz. spectrum[1] will be 10Hz and 20Hz, and so forth.

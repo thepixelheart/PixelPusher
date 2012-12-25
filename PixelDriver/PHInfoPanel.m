@@ -17,6 +17,8 @@
 #import "PHInfoPanel.h"
 
 #import "AppDelegate.h"
+#import "PHAnimationDriver.h"
+#import "PHDisplayLink.h"
 #import "PHFMODRecorder.h"
 #import "PHSpectrumAnalyzerView.h"
 #import "PHWaveFormView.h"
@@ -24,6 +26,10 @@
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 
 @implementation PHInfoPanel
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)awakeFromNib {
   [super awakeFromNib];
@@ -45,6 +51,17 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   self.rightWaveView.audioChannel = PHAudioChannelRight;
   self.unifiedWaveView.audioChannel = PHAudioChannelUnified;
   self.differenceWaveView.audioChannel = PHAudioChannelDifference;
+
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
+}
+
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  PHAnimationDriver* driver = notification.userInfo[PHDisplayLinkFiredDriverKey];
+  self.bassLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.subBassScale];
+  self.hiHatLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.hihatScale];
+  self.vocalLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.vocalScale];
+  self.snareLabel.stringValue = [NSString stringWithFormat:@"%.0f", driver.snareScale];
 }
 
 - (void)updateListeningState {

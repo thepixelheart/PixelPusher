@@ -58,12 +58,7 @@ static const float notefreq[PHPitch_Count] = {
   8372.01f, 8869.84f, 9397.27f, 9956.06f, 10548.08f, 11175.30f, 11839.82f, 12543.85f, 13289.75f, 14080.00f, 14917.24f, 15804.26f
 };
 
-@implementation PHAnimationDriver {
-  CGFloat _subBassScale;
-  CGFloat _hihatScale;
-  CGFloat _vocalScale;
-  CGFloat _snareScale;
-}
+@implementation PHAnimationDriver
 
 - (id)init {
   if ((self = [super init])) {
@@ -92,7 +87,7 @@ static const float notefreq[PHPitch_Count] = {
   NSInteger start = range.start / hzPerSpectrumValue;
   NSInteger end = range.end / hzPerSpectrumValue;
   for (NSInteger ix = start; ix < end; ++ix) {
-    float decibels = log10f(_unifiedSpectrum[ix] + 1.0f) * (*scale);
+    float decibels = log10f(_unifiedSpectrum[ix] + 1.0f);
 
     if (range.center >= 0) {
       float hz = (float)ix * hzPerSpectrumValue;
@@ -109,11 +104,12 @@ static const float notefreq[PHPitch_Count] = {
     amplitude += decibels;
   }
   amplitude /= (float)(end - start);
-  if (amplitude > 1) {
-    amplitude = 1;
-    *scale -= 1;
+  float scaledAmplitude = amplitude * (*scale);
+  if (scaledAmplitude > 1) {
+    *scale = 1 / amplitude;
+    scaledAmplitude = 1;
   }
-  return amplitude;
+  return scaledAmplitude;
 }
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio {
@@ -189,7 +185,7 @@ static const float notefreq[PHPitch_Count] = {
   _subBassScale = 50;
   _hihatScale = 1200;
   _vocalScale = 400;
-  _snareScale = 400;
+  _snareScale = 900;
 }
 
 @end
