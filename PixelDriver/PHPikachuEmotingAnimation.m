@@ -33,7 +33,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   NSTimeInterval _nextAllowedAnimationChangeTime;
   NSTimeInterval _nextSleepTime;
 
-  PHDegrader* _bassDegrader;
   CGFloat _hihatAbsorber;
   CGFloat _vocalAbsorber;
   BOOL _hasBeenLulling;
@@ -42,8 +41,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-
     _pikachuSpritesheet = [[PHSpritesheet alloc] initWithName:@"pikachu-emote" spriteSize:CGSizeMake(48, 32)];
 
     _idleAnimation = [[PHSpriteAnimation alloc] initWithSpritesheet:_pikachuSpritesheet];
@@ -88,7 +85,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
     _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
     _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
 

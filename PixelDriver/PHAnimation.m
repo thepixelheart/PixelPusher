@@ -17,7 +17,7 @@
 #import "PHAnimation.h"
 
 #import "PHBasicSpectrumAnimation.h"
-#import "PHBouncingCircleAnimation.h"
+#import "PHSpectrumViewerAnimation.h"
 #import "PHBassPlate.h"
 #import "PHFireworksAnimation.h"
 #import "PHFlyingFireballAnimation.h"
@@ -39,14 +39,41 @@
   return [[self alloc] init];
 }
 
+- (id)init {
+  if ((self = [super init])) {
+    _bassDegrader = [[PHDegrader alloc] init];
+    _hihatDegrader = [[PHDegrader alloc] init];
+    _vocalDegrader = [[PHDegrader alloc] init];
+    _snareDegrader = [[PHDegrader alloc] init];
+  }
+  return self;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  // No-op.
+  // No-op
+}
+
+- (NSTimeInterval)secondsSinceLastTick {
+  return (_lastTick > 0) ? ([NSDate timeIntervalSinceReferenceDate] - _lastTick) : 0;
+}
+
+- (void)bitmapWillStartRendering {
+  if (self.driver.unifiedSpectrum) {
+    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
+    [_hihatDegrader tickWithPeak:self.driver.hihatAmplitude];
+    [_vocalDegrader tickWithPeak:self.driver.vocalAmplitude];
+    [_snareDegrader tickWithPeak:self.driver.snareAmplitude];
+  }
+}
+
+- (void)bitmapDidFinishRendering {
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
 }
 
 + (NSArray *)allAnimations {
   return
   @[[PHNoAnimation animation],
-  [PHBouncingCircleAnimation animation],
+  [PHSpectrumViewerAnimation animation],
   [PHBassPlate animation],
   [PHFireworksAnimation animation],
   [PHFlyingFireballAnimation animation],

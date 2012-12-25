@@ -18,23 +18,13 @@
 
 @implementation PHFlyingFireballAnimation {
   CGImageRef _imageOfPreviousFrame;
-  PHDegrader* _bassDegrader;
-  PHDegrader* _movementDegrader;
   CGFloat _advance;
   CGFloat _advance2;
   NSTimeInterval _lastTick;
 }
 
-- (id)init {
-  if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-    _movementDegrader = [[PHDegrader alloc] init];
-  }
-  return self;
-}
-
 - (void)renderBall1AtX:(CGFloat)xOff1 context:(CGContextRef)cx {
-  CGFloat radius = _bassDegrader.value * 5 + 1;
+  CGFloat radius = self.bassDegrader.value * 5 + 1;
   CGFloat yOff = cos(_advance * 4) * 7;
   CGRect frame = CGRectMake(kWallWidth - radius * 2 - 15 + xOff1,
                             kWallHeight / 2 - radius + yOff - 5,
@@ -58,7 +48,7 @@
 }
 
 - (void)renderBall2AtX:(CGFloat)xOff2 context:(CGContextRef)cx {
-  CGFloat radius = _movementDegrader.value * 5 + 1;
+  CGFloat radius = self.hihatDegrader.value * 5 + 1;
   CGFloat yOff = cos(_advance2 * 3) * 7;
   CGRect frame = CGRectMake(kWallWidth - radius * 2 - 15 + xOff2,
                             kWallHeight / 2 - radius + yOff + 5,
@@ -83,19 +73,16 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-    [_movementDegrader tickWithPeak:self.driver.hihatAmplitude];
+    NSTimeInterval delta = self.secondsSinceLastTick;
 
-    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
-
-    _advance += delta * (_movementDegrader.value + 0.2);
-    _advance2 += delta * (_bassDegrader.value + 0.2);
+    _advance += delta * (self.hihatDegrader.value + 0.2);
+    _advance2 += delta * (self.bassDegrader.value + 0.2);
 
     CGContextSetBlendMode(cx, kCGBlendModeScreen);
     if (_imageOfPreviousFrame) {
       CGContextSaveGState(cx);
       CGContextSetAlpha(cx, 0.96);
-      CGContextDrawImage(cx, CGRectInset(CGRectMake(-1, 0, size.width, size.height), 0, _bassDegrader.value * 4 - 2),
+      CGContextDrawImage(cx, CGRectInset(CGRectMake(-1, 0, size.width, size.height), 0, self.bassDegrader.value * 4 - 2),
                          _imageOfPreviousFrame);
       CGContextRestoreGState(cx);
     }
@@ -115,8 +102,6 @@
       CGImageRelease(_imageOfPreviousFrame);
     }
     _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
-
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
 }
 

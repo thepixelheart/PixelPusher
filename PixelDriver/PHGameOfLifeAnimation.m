@@ -23,8 +23,6 @@ static const NSTimeInterval kTimeBetweenTicks = 0.5;
 static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 
 @implementation PHGameOfLifeAnimation {
-  PHDegrader* _bassDegrader;
-  
   CGContextRef _worldContextRef;
   unsigned char* _oldWorldBuffer;
   NSTimeInterval _lastTick;
@@ -43,8 +41,6 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-
     _worldContextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
     _oldWorldBuffer = malloc([self sizeOfBuffer]);
 
@@ -149,13 +145,11 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-
     if (self.driver.hihatAmplitude > 0.5) {
       [self addRandomLife];
     }
 
-    if (_bassDegrader.value > 0.1 && [NSDate timeIntervalSinceReferenceDate] >= _lastTick + _deltaToNextTick * (1 - _bassDegrader.value)) {
+    if (self.bassDegrader.value > 0.1 && [NSDate timeIntervalSinceReferenceDate] >= _lastTick + _deltaToNextTick * (1 - self.bassDegrader.value)) {
       if (_shouldRestartWorld) {
         [self initializeWorld];
       } else {

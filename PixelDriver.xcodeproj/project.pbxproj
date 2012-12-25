@@ -11,7 +11,8 @@
 		1E791A74168820AB008106F3 /* PHNyanCatBgAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A73168820AA008106F3 /* PHNyanCatBgAnimation.m */; };
 		1E791A7F16883B66008106F3 /* PHNyanCatFgAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A7E16883B66008106F3 /* PHNyanCatFgAnimation.m */; };
 		3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */; };
-		662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */; };
+		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
+		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE54C1686854B00F300CE /* PHLaunchpadView.m */; };
 		662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE54F1686875D00F300CE /* ableton_logo_screen.png */; };
 		662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE5521686894B00F300CE /* PHLaunchpadWindow.m */; };
@@ -84,8 +85,10 @@
 		1E791A8116883B75008106F3 /* PHNyanCatFgAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNyanCatFgAnimation.h; sourceTree = "<group>"; };
 		3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingRectAnimation.h; sourceTree = "<group>"; };
 		3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingRectAnimation.m; sourceTree = "<group>"; };
-		662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBouncingCircleAnimation.h; sourceTree = "<group>"; };
-		662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBouncingCircleAnimation.m; sourceTree = "<group>"; };
+		660D25981689B20000727312 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotationAnimation.h; sourceTree = "<group>"; };
+		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
+		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
+		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
 		662DE54B1686854B00F300CE /* PHLaunchpadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadView.h; sourceTree = "<group>"; };
 		662DE54C1686854B00F300CE /* PHLaunchpadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadView.m; sourceTree = "<group>"; };
@@ -225,10 +228,12 @@
 				668520E9168290B90063A95A /* PHAnimation.m */,
 				66DF3F9216854C15008E8105 /* PHNoAnimation.h */,
 				66DF3F9316854C15008E8105 /* PHNoAnimation.m */,
+				660D25981689B20000727312 /* PHRotationAnimation.h */,
+				660D25991689B20000727312 /* PHRotationAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
-				662CA847167FFFC800FC800F /* PHBouncingCircleAnimation.h */,
-				662CA848167FFFC800FC800F /* PHBouncingCircleAnimation.m */,
+				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
+				662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */,
 				66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */,
 				66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */,
 				66753A99168486220092EDF0 /* PHFireworksAnimation.h */,
@@ -247,10 +252,10 @@
 				1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */,
 				3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */,
 				3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */,
-				1E791A73168820AA008106F3 /* PHNyanCatBgAnimation.m */,
 				1E791A75168820BF008106F3 /* PHNyanCatBgAnimation.h */,
-				1E791A7E16883B66008106F3 /* PHNyanCatFgAnimation.m */,
+				1E791A73168820AA008106F3 /* PHNyanCatBgAnimation.m */,
 				1E791A8116883B75008106F3 /* PHNyanCatFgAnimation.h */,
+				1E791A7E16883B66008106F3 /* PHNyanCatFgAnimation.m */,
 				66A26D52168847EC009F7B33 /* PHPixelHeartAnimation.h */,
 				66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */,
 				66A26D701689190A009F7B33 /* PHGameOfLifeAnimation.h */,
@@ -596,7 +601,7 @@
 				66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */,
 				66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */,
 				66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */,
-				662CA849167FFFC800FC800F /* PHBouncingCircleAnimation.m in Sources */,
+				662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */,
 				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
 				668520EE168292200063A95A /* PHAnimationDriver.m in Sources */,
 				66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */,
@@ -621,6 +626,7 @@
 				66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */,
 				66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */,
 				66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */,
+				660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

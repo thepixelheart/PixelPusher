@@ -16,23 +16,12 @@
 
 #import "PHBasicSpectrumAnimation.h"
 
-@implementation PHBasicSpectrumAnimation {
-  PHDegrader* _bassDegrader;
-}
-
-- (id)init {
-  if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-  }
-  return self;
-}
+@implementation PHBasicSpectrumAnimation
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-
     CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
-    CGContextFillRect(cx, CGRectMake(0, 0, _bassDegrader.value * size.width, kWallHeight));
+    CGContextFillRect(cx, CGRectMake(0, 0, self.bassDegrader.value * size.width, kWallHeight));
   }
 }
 

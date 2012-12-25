@@ -16,5 +16,9 @@
 
 #import "PHAnimation.h"
 
-@interface PHBassPlate : PHAnimation
+/**
+ * The PHRotationAnimation class is an animation that inserts a rotation into the
+ * composite animation stack.
+ */
+@interface PHRotationAnimation : PHAnimation
 @end

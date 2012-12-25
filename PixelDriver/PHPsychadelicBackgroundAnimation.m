@@ -17,9 +17,6 @@
 #import "PHPsychadelicBackgroundAnimation.h"
 
 @implementation PHPsychadelicBackgroundAnimation {
-  PHDegrader* _bassDegrader;
-  PHDegrader* _snareDegrader;
-
   CGFloat _advance;
   CGFloat _colorAdvance;
   CGFloat _rotationAdvance;
@@ -30,9 +27,7 @@
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-    _bassDegrader.deltaPerSecond = 1.2;
-    _snareDegrader = [[PHDegrader alloc] init];
+    self.bassDegrader.deltaPerSecond = 1.2;
     _direction = 1;
   }
   return self;
@@ -40,12 +35,9 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-    [_snareDegrader tickWithPeak:self.driver.hihatAmplitude];
-
     if (_lastTick) {
       NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
-      if (_bassDegrader.value < 0.4) {
+      if (self.bassDegrader.value < 0.4) {
         if (!_didSwap) {
           _direction = -_direction;
           _didSwap = YES;
@@ -53,8 +45,8 @@
       } else {
         _didSwap = NO;
       }
-      _advance += delta * 1 * _bassDegrader.value * _direction;
-      _colorAdvance += delta * 3 * _snareDegrader.value * _direction;
+      _advance += delta * 1 * self.bassDegrader.value * _direction;
+      _colorAdvance += delta * 3 * self.hihatDegrader.value * _direction;
       _rotationAdvance += delta * 2 * self.driver.vocalAmplitude * _direction;
     }
     CGRect pixelRect = CGRectMake(0, 0, 1, 1);
@@ -76,8 +68,6 @@
         CGContextFillRect(cx, pixelRect);
       }
     }
-
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
 }
 

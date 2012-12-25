@@ -38,7 +38,6 @@ static const CGFloat kGravity = 9.8;
   CGImageRef _imageOfPreviousFrame;
   NSMutableArray* _fireworks;
   NSMutableArray* _particles;
-  NSTimeInterval _lastTick;
   NSTimeInterval _nextCreationTime;
   NSTimeInterval _nextExplosionTime;
   CGFloat _rollingSubBassAverage[kRollingAverageCount];
@@ -58,10 +57,7 @@ static const CGFloat kGravity = 9.8;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    if (0 == _lastTick) {
-      _lastTick = [NSDate timeIntervalSinceReferenceDate];
-    }
-    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
+    NSTimeInterval delta = self.secondsSinceLastTick;
 
     CGContextSetBlendMode(cx, kCGBlendModeLighten);
     if (_imageOfPreviousFrame) {
@@ -181,8 +177,6 @@ static const CGFloat kGravity = 9.8;
       CGImageRelease(_imageOfPreviousFrame);
     }
     _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
-
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
 }
 

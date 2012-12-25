@@ -17,7 +17,6 @@
 #import "PHPixelHeartAnimation.h"
 
 @implementation PHPixelHeartAnimation {
-  PHDegrader* _bassDegrader;
   PHSpritesheet* _spritesheet;
 
   PHSpriteAnimation* _animation;
@@ -25,8 +24,6 @@
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-
     _spritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(26, 23)];
     _animation = [[PHSpriteAnimation alloc] initWithSpritesheet:_spritesheet];
     [_animation addStillFrameAtX:0 y:0];
@@ -38,10 +35,9 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
     CGSize spriteSize = _spritesheet.spriteSize;
 
-    CGFloat value = (_bassDegrader.value - 0.2) / 0.8;
+    CGFloat value = (self.bassDegrader.value - 0.2) / 0.8;
     if (value > 0.2) {
       CGImageRef imageRef = [_animation imageRefAtCurrentTick];
       CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),

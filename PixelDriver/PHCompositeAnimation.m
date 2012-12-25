@@ -85,9 +85,9 @@
   @synchronized(self) {
     for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
       PHAnimation* animation = _layerAnimation[ix];
-      if (nil != animation) {
-        [animation renderBitmapInContext:cx size:size];
-      }
+      [animation bitmapWillStartRendering];
+      [animation renderBitmapInContext:cx size:size];
+      [animation bitmapDidFinishRendering];
     }
   }
 }

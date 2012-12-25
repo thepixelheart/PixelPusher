@@ -30,15 +30,12 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
     NSTimeInterval _nextAllowedAnimationChangeTime;
     NSTimeInterval _nextSleepTime;
     
-    PHDegrader* _bassDegrader;
     CGFloat _hihatAbsorber;
     CGFloat _vocalAbsorber;
 }
 
 - (id)init {
     if ((self = [super init])) {
-        _bassDegrader = [[PHDegrader alloc] init];
-        
         _nyancatSpritesheet = [[PHSpritesheet alloc] initWithName:@"nyancat" spriteSize:CGSizeMake(48, 32)];
         
         _idleAnimation = [[PHSpriteAnimation alloc] initWithSpritesheet:_nyancatSpritesheet];
@@ -62,7 +59,6 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
     if (self.driver.unifiedSpectrum) {
-        [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
         _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
         _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
         

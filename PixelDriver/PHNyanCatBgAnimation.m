@@ -21,11 +21,6 @@
 #define TICKMULTIPLIER 3 // how much faster do rainbows run than oscillate?
 
 @implementation PHNyanCatBgAnimation {
-    PHDegrader* _bassDegrader;
-    PHDegrader* _hihatDegrader;
-    PHDegrader* _vocalDegrader;
-    PHDegrader* _snareDegrader;
-    
     CGFloat _histograms[48*NHISTOGRAMS];
     
     NSInteger _ticks;
@@ -33,11 +28,6 @@
 
 - (id)init {
     if ((self = [super init])) {
-        _bassDegrader = [[PHDegrader alloc] init];
-        _hihatDegrader = [[PHDegrader alloc] init];
-        _vocalDegrader = [[PHDegrader alloc] init];
-        _snareDegrader = [[PHDegrader alloc] init];
-        
         _ticks = 0;
         
         memset(_histograms, 0, sizeof(CGFloat) * 48 * NHISTOGRAMS);
@@ -47,11 +37,6 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
     if (self.driver.unifiedSpectrum) {
-        [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-        [_hihatDegrader tickWithPeak:self.driver.hihatAmplitude];
-        [_vocalDegrader tickWithPeak:self.driver.vocalAmplitude];
-        [_snareDegrader tickWithPeak:self.driver.snareAmplitude];
-        
         NSInteger tailHeight = kWallHeight / 13;
         
         NSColor* nyanRed = [NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:1];
@@ -67,22 +52,22 @@
         for (NSInteger ix = 0; ix < NHISTOGRAMS; ++ix) {
             if (ix == 0) {
                 color = nyanRed;
-                amplitude = _bassDegrader.value;
+                amplitude = self.bassDegrader.value;
             } else if (ix == 1) {
                 color = nyanOrange;
-                amplitude = _hihatDegrader.value;
+                amplitude = self.hihatDegrader.value;
             } else if (ix == 2) {
                 color = nyanYellow;
-                amplitude = _vocalDegrader.value;
+                amplitude = self.vocalDegrader.value;
             } else if (ix == 3) {
                 color = nyanGreen;
-                amplitude = _snareDegrader.value;
+                amplitude = self.snareDegrader.value;
             } else if (ix == 4) {
                 color = nyanBlue;
-                amplitude = _bassDegrader.value;
+                amplitude = self.bassDegrader.value;
             } else if (ix == 5) {
                 color = nyanPurple;
-                amplitude = _hihatDegrader.value;
+                amplitude = self.hihatDegrader.value;
             }
             
             // Shift all values back.

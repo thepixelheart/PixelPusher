@@ -738,8 +738,13 @@ AppDelegate *PHApp() {
   if (nil != previousAnimation) {
     CGContextRef previousContext = [self createWallContext];
     CGContextRef activeContext = [self createWallContext];
+    [previousAnimation bitmapWillStartRendering];
     [previousAnimation renderBitmapInContext:previousContext size:wallSize];
+    [previousAnimation bitmapDidFinishRendering];
+
+    [activeAnimation bitmapWillStartRendering];
     [activeAnimation renderBitmapInContext:activeContext size:wallSize];
+    [activeAnimation bitmapDidFinishRendering];
 
     CGImageRef previousImage = CGBitmapContextCreateImage(previousContext);
     CGImageRef activeImage = CGBitmapContextCreateImage(activeContext);
@@ -760,7 +765,9 @@ AppDelegate *PHApp() {
     CGContextRelease(activeContext);
 
   } else {
+    [activeAnimation bitmapWillStartRendering];
     [activeAnimation renderBitmapInContext:wallContext size:wallSize];
+    [activeAnimation bitmapDidFinishRendering];
   }
 
   return wallContext;
@@ -774,7 +781,9 @@ AppDelegate *PHApp() {
   CGContextClearRect(wallContext, wallFrame);
 
   PHAnimation* activeAnimation = [self activePreviewAnimation];
+  [activeAnimation bitmapWillStartRendering];
   [activeAnimation renderBitmapInContext:wallContext size:wallSize];
+  [activeAnimation bitmapDidFinishRendering];
 
   return wallContext;
 }

@@ -29,6 +29,13 @@
 // Convenience method for creating an animation object.
 + (id)animation;
 
+@property (nonatomic, strong) PHDegrader* bassDegrader;
+@property (nonatomic, strong) PHDegrader* hihatDegrader;
+@property (nonatomic, strong) PHDegrader* vocalDegrader;
+@property (nonatomic, strong) PHDegrader* snareDegrader;
+@property (nonatomic, readonly) NSTimeInterval secondsSinceLastTick; // 0 on first run.
+@property (nonatomic, readonly) NSTimeInterval lastTick; // 0 on first run
+
 // The driver exposes a number of pre-calculated values that all animations
 // share.
 @property (nonatomic, strong) PHAnimationDriver* driver;
@@ -36,6 +43,10 @@
 // Subclasses must implement this method to render their frames.
 // This method will be called frequently.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
+
+// Subclasses should call super.
+- (void)bitmapWillStartRendering;
+- (void)bitmapDidFinishRendering;
 
 + (NSArray *)allAnimations;
 

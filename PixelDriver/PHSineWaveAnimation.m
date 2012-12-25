@@ -17,35 +17,22 @@
 #import "PHSineWaveAnimation.h"
 
 @implementation PHSineWaveAnimation {
-  PHDegrader* _bassDegrader;
-  PHDegrader* _snareDegrader;
-
-  NSTimeInterval _lastTick;
   CGFloat _advance;
   CGFloat _advanceSin;
 }
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-    _bassDegrader.deltaPerSecond = 1.2;
-    _snareDegrader = [[PHDegrader alloc] init];
+    self.bassDegrader.deltaPerSecond = 1.2;
   }
   return self;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-    [_snareDegrader tickWithPeak:self.driver.hihatAmplitude];
-
-    NSTimeInterval tick = [NSDate timeIntervalSinceReferenceDate];
-    if (_lastTick > 0) {
-      NSTimeInterval delta = tick - _lastTick;
-
-      _advance += delta;
-      _advanceSin += _bassDegrader.value * delta * 20;
-    }
+    NSTimeInterval delta = self.secondsSinceLastTick;
+    _advance += delta;
+    _advanceSin += self.bassDegrader.value * delta * 20;
 
     CGRect pixelRect = CGRectMake(0, 0, 1, 1);
     for (int ix = 0; ix < size.width; ++ix) {
@@ -55,7 +42,7 @@
 
         float centery = size.height / 2;
         float sineAmplitude = sin((float)ix / 2 + _advanceSin);
-        float sineWidth = _snareDegrader.value * 8;
+        float sineWidth = self.hihatDegrader.value * 8;
         float sineOffset = centery + sineAmplitude * sineWidth;
         float offsety = sineOffset - iy;
 
@@ -70,8 +57,6 @@
         }
       }
     }
-
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
 }
 

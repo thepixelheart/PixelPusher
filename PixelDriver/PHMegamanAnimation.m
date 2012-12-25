@@ -28,9 +28,6 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
   CGFloat _backgroundOffset;
   CGFloat _foregroundOffset;
   CGFloat _advance;
-  NSTimeInterval _lastTick;
-  
-  PHDegrader* _bassDegrader;
 
   BOOL _isBlinking;
   BOOL _hasBeenLulling;
@@ -44,8 +41,6 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 
 - (id)init {
   if ((self = [super init])) {
-    _bassDegrader = [[PHDegrader alloc] init];
-
     _megamanSpritesheet = [[PHSpritesheet alloc] initWithName:@"megaman-nes-blue" spriteSize:CGSizeMake(32, 32)];
     _tilesSpritesheet = [[PHSpritesheet alloc] initWithName:@"megaman-nes-tiles" spriteSize:CGSizeMake(16, 16)];
 
@@ -66,23 +61,19 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-
     _hasBeenLulling = _hasBeenLulling || (self.driver.hihatAmplitude < 0.3);
     if ([NSDate timeIntervalSinceReferenceDate] - _blinkStartedAtTime > 0.1) {
       _isBlinking = NO;
     }
 
-    CGFloat runningSpeed = _bassDegrader.value * 3;
+    CGFloat runningSpeed = self.bassDegrader.value * 3;
     if (runningSpeed < 0.4) {
       runningSpeed = 0;
     }
-    if (_lastTick > 0) {
-      NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
-      _advance += delta * runningSpeed;
-      _backgroundOffset -= delta * 10 * runningSpeed;
-      _foregroundOffset -= delta * 24 * runningSpeed;
-    }
+    NSTimeInterval delta = self.secondsSinceLastTick;
+    _advance += delta * runningSpeed;
+    _backgroundOffset -= delta * 10 * runningSpeed;
+    _foregroundOffset -= delta * 24 * runningSpeed;
     _runningAnimation.animationScale = sqrt(runningSpeed / 3);
 
     CGContextSetInterpolationQuality(cx, kCGInterpolationDefault);
@@ -137,8 +128,6 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
     CGContextDrawImage(cx, CGRectMake(floorf(sin(_advance / 5) * 10 + 10), -8, megamanSize.width, megamanSize.height), imageRef);
 
     CGImageRelease(imageRef);
-
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
 }
 

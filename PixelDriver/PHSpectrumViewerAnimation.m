@@ -14,16 +14,15 @@
 // limitations under the License.
 //
 
-#import "PHBouncingCircleAnimation.h"
+#import "PHSpectrumViewerAnimation.h"
 
 #import "AppDelegate.h"
 #import "PHDriver.h"
 
 #define NHISTOGRAMS 4
 
-@implementation PHBouncingCircleAnimation {
+@implementation PHSpectrumViewerAnimation {
   CGFloat _maxes[8];
-  NSTimeInterval _lastTick;
   CGFloat _totalMax;
 
   CGFloat _histograms[48*NHISTOGRAMS];
@@ -33,7 +32,6 @@
   if ((self = [super init])) {
     memset(_maxes, 0, sizeof(CGFloat) * 8);
     memset(_histograms, 0, sizeof(CGFloat) * 48 * NHISTOGRAMS);
-    _lastTick = [NSDate timeIntervalSinceReferenceDate];
   }
   return self;
 }
@@ -57,8 +55,6 @@
       for (NSInteger col = 0; col < kWallWidth - 1; ++col) {
         _histograms[ix * 48 + col] = _histograms[ix * 48 + col + 1];
       }
-
-      _lastTick = [NSDate timeIntervalSinceReferenceDate];
 
       CGFloat amplitude = 0;
       if (ix == 0) {

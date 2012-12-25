@@ -17,5 +17,5 @@
 #import <Foundation/Foundation.h>
 #import "PHAnimation.h"
 
-@interface PHBouncingCircleAnimation : PHAnimation
+@interface PHSpectrumViewerAnimation : PHAnimation
 @end
