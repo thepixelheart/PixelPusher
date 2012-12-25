@@ -18,15 +18,21 @@
 
 @implementation PHRotationAnimation {
   CGFloat _rotationAdvance;
+  CGFloat _direction;
+}
+
++ (id)animationWithDirection:(CGFloat)direction {
+  PHRotationAnimation* animation = [self animation];
+  animation->_direction = direction;
+  return animation;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _rotationAdvance += self.secondsSinceLastTick;
+  _rotationAdvance += self.secondsSinceLastTick * _direction * self.bassDegrader.value;
 
-  if (self.driver.unifiedSpectrum) {
-    CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
-    CGContextRotateCTM(cx, _rotationAdvance);
-  }
+  CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
+  CGContextRotateCTM(cx, _rotationAdvance);
+  CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
 }
 
 @end

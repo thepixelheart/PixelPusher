@@ -19,5 +19,5 @@
 /**
  * The PHNoAnimimation class is an animation that does nothing.
  */
-@interface PHNoAnimation : PHAnimation
+@interface PHResetAnimation : PHAnimation
 @end

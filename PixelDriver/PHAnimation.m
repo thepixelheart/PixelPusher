@@ -22,7 +22,7 @@
 #import "PHFireworksAnimation.h"
 #import "PHFlyingFireballAnimation.h"
 #import "PHLevelsHorizAnimation.h"
-#import "PHNoAnimation.h"
+#import "PHResetAnimation.h"
 #import "PHNyanCatBgAnimation.h"
 #import "PHNyanCatFgAnimation.h"
 #import "PHMegamanAnimation.h"
@@ -32,6 +32,7 @@
 #import "PHFlyingRectAnimation.h"
 #import "PHPixelHeartAnimation.h"
 #import "PHGameOfLifeAnimation.h"
+#import "PHRotationAnimation.h"
 
 @implementation PHAnimation
 
@@ -72,8 +73,10 @@
 
 + (NSArray *)allAnimations {
   return
-  @[[PHNoAnimation animation],
+  @[[PHResetAnimation animation],
   [PHSpectrumViewerAnimation animation],
+  [PHRotationAnimation animationWithDirection:1],
+  [PHRotationAnimation animationWithDirection:-1],
   [PHBassPlate animation],
   [PHFireworksAnimation animation],
   [PHFlyingFireballAnimation animation],

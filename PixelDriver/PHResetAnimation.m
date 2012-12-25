@@ -14,10 +14,14 @@
 // limitations under the License.
 //
 
-#import "PHNoAnimation.h"
+#import "PHResetAnimation.h"
 
-@implementation PHNoAnimation
+@implementation PHResetAnimation
 
-// Intentionally empty.
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  CGAffineTransform transform = CGContextGetCTM(cx);
+  transform = CGAffineTransformInvert(transform);
+  CGContextConcatCTM(cx, transform);
+}
 
 @end

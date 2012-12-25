@@ -21,4 +21,7 @@
  * composite animation stack.
  */
 @interface PHRotationAnimation : PHAnimation
+
++ (id)animationWithDirection:(CGFloat)direction;
+
 @end

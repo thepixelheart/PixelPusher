@@ -24,12 +24,13 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
+    CGContextSaveGState(cx);
     CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
     CGContextRotateCTM(cx, _rotationAdvance);
 
     if (_imageOfPreviousFrame) {
       CGContextSaveGState(cx);
-      CGContextSetAlpha(cx, 0.96);
+      CGContextSetAlpha(cx, 0.90);
       CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
       CGContextDrawImage(cx, CGRectMake(1, 0, size.width - 2, size.height - 1), _imageOfPreviousFrame);
       CGContextRestoreGState(cx);
@@ -54,6 +55,7 @@
       CGImageRelease(_imageOfPreviousFrame);
     }
     _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
+    CGContextRestoreGState(cx);
   }
 }
 

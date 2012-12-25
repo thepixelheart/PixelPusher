@@ -163,9 +163,13 @@ static const CGFloat kGravity = 9.8;
         firework.position = CGPointMake(((CGFloat)(arc4random_uniform(kWallWidth + kWallBuffer * 2) + kWallBuffer) * 100) / 100 - kWallBuffer, kWallHeight + 1.5);
         firework.velocity = CGPointMake( (((CGFloat)arc4random_uniform(500)) - 250) / 15,
                                         -(((CGFloat)arc4random_uniform(35)) + 70) / 4);
-        firework.r = (CGFloat)(arc4random_uniform(128) + 128) / 255;
-        firework.g = (CGFloat)(arc4random_uniform(128) + 128) / 255;
-        firework.b = (CGFloat)(arc4random_uniform(128) + 128) / 255;
+
+        NSColor* color = generateRandomColor();
+        CGFloat r,g,b,a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        firework.r = r;
+        firework.g = g;
+        firework.b = b;
         firework.creationTime = [NSDate timeIntervalSinceReferenceDate];
         [_fireworks addObject:firework];
       }

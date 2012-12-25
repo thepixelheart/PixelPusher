@@ -64,7 +64,7 @@
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
-		66DF3F9416854C15008E8105 /* PHNoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHNoAnimation.m */; };
+		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
 		66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */; };
 		66F664101685504F001E77BC /* PHSpritesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640F1685504F001E77BC /* PHSpritesheet.m */; };
@@ -188,8 +188,8 @@
 		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
 		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
-		66DF3F9216854C15008E8105 /* PHNoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoAnimation.h; sourceTree = "<group>"; };
-		66DF3F9316854C15008E8105 /* PHNoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoAnimation.m; sourceTree = "<group>"; };
+		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
+		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
 		66F6640716854FA3001E77BC /* spritesheets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spritesheets; sourceTree = "<group>"; };
 		66F6640A16854FF8001E77BC /* PHMegamanAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMegamanAnimation.h; sourceTree = "<group>"; };
 		66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMegamanAnimation.m; sourceTree = "<group>"; };
@@ -226,8 +226,8 @@
 				66F6640D16855005001E77BC /* Tools */,
 				662CA84A167FFFE400FC800F /* PHAnimation.h */,
 				668520E9168290B90063A95A /* PHAnimation.m */,
-				66DF3F9216854C15008E8105 /* PHNoAnimation.h */,
-				66DF3F9316854C15008E8105 /* PHNoAnimation.m */,
+				66DF3F9216854C15008E8105 /* PHResetAnimation.h */,
+				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
 				660D25981689B20000727312 /* PHRotationAnimation.h */,
 				660D25991689B20000727312 /* PHRotationAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
@@ -609,7 +609,7 @@
 				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,
 				66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */,
 				66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */,
-				66DF3F9416854C15008E8105 /* PHNoAnimation.m in Sources */,
+				66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */,
 				66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */,
 				66F664101685504F001E77BC /* PHSpritesheet.m in Sources */,
 				66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */,
