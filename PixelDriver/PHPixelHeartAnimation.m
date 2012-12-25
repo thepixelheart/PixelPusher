@@ -27,7 +27,7 @@
   if ((self = [super init])) {
     _bassDegrader = [[PHDegrader alloc] init];
 
-    _spritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(19, 32)];
+    _spritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(26, 23)];
     _animation = [[PHSpriteAnimation alloc] initWithSpritesheet:_spritesheet];
     [_animation addStillFrameAtX:0 y:0];
     _animation.repeats = YES;
