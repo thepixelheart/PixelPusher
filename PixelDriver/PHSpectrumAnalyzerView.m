@@ -49,9 +49,11 @@
   }
   if (max > 0) {
     int windowSize = numberOfSpectrumValues / size.width;
-    float nyquist = 44100 / 2;
-    float bandHz = nyquist / (float)numberOfSpectrumValues;
+    //float nyquist = 44100 / 2;
+    //float bandHz = nyquist / (float)numberOfSpectrumValues;
 
+    NSColor* color = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
+    CGContextSetFillColorWithColor(cx, color.CGColor);
     for (int ix = 0; ix < size.width; ++ix) {
       float total = 0;
 
@@ -59,14 +61,7 @@
         float decibels = 100.0f * log10f(spectrum[is] + 1.0f);
         total += decibels;
       }
-      float hz = ((float)ix / size.width) * (float)numberOfSpectrumValues * bandHz;
-      NSColor* color = nil;
-      if (hz >= 0 && hz < 100) {
-        color = [NSColor colorWithDeviceRed:1 green:0 blue:1 alpha:1];
-      } else {
-        color = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
-      }
-      CGContextSetFillColorWithColor(cx, color.CGColor);
+      //float hz = ((float)ix / size.width) * (float)numberOfSpectrumValues * bandHz;
       float average = total / (float)windowSize;
       CGRect rect = CGRectMake(ix, 0, 1, average * self.bounds.size.height);
       CGContextFillRect(cx, rect);
