@@ -21,7 +21,7 @@
 /**
  * The state of a single PixelMote tracked since the last frame was displayed.
  */
-@interface PHMote : NSObject
+@interface PHMote : NSObject <NSCopying>
 
 - (id)initWithIdentifier:(NSString *)identifier stream:(NSStream *)stream;
 
@@ -29,13 +29,11 @@
 
 @property (nonatomic, copy) NSString* name;
 
-@property (nonatomic, readonly, copy) NSArray* statesSinceLastFrame;
+@property (nonatomic, readonly, copy) NSArray* statesSinceLastFrame; // Array of PHMoteState
 
 // Composite information in case you don't need all of the state information.
 @property (nonatomic, assign) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
 @property (nonatomic, assign) CGFloat joystickTilt;   // [0 - 1]
-
-@property (nonatomic, assign) NSMutableArray* joystickPath; // The joystick's path since the last frame.
 
 @property (nonatomic, assign) NSInteger numberOfTimesATapped; // Number of times A was tapped since the last frame.
 @property (nonatomic, assign) NSInteger numberOfTimesBTapped; // Number of times B was tapped since the last frame.

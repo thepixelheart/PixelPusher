@@ -192,11 +192,14 @@ typedef enum {
 @property (nonatomic, readonly) PHPitch dominantPitch;
 - (NSString *)nameOfPitch:(PHPitch)pitch;
 
+// Motes
+@property (nonatomic, readonly) NSArray* motes;
+
 @end
 
 @interface PHAnimationDriver()
 
-- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio;
+- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio motes:(NSArray *)motes;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)
 // values. This may be necessary when a song peaked out all of the values way too

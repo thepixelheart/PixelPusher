@@ -43,4 +43,10 @@ AppDelegate *PHApp();
 - (CGContextRef)currentWallContext;
 - (CGContextRef)previewWallContext;
 
+// Makes a copy of all connected motes and returns them.
+- (NSArray *)allMotes; // Array of PHMote
+
+// Called when a display link frame has completed.
+- (void)didTick;
+
 @end

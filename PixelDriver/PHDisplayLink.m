@@ -32,7 +32,8 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     void* displayLinkContext) {
   @autoreleasepool {
     PHDisplayLink* displayLink = (__bridge PHDisplayLink *)(displayLinkContext);
-    [displayLink.animationDriver updateWithAudioRecorder:PHApp().audioRecorder];
+    NSArray* motes = [PHApp() allMotes];
+    [displayLink.animationDriver updateWithAudioRecorder:PHApp().audioRecorder motes:motes];
 
     NSDictionary* userInfo = @{
       PHDisplayLinkFiredDriverKey : displayLink.animationDriver
@@ -40,6 +41,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification
                                                         object:nil
                                                       userInfo:userInfo];
+    [PHApp() didTick];
     return kCVReturnSuccess;
   }
 }

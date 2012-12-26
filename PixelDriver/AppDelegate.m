@@ -150,22 +150,22 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
     } else {
       PHMote* controller = [_controllers objectForKey:who];
-      PHControllerState* state = nil;
+      PHMoteState* state = nil;
       if ([command isEqualToString:@"mv"]) {
         NSArray* parts = [data componentsSeparatedByString:@","];
         CGFloat degrees = [parts[0] doubleValue];
         CGFloat tilt = [parts[1] doubleValue];
-        state = [[PHControllerState alloc] initWithJoystickDegrees:degrees joystickTilt:tilt];
+        state = [[PHMoteState alloc] initWithJoystickDegrees:degrees joystickTilt:tilt];
 
       } else if ([command isEqualToString:@"emv"]) {
-        state = [[PHControllerState alloc] initWithJoystickDegrees:0 joystickTilt:0];
+        state = [[PHMoteState alloc] initWithJoystickDegrees:0 joystickTilt:0];
 
       } else if ([command isEqualToString:@"bp"]) {
         NSInteger button = [data intValue];
         if (button == 0) {
-          state = [[PHControllerState alloc] initWithATapped];
+          state = [[PHMoteState alloc] initWithATapped];
         } else if (button == 1) {
-          state = [[PHControllerState alloc] initWithBTapped];
+          state = [[PHMoteState alloc] initWithBTapped];
         }
       }
 
@@ -173,6 +173,22 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     }
 
     NSLog(@"Controller states: %@", _controllers);
+  }
+}
+
+- (NSArray *)allMotes {
+  NSMutableArray* motes = [NSMutableArray array];
+  for (NSString* key in _controllers) {
+    PHMote* mote = [_controllers objectForKey:key];
+    [motes addObject:[mote copy]];
+  }
+  return motes;
+}
+
+- (void)didTick {
+  for (NSString* key in _controllers) {
+    PHMote* mote = [_controllers objectForKey:key];
+    [mote tick];
   }
 }
 

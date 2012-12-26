@@ -61,6 +61,18 @@
   return self;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+  PHMote* copy = [[[self class] allocWithZone:zone] init];
+  copy->_states = [_states copy];
+  copy->_numberOfTimesATapped = _numberOfTimesATapped;
+  copy->_numberOfTimesBTapped = _numberOfTimesBTapped;
+  copy->_joystickDegrees = _joystickDegrees;
+  copy->_joystickTilt = _joystickTilt;
+  return copy;
+}
+
 - (NSString *)description {
   return [NSString stringWithFormat:
           @"<%@ \"%@\" joystick angle: %.2f - joystick tilt: %.4f - # times A pressed: %ld - # times B pressed: %ld",
@@ -74,6 +86,7 @@
 
 - (void)addControllerState:(PHMoteState *)state {
   [_states addObject:state];
+
   _numberOfTimesATapped += state.aIsTapped ? 1 : 0;
   _numberOfTimesBTapped += state.bIsTapped ? 1 : 0;
   _joystickDegrees = state.joystickDegrees;
