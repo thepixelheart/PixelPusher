@@ -26,6 +26,10 @@
 #import "PHWallView.h"
 #import "Utilities.h"
 
+#include <CoreFoundation/CoreFoundation.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
@@ -41,6 +45,10 @@ typedef enum {
 AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
+
+@interface AppDelegate() <NSStreamDelegate>
+@property (nonatomic, readonly) NSMutableArray* controllerSockets;
+@end
 
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
@@ -66,6 +74,10 @@ AppDelegate *PHApp() {
   PHAnimation* _previousAnimation;
   PHAnimation* _previewAnimation;
   NSTimeInterval _crossFadeStartTime;
+
+  // Controller server
+  CFSocketRef _ipv4cfsock;
+  CFRunLoopSourceRef _socketsource;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -102,7 +114,85 @@ AppDelegate *PHApp() {
   return [animations mutableCopy];
 }
 
+void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CFDataRef address, const void *data, void *info) {
+  if (callbackType == kCFSocketAcceptCallBack) {
+    CFSocketNativeHandle* socketHandle = (CFSocketNativeHandle *)data;
+
+    CFReadStreamRef readStream;
+    CFStreamCreatePairWithSocket(nil, *socketHandle, &readStream, nil);
+    NSInputStream* inputStream = (__bridge NSInputStream *)readStream;
+
+    AppDelegate* app = (__bridge AppDelegate *)info;
+    inputStream.delegate = app;
+
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+
+    [app.controllerSockets addObject:inputStream];
+  }
+}
+
+- (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+  if ([stream isKindOfClass:[NSInputStream class]]) {
+    NSInputStream* inputStream = (NSInputStream *)stream;
+    if (eventCode & NSStreamEventHasBytesAvailable) {
+      uint8_t bytes[1024];
+      memset(bytes, 0, sizeof(uint8_t) * 1024);
+      NSInteger nread = [inputStream read:bytes maxLength:1023];
+      bytes[nread] = 0;
+      NSString* string = [NSString stringWithCString:(const char *)bytes encoding:NSUTF8StringEncoding];
+      NSLog(@"String: %@", string);
+    }
+    if (eventCode & NSStreamEventEndEncountered) {
+      [_controllerSockets removeObject:inputStream];
+    }
+  }
+}
+
+- (void)startListeningForControllers {
+  _controllerSockets = [NSMutableArray array];
+  CFSocketContext context;
+  memset(&context, 0, sizeof(CFSocketContext));
+  context.info = (__bridge void *)self;
+  _ipv4cfsock = CFSocketCreate(kCFAllocatorDefault,
+                               PF_INET,
+                               SOCK_STREAM,
+                               IPPROTO_TCP,
+                               kCFSocketAcceptCallBack,
+                               PHHandleHTTPConnection,
+                               &context);
+  if (nil == _ipv4cfsock) {
+    NSLog(@"Failed to create socket");
+    return;
+  }
+  struct sockaddr_in sin;
+
+  memset(&sin, 0, sizeof(sin));
+  sin.sin_len = sizeof(sin);
+  sin.sin_family = AF_INET;
+  sin.sin_port = htons(12345);
+  sin.sin_addr.s_addr= INADDR_ANY;
+
+  CFDataRef sincfd = CFDataCreate(kCFAllocatorDefault,
+                                  (UInt8 *)&sin,
+                                  sizeof(sin));
+  
+  CFSocketSetAddress(_ipv4cfsock, sincfd);
+  CFRelease(sincfd);
+
+  _socketsource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, _ipv4cfsock, 0);
+  if (nil == _socketsource) {
+    NSLog(@"Failed to create socket source");
+    CFSocketInvalidate(_ipv4cfsock);
+    _ipv4cfsock = nil;
+    return;
+  }
+  CFRunLoopAddSource(CFRunLoopGetCurrent(), _socketsource, kCFRunLoopDefaultMode);
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
+  [self startListeningForControllers];
+
   [[self audioRecorder] toggleListening];
 
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -169,6 +259,15 @@ AppDelegate *PHApp() {
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
+  if (nil != _ipv4cfsock) {
+    CFSocketInvalidate(_ipv4cfsock);
+    _ipv4cfsock = nil;
+  }
+  if (nil != _socketsource) {
+    CFRunLoopSourceInvalidate(_socketsource);
+    _socketsource = nil;
+  }
+
   [self saveComposites];
 }
 
