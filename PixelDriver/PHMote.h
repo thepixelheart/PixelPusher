@@ -19,6 +19,19 @@
 @class PHMoteState;
 
 /**
+ * What's a PixelMote?
+ *
+ * It's a wireless controller for the Pixel Heart. You can get the code for it here:
+ * https://github.com/ThePixelHeart/PixelMote
+ *
+ * The PixelDriver runs a PHMoteServer in the background that listens for connections
+ * from PixelMotes. The messages received from the motes is chomped up and packaged
+ * with the PHAnimationDriver that all animations can access via self.driver.
+ *
+ * See PHSimpleMoteAnimation for an example animation using the mote.
+ */
+
+/**
  * The composite state of a single PixelMote tracked since the last frame was displayed.
  *
  * A list of all currently connected motes is accessible via self.driver.motes.
