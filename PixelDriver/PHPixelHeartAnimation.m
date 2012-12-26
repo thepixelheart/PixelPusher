@@ -38,6 +38,8 @@
     CGContextSaveGState(cx);
     CGSize spriteSize = _spritesheet.spriteSize;
 
+    CGFloat maxRadius = MIN(spriteSize.width, spriteSize.height) / 2;
+
     CGFloat value = self.bassDegrader.value;
     if (value > 0.05) {
       CGImageRef imageRef = [_animation imageRefAtCurrentTick];
@@ -45,6 +47,17 @@
                                      floorf((size.height - spriteSize.height) / 2),
                                      spriteSize.width,
                                      spriteSize.height);
+
+      if (self.driver.motes.count > 0) {
+        PHMote* mote = [self.driver.motes objectAtIndex:0];
+        CGFloat degrees = mote.joystickDegrees;
+        CGFloat radians = degrees * M_PI / 180;
+        CGFloat tilt = mote.joystickTilt;
+
+        heartFrame.origin.x = size.width / 2 - spriteSize.width / 2 + cosf(radians) * tilt * maxRadius;
+        heartFrame.origin.y = size.height / 2 - spriteSize.height / 2 + sinf(radians) * tilt * maxRadius;
+      }
+
       heartFrame = CGRectInset(heartFrame, (1 - value) * 10, (1 - value) * 10);
       CGContextSetAlpha(cx, MIN(1, value / 0.2));
       CGContextDrawImage(cx, heartFrame, imageRef);
