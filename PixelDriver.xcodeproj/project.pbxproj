@@ -19,7 +19,6 @@
 		662DE55516868AF400F300CE /* novation.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55416868AF400F300CE /* novation.png */; };
 		662DE55716868BB100F300CE /* launchpad.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE55616868BB100F300CE /* launchpad.png */; };
 		662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */; };
-		662F59131678477900ADE02C /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 662F59121678477900ADE02C /* PHApplication.m */; };
 		662F5916167849E500ADE02C /* clouds.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F5915167849E500ADE02C /* clouds.qtz */; };
 		662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591716784B2F00ADE02C /* Quartz.framework */; };
 		662F591A16784B3D00ADE02C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 662F591916784B3D00ADE02C /* OpenGL.framework */; };
@@ -102,8 +101,6 @@
 		662DE55616868BB100F300CE /* launchpad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = launchpad.png; path = PixelDriver/launchpad.png; sourceTree = "<group>"; };
 		662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIMessage.h; sourceTree = "<group>"; };
 		662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIMessage.m; sourceTree = "<group>"; };
-		662F59111678477900ADE02C /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
-		662F59121678477900ADE02C /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
 		662F5915167849E500ADE02C /* clouds.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = clouds.qtz; path = QuartzCompositions/clouds.qtz; sourceTree = SOURCE_ROOT; };
 		662F591716784B2F00ADE02C /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		662F591916784B3D00ADE02C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -306,6 +303,17 @@
 			name = "Quartz Renderer";
 			sourceTree = "<group>";
 		};
+		66393E78168AE4E3002BD86F /* Pixel Mote */ = {
+			isa = PBXGroup;
+			children = (
+				66393E6B168AD63E002BD86F /* PHMoteServer.h */,
+				66393E6C168AD63E002BD86F /* PHMoteServer.m */,
+				66393E71168AE392002BD86F /* PHMote+Private.h */,
+				66393E76168AE46B002BD86F /* PHMoteState+Private.h */,
+			);
+			name = "Pixel Mote";
+			sourceTree = "<group>";
+		};
 		66A8E013167C074100FBAFE8 /* FMOD */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,17 +425,12 @@
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
+				66393E78168AE4E3002BD86F /* Pixel Mote */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
 				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
 				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
-				66393E71168AE392002BD86F /* PHMote+Private.h */,
-				66393E76168AE46B002BD86F /* PHMoteState+Private.h */,
-				66393E6B168AD63E002BD86F /* PHMoteServer.h */,
-				66393E6C168AD63E002BD86F /* PHMoteServer.m */,
-				662F59111678477900ADE02C /* PHApplication.h */,
-				662F59121678477900ADE02C /* PHApplication.m */,
 				66DC7B8716773FC200453E8F /* Utilities.h */,
 				66DC7B8816773FC200453E8F /* Utilities.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
@@ -611,7 +614,6 @@
 				66DC7B7F1677299300453E8F /* PHDriver.m in Sources */,
 				66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */,
 				66DC7B8916773FC200453E8F /* Utilities.m in Sources */,
-				662F59131678477900ADE02C /* PHApplication.m in Sources */,
 				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
 				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
 				66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */,
