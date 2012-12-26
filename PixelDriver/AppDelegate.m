@@ -25,6 +25,7 @@
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 #import "Utilities.h"
+#import "PHController.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
@@ -78,6 +79,8 @@ AppDelegate *PHApp() {
   // Controller server
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
+  NSMutableDictionary* _streamToHangingMessage;
+  NSMutableDictionary* _controllers; // Of PHController
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -132,25 +135,101 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   }
 }
 
+- (void)processControllerMessage:(NSString *)message stream:(NSStream *)stream {
+  NSArray* parts = [message componentsSeparatedByString:@":"];
+
+  if (parts.count == 3) {
+    NSString* command = parts[0];
+    NSString* data = parts[1];
+    NSString* who = parts[2];
+
+    if ([command isEqualToString:@"hi"]) {
+      PHController* controller = [[PHController alloc] initWithIdentifier:who stream:stream];
+      controller.name = [[data componentsSeparatedByString:@","] lastObject];
+      [_controllers setObject:controller forKey:who];
+
+    } else {
+      PHController* controller = [_controllers objectForKey:who];
+      PHControllerState* state = nil;
+      if ([command isEqualToString:@"mv"]) {
+        NSArray* parts = [data componentsSeparatedByString:@","];
+        CGFloat degrees = [parts[0] doubleValue];
+        CGFloat tilt = [parts[1] doubleValue];
+        state = [[PHControllerState alloc] initWithJoystickDegrees:degrees joystickTilt:tilt];
+
+      } else if ([command isEqualToString:@"emv"]) {
+        state = [[PHControllerState alloc] initWithJoystickDegrees:0 joystickTilt:0];
+
+      } else if ([command isEqualToString:@"bp"]) {
+        NSInteger button = [data intValue];
+        if (button == 0) {
+          state = [[PHControllerState alloc] initWithATapped];
+        } else if (button == 1) {
+          state = [[PHControllerState alloc] initWithBTapped];
+        }
+      }
+
+      [controller addControllerState:state];
+    }
+
+    NSLog(@"Controller states: %@", _controllers);
+  }
+}
+
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
   if ([stream isKindOfClass:[NSInputStream class]]) {
     NSInputStream* inputStream = (NSInputStream *)stream;
-    if (eventCode & NSStreamEventHasBytesAvailable) {
+    if (eventCode & NSStreamEventEndEncountered) {
+      [_controllerSockets removeObject:inputStream];
+      NSString* keyToRemove = nil;
+      for (NSString* key in _controllers) {
+        PHController* controller = [_controllers objectForKey:key];
+        if (controller.stream == stream) {
+          keyToRemove = key;
+          break;
+        }
+      }
+      if (nil != keyToRemove) {
+        [_controllers removeObjectForKey:keyToRemove];
+      }
+      NSLog(@"Disconnected a controller. %@", _controllers);
+
+    } else if (eventCode & NSStreamEventHasBytesAvailable) {
       uint8_t bytes[1024];
       memset(bytes, 0, sizeof(uint8_t) * 1024);
       NSInteger nread = [inputStream read:bytes maxLength:1023];
+      // Null-terminate the string.
       bytes[nread] = 0;
       NSString* string = [NSString stringWithCString:(const char *)bytes encoding:NSUTF8StringEncoding];
-      NSLog(@"String: %@", string);
-    }
-    if (eventCode & NSStreamEventEndEncountered) {
-      [_controllerSockets removeObject:inputStream];
+
+      id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
+      NSString* hangingMessage = [_streamToHangingMessage objectForKey:streamKey];
+
+      if (nil != hangingMessage) {
+        string = [hangingMessage stringByAppendingString:string];
+        [_streamToHangingMessage removeObjectForKey:streamKey];
+      }
+
+      NSArray* messages = [string componentsSeparatedByString:@"\n"];
+
+      BOOL isComplete = [string hasSuffix:@"\n"];
+
+      for (NSString* message in messages) {
+        if (message == [messages lastObject] && !isComplete) {
+          // Carry this over to the next stream event.
+          [_streamToHangingMessage setObject:message forKey:streamKey];
+          continue;
+        }
+        [self processControllerMessage:message stream:stream];
+      }
     }
   }
 }
 
 - (void)startListeningForControllers {
   _controllerSockets = [NSMutableArray array];
+  _controllers = [NSMutableDictionary dictionary];
+  _streamToHangingMessage = [NSMutableDictionary dictionary];
   CFSocketContext context;
   memset(&context, 0, sizeof(CFSocketContext));
   context.info = (__bridge void *)self;
