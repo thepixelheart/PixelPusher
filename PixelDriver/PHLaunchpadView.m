@@ -388,6 +388,8 @@
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
+
+  [PHApp() bringTooltipForward];
 }
 
 - (void)midiDidSendMessageNotification:(NSNotification *)notification {

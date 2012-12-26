@@ -43,6 +43,7 @@ AppDelegate *PHApp();
 
 // Tooltip window
 - (void)pointTooltipAtView:(NSView *)view withString:(NSString *)string;
+- (void)bringTooltipForward;
 - (void)hideTooltip;
 
 // Button tooltips

@@ -72,6 +72,9 @@ AppDelegate *PHApp() {
 
   // Controller server
   PHMoteServer* _moteServer;
+
+  // Tooltip
+  BOOL _showingTooltip;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -816,6 +819,7 @@ AppDelegate *PHApp() {
     return;
   }
 
+  _showingTooltip = YES;
   [self.tooltipWindow setTooltip:string];
 
   CGRect frame = self.tooltipWindow.frame;
@@ -825,10 +829,17 @@ AppDelegate *PHApp() {
   frame.origin.y = screenFrame.origin.y + frame.size.height;
 
   [self.tooltipWindow setFrame:frame display:YES];
-  [self.tooltipWindow makeKeyAndOrderFront:self];
+  [self bringTooltipForward];
+}
+
+- (void)bringTooltipForward {
+  if (_showingTooltip) {
+    [self.tooltipWindow makeKeyAndOrderFront:self];
+  }
 }
 
 - (void)hideTooltip {
+  _showingTooltip = NO;
   [self.tooltipWindow orderOut:self];
 }
 
@@ -857,10 +868,38 @@ AppDelegate *PHApp() {
 }
 
 - (NSString *)tooltipForTopButtonIndex:(NSInteger)buttonIndex {
+  if (_launchpadMode == PHLaunchpadModeAnimations
+      || _launchpadMode == PHLaunchpadModePreview) {
+    if (buttonIndex == PHLaunchpadTopButtonUpArrow) {
+      return @"Reset Audio Scalers";
+    } else if (buttonIndex == PHLaunchpadTopButtonSession) {
+      return @"Toggle Instant Transitions";
+    }
+  } else if (_launchpadMode == PHLaunchpadModeComposite) {
+    NSInteger animationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:(PHLaunchpadTopButton)buttonIndex];
+    NSString* string = [NSString stringWithFormat:@"Composite Layer %ld", buttonIndex + 1];
+    if (animationIndex >= 0 && animationIndex < _animations.count) {
+      PHAnimation* animation = [_animations objectAtIndex:animationIndex];
+      string = [string stringByAppendingFormat:@"\n%@", animation.tooltipName];
+    }
+    return string;
+  }
   return nil;
 }
 
 - (NSString *)tooltipForSideButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == PHLaunchpadSideButtonArm) {
+    return @"Toggle Preview Mode";
+  } else if (buttonIndex == PHLaunchpadSideButtonTrackOn) {
+    return @"Toggle Composite Mode";
+  } else if (_launchpadMode == PHLaunchpadModeComposite) {
+    if (buttonIndex == PHLaunchpadSideButtonSendA) {
+      BOOL editingExistingComposite = [self buttonIndexOfAnimation:_previewCompositeAnimationBeingEdited] >= 0;
+      return editingExistingComposite ? @"Create New Composite" : @"Save Composite";
+    } else if (buttonIndex == PHLaunchpadSideButtonSendB) {
+      return @"Delete composite";
+    }
+  }
   return nil;
 }
 
