@@ -112,4 +112,8 @@ static const int kMaxRectanglesAddedPerStep = 5;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Flying Rectangles";
+}
+
 @end

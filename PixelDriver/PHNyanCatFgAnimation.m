@@ -88,4 +88,8 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
     }
 }
 
+- (NSString *)tooltipName {
+  return @"Nyan Cat Foreground";
+}
+
 @end

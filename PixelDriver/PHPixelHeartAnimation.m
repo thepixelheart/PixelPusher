@@ -68,4 +68,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Pixel Heart";
+}
+
 @end

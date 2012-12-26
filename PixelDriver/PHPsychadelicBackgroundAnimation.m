@@ -71,4 +71,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Colored Background";
+}
+
 @end

@@ -61,4 +61,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Mote Demo";
+}
+
 @end

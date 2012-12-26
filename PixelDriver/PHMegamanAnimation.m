@@ -131,4 +131,8 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Megaman";
+}
+
 @end

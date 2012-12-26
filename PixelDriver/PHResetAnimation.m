@@ -24,4 +24,8 @@
   CGContextConcatCTM(cx, transform);
 }
 
+- (NSString *)tooltipName {
+  return @"Reset";
+}
+
 @end

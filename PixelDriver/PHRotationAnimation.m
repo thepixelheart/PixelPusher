@@ -35,4 +35,8 @@
   CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
 }
 
+- (NSString *)tooltipName {
+  return _direction > 0 ? @"Rotate Clockwise" : @"Rotate Counter-Clockwise";
+}
+
 @end

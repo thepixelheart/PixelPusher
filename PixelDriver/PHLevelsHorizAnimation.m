@@ -36,4 +36,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Horizontal Levels";
+}
+
 @end

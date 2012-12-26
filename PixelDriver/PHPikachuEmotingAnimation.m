@@ -149,4 +149,8 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Pikachu";
+}
+
 @end

@@ -91,4 +91,8 @@
     }
 }
 
+- (NSString *)tooltipName {
+  return @"Nyan Cat Background";
+}
+
 @end

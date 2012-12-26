@@ -166,4 +166,8 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Conway's Game of Life";
+}
+
 @end

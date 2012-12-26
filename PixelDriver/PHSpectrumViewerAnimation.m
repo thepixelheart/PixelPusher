@@ -139,4 +139,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Spectrum Viewer";
+}
+
 @end

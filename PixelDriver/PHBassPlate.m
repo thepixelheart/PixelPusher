@@ -59,4 +59,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Spiraling Vortex";
+}
+
 @end

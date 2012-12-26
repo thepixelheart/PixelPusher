@@ -60,4 +60,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Sine Wave";
+}
+
 @end

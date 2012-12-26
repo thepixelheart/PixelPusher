@@ -105,4 +105,8 @@
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Fireballs";
+}
+
 @end

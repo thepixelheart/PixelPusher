@@ -184,4 +184,8 @@ static const CGFloat kGravity = 9.8;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"Fireworks";
+}
+
 @end
