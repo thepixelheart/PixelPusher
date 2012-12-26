@@ -68,6 +68,7 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   } else {
     self.pitchLabel.stringValue = @"";
   }
+  self.motesLabel.stringValue = [NSString stringWithFormat:@"%ld", driver.motes.count];
 }
 
 - (void)updateListeningState {

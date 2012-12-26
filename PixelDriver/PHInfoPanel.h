@@ -39,5 +39,6 @@
 @property (nonatomic, strong) IBOutlet NSTextField* vocalLabel;
 @property (nonatomic, strong) IBOutlet NSTextField* snareLabel;
 @property (nonatomic, strong) IBOutlet NSTextField* pitchLabel;
+@property (nonatomic, strong) IBOutlet NSTextField* motesLabel;
 
 @end
