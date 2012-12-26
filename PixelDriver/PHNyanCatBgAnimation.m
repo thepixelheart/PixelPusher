@@ -81,7 +81,7 @@
                 NSInteger offset = (((col + (_ticks / TICKMULTIPLIER)) % (TICKEVERY * 2)) > TICKEVERY) ? 1 : 0;
                 CGFloat val = _histograms[col + ix * 48] * 0.8 + 0.2;
                 CGContextSetFillColorWithColor(cx, [color colorWithAlphaComponent: val].CGColor);
-                CGRect line = CGRectMake(col - (kWallWidth / 2), tailHeight * ix + 11 + offset, 1, tailHeight);
+                CGRect line = CGRectMake(col - (kWallWidth - 18), tailHeight * ix + 11 + offset, 1, tailHeight);
                 CGContextFillRect(cx, line);
             }
         };
