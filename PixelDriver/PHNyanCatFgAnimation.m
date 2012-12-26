@@ -16,6 +16,8 @@
 
 #import "PHNyanCatFgAnimation.h"
 
+#define VOLUME_THRESHOLD 0.1
+
 static const NSTimeInterval kMinimumAnimationChangeInterval = 1;
 static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
 static const NSTimeInterval kTimeUntilSleeping = 4;
@@ -53,6 +55,8 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
         [_runningAnimation addFrameAtX:0 y:0 duration:kMinimumDelayBetweenHits];
         _runningAnimation.repeats = YES;
         _runningAnimation.bounces = NO;
+        
+        _activeAnimation = _idleAnimation;
     }
     return self;
 }
@@ -62,10 +66,22 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
         _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
         _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
         
+        if (self.driver.hihatAmplitude < VOLUME_THRESHOLD &&
+            self.driver.subBassAmplitude < VOLUME_THRESHOLD &&
+            self.driver.vocalAmplitude < VOLUME_THRESHOLD &&
+            self.driver.snareAmplitude < VOLUME_THRESHOLD) {
+            _activeAnimation = _idleAnimation;
+        } else if (self.driver.hihatAmplitude > 2 * VOLUME_THRESHOLD ||
+                   self.driver.subBassAmplitude > 2 * VOLUME_THRESHOLD ||
+                   self.driver.vocalAmplitude > 2 * VOLUME_THRESHOLD ||
+                   self.driver.snareAmplitude > 2 * VOLUME_THRESHOLD) {
+            _activeAnimation = _runningAnimation;
+        }
+        
         CGSize size = _nyancatSpritesheet.spriteSize;
         
         CGImageRef imageRef = nil;
-        imageRef = [_runningAnimation imageRefAtCurrentTick];
+        imageRef = [_activeAnimation imageRefAtCurrentTick];
         CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
         
         CGImageRelease(imageRef);
