@@ -35,20 +35,23 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   if (self.driver.unifiedSpectrum) {
+    CGContextSaveGState(cx);
     CGSize spriteSize = _spritesheet.spriteSize;
 
-    CGFloat value = (self.bassDegrader.value - 0.2) / 0.8;
-    if (value > 0.2) {
+    CGFloat value = self.bassDegrader.value;
+    if (value > 0.05) {
       CGImageRef imageRef = [_animation imageRefAtCurrentTick];
       CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),
                                      floorf((size.height - spriteSize.height) / 2),
                                      spriteSize.width,
                                      spriteSize.height);
       heartFrame = CGRectInset(heartFrame, (1 - value) * 10, (1 - value) * 10);
+      CGContextSetAlpha(cx, MIN(1, value / 0.2));
       CGContextDrawImage(cx, heartFrame, imageRef);
-
       CGImageRelease(imageRef);
     }
+
+    CGContextRestoreGState(cx);
   }
 }
 
