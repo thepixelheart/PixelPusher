@@ -22,7 +22,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-@interface PHMoteServer() <NSStreamDelegate>
+@interface PHMoteThread : NSThread <NSStreamDelegate>
 @property (nonatomic, readonly) NSMutableArray* moteSockets;
 @end
 
@@ -34,17 +34,17 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     CFStreamCreatePairWithSocket(nil, *socketHandle, &readStream, nil);
     NSInputStream* inputStream = (__bridge NSInputStream *)readStream;
 
-    PHMoteServer* server = (__bridge PHMoteServer *)info;
-    inputStream.delegate = server;
+    PHMoteThread* thread = (__bridge PHMoteThread *)info;
+    inputStream.delegate = thread;
 
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
 
-    [server.moteSockets addObject:inputStream];
+    [thread.moteSockets addObject:inputStream];
   }
 }
 
-@implementation PHMoteServer {
+@implementation PHMoteThread {
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
   NSMutableDictionary* _streamToHangingMessage; // NSValue<(void *)NSStream> => NSString
@@ -67,8 +67,6 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     _moteSockets = [NSMutableArray array];
     _motes = [NSMutableDictionary dictionary];
     _streamToHangingMessage = [NSMutableDictionary dictionary];
-  
-    [self startListening];
   }
   return self;
 }
@@ -115,50 +113,72 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 #pragma mark - NSStreamDelegate
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
-  if ([stream isKindOfClass:[NSInputStream class]]) {
-    NSInputStream* inputStream = (NSInputStream *)stream;
-    if (eventCode & NSStreamEventEndEncountered) {
-      [_moteSockets removeObject:inputStream];
-      NSString* keyToRemove = nil;
-      for (NSString* key in _motes) {
-        PHMote* controller = [_motes objectForKey:key];
-        if (controller.stream == stream) {
-          keyToRemove = key;
-          break;
+  @synchronized(self) {
+    if ([stream isKindOfClass:[NSInputStream class]]) {
+      NSInputStream* inputStream = (NSInputStream *)stream;
+      if (eventCode & NSStreamEventEndEncountered) {
+        [_moteSockets removeObject:inputStream];
+        NSString* keyToRemove = nil;
+        for (NSString* key in _motes) {
+          PHMote* controller = [_motes objectForKey:key];
+          if (controller.stream == stream) {
+            keyToRemove = key;
+            break;
+          }
+        }
+        if (nil != keyToRemove) {
+          [_motes removeObjectForKey:keyToRemove];
+        }
+
+      } else if (eventCode & NSStreamEventHasBytesAvailable) {
+        uint8_t bytes[1024];
+        memset(bytes, 0, sizeof(uint8_t) * 1024);
+        NSInteger nread = [inputStream read:bytes maxLength:1023];
+        // Null-terminate the string.
+        bytes[nread] = 0;
+        NSString* string = [NSString stringWithCString:(const char *)bytes encoding:NSUTF8StringEncoding];
+
+        id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
+        NSString* hangingMessage = [_streamToHangingMessage objectForKey:streamKey];
+
+        if (nil != hangingMessage) {
+          string = [hangingMessage stringByAppendingString:string];
+          [_streamToHangingMessage removeObjectForKey:streamKey];
+        }
+
+        NSArray* messages = [string componentsSeparatedByString:@"\n"];
+
+        BOOL isComplete = [string hasSuffix:@"\n"];
+
+        for (NSString* message in messages) {
+          if (message == [messages lastObject] && !isComplete) {
+            // Carry this over to the next stream event.
+            [_streamToHangingMessage setObject:message forKey:streamKey];
+            continue;
+          }
+          [self processControllerMessage:message stream:stream];
         }
       }
-      if (nil != keyToRemove) {
-        [_motes removeObjectForKey:keyToRemove];
-      }
+    }
+  }
+}
 
-    } else if (eventCode & NSStreamEventHasBytesAvailable) {
-      uint8_t bytes[1024];
-      memset(bytes, 0, sizeof(uint8_t) * 1024);
-      NSInteger nread = [inputStream read:bytes maxLength:1023];
-      // Null-terminate the string.
-      bytes[nread] = 0;
-      NSString* string = [NSString stringWithCString:(const char *)bytes encoding:NSUTF8StringEncoding];
+- (NSArray *)allMotes {
+  NSMutableArray* motes = [NSMutableArray array];
+  @synchronized(self) {
+    for (NSString* key in _motes) {
+      PHMote* mote = [_motes objectForKey:key];
+      [motes addObject:[mote copy]];
+    }
+  }
+  return motes;
+}
 
-      id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
-      NSString* hangingMessage = [_streamToHangingMessage objectForKey:streamKey];
-
-      if (nil != hangingMessage) {
-        string = [hangingMessage stringByAppendingString:string];
-        [_streamToHangingMessage removeObjectForKey:streamKey];
-      }
-
-      NSArray* messages = [string componentsSeparatedByString:@"\n"];
-
-      BOOL isComplete = [string hasSuffix:@"\n"];
-
-      for (NSString* message in messages) {
-        if (message == [messages lastObject] && !isComplete) {
-          // Carry this over to the next stream event.
-          [_streamToHangingMessage setObject:message forKey:streamKey];
-          continue;
-        }
-        [self processControllerMessage:message stream:stream];
-      }
+- (void)didTick {
+  @synchronized(self) {
+    for (NSString* key in _motes) {
+      PHMote* mote = [_motes objectForKey:key];
+      [mote tick];
     }
   }
 }
@@ -203,20 +223,32 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   CFRunLoopAddSource(CFRunLoopGetCurrent(), _socketsource, kCFRunLoopDefaultMode);
 }
 
-- (NSArray *)allMotes {
-  NSMutableArray* motes = [NSMutableArray array];
-  for (NSString* key in _motes) {
-    PHMote* mote = [_motes objectForKey:key];
-    [motes addObject:[mote copy]];
+- (void)main {
+  [self startListening];
+
+  CFRunLoopRun();
+}
+
+@end
+
+@implementation PHMoteServer {
+  PHMoteThread* _thread;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _thread = [[PHMoteThread alloc] init];
+    [_thread start];
   }
-  return motes;
+  return self;
+}
+
+- (NSArray *)allMotes {
+  return _thread.allMotes;
 }
 
 - (void)didTick {
-  for (NSString* key in _motes) {
-    PHMote* mote = [_motes objectForKey:key];
-    [mote tick];
-  }
+  [_thread didTick];
 }
 
 @end
