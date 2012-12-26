@@ -19,7 +19,7 @@
 @class PHMoteState;
 
 /**
- * The state of a single PixelMote 
+ * The state of a single PixelMote tracked since the last frame was displayed.
  */
 @interface PHMote : NSObject
 
@@ -42,11 +42,14 @@
 
 @end
 
+// Private APIs
 @interface PHMote()
 
 @property (nonatomic, readonly) NSStream* stream;
 
 - (void)addControllerState:(PHMoteState *)state;
+
+- (void)tick;
 
 @end
 

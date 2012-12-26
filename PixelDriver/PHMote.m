@@ -61,14 +61,6 @@
   return self;
 }
 
-- (void)addControllerState:(PHMoteState *)state {
-  [_states addObject:state];
-  _numberOfTimesATapped += state.aIsTapped ? 1 : 0;
-  _numberOfTimesBTapped += state.bIsTapped ? 1 : 0;
-  _joystickDegrees = state.joystickDegrees;
-  _joystickTilt = state.joystickTilt;
-}
-
 - (NSString *)description {
   return [NSString stringWithFormat:
           @"<%@ \"%@\" joystick angle: %.2f - joystick tilt: %.4f - # times A pressed: %ld - # times B pressed: %ld",
@@ -78,6 +70,20 @@
           _joystickTilt,
           _numberOfTimesATapped,
           _numberOfTimesBTapped];
+}
+
+- (void)addControllerState:(PHMoteState *)state {
+  [_states addObject:state];
+  _numberOfTimesATapped += state.aIsTapped ? 1 : 0;
+  _numberOfTimesBTapped += state.bIsTapped ? 1 : 0;
+  _joystickDegrees = state.joystickDegrees;
+  _joystickTilt = state.joystickTilt;
+}
+
+- (void)tick {
+  _numberOfTimesATapped = 0;
+  _numberOfTimesBTapped = 0;
+  [_states removeAllObjects];
 }
 
 @end
