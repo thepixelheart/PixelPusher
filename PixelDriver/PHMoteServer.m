@@ -17,6 +17,8 @@
 #import "PHMoteServer.h"
 
 #import "PHMote.h"
+#import "PHMote+Private.h"
+#import "PHMoteState+Private.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>

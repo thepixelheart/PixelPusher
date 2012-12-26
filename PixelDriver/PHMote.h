@@ -19,43 +19,34 @@
 @class PHMoteState;
 
 /**
- * The state of a single PixelMote tracked since the last frame was displayed.
+ * The composite state of a single PixelMote tracked since the last frame was displayed.
+ *
+ * A list of all currently connected motes is accessible via self.driver.motes.
  */
 @interface PHMote : NSObject <NSCopying>
 
-- (id)initWithIdentifier:(NSString *)identifier stream:(NSStream *)stream;
+// The name provided by the owner of this mote.
+@property (nonatomic, readonly, copy) NSString* name;
 
-@property (nonatomic, readonly, copy) NSString* identifier;
+#pragma mark Composite Information
 
-@property (nonatomic, copy) NSString* name;
-
-@property (nonatomic, readonly, copy) NSArray* statesSinceLastFrame; // Array of PHMoteState
-
-// Composite information in case you don't need all of the state information.
 @property (nonatomic, assign) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
 @property (nonatomic, assign) CGFloat joystickTilt;   // [0 - 1]
 
 @property (nonatomic, assign) NSInteger numberOfTimesATapped; // Number of times A was tapped since the last frame.
 @property (nonatomic, assign) NSInteger numberOfTimesBTapped; // Number of times B was tapped since the last frame.
 
-@end
+#pragma mark Raw Information
 
-// Private APIs
-@interface PHMote()
-
-@property (nonatomic, readonly) NSStream* stream;
-
-- (void)addControllerState:(PHMoteState *)state;
-
-- (void)tick;
+// All of the states that were sent since the last animation tick.
+@property (nonatomic, readonly, copy) NSArray* statesSinceLastFrame; // Array of PHMoteState
 
 @end
 
+/**
+ * A single state message sent by the PixelMote.
+ */
 @interface PHMoteState : NSObject
-
-- (id)initWithJoystickDegrees:(CGFloat)joystickDegrees joystickTilt:(CGFloat)joystickTilt;
-- (id)initWithATapped;
-- (id)initWithBTapped;
 
 @property (nonatomic, readonly) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
 @property (nonatomic, readonly) CGFloat joystickTilt;   // [0 - 1]

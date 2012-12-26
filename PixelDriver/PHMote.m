@@ -16,6 +16,9 @@
 
 #import "PHMote.h"
 
+#import "PHMote+Private.h"
+#import "PHMoteState+Private.h"
+
 @implementation PHMoteState
 
 - (id)init {

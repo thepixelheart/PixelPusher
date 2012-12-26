@@ -124,6 +124,8 @@
 		66393E6C168AD63E002BD86F /* PHMoteServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMoteServer.m; sourceTree = "<group>"; };
 		66393E6E168ADB9A002BD86F /* PHSimpleMoteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSimpleMoteAnimation.h; sourceTree = "<group>"; };
 		66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSimpleMoteAnimation.m; sourceTree = "<group>"; };
+		66393E71168AE392002BD86F /* PHMote+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMote+Private.h"; sourceTree = "<group>"; };
+		66393E76168AE46B002BD86F /* PHMoteState+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMoteState+Private.h"; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -420,10 +422,10 @@
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
 				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
 				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
+				66393E71168AE392002BD86F /* PHMote+Private.h */,
+				66393E76168AE46B002BD86F /* PHMoteState+Private.h */,
 				66393E6B168AD63E002BD86F /* PHMoteServer.h */,
 				66393E6C168AD63E002BD86F /* PHMoteServer.m */,
-				66393E67168AC819002BD86F /* PHMote.h */,
-				66393E68168AC819002BD86F /* PHMote.m */,
 				662F59111678477900ADE02C /* PHApplication.h */,
 				662F59121678477900ADE02C /* PHApplication.m */,
 				66DC7B8716773FC200453E8F /* Utilities.h */,
@@ -497,6 +499,8 @@
 				668520ED168292200063A95A /* PHAnimationDriver.m */,
 				6637526F16843E3C009A2F22 /* PHDegrader.h */,
 				6637527016843E3C009A2F22 /* PHDegrader.m */,
+				66393E67168AC819002BD86F /* PHMote.h */,
+				66393E68168AC819002BD86F /* PHMote.m */,
 				66F6640E1685504F001E77BC /* PHSpritesheet.h */,
 				66F6640F1685504F001E77BC /* PHSpritesheet.m */,
 			);
