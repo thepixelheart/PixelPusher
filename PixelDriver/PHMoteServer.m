@@ -24,6 +24,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+static NSInteger kMaxPacketSize = 1024 * 4;
+
 typedef enum {
   PHMoteMessageHello,
   PHMoteMessageButton,
@@ -188,9 +190,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
         }
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
-        uint8_t bytes[1024];
-        memset(bytes, 0, sizeof(uint8_t) * 1024);
-        NSInteger nread = [inputStream read:bytes maxLength:1023];
+        uint8_t bytes[kMaxPacketSize];
+        memset(bytes, 0, sizeof(uint8_t) * kMaxPacketSize);
+        NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize - 1];
         // Null-terminate the string.
         bytes[nread] = 0;
 

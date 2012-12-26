@@ -40,5 +40,6 @@
 @property (nonatomic, strong) IBOutlet NSTextField* snareLabel;
 @property (nonatomic, strong) IBOutlet NSTextField* pitchLabel;
 @property (nonatomic, strong) IBOutlet NSTextField* motesLabel;
+@property (nonatomic, strong) IBOutlet NSTextField* ipAddressLabel;
 
 @end

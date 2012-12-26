@@ -299,7 +299,6 @@
 					<string key="NSFrameSize">{480, 320}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{480, 320}</string>
@@ -322,7 +321,6 @@
 					<string key="NSFrameSize">{480, 320}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{480, 320}</string>
@@ -530,7 +528,7 @@
 							<string key="NSFrame">{{263, 13}, {131, 32}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
+							<reference key="NSNextKeyView" ref="815892251"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="74539022">
@@ -636,7 +634,7 @@
 						<object class="NSTextField" id="353879158">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{456, 92}, {89, 36}}</string>
+							<string key="NSFrame">{{458, 109}, {89, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="205827388"/>
@@ -661,7 +659,7 @@
 						<object class="NSTextField" id="917237994">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{559, 92}, {151, 36}}</string>
+							<string key="NSFrame">{{561, 109}, {151, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="980117815"/>
@@ -683,7 +681,7 @@
 						<object class="NSTextField" id="52633319">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{456, 57}, {101, 36}}</string>
+							<string key="NSFrame">{{458, 74}, {101, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="917237994"/>
@@ -701,10 +699,35 @@
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
+						<object class="NSTextField" id="815892251">
+							<reference key="NSNextResponder" ref="805406511"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{536, 20}, {99, 16}}</string>
+							<reference key="NSSuperview" ref="805406511"/>
+							<reference key="NSWindow"/>
+							<string key="NSReuseIdentifierKey">_NS:1535</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="773687098">
+								<int key="NSCellFlags">68157504</int>
+								<int key="NSCellFlags2">71304192</int>
+								<string key="NSContents"/>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">12</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<string key="NSPlaceholderString">IP Address</string>
+								<string key="NSCellIdentifier">_NS:1535</string>
+								<reference key="NSControlView" ref="815892251"/>
+								<reference key="NSBackgroundColor" ref="641882385"/>
+								<reference key="NSTextColor" ref="76349224"/>
+							</object>
+							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+						</object>
 						<object class="NSTextField" id="980117815">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{559, 57}, {151, 36}}</string>
+							<string key="NSFrame">{{561, 74}, {151, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="850215795"/>
@@ -2943,7 +2966,6 @@
 							<string key="NSFrame">{{334, 15}, {39, 38}}</string>
 							<reference key="NSSuperview" ref="609554370"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSTag">79</int>
 							<bool key="NSEnabled">YES</bool>
@@ -3109,7 +3131,7 @@
 					<string key="NSFrameSize">{237, 114}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView"/>
+					<reference key="NSNextKeyView" ref="475399149"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -3409,6 +3431,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">ipAddressLabel</string>
+						<reference key="source" ref="915157730"/>
+						<reference key="destination" ref="815892251"/>
+					</object>
+					<int key="connectionID">874</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">wallView</string>
 						<reference key="source" ref="678476321"/>
 						<reference key="destination" ref="575175848"/>
@@ -3699,9 +3729,10 @@
 							<reference ref="205827388"/>
 							<reference ref="1005309296"/>
 							<reference ref="353879158"/>
-							<reference ref="52633319"/>
 							<reference ref="917237994"/>
+							<reference ref="52633319"/>
 							<reference ref="980117815"/>
+							<reference ref="815892251"/>
 						</array>
 						<reference key="parent" ref="915157730"/>
 					</object>
@@ -5199,6 +5230,19 @@
 						<reference key="object" ref="204384910"/>
 						<reference key="parent" ref="475399149"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">872</int>
+						<reference key="object" ref="815892251"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="773687098"/>
+						</array>
+						<reference key="parent" ref="805406511"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">873</int>
+						<reference key="object" ref="773687098"/>
+						<reference key="parent" ref="815892251"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -5643,12 +5687,14 @@
 				<string key="866.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="869.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="870.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="872.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="873.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">871</int>
+			<int key="maxID">874</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5701,6 +5747,7 @@
 						<string key="bassLabel">NSTextField</string>
 						<string key="differenceWaveView">PHWaveFormView</string>
 						<string key="hiHatLabel">NSTextField</string>
+						<string key="ipAddressLabel">NSTextField</string>
 						<string key="leftSpectrumView">PHSpectrumAnalyzerView</string>
 						<string key="leftWaveView">PHWaveFormView</string>
 						<string key="listeningButton">NSButton</string>
@@ -5733,6 +5780,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="hiHatLabel">
 							<string key="name">hiHatLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="ipAddressLabel">
+							<string key="name">ipAddressLabel</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="leftSpectrumView">
