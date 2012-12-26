@@ -56,9 +56,9 @@
   NSMutableArray* _states;
 }
 
-- (id)initWithIdentifier:(NSString *)identifier stream:(NSStream *)stream {
+- (id)initWithName:(NSString *)name stream:(NSStream *)stream {
   if ((self = [super init])) {
-    _identifier = [identifier copy];
+    _name = [name copy];
     _stream = stream;
   }
   return self;

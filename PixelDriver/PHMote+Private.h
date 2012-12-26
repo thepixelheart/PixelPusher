@@ -19,11 +19,9 @@
 // Private APIs
 @interface PHMote()
 
-- (id)initWithIdentifier:(NSString *)identifier stream:(NSStream *)stream;
+- (id)initWithName:(NSString *)name stream:(NSStream *)stream;
 
-@property (nonatomic, readonly, copy) NSString* identifier;
 @property (nonatomic, readonly) NSStream* stream;
-@property (nonatomic, copy) NSString* name;
 
 - (void)addControllerState:(PHMoteState *)state;
 - (void)tick;

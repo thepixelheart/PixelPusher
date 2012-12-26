@@ -24,6 +24,96 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+typedef enum {
+  PHMoteMessageHello,
+  PHMoteMessageButton,
+  PHMoteMessageJoystickMoved,
+  PHMoteMessageJoystickStopped,
+  PHMoteMessageUnknown
+} PHMoteMessage;
+
+@interface PHMoteMessageState : NSObject
+@end
+
+@implementation PHMoteMessageState {
+  PHMoteMessage _message;
+  NSInteger _numberOfAdditionalBytes;
+  NSInteger _numberOfReadBytes;
+  uint8_t _additionalBytes[8];
+  NSMutableString* _alias;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _message = PHMoteMessageUnknown;
+  }
+  return self;
+}
+
+- (id)readByte:(uint8_t)byte {
+  id result = nil;
+
+  if (_message == PHMoteMessageUnknown) {
+    _numberOfReadBytes = 0;
+
+    if (byte == 'h') {
+      _message = PHMoteMessageHello;
+      _alias = [NSMutableString string];
+
+    } else if (byte == 'b') {
+      _message = PHMoteMessageButton;
+      // 1 byte additional data: 'a' or 'b'
+
+    } else if (byte == 'm') {
+      _message = PHMoteMessageJoystickMoved;
+      // 8 bytes additional data
+      _numberOfAdditionalBytes = 8;
+
+    } else if (byte == 'e') {
+      // PHMoteMessageJoystickStopped 0 bytes additional data
+      result = [[PHMoteState alloc] initWithJoystickDegrees:0 joystickTilt:0];
+
+    } else {
+      NSLog(@"Unknown message type: %c", byte);
+    }
+
+  } else if (_message == PHMoteMessageButton) {
+    if (byte == 'a') {
+      result = [[PHMoteState alloc] initWithATapped];
+    } else if (byte == 'b') {
+      result = [[PHMoteState alloc] initWithBTapped];
+    }
+    _message = PHMoteMessageUnknown;
+
+  } else if (_message == PHMoteMessageHello) {
+    if (byte > 0) {
+      [_alias appendString:[NSString stringWithFormat:@"%c", byte]];
+    } else {
+      result = [_alias copy];
+      _alias = nil;
+      _message = PHMoteMessageUnknown;
+    }
+
+  } else {
+    _additionalBytes[_numberOfReadBytes] = byte;
+    _numberOfReadBytes++;
+
+    if (_numberOfReadBytes == _numberOfAdditionalBytes) {
+      if (_message == PHMoteMessageJoystickMoved) {
+        float angle = *((float *)_additionalBytes);
+        float tilt = *((float *)(_additionalBytes + 4));
+        result = [[PHMoteState alloc] initWithJoystickDegrees:angle joystickTilt:tilt];
+      }
+
+      _message = PHMoteMessageUnknown;
+    }
+  }
+
+  return result;
+}
+
+@end
+
 @interface PHMoteThread : NSThread <NSStreamDelegate>
 @property (nonatomic, readonly) NSMutableArray* moteSockets;
 @end
@@ -49,8 +139,10 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 @implementation PHMoteThread {
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
-  NSMutableDictionary* _streamToHangingMessage; // NSValue<(void *)NSStream> => NSString
-  NSMutableDictionary* _moteIdToMote; // mote id => PHMote
+  NSMutableDictionary* _streamToState; // NSValue<(void *)NSStream> => PHMessageState
+  NSMutableDictionary* _streamToMote; // NSValue<(void *)NSStream> => PHMote
+
+  PHMoteMessage _currentMessage;
 }
 
 - (void)dealloc {
@@ -67,49 +159,10 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 - (id)init {
   if ((self = [super init])) {
     _moteSockets = [NSMutableArray array];
-    _moteIdToMote = [NSMutableDictionary dictionary];
-    _streamToHangingMessage = [NSMutableDictionary dictionary];
+    _streamToMote = [NSMutableDictionary dictionary];
+    _streamToState = [NSMutableDictionary dictionary];
   }
   return self;
-}
-
-- (void)processControllerMessage:(NSString *)message stream:(NSStream *)stream {
-  NSArray* parts = [message componentsSeparatedByString:@":"];
-
-  if (parts.count == 3) {
-    NSString* command = parts[0];
-    NSString* data = parts[1];
-    NSString* who = parts[2];
-
-    if ([command isEqualToString:@"hi"]) {
-      PHMote* controller = [[PHMote alloc] initWithIdentifier:who stream:stream];
-      controller.name = [[data componentsSeparatedByString:@","] lastObject];
-      [_moteIdToMote setObject:controller forKey:who];
-
-    } else {
-      PHMote* controller = [_moteIdToMote objectForKey:who];
-      PHMoteState* state = nil;
-      if ([command isEqualToString:@"mv"]) {
-        NSArray* parts = [data componentsSeparatedByString:@","];
-        CGFloat degrees = [parts[0] doubleValue];
-        CGFloat tilt = [parts[1] doubleValue];
-        state = [[PHMoteState alloc] initWithJoystickDegrees:degrees joystickTilt:tilt];
-
-      } else if ([command isEqualToString:@"emv"]) {
-        state = [[PHMoteState alloc] initWithJoystickDegrees:0 joystickTilt:0];
-
-      } else if ([command isEqualToString:@"bp"]) {
-        NSInteger button = [data intValue];
-        if (button == 0) {
-          state = [[PHMoteState alloc] initWithATapped];
-        } else if (button == 1) {
-          state = [[PHMoteState alloc] initWithBTapped];
-        }
-      }
-
-      [controller addControllerState:state];
-    }
-  }
 }
 
 #pragma mark - NSStreamDelegate
@@ -118,18 +171,20 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   @synchronized(self) {
     if ([stream isKindOfClass:[NSInputStream class]]) {
       NSInputStream* inputStream = (NSInputStream *)stream;
+
+      // The connection has been closed to a mote, remove it from the list.
       if (eventCode & NSStreamEventEndEncountered) {
         [_moteSockets removeObject:inputStream];
-        NSString* keyToRemove = nil;
-        for (NSString* key in _moteIdToMote) {
-          PHMote* controller = [_moteIdToMote objectForKey:key];
+        id keyToRemove = nil;
+        for (id key in _streamToMote) {
+          PHMote* controller = [_streamToMote objectForKey:key];
           if (controller.stream == stream) {
             keyToRemove = key;
             break;
           }
         }
         if (nil != keyToRemove) {
-          [_moteIdToMote removeObjectForKey:keyToRemove];
+          [_streamToMote removeObjectForKey:keyToRemove];
         }
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
@@ -138,27 +193,26 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
         NSInteger nread = [inputStream read:bytes maxLength:1023];
         // Null-terminate the string.
         bytes[nread] = 0;
-        NSString* string = [NSString stringWithCString:(const char *)bytes encoding:NSUTF8StringEncoding];
 
         id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
-        NSString* hangingMessage = [_streamToHangingMessage objectForKey:streamKey];
-
-        if (nil != hangingMessage) {
-          string = [hangingMessage stringByAppendingString:string];
-          [_streamToHangingMessage removeObjectForKey:streamKey];
+        PHMoteMessageState* state = [_streamToState objectForKey:streamKey];
+        if (nil == state) {
+          state = [[PHMoteMessageState alloc] init];
+          [_streamToState setObject:state forKey:streamKey];
         }
 
-        NSArray* messages = [string componentsSeparatedByString:@"\n"];
+        PHMote* mote = [_streamToMote objectForKey:streamKey];
 
-        BOOL isComplete = [string hasSuffix:@"\n"];
+        for (NSInteger ix = 0; ix < nread; ++ix) {
+          uint8_t byte = bytes[ix];
+          id result = [state readByte:byte];
+          if ([result isKindOfClass:[PHMoteState class]]) {
+            [mote addControllerState:result];
 
-        for (NSString* message in messages) {
-          if (message == [messages lastObject] && !isComplete) {
-            // Carry this over to the next stream event.
-            [_streamToHangingMessage setObject:message forKey:streamKey];
-            continue;
+          } else if ([result isKindOfClass:[NSString class]]) {
+            mote = [[PHMote alloc] initWithName:result stream:stream];
+            [_streamToMote setObject:mote forKey:streamKey];
           }
-          [self processControllerMessage:message stream:stream];
         }
       }
     }
@@ -168,8 +222,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 - (NSArray *)allMotes {
   NSMutableArray* motes = [NSMutableArray array];
   @synchronized(self) {
-    for (NSString* key in _moteIdToMote) {
-      PHMote* mote = [_moteIdToMote objectForKey:key];
+    for (id key in _streamToMote) {
+      PHMote* mote = [_streamToMote objectForKey:key];
       [motes addObject:[mote copy]];
     }
   }
@@ -178,8 +232,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
 - (void)didTick {
   @synchronized(self) {
-    for (NSString* key in _moteIdToMote) {
-      PHMote* mote = [_moteIdToMote objectForKey:key];
+    for (id key in _streamToMote) {
+      PHMote* mote = [_streamToMote objectForKey:key];
       [mote tick];
     }
   }
