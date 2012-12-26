@@ -27,6 +27,7 @@
 #import "Utilities.h"
 #import "PHMote.h"
 #import "PHMoteServer.h"
+#import "PHTooltipWindow.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -807,6 +808,60 @@ AppDelegate *PHApp() {
 
 - (void)didTick {
   [_moteServer didTick];
+}
+
+- (void)pointTooltipAtView:(NSView *)view withString:(NSString *)string {
+  if (string.length == 0) {
+    [self hideTooltip];
+    return;
+  }
+
+  [self.tooltipWindow setTooltip:string];
+
+  CGRect frame = self.tooltipWindow.frame;
+  CGRect windowFrame = [view convertRect:view.bounds toView:nil];
+  CGRect screenFrame = [view.window convertRectToScreen:windowFrame];
+  frame.origin.x = screenFrame.origin.x - frame.size.width;
+  frame.origin.y = screenFrame.origin.y + frame.size.height;
+
+  [self.tooltipWindow setFrame:frame display:YES];
+  [self.tooltipWindow makeKeyAndOrderFront:self];
+}
+
+- (void)hideTooltip {
+  [self.tooltipWindow orderOut:self];
+}
+
+- (NSString *)tooltipForButtonIndex:(NSInteger)buttonIndex {
+  if (buttonIndex < _animations.count) {
+    PHAnimation* animation = [_animations objectAtIndex:buttonIndex];
+    return animation.tooltipName;
+
+  } else if (buttonIndex - _animations.count < _compositeAnimations.count) {
+    PHCompositeAnimation* compositeAnimation = [_compositeAnimations objectAtIndex:buttonIndex - _animations.count];
+
+    NSMutableString* tooltip = [NSMutableString string];
+    for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+      NSInteger animationIndex = [compositeAnimation indexOfAnimationForLayer:ix];
+      if (animationIndex >= 0 && animationIndex < _animations.count) {
+        if (tooltip.length > 0) {
+          [tooltip appendString:@"\n"];
+        }
+        PHAnimation* animation = [_animations objectAtIndex:animationIndex];
+        [tooltip appendString:animation.tooltipName];
+      }
+    }
+    return tooltip;
+  }
+  return nil;
+}
+
+- (NSString *)tooltipForTopButtonIndex:(NSInteger)buttonIndex {
+  return nil;
+}
+
+- (NSString *)tooltipForSideButtonIndex:(NSInteger)buttonIndex {
+  return nil;
 }
 
 @end

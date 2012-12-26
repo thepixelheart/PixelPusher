@@ -14,9 +14,11 @@
 // limitations under the License.
 //
 
-#import "PHLaunchpadWindow.h"
+#import "PHTooltipWindow.h"
 
-@implementation PHLaunchpadWindow
+#import "PHTooltipView.h"
+
+@implementation PHTooltipWindow
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
   if ((self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag])) {
@@ -24,6 +26,15 @@
     self.backgroundColor = [NSColor clearColor];
   }
   return self;
+}
+
+- (void)setTooltip:(NSString *)tooltip {
+  [self.tooltipView.textField setStringValue:tooltip];
+  [self.tooltipView.textField sizeToFit];
+
+  CGRect windowFrame = CGRectMake(0, 0, self.tooltipView.textField.frame.size.width + 20, self.tooltipView.textField.frame.size.height + 20);
+  [self setFrame:windowFrame display:NO];
+  [self.tooltipView.textField setFrame:CGRectInset(windowFrame, 10, 10)];
 }
 
 @end

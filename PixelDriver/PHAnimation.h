@@ -48,6 +48,8 @@
 - (void)bitmapWillStartRendering;
 - (void)bitmapDidFinishRendering;
 
+- (NSString *)tooltipName;
+
 + (NSArray *)allAnimations;
 
 @end

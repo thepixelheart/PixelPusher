@@ -94,4 +94,8 @@
   [PHSimpleMoteAnimation animation]];
 }
 
+- (NSString *)tooltipName {
+  return NSStringFromClass([self class]);
+}
+
 @end

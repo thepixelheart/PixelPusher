@@ -16,5 +16,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PHLaunchpadWindow : NSWindow
+@interface PHTooltipView : NSView
+@property (nonatomic, strong) IBOutlet NSTextField* textField;
 @end

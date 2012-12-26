@@ -33,6 +33,8 @@
 		66393E69168AC819002BD86F /* PHMote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E68168AC819002BD86F /* PHMote.m */; };
 		66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6C168AD63E002BD86F /* PHMoteServer.m */; };
 		66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */; };
+		66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */; };
+		66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7D168AEFFD002BD86F /* PHTooltipView.m */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -123,6 +125,10 @@
 		66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSimpleMoteAnimation.m; sourceTree = "<group>"; };
 		66393E71168AE392002BD86F /* PHMote+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMote+Private.h"; sourceTree = "<group>"; };
 		66393E76168AE46B002BD86F /* PHMoteState+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMoteState+Private.h"; sourceTree = "<group>"; };
+		66393E79168AEFC7002BD86F /* PHTooltipWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTooltipWindow.h; sourceTree = "<group>"; };
+		66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTooltipWindow.m; sourceTree = "<group>"; };
+		66393E7C168AEFFC002BD86F /* PHTooltipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTooltipView.h; sourceTree = "<group>"; };
+		66393E7D168AEFFD002BD86F /* PHTooltipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTooltipView.m; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -476,6 +482,10 @@
 				66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */,
 				66A26D7416892A2E009F7B33 /* PHWaveFormView.h */,
 				66A26D7516892A2E009F7B33 /* PHWaveFormView.m */,
+				66393E79168AEFC7002BD86F /* PHTooltipWindow.h */,
+				66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */,
+				66393E7C168AEFFC002BD86F /* PHTooltipView.h */,
+				66393E7D168AEFFD002BD86F /* PHTooltipView.m */,
 				662DE5511686894B00F300CE /* PHLaunchpadWindow.h */,
 				662DE5521686894B00F300CE /* PHLaunchpadWindow.m */,
 				662DE54B1686854B00F300CE /* PHLaunchpadView.h */,
@@ -651,6 +661,8 @@
 				66393E69168AC819002BD86F /* PHMote.m in Sources */,
 				66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */,
 				66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */,
+				66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */,
+				66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

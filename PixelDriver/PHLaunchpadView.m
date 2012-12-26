@@ -16,6 +16,7 @@
 
 #import "PHLaunchpadView.h"
 
+#import "AppDelegate.h"
 #import "PHLaunchpadMIDIDriver.h"
 #import "PHMIDIMessage.h"
 
@@ -443,9 +444,22 @@
 }
 
 - (void)mouseDidEnterButton:(NSButton *)button {
+  NSString* tooltip = nil;
+  if (button.tag < 64) {
+    tooltip = [PHApp() tooltipForButtonIndex:button.tag];
+
+  } else if (button.tag < 72) {
+    tooltip = [PHApp() tooltipForTopButtonIndex:button.tag - 64];
+
+  } else {
+    tooltip = [PHApp() tooltipForSideButtonIndex:button.tag - 72];
+  }
+
+  [PHApp() pointTooltipAtView:button withString:tooltip];
 }
 
 - (void)mouseDidLeaveButton:(NSButton *)button {
+  [PHApp() hideTooltip];
 }
 
 @end

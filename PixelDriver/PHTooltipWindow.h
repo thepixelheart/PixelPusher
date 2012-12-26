@@ -16,5 +16,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PHLaunchpadWindow : NSWindow
+@class PHTooltipView;
+
+@interface PHTooltipWindow : NSWindow
+@property (nonatomic, strong) IBOutlet PHTooltipView* tooltipView;
+
+- (void)setTooltip:(NSString *)tooltip;
+
 @end

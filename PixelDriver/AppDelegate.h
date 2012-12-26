@@ -23,6 +23,7 @@
 @class AppDelegate;
 @class PHLaunchpadMIDIDriver;
 @class PHWallWindow;
+@class PHTooltipWindow;
 
 AppDelegate *PHApp();
 
@@ -31,6 +32,7 @@ AppDelegate *PHApp();
 @property (assign) IBOutlet PHWallWindow* window;
 @property (assign) IBOutlet PHWallWindow* previewWindow;
 @property (assign) IBOutlet NSWindow* launchpadWindow;
+@property (assign) IBOutlet PHTooltipWindow* tooltipWindow;
 @property (strong, readonly) PHDriver* driver;
 @property (strong, readonly) PHAnimationDriver* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;
@@ -38,6 +40,15 @@ AppDelegate *PHApp();
 
 @property (strong, readonly) PHAnimation* previousAnimation;
 @property (strong, readonly) PHAnimation* activeAnimation;
+
+// Tooltip window
+- (void)pointTooltipAtView:(NSView *)view withString:(NSString *)string;
+- (void)hideTooltip;
+
+// Button tooltips
+- (NSString *)tooltipForButtonIndex:(NSInteger)buttonIndex;
+- (NSString *)tooltipForTopButtonIndex:(NSInteger)buttonIndex;
+- (NSString *)tooltipForSideButtonIndex:(NSInteger)buttonIndex;
 
 // Must be released.
 - (CGContextRef)currentWallContext;
