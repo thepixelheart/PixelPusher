@@ -16,23 +16,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PHControllerState : NSObject
+@class PHMoteState;
 
-- (id)initWithJoystickDegrees:(CGFloat)joystickDegrees joystickTilt:(CGFloat)joystickTilt;
-- (id)initWithATapped;
-- (id)initWithBTapped;
-
-@property (nonatomic, readonly) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
-@property (nonatomic, readonly) CGFloat joystickTilt;   // [0 - 1]
-
-@property (nonatomic, readonly) BOOL aIsTapped;
-@property (nonatomic, readonly) BOOL bIsTapped;
-
-@property (nonatomic, readonly) NSTimeInterval timestamp;
-
-@end
-
-@interface PHController : NSObject
+/**
+ * The state of a single PixelMote 
+ */
+@interface PHMote : NSObject
 
 - (id)initWithIdentifier:(NSString *)identifier stream:(NSStream *)stream;
 
@@ -53,10 +42,26 @@
 
 @end
 
-@interface PHController()
+@interface PHMote()
 
 @property (nonatomic, readonly) NSStream* stream;
 
-- (void)addControllerState:(PHControllerState *)state;
+- (void)addControllerState:(PHMoteState *)state;
+
+@end
+
+@interface PHMoteState : NSObject
+
+- (id)initWithJoystickDegrees:(CGFloat)joystickDegrees joystickTilt:(CGFloat)joystickTilt;
+- (id)initWithATapped;
+- (id)initWithBTapped;
+
+@property (nonatomic, readonly) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
+@property (nonatomic, readonly) CGFloat joystickTilt;   // [0 - 1]
+
+@property (nonatomic, readonly) BOOL aIsTapped;
+@property (nonatomic, readonly) BOOL bIsTapped;
+
+@property (nonatomic, readonly) NSTimeInterval timestamp;
 
 @end

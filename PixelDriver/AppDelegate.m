@@ -25,7 +25,7 @@
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 #import "Utilities.h"
-#import "PHController.h"
+#import "PHMote.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
@@ -144,12 +144,12 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     NSString* who = parts[2];
 
     if ([command isEqualToString:@"hi"]) {
-      PHController* controller = [[PHController alloc] initWithIdentifier:who stream:stream];
+      PHMote* controller = [[PHMote alloc] initWithIdentifier:who stream:stream];
       controller.name = [[data componentsSeparatedByString:@","] lastObject];
       [_controllers setObject:controller forKey:who];
 
     } else {
-      PHController* controller = [_controllers objectForKey:who];
+      PHMote* controller = [_controllers objectForKey:who];
       PHControllerState* state = nil;
       if ([command isEqualToString:@"mv"]) {
         NSArray* parts = [data componentsSeparatedByString:@","];
@@ -183,7 +183,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       [_controllerSockets removeObject:inputStream];
       NSString* keyToRemove = nil;
       for (NSString* key in _controllers) {
-        PHController* controller = [_controllers objectForKey:key];
+        PHMote* controller = [_controllers objectForKey:key];
         if (controller.stream == stream) {
           keyToRemove = key;
           break;

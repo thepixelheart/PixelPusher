@@ -14,9 +14,9 @@
 // limitations under the License.
 //
 
-#import "PHController.h"
+#import "PHMote.h"
 
-@implementation PHControllerState
+@implementation PHMoteState
 
 - (id)init {
   if ((self = [super init])) {
@@ -49,7 +49,7 @@
 
 @end
 
-@implementation PHController {
+@implementation PHMote {
   NSMutableArray* _states;
 }
 
@@ -61,7 +61,7 @@
   return self;
 }
 
-- (void)addControllerState:(PHControllerState *)state {
+- (void)addControllerState:(PHMoteState *)state {
   [_states addObject:state];
   _numberOfTimesATapped += state.aIsTapped ? 1 : 0;
   _numberOfTimesBTapped += state.bIsTapped ? 1 : 0;
