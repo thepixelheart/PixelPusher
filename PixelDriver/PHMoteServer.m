@@ -294,6 +294,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 - (id)init {
   if ((self = [super init])) {
     _thread = [[PHMoteThread alloc] init];
+    _thread.threadPriority = 0.7;
     [_thread start];
   }
   return self;
