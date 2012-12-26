@@ -48,7 +48,7 @@ AppDelegate *PHApp() {
 }
 
 @interface AppDelegate() <NSStreamDelegate>
-@property (nonatomic, readonly) NSMutableArray* controllerSockets;
+@property (nonatomic, readonly) NSMutableArray* moteSockets;
 @end
 
 @implementation AppDelegate {
@@ -80,7 +80,7 @@ AppDelegate *PHApp() {
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
   NSMutableDictionary* _streamToHangingMessage;
-  NSMutableDictionary* _controllers; // Of PHController
+  NSMutableDictionary* _motes; // Of PHController
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -131,7 +131,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
 
-    [app.controllerSockets addObject:inputStream];
+    [app.moteSockets addObject:inputStream];
   }
 }
 
@@ -146,10 +146,10 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     if ([command isEqualToString:@"hi"]) {
       PHMote* controller = [[PHMote alloc] initWithIdentifier:who stream:stream];
       controller.name = [[data componentsSeparatedByString:@","] lastObject];
-      [_controllers setObject:controller forKey:who];
+      [_motes setObject:controller forKey:who];
 
     } else {
-      PHMote* controller = [_controllers objectForKey:who];
+      PHMote* controller = [_motes objectForKey:who];
       PHMoteState* state = nil;
       if ([command isEqualToString:@"mv"]) {
         NSArray* parts = [data componentsSeparatedByString:@","];
@@ -172,23 +172,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       [controller addControllerState:state];
     }
 
-    NSLog(@"Controller states: %@", _controllers);
-  }
-}
-
-- (NSArray *)allMotes {
-  NSMutableArray* motes = [NSMutableArray array];
-  for (NSString* key in _controllers) {
-    PHMote* mote = [_controllers objectForKey:key];
-    [motes addObject:[mote copy]];
-  }
-  return motes;
-}
-
-- (void)didTick {
-  for (NSString* key in _controllers) {
-    PHMote* mote = [_controllers objectForKey:key];
-    [mote tick];
+    NSLog(@"Controller states: %@", _motes);
   }
 }
 
@@ -196,19 +180,19 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   if ([stream isKindOfClass:[NSInputStream class]]) {
     NSInputStream* inputStream = (NSInputStream *)stream;
     if (eventCode & NSStreamEventEndEncountered) {
-      [_controllerSockets removeObject:inputStream];
+      [_moteSockets removeObject:inputStream];
       NSString* keyToRemove = nil;
-      for (NSString* key in _controllers) {
-        PHMote* controller = [_controllers objectForKey:key];
+      for (NSString* key in _motes) {
+        PHMote* controller = [_motes objectForKey:key];
         if (controller.stream == stream) {
           keyToRemove = key;
           break;
         }
       }
       if (nil != keyToRemove) {
-        [_controllers removeObjectForKey:keyToRemove];
+        [_motes removeObjectForKey:keyToRemove];
       }
-      NSLog(@"Disconnected a controller. %@", _controllers);
+      NSLog(@"Disconnected a controller. %@", _motes);
 
     } else if (eventCode & NSStreamEventHasBytesAvailable) {
       uint8_t bytes[1024];
@@ -243,8 +227,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 }
 
 - (void)startListeningForControllers {
-  _controllerSockets = [NSMutableArray array];
-  _controllers = [NSMutableDictionary dictionary];
+  _moteSockets = [NSMutableArray array];
+  _motes = [NSMutableDictionary dictionary];
   _streamToHangingMessage = [NSMutableDictionary dictionary];
   CFSocketContext context;
   memset(&context, 0, sizeof(CFSocketContext));
@@ -898,6 +882,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   }
 }
 
+#pragma mark - Floating Point Wall Context
+
 - (CGContextRef)createWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
@@ -921,6 +907,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   }
   return wallContext;
 }
+
+#pragma mark - Public Methods
 
 - (CGContextRef)currentWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
@@ -982,6 +970,22 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   [activeAnimation bitmapDidFinishRendering];
 
   return wallContext;
+}
+
+- (NSArray *)allMotes {
+  NSMutableArray* motes = [NSMutableArray array];
+  for (NSString* key in _motes) {
+    PHMote* mote = [_motes objectForKey:key];
+    [motes addObject:[mote copy]];
+  }
+  return motes;
+}
+
+- (void)didTick {
+  for (NSString* key in _motes) {
+    PHMote* mote = [_motes objectForKey:key];
+    [mote tick];
+  }
 }
 
 @end
