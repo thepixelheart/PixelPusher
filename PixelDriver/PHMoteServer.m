@@ -48,7 +48,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
   NSMutableDictionary* _streamToHangingMessage; // NSValue<(void *)NSStream> => NSString
-  NSMutableDictionary* _motes; // mote id => PHMote
+  NSMutableDictionary* _moteIdToMote; // mote id => PHMote
 }
 
 - (void)dealloc {
@@ -65,7 +65,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 - (id)init {
   if ((self = [super init])) {
     _moteSockets = [NSMutableArray array];
-    _motes = [NSMutableDictionary dictionary];
+    _moteIdToMote = [NSMutableDictionary dictionary];
     _streamToHangingMessage = [NSMutableDictionary dictionary];
   }
   return self;
@@ -82,10 +82,10 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     if ([command isEqualToString:@"hi"]) {
       PHMote* controller = [[PHMote alloc] initWithIdentifier:who stream:stream];
       controller.name = [[data componentsSeparatedByString:@","] lastObject];
-      [_motes setObject:controller forKey:who];
+      [_moteIdToMote setObject:controller forKey:who];
 
     } else {
-      PHMote* controller = [_motes objectForKey:who];
+      PHMote* controller = [_moteIdToMote objectForKey:who];
       PHMoteState* state = nil;
       if ([command isEqualToString:@"mv"]) {
         NSArray* parts = [data componentsSeparatedByString:@","];
@@ -119,15 +119,15 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       if (eventCode & NSStreamEventEndEncountered) {
         [_moteSockets removeObject:inputStream];
         NSString* keyToRemove = nil;
-        for (NSString* key in _motes) {
-          PHMote* controller = [_motes objectForKey:key];
+        for (NSString* key in _moteIdToMote) {
+          PHMote* controller = [_moteIdToMote objectForKey:key];
           if (controller.stream == stream) {
             keyToRemove = key;
             break;
           }
         }
         if (nil != keyToRemove) {
-          [_motes removeObjectForKey:keyToRemove];
+          [_moteIdToMote removeObjectForKey:keyToRemove];
         }
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
@@ -166,8 +166,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 - (NSArray *)allMotes {
   NSMutableArray* motes = [NSMutableArray array];
   @synchronized(self) {
-    for (NSString* key in _motes) {
-      PHMote* mote = [_motes objectForKey:key];
+    for (NSString* key in _moteIdToMote) {
+      PHMote* mote = [_moteIdToMote objectForKey:key];
       [motes addObject:[mote copy]];
     }
   }
@@ -176,8 +176,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
 - (void)didTick {
   @synchronized(self) {
-    for (NSString* key in _motes) {
-      PHMote* mote = [_motes objectForKey:key];
+    for (NSString* key in _moteIdToMote) {
+      PHMote* mote = [_moteIdToMote objectForKey:key];
       [mote tick];
     }
   }
