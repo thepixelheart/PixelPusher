@@ -32,6 +32,24 @@
   return [PHLaunchpadButtonCell class];
 }
 
+- (void)viewDidMoveToWindow {
+  [super viewDidMoveToWindow];
+
+  [self addTrackingRect:self.bounds owner:self userData:NULL assumeInside:NO];
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent {
+  [super mouseEntered:theEvent];
+  
+  [self.target performSelector:@selector(mouseDidEnterButton:) withObject:self];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+  [super mouseExited:theEvent];
+
+  [self.target performSelector:@selector(mouseDidLeaveButton:) withObject:self];
+}
+
 @end
 
 @implementation PHLaunchpadButtonCell {
@@ -422,6 +440,12 @@
       cell.color = launchpadColor;
     }
   }
+}
+
+- (void)mouseDidEnterButton:(NSButton *)button {
+}
+
+- (void)mouseDidLeaveButton:(NSButton *)button {
 }
 
 @end
