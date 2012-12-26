@@ -16,5 +16,6 @@
 
 #import "PHAnimation.h"
 
-@interface PHGameOfLifeAnimation : PHAnimation
+@interface PHSimpleMoteAnimation : PHAnimation
+
 @end

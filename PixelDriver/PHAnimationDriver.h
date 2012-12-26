@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "PHMote.h"
+
 @class PHFMODRecorder;
 
 // Ported from the pitch detection example in the FMOD samples.

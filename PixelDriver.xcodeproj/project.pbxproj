@@ -33,6 +33,7 @@
 		6637527116843E3C009A2F22 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637527016843E3C009A2F22 /* PHDegrader.m */; };
 		66393E69168AC819002BD86F /* PHMote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E68168AC819002BD86F /* PHMote.m */; };
 		66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6C168AD63E002BD86F /* PHMoteServer.m */; };
+		66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -121,6 +122,8 @@
 		66393E68168AC819002BD86F /* PHMote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMote.m; sourceTree = "<group>"; };
 		66393E6B168AD63E002BD86F /* PHMoteServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMoteServer.h; sourceTree = "<group>"; };
 		66393E6C168AD63E002BD86F /* PHMoteServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMoteServer.m; sourceTree = "<group>"; };
+		66393E6E168ADB9A002BD86F /* PHSimpleMoteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSimpleMoteAnimation.h; sourceTree = "<group>"; };
+		66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSimpleMoteAnimation.m; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 				66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */,
 				66A26D701689190A009F7B33 /* PHGameOfLifeAnimation.h */,
 				66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */,
+				66393E6E168ADB9A002BD86F /* PHSimpleMoteAnimation.h */,
+				66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -639,6 +644,7 @@
 				660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */,
 				66393E69168AC819002BD86F /* PHMote.m in Sources */,
 				66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */,
+				66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

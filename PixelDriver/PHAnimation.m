@@ -33,6 +33,7 @@
 #import "PHPixelHeartAnimation.h"
 #import "PHGameOfLifeAnimation.h"
 #import "PHRotationAnimation.h"
+#import "PHSimpleMoteAnimation.h"
 
 @implementation PHAnimation
 
@@ -89,7 +90,8 @@
   [PHNyanCatFgAnimation animation],
   [PHPixelHeartAnimation animation],
   [PHFlyingRectAnimation animation],
-  [PHGameOfLifeAnimation animation]];
+  [PHGameOfLifeAnimation animation],
+  [PHSimpleMoteAnimation animation]];
 }
 
 @end
