@@ -17,4 +17,7 @@
 #import "PHAnimation.h"
 
 @interface PHRipplesAnimation : PHAnimation
+
++ (id)animationStationary;
+
 @end

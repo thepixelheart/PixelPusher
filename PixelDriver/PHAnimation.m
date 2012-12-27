@@ -97,7 +97,8 @@
   [PHSimpleMoteAnimation animation],
   [PHTunnelGameAnimation animation],
   [PHCountdownAnimation animation],
-  [PHRipplesAnimation animation]];
+  [PHRipplesAnimation animation],
+  [PHRipplesAnimation animationStationary]];
 }
 
 - (NSString *)tooltipName {
