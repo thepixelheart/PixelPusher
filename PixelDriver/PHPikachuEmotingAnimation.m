@@ -61,6 +61,7 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
     [_happyAnimation addStillFrameAtX:1 y:1];
     [_happyAnimation addFrameAtX:2 y:1 duration:0.1];
     [_happyAnimation addFrameAtX:3 y:1 duration:0.2];
+    [_happyAnimation addFrameAtX:2 y:1 duration:0.2];
     [_happyAnimation addFrameAtX:1 y:1 duration:kMinimumDelayBetweenHits];
     _happyAnimation.repeats = YES;
     _happyAnimation.bounces = NO;
