@@ -148,6 +148,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 }
 
 - (void)dealloc {
+  for (NSStream* stream in _moteSockets) {
+    [stream close];
+  }
   if (nil != _ipv4cfsock) {
     CFSocketInvalidate(_ipv4cfsock);
     _ipv4cfsock = nil;
@@ -188,6 +191,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
         if (nil != keyToRemove) {
           [_streamToMote removeObjectForKey:keyToRemove];
         }
+
+        [stream close];
+        [_moteSockets removeObject:stream];
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
         uint8_t bytes[kMaxPacketSize];
