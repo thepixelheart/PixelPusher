@@ -43,6 +43,7 @@
 		6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */; };
 		6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */; };
 		6693A30D168C133A00DA2946 /* pixelheartfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6693A30C168C133A00DA2946 /* pixelheartfont.ttf */; };
+		6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */; };
 		66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */; };
 		66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */; };
 		66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D7516892A2E009F7B33 /* PHWaveFormView.m */; };
@@ -146,6 +147,8 @@
 		6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCountdownAnimation.h; sourceTree = "<group>"; };
 		6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCountdownAnimation.m; sourceTree = "<group>"; };
 		6693A30C168C133A00DA2946 /* pixelheartfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pixelheartfont.ttf; path = PixelDriver/pixelheartfont.ttf; sourceTree = "<group>"; };
+		6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRipplesAnimation.h; sourceTree = "<group>"; };
+		6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRipplesAnimation.m; sourceTree = "<group>"; };
 		66A26D52168847EC009F7B33 /* PHPixelHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelHeartAnimation.h; sourceTree = "<group>"; };
 		66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelHeartAnimation.m; sourceTree = "<group>"; };
 		66A26D701689190A009F7B33 /* PHGameOfLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGameOfLifeAnimation.h; sourceTree = "<group>"; };
@@ -288,6 +291,8 @@
 				6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */,
 				6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */,
 				6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */,
+				6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */,
+				6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -679,6 +684,7 @@
 				66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */,
 				6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */,
 				6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */,
+				6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
