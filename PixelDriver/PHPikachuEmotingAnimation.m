@@ -18,7 +18,7 @@
 
 static const NSTimeInterval kMinimumAnimationChangeInterval = 1;
 static const NSTimeInterval kMinimumDelayBetweenHits = 0.1;
-static const NSTimeInterval kTimeUntilSleeping = 4;
+static const NSTimeInterval kTimeUntilSleeping = 6;
 
 @implementation PHPikachuEmotingAnimation {
   PHSpritesheet* _pikachuSpritesheet;
