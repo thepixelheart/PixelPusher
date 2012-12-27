@@ -25,7 +25,6 @@ static const CGFloat kFallPercStart = 0.4;
   NSFont* _font;
   NSFont* _yearFont;
   NSTimeInterval _timestampToCountdownTo;
-  NSArray* _colorsForNumbers;
 }
 
 - (id)init {
@@ -38,19 +37,6 @@ static const CGFloat kFallPercStart = 0.4;
 
     _font = [NSFont fontWithName:@"Visitor TT1 BRK" size:kFontSize];
     _yearFont = [NSFont fontWithName:@"Visitor TT1 BRK" size:kYearFontSize];
-
-    _colorsForNumbers =
-    @[generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor(),
-      generateRandomColor()];
   }
   return self;
 }
@@ -64,6 +50,12 @@ static const CGFloat kFallPercStart = 0.4;
 
   // Count down!
   if (timeLeft > 0 && timeLeft <= 10) {
+    CGContextSetFillColorWithColor(cx, [[NSColor blackColor] CGColor]);
+
+    CGContextFillRect(cx, CGRectMake(0, 0, size.width, size.height));
+
+    CGContextSetFillColorWithColor(cx, [[NSColor whiteColor] CGColor]);
+
     NSInteger secondsRemaining = ceilf(timeLeft);
     CGFloat percentageComplete = ((NSTimeInterval)secondsRemaining - timeLeft);
 
@@ -90,7 +82,6 @@ static const CGFloat kFallPercStart = 0.4;
     }
     CGSize textSize = NSSizeToCGSize([secondsRemainingAsString sizeWithAttributes:
                                       @{NSFontAttributeName:_font}]);
-    CGContextSetFillColorWithColor(cx, [_colorsForNumbers[secondsRemaining] CGColor]);
     CGContextShowTextAtPoint(cx,
                              floorf((size.width - textSize.width) / 2.),
                              0,
@@ -120,7 +111,6 @@ static const CGFloat kFallPercStart = 0.4;
     }
 
     if (shouldDrawNextSecond) {
-      CGContextSetFillColorWithColor(cx, [_colorsForNumbers[secondsRemaining - 1] CGColor]);
       CGContextShowTextAtPoint(cx,
                                floorf((size.width - nextTextSize.width) / 2.),
                                0,
@@ -130,6 +120,8 @@ static const CGFloat kFallPercStart = 0.4;
     CGContextRestoreGState(cx);
 
   } else if (timeLeft <= 0) {
+    CGContextSetFillColorWithColor(cx, [[NSColor whiteColor] CGColor]);
+
     CGContextSelectFont(cx,
                         [_yearFont.fontName cStringUsingEncoding:NSUTF8StringEncoding],
                         _yearFont.pointSize,
@@ -137,7 +129,6 @@ static const CGFloat kFallPercStart = 0.4;
     CGContextTranslateCTM(cx, 1, 11);
 
     NSString* year = @"2013";
-    CGContextSetFillColorWithColor(cx, [[NSColor whiteColor] CGColor]);
 
     CGSize yearSize = NSSizeToCGSize([year sizeWithAttributes:@{NSFontAttributeName:_yearFont}]);
     CGContextShowTextAtPoint(cx,
