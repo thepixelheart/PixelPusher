@@ -34,6 +34,7 @@
 #import "PHGameOfLifeAnimation.h"
 #import "PHRotationAnimation.h"
 #import "PHSimpleMoteAnimation.h"
+#import "PHTunnelGameAnimation.h"
 
 @implementation PHAnimation
 
@@ -91,7 +92,8 @@
   [PHPixelHeartAnimation animation],
   [PHFlyingRectAnimation animation],
   [PHGameOfLifeAnimation animation],
-  [PHSimpleMoteAnimation animation]];
+  [PHSimpleMoteAnimation animation],
+  [PHTunnelGameAnimation animation]];
 }
 
 - (NSString *)tooltipName {

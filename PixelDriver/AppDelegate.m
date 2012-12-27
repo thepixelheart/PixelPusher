@@ -32,7 +32,7 @@
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialAnimationIndex = 14;
+static const NSInteger kInitialAnimationIndex = 18;
 static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {
@@ -113,6 +113,7 @@ AppDelegate *PHApp() {
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _moteServer = [[PHMoteServer alloc] init];
+  [self hideTooltip];
 
   [[self audioRecorder] toggleListening];
 
