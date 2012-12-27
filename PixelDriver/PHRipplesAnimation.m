@@ -49,17 +49,18 @@
                                        saturation:scaledValue
                                        brightness:scaledValue
                                             alpha:1];
+    newRipple.radius = fabsf(value) * 10;
     [_ripples addObject:newRipple];
 
     CGFloat maxRadius = size.width - 20;
     NSArray* ripples = [_ripples copy];
     for (PHRipple* ripple in ripples) {
       CGContextSetStrokeColorWithColor(cx, ripple.color.CGColor);
-      CGContextSetAlpha(cx, 0.9);
+      CGContextSetAlpha(cx, 0.3);
       CGContextStrokeEllipseInRect(cx, CGRectInset(CGRectMake(size.width / 2, size.height / 2, 0, 0),
                                                    -ripple.radius,
                                                    -ripple.radius));
-      ripple.radius += 0.5 * MAX(0.1, PHEaseInEaseOut(1 - (ripple.radius / maxRadius)));
+      ripple.radius += 0.5 * MAX(0.1, PHEaseOut(1 - (ripple.radius / maxRadius)));
 
       if (ripple.radius >= maxRadius) {
         [_ripples removeObject:ripple];
