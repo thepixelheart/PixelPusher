@@ -58,6 +58,8 @@
   copy->_states = [_states copy];
   copy->_numberOfTimesATapped = _numberOfTimesATapped;
   copy->_numberOfTimesBTapped = _numberOfTimesBTapped;
+  copy->_aIsBeingTapped = _aIsBeingTapped;
+  copy->_bIsBeingTapped = _bIsBeingTapped;
   copy->_joystickDegrees = _joystickDegrees;
   copy->_joystickTilt = _joystickTilt;
   return copy;
