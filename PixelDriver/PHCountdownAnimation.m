@@ -17,12 +17,15 @@
 #import "PHCountdownAnimation.h"
 
 static const CGFloat kFontSize = 40;
-static const CGFloat kCrushPercStart = 0.6;
+static const CGFloat kYearFontSize = 20;
+static const CGFloat kCrushPercStart = 0.5;
 static const CGFloat kFallPercStart = 0.4;
 
 @implementation PHCountdownAnimation {
   NSFont* _font;
+  NSFont* _yearFont;
   NSTimeInterval _timestampToCountdownTo;
+  NSArray* _colorsForNumbers;
 }
 
 - (id)init {
@@ -34,6 +37,20 @@ static const CGFloat kFallPercStart = 0.4;
     _timestampToCountdownTo = [NSDate timeIntervalSinceReferenceDate] + 11;
 
     _font = [NSFont fontWithName:@"Visitor TT1 BRK" size:kFontSize];
+    _yearFont = [NSFont fontWithName:@"Visitor TT1 BRK" size:kYearFontSize];
+
+    _colorsForNumbers =
+    @[generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor(),
+      generateRandomColor()];
   }
   return self;
 }
@@ -42,20 +59,22 @@ static const CGFloat kFallPercStart = 0.4;
   CGContextSaveGState(cx);
   NSTimeInterval timeLeft = _timestampToCountdownTo - [NSDate timeIntervalSinceReferenceDate];
 
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -size.height);
+
   // Count down!
   if (timeLeft > 0 && timeLeft <= 10) {
     NSInteger secondsRemaining = ceilf(timeLeft);
     CGFloat percentageComplete = ((NSTimeInterval)secondsRemaining - timeLeft);
 
-    NSString* secondsRemainingAsString = [NSString stringWithFormat:@"%ld", secondsRemaining];
-    NSString* nextSecondRemainingAsString = [NSString stringWithFormat:@"%ld", secondsRemaining - 1];
-    CGContextSetRGBFillColor(cx, 1, 1, 1, 1);
-    CGContextScaleCTM(cx, 1, -1);
-    CGContextTranslateCTM(cx, 0, -size.height);
     CGContextSelectFont(cx,
                         [_font.fontName cStringUsingEncoding:NSUTF8StringEncoding],
                         _font.pointSize,
                         kCGEncodingMacRoman);
+
+    NSString* secondsRemainingAsString = [NSString stringWithFormat:@"%ld", secondsRemaining];
+    NSString* nextSecondRemainingAsString = [NSString stringWithFormat:@"%ld", secondsRemaining - 1];
+    CGContextSetRGBFillColor(cx, 1, 1, 1, 1);
     CGContextTranslateCTM(cx, 2, 6);
 
     CGContextSaveGState(cx);
@@ -65,9 +84,13 @@ static const CGFloat kFallPercStart = 0.4;
                                  / (1 - kCrushPercStart));
         CGContextScaleCTM(cx, 1, 1 - tween);
       }
+    } else if (secondsRemaining == 1) {
+      CGFloat tween = PHEaseIn(percentageComplete);
+      CGContextSetAlpha(cx, 1 - tween);
     }
     CGSize textSize = NSSizeToCGSize([secondsRemainingAsString sizeWithAttributes:
                                       @{NSFontAttributeName:_font}]);
+    CGContextSetFillColorWithColor(cx, [_colorsForNumbers[secondsRemaining] CGColor]);
     CGContextShowTextAtPoint(cx,
                              floorf((size.width - textSize.width) / 2.),
                              0,
@@ -97,6 +120,7 @@ static const CGFloat kFallPercStart = 0.4;
     }
 
     if (shouldDrawNextSecond) {
+      CGContextSetFillColorWithColor(cx, [_colorsForNumbers[secondsRemaining - 1] CGColor]);
       CGContextShowTextAtPoint(cx,
                                floorf((size.width - nextTextSize.width) / 2.),
                                0,
@@ -104,6 +128,23 @@ static const CGFloat kFallPercStart = 0.4;
                                nextSecondRemainingAsString.length);
     }
     CGContextRestoreGState(cx);
+
+  } else if (timeLeft <= 0) {
+    CGContextSelectFont(cx,
+                        [_yearFont.fontName cStringUsingEncoding:NSUTF8StringEncoding],
+                        _yearFont.pointSize,
+                        kCGEncodingMacRoman);
+    CGContextTranslateCTM(cx, 1, 11);
+
+    NSString* year = @"2013";
+    CGContextSetFillColorWithColor(cx, [[NSColor whiteColor] CGColor]);
+
+    CGSize yearSize = NSSizeToCGSize([year sizeWithAttributes:@{NSFontAttributeName:_yearFont}]);
+    CGContextShowTextAtPoint(cx,
+                             floorf((size.width - yearSize.width) / 2.),
+                             0,
+                             [year cStringUsingEncoding:NSUTF8StringEncoding],
+                             year.length);
   }
   CGContextRestoreGState(cx);
 }
