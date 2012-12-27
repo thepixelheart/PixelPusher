@@ -40,8 +40,8 @@
       CGFloat radians = degrees * M_PI / 180;
       CGFloat tilt = mote.joystickTilt;
 
-      [_aButtonDegrader tickWithPeak:(mote.numberOfTimesATapped > 0) ? 1 : 0];
-      [_bButtonDegrader tickWithPeak:(mote.numberOfTimesBTapped > 0) ? 1 : 0];
+      [_aButtonDegrader tickWithPeak:mote.aIsBeingTapped ? 1 : 0];
+      [_bButtonDegrader tickWithPeak:mote.bIsBeingTapped ? 1 : 0];
 
       if (_aButtonDegrader.value > 0) {
         CGContextSetRGBFillColor(cx, 0, 1, 0, _aButtonDegrader.value);

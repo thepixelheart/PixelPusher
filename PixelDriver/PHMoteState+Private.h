@@ -19,8 +19,9 @@
 // Private APIs
 @interface PHMoteState()
 
-- (id)initWithJoystickDegrees:(CGFloat)joystickDegrees joystickTilt:(CGFloat)joystickTilt;
-- (id)initWithATapped;
-- (id)initWithBTapped;
+@property (nonatomic, assign) CGFloat joystickDegrees;
+@property (nonatomic, assign) CGFloat joystickTilt;
+@property (nonatomic, assign) BOOL aIsTapped;
+@property (nonatomic, assign) BOOL bIsTapped;
 
 @end

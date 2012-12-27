@@ -28,7 +28,8 @@ static NSInteger kMaxPacketSize = 1024 * 4;
 
 typedef enum {
   PHMoteMessageHello,
-  PHMoteMessageButton,
+  PHMoteMessageButtonPressed,
+  PHMoteMessageButtonReleased,
   PHMoteMessageJoystickMoved,
   PHMoteMessageJoystickStopped,
   PHMoteMessageUnknown
@@ -52,7 +53,11 @@ typedef enum {
   return self;
 }
 
-- (id)readByte:(uint8_t)byte {
+- (id)readByte:(uint8_t)byte latestState:(PHMoteState *)latestState {
+  if (nil == latestState) {
+    latestState = [[PHMoteState alloc] init];
+  }
+
   id result = nil;
 
   if (_message == PHMoteMessageUnknown) {
@@ -62,8 +67,12 @@ typedef enum {
       _message = PHMoteMessageHello;
       _alias = [NSMutableString string];
 
-    } else if (byte == 'b') {
-      _message = PHMoteMessageButton;
+    } else if (byte == 'p') {
+      _message = PHMoteMessageButtonPressed;
+      // 1 byte additional data: 'a' or 'b'
+
+    } else if (byte == 'r') {
+      _message = PHMoteMessageButtonReleased;
       // 1 byte additional data: 'a' or 'b'
 
     } else if (byte == 'm') {
@@ -73,17 +82,35 @@ typedef enum {
 
     } else if (byte == 'e') {
       // PHMoteMessageJoystickStopped 0 bytes additional data
-      result = [[PHMoteState alloc] initWithJoystickDegrees:0 joystickTilt:0];
+      result = [[PHMoteState alloc] init];
 
     } else {
       NSLog(@"Unknown message type: %c", byte);
     }
 
-  } else if (_message == PHMoteMessageButton) {
+  } else if (_message == PHMoteMessageButtonPressed) {
     if (byte == 'a') {
-      result = [[PHMoteState alloc] initWithATapped];
+      PHMoteState* state = [latestState copy];
+      state.aIsTapped = YES;
+      result = state;
+
     } else if (byte == 'b') {
-      result = [[PHMoteState alloc] initWithBTapped];
+      PHMoteState* state = [latestState copy];
+      state.bIsTapped = YES;
+      result = state;
+    }
+    _message = PHMoteMessageUnknown;
+
+  } else if (_message == PHMoteMessageButtonReleased) {
+    if (byte == 'a') {
+      PHMoteState* state = [latestState copy];
+      state.aIsTapped = NO;
+      result = state;
+
+    } else if (byte == 'b') {
+      PHMoteState* state = [latestState copy];
+      state.bIsTapped = NO;
+      result = state;
     }
     _message = PHMoteMessageUnknown;
 
@@ -104,7 +131,11 @@ typedef enum {
       if (_message == PHMoteMessageJoystickMoved) {
         float angle = *((float *)_additionalBytes);
         float tilt = *((float *)(_additionalBytes + 4));
-        result = [[PHMoteState alloc] initWithJoystickDegrees:angle joystickTilt:tilt];
+
+        PHMoteState* state = [latestState copy];
+        state.joystickDegrees = angle;
+        state.joystickTilt = tilt;
+        result = state;
       }
 
       _message = PHMoteMessageUnknown;
@@ -213,7 +244,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
         for (NSInteger ix = 0; ix < nread; ++ix) {
           uint8_t byte = bytes[ix];
-          id result = [state readByte:byte];
+          id result = [state readByte:byte latestState:mote.lastState];
           if ([result isKindOfClass:[PHMoteState class]]) {
             [mote addControllerState:result];
 

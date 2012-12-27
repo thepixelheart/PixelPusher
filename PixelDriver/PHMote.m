@@ -28,26 +28,13 @@
   return self;
 }
 
-- (id)initWithJoystickDegrees:(CGFloat)joystickDegrees joystickTilt:(CGFloat)joystickTilt {
-  if ((self = [self init])) {
-    _joystickDegrees = joystickDegrees;
-    _joystickTilt = joystickTilt;
-  }
-  return self;
-}
-
-- (id)initWithATapped {
-  if ((self = [self init])) {
-    _aIsTapped = YES;
-  }
-  return self;
-}
-
-- (id)initWithBTapped {
-  if ((self = [self init])) {
-    _bIsTapped = YES;
-  }
-  return self;
+- (id)copyWithZone:(NSZone *)zone {
+  PHMoteState* copy = [[[self class] allocWithZone:zone] init];
+  copy->_joystickDegrees = _joystickDegrees;
+  copy->_joystickTilt = _joystickTilt;
+  copy->_aIsTapped = _aIsTapped;
+  copy->_bIsTapped = _bIsTapped;
+  return copy;
 }
 
 @end
@@ -89,9 +76,16 @@
 
 - (void)addControllerState:(PHMoteState *)state {
   [_states addObject:state];
+  _lastState = state;
 
-  _numberOfTimesATapped += state.aIsTapped ? 1 : 0;
-  _numberOfTimesBTapped += state.bIsTapped ? 1 : 0;
+  if (_aIsBeingTapped && !state.aIsTapped) {
+    ++_numberOfTimesATapped;
+  }
+  if (_bIsBeingTapped && !state.bIsTapped) {
+    ++_numberOfTimesBTapped;
+  }
+  _aIsBeingTapped = state.aIsTapped;
+  _bIsBeingTapped = state.bIsTapped;
   _joystickDegrees = state.joystickDegrees;
   _joystickTilt = state.joystickTilt;
 }

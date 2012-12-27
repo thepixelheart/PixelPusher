@@ -46,8 +46,13 @@
 @property (nonatomic, assign) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
 @property (nonatomic, assign) CGFloat joystickTilt;   // [0 - 1]
 
+// Tap + release.
 @property (nonatomic, assign) NSInteger numberOfTimesATapped; // Number of times A was tapped since the last frame.
 @property (nonatomic, assign) NSInteger numberOfTimesBTapped; // Number of times B was tapped since the last frame.
+
+// Tap with no release.
+@property (nonatomic, readonly) BOOL aIsBeingTapped;
+@property (nonatomic, readonly) BOOL bIsBeingTapped;
 
 #pragma mark Raw Information
 
@@ -59,7 +64,7 @@
 /**
  * A single state message sent by the PixelMote.
  */
-@interface PHMoteState : NSObject
+@interface PHMoteState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) CGFloat joystickDegrees;// [0 - 360), 0 being at 3 o'clock, rotating clockwise (90 is at 6 o'clock)
 @property (nonatomic, readonly) CGFloat joystickTilt;   // [0 - 1]

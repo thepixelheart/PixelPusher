@@ -26,4 +26,6 @@
 - (void)addControllerState:(PHMoteState *)state;
 - (void)tick;
 
+@property (nonatomic, strong) PHMoteState* lastState;
+
 @end
