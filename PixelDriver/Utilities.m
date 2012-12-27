@@ -53,6 +53,14 @@ NSTimeInterval PHEaseInEaseOut(NSTimeInterval t) {
   return -0.5 * (t * (t - 2) - 1);
 }
 
+NSTimeInterval PHEaseIn(NSTimeInterval t) {
+  return t * t;
+}
+
+NSTimeInterval PHEaseOut(NSTimeInterval t) {
+  return -1 * t * (t - 2);
+}
+
 NSColor* generateRandomColor() {
     CGFloat hue = ( arc4random_uniform(256) / 256.0f );  //  0.0 to 1.0
     CGFloat saturation = ( arc4random_uniform(256) / 512.0f ) + 0.5f;  //  0.5 to 1.0, away from white

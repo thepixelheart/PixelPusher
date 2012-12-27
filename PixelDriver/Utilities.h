@@ -22,6 +22,8 @@ NSString* PHFilenameForResourcePath(NSString* resourcePath);
 CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size);
 
 NSTimeInterval PHEaseInEaseOut(NSTimeInterval t);
+NSTimeInterval PHEaseIn(NSTimeInterval t);
+NSTimeInterval PHEaseOut(NSTimeInterval t);
 
 NSColor* generateRandomColor();
 
