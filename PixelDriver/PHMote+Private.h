@@ -19,7 +19,7 @@
 // Private APIs
 @interface PHMote()
 
-- (id)initWithName:(NSString *)name stream:(NSStream *)stream;
+- (id)initWithName:(NSString *)name identifier:(NSString *)identifier stream:(NSStream *)stream;
 
 @property (nonatomic, readonly) NSStream* stream;
 

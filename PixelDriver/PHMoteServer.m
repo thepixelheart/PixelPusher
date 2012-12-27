@@ -249,7 +249,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
             [mote addControllerState:result];
 
           } else if ([result isKindOfClass:[NSString class]]) {
-            mote = [[PHMote alloc] initWithName:result stream:stream];
+            NSArray* parts = [result componentsSeparatedByString:@","];
+            NSString* name = [[parts subarrayWithRange:NSMakeRange(1, parts.count - 1)] componentsJoinedByString:@","];
+            mote = [[PHMote alloc] initWithName:name identifier:parts[0] stream:stream];
             [_streamToMote setObject:mote forKey:streamKey];
           }
         }

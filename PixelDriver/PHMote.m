@@ -43,9 +43,10 @@
   NSMutableArray* _states;
 }
 
-- (id)initWithName:(NSString *)name stream:(NSStream *)stream {
+- (id)initWithName:(NSString *)name identifier:(NSString *)identifier stream:(NSStream *)stream {
   if ((self = [super init])) {
     _name = [name copy];
+    _identifier = [identifier copy];
     _stream = stream;
   }
   return self;
@@ -56,6 +57,8 @@
 - (id)copyWithZone:(NSZone *)zone {
   PHMote* copy = [[[self class] allocWithZone:zone] init];
   copy->_states = [_states copy];
+  copy->_name = _name;
+  copy->_identifier = _identifier;
   copy->_numberOfTimesATapped = _numberOfTimesATapped;
   copy->_numberOfTimesBTapped = _numberOfTimesBTapped;
   copy->_aIsBeingTapped = _aIsBeingTapped;

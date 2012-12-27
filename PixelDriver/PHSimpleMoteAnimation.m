@@ -40,6 +40,8 @@
       CGFloat radians = degrees * M_PI / 180;
       CGFloat tilt = mote.joystickTilt;
 
+      NSLog(@"%@ %@", mote.name, mote.identifier);
+
       [_aButtonDegrader tickWithPeak:mote.aIsBeingTapped ? 1 : 0];
       [_bButtonDegrader tickWithPeak:mote.bIsBeingTapped ? 1 : 0];
 

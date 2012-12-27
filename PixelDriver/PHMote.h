@@ -40,6 +40,8 @@
 
 // The name provided by the owner of this mote.
 @property (nonatomic, readonly, copy) NSString* name;
+// The unique identifier for this mote.
+@property (nonatomic, readonly, copy) NSString* identifier;
 
 #pragma mark Composite Information
 
