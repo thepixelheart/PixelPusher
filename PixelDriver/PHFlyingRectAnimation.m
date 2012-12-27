@@ -77,6 +77,7 @@ static const int kMaxRectanglesAddedPerStep = 5;
 - (id)init {
   if ((self = [super init])) {
     _rects = [[NSMutableArray alloc] init];
+    self.bassDegrader.deltaPerSecond = 0.25;
   }
   return self;
 }
