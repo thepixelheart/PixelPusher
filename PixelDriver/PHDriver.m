@@ -196,6 +196,9 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
     return YES;
   }
 
+  // Disable gamma correction.
+  TCsetGammaSimple(1);
+
   // Open the connection to the FTDI adapter.
   TCstatusCode result = TCopen(kNumberOfStrands, kPixelsPerStrand);
   if (result != TC_OK && result < TC_ERR_DIVISOR) {
@@ -209,8 +212,6 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   TCsetStrandPin(3, TC_FTDI_DTR);
   TCsetStrandPin(4, TC_FTDI_DCD);
   TCsetStrandPin(5, TC_FTDI_DSR);
-
-  TCsetGammaSimple(1);
 
   TCinitStats(&_stats);
 
