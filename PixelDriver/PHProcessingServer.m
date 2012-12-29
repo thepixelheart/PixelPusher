@@ -90,6 +90,9 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
         memset(bytes, 0, sizeof(uint8_t) * kMaxPacketSize);
         NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize - 1];
         // Null-terminate the string.
+        int nPixels;
+        memcpy(&nPixels, bytes, sizeof(int));
+        NSLog(@"%d", nPixels);
         bytes[nread] = 0;
         NSLog(@"%s", bytes);
       }

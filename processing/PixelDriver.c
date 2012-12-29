@@ -66,14 +66,6 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
   if (connect(sockfd, (const struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
     return -4;
   }
-  /*
-  char *data = "hello world!";
-  while(1) {
-    int n = write(sockfd, data, strlen(data));
-    if (n < 0) {
-      return -5;
-    }
-  }*/
 	return sockfd;
 }
 
@@ -89,5 +81,26 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_FlyPixelsFly(
     jclass  this,
     jint    socket,
     jobject image)  {
-  
+  if (socket <= 0) {
+    return -1;
+  }
+
+  jclass imageClass = (* env)->GetObjectClass(env, image);
+  jfieldID pixelsId = (* env)->GetFieldID(env, imageClass, "pixels", "[I");
+  jobject pixelsData = (* env)->GetObjectField(env, image, pixelsId);
+  jintArray* pixelsArray = (jintArray *)&pixelsData;
+  jint* pixels = (* env)->GetIntArrayElements(env, *pixelsArray, NULL);
+  jsize nElements = (* env)->GetArrayLength(env, *pixelsArray);
+
+  int n = write(socket, &nElements, sizeof(jsize));
+  if (n < 0) {
+    return -5;
+  }
+
+  n = write(socket, pixels, sizeof(jint));
+  if (n < 0) {
+    return -5;
+  }
+
+  (* env)->ReleaseIntArrayElements(env, *pixelsArray, pixels, 0);
 }
