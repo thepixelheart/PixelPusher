@@ -16,11 +16,80 @@
 
 #import "PHProcessingServer.h"
 
+#import "Utilities.h"
+
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-static NSInteger kMaxPacketSize = 1024 * 4;
+static NSInteger kMaxPacketSize = 1024 * 8;
+#define PHBYTESPERFRAME ((1 + 48 * 32) * 4) // 1 for number of pixels + 48 * 32 pixels
+
+@interface PHProcessingState : NSObject
+@end
+
+@implementation PHProcessingState {
+  uint8_t _data[PHBYTESPERFRAME];
+  uint8_t* _dataOffset;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _dataOffset = _data;
+  }
+  return self;
+}
+
+- (CGContextRef)readBytes:(uint8_t *)bytes numberOfBytes:(NSInteger)numberOfBytes {
+  NSLog(@"Reading bytes: %ld", numberOfBytes);
+  NSInteger offsetInBytes = _dataOffset - _data;
+
+  CGContextRef bitmapRef = nil;
+  while (numberOfBytes > 0) {
+    if (offsetInBytes + numberOfBytes >= PHBYTESPERFRAME) {
+      // End of a frame.
+      NSInteger numberOfBytesRemaining = PHBYTESPERFRAME - offsetInBytes;
+      memcpy(_dataOffset, bytes, sizeof(uint8_t) * numberOfBytesRemaining);
+      _dataOffset = _data;
+
+      // We've read this many bytes, start consuming the next frame.
+      bytes += numberOfBytesRemaining;
+      numberOfBytes -= numberOfBytesRemaining;
+
+      int numberOfPixels;
+      memcpy(&numberOfPixels, _data, sizeof(int));
+      if (numberOfPixels == 1536) {
+        if (nil != bitmapRef) {
+          // TODO: Figure out when to create the bitmap more efficiently in case
+          // we get a shit ton of data all at once.
+          NSLog(@"Dropping bitmap context :(");
+          CGContextRelease(bitmapRef);
+        }
+
+        // Valid frame, w00t.
+        bitmapRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(48, 32));
+        unsigned char* bitmapData = (unsigned char *)CGBitmapContextGetData(bitmapRef);
+
+        // Flip the bytes of the bitmap data.
+        for (NSInteger pixelOffset = 0; pixelOffset < numberOfBytes; pixelOffset += 4) {
+          bitmapData[pixelOffset + 0] = _data[pixelOffset + 1];
+          bitmapData[pixelOffset + 1] = _data[pixelOffset + 2];
+          bitmapData[pixelOffset + 2] = _data[pixelOffset + 3];
+          bitmapData[pixelOffset + 3] = _data[pixelOffset + 0];
+        }
+      }
+
+    } else {
+      // Not going to fill the buffer, just copy it all in.
+      memcpy(_dataOffset, bytes, sizeof(uint8_t) * numberOfBytes);
+      _dataOffset += numberOfBytes;
+      numberOfBytes = 0;
+    }
+  }
+  return bitmapRef;
+}
+
+@end
 
 @interface PHProcessingThread : NSThread <NSStreamDelegate>
 @property (nonatomic, readonly) NSMutableArray* sockets;
@@ -49,6 +118,7 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
 @implementation PHProcessingThread {
   CFSocketRef _ipv4cfsock;
   CFRunLoopSourceRef _socketsource;
+  NSMutableDictionary* _streamToState; // NSValue<(void *)NSStream> => PHProcessingState
 }
 
 - (void)dealloc {
@@ -68,6 +138,7 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
 - (id)init {
   if ((self = [super init])) {
     _sockets = [NSMutableArray array];
+    _streamToState = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -81,20 +152,33 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
 
       // The connection has been closed to a mote, remove it from the list.
       if (eventCode & NSStreamEventEndEncountered) {
+        NSLog(@"Connection closed");
+
+        id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
+        [_streamToState removeObjectForKey:streamKey];
+
         [stream close];
         [_sockets removeObject:stream];
-        NSLog(@"Died");
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
         uint8_t bytes[kMaxPacketSize];
         memset(bytes, 0, sizeof(uint8_t) * kMaxPacketSize);
-        NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize - 1];
-        // Null-terminate the string.
-        int nPixels;
-        memcpy(&nPixels, bytes, sizeof(int));
-        NSLog(@"%d", nPixels);
-        bytes[nread] = 0;
-        NSLog(@"%s", bytes);
+        NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize];
+
+        id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
+        PHProcessingState* state = [_streamToState objectForKey:streamKey];
+        if (nil == state) {
+          state = [[PHProcessingState alloc] init];
+          [_streamToState setObject:state forKey:streamKey];
+        }
+
+        if (nread > 0) {
+          CGContextRef bitmapRef = [state readBytes:bytes numberOfBytes:nread];
+          if (nil != bitmapRef) {
+            NSLog(@"Created bitmap");
+            CGContextRelease(bitmapRef);
+          }
+        }
       }
     }
   }

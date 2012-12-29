@@ -97,7 +97,7 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_FlyPixelsFly(
     return -5;
   }
 
-  n = write(socket, pixels, sizeof(jint));
+  n = write(socket, pixels, sizeof(jint) * nElements);
   if (n < 0) {
     return -5;
   }

@@ -174,8 +174,6 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   CFRunLoopSourceRef _socketsource;
   NSMutableDictionary* _streamToState; // NSValue<(void *)NSStream> => PHMessageState
   NSMutableDictionary* _streamToMote; // NSValue<(void *)NSStream> => PHMote
-
-  PHMoteMessage _currentMessage;
 }
 
 - (void)dealloc {
@@ -210,18 +208,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
       // The connection has been closed to a mote, remove it from the list.
       if (eventCode & NSStreamEventEndEncountered) {
-        [_moteSockets removeObject:inputStream];
-        id keyToRemove = nil;
-        for (id key in _streamToMote) {
-          PHMote* controller = [_streamToMote objectForKey:key];
-          if (controller.stream == stream) {
-            keyToRemove = key;
-            break;
-          }
-        }
-        if (nil != keyToRemove) {
-          [_streamToMote removeObjectForKey:keyToRemove];
-        }
+        id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
+        [_streamToMote removeObjectForKey:streamKey];
+        [_streamToState removeObjectForKey:streamKey];
 
         [stream close];
         [_moteSockets removeObject:stream];
@@ -229,9 +218,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
         uint8_t bytes[kMaxPacketSize];
         memset(bytes, 0, sizeof(uint8_t) * kMaxPacketSize);
-        NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize - 1];
-        // Null-terminate the string.
-        bytes[nread] = 0;
+        NSInteger nread = [inputStream read:bytes maxLength:kMaxPacketSize];
 
         id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
         PHMoteMessageState* state = [_streamToState objectForKey:streamKey];
