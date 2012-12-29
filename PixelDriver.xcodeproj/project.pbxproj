@@ -36,6 +36,7 @@
 		66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */; };
 		66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7D168AEFFD002BD86F /* PHTooltipView.m */; };
 		663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A0168EC254003B88A1 /* PHProcessingServer.m */; };
+		663C83A3168ECD84003B88A1 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 663C83A2168ECD84003B88A1 /* fonts */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -43,7 +44,6 @@
 		668520EE168292200063A95A /* PHAnimationDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHAnimationDriver.m */; };
 		6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */; };
 		6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */; };
-		6693A30D168C133A00DA2946 /* pixelheartfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6693A30C168C133A00DA2946 /* pixelheartfont.ttf */; };
 		6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */; };
 		66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */; };
 		66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */; };
@@ -136,6 +136,7 @@
 		66393E7D168AEFFD002BD86F /* PHTooltipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTooltipView.m; sourceTree = "<group>"; };
 		663C839F168EC254003B88A1 /* PHProcessingServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingServer.h; sourceTree = "<group>"; };
 		663C83A0168EC254003B88A1 /* PHProcessingServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingServer.m; sourceTree = "<group>"; };
+		663C83A2168ECD84003B88A1 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -149,7 +150,6 @@
 		6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTunnelGameAnimation.m; sourceTree = "<group>"; };
 		6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCountdownAnimation.h; sourceTree = "<group>"; };
 		6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCountdownAnimation.m; sourceTree = "<group>"; };
-		6693A30C168C133A00DA2946 /* pixelheartfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pixelheartfont.ttf; path = PixelDriver/pixelheartfont.ttf; sourceTree = "<group>"; };
 		6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRipplesAnimation.h; sourceTree = "<group>"; };
 		6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRipplesAnimation.m; sourceTree = "<group>"; };
 		66A26D52168847EC009F7B33 /* PHPixelHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelHeartAnimation.h; sourceTree = "<group>"; };
@@ -488,8 +488,8 @@
 			isa = PBXGroup;
 			children = (
 				66F6640716854FA3001E77BC /* spritesheets */,
+				663C83A2168ECD84003B88A1 /* fonts */,
 				66DC7B661676FC3000453E8F /* MainMenu.xib */,
-				6693A30C168C133A00DA2946 /* pixelheartfont.ttf */,
 				662DE54F1686875D00F300CE /* ableton_logo_screen.png */,
 				662DE55416868AF400F300CE /* novation.png */,
 				662DE55616868BB100F300CE /* launchpad.png */,
@@ -622,7 +622,7 @@
 				662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */,
 				662DE55516868AF400F300CE /* novation.png in Resources */,
 				662DE55716868BB100F300CE /* launchpad.png in Resources */,
-				6693A30D168C133A00DA2946 /* pixelheartfont.ttf in Resources */,
+				663C83A3168ECD84003B88A1 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
