@@ -27,7 +27,8 @@
 JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
     JNIEnv *env,
     jclass  this,
-    jstring serverAddress)  {
+    jstring serverAddress,
+    jstring name)  {
   char* serverAddressCString = 0;
 
   {
@@ -37,6 +38,18 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
   }
   
   if (0 == serverAddressCString || strlen(serverAddressCString) == 0) {
+    return -1;
+  }
+  
+  char* nameCString = 0;
+
+  {
+    const char *_nameCString = (* env)->GetStringUTFChars(env, name, 0);
+    nameCString = strdup(_nameCString);
+    (* env)->ReleaseStringUTFChars(env, name, _nameCString);
+  }
+  
+  if (0 == nameCString || strlen(nameCString) == 0) {
     return -1;
   }
 
@@ -66,6 +79,21 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
   if (connect(sockfd, (const struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
     return -4;
   }
+
+  // Enforce a reasonable cap on the name length.
+  int length = strlen(nameCString);
+  if (length > 100) {
+    length = 100;
+    nameCString[100] = '\0';
+  }
+  int n = write(sockfd, nameCString, sizeof(char) * (length + 1));
+  if (n < 0) {
+    return -5;
+  }
+  
+  free(nameCString);
+  nameCString = 0;
+
 	return sockfd;
 }
 

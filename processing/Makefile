@@ -22,11 +22,11 @@ $(JNILIB): PixelDriver.c PixelDriver_PixelDriver.h
 
 install:
 	mkdir -p $(DESTPATH)/library
-	mkdir -p $(DESTPATH)/examples/Test
+	mkdir -p $(DESTPATH)/examples/Demo
 	cp PixelDriver.jar $(DESTPATH)/library
 	cp $(JNILIB) $(DESTPATH)/library
 	cp export.txt $(DESTPATH)/library
-	cp Test.pde $(DESTPATH)/examples/Test
+	cp Demo.pde $(DESTPATH)/examples/Demo
 
 clean:
 	rm -rf *.o PixelDriver PixelDriver.jar PixelDriver_PixelDriver.h $(JNILIB)

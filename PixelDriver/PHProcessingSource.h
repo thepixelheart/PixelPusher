@@ -16,10 +16,12 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString* const PHProcessingSourceListDidChangeNotification;
+@interface PHProcessingSource : NSObject
 
-@interface PHProcessingServer : NSObject
+@property (nonatomic, strong) NSString* identifier;
+@property (nonatomic, strong) NSString* name;
 
-- (NSArray *)allSources; // NSArray of PHProcessingSource
+- (void)updateImageWithContextRef:(CGContextRef)contextRef;
+- (void)drawImageInContext:(CGContextRef)cx size:(CGSize)size;
 
 @end

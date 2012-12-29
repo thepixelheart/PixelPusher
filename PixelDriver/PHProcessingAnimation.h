@@ -14,12 +14,14 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHAnimation.h"
 
-extern NSString* const PHProcessingSourceListDidChangeNotification;
+@class PHProcessingSource;
 
-@interface PHProcessingServer : NSObject
+@interface PHProcessingAnimation : PHAnimation
 
-- (NSArray *)allSources; // NSArray of PHProcessingSource
++ (id)animationWithSource:(PHProcessingSource *)source;
+
+@property (nonatomic, strong) PHProcessingSource* source;
 
 @end

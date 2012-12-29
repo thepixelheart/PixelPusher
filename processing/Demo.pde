@@ -8,7 +8,7 @@ PImage img;
 
 void setup()  {
   // Create a connection to the Heart's Driver.
-  socket = pixelDriver.openSocket("127.0.0.1");
+  socket = pixelDriver.openSocket("127.0.0.1", "Demo Processing");
   print(socket);
   if (socket < 0) {
     exit();
@@ -25,6 +25,7 @@ void setup()  {
 
 void renderBuffer() {
   // Always render to the buf object :)
+  buf.background(255, 204, 0);
   buf.rect(10,10,2,10);
 }
 
@@ -36,6 +37,7 @@ void draw() {
   // Create an image of the buffer.
   img = buf.get(0, 0, buf.width, buf.height);
 
+  img.loadPixels();
   // Shoot dem pixels straight to the Heart's Driver.
   pixelDriver.flyPixelsFly(socket, img);
   

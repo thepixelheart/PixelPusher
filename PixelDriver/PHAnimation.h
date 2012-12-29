@@ -20,6 +20,8 @@
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
 
+typedef NSArray* (^PHAdditionalAnimationBlock)();
+
 /**
  * The PHAnimation class exposes the fundamental tools and API for creating
  * Pixel Heart animations.
@@ -51,5 +53,7 @@
 - (NSString *)tooltipName;
 
 + (NSArray *)allAnimations;
+
++ (void)setAdditionalAnimationCreator:(PHAdditionalAnimationBlock)block;
 
 @end

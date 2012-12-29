@@ -37,6 +37,8 @@
 		66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7D168AEFFD002BD86F /* PHTooltipView.m */; };
 		663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A0168EC254003B88A1 /* PHProcessingServer.m */; };
 		663C83A3168ECD84003B88A1 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 663C83A2168ECD84003B88A1 /* fonts */; };
+		663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */; };
+		663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A8168EE542003B88A1 /* PHProcessingSource.m */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -137,6 +139,10 @@
 		663C839F168EC254003B88A1 /* PHProcessingServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingServer.h; sourceTree = "<group>"; };
 		663C83A0168EC254003B88A1 /* PHProcessingServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingServer.m; sourceTree = "<group>"; };
 		663C83A2168ECD84003B88A1 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		663C83A4168EE50E003B88A1 /* PHProcessingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingAnimation.h; sourceTree = "<group>"; };
+		663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingAnimation.m; sourceTree = "<group>"; };
+		663C83A7168EE542003B88A1 /* PHProcessingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingSource.h; sourceTree = "<group>"; };
+		663C83A8168EE542003B88A1 /* PHProcessingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingSource.m; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -345,6 +351,8 @@
 			children = (
 				663C839F168EC254003B88A1 /* PHProcessingServer.h */,
 				663C83A0168EC254003B88A1 /* PHProcessingServer.m */,
+				663C83A7168EE542003B88A1 /* PHProcessingSource.h */,
+				663C83A8168EE542003B88A1 /* PHProcessingSource.m */,
 			);
 			name = Processing;
 			sourceTree = "<group>";
@@ -467,6 +475,8 @@
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
 				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
 				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
+				663C83A4168EE50E003B88A1 /* PHProcessingAnimation.h */,
+				663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */,
 				66DC7B8716773FC200453E8F /* Utilities.h */,
 				66DC7B8816773FC200453E8F /* Utilities.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
@@ -699,6 +709,8 @@
 				6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */,
 				6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */,
 				663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */,
+				663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */,
+				663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

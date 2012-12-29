@@ -14,12 +14,33 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHProcessingSource.h"
 
-extern NSString* const PHProcessingSourceListDidChangeNotification;
+@implementation PHProcessingSource {
+  CGImageRef _imageRef;
+}
 
-@interface PHProcessingServer : NSObject
+- (void)dealloc {
+  if (nil != _imageRef) {
+    CGImageRelease(_imageRef);
+  }
+}
 
-- (NSArray *)allSources; // NSArray of PHProcessingSource
+- (void)drawImageInContext:(CGContextRef)cx size:(CGSize)size {
+  @synchronized(self) {
+    if (nil != _imageRef) {
+      CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), _imageRef);
+    }
+  }
+}
+
+- (void)updateImageWithContextRef:(CGContextRef)contextRef {
+  @synchronized(self) {
+    if (nil != _imageRef) {
+      CGImageRelease(_imageRef);
+    }
+    _imageRef = CGBitmapContextCreateImage(contextRef);
+  }
+}
 
 @end

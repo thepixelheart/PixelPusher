@@ -21,12 +21,12 @@ public class PixelDriver {
 		System.loadLibrary("PixelDriver");
 	}
 
-	private static native int OpenSocket(String serverName);
+	private static native int OpenSocket(String serverName, String animationName);
 	private static native int CloseSocket(int socket);
 	private static native int FlyPixelsFly(int socket, Object image);
 
-	public static int openSocket(String serverName) {
-		return OpenSocket(serverName); 
+	public static int openSocket(String serverName, String animationName) {
+		return OpenSocket(serverName, animationName); 
 	}
 
 	public static int closeSocket(int socket) {

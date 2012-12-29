@@ -55,6 +55,9 @@
       if (_layerAnimationIndex[ix] >= 0) {
         _layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
         _layerAnimation[ix].driver = self.driver;
+      } else {
+        // This animation no longer exists.
+        _layerAnimationIndex[ix] = -1;
       }
     }
   }

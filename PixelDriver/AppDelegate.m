@@ -27,7 +27,9 @@
 #import "Utilities.h"
 #import "PHMote.h"
 #import "PHMoteServer.h"
+#import "PHProcessingAnimation.h"
 #import "PHProcessingServer.h"
+#import "PHProcessingSource.h"
 #import "PHTooltipWindow.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
@@ -52,6 +54,8 @@ AppDelegate *PHApp() {
 
   NSMutableArray* _animations;
   NSMutableArray* _previewAnimations;
+  NSMutableArray* _processingAnimations;
+  NSMutableArray* _previewProcessingAnimations;
   NSMutableArray* _compositeAnimations;
   NSMutableArray* _previewCompositeAnimations;
 
@@ -136,6 +140,10 @@ AppDelegate *PHApp() {
          selector:@selector(displayLinkDidFire:)
              name:PHDisplayLinkFiredNotification
            object:nil];
+  [nc addObserver:self
+         selector:@selector(processingSourceListDidChange:)
+             name:PHProcessingSourceListDidChangeNotification
+           object:nil];
 
   self.window.wallView.pixelSize = kPixelHeartPixelSize;
   self.previewWindow.wallView.pixelSize = kPreviewPixelSize;
@@ -161,6 +169,8 @@ AppDelegate *PHApp() {
   // instance is only ever run once per run-loop.
   _animations = [self createAnimations];
   _previewAnimations = [self createAnimations];
+  _processingAnimations = [NSMutableArray array];
+  _previewProcessingAnimations = [NSMutableArray array];
   _compositeAnimations = [NSMutableArray array];
   _previewCompositeAnimations = [NSMutableArray array];
 
@@ -172,6 +182,14 @@ AppDelegate *PHApp() {
   _previousAnimation = nil;
   _activeCompositeLayer = 0;
 
+  [PHAnimation setAdditionalAnimationCreator:^NSArray *{
+    NSMutableArray* animations = [NSMutableArray array];
+    for (PHProcessingSource* source in _processingServer.allSources) {
+      PHProcessingAnimation* animation = [PHProcessingAnimation animationWithSource:source];
+      [animations addObject:animation];
+    }
+    return [animations copy];
+  }];
   [self loadComposites];
 }
 
@@ -258,17 +276,31 @@ AppDelegate *PHApp() {
     buttonIndex = [_previewAnimations indexOfObject:animation];
   }
 
-  // Check composite arrays.
+  // Check processing arrays.
   if (buttonIndex == NSNotFound) {
-    buttonIndex = [_compositeAnimations indexOfObject:animation];
+    buttonIndex = [_processingAnimations indexOfObject:animation];
     if (buttonIndex != NSNotFound) {
       buttonIndex += _animations.count;
     }
   }
   if (buttonIndex == NSNotFound) {
-    buttonIndex = [_previewCompositeAnimations indexOfObject:animation];
+    buttonIndex = [_previewProcessingAnimations indexOfObject:animation];
     if (buttonIndex != NSNotFound) {
       buttonIndex += _animations.count;
+    }
+  }
+
+  // Check composite arrays.
+  if (buttonIndex == NSNotFound) {
+    buttonIndex = [_compositeAnimations indexOfObject:animation];
+    if (buttonIndex != NSNotFound) {
+      buttonIndex += [self numberOfPureAnimations];
+    }
+  }
+  if (buttonIndex == NSNotFound) {
+    buttonIndex = [_previewCompositeAnimations indexOfObject:animation];
+    if (buttonIndex != NSNotFound) {
+      buttonIndex += [self numberOfPureAnimations];
     }
   }
 
@@ -283,25 +315,31 @@ AppDelegate *PHApp() {
 #pragma mark - Colors
 
 - (void)refreshButtonColorAtIndex:(NSInteger)buttonIndex {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
-              atButtonIndex:buttonIndex];
+  if (buttonIndex >= 0 && buttonIndex < 64) {
+    PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+    [launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
+                atButtonIndex:buttonIndex];
+  }
 }
 
 - (void)refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setTopButtonColor:[self topButtonColorForIndex:buttonIndex]
-                       atIndex:buttonIndex];
+  if (buttonIndex < PHLaunchpadTopButtonCount) {
+    PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+    [launchpad setTopButtonColor:[self topButtonColorForIndex:buttonIndex]
+                         atIndex:buttonIndex];
+  }
 }
 
-- (void)refreshSideButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex {
-  PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
-  [launchpad setRightButtonColor:[self sideButtonColorForIndex:buttonIndex]
-                         atIndex:buttonIndex];
+- (void)refreshSideButtonColorAtIndex:(PHLaunchpadSideButton)buttonIndex {
+  if (buttonIndex < PHLaunchpadSideButtonCount) {
+    PHLaunchpadMIDIDriver* launchpad = PHApp().midiDriver;
+    [launchpad setRightButtonColor:[self sideButtonColorForIndex:buttonIndex]
+                           atIndex:buttonIndex];
+  }
 }
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
-  if (buttonIndex >= (_animations.count + _compositeAnimations.count)) {
+  if (buttonIndex >= [self numberOfAnimations]) {
     return PHLaunchpadColorOff;
   }
 
@@ -326,7 +364,7 @@ AppDelegate *PHApp() {
                   : PHLaunchpadColorAmberDim)));
 
   } else if (_launchpadMode == PHLaunchpadModeComposite) {
-    if (buttonIndex < _animations.count) {
+    if (buttonIndex < [self numberOfPureAnimations]) {
       NSInteger activeAnimationIndex = [_previewCompositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
       return (buttonIndex == activeAnimationIndex) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
 
@@ -385,8 +423,12 @@ AppDelegate *PHApp() {
 
 #pragma mark - Launchpad
 
+- (NSInteger)numberOfPureAnimations {
+  return _animations.count + _processingAnimations.count;
+}
+
 - (NSInteger)numberOfAnimations {
-  return _animations.count + _previewCompositeAnimations.count;
+  return [self numberOfPureAnimations] + _previewCompositeAnimations.count;
 }
 
 - (void)updateGrid {
@@ -456,16 +498,24 @@ AppDelegate *PHApp() {
 - (PHAnimation *)animationFromButtonIndex:(NSInteger)buttonIndex {
   if (buttonIndex < _animations.count) {
     return [_animations objectAtIndex:buttonIndex];
+
+  } else if (buttonIndex < [self numberOfPureAnimations]) {
+    return [_processingAnimations objectAtIndex:buttonIndex - _animations.count];
+
   } else {
-    return [_compositeAnimations objectAtIndex:buttonIndex - _animations.count];
+    return [_compositeAnimations objectAtIndex:buttonIndex - [self numberOfPureAnimations]];
   }
 }
 
 - (PHAnimation *)previewAnimationFromButtonIndex:(NSInteger)buttonIndex {
   if (buttonIndex < _animations.count) {
     return [_previewAnimations objectAtIndex:buttonIndex];
+
+  } else if (buttonIndex < [self numberOfPureAnimations]) {
+    return [_previewProcessingAnimations objectAtIndex:buttonIndex - _animations.count];
+
   } else {
-    return [_previewCompositeAnimations objectAtIndex:buttonIndex - _animations.count];
+    return [_previewCompositeAnimations objectAtIndex:buttonIndex - [self numberOfPureAnimations]];
   }
 }
 
@@ -475,8 +525,15 @@ AppDelegate *PHApp() {
   if (buttonIndex < _animations.count) {
     [_previewAnimations replaceObjectAtIndex:buttonIndex withObject:[self animationFromButtonIndex:buttonIndex]];
     [_animations replaceObjectAtIndex:buttonIndex withObject:previewAnimation];
-  } else {
+
+  } else if (buttonIndex < [self numberOfPureAnimations]) {
     NSInteger index = buttonIndex - _animations.count;
+    PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
+    [_previewProcessingAnimations replaceObjectAtIndex:index withObject:animation];
+    [_processingAnimations replaceObjectAtIndex:index withObject:previewAnimation];
+
+  } else {
+    NSInteger index = buttonIndex - [self numberOfPureAnimations];
     PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
     [_previewCompositeAnimations replaceObjectAtIndex:index withObject:animation];
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
@@ -517,7 +574,7 @@ AppDelegate *PHApp() {
     return;
   }
   // Tapped the previewing animation again and we're not already on this animation.
-  BOOL shouldChange = _previewAnimation == animation;
+  BOOL shouldChange = (_previewAnimation == animation);
   _previewAnimation = animation;
   if (shouldChange) {
     [self setActiveAnimationIndex:buttonIndex];
@@ -527,7 +584,7 @@ AppDelegate *PHApp() {
 }
 
 - (void)setCompositeLayerAnimationIndex:(NSInteger)animationindex {
-  if (animationindex == -1 || animationindex < _animations.count) {
+  if (animationindex == -1 || animationindex < [self numberOfPureAnimations]) {
     NSInteger currentAnimationIndex = [_previewCompositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
     if (currentAnimationIndex == animationindex) {
       // Tapping the current animation removes the animation from this layer.
@@ -722,6 +779,61 @@ AppDelegate *PHApp() {
   }
 }
 
+#pragma mark - Processing Source Notifications
+
+- (void)processingSourceListDidChange:(NSNotification *)notification {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self processingSourceListDidChange:notification];
+    });
+    return;
+  }
+
+  // Fucking shit tons of N^2 algorithms here because I'm too lazy to use a map.
+  // We should never have more than a couple processing animations hooked up at
+  // once so it shouldn't be a problem.
+
+  // Add new animations.
+  BOOL shouldUpdateLaunchpad = NO;
+  NSArray* allSources = _processingServer.allSources;
+  for (PHProcessingSource* source in allSources) {
+
+    BOOL foundAnimation = NO;
+    for (NSInteger ix = 0; ix < _processingAnimations.count; ++ix) {
+      PHProcessingAnimation* animation = _processingAnimations[ix];
+      if (animation.source == source) {
+        foundAnimation = YES;
+        break;
+      }
+    }
+
+    if (!foundAnimation) {
+      PHProcessingAnimation* animation = [PHProcessingAnimation animationWithSource:source];
+      [_processingAnimations addObject:animation];
+      PHProcessingAnimation* previewAnimation = [PHProcessingAnimation animationWithSource:source];
+      [_previewProcessingAnimations addObject:previewAnimation];
+
+      shouldUpdateLaunchpad = YES;
+    }
+  }
+
+  // Remove old ones.
+  NSArray* animations = [_processingAnimations copy];
+  for (NSInteger ix = 0; ix < animations.count; ++ix ) {
+    PHProcessingAnimation* animation = animations[ix];
+    if (![allSources containsObject:animation.source]) {
+      [_processingAnimations removeObjectAtIndex:ix];
+      [_previewProcessingAnimations removeObjectAtIndex:ix];
+      shouldUpdateLaunchpad = YES;
+
+      [self refreshButtonColorAtIndex:[self numberOfAnimations]];
+    }
+  }
+  if (shouldUpdateLaunchpad) {
+    [self updateLaunchpad];
+  }
+}
+
 #pragma mark - Floating Point Wall Context
 
 - (CGContextRef)createWallContext {
@@ -855,13 +967,18 @@ AppDelegate *PHApp() {
     PHAnimation* animation = [_animations objectAtIndex:buttonIndex];
     return animation.tooltipName;
 
-  } else if (buttonIndex - _animations.count < _compositeAnimations.count) {
-    PHCompositeAnimation* compositeAnimation = [_compositeAnimations objectAtIndex:buttonIndex - _animations.count];
+  } else if (buttonIndex < [self numberOfPureAnimations]) {
+    PHAnimation* animation = [_processingAnimations objectAtIndex:buttonIndex - _animations.count];
+    return animation.tooltipName;
+
+  } else {
+    PHCompositeAnimation* compositeAnimation = [_compositeAnimations objectAtIndex:
+                                                buttonIndex - [self numberOfPureAnimations]];
 
     NSMutableString* tooltip = [NSMutableString string];
     for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
       NSInteger animationIndex = [compositeAnimation indexOfAnimationForLayer:ix];
-      if (animationIndex >= 0 && animationIndex < _animations.count) {
+      if (animationIndex >= 0 && animationIndex < [self numberOfPureAnimations]) {
         if (tooltip.length > 0) {
           [tooltip appendString:@"\n"];
         }
@@ -885,7 +1002,7 @@ AppDelegate *PHApp() {
   } else if (_launchpadMode == PHLaunchpadModeComposite) {
     NSInteger animationIndex = [_compositeAnimationBeingEdited indexOfAnimationForLayer:(PHLaunchpadTopButton)buttonIndex];
     NSString* string = [NSString stringWithFormat:@"Composite Layer %ld", buttonIndex + 1];
-    if (animationIndex >= 0 && animationIndex < _animations.count) {
+    if (animationIndex >= 0 && animationIndex < [self numberOfPureAnimations]) {
       PHAnimation* animation = [_animations objectAtIndex:animationIndex];
       string = [string stringByAppendingFormat:@"\n%@", animation.tooltipName];
     }

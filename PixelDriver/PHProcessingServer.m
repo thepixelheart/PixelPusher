@@ -16,16 +16,21 @@
 
 #import "PHProcessingServer.h"
 
+#import "PHDriver.h"
+#import "PHProcessingSource.h"
 #import "Utilities.h"
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+NSString* const PHProcessingSourceListDidChangeNotification = @"PHProcessingSourceListDidChangeNotification";
+
 static NSInteger kMaxPacketSize = 1024 * 8;
 #define PHBYTESPERFRAME ((1 + 48 * 32) * 4) // 1 for number of pixels + 48 * 32 pixels
 
 @interface PHProcessingState : NSObject
+@property (nonatomic, readonly, strong) PHProcessingSource* source;
 @end
 
 @implementation PHProcessingState {
@@ -36,15 +41,33 @@ static NSInteger kMaxPacketSize = 1024 * 8;
 - (id)init {
   if ((self = [super init])) {
     _dataOffset = _data;
+    _source = [[PHProcessingSource alloc] init];
+    _source.identifier = [NSString stringWithFormat:@"%ld", (unsigned long)self];
   }
   return self;
 }
 
-- (CGContextRef)readBytes:(uint8_t *)bytes numberOfBytes:(NSInteger)numberOfBytes {
-  NSLog(@"Reading bytes: %ld", numberOfBytes);
+- (void)readBytes:(uint8_t *)bytes numberOfBytes:(NSInteger)numberOfBytes {
+  if (nil == _source.name) {
+    while (nil == _source.name && numberOfBytes > 0) {
+      *_dataOffset = *bytes;
+      ++_dataOffset;
+
+      if ((*bytes) == 0) {
+        _source.name = [[NSString alloc] initWithCString:(char *)_data encoding:NSUTF8StringEncoding];
+        _dataOffset = _data;
+
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:PHProcessingSourceListDidChangeNotification object:nil];
+      }
+
+      --numberOfBytes;
+      ++bytes;
+    }
+  }
+
   NSInteger offsetInBytes = _dataOffset - _data;
 
-  CGContextRef bitmapRef = nil;
   while (numberOfBytes > 0) {
     if (offsetInBytes + numberOfBytes >= PHBYTESPERFRAME) {
       // End of a frame.
@@ -58,25 +81,22 @@ static NSInteger kMaxPacketSize = 1024 * 8;
 
       int numberOfPixels;
       memcpy(&numberOfPixels, _data, sizeof(int));
-      if (numberOfPixels == 1536) {
-        if (nil != bitmapRef) {
-          // TODO: Figure out when to create the bitmap more efficiently in case
-          // we get a shit ton of data all at once.
-          NSLog(@"Dropping bitmap context :(");
-          CGContextRelease(bitmapRef);
-        }
-
+      if (numberOfPixels == (kWallWidth * kWallHeight)) {
         // Valid frame, w00t.
-        bitmapRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(48, 32));
+        CGContextRef bitmapRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
         unsigned char* bitmapData = (unsigned char *)CGBitmapContextGetData(bitmapRef);
 
-        // Flip the bytes of the bitmap data.
-        for (NSInteger pixelOffset = 0; pixelOffset < numberOfBytes; pixelOffset += 4) {
-          bitmapData[pixelOffset + 0] = _data[pixelOffset + 1];
-          bitmapData[pixelOffset + 1] = _data[pixelOffset + 2];
-          bitmapData[pixelOffset + 2] = _data[pixelOffset + 3];
-          bitmapData[pixelOffset + 3] = _data[pixelOffset + 0];
+        // Flip the bytes of the bitmap data from ARGB to RGBA.
+        // TODO: Do we need to premultiply the alpha?
+        for (NSInteger pixelOffset = 0; pixelOffset < numberOfPixels * 4; pixelOffset += 4) {
+          bitmapData[pixelOffset + 0] = _data[pixelOffset + 2 + 4]; // red
+          bitmapData[pixelOffset + 1] = _data[pixelOffset + 1 + 4]; // green
+          bitmapData[pixelOffset + 2] = _data[pixelOffset + 0 + 4]; // blue
+          bitmapData[pixelOffset + 3] = _data[pixelOffset + 3 + 4]; // alpha
         }
+
+        [_source updateImageWithContextRef:bitmapRef];
+        CGContextRelease(bitmapRef);
       }
 
     } else {
@@ -86,7 +106,6 @@ static NSInteger kMaxPacketSize = 1024 * 8;
       numberOfBytes = 0;
     }
   }
-  return bitmapRef;
 }
 
 @end
@@ -105,8 +124,6 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
 
     PHProcessingThread* thread = (__bridge PHProcessingThread *)info;
     inputStream.delegate = thread;
-
-    NSLog(@"Connection created");
 
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
@@ -152,13 +169,14 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
 
       // The connection has been closed to a mote, remove it from the list.
       if (eventCode & NSStreamEventEndEncountered) {
-        NSLog(@"Connection closed");
-
         id<NSCopying> streamKey = [NSValue valueWithPointer:(__bridge void *)stream];
         [_streamToState removeObjectForKey:streamKey];
 
         [stream close];
         [_sockets removeObject:stream];
+
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:PHProcessingSourceListDidChangeNotification object:nil];
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
         uint8_t bytes[kMaxPacketSize];
@@ -173,15 +191,23 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
         }
 
         if (nread > 0) {
-          CGContextRef bitmapRef = [state readBytes:bytes numberOfBytes:nread];
-          if (nil != bitmapRef) {
-            NSLog(@"Created bitmap");
-            CGContextRelease(bitmapRef);
-          }
+          [state readBytes:bytes numberOfBytes:nread];
         }
       }
     }
   }
+}
+
+- (NSArray *)allSources {
+  NSMutableArray* sources = [NSMutableArray array];
+  @synchronized(self) {
+    NSArray* allStates = [_streamToState allValues];
+
+    for (PHProcessingState* state in allStates) {
+      [sources addObject:state.source];
+    }
+  }
+  return sources;
 }
 
 - (void)startListening {
@@ -243,6 +269,10 @@ void PHHandleProcessingHTTPConnection(CFSocketRef s, CFSocketCallBackType callba
     [_thread start];
   }
   return self;
+}
+
+- (NSArray *)allSources {
+  return _thread.allSources;
 }
 
 @end

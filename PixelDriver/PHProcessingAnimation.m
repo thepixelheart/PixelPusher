@@ -14,12 +14,24 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHProcessingAnimation.h"
 
-extern NSString* const PHProcessingSourceListDidChangeNotification;
+#import "PHProcessingSource.h"
 
-@interface PHProcessingServer : NSObject
+@implementation PHProcessingAnimation
 
-- (NSArray *)allSources; // NSArray of PHProcessingSource
++ (id)animationWithSource:(PHProcessingSource *)source {
+  PHProcessingAnimation* animation = [super animation];
+  animation.source = source;
+  return animation;
+}
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  [_source drawImageInContext:cx size:size];
+}
+
+- (NSString *)tooltipName {
+  return _source.name;
+}
 
 @end

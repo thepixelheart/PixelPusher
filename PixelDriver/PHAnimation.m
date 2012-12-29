@@ -38,6 +38,8 @@
 #import "PHCountdownAnimation.h"
 #import "PHRipplesAnimation.h"
 
+static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
+
 @implementation PHAnimation
 
 + (id)animation {
@@ -76,7 +78,7 @@
 }
 
 + (NSArray *)allAnimations {
-  return
+  NSArray* animations =
   @[[PHResetAnimation animation],
   [PHSpectrumViewerAnimation animation],
   [PHRotationAnimation animationWithDirection:1],
@@ -99,6 +101,16 @@
   [PHCountdownAnimation animation],
   [PHRipplesAnimation animation],
   [PHRipplesAnimation animationStationary]];
+
+  if (nil != sAdditionalAnimationBlock) {
+    animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
+  }
+
+  return animations;
+}
+
++ (void)setAdditionalAnimationCreator:(PHAdditionalAnimationBlock)block {
+  sAdditionalAnimationBlock = [block copy];
 }
 
 - (NSString *)tooltipName {
