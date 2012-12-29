@@ -39,6 +39,7 @@
 		663C83A3168ECD84003B88A1 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 663C83A2168ECD84003B88A1 /* fonts */; };
 		663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */; };
 		663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A8168EE542003B88A1 /* PHProcessingSource.m */; };
+		663C83AC168F0520003B88A1 /* PHDJAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83AB168F0520003B88A1 /* PHDJAnimation.m */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -143,6 +144,8 @@
 		663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingAnimation.m; sourceTree = "<group>"; };
 		663C83A7168EE542003B88A1 /* PHProcessingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingSource.h; sourceTree = "<group>"; };
 		663C83A8168EE542003B88A1 /* PHProcessingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingSource.m; sourceTree = "<group>"; };
+		663C83AA168F0520003B88A1 /* PHDJAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDJAnimation.h; sourceTree = "<group>"; };
+		663C83AB168F0520003B88A1 /* PHDJAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDJAnimation.m; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -302,6 +305,8 @@
 				6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */,
 				6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */,
 				6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */,
+				663C83AA168F0520003B88A1 /* PHDJAnimation.h */,
+				663C83AB168F0520003B88A1 /* PHDJAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -711,6 +716,7 @@
 				663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */,
 				663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */,
 				663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */,
+				663C83AC168F0520003B88A1 /* PHDJAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
