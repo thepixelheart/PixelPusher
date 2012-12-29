@@ -21,6 +21,7 @@ void setup()  {
 
   // Bigger canvas for seeing our pixels, yay!
   size(480, 320);
+  frameRate(30);
 }
 
 void renderBuffer() {
