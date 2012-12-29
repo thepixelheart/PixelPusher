@@ -22,8 +22,18 @@ public class PixelDriver {
 	}
 
 	private static native int OpenSocket(String serverName);
+	private static native int CloseSocket(int socket);
+	private static native int FlyPixelsFly(int socket, Object image);
 
 	public static int openSocket(String serverName) {
 		return OpenSocket(serverName); 
+	}
+
+	public static int closeSocket(int socket) {
+		return CloseSocket(socket); 
+	}
+
+	public static int flyPixelsFly(int socket, Object image) {
+		return FlyPixelsFly(socket, image); 
 	}
 }

@@ -66,12 +66,28 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
   if (connect(sockfd, (const struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
     return -4;
   }
+  /*
   char *data = "hello world!";
   while(1) {
     int n = write(sockfd, data, strlen(data));
     if (n < 0) {
       return -5;
     }
-  }
-	return 10;
+  }*/
+	return sockfd;
+}
+
+JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_CloseSocket(
+    JNIEnv *env,
+    jclass  this,
+    jint    socket)  {
+  close(socket);
+}
+
+JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_FlyPixelsFly(
+    JNIEnv *env,
+    jclass  this,
+    jint    socket,
+    jobject image)  {
+  
 }
