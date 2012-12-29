@@ -1,0 +1,3 @@
+application.macosx  = PixelDriver.jar, libPixelDriver.jnilib
+application.linux   = PixelDriver.jar, libPixelDriver.so
+application.windows = PixelDriver.jar, PixelDriver.dll

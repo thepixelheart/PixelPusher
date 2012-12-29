@@ -17,3 +17,8 @@ profile
 DerivedData
 .idea/
 *~.qtz
+*.class
+*.jnilib
+*.o
+*.jar
+processing/PixelDriver_PixelDriver.h
