@@ -971,7 +971,7 @@ AppDelegate *PHApp() {
     PHAnimation* animation = [_processingAnimations objectAtIndex:buttonIndex - _animations.count];
     return animation.tooltipName;
 
-  } else {
+  } else if (buttonIndex < [self numberOfAnimations]) {
     PHCompositeAnimation* compositeAnimation = [_compositeAnimations objectAtIndex:
                                                 buttonIndex - [self numberOfPureAnimations]];
 
