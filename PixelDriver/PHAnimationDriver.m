@@ -183,10 +183,10 @@ static const float notefreq[PHPitch_Count] = {
 }
 
 - (void)resetScales {
-  _subBassScale = 50;
-  _hihatScale = 1200;
-  _vocalScale = 400;
-  _snareScale = 900;
+  _subBassScale = 200;
+  _hihatScale = 2000;
+  _vocalScale = 800;
+  _snareScale = 1800;
 }
 
 @end
