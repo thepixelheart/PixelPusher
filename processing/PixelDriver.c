@@ -26,17 +26,33 @@
 
 JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
     JNIEnv *env,
-    jclass  this)  {
+    jclass  this,
+    jstring serverAddress)  {
+  char* serverAddressCString = 0;
+
+  {
+    const char *_serverAddressCString = (* env)->GetStringUTFChars(env, serverAddress, 0);
+    serverAddressCString = strdup(_serverAddressCString);
+    (* env)->ReleaseStringUTFChars(env, serverAddress, _serverAddressCString);
+  }
+  
+  if (0 == serverAddressCString || strlen(serverAddressCString) == 0) {
+    return -1;
+  }
+
   // Create the socket.
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) {
-    return -1;
-  }
-  
-  struct hostent *server = gethostbyname("127.0.0.1");
-  if (server == NULL) {
     return -2;
   }
+  
+  struct hostent *server = gethostbyname(serverAddressCString);
+  if (server == NULL) {
+    return -3;
+  }
+  
+  free(serverAddressCString);
+  serverAddressCString = 0;
   
   struct sockaddr_in serv_addr;
   
@@ -47,13 +63,15 @@ JNIEXPORT jint JNICALL Java_PixelDriver_PixelDriver_OpenSocket(
         (char *)&serv_addr.sin_addr.s_addr,
         server->h_length);
   serv_addr.sin_port = htons(54000);
-  if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-    return -3;
-  }
-  
   if (connect(sockfd, (const struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
     return -4;
   }
-
+  char *data = "hello world!";
+  while(1) {
+    int n = write(sockfd, data, strlen(data));
+    if (n < 0) {
+      return -5;
+    }
+  }
 	return 10;
 }

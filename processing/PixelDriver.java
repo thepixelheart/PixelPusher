@@ -21,9 +21,9 @@ public class PixelDriver {
 		System.loadLibrary("PixelDriver");
 	}
 
-	private static native int OpenSocket();
+	private static native int OpenSocket(String serverName);
 
-	public static int openSocket() {
-		return OpenSocket(); 
+	public static int openSocket(String serverName) {
+		return OpenSocket(serverName); 
 	}
 }

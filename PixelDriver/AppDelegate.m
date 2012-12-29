@@ -27,6 +27,7 @@
 #import "Utilities.h"
 #import "PHMote.h"
 #import "PHMoteServer.h"
+#import "PHProcessingServer.h"
 #import "PHTooltipWindow.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
@@ -73,6 +74,9 @@ AppDelegate *PHApp() {
   // Controller server
   PHMoteServer* _moteServer;
 
+  // Processing server
+  PHProcessingServer* _processingServer;
+
   // Tooltip
   BOOL _showingTooltip;
 }
@@ -113,6 +117,8 @@ AppDelegate *PHApp() {
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _moteServer = [[PHMoteServer alloc] init];
+  _processingServer = [[PHProcessingServer alloc] init];
+
   [self hideTooltip];
 
   [[self audioRecorder] toggleListening];

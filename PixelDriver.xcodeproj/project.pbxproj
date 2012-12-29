@@ -35,6 +35,7 @@
 		66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */; };
 		66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */; };
 		66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7D168AEFFD002BD86F /* PHTooltipView.m */; };
+		663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A0168EC254003B88A1 /* PHProcessingServer.m */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
@@ -133,6 +134,8 @@
 		66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTooltipWindow.m; sourceTree = "<group>"; };
 		66393E7C168AEFFC002BD86F /* PHTooltipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTooltipView.h; sourceTree = "<group>"; };
 		66393E7D168AEFFD002BD86F /* PHTooltipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTooltipView.m; sourceTree = "<group>"; };
+		663C839F168EC254003B88A1 /* PHProcessingServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingServer.h; sourceTree = "<group>"; };
+		663C83A0168EC254003B88A1 /* PHProcessingServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingServer.m; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
@@ -337,6 +340,15 @@
 			name = "Pixel Mote";
 			sourceTree = "<group>";
 		};
+		663C839E168EC242003B88A1 /* Processing */ = {
+			isa = PBXGroup;
+			children = (
+				663C839F168EC254003B88A1 /* PHProcessingServer.h */,
+				663C83A0168EC254003B88A1 /* PHProcessingServer.m */,
+			);
+			name = Processing;
+			sourceTree = "<group>";
+		};
 		66A8E013167C074100FBAFE8 /* FMOD */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +461,7 @@
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
+				663C839E168EC242003B88A1 /* Processing */,
 				66DC7B80167738EB00453E8F /* Views */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
@@ -685,6 +698,7 @@
 				6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */,
 				6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */,
 				6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */,
+				663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
