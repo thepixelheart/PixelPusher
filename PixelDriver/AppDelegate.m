@@ -982,7 +982,7 @@ AppDelegate *PHApp() {
         if (tooltip.length > 0) {
           [tooltip appendString:@"\n"];
         }
-        PHAnimation* animation = [_animations objectAtIndex:animationIndex];
+        PHAnimation* animation = [self animationFromButtonIndex:animationIndex];
         [tooltip appendString:animation.tooltipName];
       }
     }

@@ -52,7 +52,7 @@
     for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
       [decoder decodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
 
-      if (_layerAnimationIndex[ix] >= 0) {
+      if (_layerAnimationIndex[ix] >= 0 && _layerAnimationIndex[ix] < animations.count) {
         _layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
         _layerAnimation[ix].driver = self.driver;
       } else {

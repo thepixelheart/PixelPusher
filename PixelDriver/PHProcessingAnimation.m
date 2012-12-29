@@ -27,7 +27,11 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  CGContextSaveGState(cx);
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -size.height);
   [_source drawImageInContext:cx size:size];
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {
