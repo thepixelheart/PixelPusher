@@ -16,5 +16,5 @@
 
 #import "PHAnimation.h"
 
-@interface PHNyanCatBgAnimation : PHAnimation
+@interface PHNyanCatAnimation : PHAnimation
 @end

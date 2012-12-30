@@ -23,8 +23,7 @@
 #import "PHFlyingFireballAnimation.h"
 #import "PHLevelsHorizAnimation.h"
 #import "PHResetAnimation.h"
-#import "PHNyanCatBgAnimation.h"
-#import "PHNyanCatFgAnimation.h"
+#import "PHNyanCatAnimation.h"
 #import "PHMegamanAnimation.h"
 #import "PHPikachuEmotingAnimation.h"
 #import "PHSineWaveAnimation.h"
@@ -82,32 +81,44 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 + (NSArray *)allAnimations {
   NSArray* animations =
+  // Row 1
   @[[PHResetAnimation animation],
+    [PHPixelHeartAnimation animation],
+    
+    [PHMegamanAnimation animation],
+    [PHPikachuEmotingAnimation animation],
+
+    [PHDJAnimation animation],
+    [PHFlyingFireballAnimation animation],
+
+    [PHCombAnimation animation],
+    [PHFlyingRectAnimation animation],
+
+    // Row 2
+    [PHSineWaveAnimation animation],
+    [PHBassPlate animation],
+
+    [PHSophJoyAnimation animation],
+    [PHNyanCatAnimation animation],
+
+    [PHRipplesAnimation animationStationary],
+    [PHRipplesAnimation animation],
+
+    [PHCountdownAnimation animation],
+
+  // Row 3
+    // Pipe animations
+    [PHRotationAnimation animationWithDirection:1],
+    [PHRotationAnimation animationWithDirection:-1]];
+
+  // Obsolete animations.
   //[PHSpectrumViewerAnimation animation],
-  [PHBassPlate animation],
   //[PHFireworksAnimation animation],
-  [PHFlyingFireballAnimation animation],
-  [PHMegamanAnimation animation],
-  [PHPikachuEmotingAnimation animation],
-  [PHSineWaveAnimation animation],
   //[PHPsychadelicBackgroundAnimation animation],
   //[PHLevelsHorizAnimation animation],
-  [PHNyanCatBgAnimation animation],
-  [PHNyanCatFgAnimation animation],
-  [PHPixelHeartAnimation animation],
-  [PHFlyingRectAnimation animation],
   //[PHGameOfLifeAnimation animation],
   //[PHSimpleMoteAnimation animation],
   //[PHTunnelGameAnimation animation],
-  [PHCountdownAnimation animation],
-  [PHRipplesAnimation animation],
-  [PHRipplesAnimation animationStationary],
-  [PHDJAnimation animation],
-  [PHSophJoyAnimation animation],
-  [PHCombAnimation animation],
-  // Pipe animations
-  [PHRotationAnimation animationWithDirection:1],
-  [PHRotationAnimation animationWithDirection:-1]];
 
   if (nil != sAdditionalAnimationBlock) {
     animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
