@@ -30,10 +30,10 @@ typedef enum {
 
 NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   0.4, // Delay start
-  1,   // Fade in bg
+  3,   // Fade in bg
   1,   // Fade in silhouettes
   3,   // Fade in characters
-  0.5, // Pause before walking
+  0.2, // Pause before walking
   2,   // Walk down
   1,   // Stand behind table
 };
@@ -109,7 +109,7 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
   const CGSize kJeffSize = _jeffSpritesheet.spriteSize;
   const CGSize kAntonSize = _jeffSpritesheet.spriteSize;
-  const CGFloat kStartingSpriteOffsetY = -3;
+  const CGFloat kStartingSpriteOffsetY = -5;
   const CGFloat kFinalSpriteOffsetY = 1;
   CGFloat spriteInsetX = 4;
   CGFloat spriteOffsetY = kStartingSpriteOffsetY;
@@ -159,16 +159,16 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   if (_state >= PHDJAnimationStateFadeInCharacters) {
     CGContextSetBlendMode(cx, kCGBlendModeNormal);
     if (_state == PHDJAnimationStateFadeInCharacters) {
-      CGContextSetAlpha(cx, t);
+      CGContextSetAlpha(cx, PHEaseIn(t));
     } else {
       CGContextSetAlpha(cx, 1);
     }
 
     if (jeffImageRef) {
-      CGContextDrawImage(cx, CGRectMake(jeffPos.x, jeffPos.y, kJeffSize.width, kJeffSize.height), jeffImageRef);
+      CGContextDrawImage(cx, CGRectMake(jeffPos.x, floorf(jeffPos.y), kJeffSize.width, kJeffSize.height), jeffImageRef);
     }
     if (antonImageRef) {
-      CGContextDrawImage(cx, CGRectMake(antonPos.x, antonPos.y, kAntonSize.width, kAntonSize.height), antonImageRef);
+      CGContextDrawImage(cx, CGRectMake(antonPos.x, floorf(antonPos.y), kAntonSize.width, kAntonSize.height), antonImageRef);
     }
   }
 
@@ -199,6 +199,30 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
                                       spriteSize.width, spriteSize.height), imageRef);
     CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width - kSurfaceInsetX,
                                       size.height + tableOffsetY + kSurfaceOffsetY,
+                                      spriteSize.width, spriteSize.height), imageRef);
+    CGImageRelease(imageRef);
+
+    // Launchpad
+    const CGFloat kLaunchpadInsetX = 6;
+    const CGFloat kLaunchpadOffsetY = 1;
+    imageRef = [_launchpadSpritesheet imageAtX:0 y:0];
+    spriteSize = _launchpadSpritesheet.spriteSize;
+    CGContextDrawImage(cx, CGRectMake(kSurfaceInsetX + kLaunchpadInsetX,
+                                      size.height + tableOffsetY + kSurfaceOffsetY + kLaunchpadOffsetY,
+                                      spriteSize.width, spriteSize.height), imageRef);
+    CGImageRelease(imageRef);
+
+    // Turntables
+    const CGFloat kTurntableInsetX = 1;
+    const CGFloat kTurntableOffsetY = 1;
+    const CGFloat kTurntableSpacingX = 2;
+    imageRef = [_recordSpritesheet imageAtX:0 y:0];
+    spriteSize = _recordSpritesheet.spriteSize;
+    CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width - kSurfaceInsetX - kTurntableInsetX,
+                                      size.height + tableOffsetY + kSurfaceOffsetY + kTurntableOffsetY,
+                                      spriteSize.width, spriteSize.height), imageRef);
+    CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width * 2 - kSurfaceInsetX - kTurntableInsetX - kTurntableSpacingX,
+                                      size.height + tableOffsetY + kSurfaceOffsetY + kTurntableOffsetY,
                                       spriteSize.width, spriteSize.height), imageRef);
     CGImageRelease(imageRef);
   }
