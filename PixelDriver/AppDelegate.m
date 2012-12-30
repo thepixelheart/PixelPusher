@@ -719,8 +719,22 @@ AppDelegate *PHApp() {
               [self commitTransitionAnimation];
             }
             [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
+
+          } else if (buttonIndex == PHLaunchpadTopButtonUser1) {
+            _numberOfTimesUserButton1Pressed++;
+
+          } else if (buttonIndex == PHLaunchpadTopButtonUser2) {
+            _numberOfTimesUserButton2Pressed++;
           }
         }
+      }
+
+      if ((_launchpadMode == PHLaunchpadModeAnimations
+           || _launchpadMode == PHLaunchpadModePreview)
+          && (buttonIndex == PHLaunchpadTopButtonUser1
+              || buttonIndex == PHLaunchpadTopButtonUser2)) {
+        [launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
+                             atIndex:buttonIndex];
       }
 
       if (_launchpadMode == PHLaunchpadModeAnimations
@@ -929,6 +943,8 @@ AppDelegate *PHApp() {
 }
 
 - (void)didTick {
+  _numberOfTimesUserButton1Pressed = 0;
+  _numberOfTimesUserButton2Pressed = 1;
   [_moteServer didTick];
 }
 

@@ -58,6 +58,10 @@ AppDelegate *PHApp();
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
 
+// User buttons
+@property (nonatomic, readonly) NSInteger numberOfTimesUserButton1Pressed;
+@property (nonatomic, readonly) NSInteger numberOfTimesUserButton2Pressed;
+
 // Called when a display link frame has completed.
 - (void)didTick;
 

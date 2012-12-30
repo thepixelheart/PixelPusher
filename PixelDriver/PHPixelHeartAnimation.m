@@ -18,7 +18,6 @@
 
 @implementation PHPixelHeartAnimation {
   PHSpritesheet* _spritesheet;
-
   PHSpriteAnimation* _animation;
 }
 

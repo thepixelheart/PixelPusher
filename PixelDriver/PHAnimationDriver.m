@@ -112,11 +112,13 @@ static const float notefreq[PHPitch_Count] = {
   return scaledAmplitude;
 }
 
-- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio motes:(NSArray *)motes {
+- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio motes:(NSArray *)motes didTapUserButton1:(BOOL)didTapUserButton1 didTapUserButton2:(BOOL)didTapUserButton2 {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
   _motes = [motes copy];
+  _didTapUserButton1 = didTapUserButton1;
+  _didTapUserButton2 = didTapUserButton2;
 }
 
 - (void)updateSpectrumWithAudio:(PHFMODRecorder *)audio {

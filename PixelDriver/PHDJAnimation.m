@@ -23,19 +23,19 @@ typedef enum {
   PHDJAnimationStateFadeInCharacters,
   PHDJAnimationStatePauseBeforeWalking,
   PHDJAnimationStateWalkDown,
-  PHDJAnimationStateStandBehindTable,
+  PHDJAnimationStateWaitBehindTable,
 
   PHDJAnimationState_Count
 } PHDJAnimationState;
 
 NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   0.4, // Delay start
-  3,   // Fade in bg
-  1,   // Fade in silhouettes
-  3,   // Fade in characters
-  0.2, // Pause before walking
-  2,   // Walk down
-  1,   // Stand behind table
+  4,   // Fade in bg
+  2,   // Fade in silhouettes
+  5,   // Fade in characters
+  0.5, // Pause before walking
+  3,   // Walk down
+  1,   // Wait behind table
 };
 
 @implementation PHDJAnimation {
@@ -46,6 +46,7 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   PHSpritesheet* _surfaceSpritesheet;
   PHSpritesheet* _recordSpritesheet;
   PHSpritesheet* _launchpadSpritesheet;
+  PHSpritesheet* _pixelHeartSpritesheet;
 
   PHSpriteAnimation* _jeffWalkingAnimation;
   PHSpriteAnimation* _antonWalkingAnimation;
@@ -67,6 +68,7 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     _surfaceSpritesheet = [[PHSpritesheet alloc] initWithName:@"surface" spriteSize:CGSizeMake(22, 10)];
     _recordSpritesheet = [[PHSpritesheet alloc] initWithName:@"record" spriteSize:CGSizeMake(9, 7)];
     _launchpadSpritesheet = [[PHSpritesheet alloc] initWithName:@"launchpad" spriteSize:CGSizeMake(10, 7)];
+    _pixelHeartSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(26, 23)];
 
     _jeffWalkingAnimation = [self walkingAnimationWithSpritesheet:_jeffSpritesheet];
     _antonWalkingAnimation = [self walkingAnimationWithSpritesheet:_antonSpritesheet];
@@ -78,7 +80,11 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  if (self.driver.didTapUserButton1) {
+    _nextStateChangeTick = 0;
+  }
   if (0 == _nextStateChangeTick) {
+    _state = PHDJAnimationStateDelayStart;
     _nextStateChangeTick = [NSDate timeIntervalSinceReferenceDate] + sDurations[_state];
   }
   if ([NSDate timeIntervalSinceReferenceDate] >= _nextStateChangeTick
@@ -128,7 +134,7 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
     spriteOffsetY = kStartingSpriteOffsetY + t * (kFinalSpriteOffsetY - kStartingSpriteOffsetY);
 
-  } else if (_state >= PHDJAnimationStateStandBehindTable) {
+  } else if (_state >= PHDJAnimationStateWaitBehindTable) {
     jeffImageRef = [_jeffSpritesheet imageAtX:2 y:0];
     antonImageRef = [_antonSpritesheet imageAtX:2 y:0];
     spriteOffsetY = kFinalSpriteOffsetY;
@@ -237,10 +243,10 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
 - (PHSpriteAnimation *)walkingAnimationWithSpritesheet:(PHSpritesheet *)spritesheet {
   PHSpriteAnimation* animation = [[PHSpriteAnimation alloc] initWithSpritesheet:spritesheet];
-  [animation addFrameAtX:2 y:0 duration:0.2];
-  [animation addFrameAtX:0 y:1 duration:0.2];
-  [animation addFrameAtX:2 y:0 duration:0.2];
-  [animation addFrameAtX:1 y:1 duration:0.2];
+  [animation addFrameAtX:2 y:0 duration:0.3];
+  [animation addFrameAtX:0 y:1 duration:0.3];
+  [animation addFrameAtX:2 y:0 duration:0.3];
+  [animation addFrameAtX:1 y:1 duration:0.3];
   animation.repeats = YES;
   animation.bounces = NO;
   return animation;
