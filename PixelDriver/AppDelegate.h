@@ -63,6 +63,7 @@ AppDelegate *PHApp();
 @property (nonatomic, readonly) NSInteger numberOfTimesUserButton2Pressed;
 @property (nonatomic, readonly) BOOL isUserButton1Pressed;
 @property (nonatomic, readonly) BOOL isUserButton2Pressed;
+@property (nonatomic, readonly) BOOL isMixerButtonPressed;
 
 // Called when a display link frame has completed.
 - (void)didTick;
