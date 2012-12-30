@@ -55,6 +55,8 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 
 + (NSArray *)allAnimations;
 
+- (CGPathRef)createQuartzPathFromPath:(NSBezierPath *)bezierPath;
+
 + (void)setAdditionalAnimationCreator:(PHAdditionalAnimationBlock)block;
 
 @end
