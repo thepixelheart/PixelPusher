@@ -42,7 +42,7 @@
 
         float centery = size.height / 2;
         float sineAmplitude = sin((float)ix / 2 + _advanceSin);
-        float sineWidth = self.hihatDegrader.value * 8;
+        float sineWidth = self.hihatDegrader.value * 12;
         float sineOffset = centery + sineAmplitude * sineWidth;
         float offsety = sineOffset - iy;
 
