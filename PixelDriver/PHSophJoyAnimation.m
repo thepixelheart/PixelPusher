@@ -19,6 +19,7 @@
 static const NSTimeInterval kTimeUntilSurprised = 3;
 static const CGFloat kMinimumBass = 0.5;
 static const CGFloat kMinimumTimeDoingAnimation = 1;
+static const CGFloat kMinimumEnergyForExcite = 0.5;
 
 @implementation PHSophJoyAnimation {
   PHSpritesheet* _spritesheet;
@@ -89,7 +90,7 @@ static const CGFloat kMinimumTimeDoingAnimation = 1;
       }
     }
 
-    if (!_hasBeenLulling && self.bassDegrader.value < 0.2) {
+    if (!_hasBeenLulling && self.bassDegrader.value < kMinimumBass) {
       _hasBeenLulling = YES;
     }
 
@@ -98,7 +99,7 @@ static const CGFloat kMinimumTimeDoingAnimation = 1;
 
       if (_activeAnimation == _idleAnimation) {
         if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
-          // Bass hit, surprise!
+          // Bass drop, surprise!
           _hasBeenLulling = NO;
           _activeAnimation = _shockedAnimation;
           [_shockedAnimation setCurrentFrameIndex:0];
@@ -108,7 +109,6 @@ static const CGFloat kMinimumTimeDoingAnimation = 1;
         // else wait until a bass drop...
 
       } else {
-        // Bass dropped! Let's figure out how excited sophjoy is.
         CGFloat totalEnergy = _hihatAbsorber + _vocalAbsorber;
         if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
             && _hasBeenLulling
@@ -120,10 +120,10 @@ static const CGFloat kMinimumTimeDoingAnimation = 1;
           _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
 
         } else if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
-                   && totalEnergy < 0.2) {
+                   && totalEnergy < kMinimumEnergyForExcite) {
           _activeAnimation = _idleAnimation;
 
-        } else if (totalEnergy >= 0.6) {
+        } else if (totalEnergy >= kMinimumEnergyForExcite) {
           // Pretty fucking excited!
           _activeAnimation = _jumpAnimation;
           [_activeAnimation advanceToNextAnimation];
@@ -158,6 +158,10 @@ static const CGFloat kMinimumTimeDoingAnimation = 1;
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
     CGImageRelease(imageRef);
   }
+}
+
+- (NSString *)tooltipName {
+  return @"sophjoy";
 }
 
 @end

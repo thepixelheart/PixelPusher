@@ -141,6 +141,7 @@
   _currentFrameIndex = frameIndex;
   _currentFrameAge = 0;
   _direction = 1;
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
 }
 
 - (void)advanceToNextAnimation {
