@@ -35,7 +35,7 @@
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialAnimationIndex = 22;
+static const NSInteger kInitialAnimationIndex = 23;
 static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {

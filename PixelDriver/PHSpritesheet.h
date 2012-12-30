@@ -48,6 +48,8 @@
 
 @property (nonatomic, assign) NSInteger currentFrameIndex;
 
+@property (nonatomic, readonly) BOOL isCurrentFrameStill;
+
 // Forcefully move to the next frame in the animation.
 - (void)advanceToNextAnimation;
 

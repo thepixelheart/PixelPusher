@@ -177,4 +177,9 @@
   }
 }
 
+- (BOOL)isCurrentFrameStill {
+  PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrameIndex];
+  return frame.duration < 0;
+}
+
 @end
