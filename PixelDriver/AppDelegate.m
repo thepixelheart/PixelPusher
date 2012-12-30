@@ -185,7 +185,7 @@ AppDelegate *PHApp() {
   _activeCompositeLayer = 0;
 
   _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
-                                                        spriteSize:CGSizeMake(40, 5)];
+                                                        spriteSize:CGSizeMake(42, 7)];
 
   [PHAnimation setAdditionalAnimationCreator:^NSArray *{
     NSMutableArray* animations = [NSMutableArray array];
@@ -967,15 +967,15 @@ AppDelegate *PHApp() {
     [activeAnimation bitmapWillStartRendering];
     [activeAnimation renderBitmapInContext:wallContext size:wallSize];
     [activeAnimation bitmapDidFinishRendering];
+  }
 
-    if (_isMixerButtonPressed) {
-      CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
-      CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
-      CGContextDrawImage(wallContext, CGRectMake(floorf((wallSize.width - textSize.width) / 2),
-                                                 floorf((wallSize.height - textSize.height) / 2),
-                                                 textSize.width, textSize.height), imageRef);
-      CGImageRelease(imageRef);
-    }
+  if (_isMixerButtonPressed) {
+    CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
+    CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
+    CGContextDrawImage(wallContext, CGRectMake(floorf((wallSize.width - textSize.width) / 2),
+                                               floorf((wallSize.height - textSize.height) / 2),
+                                               textSize.width, textSize.height), imageRef);
+    CGImageRelease(imageRef);
   }
 
   return wallContext;
@@ -992,6 +992,15 @@ AppDelegate *PHApp() {
   [activeAnimation bitmapWillStartRendering];
   [activeAnimation renderBitmapInContext:wallContext size:wallSize];
   [activeAnimation bitmapDidFinishRendering];
+
+  if (_isMixerButtonPressed) {
+    CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
+    CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
+    CGContextDrawImage(wallContext, CGRectMake(floorf((wallSize.width - textSize.width) / 2),
+                                               floorf((wallSize.height - textSize.height) / 2),
+                                               textSize.width, textSize.height), imageRef);
+    CGImageRelease(imageRef);
+  }
 
   return wallContext;
 }
