@@ -83,30 +83,31 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 + (NSArray *)allAnimations {
   NSArray* animations =
   @[[PHResetAnimation animation],
-  [PHSpectrumViewerAnimation animation],
-  [PHRotationAnimation animationWithDirection:1],
-  [PHRotationAnimation animationWithDirection:-1],
+  //[PHSpectrumViewerAnimation animation],
   [PHBassPlate animation],
-  [PHFireworksAnimation animation],
+  //[PHFireworksAnimation animation],
   [PHFlyingFireballAnimation animation],
   [PHMegamanAnimation animation],
   [PHPikachuEmotingAnimation animation],
   [PHSineWaveAnimation animation],
-  [PHPsychadelicBackgroundAnimation animation],
-  [PHLevelsHorizAnimation animation],
+  //[PHPsychadelicBackgroundAnimation animation],
+  //[PHLevelsHorizAnimation animation],
   [PHNyanCatBgAnimation animation],
   [PHNyanCatFgAnimation animation],
   [PHPixelHeartAnimation animation],
   [PHFlyingRectAnimation animation],
-  [PHGameOfLifeAnimation animation],
-  [PHSimpleMoteAnimation animation],
-  [PHTunnelGameAnimation animation],
+  //[PHGameOfLifeAnimation animation],
+  //[PHSimpleMoteAnimation animation],
+  //[PHTunnelGameAnimation animation],
   [PHCountdownAnimation animation],
   [PHRipplesAnimation animation],
   [PHRipplesAnimation animationStationary],
   [PHDJAnimation animation],
   [PHSophJoyAnimation animation],
-  [PHCombAnimation animation]];
+  [PHCombAnimation animation],
+  // Pipe animations
+  [PHRotationAnimation animationWithDirection:1],
+  [PHRotationAnimation animationWithDirection:-1]];
 
   if (nil != sAdditionalAnimationBlock) {
     animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
@@ -121,6 +122,10 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 - (NSString *)tooltipName {
   return NSStringFromClass([self class]);
+}
+
+- (BOOL)isPipeAnimation {
+  return NO;
 }
 
 @end

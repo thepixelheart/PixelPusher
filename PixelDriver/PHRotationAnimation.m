@@ -39,4 +39,8 @@
   return _direction > 0 ? @"Rotate Clockwise" : @"Rotate Counter-Clockwise";
 }
 
+- (BOOL)isPipeAnimation {
+  return YES;
+}
+
 @end

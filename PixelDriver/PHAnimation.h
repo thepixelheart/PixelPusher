@@ -51,6 +51,7 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 - (void)bitmapDidFinishRendering;
 
 - (NSString *)tooltipName;
+- (BOOL)isPipeAnimation; // Default returns NO
 
 + (NSArray *)allAnimations;
 
