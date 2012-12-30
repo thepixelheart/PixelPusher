@@ -353,9 +353,14 @@ AppDelegate *PHApp() {
       return PHLaunchpadColorOff;
     }
 
-    return (isPreviousAnimation
-            ? PHLaunchpadColorGreenFlashing
-            : (isActiveAnimation ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim));
+    PHLaunchpadColor colorMatrix[3 * 3] = {
+      PHLaunchpadColorGreenDim, PHLaunchpadColorGreenBright, PHLaunchpadColorGreenFlashing,
+      PHLaunchpadColorRedDim, PHLaunchpadColorRedBright, PHLaunchpadColorRedFlashing,
+      PHLaunchpadColorAmberDim, PHLaunchpadColorAmberBright, PHLaunchpadColorAmberFlashing
+    };
+    NSInteger index = (isPreviousAnimation ? 2 : (isActiveAnimation ? 1 : 0));
+    NSInteger colorOffset = ((buttonIndex % 8) / 2 + ((buttonIndex / 16) % 3)) % 3;
+    return colorMatrix[colorOffset * 3 + index];
 
   } else if (_launchpadMode == PHLaunchpadModePreview) {
     if (isPipeAnimation) {
@@ -537,7 +542,8 @@ AppDelegate *PHApp() {
   PHAnimation* previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
 
   if (buttonIndex < _animations.count) {
-    [_previewAnimations replaceObjectAtIndex:buttonIndex withObject:[self animationFromButtonIndex:buttonIndex]];
+    [_previewAnimations replaceObjectAtIndex:buttonIndex
+                                  withObject:[self animationFromButtonIndex:buttonIndex]];
     [_animations replaceObjectAtIndex:buttonIndex withObject:previewAnimation];
 
   } else if (buttonIndex < [self numberOfPureAnimations]) {
