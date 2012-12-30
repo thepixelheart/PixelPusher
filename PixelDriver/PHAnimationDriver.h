@@ -197,6 +197,8 @@ typedef enum {
 // Launchpad Buttons
 @property (nonatomic, readonly) BOOL didTapUserButton1;
 @property (nonatomic, readonly) BOOL didTapUserButton2;
+@property (nonatomic, readonly) BOOL isUserButton1Pressed;
+@property (nonatomic, readonly) BOOL isUserButton2Pressed;
 
 // Motes
 @property (nonatomic, readonly) NSArray* motes;
@@ -205,7 +207,12 @@ typedef enum {
 
 @interface PHAnimationDriver()
 
-- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio motes:(NSArray *)motes didTapUserButton1:(BOOL)didTapUserButton1 didTapUserButton2:(BOOL)didTapUserButton2;
+- (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
+                          motes:(NSArray *)motes
+              didTapUserButton1:(BOOL)didTapUserButton1
+              didTapUserButton2:(BOOL)didTapUserButton2
+           isUserButton1Pressed:(BOOL)isUserButton1Pressed
+           isUserButton2Pressed:(BOOL)isUserButton2Pressed;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)
 // values. This may be necessary when a song peaked out all of the values way too

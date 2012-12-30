@@ -35,7 +35,7 @@
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialAnimationIndex = 23;
+static const NSInteger kInitialAnimationIndex = 24;
 static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {
@@ -735,6 +735,13 @@ AppDelegate *PHApp() {
               || buttonIndex == PHLaunchpadTopButtonUser2)) {
         [launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorOff
                              atIndex:buttonIndex];
+
+        if (buttonIndex == PHLaunchpadTopButtonUser1) {
+          _isUserButton1Pressed = pressed;
+
+        } else if (buttonIndex == PHLaunchpadTopButtonUser2) {
+          _isUserButton2Pressed = pressed;
+        }
       }
 
       if (_launchpadMode == PHLaunchpadModeAnimations

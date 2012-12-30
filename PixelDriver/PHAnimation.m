@@ -39,6 +39,7 @@
 #import "PHRipplesAnimation.h"
 #import "PHDJAnimation.h"
 #import "PHSophJoyAnimation.h"
+#import "PHCombAnimation.h"
 
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
@@ -104,7 +105,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   [PHRipplesAnimation animation],
   [PHRipplesAnimation animationStationary],
   [PHDJAnimation animation],
-  [PHSophJoyAnimation animation]];
+  [PHSophJoyAnimation animation],
+  [PHCombAnimation animation]];
 
   if (nil != sAdditionalAnimationBlock) {
     animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
