@@ -348,16 +348,17 @@ AppDelegate *PHApp() {
   PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
   BOOL isPipeAnimation = animation.isPipeAnimation;
 
+  static PHLaunchpadColor colorMatrix[3 * 3] = {
+    PHLaunchpadColorGreenDim, PHLaunchpadColorGreenBright, PHLaunchpadColorGreenFlashing,
+    PHLaunchpadColorRedDim, PHLaunchpadColorRedBright, PHLaunchpadColorRedFlashing,
+    PHLaunchpadColorAmberDim, PHLaunchpadColorAmberBright, PHLaunchpadColorAmberFlashing
+  };
+
   if (_launchpadMode == PHLaunchpadModeAnimations) {
     if (isPipeAnimation) {
       return PHLaunchpadColorOff;
     }
 
-    PHLaunchpadColor colorMatrix[3 * 3] = {
-      PHLaunchpadColorGreenDim, PHLaunchpadColorGreenBright, PHLaunchpadColorGreenFlashing,
-      PHLaunchpadColorRedDim, PHLaunchpadColorRedBright, PHLaunchpadColorRedFlashing,
-      PHLaunchpadColorAmberDim, PHLaunchpadColorAmberBright, PHLaunchpadColorAmberFlashing
-    };
     NSInteger index = (isPreviousAnimation ? 2 : (isActiveAnimation ? 1 : 0));
     NSInteger colorOffset = ((buttonIndex % 8) / 2 + ((buttonIndex / 16) % 3)) % 3;
     return colorMatrix[colorOffset * 3 + index];
@@ -368,20 +369,21 @@ AppDelegate *PHApp() {
     }
 
     BOOL isPreviewAnimation = [self buttonIndexOfAnimation:_previewAnimation] == buttonIndex;
-    return (isPreviousAnimation
-            ? PHLaunchpadColorGreenFlashing
-            : (isActiveAnimation
-               ? (isPreviewAnimation
-                  ? PHLaunchpadColorRedBright
-                  : PHLaunchpadColorGreenBright)
-               : (isPreviewAnimation
-                  ? PHLaunchpadColorYellowBright
-                  : PHLaunchpadColorAmberDim)));
+
+    if (!isPreviousAnimation && !isActiveAnimation && isPreviewAnimation) {
+      return PHLaunchpadColorYellowBright;
+    }
+    NSInteger index = (isPreviousAnimation ? 2 : (isActiveAnimation ? 1 : 0));
+    NSInteger colorOffset = ((buttonIndex % 8) / 2 + ((buttonIndex / 16) % 3)) % 3;
+    return colorMatrix[colorOffset * 3 + index];
 
   } else if (_launchpadMode == PHLaunchpadModeComposite) {
     if (buttonIndex < [self numberOfPureAnimations]) {
       NSInteger activeAnimationIndex = [_previewCompositeAnimationBeingEdited indexOfAnimationForLayer:_activeCompositeLayer];
-      return (buttonIndex == activeAnimationIndex) ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
+
+      NSInteger index = ((buttonIndex == activeAnimationIndex) ? 1 : 0);
+      NSInteger colorOffset = ((buttonIndex % 8) / 2 + ((buttonIndex / 16) % 3)) % 3;
+      return colorMatrix[colorOffset * 3 + index];
 
     } else {
       NSInteger activeCompositeIndex = [self buttonIndexOfAnimation:_previewCompositeAnimationBeingEdited];
@@ -557,6 +559,10 @@ AppDelegate *PHApp() {
     PHAnimation* animation = [self animationFromButtonIndex:buttonIndex];
     [_previewCompositeAnimations replaceObjectAtIndex:index withObject:animation];
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
+
+    if (_previewCompositeAnimationBeingEdited == previewAnimation) {
+      _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[index];
+    }
   }
 }
 
