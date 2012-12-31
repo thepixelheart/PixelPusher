@@ -34,7 +34,7 @@ static const CGFloat kFallPercStart = 0.4;
     dateComponents.year = 2013;
     [dateComponents setCalendar:[NSCalendar currentCalendar]];
     _timestampToCountdownTo = [[dateComponents date] timeIntervalSinceReferenceDate];
-    _timestampToCountdownTo = [NSDate timeIntervalSinceReferenceDate] + 11;
+    //_timestampToCountdownTo = [NSDate timeIntervalSinceReferenceDate] + 11;
 
     _font = [NSFont fontWithName:@"Visitor TT1 BRK" size:kFontSize];
     _yearFont = [NSFont fontWithName:@"Visitor TT1 BRK" size:kYearFontSize];
