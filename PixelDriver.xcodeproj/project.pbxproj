@@ -87,6 +87,7 @@
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
 		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
+		66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
 		66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */; };
 		66F664101685504F001E77BC /* PHSpritesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640F1685504F001E77BC /* PHSpritesheet.m */; };
@@ -258,6 +259,8 @@
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
 		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
+		66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowerAnimation.h; sourceTree = "<group>"; };
+		66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlowerAnimation.m; sourceTree = "<group>"; };
 		66F6640716854FA3001E77BC /* spritesheets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spritesheets; sourceTree = "<group>"; };
 		66F6640A16854FF8001E77BC /* PHMegamanAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMegamanAnimation.h; sourceTree = "<group>"; };
 		66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMegamanAnimation.m; sourceTree = "<group>"; };
@@ -352,6 +355,8 @@
 				66A64E93169158F400A701BA /* PHGifAnimation.m */,
 				3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */,
 				3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */,
+				66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */,
+				66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -787,6 +792,7 @@
 				66A64E9D1691693600A701BA /* SCEvents.m in Sources */,
 				66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */,
 				3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */,
+				66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
