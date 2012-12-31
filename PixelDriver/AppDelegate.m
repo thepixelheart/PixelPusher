@@ -176,6 +176,12 @@ AppDelegate *PHApp() {
 
     [gifs addObject:image];
   }
+
+  for (NSUInteger i = 0; i < gifs.count; ++i) {
+    NSInteger nElements = gifs.count - i;
+    NSInteger n = (arc4random() % nElements) + i;
+    [gifs exchangeObjectAtIndex:i withObjectAtIndex:n];
+  }
   _gifs = [gifs copy];
 }
 
