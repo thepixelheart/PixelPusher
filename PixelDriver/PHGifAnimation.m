@@ -134,4 +134,8 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   }
 }
 
+- (NSString *)tooltipName {
+  return @"gifs";
+}
+
 @end
