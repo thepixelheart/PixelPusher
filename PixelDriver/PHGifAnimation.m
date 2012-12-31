@@ -23,6 +23,7 @@ static const NSTimeInterval kTransitionDuration = 0.5;
 @implementation PHGifAnimation {
   NSImage* _activeGif;
   NSImage* _previousGif;
+  BOOL _hasPlayedOnce;
   NSTimeInterval _nextFrameTick;
   NSTimeInterval _nextFrameTickForPreviousGif;
 
@@ -58,6 +59,11 @@ static const NSTimeInterval kTransitionDuration = 0.5;
       numberOfFrames = 1;
     }
     currentFrame = (currentFrame + 1) % numberOfFrames;
+    if (currentFrame == 0 && gif == _activeGif && !_hasPlayedOnce) {
+      _hasPlayedOnce = YES;
+
+      _nextGifChangeTick = [NSDate timeIntervalSinceReferenceDate] + (NSTimeInterval)(arc4random_uniform(kWaitToChangeDurationMax - kWaitToChangeDurationMin) + kWaitToChangeDurationMin) / 100. + kTransitionDuration;
+    }
     [bitmapImage setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithInt:currentFrame]];
 
     float duration = [[bitmapImage valueForProperty:NSImageCurrentFrameDuration] floatValue];
@@ -94,7 +100,8 @@ static const NSTimeInterval kTransitionDuration = 0.5;
     }
 
     if ((nil == _activeGif && self.driver.gifs.count > 0)
-        || (([NSDate timeIntervalSinceReferenceDate] >= _nextGifChangeTick
+        || (((_hasPlayedOnce
+              && [NSDate timeIntervalSinceReferenceDate] >= _nextGifChangeTick)
              || (buttonPressed && _buttonWasntPressed))
             && self.driver.gifs.count > 1)) {
       _buttonWasntPressed = NO;
@@ -107,8 +114,8 @@ static const NSTimeInterval kTransitionDuration = 0.5;
         _previousGif = _activeGif;
       }
       _activeGif = notThisGifGifs[arc4random_uniform(notThisGifGifs.count)];
-      _nextGifChangeTick = [NSDate timeIntervalSinceReferenceDate] + (NSTimeInterval)(arc4random_uniform(kWaitToChangeDurationMax - kWaitToChangeDurationMin) + kWaitToChangeDurationMin) / 100. + kTransitionDuration;
       _transitionStartedAtTick = [NSDate timeIntervalSinceReferenceDate];
+      _hasPlayedOnce = NO;
     }
 
     CGFloat alpha = 1;

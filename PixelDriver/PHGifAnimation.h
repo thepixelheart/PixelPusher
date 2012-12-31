@@ -17,5 +17,4 @@
 #import "PHAnimation.h"
 
 @interface PHGifAnimation : PHAnimation
-
 @end
