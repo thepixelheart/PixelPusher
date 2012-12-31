@@ -641,6 +641,7 @@ AppDelegate *PHApp() {
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
 
     if (_previewCompositeAnimationBeingEdited == previewAnimation) {
+      _compositeAnimationBeingEdited = _compositeAnimations[index];
       _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[index];
     }
   }
