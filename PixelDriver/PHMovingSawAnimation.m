@@ -39,10 +39,10 @@ static const int kSpeed = 1;
     CGMutablePathRef pathRef = CGPathCreateMutable();
     
     /* do something with pathRef. For example:*/
-    CGPathMoveToPoint(pathRef, NULL, - 2 + _position, size.height);
-    CGPathAddLineToPoint(pathRef, NULL, -2 + _position + size.height, 0);
-    CGPathAddLineToPoint(pathRef, NULL, _position + size.height + kSawWidth + 2, 0);
-    CGPathAddLineToPoint(pathRef, NULL, _position + kSawWidth + 2, size.height);
+    CGPathMoveToPoint(pathRef, NULL, - 2 + _position, size.height + 14);
+    CGPathAddLineToPoint(pathRef, NULL, -2 + _position + size.height, -14);
+    CGPathAddLineToPoint(pathRef, NULL, _position + size.height + kSawWidth + 2, -14);
+    CGPathAddLineToPoint(pathRef, NULL, _position + kSawWidth + 2, size.height + 14);
     
     CGPathCloseSubpath(pathRef);
     
@@ -89,7 +89,6 @@ static const int kSpeed = 1;
                 [_saws addObject:saw];
             }
         }
-        CGFloat val = self.hihatDegrader.value;
         // tick and render the rects;
         
         for(PHSaw* saw in _saws) {

@@ -641,6 +641,7 @@ AppDelegate *PHApp() {
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
 
     if (_previewCompositeAnimationBeingEdited == previewAnimation) {
+      _compositeAnimationBeingEdited = _compositeAnimations[index];
       _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[index];
     }
   }
@@ -654,10 +655,10 @@ AppDelegate *PHApp() {
 
     NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
 
+    [self swapAnimationsAtButtonIndex:buttonIndex];
+
     _activeAnimation = [self animationFromButtonIndex:buttonIndex];
     _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
-
-    [self swapAnimationsAtButtonIndex:buttonIndex];
 
     if (_instantCrossfade) {
       [self commitTransitionAnimation];
