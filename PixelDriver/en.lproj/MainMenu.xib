@@ -299,6 +299,7 @@
 					<string key="NSFrameSize">{480, 320}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{480, 320}</string>
@@ -489,7 +490,7 @@
 							<string key="NSFrame">{{320, 125}, {13, 17}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="270304795"/>
+							<reference key="NSNextKeyView" ref="846873283"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="638445921">
@@ -635,7 +636,7 @@
 							<string key="NSFrame">{{458, 109}, {89, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="205827388"/>
+							<reference key="NSNextKeyView" ref="270304795"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="525358321">
@@ -668,7 +669,7 @@
 								<int key="NSCellFlags2">272630784</int>
 								<string key="NSContents"/>
 								<reference key="NSSupport" ref="1005994638"/>
-								<string key="NSPlaceholderString">:(</string>
+								<string key="NSPlaceholderString">&lt;3</string>
 								<string key="NSCellIdentifier">_NS:1535</string>
 								<reference key="NSControlView" ref="917237994"/>
 								<reference key="NSBackgroundColor" ref="641882385"/>
@@ -703,6 +704,7 @@
 							<string key="NSFrame">{{502, 20}, {133, 16}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="773687098">
@@ -814,7 +816,7 @@
 							<string key="NSFrame">{{102, 86}, {121, 17}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="846873283"/>
+							<reference key="NSNextKeyView" ref="205827388"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="346420680">
@@ -5651,6 +5653,30 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PHInfoPanel</string>
 					<string key="superclassName">NSPanel</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="didTapListeningButton:">id</string>
+						<string key="setAudioInput:">NSPopUpButton</string>
+						<string key="setAudioOutput:">NSPopUpButton</string>
+						<string key="setVolumeLevel:">NSSlider</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="didTapListeningButton:">
+							<string key="name">didTapListeningButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setAudioInput:">
+							<string key="name">setAudioInput:</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBActionInfo" key="setAudioOutput:">
+							<string key="name">setAudioOutput:</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBActionInfo" key="setVolumeLevel:">
+							<string key="name">setVolumeLevel:</string>
+							<string key="candidateClassName">NSSlider</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="audioOutputButton">NSPopUpButton</string>
 						<string key="audioRecordingButton">NSPopUpButton</string>
@@ -5873,7 +5899,7 @@
 			<string key="NSMenuCheckmark">{11, 11}</string>
 			<string key="NSMenuMixedState">{10, 3}</string>
 			<string key="ableton_logo_screen">{136.08454058118801, 71.282378399669909}</string>
-			<string key="launchpad">{175, 15}</string>
+			<string key="launchpad">{40, 14}</string>
 			<string key="novation">{520, 57}</string>
 		</dictionary>
 	</data>
