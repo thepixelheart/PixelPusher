@@ -44,6 +44,7 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  CGContextSaveGState(cx);
   CGPoint centerPoint = CGPointMake(size.width / 2, size.height / 2);
   CGFloat centerRadius = self.vocalDegrader.value * 8;
   CGFloat maxPetalLength = size.width * 3 / 4;
@@ -109,6 +110,7 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
     petal.scale = 0.01;
     [_petals addObject:petal];
   }
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {
