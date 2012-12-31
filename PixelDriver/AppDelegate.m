@@ -95,6 +95,7 @@ AppDelegate *PHApp() {
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
+@synthesize gifs = _gifs;
 
 - (void)prepareWindow:(PHWallWindow *)window {
   [window setAcceptsMouseMovedEvents:YES];
@@ -176,6 +177,14 @@ AppDelegate *PHApp() {
     [gifs addObject:image];
   }
   _gifs = [gifs copy];
+}
+
+- (NSArray *)gifs {
+  NSMutableArray* gifs = [NSMutableArray array];
+  for (NSImage* gif in _gifs) {
+    [gifs addObject:[gif copy]];
+  }
+  return gifs;
 }
 
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
