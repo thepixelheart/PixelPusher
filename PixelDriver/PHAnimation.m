@@ -46,6 +46,7 @@
 #import "PHMirrorAnimation.h"
 #import "PHBassShooterAnimation.h"
 #import "PHFlowerAnimation.h"
+#import "PHDaftPixelAnimation.h"
 
 const NSInteger PHInitialAnimationIndex = 20;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -133,6 +134,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
 
+    [PHDaftPixelAnimation animation],
     ];
 
   // Obsolete animations.
