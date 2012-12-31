@@ -42,7 +42,8 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                        didTapUserButton1:numberOfTimesUser1Pressed > 0
                                        didTapUserButton2:numberOfTimesUser2Pressed > 0
                                     isUserButton1Pressed:isUserButton1Pressed
-                                    isUserButton2Pressed:isUserButton2Pressed];
+                                    isUserButton2Pressed:isUserButton2Pressed
+                                                    gifs:PHApp().gifs];
 
     NSDictionary* userInfo = @{
       PHDisplayLinkFiredDriverKey : displayLink.animationDriver

@@ -203,6 +203,9 @@ typedef enum {
 // Motes
 @property (nonatomic, readonly) NSArray* motes;
 
+// Gifs
+@property (nonatomic, readonly) NSArray* gifs;
+
 @end
 
 @interface PHAnimationDriver()
@@ -212,7 +215,8 @@ typedef enum {
               didTapUserButton1:(BOOL)didTapUserButton1
               didTapUserButton2:(BOOL)didTapUserButton2
            isUserButton1Pressed:(BOOL)isUserButton1Pressed
-           isUserButton2Pressed:(BOOL)isUserButton2Pressed;
+           isUserButton2Pressed:(BOOL)isUserButton2Pressed
+                           gifs:(NSArray *)gifs;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)
 // values. This may be necessary when a song peaked out all of the values way too

@@ -55,6 +55,11 @@
 		66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D7516892A2E009F7B33 /* PHWaveFormView.m */; };
 		66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */; };
 		66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */; };
+		66A64E911691583600A701BA /* gifs in Resources */ = {isa = PBXBuildFile; fileRef = 66A64E901691583600A701BA /* gifs */; };
+		66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E93169158F400A701BA /* PHGifAnimation.m */; };
+		66A64E9C1691693600A701BA /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E981691693600A701BA /* SCEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66A64E9D1691693600A701BA /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9B1691693600A701BA /* SCEvents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9F169176E500A701BA /* PHMirrorAnimation.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
@@ -179,6 +184,17 @@
 		66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAdventureTimeAnimation.m; sourceTree = "<group>"; };
 		66A64E8D1691441600A701BA /* PHPixelRainAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelRainAnimation.h; sourceTree = "<group>"; };
 		66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelRainAnimation.m; sourceTree = "<group>"; };
+		66A64E901691583600A701BA /* gifs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gifs; sourceTree = "<group>"; };
+		66A64E92169158F400A701BA /* PHGifAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGifAnimation.h; sourceTree = "<group>"; };
+		66A64E93169158F400A701BA /* PHGifAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGifAnimation.m; sourceTree = "<group>"; };
+		66A64E961691693600A701BA /* SCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCConstants.h; sourceTree = "<group>"; };
+		66A64E971691693600A701BA /* SCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvent.h; sourceTree = "<group>"; };
+		66A64E981691693600A701BA /* SCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvent.m; sourceTree = "<group>"; };
+		66A64E991691693600A701BA /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
+		66A64E9A1691693600A701BA /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
+		66A64E9B1691693600A701BA /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
+		66A64E9E169176E400A701BA /* PHMirrorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMirrorAnimation.h; sourceTree = "<group>"; };
+		66A64E9F169176E500A701BA /* PHMirrorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMirrorAnimation.m; sourceTree = "<group>"; };
 		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
 		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
 		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
@@ -279,6 +295,8 @@
 				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
 				660D25981689B20000727312 /* PHRotationAnimation.h */,
 				660D25991689B20000727312 /* PHRotationAnimation.m */,
+				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
+				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
@@ -327,6 +345,8 @@
 				66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */,
 				3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */,
 				3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */,
+				66A64E92169158F400A701BA /* PHGifAnimation.h */,
+				66A64E93169158F400A701BA /* PHGifAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -380,6 +400,19 @@
 				663C83A8168EE542003B88A1 /* PHProcessingSource.m */,
 			);
 			name = Processing;
+			sourceTree = "<group>";
+		};
+		66A64E951691693600A701BA /* SCEvents */ = {
+			isa = PBXGroup;
+			children = (
+				66A64E961691693600A701BA /* SCConstants.h */,
+				66A64E971691693600A701BA /* SCEvent.h */,
+				66A64E981691693600A701BA /* SCEvent.m */,
+				66A64E991691693600A701BA /* SCEventListenerProtocol.h */,
+				66A64E9A1691693600A701BA /* SCEvents.h */,
+				66A64E9B1691693600A701BA /* SCEvents.m */,
+			);
+			path = SCEvents;
 			sourceTree = "<group>";
 		};
 		66A8E013167C074100FBAFE8 /* FMOD */ = {
@@ -447,6 +480,7 @@
 				66DC7B571676FC2F00453E8F /* src */,
 				66DC7B791677255D00453E8F /* Resources */,
 				66A8E013167C074100FBAFE8 /* FMOD */,
+				66A64E951691693600A701BA /* SCEvents */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
@@ -522,6 +556,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66A64E901691583600A701BA /* gifs */,
 				66F6640716854FA3001E77BC /* spritesheets */,
 				663C83A2168ECD84003B88A1 /* fonts */,
 				66DC7B661676FC3000453E8F /* MainMenu.xib */,
@@ -658,6 +693,7 @@
 				662DE55516868AF400F300CE /* novation.png in Resources */,
 				662DE55716868BB100F300CE /* launchpad.png in Resources */,
 				663C83A3168ECD84003B88A1 /* fonts in Resources */,
+				66A64E911691583600A701BA /* gifs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,6 +777,10 @@
 				66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */,
 				66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */,
 				3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */,
+				66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */,
+				66A64E9C1691693600A701BA /* SCEvent.m in Sources */,
+				66A64E9D1691693600A701BA /* SCEvents.m in Sources */,
+				66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

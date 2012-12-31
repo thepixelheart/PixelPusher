@@ -16,5 +16,17 @@
 
 #import "PHAnimation.h"
 
-@interface PHPixelRainAnimation : PHAnimation
+typedef enum {
+  PHMirrorAnimationTypeLeft,
+  PHMirrorAnimationTypeRight,
+  PHMirrorAnimationTypeTop,
+  PHMirrorAnimationTypeBottom,
+
+  PHMirrorAnimationType_Count,
+} PHMirrorAnimationType;
+
+@interface PHMirrorAnimation : PHAnimation
+
++ (id)animationWithType:(PHMirrorAnimationType)type;
+
 @end

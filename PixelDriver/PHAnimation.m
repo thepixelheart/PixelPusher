@@ -42,6 +42,8 @@
 #import "PHAdventureTimeAnimation.h"
 #import "PHPixelRainAnimation.h"
 #import "PHMovingSawAnimation.h"
+#import "PHGifAnimation.h"
+#import "PHMirrorAnimation.h"
 
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -111,13 +113,21 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHCountdownAnimation animation],
     [PHAdventureTimeAnimation animation],
 
-  // Row 3
+    // Row 3
     [PHPixelRainAnimation animation],
     [PHMovingSawAnimation animation],
+    [PHGifAnimation animation],
 
     // Pipe animations
     [PHRotationAnimation animationWithDirection:1],
-    [PHRotationAnimation animationWithDirection:-1]];
+    [PHRotationAnimation animationWithDirection:-1],
+
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+
+    ];
 
   // Obsolete animations.
   //[PHSpectrumViewerAnimation animation],

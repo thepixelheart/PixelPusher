@@ -31,6 +31,7 @@
 #import "PHProcessingServer.h"
 #import "PHProcessingSource.h"
 #import "PHTooltipWindow.h"
+#import "SCEvents.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -46,6 +47,9 @@ typedef enum {
 AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
+
+@interface AppDelegate() <SCEventListenerProtocol>
+@end
 
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
@@ -84,10 +88,14 @@ AppDelegate *PHApp() {
 
   // Tooltip
   BOOL _showingTooltip;
+
+  // Watching changes to the filesystem.
+  SCEvents* _fsEvents;
 }
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
+@synthesize gifs = _gifs;
 
 - (void)prepareWindow:(PHWallWindow *)window {
   [window setAcceptsMouseMovedEvents:YES];
@@ -120,9 +128,77 @@ AppDelegate *PHApp() {
   return [animations mutableCopy];
 }
 
+- (NSString *)pathForUserGifs {
+  NSString* userGifsPath = @"~/Library/Application Support/PixelDriver/gifs/";
+  return [userGifsPath stringByExpandingTildeInPath];
+}
+
+- (void)loadGifs {
+  NSFileManager* fm = [NSFileManager defaultManager];
+
+  NSString* userGifsPath = [self pathForUserGifs];
+
+  NSString* gifsPath = PHFilenameForResourcePath(@"gifs");
+  if ([fm fileExistsAtPath:userGifsPath] == NO) {
+    [fm createDirectoryAtPath:userGifsPath withIntermediateDirectories:YES attributes:nil error:nil];
+  }
+
+  NSError* error = nil;
+  NSArray* filenames = [fm contentsOfDirectoryAtPath:gifsPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+  for (NSString* filename in filenames) {
+    NSString* gifPath = [gifsPath stringByAppendingPathComponent:filename];
+    NSString* userGifPath = [userGifsPath stringByAppendingPathComponent:filename];
+    [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
+  }
+
+  error = nil;
+  filenames = [fm contentsOfDirectoryAtPath:userGifsPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+  NSMutableArray* gifs = [NSMutableArray array];
+  for (NSString* path in filenames) {
+    NSString* fullPath = [userGifsPath stringByAppendingPathComponent:path];
+    NSImage* image = [[NSImage alloc] initWithContentsOfFile:fullPath];
+    if (!image.isValid && image.representations.count > 0) {
+      continue;
+    }
+    NSBitmapImageRep* bitmapImage = [[image representations] objectAtIndex:0];
+    if ([[bitmapImage valueForProperty:NSImageFrameCount] intValue] == 0) {
+      // No frames in this image.
+      continue;
+    }
+
+    [gifs addObject:image];
+  }
+  _gifs = [gifs copy];
+}
+
+- (NSArray *)gifs {
+  NSMutableArray* gifs = [NSMutableArray array];
+  for (NSImage* gif in _gifs) {
+    [gifs addObject:[gif copy]];
+  }
+  return gifs;
+}
+
+- (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
+  [self loadGifs];
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
+  [self loadGifs];
+
+  _fsEvents = [[SCEvents alloc] init];
+  _fsEvents.delegate = self;
+  [_fsEvents startWatchingPaths:@[[self pathForUserGifs]]];
 
   [self hideTooltip];
 

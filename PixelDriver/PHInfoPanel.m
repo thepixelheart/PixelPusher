@@ -95,6 +95,10 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
   [self updateListeningState];
 }
 
+- (IBAction)didTapGifsButton:(id)sender {
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:PHApp().pathForUserGifs]];
+}
+
 - (IBAction)setAudioOutput:(NSPopUpButton *)sender {
   [PHApp().audioRecorder setPlaybackDriverIndex:(int)sender.indexOfSelectedItem];
   [self updateListeningState];

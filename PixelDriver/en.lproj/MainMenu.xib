@@ -298,10 +298,8 @@
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 320}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{480, 320}</string>
 				<string key="NSMaxSize">{480, 320}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -317,11 +315,13 @@
 				<string key="NSWindowContentMaxSize">{480, 320}</string>
 				<string key="NSWindowContentMinSize">{480, 320}</string>
 				<object class="NSView" key="NSWindowView" id="575175848">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<string key="NSFrameSize">{480, 320}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{480, 320}</string>
 				<string key="NSMaxSize">{480, 320}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -547,6 +547,32 @@
 							</object>
 							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
+						<object class="NSButton" id="512817118">
+							<reference key="NSNextResponder" ref="805406511"/>
+							<int key="NSvFlags">269</int>
+							<string key="NSFrame">{{18, 13}, {148, 32}}</string>
+							<reference key="NSSuperview" ref="805406511"/>
+							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView" ref="850215795"/>
+							<string key="NSReuseIdentifierKey">_NS:9</string>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="1056358872">
+								<int key="NSCellFlags">67108864</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Open GIFs Folder</string>
+								<reference key="NSSupport" ref="517033939"/>
+								<string key="NSCellIdentifier">_NS:9</string>
+								<reference key="NSControlView" ref="512817118"/>
+								<int key="NSButtonFlags">-2034876416</int>
+								<int key="NSButtonFlags2">1</int>
+								<reference key="NSAlternateImage" ref="517033939"/>
+								<string key="NSAlternateContents">Stop Listening</string>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
+							</object>
+							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
+						</object>
 						<object class="NSSlider" id="321865933">
 							<reference key="NSNextResponder" ref="805406511"/>
 							<int key="NSvFlags">271</int>
@@ -704,7 +730,6 @@
 							<string key="NSFrame">{{502, 20}, {133, 16}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="773687098">
@@ -730,7 +755,7 @@
 							<string key="NSFrame">{{561, 74}, {151, 36}}</string>
 							<reference key="NSSuperview" ref="805406511"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="850215795"/>
+							<reference key="NSNextKeyView" ref="512817118"/>
 							<string key="NSReuseIdentifierKey">_NS:1535</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="619261817">
@@ -882,7 +907,7 @@
 					<reference key="NSNextKeyView" ref="324984454"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{652, 537}</string>
 				<string key="NSMaxSize">{652, 537}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -3005,7 +3030,7 @@
 					<string key="NSFrameSize">{404, 392}</string>
 					<reference key="NSNextKeyView" ref="617930603"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{404, 392}</string>
 				<string key="NSMaxSize">{404, 392}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -3046,7 +3071,7 @@
 					<reference key="NSNextKeyView" ref="475399149"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -3350,6 +3375,14 @@
 					<int key="connectionID">874</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">didTapGifsButton:</string>
+						<reference key="source" ref="915157730"/>
+						<reference key="destination" ref="512817118"/>
+					</object>
+					<int key="connectionID">878</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">wallView</string>
 						<reference key="source" ref="678476321"/>
@@ -3645,6 +3678,7 @@
 							<reference ref="52633319"/>
 							<reference ref="980117815"/>
 							<reference ref="815892251"/>
+							<reference ref="512817118"/>
 						</array>
 						<reference key="parent" ref="915157730"/>
 					</object>
@@ -5155,6 +5189,19 @@
 						<reference key="object" ref="773687098"/>
 						<reference key="parent" ref="815892251"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">875</int>
+						<reference key="object" ref="512817118"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="1056358872"/>
+						</array>
+						<reference key="parent" ref="805406511"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">876</int>
+						<reference key="object" ref="1056358872"/>
+						<reference key="parent" ref="512817118"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -5601,12 +5648,14 @@
 				<string key="870.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="872.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="873.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="875.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="876.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">874</int>
+			<int key="maxID">878</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5653,30 +5702,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PHInfoPanel</string>
 					<string key="superclassName">NSPanel</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="didTapListeningButton:">id</string>
-						<string key="setAudioInput:">NSPopUpButton</string>
-						<string key="setAudioOutput:">NSPopUpButton</string>
-						<string key="setVolumeLevel:">NSSlider</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="didTapListeningButton:">
-							<string key="name">didTapListeningButton:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setAudioInput:">
-							<string key="name">setAudioInput:</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBActionInfo" key="setAudioOutput:">
-							<string key="name">setAudioOutput:</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBActionInfo" key="setVolumeLevel:">
-							<string key="name">setVolumeLevel:</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="audioOutputButton">NSPopUpButton</string>
 						<string key="audioRecordingButton">NSPopUpButton</string>
