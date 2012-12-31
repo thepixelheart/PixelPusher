@@ -116,6 +116,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     // Row 3
     [PHPixelRainAnimation animation],
     [PHMovingSawAnimation animation],
+
     [PHGifAnimation animation],
 
     // Pipe animations

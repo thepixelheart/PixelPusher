@@ -89,7 +89,6 @@ static const int kSpeed = 1;
                 [_saws addObject:saw];
             }
         }
-        CGFloat val = self.hihatDegrader.value;
         // tick and render the rects;
         
         for(PHSaw* saw in _saws) {
