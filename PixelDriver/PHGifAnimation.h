@@ -16,5 +16,6 @@
 
 #import "PHAnimation.h"
 
-@interface PHPixelRainAnimation : PHAnimation
+@interface PHGifAnimation : PHAnimation
+
 @end

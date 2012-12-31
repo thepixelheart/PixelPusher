@@ -41,6 +41,7 @@
 #import "PHCombAnimation.h"
 #import "PHAdventureTimeAnimation.h"
 #import "PHPixelRainAnimation.h"
+#import "PHGifAnimation.h"
 
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -112,6 +113,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
   // Row 3
     [PHPixelRainAnimation animation],
+    [PHGifAnimation animation],
 
     // Pipe animations
     [PHRotationAnimation animationWithDirection:1],

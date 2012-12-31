@@ -65,6 +65,10 @@ AppDelegate *PHApp();
 @property (nonatomic, readonly) BOOL isUserButton2Pressed;
 @property (nonatomic, readonly) BOOL isMixerButtonPressed;
 
+// Gifs
+@property (nonatomic, readonly) NSArray* gifs;
+- (NSString *)pathForUserGifs;
+
 // Called when a display link frame has completed.
 - (void)didTick;
 
