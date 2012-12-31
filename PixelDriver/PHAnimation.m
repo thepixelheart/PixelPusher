@@ -91,48 +91,50 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 + (NSArray *)allAnimations {
   NSArray* animations =
   // Row 1
-  @[[PHResetAnimation animation],
-    [PHPixelHeartAnimation animation],
-    
+  @[
+    [PHResetAnimation animation],
+    [PHBassPlate animation],
+
     [PHMegamanAnimation animation],
     [PHPikachuEmotingAnimation animation],
 
     [PHDJAnimation animation],
-    [PHFlyingFireballAnimation animation],
+    [PHRotationAnimation animationWithDirection:1],
 
-    [PHCombAnimation animation],
-    [PHFlyingRectAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
 
     // Row 2
-    [PHSineWaveAnimation animation],
-    [PHBassPlate animation],
+    [PHPixelHeartAnimation animation],
+    [PHGifAnimation animation],
 
     [PHSophJoyAnimation animation],
     [PHNyanCatAnimation animation],
 
+    [PHAdventureTimeAnimation animation],
+    [PHRotationAnimation animationWithDirection:-1],
+
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+
+    // Row 3
+    [PHCombAnimation animation],
+    [PHMovingSawAnimation animation],
+
+    [PHBassShooterAnimation animation],
+    [PHCountdownAnimation animation],
+
+    [PHPixelRainAnimation animation],
+    [PHFlyingFireballAnimation animation],
+
     [PHRipplesAnimation animationStationary],
     [PHRipplesAnimation animation],
 
-    [PHCountdownAnimation animation],
-    [PHAdventureTimeAnimation animation],
-
-    // Row 3
-    [PHPixelRainAnimation animation],
-    [PHMovingSawAnimation animation],
-
-    [PHGifAnimation animation],
-    [PHBassShooterAnimation animation],
-
+    // Row 4
+    [PHFlyingRectAnimation animation],
     [PHFlowerAnimation animation],
 
-    // Pipe animations
-    [PHRotationAnimation animationWithDirection:1],
-    [PHRotationAnimation animationWithDirection:-1],
-
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+    [PHSineWaveAnimation animation],
 
     [PHDaftPixelAnimation animation],
     ];
