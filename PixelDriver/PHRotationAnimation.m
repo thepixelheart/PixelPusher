@@ -28,7 +28,12 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _rotationAdvance += self.secondsSinceLastTick * _direction * self.bassDegrader.value;
+  CGFloat direction = _direction;
+  if (self.driver.isUserButton1Pressed
+      || self.driver.isUserButton2Pressed) {
+    direction = -direction;
+  }
+  _rotationAdvance += self.secondsSinceLastTick * direction * self.bassDegrader.value;
 
   CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
   CGContextRotateCTM(cx, _rotationAdvance);
