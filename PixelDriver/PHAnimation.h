@@ -20,6 +20,8 @@
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
 
+const NSInteger PHInitialAnimationIndex;
+
 typedef NSArray* (^PHAdditionalAnimationBlock)();
 
 /**

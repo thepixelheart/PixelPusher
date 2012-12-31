@@ -35,7 +35,6 @@
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialAnimationIndex = 3;
 static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {
@@ -178,7 +177,7 @@ AppDelegate *PHApp() {
 
   // Arbitrary starting animations. Change these if you're working on animations
   // and want the startup animation to be something else.
-  _activeAnimation = [_animations objectAtIndex:kInitialAnimationIndex];
+  _activeAnimation = [_animations objectAtIndex:PHInitialAnimationIndex];
   _previewAnimation = [_animations objectAtIndex:kInitialPreviewAnimationIndex];
 
   _previousAnimation = nil;
