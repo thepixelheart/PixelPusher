@@ -44,6 +44,7 @@
 #import "PHMovingSawAnimation.h"
 #import "PHGifAnimation.h"
 #import "PHMirrorAnimation.h"
+#import "PHBassShooterAnimation.h"
 
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -117,6 +118,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelRainAnimation animation],
     [PHMovingSawAnimation animation],
     [PHGifAnimation animation],
+    [PHBassShooterAnimation animation],
 
     // Pipe animations
     [PHRotationAnimation animationWithDirection:1],
