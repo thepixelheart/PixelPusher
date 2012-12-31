@@ -58,6 +58,7 @@
 		66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E93169158F400A701BA /* PHGifAnimation.m */; };
 		66A64E9C1691693600A701BA /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E981691693600A701BA /* SCEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		66A64E9D1691693600A701BA /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9B1691693600A701BA /* SCEvents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9F169176E500A701BA /* PHMirrorAnimation.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
@@ -189,6 +190,8 @@
 		66A64E991691693600A701BA /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
 		66A64E9A1691693600A701BA /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
 		66A64E9B1691693600A701BA /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
+		66A64E9E169176E400A701BA /* PHMirrorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMirrorAnimation.h; sourceTree = "<group>"; };
+		66A64E9F169176E500A701BA /* PHMirrorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMirrorAnimation.m; sourceTree = "<group>"; };
 		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
 		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
 		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
 				660D25981689B20000727312 /* PHRotationAnimation.h */,
 				660D25991689B20000727312 /* PHRotationAnimation.m */,
+				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
+				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
@@ -769,6 +774,7 @@
 				66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */,
 				66A64E9C1691693600A701BA /* SCEvent.m in Sources */,
 				66A64E9D1691693600A701BA /* SCEvents.m in Sources */,
+				66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
