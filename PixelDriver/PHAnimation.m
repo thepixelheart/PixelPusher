@@ -39,6 +39,7 @@
 #import "PHDJAnimation.h"
 #import "PHSophJoyAnimation.h"
 #import "PHCombAnimation.h"
+#import "PHAdventureTimeAnimation.h"
 
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
@@ -105,6 +106,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHRipplesAnimation animation],
 
     [PHCountdownAnimation animation],
+    [PHAdventureTimeAnimation animation],
 
   // Row 3
     // Pipe animations
