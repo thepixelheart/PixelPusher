@@ -34,6 +34,7 @@
   copy->_joystickTilt = _joystickTilt;
   copy->_aIsTapped = _aIsTapped;
   copy->_bIsTapped = _bIsTapped;
+  copy->_text = _text;
   return copy;
 }
 
@@ -65,6 +66,7 @@
   copy->_bIsBeingTapped = _bIsBeingTapped;
   copy->_joystickDegrees = _joystickDegrees;
   copy->_joystickTilt = _joystickTilt;
+  copy->_text = _text;
   return copy;
 }
 
@@ -93,12 +95,21 @@
   _bIsBeingTapped = state.bIsTapped;
   _joystickDegrees = state.joystickDegrees;
   _joystickTilt = state.joystickTilt;
+  if (state.text.length) {
+    _text = state.text;
+  }
 }
 
 - (void)tick {
   _numberOfTimesATapped = 0;
   _numberOfTimesBTapped = 0;
+  _text = nil;
   [_states removeAllObjects];
 }
+
+- (void)clearText {
+}
+
+
 
 @end

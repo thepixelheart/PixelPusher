@@ -24,6 +24,7 @@
 @class PHLaunchpadMIDIDriver;
 @class PHWallWindow;
 @class PHTooltipWindow;
+@class PHOverlay;
 
 AppDelegate *PHApp();
 
@@ -57,6 +58,10 @@ AppDelegate *PHApp();
 
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
+
+// Update overlays
+- (void)addOverlay:(PHOverlay *)overlay;
+- (void)removeOverlay:(PHOverlay *)overlay;
 
 // User buttons
 @property (nonatomic, readonly) NSInteger numberOfTimesUserButton1Pressed;

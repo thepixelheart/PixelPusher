@@ -56,6 +56,9 @@
 @property (nonatomic, readonly) BOOL aIsBeingTapped;
 @property (nonatomic, readonly) BOOL bIsBeingTapped;
 
+// Text
+@property (nonatomic, readonly, copy) NSString *text;
+
 #pragma mark Raw Information
 
 // All of the states that were sent since the last animation tick.
@@ -73,6 +76,7 @@
 
 @property (nonatomic, readonly) BOOL aIsTapped;
 @property (nonatomic, readonly) BOOL bIsTapped;
+@property (nonatomic, readonly, copy) NSString *text;
 
 @property (nonatomic, readonly) NSTimeInterval timestamp;
 

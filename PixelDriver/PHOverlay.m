@@ -14,15 +14,28 @@
 // limitations under the License.
 //
 
-#import "PHMote.h"
+#import "PHOverlay.h"
 
-// Private APIs
-@interface PHMoteState()
+@implementation PHOverlay
 
-@property (nonatomic, assign) CGFloat joystickDegrees;
-@property (nonatomic, assign) CGFloat joystickTilt;
-@property (nonatomic, assign) BOOL aIsTapped;
-@property (nonatomic, assign) BOOL bIsTapped;
-@property (nonatomic, retain) NSString *text;
++ (id)overlay {
+  return [[self alloc] init];
+}
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  // No-op
+}
+
+- (NSTimeInterval)secondsSinceLastTick {
+  return (_lastTick > 0) ? ([NSDate timeIntervalSinceReferenceDate] - _lastTick) : 0;
+}
+
+- (void)bitmapWillStartRendering {
+  // No-op
+}
+
+- (void)bitmapDidFinishRendering {
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
+}
 
 @end

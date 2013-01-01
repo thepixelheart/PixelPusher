@@ -31,6 +31,7 @@
 #import "PHProcessingServer.h"
 #import "PHProcessingSource.h"
 #import "PHTooltipWindow.h"
+#import "PHOverlay.h"
 #import "SCEvents.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
@@ -61,7 +62,8 @@ AppDelegate *PHApp() {
   NSMutableArray* _previewProcessingAnimations;
   NSMutableArray* _compositeAnimations;
   NSMutableArray* _previewCompositeAnimations;
-
+  NSMutableArray *_activeOverlays;
+  
   PHLaunchpadMode _launchpadMode;
 
   // Animation/preview top button modes
@@ -256,7 +258,8 @@ AppDelegate *PHApp() {
   _previewProcessingAnimations = [NSMutableArray array];
   _compositeAnimations = [NSMutableArray array];
   _previewCompositeAnimations = [NSMutableArray array];
-
+  _activeOverlays = [NSMutableArray array];
+  
   // Arbitrary starting animations. Change these if you're working on animations
   // and want the startup animation to be something else.
   _activeAnimation = [_animations objectAtIndex:PHInitialAnimationIndex];
@@ -903,6 +906,10 @@ AppDelegate *PHApp() {
   return _previewAnimation;
 }
 
+- (NSArray *)activeOverlays {
+  return _activeOverlays;
+}
+
 #pragma mark - Display Link
 
 - (void)commitTransitionAnimation {
@@ -1060,6 +1067,8 @@ AppDelegate *PHApp() {
     CGImageRelease(imageRef);
   }
 
+  [self drawOverlaysInContext:wallContext];
+  
   return wallContext;
 }
 
@@ -1084,11 +1093,40 @@ AppDelegate *PHApp() {
     CGImageRelease(imageRef);
   }
 
+  [self drawOverlaysInContext:wallContext];
+  
   return wallContext;
 }
 
 - (NSArray *)allMotes {
   return _moteServer.allMotes;
+}
+
+- (void)addOverlay:(PHOverlay *)overlay {
+  @synchronized(_activeOverlays) {
+    [_activeOverlays addObject:overlay];
+  }
+}
+
+- (void)removeOverlay:(PHOverlay *)overlay {
+  @synchronized(_activeOverlays) {
+    [_activeOverlays removeObject:overlay];
+  }
+}
+
+- (void)drawOverlaysInContext:(CGContextRef)cx
+{
+  NSArray *overlays = nil;
+  @synchronized(_activeOverlays) {
+   overlays = [NSArray arrayWithArray:_activeOverlays];
+  }
+
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  for (PHOverlay *overlay in overlays) {
+    [overlay bitmapWillStartRendering];
+    [overlay renderBitmapInContext:cx size:wallSize];
+    [overlay bitmapDidFinishRendering];
+  }
 }
 
 - (void)didTick {
