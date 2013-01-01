@@ -14,15 +14,15 @@
 // limitations under the License.
 //
 
-#import "PHMote.h"
+#import <Foundation/Foundation.h>
+#import "PHOverlay.h"
 
-// Private APIs
-@interface PHMoteState()
+/**
+ * The PHScrollingTextOverlay class is an overlay that scrolls text across the
+ * top of the wall.
+ */
+@interface PHScrollingTextOverlay : PHOverlay
 
-@property (nonatomic, assign) CGFloat joystickDegrees;
-@property (nonatomic, assign) CGFloat joystickTilt;
-@property (nonatomic, assign) BOOL aIsTapped;
-@property (nonatomic, assign) BOOL bIsTapped;
-@property (nonatomic, retain) NSString *text;
++ (id)overlayWithText:(NSString *)text;
 
 @end

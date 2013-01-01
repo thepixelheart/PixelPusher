@@ -16,7 +16,9 @@
 
 #import "PHAnimationDriver.h"
 
+#import "AppDelegate.h"
 #import "PHFMODRecorder.h"
+#import "PHScrollingTextOverlay.h"
 
 // Breakdown of electronic music frequencies
 // http://howtomakeelectronicmusic.com/wp-content/uploads/2011/07/FM_clubmix_dsktp.jpg
@@ -121,11 +123,22 @@ static const float notefreq[PHPitch_Count] = {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
+  [self updateActionsWithMotes:motes];
   _motes = [motes copy];
   _didTapUserButton1 = didTapUserButton1;
   _didTapUserButton2 = didTapUserButton2;
   _isUserButton1Pressed = isUserButton1Pressed;
   _isUserButton2Pressed = isUserButton2Pressed;
+}
+
+- (void)updateActionsWithMotes:(NSArray *)motes
+{
+  for (PHMote *mote in motes) {
+    if (mote.text.length) {
+      PHScrollingTextOverlay *overlay = [PHScrollingTextOverlay overlayWithText:mote.text];
+      [PHApp() addOverlay:overlay];
+    }
+  }
 }
 
 - (void)updateSpectrumWithAudio:(PHFMODRecorder *)audio {

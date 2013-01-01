@@ -32,6 +32,7 @@ typedef enum {
   PHMoteMessageButtonReleased,
   PHMoteMessageJoystickMoved,
   PHMoteMessageJoystickStopped,
+  PHMoteMessageText,
   PHMoteMessageUnknown
 } PHMoteMessage;
 
@@ -42,8 +43,9 @@ typedef enum {
   PHMoteMessage _message;
   NSInteger _numberOfAdditionalBytes;
   NSInteger _numberOfReadBytes;
-  uint8_t _additionalBytes[8];
+  uint8_t _additionalBytes[256];
   NSMutableString* _alias;
+  NSMutableString* _text;
 }
 
 - (id)init {
@@ -84,6 +86,10 @@ typedef enum {
       // PHMoteMessageJoystickStopped 0 bytes additional data
       result = [[PHMoteState alloc] init];
 
+    } else if (byte == 't') {
+      _message = PHMoteMessageText;
+      _text = [NSMutableString string];
+      
     } else {
       NSLog(@"Unknown message type: %c", byte);
     }
@@ -123,6 +129,17 @@ typedef enum {
       _message = PHMoteMessageUnknown;
     }
 
+  } else if (_message == PHMoteMessageText) {
+    if (byte > 0) {
+      [_text appendString:[NSString stringWithFormat:@"%c", byte]];
+    } else {
+      PHMoteState* state = [latestState copy];
+      state.text = _text;
+      result = state;
+      _text = nil;
+      _message = PHMoteMessageUnknown;
+    }
+    
   } else {
     _additionalBytes[_numberOfReadBytes] = byte;
     _numberOfReadBytes++;
