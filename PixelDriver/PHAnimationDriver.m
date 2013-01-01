@@ -119,7 +119,8 @@ static const float notefreq[PHPitch_Count] = {
               didTapUserButton1:(BOOL)didTapUserButton1
               didTapUserButton2:(BOOL)didTapUserButton2
            isUserButton1Pressed:(BOOL)isUserButton1Pressed
-           isUserButton2Pressed:(BOOL)isUserButton2Pressed {
+           isUserButton2Pressed:(BOOL)isUserButton2Pressed
+                           gifs:(NSArray *)gifs {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
@@ -129,6 +130,7 @@ static const float notefreq[PHPitch_Count] = {
   _didTapUserButton2 = didTapUserButton2;
   _isUserButton1Pressed = isUserButton1Pressed;
   _isUserButton2Pressed = isUserButton2Pressed;
+  _gifs = [gifs copy];
 }
 
 - (void)updateActionsWithMotes:(NSArray *)motes

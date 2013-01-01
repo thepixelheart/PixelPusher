@@ -39,7 +39,16 @@
 #import "PHDJAnimation.h"
 #import "PHSophJoyAnimation.h"
 #import "PHCombAnimation.h"
+#import "PHAdventureTimeAnimation.h"
+#import "PHPixelRainAnimation.h"
+#import "PHMovingSawAnimation.h"
+#import "PHGifAnimation.h"
+#import "PHMirrorAnimation.h"
+#import "PHBassShooterAnimation.h"
+#import "PHFlowerAnimation.h"
+#import "PHDaftPixelAnimation.h"
 
+const NSInteger PHInitialAnimationIndex = 20;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 @implementation PHAnimation
@@ -82,34 +91,53 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 + (NSArray *)allAnimations {
   NSArray* animations =
   // Row 1
-  @[[PHResetAnimation animation],
-    [PHPixelHeartAnimation animation],
-    
+  @[
+    [PHResetAnimation animation],
+    [PHBassPlate animation],
+
     [PHMegamanAnimation animation],
     [PHPikachuEmotingAnimation animation],
 
     [PHDJAnimation animation],
-    [PHFlyingFireballAnimation animation],
+    [PHRotationAnimation animationWithDirection:1],
 
-    [PHCombAnimation animation],
-    [PHFlyingRectAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
 
     // Row 2
-    [PHSineWaveAnimation animation],
-    [PHBassPlate animation],
+    [PHPixelHeartAnimation animation],
+    [PHGifAnimation animation],
 
     [PHSophJoyAnimation animation],
     [PHNyanCatAnimation animation],
 
+    [PHAdventureTimeAnimation animation],
+    [PHRotationAnimation animationWithDirection:-1],
+
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+
+    // Row 3
+    [PHCombAnimation animation],
+    [PHMovingSawAnimation animation],
+
+    [PHBassShooterAnimation animation],
+    [PHCountdownAnimation animation],
+
+    [PHPixelRainAnimation animation],
+    [PHFlyingFireballAnimation animation],
+
     [PHRipplesAnimation animationStationary],
     [PHRipplesAnimation animation],
 
-    [PHCountdownAnimation animation],
+    // Row 4
+    [PHFlyingRectAnimation animation],
+    [PHFlowerAnimation animation],
 
-  // Row 3
-    // Pipe animations
-    [PHRotationAnimation animationWithDirection:1],
-    [PHRotationAnimation animationWithDirection:-1]];
+    [PHSineWaveAnimation animation],
+
+    [PHDaftPixelAnimation animation],
+    ];
 
   // Obsolete animations.
   //[PHSpectrumViewerAnimation animation],

@@ -16,26 +16,32 @@
 
 #import "PHDJAnimation.h"
 
+static const NSTimeInterval kArmsUpDuration = 0.15;
+
 typedef enum {
   PHDJAnimationStateDelayStart,
   PHDJAnimationStateFadeInBackground,
   PHDJAnimationStateFadeInSilhouettes,
-  PHDJAnimationStateFadeInCharacters,
   PHDJAnimationStatePauseBeforeWalking,
   PHDJAnimationStateWalkDown,
   PHDJAnimationStateWaitBehindTable,
+  PHDJAnimationStateArmsUpFadePixelHeart,
+  PHDJAnimationStateTurnShitOn,
+  PHDJAnimationStateMusicReactant,
 
   PHDJAnimationState_Count
 } PHDJAnimationState;
 
 NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   0.4, // Delay start
-  4,   // Fade in bg
+  6,   // Fade in bg
   2,   // Fade in silhouettes
-  5,   // Fade in characters
   0.5, // Pause before walking
   3,   // Walk down
-  1,   // Wait behind table
+  2,   // Wait behind table
+  10,   // Arms up, fade pixel heart
+  5,   // Turn shit on,
+  0    // Music reactant
 };
 
 @implementation PHDJAnimation {
@@ -46,13 +52,15 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   PHSpritesheet* _surfaceSpritesheet;
   PHSpritesheet* _recordSpritesheet;
   PHSpritesheet* _launchpadSpritesheet;
-  PHSpritesheet* _pixelHeartSpritesheet;
 
   PHSpriteAnimation* _jeffWalkingAnimation;
   PHSpriteAnimation* _antonWalkingAnimation;
 
   PHSpriteAnimation* _jeffWavingAnimation;
   PHSpriteAnimation* _antonWavingAnimation;
+
+  PHSpriteAnimation* _turntable1Animation;
+  PHSpriteAnimation* _turntable2Animation;
 
   PHDJAnimationState _state;
   NSTimeInterval _nextStateChangeTick;
@@ -68,19 +76,28 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     _surfaceSpritesheet = [[PHSpritesheet alloc] initWithName:@"surface" spriteSize:CGSizeMake(22, 10)];
     _recordSpritesheet = [[PHSpritesheet alloc] initWithName:@"record" spriteSize:CGSizeMake(9, 7)];
     _launchpadSpritesheet = [[PHSpritesheet alloc] initWithName:@"launchpad" spriteSize:CGSizeMake(10, 7)];
-    _pixelHeartSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(26, 23)];
 
     _jeffWalkingAnimation = [self walkingAnimationWithSpritesheet:_jeffSpritesheet];
     _antonWalkingAnimation = [self walkingAnimationWithSpritesheet:_antonSpritesheet];
 
     _jeffWavingAnimation = [self wavingAnimationWithSpritesheet:_jeffSpritesheet];
     _antonWavingAnimation = [self wavingAnimationWithSpritesheet:_antonSpritesheet];
+
+    _turntable1Animation = [[PHSpriteAnimation alloc] initWithSpritesheet:_recordSpritesheet];
+    [_turntable1Animation addFrameAtX:1 y:0 duration:0.2];
+    [_turntable1Animation addFrameAtX:0 y:1 duration:0.2];
+
+    _turntable2Animation = [[PHSpriteAnimation alloc] initWithSpritesheet:_recordSpritesheet];
+    [_turntable2Animation addFrameAtX:1 y:0 duration:0.2];
+    [_turntable2Animation addFrameAtX:0 y:1 duration:0.2];
+    [_turntable2Animation setCurrentFrameIndex:1];
   }
   return self;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.didTapUserButton1) {
+  if (self.driver.isUserButton1Pressed
+      || self.driver.isUserButton2Pressed) {
     _nextStateChangeTick = 0;
   }
   if (0 == _nextStateChangeTick) {
@@ -92,14 +109,14 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     _state++;
     _nextStateChangeTick = [NSDate timeIntervalSinceReferenceDate] + sDurations[_state];
   }
-  if (_state == PHDJAnimationStateDelayStart) {
-    return;
-  }
 
   CGFloat t = MAX(0, MIN(1, 1 - (_nextStateChangeTick - [NSDate timeIntervalSinceReferenceDate]) / sDurations[_state]));
   CGFloat tinout = PHEaseInEaseOut(t);
 
-  if (_state == PHDJAnimationStateFadeInBackground) {
+  if (_state == PHDJAnimationStateDelayStart) {
+    CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
+
+  } else if (_state == PHDJAnimationStateFadeInBackground) {
     CGContextSetRGBFillColor(cx, tinout, tinout, tinout, 1);
 
   } else if (_state <= PHDJAnimationStatePauseBeforeWalking) {
@@ -107,12 +124,18 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
   } else if (_state == PHDJAnimationStateWalkDown) {
     CGContextSetRGBFillColor(cx, 1 - tinout, 1 - tinout, 1 - tinout, 1);
+    
+  } else if (_state == PHDJAnimationStateArmsUpFadePixelHeart) {
+    CGContextSetRGBFillColor(cx, 0, 0, 0, 1 - tinout);
   }
 
-  if (_state <= PHDJAnimationStateWalkDown) {
+  if (_state <= PHDJAnimationStateArmsUpFadePixelHeart) {
     CGContextFillRect(cx, CGRectMake(0, 0, size.width, size.height));
   }
 
+  if (_state == PHDJAnimationStateDelayStart) {
+    return;
+  }
   const CGSize kJeffSize = _jeffSpritesheet.spriteSize;
   const CGSize kAntonSize = _jeffSpritesheet.spriteSize;
   const CGFloat kStartingSpriteOffsetY = -5;
@@ -134,6 +157,11 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
     spriteOffsetY = kStartingSpriteOffsetY + t * (kFinalSpriteOffsetY - kStartingSpriteOffsetY);
 
+  } else if (_state == PHDJAnimationStateArmsUpFadePixelHeart) {
+    jeffImageRef = [_jeffSpritesheet imageAtX:0 y:0];
+    antonImageRef = [_antonSpritesheet imageAtX:0 y:0];
+    spriteOffsetY = kFinalSpriteOffsetY;
+
   } else if (_state >= PHDJAnimationStateWaitBehindTable) {
     jeffImageRef = [_jeffSpritesheet imageAtX:2 y:0];
     antonImageRef = [_antonSpritesheet imageAtX:2 y:0];
@@ -144,7 +172,7 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   CGPoint antonPos = CGPointMake(size.width - kAntonSize.width - spriteInsetX, spriteOffsetY);
 
   // Draw the silhouettes
-  if (_state >= PHDJAnimationStateFadeInSilhouettes && _state <= PHDJAnimationStateFadeInCharacters) {
+  if (_state >= PHDJAnimationStateFadeInSilhouettes && _state <= PHDJAnimationStateWalkDown) {
     if (_state == PHDJAnimationStateFadeInSilhouettes) {
       CGContextSetBlendMode(cx, kCGBlendModeXOR);
       CGContextSetAlpha(cx, t * 0.5);
@@ -162,9 +190,9 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   }
 
   // Draw the colored sprites.
-  if (_state >= PHDJAnimationStateFadeInCharacters) {
+  if (_state >= PHDJAnimationStateWalkDown) {
     CGContextSetBlendMode(cx, kCGBlendModeNormal);
-    if (_state == PHDJAnimationStateFadeInCharacters) {
+    if (_state == PHDJAnimationStateWalkDown) {
       CGContextSetAlpha(cx, PHEaseIn(t));
     } else {
       CGContextSetAlpha(cx, 1);
@@ -211,7 +239,16 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     // Launchpad
     const CGFloat kLaunchpadInsetX = 6;
     const CGFloat kLaunchpadOffsetY = 1;
-    imageRef = [_launchpadSpritesheet imageAtX:0 y:0];
+    if (_state == PHDJAnimationStateTurnShitOn) {
+      NSInteger offset = (NSInteger)(MIN(1, (t / 0.5)) * 6) % 6;
+      imageRef = [_launchpadSpritesheet imageAtX:offset % 4 y:offset / 4];
+
+    } else if (_state == PHDJAnimationStateMusicReactant) {
+      imageRef = [_launchpadSpritesheet imageAtX:MIN(3, self.bassDegrader.value * 4) y:0];
+
+    } else {
+      imageRef = [_launchpadSpritesheet imageAtX:0 y:0];
+    }
     spriteSize = _launchpadSpritesheet.spriteSize;
     CGContextDrawImage(cx, CGRectMake(kSurfaceInsetX + kLaunchpadInsetX,
                                       size.height + tableOffsetY + kSurfaceOffsetY + kLaunchpadOffsetY,
@@ -222,11 +259,30 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     const CGFloat kTurntableInsetX = 1;
     const CGFloat kTurntableOffsetY = 1;
     const CGFloat kTurntableSpacingX = 2;
-    imageRef = [_recordSpritesheet imageAtX:0 y:0];
+    if (_state == PHDJAnimationStateTurnShitOn) {
+      imageRef = [_turntable1Animation imageRefAtCurrentTick];
+
+    } else if (_state == PHDJAnimationStateMusicReactant) {
+      _turntable1Animation.animationScale = self.hihatDegrader.value;
+      imageRef = [_turntable1Animation imageRefAtCurrentTick];
+
+    } else {
+      imageRef = [_recordSpritesheet imageAtX:0 y:0];
+    }
     spriteSize = _recordSpritesheet.spriteSize;
     CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width - kSurfaceInsetX - kTurntableInsetX,
                                       size.height + tableOffsetY + kSurfaceOffsetY + kTurntableOffsetY,
                                       spriteSize.width, spriteSize.height), imageRef);
+
+    if (_state == PHDJAnimationStateTurnShitOn) {
+      CGImageRelease(imageRef);
+      imageRef = [_turntable2Animation imageRefAtCurrentTick];
+
+    } else if (_state == PHDJAnimationStateMusicReactant) {
+      _turntable2Animation.animationScale = self.vocalDegrader.value;
+      imageRef = [_turntable2Animation imageRefAtCurrentTick];
+    }
+
     CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width * 2 - kSurfaceInsetX - kTurntableInsetX - kTurntableSpacingX,
                                       size.height + tableOffsetY + kSurfaceOffsetY + kTurntableOffsetY,
                                       spriteSize.width, spriteSize.height), imageRef);

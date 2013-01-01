@@ -32,11 +32,11 @@
 #import "PHProcessingSource.h"
 #import "PHTooltipWindow.h"
 #import "PHOverlay.h"
+#import "SCEvents.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialAnimationIndex = 3;
 static const NSInteger kInitialPreviewAnimationIndex = 1;
 
 typedef enum {
@@ -48,6 +48,9 @@ typedef enum {
 AppDelegate *PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
 }
+
+@interface AppDelegate() <SCEventListenerProtocol>
+@end
 
 @implementation AppDelegate {
   PHDisplayLink* _displayLink;
@@ -87,10 +90,14 @@ AppDelegate *PHApp() {
 
   // Tooltip
   BOOL _showingTooltip;
+
+  // Watching changes to the filesystem.
+  SCEvents* _fsEvents;
 }
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
+@synthesize gifs = _gifs;
 
 - (void)prepareWindow:(PHWallWindow *)window {
   [window setAcceptsMouseMovedEvents:YES];
@@ -123,9 +130,83 @@ AppDelegate *PHApp() {
   return [animations mutableCopy];
 }
 
+- (NSString *)pathForUserGifs {
+  NSString* userGifsPath = @"~/Library/Application Support/PixelDriver/gifs/";
+  return [userGifsPath stringByExpandingTildeInPath];
+}
+
+- (void)loadGifs {
+  NSFileManager* fm = [NSFileManager defaultManager];
+
+  NSString* userGifsPath = [self pathForUserGifs];
+
+  NSString* gifsPath = PHFilenameForResourcePath(@"gifs");
+  if ([fm fileExistsAtPath:userGifsPath] == NO) {
+    [fm createDirectoryAtPath:userGifsPath withIntermediateDirectories:YES attributes:nil error:nil];
+  }
+
+  NSError* error = nil;
+  NSArray* filenames = [fm contentsOfDirectoryAtPath:gifsPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+  for (NSString* filename in filenames) {
+    NSString* gifPath = [gifsPath stringByAppendingPathComponent:filename];
+    NSString* userGifPath = [userGifsPath stringByAppendingPathComponent:filename];
+    [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
+  }
+
+  error = nil;
+  filenames = [fm contentsOfDirectoryAtPath:userGifsPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+  NSMutableArray* gifs = [NSMutableArray array];
+  for (NSString* path in filenames) {
+    NSString* fullPath = [userGifsPath stringByAppendingPathComponent:path];
+    NSImage* image = [[NSImage alloc] initWithContentsOfFile:fullPath];
+    if (!image.isValid && image.representations.count > 0) {
+      continue;
+    }
+    NSBitmapImageRep* bitmapImage = [[image representations] objectAtIndex:0];
+    if ([[bitmapImage valueForProperty:NSImageFrameCount] intValue] == 0) {
+      // No frames in this image.
+      continue;
+    }
+
+    [gifs addObject:image];
+  }
+
+  for (NSUInteger i = 0; i < gifs.count; ++i) {
+    NSInteger nElements = gifs.count - i;
+    NSInteger n = (arc4random() % nElements) + i;
+    [gifs exchangeObjectAtIndex:i withObjectAtIndex:n];
+  }
+  _gifs = [gifs copy];
+}
+
+- (NSArray *)gifs {
+  NSMutableArray* gifs = [NSMutableArray array];
+  for (NSImage* gif in _gifs) {
+    [gifs addObject:[gif copy]];
+  }
+  return gifs;
+}
+
+- (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
+  [self loadGifs];
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
+  [self loadGifs];
+
+  _fsEvents = [[SCEvents alloc] init];
+  _fsEvents.delegate = self;
+  [_fsEvents startWatchingPaths:@[[self pathForUserGifs]]];
 
   [self hideTooltip];
 
@@ -181,7 +262,7 @@ AppDelegate *PHApp() {
   
   // Arbitrary starting animations. Change these if you're working on animations
   // and want the startup animation to be something else.
-  _activeAnimation = [_animations objectAtIndex:kInitialAnimationIndex];
+  _activeAnimation = [_animations objectAtIndex:PHInitialAnimationIndex];
   _previewAnimation = [_animations objectAtIndex:kInitialPreviewAnimationIndex];
 
   _previousAnimation = nil;
@@ -569,6 +650,7 @@ AppDelegate *PHApp() {
     [_compositeAnimations replaceObjectAtIndex:index withObject:previewAnimation];
 
     if (_previewCompositeAnimationBeingEdited == previewAnimation) {
+      _compositeAnimationBeingEdited = _compositeAnimations[index];
       _previewCompositeAnimationBeingEdited = _previewCompositeAnimations[index];
     }
   }
@@ -582,10 +664,10 @@ AppDelegate *PHApp() {
 
     NSInteger previousAnimationButtonIndex = [self buttonIndexOfAnimation:_previousAnimation];
 
+    [self swapAnimationsAtButtonIndex:buttonIndex];
+
     _activeAnimation = [self animationFromButtonIndex:buttonIndex];
     _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
-
-    [self swapAnimationsAtButtonIndex:buttonIndex];
 
     if (_instantCrossfade) {
       [self commitTransitionAnimation];

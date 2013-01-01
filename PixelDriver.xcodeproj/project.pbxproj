@@ -11,7 +11,10 @@
 		0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */; };
 		1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */; };
 		1E791A74168820AB008106F3 /* PHNyanCatAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */; };
+		3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */; };
 		3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */; };
+		3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */; };
+		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE54C1686854B00F300CE /* PHLaunchpadView.m */; };
@@ -54,6 +57,13 @@
 		66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */; };
 		66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */; };
 		66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D7516892A2E009F7B33 /* PHWaveFormView.m */; };
+		66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */; };
+		66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */; };
+		66A64E911691583600A701BA /* gifs in Resources */ = {isa = PBXBuildFile; fileRef = 66A64E901691583600A701BA /* gifs */; };
+		66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E93169158F400A701BA /* PHGifAnimation.m */; };
+		66A64E9C1691693600A701BA /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E981691693600A701BA /* SCEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66A64E9D1691693600A701BA /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9B1691693600A701BA /* SCEvents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9F169176E500A701BA /* PHMirrorAnimation.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
@@ -80,6 +90,7 @@
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
 		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
+		66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
 		66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */; };
 		66F664101685504F001E77BC /* PHSpritesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640F1685504F001E77BC /* PHSpritesheet.m */; };
@@ -100,8 +111,14 @@
 		1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLevelsHorizAnimation.m; sourceTree = "<group>"; };
 		1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNyanCatAnimation.m; sourceTree = "<group>"; };
 		1E791A75168820BF008106F3 /* PHNyanCatAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNyanCatAnimation.h; sourceTree = "<group>"; };
+		3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMovingSawAnimation.h; sourceTree = "<group>"; };
+		3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMovingSawAnimation.m; sourceTree = "<group>"; };
 		3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingRectAnimation.h; sourceTree = "<group>"; };
 		3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingRectAnimation.m; sourceTree = "<group>"; };
+		3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassShooterAnimation.h; sourceTree = "<group>"; };
+		3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassShooterAnimation.m; sourceTree = "<group>"; };
+		528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDaftPixelAnimation.h; sourceTree = "<group>"; };
+		528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDaftPixelAnimation.m; sourceTree = "<group>"; };
 		660D25981689B20000727312 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotationAnimation.h; sourceTree = "<group>"; };
 		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
@@ -176,6 +193,21 @@
 		66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGameOfLifeAnimation.m; sourceTree = "<group>"; };
 		66A26D7416892A2E009F7B33 /* PHWaveFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHWaveFormView.h; sourceTree = "<group>"; };
 		66A26D7516892A2E009F7B33 /* PHWaveFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHWaveFormView.m; sourceTree = "<group>"; };
+		66A64E8A1691437100A701BA /* PHAdventureTimeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAdventureTimeAnimation.h; sourceTree = "<group>"; };
+		66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAdventureTimeAnimation.m; sourceTree = "<group>"; };
+		66A64E8D1691441600A701BA /* PHPixelRainAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelRainAnimation.h; sourceTree = "<group>"; };
+		66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelRainAnimation.m; sourceTree = "<group>"; };
+		66A64E901691583600A701BA /* gifs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gifs; sourceTree = "<group>"; };
+		66A64E92169158F400A701BA /* PHGifAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGifAnimation.h; sourceTree = "<group>"; };
+		66A64E93169158F400A701BA /* PHGifAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGifAnimation.m; sourceTree = "<group>"; };
+		66A64E961691693600A701BA /* SCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCConstants.h; sourceTree = "<group>"; };
+		66A64E971691693600A701BA /* SCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvent.h; sourceTree = "<group>"; };
+		66A64E981691693600A701BA /* SCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvent.m; sourceTree = "<group>"; };
+		66A64E991691693600A701BA /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
+		66A64E9A1691693600A701BA /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
+		66A64E9B1691693600A701BA /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
+		66A64E9E169176E400A701BA /* PHMirrorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMirrorAnimation.h; sourceTree = "<group>"; };
+		66A64E9F169176E500A701BA /* PHMirrorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMirrorAnimation.m; sourceTree = "<group>"; };
 		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
 		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
 		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
@@ -236,6 +268,8 @@
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
 		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
+		66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowerAnimation.h; sourceTree = "<group>"; };
+		66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlowerAnimation.m; sourceTree = "<group>"; };
 		66F6640716854FA3001E77BC /* spritesheets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spritesheets; sourceTree = "<group>"; };
 		66F6640A16854FF8001E77BC /* PHMegamanAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMegamanAnimation.h; sourceTree = "<group>"; };
 		66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMegamanAnimation.m; sourceTree = "<group>"; };
@@ -287,6 +321,8 @@
 				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
 				660D25981689B20000727312 /* PHRotationAnimation.h */,
 				660D25991689B20000727312 /* PHRotationAnimation.m */,
+				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
+				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
@@ -329,6 +365,20 @@
 				6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */,
 				6693A314168FF0F500DA2946 /* PHCombAnimation.h */,
 				6693A315168FF0F600DA2946 /* PHCombAnimation.m */,
+				66A64E8A1691437100A701BA /* PHAdventureTimeAnimation.h */,
+				66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */,
+				66A64E8D1691441600A701BA /* PHPixelRainAnimation.h */,
+				66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */,
+				3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */,
+				3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */,
+				66A64E92169158F400A701BA /* PHGifAnimation.h */,
+				66A64E93169158F400A701BA /* PHGifAnimation.m */,
+				3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */,
+				3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */,
+				66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */,
+				66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */,
+				528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */,
+				528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -382,6 +432,19 @@
 				663C83A8168EE542003B88A1 /* PHProcessingSource.m */,
 			);
 			name = Processing;
+			sourceTree = "<group>";
+		};
+		66A64E951691693600A701BA /* SCEvents */ = {
+			isa = PBXGroup;
+			children = (
+				66A64E961691693600A701BA /* SCConstants.h */,
+				66A64E971691693600A701BA /* SCEvent.h */,
+				66A64E981691693600A701BA /* SCEvent.m */,
+				66A64E991691693600A701BA /* SCEventListenerProtocol.h */,
+				66A64E9A1691693600A701BA /* SCEvents.h */,
+				66A64E9B1691693600A701BA /* SCEvents.m */,
+			);
+			path = SCEvents;
 			sourceTree = "<group>";
 		};
 		66A8E013167C074100FBAFE8 /* FMOD */ = {
@@ -449,6 +512,7 @@
 				66DC7B571676FC2F00453E8F /* src */,
 				66DC7B791677255D00453E8F /* Resources */,
 				66A8E013167C074100FBAFE8 /* FMOD */,
+				66A64E951691693600A701BA /* SCEvents */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
@@ -525,6 +589,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66A64E901691583600A701BA /* gifs */,
 				66F6640716854FA3001E77BC /* spritesheets */,
 				663C83A2168ECD84003B88A1 /* fonts */,
 				66DC7B661676FC3000453E8F /* MainMenu.xib */,
@@ -661,6 +726,7 @@
 				662DE55516868AF400F300CE /* novation.png in Resources */,
 				662DE55716868BB100F300CE /* launchpad.png in Resources */,
 				663C83A3168ECD84003B88A1 /* fonts in Resources */,
+				66A64E911691583600A701BA /* gifs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +809,16 @@
 				6693A316168FF0F700DA2946 /* PHCombAnimation.m in Sources */,
 				0EEA867316921B24009ACDF3 /* PHOverlay.m in Sources */,
 				0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */,
+				66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */,
+				66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */,
+				3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */,
+				66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */,
+				66A64E9C1691693600A701BA /* SCEvent.m in Sources */,
+				66A64E9D1691693600A701BA /* SCEvents.m in Sources */,
+				66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */,
+				3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */,
+				66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */,
+				528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
