@@ -20,7 +20,7 @@
  * The PHRotationAnimation class is an animation that inserts a rotation into the
  * composite animation stack.
  */
-@interface PHRotationAnimation : PHAnimation
+@interface PHRotationAnimation : PHAnimation <NSCopying>
 
 + (id)animationWithDirection:(CGFloat)direction;
 

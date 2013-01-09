@@ -19,6 +19,8 @@
 
 @interface PHCompositeAnimation : PHAnimation <NSCopying, NSCoding>
 
++ (id)animationWithLayers:(NSArray *)layers animations:(NSArray *)animations name:(NSString *)name;
+
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
 - (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
 - (void)reset;

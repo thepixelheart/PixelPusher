@@ -27,6 +27,12 @@
   return animation;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHRotationAnimation* copy = [[self.class allocWithZone:zone] init];
+  copy->_direction = _direction;
+  return copy;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGFloat direction = _direction;
   if (self.driver.isUserButton1Pressed

@@ -25,7 +25,7 @@ typedef enum {
   PHMirrorAnimationType_Count,
 } PHMirrorAnimationType;
 
-@interface PHMirrorAnimation : PHAnimation
+@interface PHMirrorAnimation : PHAnimation <NSCopying>
 
 + (id)animationWithType:(PHMirrorAnimationType)type;
 

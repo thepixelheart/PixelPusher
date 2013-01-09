@@ -19,6 +19,26 @@
 @implementation PHCompositeAnimation {
   NSInteger _layerAnimationIndex[PHLaunchpadTopButtonCount];
   PHAnimation* _layerAnimation[PHLaunchpadTopButtonCount];
+  NSArray* _classes;
+  NSString* _name;
+}
+
++ (id)animationWithLayers:(NSArray *)layers animations:(NSArray *)animations name:(NSString *)name {
+  PHCompositeAnimation* animation = [super animation];
+  animation->_name = [name copy];
+
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount && ix < layers.count; ++ix) {
+    PHAnimation* layerAnimation = layers[ix];
+    animation->_layerAnimation[ix] = layerAnimation;
+    for (PHAnimation* animationInList in animations) {
+      if ([animationInList.class isSubclassOfClass:layerAnimation.class]
+          && [layerAnimation.class isSubclassOfClass:animationInList.class]) {
+        animation->_layerAnimationIndex[ix] = [animations indexOfObject:animationInList];
+        break;
+      }
+    }
+  }
+  return animation;
 }
 
 - (id)init {
@@ -81,6 +101,8 @@
     }
   }
 
+  animation->_name = [_name copyWithZone:zone];
+
   return animation;
 }
 
@@ -129,6 +151,25 @@
       _layerAnimation[ix] = nil;
     }
   }
+}
+
+- (NSString *)tooltipName {
+  NSMutableString* tooltip = [NSMutableString string];
+  if (_name.length > 0) {
+    [tooltip appendString:_name];
+    [tooltip appendString:@"\n"];
+  }
+  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    NSInteger animationIndex = _layerAnimationIndex[ix];;
+    if (animationIndex >= 0) {
+      if (tooltip.length > 0) {
+        [tooltip appendString:@"\n"];
+      }
+      PHAnimation* animation = _layerAnimation[ix];
+      [tooltip appendString:animation.tooltipName];
+    }
+  }
+  return tooltip;
 }
 
 @end

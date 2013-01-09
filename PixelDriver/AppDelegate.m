@@ -1174,18 +1174,7 @@ AppDelegate *PHApp() {
     PHCompositeAnimation* compositeAnimation = [_compositeAnimations objectAtIndex:
                                                 buttonIndex - [self numberOfPureAnimations]];
 
-    NSMutableString* tooltip = [NSMutableString string];
-    for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
-      NSInteger animationIndex = [compositeAnimation indexOfAnimationForLayer:ix];
-      if (animationIndex >= 0 && animationIndex < [self numberOfPureAnimations]) {
-        if (tooltip.length > 0) {
-          [tooltip appendString:@"\n"];
-        }
-        PHAnimation* animation = [self animationFromButtonIndex:animationIndex];
-        [tooltip appendString:animation.tooltipName];
-      }
-    }
-    return tooltip;
+    return compositeAnimation.tooltipName;
   }
   return nil;
 }

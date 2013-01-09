@@ -26,6 +26,12 @@
   return animation;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHMirrorAnimation* copy = [[self.class allocWithZone:zone] init];
+  copy->_type = _type;
+  return copy;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
 

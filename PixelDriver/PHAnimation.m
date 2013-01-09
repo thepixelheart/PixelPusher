@@ -48,6 +48,8 @@
 #import "PHFlowerAnimation.h"
 #import "PHDaftPixelAnimation.h"
 
+#import "PHCompositeAnimation.h"
+
 const NSInteger PHInitialAnimationIndex = 20;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
@@ -147,6 +149,41 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   //[PHGameOfLifeAnimation animation],
   //[PHSimpleMoteAnimation animation],
   //[PHTunnelGameAnimation animation],
+
+  animations =
+  [animations arrayByAddingObjectsFromArray:@[
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRotationAnimation animationWithDirection:1],
+    [PHPixelRainAnimation animation],
+    [PHResetAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHFlyingFireballAnimation animation]]
+                                   animations:animations
+                                        name:@"Mirrored Streamers"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHFlowerAnimation animation],
+    [PHPixelHeartAnimation animation]]
+                                  animations:animations
+                                        name:@"Flowered Pixel Heart"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHFlowerAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHResetAnimation animation],
+    [PHPixelHeartAnimation animation]]
+                                  animations:animations
+                                        name:@"Kaleidescope Heart"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHBassPlate animation],
+    [PHFlyingFireballAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHPixelHeartAnimation animation]]
+                                  animations:animations
+                                        name:@"Trippy Heart"],
+   ]];
 
   if (nil != sAdditionalAnimationBlock) {
     animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
