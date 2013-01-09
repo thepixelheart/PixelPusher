@@ -23,6 +23,6 @@
 @property (nonatomic, assign) CGFloat joystickTilt;
 @property (nonatomic, assign) BOOL aIsTapped;
 @property (nonatomic, assign) BOOL bIsTapped;
-@property (nonatomic, retain) NSString *text;
+@property (nonatomic, copy) NSString *text;
 
 @end
