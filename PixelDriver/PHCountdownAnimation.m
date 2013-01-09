@@ -16,7 +16,7 @@
 
 #import "PHCountdownAnimation.h"
 
-static const CGFloat kFontSize = 40;
+static const CGFloat kFontSize = 20;
 static const CGFloat kYearFontSize = 20;
 static const CGFloat kCrushPercStart = 0.5;
 static const CGFloat kFallPercStart = 0.4;
@@ -50,7 +50,7 @@ static const CGFloat kFallPercStart = 0.4;
   CGContextTranslateCTM(cx, 0, -size.height);
 
   // Count down!
-  if (timeLeft > 0 && timeLeft <= 10) {
+  if (timeLeft > 0 && timeLeft <= 20 * 60) {
     NSInteger secondsRemaining = ceilf(timeLeft);
     CGFloat percentageComplete = ((NSTimeInterval)secondsRemaining - timeLeft);
 
@@ -60,7 +60,7 @@ static const CGFloat kFallPercStart = 0.4;
 
     _colorAdvance += self.secondsSinceLastTick / 8;
 
-    CGContextSetFillColorWithColor(cx, [[NSColor grayColor] CGColor]);
+    CGContextSetFillColorWithColor(cx, [[NSColor whiteColor] CGColor]);
     CGContextFillRect(cx, CGRectMake(0, 0, size.width, size.height));
 
     CGContextSelectFont(cx,
@@ -68,7 +68,15 @@ static const CGFloat kFallPercStart = 0.4;
                         _font.pointSize,
                         kCGEncodingMacRoman);
 
-    NSString* secondsRemainingAsString = [NSString stringWithFormat:@"%ld", secondsRemaining];
+    NSInteger seconds = secondsRemaining % 60;
+    NSInteger minutes = floorf(secondsRemaining / 60);
+    NSString* secondsRemainingAsString = nil;
+
+    if (minutes >= 1) {
+      secondsRemainingAsString = [NSString stringWithFormat:@"%ld:%ld", minutes, seconds];;
+    } else {
+      secondsRemainingAsString = [NSString stringWithFormat:@"%ld", seconds];
+    }
 
     {
       CGContextSaveGState(cx);
@@ -100,7 +108,7 @@ static const CGFloat kFallPercStart = 0.4;
       CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
       CGSize textSize = NSSizeToCGSize([secondsRemainingAsString sizeWithAttributes:
                                         @{NSFontAttributeName:_font}]);
-      CGContextTranslateCTM(cx, 2, 6);
+      CGContextTranslateCTM(cx, 2, 11);
       CGContextShowTextAtPoint(cx,
                                floorf((size.width - textSize.width) / 2.),
                                0,
