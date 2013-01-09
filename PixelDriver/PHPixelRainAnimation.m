@@ -16,9 +16,9 @@
 
 #import "PHPixelRainAnimation.h"
 
-static const NSInteger kMaxNumberOfRainDropsToCreatePerFrame = 20;
+static const NSInteger kMaxNumberOfRainDropsToCreatePerFrame = 10;
 static const NSTimeInterval kMinimumTimeBetweenDetectingPeak = 0.05;
-static const NSTimeInterval kMinimumTimeBeforeCreatingRaindrops = 0.2;
+static const NSTimeInterval kMinimumTimeBeforeCreatingRaindrops = 0.4;
 static const CGFloat kMinimumRaindropLength = 2;
 static const CGFloat kMaximumRaindropLength = 4;
 
@@ -54,7 +54,7 @@ static const CGFloat kMaximumRaindropLength = 4;
 
   NSInteger numberOfRainDropsToCrate = 0;
   if ([NSDate timeIntervalSinceReferenceDate] >= _nextPeakDetectionTime) {
-    numberOfRainDropsToCrate = kMaxNumberOfRainDropsToCreatePerFrame * self.vocalDegrader.value;
+    numberOfRainDropsToCrate = kMaxNumberOfRainDropsToCreatePerFrame * self.hihatDegrader.value;
     _nextPeakDetectionTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumTimeBetweenDetectingPeak;
   }
   if (numberOfRainDropsToCrate == 0 && [NSDate timeIntervalSinceReferenceDate] - _lastTimeRaindropsCreated >= kMinimumTimeBeforeCreatingRaindrops) {
@@ -119,7 +119,7 @@ static const CGFloat kMaximumRaindropLength = 4;
       continue;
     }
 
-    NSColor* color = [raindrop.color blendedColorWithFraction:1 - self.hihatDegrader.value ofColor:grayColor];
+    NSColor* color = [raindrop.color blendedColorWithFraction:1 - self.vocalDegrader.value ofColor:grayColor];
     CGContextSetFillColorWithColor(cx, color.CGColor);
     CGRect frame = CGRectMake(raindrop.pos.x, raindrop.pos.y - raindrop.length, 1, raindrop.length);
     CGContextFillRect(cx, frame);
