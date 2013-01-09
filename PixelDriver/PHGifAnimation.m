@@ -26,7 +26,7 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   BOOL _hasPlayedOnce;
   NSTimeInterval _nextFrameTick;
   NSTimeInterval _nextFrameTickForPreviousGif;
-  NSInteger _currentGifIndex;
+  int _currentGifIndex;
 
   NSTimeInterval _transitionStartedAtTick;
 
@@ -105,6 +105,9 @@ static const NSTimeInterval kTransitionDuration = 0.5;
               && [NSDate timeIntervalSinceReferenceDate] >= _nextGifChangeTick)
              || (buttonPressed && _buttonWasntPressed))
             && self.driver.gifs.count > 1)) {
+      if (nil == _activeGif) {
+        _currentGifIndex = arc4random_uniform(self.driver.gifs.count);
+      }
       _buttonWasntPressed = NO;
 
       if (self.driver.isUserButton1Pressed) {
