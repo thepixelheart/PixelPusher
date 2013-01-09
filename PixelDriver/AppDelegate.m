@@ -188,11 +188,7 @@ AppDelegate *PHApp() {
 }
 
 - (NSArray *)gifs {
-  NSMutableArray* gifs = [NSMutableArray array];
-  for (NSImage* gif in _gifs) {
-    [gifs addObject:[gif copy]];
-  }
-  return gifs;
+  return [_gifs copy];
 }
 
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
