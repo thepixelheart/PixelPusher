@@ -27,6 +27,7 @@
 #import "Utilities.h"
 #import "PHMote.h"
 #import "PHMoteServer.h"
+#import "PHPixelDriverWindow.h"
 #import "PHProcessingAnimation.h"
 #import "PHProcessingServer.h"
 #import "PHProcessingSource.h"
@@ -53,6 +54,8 @@ AppDelegate *PHApp() {
 @end
 
 @implementation AppDelegate {
+  PHPixelDriverWindow* _appWindow;
+
   PHDisplayLink* _displayLink;
   PHUSBNotifier* _usbNotifier;
 
@@ -276,13 +279,24 @@ AppDelegate *PHApp() {
     return [animations copy];
   }];
   [self loadComposites];
+
+  _appWindow = [[PHPixelDriverWindow alloc] initWithContentRect:CGRectMake(0, 0, 400, 400)
+                                                      styleMask:(NSTitledWindowMask
+                                                                 | NSClosableWindowMask
+                                                                 | NSMiniaturizableWindowMask
+                                                                 | NSResizableWindowMask)
+                                                        backing:NSBackingStoreBuffered
+                                                          defer:YES];
+  _appWindow.title = @"Pixel Driver";
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  [_appWindow makeKeyAndOrderFront:self];
+  /*
   [self.window performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.previewWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
   [self.launchpadWindow performSelector:@selector(makeKeyAndOrderFront:) withObject:self afterDelay:0.5];
-  [self.window center];
+  [self.window center];*/
 
   // Simulate a connection to the launchpad at least once, regardless of whether
   // we've actually connected. This initializes the simulator.
@@ -680,14 +694,16 @@ AppDelegate *PHApp() {
   if (animation == _activeAnimation) {
     // Switching to the active animation is redundant, so just set the preview
     // and bail out.
-    _previewAnimation = animation;
+    _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
     [self updateLaunchpad];
+    return;
   }
   // Tapped the previewing animation again and we're not already on this animation.
-  BOOL shouldChange = (_previewAnimation == animation);
-  _previewAnimation = animation;
+  BOOL shouldChange = [self previewAnimationFromButtonIndex:buttonIndex] == _previewAnimation;
+  _previewAnimation = [self previewAnimationFromButtonIndex:buttonIndex];
   if (shouldChange) {
     [self setActiveAnimationIndex:buttonIndex];
+
   } else {
     [self updateLaunchpad];
   }

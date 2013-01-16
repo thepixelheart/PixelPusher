@@ -54,14 +54,14 @@ static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
-
+/*
   for (NSString* address in [[NSHost currentHost] addresses]) {
     if ([address componentsSeparatedByString:@"."].count == 4
         && ![address isEqualToString:@"127.0.0.1"]) {
       self.ipAddressLabel.stringValue = address;
       break;
     }
-  }
+  }*/
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {

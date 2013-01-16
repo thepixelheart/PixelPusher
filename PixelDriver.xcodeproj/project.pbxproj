@@ -16,7 +16,11 @@
 		3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */; };
 		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
+		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
+		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
+		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
+		662CB21216A67915008F497B /* PHPixelImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21116A67915008F497B /* PHPixelImageView.m */; };
 		662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE54C1686854B00F300CE /* PHLaunchpadView.m */; };
 		662DE5501686875D00F300CE /* ableton_logo_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 662DE54F1686875D00F300CE /* ableton_logo_screen.png */; };
 		662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 662DE5521686894B00F300CE /* PHLaunchpadWindow.m */; };
@@ -32,6 +36,8 @@
 		662F592416785D3400ADE02C /* terremouvante4.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592316785D3400ADE02C /* terremouvante4.qtz */; };
 		662F592616785D7200ADE02C /* balls.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592516785D7200ADE02C /* balls.qtz */; };
 		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
+		6634E1F616A6612300AD86B1 /* PHPixelDriverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */; };
+		6634E1FE16A66C6700AD86B1 /* PHContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6634E1FD16A66C6700AD86B1 /* PHContainerView.m */; };
 		6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */; };
 		6637527116843E3C009A2F22 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637527016843E3C009A2F22 /* PHDegrader.m */; };
 		66393E69168AC819002BD86F /* PHMote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E68168AC819002BD86F /* PHMote.m */; };
@@ -121,9 +127,16 @@
 		528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDaftPixelAnimation.m; sourceTree = "<group>"; };
 		660D25981689B20000727312 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotationAnimation.h; sourceTree = "<group>"; };
 		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
+		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
+		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
+		662CB20B16A676E0008F497B /* pixeldriver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pixeldriver.png; path = PixelDriver/resources/pixeldriver.png; sourceTree = "<group>"; };
+		662CB20D16A67708008F497B /* PHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHeaderView.h; sourceTree = "<group>"; };
+		662CB20E16A67708008F497B /* PHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHeaderView.m; sourceTree = "<group>"; };
+		662CB21016A67915008F497B /* PHPixelImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelImageView.h; sourceTree = "<group>"; };
+		662CB21116A67915008F497B /* PHPixelImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelImageView.m; sourceTree = "<group>"; };
 		662DE54B1686854B00F300CE /* PHLaunchpadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadView.h; sourceTree = "<group>"; };
 		662DE54C1686854B00F300CE /* PHLaunchpadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadView.m; sourceTree = "<group>"; };
 		662DE54F1686875D00F300CE /* ableton_logo_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ableton_logo_screen.png; path = PixelDriver/ableton_logo_screen.png; sourceTree = "<group>"; };
@@ -143,6 +156,10 @@
 		662F592316785D3400ADE02C /* terremouvante4.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = terremouvante4.qtz; path = QuartzCompositions/terremouvante4.qtz; sourceTree = SOURCE_ROOT; };
 		662F592516785D7200ADE02C /* balls.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = balls.qtz; path = QuartzCompositions/balls.qtz; sourceTree = SOURCE_ROOT; };
 		662F592716785DF700ADE02C /* tree.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = tree.qtz; path = QuartzCompositions/tree.qtz; sourceTree = SOURCE_ROOT; };
+		6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelDriverWindow.h; sourceTree = "<group>"; };
+		6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelDriverWindow.m; sourceTree = "<group>"; };
+		6634E1FC16A66C6700AD86B1 /* PHContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHContainerView.h; sourceTree = "<group>"; };
+		6634E1FD16A66C6700AD86B1 /* PHContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHContainerView.m; sourceTree = "<group>"; };
 		6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBasicSpectrumAnimation.h; sourceTree = "<group>"; };
 		6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBasicSpectrumAnimation.m; sourceTree = "<group>"; };
 		6637526F16843E3C009A2F22 /* PHDegrader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegrader.h; sourceTree = "<group>"; };
@@ -379,6 +396,8 @@
 				66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */,
 				528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */,
 				528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */,
+				661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */,
+				661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -410,6 +429,21 @@
 				662F591D16784B8900ADE02C /* PHQuartzRenderer.m */,
 			);
 			name = "Quartz Renderer";
+			sourceTree = "<group>";
+		};
+		6634E1F816A667AA00AD86B1 /* Pixel Driver */ = {
+			isa = PBXGroup;
+			children = (
+				6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */,
+				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
+				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
+				6634E1FD16A66C6700AD86B1 /* PHContainerView.m */,
+				662CB20D16A67708008F497B /* PHHeaderView.h */,
+				662CB20E16A67708008F497B /* PHHeaderView.m */,
+				662CB21016A67915008F497B /* PHPixelImageView.h */,
+				662CB21116A67915008F497B /* PHPixelImageView.m */,
+			);
+			name = "Pixel Driver";
 			sourceTree = "<group>";
 		};
 		66393E78168AE4E3002BD86F /* Pixel Mote */ = {
@@ -563,6 +597,7 @@
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
 				663C839E168EC242003B88A1 /* Processing */,
 				66DC7B80167738EB00453E8F /* Views */,
+				6634E1F816A667AA00AD86B1 /* Pixel Driver */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
 				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
@@ -589,6 +624,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				662CB20B16A676E0008F497B /* pixeldriver.png */,
 				66A64E901691583600A701BA /* gifs */,
 				66F6640716854FA3001E77BC /* spritesheets */,
 				663C83A2168ECD84003B88A1 /* fonts */,
@@ -727,6 +763,7 @@
 				662DE55716868BB100F300CE /* launchpad.png in Resources */,
 				663C83A3168ECD84003B88A1 /* fonts in Resources */,
 				66A64E911691583600A701BA /* gifs in Resources */,
+				662CB20C16A676E0008F497B /* pixeldriver.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +856,11 @@
 				3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */,
 				66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */,
 				528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */,
+				661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */,
+				6634E1F616A6612300AD86B1 /* PHPixelDriverWindow.m in Sources */,
+				6634E1FE16A66C6700AD86B1 /* PHContainerView.m in Sources */,
+				662CB20F16A67708008F497B /* PHHeaderView.m in Sources */,
+				662CB21216A67915008F497B /* PHPixelImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

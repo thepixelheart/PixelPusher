@@ -25,6 +25,8 @@ NSTimeInterval PHEaseInEaseOut(NSTimeInterval t);
 NSTimeInterval PHEaseIn(NSTimeInterval t);
 NSTimeInterval PHEaseOut(NSTimeInterval t);
 
+CGRect UIEdgeInsetRect(CGRect rect, NSEdgeInsets insets);
+
 NSColor* generateRandomColor();
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED <= __MAC_10_7

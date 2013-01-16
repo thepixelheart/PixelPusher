@@ -94,6 +94,7 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 
     CGContextAddPath(cx, pathRef);
     CGContextFillPath(cx);
+    CGPathRelease(pathRef);
 
     petal.scale += self.secondsSinceLastTick / 12;
     petal.radians += self.secondsSinceLastTick * M_PI_2;

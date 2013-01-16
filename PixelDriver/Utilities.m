@@ -61,6 +61,11 @@ NSTimeInterval PHEaseOut(NSTimeInterval t) {
   return -1 * t * (t - 2);
 }
 
+CGRect UIEdgeInsetRect(CGRect rect, NSEdgeInsets insets) {
+  return CGRectMake(rect.origin.x + insets.left, rect.origin.y + insets.top,
+                    rect.size.width - insets.right - insets.left, rect.size.height - insets.bottom - insets.top);
+}
+
 NSColor* generateRandomColor() {
     CGFloat hue = ( arc4random_uniform(256) / 256.0f );  //  0.0 to 1.0
     CGFloat saturation = ( arc4random_uniform(256) / 512.0f ) + 0.5f;  //  0.5 to 1.0, away from white
