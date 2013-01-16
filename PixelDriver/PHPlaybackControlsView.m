@@ -28,6 +28,7 @@ static const CGFloat kSliderHeight = 44;
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _faderSlider = [[PHSlider alloc] init];
+    _faderSlider.numberOfTickMarks = 11;
     [self.contentView addSubview:_faderSlider];
   }
   return self;

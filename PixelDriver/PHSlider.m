@@ -24,6 +24,9 @@
   NSImage* _sliderImageMid;
   NSImage* _sliderImageMidHighlight;
   NSImage* _sliderImageRight;
+  NSImage* _sliderBgImageLeft;
+  NSImage* _sliderBgImageMid;
+  NSImage* _sliderBgImageRight;
 }
 
 - (id)init {
@@ -32,23 +35,51 @@
     _sliderImageMid = [NSImage imageNamed:@"sliderxMx"];
     _sliderImageMidHighlight = [NSImage imageNamed:@"sliderxMxHighlight"];
     _sliderImageRight = [NSImage imageNamed:@"sliderxxR"];
+    _sliderBgImageLeft = [NSImage imageNamed:@"sliderbgLxx"];
+    _sliderBgImageMid = [NSImage imageNamed:@"sliderbgxMx"];
+    _sliderBgImageRight = [NSImage imageNamed:@"sliderbgxxR"];
   }
   return self;
 }
 
 - (void)drawKnob:(NSRect)knobRect {
-  NSDrawThreePartImage(knobRect, _sliderImageLeft, _sliderImageMid, _sliderImageRight, NO, NSCompositeCopy, 1, NO);
+  NSDrawThreePartImage(knobRect, _sliderImageLeft, _sliderImageMid, _sliderImageRight, NO, kCGBlendModeSourceAtop, 1, NO);
   CGRect highlightRect = knobRect;
   highlightRect.size.width = _sliderImageMidHighlight.size.width;
   highlightRect.origin.x = knobRect.origin.x + floorf((knobRect.size.width - highlightRect.size.width) / 2);
-  [_sliderImageMidHighlight drawInRect:highlightRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1];
+  [_sliderImageMidHighlight drawInRect:highlightRect fromRect:NSZeroRect operation:kCGBlendModeSourceAtop fraction:1];
+}
+
+- (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {
+  CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextClearRect(cx, aRect);
+
+  CGContextSetRGBFillColor(cx, 1, 1, 1, 0.25);
+  for (NSInteger ix = 0; ix < self.numberOfTickMarks; ++ix) {
+    CGRect rect = [self rectOfTickMarkAtIndex:ix];
+    rect.origin.y = 0;
+    rect.size.height = self.controlView.bounds.size.height;
+    if (ix == 0 || ix == self.numberOfTickMarks - 1
+        || (ix == self.numberOfTickMarks / 2 && (self.numberOfTickMarks % 2 == 1))) {
+      rect.size.width += 1;
+      rect.origin.x -= 0.5;
+    }
+    CGContextFillRect(cx, rect);
+  }
+  
+  CGRect imageRect = aRect;
+  imageRect.size.height = floor(_sliderBgImageLeft.size.height * 2);
+  imageRect.origin.y = aRect.origin.y + floor((aRect.size.height - imageRect.size.height) / 2);
+  
+  NSDrawThreePartImage(imageRect, _sliderBgImageLeft, _sliderBgImageMid, _sliderBgImageRight, NO, kCGBlendModeSourceAtop, 1, NO);
 }
 
 - (NSRect)knobRectFlipped:(BOOL)flipped {
 	NSRect rect = [super knobRectFlipped:flipped];
-  rect = CGRectInset(rect, 3, -10);
-  rect.size.height++;
-  return rect;
+  CGRect knobRect = rect;
+  knobRect.size.height = 32;
+  knobRect.origin.y = rect.origin.y + floor((rect.size.height - knobRect.size.height) / 2);
+  return knobRect;
 }
 
 @end
@@ -57,13 +88,6 @@
 
 + (void)initialize {
   [PHSlider setCellClass:[PHSliderCell class]];
-}
-
-- (id)initWithFrame:(NSRect)frameRect {
-  if ((self = [super initWithFrame:frameRect])) {
-    self.knobThickness = 50;
-  }
-  return self;
 }
 
 @end
