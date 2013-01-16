@@ -18,5 +18,7 @@
 
 #import "PHContainerView.h"
 
+extern const CGFloat PHPlaybackControlsWidth;
+
 @interface PHPlaybackControlsView : PHContainerView
 @end

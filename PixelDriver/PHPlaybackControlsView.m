@@ -21,6 +21,8 @@
 static const CGFloat kSliderWidth = 100;
 static const CGFloat kSliderHeight = 44;
 
+const CGFloat PHPlaybackControlsWidth = kSliderWidth + 20;
+
 @implementation PHPlaybackControlsView {
   NSSlider* _faderSlider;
 }
@@ -29,7 +31,13 @@ static const CGFloat kSliderHeight = 44;
   if ((self = [super initWithFrame:frameRect])) {
     _faderSlider = [[PHSlider alloc] init];
     _faderSlider.numberOfTickMarks = 11;
+    _faderSlider.minValue = 0;
+    _faderSlider.maxValue = 100;
+    [_faderSlider setContinuous:YES];
     [self.contentView addSubview:_faderSlider];
+
+    _faderSlider.target = self;
+    _faderSlider.action = @selector(faderSliderDidChange:);
   }
   return self;
 }
@@ -41,6 +49,10 @@ static const CGFloat kSliderHeight = 44;
   _faderSlider.frame = CGRectMake(floor((boundsSize.width - kSliderWidth) / 2),
                                   floor((boundsSize.height - kSliderHeight) / 2),
                                   kSliderWidth, kSliderHeight);
+}
+
+- (void)faderSliderDidChange:(NSSlider *)slider {
+  NSLog(@"%f", slider.floatValue);
 }
 
 @end

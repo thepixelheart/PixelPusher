@@ -69,7 +69,7 @@
   
   CGRect imageRect = aRect;
   imageRect.size.height = floor(_sliderBgImageLeft.size.height * 2);
-  imageRect.origin.y = aRect.origin.y + floor((aRect.size.height - imageRect.size.height) / 2);
+  imageRect.origin.y = aRect.origin.y + floor((aRect.size.height - imageRect.size.height) / 2) + 2;
   
   NSDrawThreePartImage(imageRect, _sliderBgImageLeft, _sliderBgImageMid, _sliderBgImageRight, NO, kCGBlendModeSourceAtop, 1, NO);
 }
@@ -78,7 +78,7 @@
 	NSRect rect = [super knobRectFlipped:flipped];
   CGRect knobRect = rect;
   knobRect.size.height = 32;
-  knobRect.origin.y = rect.origin.y + floor((rect.size.height - knobRect.size.height) / 2);
+  knobRect.origin.y = rect.origin.y + floor((rect.size.height - knobRect.size.height) / 2) + 3;
   return knobRect;
 }
 

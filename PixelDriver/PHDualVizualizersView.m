@@ -83,7 +83,8 @@ NSColor* PHBackgroundColor() {
   [super layout];
 
   CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
-  CGFloat visualizerMaxWidth = self.bounds.size.width / 2;
+  CGFloat midX = self.bounds.size.width / 2;
+  CGFloat visualizerMaxWidth = (self.bounds.size.width - PHPlaybackControlsWidth) / 2;
   CGFloat visualizerWidth = visualizerMaxWidth;
 
   CGFloat visualizerHeight = visualizerMaxWidth * visualizerAspectRatio;
@@ -95,7 +96,7 @@ NSColor* PHBackgroundColor() {
   CGFloat topEdge = self.bounds.size.height - kHeaderBarHeight - visualizerHeight;
   _leftVisualizationView.frame = CGRectMake(floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
                                             visualizerWidth, visualizerHeight);
-  _rightVisualizationView.frame = CGRectMake(visualizerMaxWidth + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
+  _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2 + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
                                              visualizerWidth, visualizerHeight);
 
   topEdge -= kPlaybackControlsHeight;
