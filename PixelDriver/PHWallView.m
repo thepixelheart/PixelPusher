@@ -44,12 +44,12 @@ const NSInteger kPixelBorderSize = 1;
 
 - (void)awakeFromNib {
   [super awakeFromNib];
-
+/*
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];
-
+*/
   _firstTick = [NSDate date];
 }
 
