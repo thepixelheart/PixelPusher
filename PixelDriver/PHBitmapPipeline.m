@@ -33,6 +33,8 @@
   if ((self = [super init])) {
     _block = [block copy];
     _imageSize = size;
+    _imageSize.width = MAX(_imageSize.width, 1);
+    _imageSize.height = MAX(_imageSize.height, 1);
   }
   return self;
 }

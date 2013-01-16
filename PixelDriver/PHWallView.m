@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,13 +37,6 @@
                                                      pixelsHigh:kWallHeight];
 */
 @implementation PHWallView
-
-- (id)initWithFrame:(NSRect)frameRect {
-  if ((self = [super initWithFrame:frameRect])) {
-    _pixelSize = 16;
-  }
-  return self;
-}
 
 #pragma mark - Rendering
 

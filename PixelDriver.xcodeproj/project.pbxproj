@@ -83,6 +83,12 @@
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
 		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
+		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
+		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
+		66BDB2B216A6AA5700ED7C81 /* sliderLxx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */; };
+		66BDB2B316A6AA5700ED7C81 /* sliderxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */; };
+		66BDB2B416A6AA5700ED7C81 /* sliderxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B116A6AA5700ED7C81 /* sliderxxR.png */; };
+		66BDB2B616A6ACC400ED7C81 /* sliderxMxHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
@@ -258,6 +264,14 @@
 		66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCompositeAnimation.m; sourceTree = "<group>"; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
+		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
+		66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPlaybackControlsView.m; sourceTree = "<group>"; };
+		66BDB2AA16A6A6EC00ED7C81 /* PHSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSlider.h; sourceTree = "<group>"; };
+		66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSlider.m; sourceTree = "<group>"; };
+		66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderLxx.png; path = PixelDriver/resources/sliderLxx.png; sourceTree = "<group>"; };
+		66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderxMx.png; path = PixelDriver/resources/sliderxMx.png; sourceTree = "<group>"; };
+		66BDB2B116A6AA5700ED7C81 /* sliderxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderxxR.png; path = PixelDriver/resources/sliderxxR.png; sourceTree = "<group>"; };
+		66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderxMxHighlight.png; path = PixelDriver/resources/sliderxMxHighlight.png; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,19 +451,18 @@
 		6634E1F816A667AA00AD86B1 /* Pixel Driver */ = {
 			isa = PBXGroup;
 			children = (
+				66BDB2A516A6A2F800ED7C81 /* Views */,
 				66A8E02D167C258700FBAFE8 /* Bitmap Rendering Pipeline */,
 				6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */,
 				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
 				66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */,
 				66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */,
-				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
-				6634E1FD16A66C6700AD86B1 /* PHContainerView.m */,
 				662CB20D16A67708008F497B /* PHHeaderView.h */,
 				662CB20E16A67708008F497B /* PHHeaderView.m */,
-				662CB21016A67915008F497B /* PHPixelImageView.h */,
-				662CB21116A67915008F497B /* PHPixelImageView.m */,
 				66DC7B7A167725E900453E8F /* PHWallView.h */,
 				66DC7B7B167725E900453E8F /* PHWallView.m */,
+				66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */,
+				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -545,6 +558,19 @@
 			name = Launchpad;
 			sourceTree = "<group>";
 		};
+		66BDB2A516A6A2F800ED7C81 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
+				6634E1FD16A66C6700AD86B1 /* PHContainerView.m */,
+				662CB21016A67915008F497B /* PHPixelImageView.h */,
+				662CB21116A67915008F497B /* PHPixelImageView.m */,
+				66BDB2AA16A6A6EC00ED7C81 /* PHSlider.h */,
+				66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		66DC7B421676FC2F00453E8F = {
 			isa = PBXGroup;
 			children = (
@@ -633,6 +659,10 @@
 			isa = PBXGroup;
 			children = (
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
+				66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */,
+				66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */,
+				66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */,
+				66BDB2B116A6AA5700ED7C81 /* sliderxxR.png */,
 				66A64E901691583600A701BA /* gifs */,
 				66F6640716854FA3001E77BC /* spritesheets */,
 				663C83A2168ECD84003B88A1 /* fonts */,
@@ -769,6 +799,10 @@
 				663C83A3168ECD84003B88A1 /* fonts in Resources */,
 				66A64E911691583600A701BA /* gifs in Resources */,
 				662CB20C16A676E0008F497B /* pixeldriver.png in Resources */,
+				66BDB2B216A6AA5700ED7C81 /* sliderLxx.png in Resources */,
+				66BDB2B316A6AA5700ED7C81 /* sliderxMx.png in Resources */,
+				66BDB2B416A6AA5700ED7C81 /* sliderxxR.png in Resources */,
+				66BDB2B616A6ACC400ED7C81 /* sliderxMxHighlight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +901,8 @@
 				662CB20F16A67708008F497B /* PHHeaderView.m in Sources */,
 				662CB21216A67915008F497B /* PHPixelImageView.m in Sources */,
 				66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */,
+				66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */,
+				66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

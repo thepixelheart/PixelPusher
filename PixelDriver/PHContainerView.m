@@ -35,7 +35,7 @@ static const NSEdgeInsets kContentInset = {2, 2, 2, 2};
 
 - (void)drawRect:(NSRect)dirtyRect {
   NSColor* startingColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
-  NSColor* endingColor = [NSColor colorWithDeviceWhite:0.3 alpha:1];
+  NSColor* endingColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
   NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startingColor endingColor:endingColor];
   [grad drawInRect:UIEdgeInsetRect(self.bounds, kContentInset) angle:90];
 

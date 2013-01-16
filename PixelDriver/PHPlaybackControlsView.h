@@ -16,12 +16,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "PHBitmapView.h"
+#import "PHContainerView.h"
 
-@class PHWallView;
-
-extern const NSInteger kPixelBorderSize;
-
-@interface PHWallView : PHBitmapView
-@property (nonatomic, assign) BOOL primary;
+@interface PHPlaybackControlsView : PHContainerView
 @end

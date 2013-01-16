@@ -19,9 +19,11 @@
 #import "PHHeaderView.h"
 #import "PHDriver.h"
 #import "PHWallView.h"
+#import "PHPlaybackControlsView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
-static const CGFloat kVisualizerMaxHeight = 400;
+static const CGFloat kVisualizerMaxHeight = 300;
+static const CGFloat kPlaybackControlsHeight = 60;
 
 NSColor* PHBackgroundColor() {
   static NSColor* color = nil;
@@ -35,6 +37,8 @@ NSColor* PHBackgroundColor() {
   PHHeaderView* _headerBarView;
   PHContainerView* _leftVisualizationView;
   PHContainerView* _rightVisualizationView;
+
+  PHPlaybackControlsView* _playbackControlsView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -68,6 +72,9 @@ NSColor* PHBackgroundColor() {
     wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
     wallView.primary = NO;
     [_rightVisualizationView.contentView addSubview:wallView];
+
+    _playbackControlsView = [[PHPlaybackControlsView alloc] init];
+    [self addSubview:_playbackControlsView];
   }
   return self;
 }
@@ -90,6 +97,11 @@ NSColor* PHBackgroundColor() {
                                             visualizerWidth, visualizerHeight);
   _rightVisualizationView.frame = CGRectMake(visualizerMaxWidth + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
                                              visualizerWidth, visualizerHeight);
+
+  topEdge -= kPlaybackControlsHeight;
+
+  _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
+  [_playbackControlsView layout];
 }
 
 @end
