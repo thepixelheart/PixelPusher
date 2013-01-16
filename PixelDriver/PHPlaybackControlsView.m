@@ -32,7 +32,7 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 20;
     _faderSlider = [[PHSlider alloc] init];
     _faderSlider.numberOfTickMarks = 11;
     _faderSlider.minValue = 0;
-    _faderSlider.maxValue = 100;
+    _faderSlider.maxValue = 1;
     [_faderSlider setContinuous:YES];
     [self.contentView addSubview:_faderSlider];
 

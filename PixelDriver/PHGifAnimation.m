@@ -106,7 +106,7 @@ static const NSTimeInterval kTransitionDuration = 0.5;
              || (buttonPressed && _buttonWasntPressed))
             && self.driver.gifs.count > 1)) {
       if (nil == _activeGif) {
-        _currentGifIndex = arc4random_uniform((int)self.driver.gifs.count);
+        _currentGifIndex = arc4random_uniform((u_int32_t)self.driver.gifs.count);
       }
       _buttonWasntPressed = NO;
 

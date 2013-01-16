@@ -17,6 +17,7 @@
 		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
 		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
+		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
 		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
@@ -139,6 +140,8 @@
 		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
 		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
 		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
+		661CC6B316A72D17007F3900 /* PHSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystem.h; sourceTree = "<group>"; };
+		661CC6B416A72D17007F3900 /* PHSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystem.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
@@ -351,6 +354,23 @@
 			name = Overlays;
 			sourceTree = "<group>";
 		};
+		661CC6B116A72CE3007F3900 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */,
+				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
+				66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */,
+				66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */,
+				662CB20D16A67708008F497B /* PHHeaderView.h */,
+				662CB20E16A67708008F497B /* PHHeaderView.m */,
+				66DC7B7A167725E900453E8F /* PHWallView.h */,
+				66DC7B7B167725E900453E8F /* PHWallView.m */,
+				66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */,
+				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
+			);
+			name = Window;
+			sourceTree = "<group>";
+		};
 		662CA845167FFF7800FC800F /* Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,18 +477,11 @@
 		6634E1F816A667AA00AD86B1 /* Pixel Driver */ = {
 			isa = PBXGroup;
 			children = (
-				66BDB2A516A6A2F800ED7C81 /* Views */,
 				66A8E02D167C258700FBAFE8 /* Bitmap Rendering Pipeline */,
-				6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */,
-				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
-				66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */,
-				66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */,
-				662CB20D16A67708008F497B /* PHHeaderView.h */,
-				662CB20E16A67708008F497B /* PHHeaderView.m */,
-				66DC7B7A167725E900453E8F /* PHWallView.h */,
-				66DC7B7B167725E900453E8F /* PHWallView.m */,
-				66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */,
-				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
+				66BDB2A516A6A2F800ED7C81 /* Generic Views */,
+				661CC6B116A72CE3007F3900 /* Window */,
+				661CC6B316A72D17007F3900 /* PHSystem.h */,
+				661CC6B416A72D17007F3900 /* PHSystem.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -564,7 +577,7 @@
 			name = Launchpad;
 			sourceTree = "<group>";
 		};
-		66BDB2A516A6A2F800ED7C81 /* Views */ = {
+		66BDB2A516A6A2F800ED7C81 /* Generic Views */ = {
 			isa = PBXGroup;
 			children = (
 				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
@@ -574,7 +587,7 @@
 				66BDB2AA16A6A6EC00ED7C81 /* PHSlider.h */,
 				66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */,
 			);
-			name = Views;
+			name = "Generic Views";
 			sourceTree = "<group>";
 		};
 		66DC7B421676FC2F00453E8F = {
@@ -915,6 +928,7 @@
 				66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */,
 				66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */,
 				66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */,
+				661CC6B516A72D17007F3900 /* PHSystem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

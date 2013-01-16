@@ -23,12 +23,16 @@
 @class AppDelegate;
 @class PHLaunchpadMIDIDriver;
 @class PHWallWindow;
+@class PHSystem;
 @class PHTooltipWindow;
 @class PHOverlay;
 
-AppDelegate *PHApp();
+AppDelegate* PHApp();
+PHSystem* PHSys();
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+
+@property (strong, readonly) PHSystem* system;
 
 @property (assign) IBOutlet NSWindow* launchpadWindow;
 @property (assign) IBOutlet PHTooltipWindow* tooltipWindow;

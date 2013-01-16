@@ -31,6 +31,7 @@
 #import "PHProcessingAnimation.h"
 #import "PHProcessingServer.h"
 #import "PHProcessingSource.h"
+#import "PHSystem.h"
 #import "PHTooltipWindow.h"
 #import "PHOverlay.h"
 #import "SCEvents.h"
@@ -46,8 +47,12 @@ typedef enum {
   PHLaunchpadModeComposite,
 } PHLaunchpadMode;
 
-AppDelegate *PHApp() {
+AppDelegate* PHApp() {
   return (AppDelegate *)[NSApplication sharedApplication].delegate;
+}
+
+PHSystem* PHSys() {
+  return PHApp().system;
 }
 
 @interface AppDelegate() <SCEventListenerProtocol>
@@ -178,6 +183,8 @@ AppDelegate *PHApp() {
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
+  _system = [[PHSystem alloc] init];
+
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
   [self loadGifs];
