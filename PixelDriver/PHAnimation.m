@@ -50,7 +50,7 @@
 
 #import "PHCompositeAnimation.h"
 
-const NSInteger PHInitialAnimationIndex = 20;
+const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 @implementation PHAnimation

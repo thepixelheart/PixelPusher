@@ -53,6 +53,8 @@ static const NSEdgeInsets kContentInset = {2, 2, 2, 2};
   grad = [[NSGradient alloc] initWithStartingColor:lightBorderColor endingColor:endingColor];
   [grad drawInRect:CGRectMake(1, 1, 1, self.bounds.size.height - 3) angle:90];
   [grad drawInRect:CGRectMake(self.bounds.size.width - 2, 1, 1, self.bounds.size.height - 3) angle:90];
+
+  [super drawRect:dirtyRect];
 }
 
 @end

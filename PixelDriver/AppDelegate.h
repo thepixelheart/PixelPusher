@@ -30,8 +30,6 @@ AppDelegate *PHApp();
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet PHWallWindow* window;
-@property (assign) IBOutlet PHWallWindow* previewWindow;
 @property (assign) IBOutlet NSWindow* launchpadWindow;
 @property (assign) IBOutlet PHTooltipWindow* tooltipWindow;
 @property (strong, readonly) PHDriver* driver;

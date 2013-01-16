@@ -22,10 +22,6 @@
 
 extern const NSInteger kPixelBorderSize;
 
-@interface PHWallWindow : NSWindow
-@property (nonatomic, weak) IBOutlet PHWallView* wallView;
-@end
-
 @interface PHWallView : PHBitmapView
 @property (nonatomic, assign) BOOL primary;
 @property (nonatomic, assign) NSInteger pixelSize;

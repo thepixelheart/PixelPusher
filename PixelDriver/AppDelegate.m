@@ -38,7 +38,7 @@
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
 static const NSTimeInterval kCrossFadeDuration = 1;
-static const NSInteger kInitialPreviewAnimationIndex = 1;
+static const NSInteger kInitialPreviewAnimationIndex = 2;
 
 typedef enum {
   PHLaunchpadModeAnimations,
@@ -101,27 +101,6 @@ AppDelegate *PHApp() {
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
 @synthesize gifs = _gifs;
-
-- (void)prepareWindow:(PHWallWindow *)window {
-  [window setAcceptsMouseMovedEvents:YES];
-  [window setMovableByWindowBackground:YES];
-
-  NSRect frame = self.window.frame;
-
-  CGFloat midX = NSMidX(frame);
-  CGFloat midY = NSMidY(frame);
-
-  frame.size.width = kWallWidth * window.wallView.pixelSize + (kWallWidth + 1) * kPixelBorderSize;
-  frame.size.height = kWallHeight * window.wallView.pixelSize + (kWallHeight + 1) * kPixelBorderSize;
-  [window setMaxSize:frame.size];
-  [window setMinSize:frame.size];
-
-  [window setFrame:NSMakeRect(floorf(midX - frame.size.width * 0.5f),
-                              floorf(midY - frame.size.height * 0.5f),
-                              frame.size.width,
-                              frame.size.height)
-           display:YES];
-}
 
 - (NSMutableArray *)createAnimations {
   NSArray* animations = [PHAnimation allAnimations];
@@ -229,16 +208,8 @@ AppDelegate *PHApp() {
              name:PHProcessingSourceListDidChangeNotification
            object:nil];
 
-  self.window.wallView.pixelSize = kPixelHeartPixelSize;
-  self.previewWindow.wallView.pixelSize = kPreviewPixelSize;
-  [self prepareWindow:self.window];
-  [self prepareWindow:self.previewWindow];
   [self.launchpadWindow setAcceptsMouseMovedEvents:YES];
   [self.launchpadWindow setMovableByWindowBackground:YES];
-
-  // Because the two wall windows use the same views we need to let one know
-  // that it's the "main" view. This main view will pipe its output to the wall.
-  self.window.wallView.primary = YES;
 
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];

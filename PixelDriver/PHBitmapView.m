@@ -35,13 +35,24 @@
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)awakeFromNib {
-  [super awakeFromNib];
-
+- (void)commonInit {
   _pipeline = [[PHBitmapPipeline alloc] init];
 
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
+}
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    [self commonInit];
+  }
+  return self;
+}
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+
+  [self commonInit];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
@@ -57,8 +68,6 @@
 
   if (nil != _renderedImage) {
     CGContextDrawImage(cx, CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height), _renderedImage);
-    CGImageRelease(_renderedImage);
-    _renderedImage = nil;
   }
 }
 

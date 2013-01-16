@@ -18,6 +18,7 @@
 
 #import "PHHeaderView.h"
 #import "PHDriver.h"
+#import "PHWallView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 400;
@@ -54,8 +55,19 @@ NSColor* PHBackgroundColor() {
     _leftVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
     [self addSubview:_leftVisualizationView];
 
+    PHWallView* wallView = [[PHWallView alloc] initWithFrame:_leftVisualizationView.contentView.bounds];
+    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    wallView.primary = YES;
+    [_leftVisualizationView.contentView addSubview:wallView];
+
+    // Right vizualization
     _rightVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
     [self addSubview:_rightVisualizationView];
+
+    wallView = [[PHWallView alloc] initWithFrame:_leftVisualizationView.contentView.bounds];
+    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    wallView.primary = NO;
+    [_rightVisualizationView.contentView addSubview:wallView];
   }
   return self;
 }

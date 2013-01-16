@@ -28,29 +28,21 @@
 // Animations
 #import "PHAnimation.h"
 
-const NSInteger kPixelBorderSize = 1;
-
-@implementation PHWallWindow
-@end
-
-@implementation PHWallView {
-  PHQuartzRenderer *_renderer;
-  NSDate* _firstTick;
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)awakeFromNib {
-  [super awakeFromNib];
 /*
+  PHQuartzRenderer *_renderer;
+
   NSString* filename = @"PixelDriver.app/Contents/Resources/clouds.qtz";
   _renderer = [[PHQuartzRenderer alloc] initWithCompositionPath:filename
                                                      pixelsWide:kWallWidth
                                                      pixelsHigh:kWallHeight];
 */
-  _firstTick = [NSDate date];
+@implementation PHWallView
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    _pixelSize = 16;
+  }
+  return self;
 }
 
 #pragma mark - Rendering
@@ -59,22 +51,6 @@ const NSInteger kPixelBorderSize = 1;
   CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);
-
-  if (PHApp().driver.isConnected || !_primary) {
-    CGContextSetRGBFillColor(cx, 32.f / 255.f, 32.f / 255.f, 32.f / 255.f, 1);
-  } else {
-    CGContextSetRGBFillColor(cx, 64.f / 255.f, 64.f / 255.f, 64.f / 255.f, 1);
-  }
-  CGRect frame = CGRectMake(0, 0, kPixelBorderSize, size.height);
-  for (NSInteger ix = 0; ix <= kWallWidth; ++ix) {
-    frame.origin.x = ix * (kPixelBorderSize + _pixelSize);
-    CGContextFillRect(cx, frame);
-  }
-  frame = CGRectMake(0, 0, size.width, kPixelBorderSize);
-  for (NSInteger iy = 0; iy <= kWallHeight; ++iy) {
-    frame.origin.y = iy * (kPixelBorderSize + _pixelSize);
-    CGContextFillRect(cx, frame);
-  }
 
   CGContextRef wallContext;
   if (_primary) {
@@ -90,24 +66,13 @@ const NSInteger kPixelBorderSize = 1;
     [PHApp().driver queueContext:wallContext];
   }
 
-  float* data = (float *)CGBitmapContextGetData(wallContext);
-  size_t bytesPerRow = CGBitmapContextGetBytesPerRow(wallContext);
+  CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
-  NSRect pixelFrame = NSMakeRect(0, 0, 1, 1);
-  NSRect viewFrame = NSMakeRect(0, 0, _pixelSize, _pixelSize);
-  for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
-    pixelFrame.origin.y = iy;
-    viewFrame.origin.y = (iy + 1) * kPixelBorderSize + iy * _pixelSize;
-
-    for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
-      pixelFrame.origin.x = ix;
-      viewFrame.origin.x = (ix + 1) * kPixelBorderSize + ix * _pixelSize;
-
-      NSInteger offset = ix * 4 + iy * (bytesPerRow / 4);
-      CGContextSetRGBFillColor(cx, data[offset] / data[offset + 3], data[offset + 1] / data[offset + 3], data[offset + 2] / data[offset + 3], data[offset + 3]);
-      CGContextFillRect(cx, viewFrame);
-    }
-  }
+  CGImageRef imageRef = CGBitmapContextCreateImage(wallContext);
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -size.height);
+  CGContextDrawImage(cx, self.bounds, imageRef);
+  CGImageRelease(imageRef);
 
   CGContextRelease(wallContext);
 }

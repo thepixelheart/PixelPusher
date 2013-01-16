@@ -437,6 +437,7 @@
 		6634E1F816A667AA00AD86B1 /* Pixel Driver */ = {
 			isa = PBXGroup;
 			children = (
+				66A8E02D167C258700FBAFE8 /* Bitmap Rendering Pipeline */,
 				6634E1F416A6612300AD86B1 /* PHPixelDriverWindow.h */,
 				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
 				66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */,
@@ -447,6 +448,8 @@
 				662CB20E16A67708008F497B /* PHHeaderView.m */,
 				662CB21016A67915008F497B /* PHPixelImageView.h */,
 				662CB21116A67915008F497B /* PHPixelImageView.m */,
+				66DC7B7A167725E900453E8F /* PHWallView.h */,
+				66DC7B7B167725E900453E8F /* PHWallView.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -648,9 +651,6 @@
 		66DC7B80167738EB00453E8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				66A8E02D167C258700FBAFE8 /* Bitmap Rendering Pipeline */,
-				66DC7B7A167725E900453E8F /* PHWallView.h */,
-				66DC7B7B167725E900453E8F /* PHWallView.m */,
 				66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */,
 				66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */,
 				66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */,
