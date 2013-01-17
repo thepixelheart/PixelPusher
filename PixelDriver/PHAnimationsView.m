@@ -22,6 +22,22 @@ static NSString* const kIndexColumnIdentifier = @"indexColumn";
 static NSString* const kNameColumnIdentifier = @"nameColumn";
 static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
 
+@interface PHAnimationTableHeaderCell : NSTableHeaderCell
+@end
+
+@implementation PHAnimationTableHeaderCell
+
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+  CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
+  CGContextSetFillColorWithColor(cx, PHBackgroundColor().CGColor);
+  CGContextFillRect(cx, cellFrame);
+
+  CGContextSetFillColorWithColor(cx, [NSColor whiteColor].CGColor);
+  [[self stringValue] drawInRect:cellFrame withAttributes:nil];
+}
+
+@end
+
 @interface PHAnimationCell : NSTextFieldCell
 @property (nonatomic, copy) NSString* name;
 @end
@@ -57,15 +73,15 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
     _tableView.backgroundColor = PHBackgroundColor();
 
     NSTableColumn* indexColumn = [[NSTableColumn alloc] initWithIdentifier:kIndexColumnIdentifier];
-    [indexColumn.headerCell setStringValue:@"#"];
+    indexColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"#"];
     [_tableView addTableColumn:indexColumn];
 
     NSTableColumn* nameColumn = [[NSTableColumn alloc] initWithIdentifier:kNameColumnIdentifier];
-    [nameColumn.headerCell setStringValue:@"Name"];
+    nameColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"Name"];
     [_tableView addTableColumn:nameColumn];
 
     NSTableColumn* screenshotColumn = [[NSTableColumn alloc] initWithIdentifier:kScreenshotColumnIdentifier];
-    [screenshotColumn.headerCell setStringValue:@"Screenshot"];
+    screenshotColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"Screenshot"];
     [_tableView addTableColumn:screenshotColumn];
 
     _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
