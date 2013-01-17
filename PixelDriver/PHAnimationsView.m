@@ -27,30 +27,97 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
 
 @implementation PHAnimationTableHeaderCell
 
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
-  CGContextSetFillColorWithColor(cx, PHBackgroundColor().CGColor);
-  CGContextFillRect(cx, cellFrame);
+- (void)drawWithFrame:(NSRect)cellFrame {
+  if (self.state == 1) {
+    NSColor* startingColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
+    NSColor* endingColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
+    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startingColor endingColor:endingColor];
+    [grad drawInRect:cellFrame angle:90];
 
-  CGContextSetFillColorWithColor(cx, [NSColor whiteColor].CGColor);
-  [[self stringValue] drawInRect:cellFrame withAttributes:nil];
+  } else {
+    NSColor* startingColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
+    NSColor* endingColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
+    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startingColor endingColor:endingColor];
+    [grad drawInRect:cellFrame angle:90];
+  }
+
+  [[NSColor colorWithDeviceWhite:0.1 alpha:1] setFill];
+  CGRect border = cellFrame;
+  border.size.height = 1;
+  border.origin.y = cellFrame.size.height - 1;
+  NSRectFillUsingOperation(border, NSCompositeCopy);
+
+  NSDictionary* attributes = @{
+    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:0.6 alpha:1],
+    NSFontAttributeName:[NSFont boldSystemFontOfSize:11]
+  };
+  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.stringValue attributes:attributes];
+  [string drawInRect:CGRectOffset(CGRectInset(cellFrame, 5, 0), 0, 1)];
+}
+
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+  [self drawWithFrame:cellFrame];
 }
 
 @end
 
 @interface PHAnimationCell : NSTextFieldCell
-@property (nonatomic, copy) NSString* name;
 @end
 
 @implementation PHAnimationCell
 
-- (id)copyWithZone:(NSZone *)zone {
-  PHAnimationCell* cell = [super copyWithZone:zone];
-  if (nil == cell) {
-    return nil;
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+  NSDictionary* attributes = @{
+    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:0.8 alpha:1],
+    NSFontAttributeName:[NSFont systemFontOfSize:12]
+  };
+  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.stringValue attributes:attributes];
+  [string drawInRect:CGRectInset(cellFrame, 5, 0)];
+}
+
+@end
+
+@interface PHAnimationTableView : NSTableView
+@end
+
+@implementation PHAnimationTableView {
+  NSArray* _backgroundColors;
+}
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    _backgroundColors = @[
+    [NSColor colorWithDeviceWhite:0.2 alpha:1],
+    [NSColor colorWithDeviceWhite:0.15 alpha:1],
+    ];
   }
-  cell->_name = [_name copyWithZone:zone];
-  return cell;
+  return self;
+}
+
+- (void)drawBackgroundInClipRect:(NSRect)inClipRect {
+  NSUInteger n = [_backgroundColors count];
+  NSUInteger i = 0;
+
+  CGFloat height = self.rowHeight + self.intercellSpacing.height;
+  NSRect clipRect = [self bounds];
+  NSRect drawRect = clipRect;
+  drawRect.origin = NSZeroPoint;
+  drawRect.size.height = height;
+
+  [[self backgroundColor] set];
+  NSRectFillUsingOperation(inClipRect,NSCompositeSourceOver);
+
+  while ((NSMinY(drawRect) <= NSHeight(clipRect)))
+  {
+    if (NSIntersectsRect(drawRect,clipRect))
+    {
+      [[_backgroundColors objectAtIndex:i%n] setFill];
+      NSRectFillUsingOperation(drawRect,NSCompositeSourceOver);
+    }
+
+    drawRect.origin.y += height;
+    i++;
+  }
 }
 
 @end
@@ -66,7 +133,7 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
-    _tableView = [[NSTableView alloc] initWithFrame:self.contentView.bounds];
+    _tableView = [[PHAnimationTableView alloc] initWithFrame:self.contentView.bounds];
     _tableView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -90,6 +157,7 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
     _scrollView.hasVerticalScroller = YES;
     _scrollView.hasHorizontalScroller = NO;
     _scrollView.autohidesScrollers = YES;
+    _scrollView.scrollerKnobStyle = NSScrollerKnobStyleLight;
 
     _scrollView.documentView = _tableView;
     [self.contentView addSubview:_scrollView];
@@ -113,13 +181,22 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
   if ([tableColumn.identifier isEqualToString:kIndexColumnIdentifier]) {
-    return [NSString stringWithFormat:@"%ld", row];
+    return [NSString stringWithFormat:@"%ld", row + 1];
   }
   PHAnimation* animation = [_animations objectAtIndex:row];
   if ([tableColumn.identifier isEqualToString:kNameColumnIdentifier]) {
     return animation.tooltipName;
   }
   return nil;
+}
+
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+  NSString* string = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+  if (nil != string) {
+    return [[PHAnimationCell alloc] initTextCell:string];
+  } else {
+    return nil;
+  }
 }
 
 @end
