@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 
 @class PHAnimation;
+@class PHTransition;
 
 @interface PHSystemTick : NSObject
 @property (nonatomic, assign) CGContextRef leftContextRef;
@@ -38,6 +39,9 @@
 // The animation being displayed in the preview pane for loading animations
 // into the visualizer.
 @property (strong) PHAnimation* previewAnimation;
+
+// The transition used to fade between the left and right animations.
+@property (strong) PHTransition* faderTransition;
 
 // Controller State
 

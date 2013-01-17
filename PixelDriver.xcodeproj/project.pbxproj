@@ -18,6 +18,8 @@
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
 		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
+		661CC73516A780DF007F3900 /* PHTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73416A780DF007F3900 /* PHTransition.m */; };
+		661CC73816A78196007F3900 /* PHCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73716A78196007F3900 /* PHCrossFadeTransition.m */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
 		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
@@ -142,6 +144,10 @@
 		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
 		661CC6B316A72D17007F3900 /* PHSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystem.h; sourceTree = "<group>"; };
 		661CC6B416A72D17007F3900 /* PHSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystem.m; sourceTree = "<group>"; };
+		661CC73316A780DF007F3900 /* PHTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTransition.h; sourceTree = "<group>"; };
+		661CC73416A780DF007F3900 /* PHTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTransition.m; sourceTree = "<group>"; };
+		661CC73616A78196007F3900 /* PHCrossFadeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCrossFadeTransition.h; sourceTree = "<group>"; };
+		661CC73716A78196007F3900 /* PHCrossFadeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCrossFadeTransition.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
@@ -369,6 +375,17 @@
 				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
 			);
 			name = Window;
+			sourceTree = "<group>";
+		};
+		661CC73116A780D4007F3900 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				661CC73316A780DF007F3900 /* PHTransition.h */,
+				661CC73416A780DF007F3900 /* PHTransition.m */,
+				661CC73616A78196007F3900 /* PHCrossFadeTransition.h */,
+				661CC73716A78196007F3900 /* PHCrossFadeTransition.m */,
+			);
+			name = Transitions;
 			sourceTree = "<group>";
 		};
 		662CA845167FFF7800FC800F /* Animations */ = {
@@ -641,6 +658,7 @@
 			isa = PBXGroup;
 			children = (
 				662CA845167FFF7800FC800F /* Animations */,
+				661CC73116A780D4007F3900 /* Transitions */,
 				0EEA867016921ABE009ACDF3 /* Overlays */,
 				66A8E037167D745F00FBAFE8 /* Launchpad */,
 				66A8E029167C1FFC00FBAFE8 /* Display Link */,
@@ -929,6 +947,8 @@
 				66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */,
 				66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */,
 				661CC6B516A72D17007F3900 /* PHSystem.m in Sources */,
+				661CC73516A780DF007F3900 /* PHTransition.m in Sources */,
+				661CC73816A78196007F3900 /* PHCrossFadeTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

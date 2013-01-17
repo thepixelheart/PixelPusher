@@ -265,7 +265,7 @@ PHSystem* PHSys() {
                                                                  | NSResizableWindowMask)
                                                         backing:NSBackingStoreBuffered
                                                           defer:YES];
-  _appWindow.title = @"Pixel Driver";
+  _appWindow.title = @"Pixel Pusher";
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {

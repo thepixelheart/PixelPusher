@@ -18,14 +18,26 @@
 
 #import "PHAnimation.h"
 #import "PHDriver.h"
+#import "PHCrossFadeTransition.h"
 
 #import <objc/runtime.h>
 
 static const char kAnimationContextKey = 0;
 
+@interface PHSystemTick()
+- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
+@end
+
 @implementation PHSystem
 
-- (CGContextRef)createWallContext {
+- (id)init {
+  if ((self = [super init])) {
+    _faderTransition = [[PHCrossFadeTransition alloc] init];
+  }
+  return self;
+}
+
++ (CGContextRef)createWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
   CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -53,7 +65,7 @@ static const char kAnimationContextKey = 0;
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
   CGRect wallFrame = CGRectMake(0, 0, wallSize.width, wallSize.height);
 
-  CGContextRef context = [self createWallContext];
+  CGContextRef context = [self.class createWallContext];
   CGContextClearRect(context, wallFrame);
 
   [animation bitmapWillStartRendering];
@@ -108,8 +120,7 @@ static const char kAnimationContextKey = 0;
     tick.previewContextRef = [objc_getAssociatedObject(_previewAnimation, &kAnimationContextKey) pointerValue];
   }
 
-  // TODO: Render the wall context given the current state of the system.
-//  tick.wallContextRef = something;
+  [tick updateWallContextWithTransition:_faderTransition t:_fade];
 
   return tick;
 }
@@ -164,6 +175,19 @@ static const char kAnimationContextKey = 0;
     CGContextRelease(_wallContextRef);
   }
   _wallContextRef = CGContextRetain(wallContextRef);
+}
+
+- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t {
+  CGContextRef wallContext = [PHSystem createWallContext];
+
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  [transition renderBitmapInContext:wallContext
+                               size:wallSize
+                        leftContext:_leftContextRef
+                       rightContext:_rightContextRef
+                                  t:t];
+
+  self.wallContextRef = wallContext;
 }
 
 @end
