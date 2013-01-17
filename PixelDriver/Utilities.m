@@ -16,6 +16,14 @@
 
 #import "Utilities.h"
 
+NSColor* PHBackgroundColor() {
+  static NSColor* color = nil;
+  if (nil == color) {
+    color = [NSColor colorWithDeviceWhite:0.1 alpha:1];
+  }
+  return color;
+}
+
 void PHAlert(NSString *message) {
   NSAlert *alert = [[NSAlert alloc] init];
   alert.alertStyle = NSCriticalAlertStyle;

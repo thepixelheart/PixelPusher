@@ -16,6 +16,12 @@
 
 #import "PHAnimationsView.h"
 
+#import "PHAnimation.h"
+
+static NSString* const kIndexColumnIdentifier = @"indexColumn";
+static NSString* const kNameColumnIdentifier = @"nameColumn";
+static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
+
 @interface PHAnimationCell : NSTextFieldCell
 @property (nonatomic, copy) NSString* name;
 @end
@@ -39,6 +45,7 @@
 @implementation PHAnimationsView {
   NSTableView* _tableView;
   NSScrollView* _scrollView;
+  NSArray* _animations;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -47,24 +54,31 @@
     _tableView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.backgroundColor = PHBackgroundColor();
 
-    NSTableColumn* nameColumn = [[NSTableColumn alloc] initWithIdentifier:@"nameColumn"];
+    NSTableColumn* indexColumn = [[NSTableColumn alloc] initWithIdentifier:kIndexColumnIdentifier];
+    [indexColumn.headerCell setStringValue:@"#"];
+    [_tableView addTableColumn:indexColumn];
+
+    NSTableColumn* nameColumn = [[NSTableColumn alloc] initWithIdentifier:kNameColumnIdentifier];
     [nameColumn.headerCell setStringValue:@"Name"];
     [_tableView addTableColumn:nameColumn];
 
-    NSTableColumn* screenshotColumn = [[NSTableColumn alloc] initWithIdentifier:@"screenshotColumn"];
+    NSTableColumn* screenshotColumn = [[NSTableColumn alloc] initWithIdentifier:kScreenshotColumnIdentifier];
     [screenshotColumn.headerCell setStringValue:@"Screenshot"];
     [_tableView addTableColumn:screenshotColumn];
 
     _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    _scrollView.borderType = NSBezelBorder;
+    _scrollView.borderType = NSNoBorder;
     _scrollView.hasVerticalScroller = YES;
     _scrollView.hasHorizontalScroller = NO;
     _scrollView.autohidesScrollers = YES;
 
     _scrollView.documentView = _tableView;
     [self.contentView addSubview:_scrollView];
+
+    _animations = [PHAnimation allAnimations];
   }
   return self;
 }
@@ -78,11 +92,18 @@
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-  return 100;
+  return _animations.count;
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  return @"Hi";
+  if ([tableColumn.identifier isEqualToString:kIndexColumnIdentifier]) {
+    return [NSString stringWithFormat:@"%ld", row];
+  }
+  PHAnimation* animation = [_animations objectAtIndex:row];
+  if ([tableColumn.identifier isEqualToString:kNameColumnIdentifier]) {
+    return animation.tooltipName;
+  }
+  return nil;
 }
 
 @end

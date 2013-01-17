@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+NSColor* PHBackgroundColor();
+
 void PHAlert(NSString* message);
 NSString* PHFilenameForResourcePath(NSString* resourcePath);
 

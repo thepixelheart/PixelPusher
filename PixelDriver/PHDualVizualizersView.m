@@ -27,14 +27,6 @@ static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 60;
 
-NSColor* PHBackgroundColor() {
-  static NSColor* color = nil;
-  if (nil == color) {
-    color = [NSColor colorWithDeviceWhite:0.1 alpha:1];
-  }
-  return color;
-}
-
 @implementation PHDualVizualizersView {
   PHHeaderView* _headerBarView;
   PHContainerView* _leftVisualizationView;
