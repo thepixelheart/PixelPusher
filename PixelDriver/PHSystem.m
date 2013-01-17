@@ -18,6 +18,9 @@
 
 #import "PHAnimation.h"
 #import "PHDriver.h"
+
+#import "PHMovingSawAnimation.h"
+#import "PHFlowerAnimation.h"
 #import "PHCrossFadeTransition.h"
 
 #import <objc/runtime.h>
@@ -33,6 +36,9 @@ static const char kAnimationContextKey = 0;
 - (id)init {
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
+
+    _leftAnimation = [[PHMovingSawAnimation alloc] init];
+    _rightAnimation = [[PHFlowerAnimation alloc] init];
   }
   return self;
 }

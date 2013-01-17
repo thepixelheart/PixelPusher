@@ -23,6 +23,7 @@
 #import "PHFMODRecorder.h"
 #import "PHLaunchpadMIDIDriver.h"
 #import "PHQuartzRenderer.h"
+#import "PHSystem.h"
 #import "Utilities.h"
 
 // Animations
@@ -40,16 +41,16 @@
 
 #pragma mark - Rendering
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
   CGContextSetRGBFillColor(cx, 0, 0, 0, 1);
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);
 
   CGContextRef wallContext;
   if (_primary) {
-    wallContext = [PHApp() currentWallContext];
+    wallContext = systemTick.leftContextRef;
   } else {
-    wallContext = [PHApp() previewWallContext];
+    wallContext = systemTick.rightContextRef;
   }
   if (nil == wallContext) {
     return;
@@ -66,8 +67,6 @@
   CGContextTranslateCTM(cx, 0, -size.height);
   CGContextDrawImage(cx, self.bounds, imageRef);
   CGImageRelease(imageRef);
-
-  CGContextRelease(wallContext);
 }
 
 - (double)threadPriority {

@@ -17,6 +17,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class PHAnimationDriver;
+@class PHSystemTick;
+
 typedef enum {
   PHAudioChannelLeft,
   PHAudioChannelRight,
@@ -27,7 +29,7 @@ typedef enum {
 @interface PHBitmapView : NSView
 
 // Subclassing. Do not call directly.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick;
 - (double)threadPriority;
 
 @end

@@ -18,13 +18,7 @@
 
 @class PHAnimation;
 @class PHTransition;
-
-@interface PHSystemTick : NSObject
-@property (nonatomic, assign) CGContextRef leftContextRef;
-@property (nonatomic, assign) CGContextRef rightContextRef;
-@property (nonatomic, assign) CGContextRef previewContextRef;
-@property (nonatomic, assign) CGContextRef wallContextRef;
-@end
+@class PHSystemTick;
 
 @interface PHSystem : NSObject
 
@@ -56,4 +50,11 @@
 // to display the animations.
 - (PHSystemTick *)tick;
 
+@end
+
+@interface PHSystemTick : NSObject
+@property (nonatomic, assign) CGContextRef leftContextRef;
+@property (nonatomic, assign) CGContextRef rightContextRef;
+@property (nonatomic, assign) CGContextRef previewContextRef;
+@property (nonatomic, assign) CGContextRef wallContextRef;
 @end

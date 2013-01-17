@@ -19,6 +19,7 @@
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "PHAnimationDriver.h"
+#import "PHSystem.h"
 
 @interface PHBitmapView() <PHBitmapReceiver>
 @end
@@ -57,7 +58,8 @@
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
   PHAnimationDriver* driver = notification.userInfo[PHDisplayLinkFiredDriverKey];
-  [self queueBitmapWithDriver:driver];
+  PHSystemTick* systemTick = notification.userInfo[PHDisplayLinkFiredSystemTickKey];
+  [self queueBitmapWithDriver:driver systemTick:systemTick];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -71,9 +73,9 @@
   }
 }
 
-- (void)queueBitmapWithDriver:(PHAnimationDriver *)driver {
+- (void)queueBitmapWithDriver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
   [_pipeline queueRenderBlock:^(CGContextRef cx, CGSize size) {
-    [self renderBitmapInContext:cx size:size driver:driver];
+    [self renderBitmapInContext:cx size:size driver:driver systemTick:systemTick];
   } imageSize:self.bounds.size delegate:self priority:self.threadPriority];
 }
 
@@ -92,7 +94,7 @@
 
 #pragma mark - Subclassing
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
   // No-op
 }
 

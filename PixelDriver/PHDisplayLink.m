@@ -18,11 +18,13 @@
 
 #import "PHFMODRecorder.h"
 #import "PHAnimationDriver.h"
+#import "PHSystem.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
 
 NSString* const PHDisplayLinkFiredNotification = @"PHDisplayLinkFiredNotification";
 NSString* const PHDisplayLinkFiredDriverKey = @"PHDisplayLinkFiredDriverKey";
+NSString* const PHDisplayLinkFiredSystemTickKey = @"PHDisplayLinkFiredSystemTickKey";
 
 static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     const CVTimeStamp* now,
@@ -45,9 +47,14 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     isUserButton2Pressed:isUserButton2Pressed
                                                     gifs:PHApp().gifs];
 
-    NSDictionary* userInfo = @{
+    NSMutableDictionary* userInfo = [@{
       PHDisplayLinkFiredDriverKey : displayLink.animationDriver
-    };
+    } mutableCopy];
+
+    PHSystemTick* tick = [PHSys() tick];
+    if (nil != tick) {
+      [userInfo setObject:tick forKey:PHDisplayLinkFiredSystemTickKey];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification
                                                         object:nil
                                                       userInfo:userInfo];

@@ -71,31 +71,29 @@ static const int kSpeed = 1;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-    if (self.driver.unifiedSpectrum) {
-        // remove invisible saws
-        NSMutableArray *invisibleSaws = [NSMutableArray array];
-        for(PHSaw* saw in _saws) {
-            if (![saw isVisible:size]) {
-                [invisibleSaws addObject:saw];
-            }
-        }
-        [_saws removeObjectsInArray:invisibleSaws];
-        
-        
-        if ([_saws count] < (size.width + size.height + kSawWidth) / kSawWidth) {
-            int addN = (size.width + size.height + kSawWidth) / kSawWidth - [_saws count];
-            for (int i = 0; i < addN; ++i) {
-                PHSaw* saw = [[PHSaw alloc] initWithPosition:i * kSawWidth - size.height - kSawWidth];
-                [_saws addObject:saw];
-            }
-        }
-        // tick and render the rects;
-        
-        for(PHSaw* saw in _saws) {
-                [saw tickWithSpeedMultiplier: 1];
-            [saw renderInContext:cx size:size];
-        }
-    }
+  // remove invisible saws
+  NSMutableArray *invisibleSaws = [NSMutableArray array];
+  for(PHSaw* saw in _saws) {
+      if (![saw isVisible:size]) {
+          [invisibleSaws addObject:saw];
+      }
+  }
+  [_saws removeObjectsInArray:invisibleSaws];
+  
+  
+  if ([_saws count] < (size.width + size.height + kSawWidth) / kSawWidth) {
+      int addN = (size.width + size.height + kSawWidth) / kSawWidth - [_saws count];
+      for (int i = 0; i < addN; ++i) {
+          PHSaw* saw = [[PHSaw alloc] initWithPosition:i * kSawWidth - size.height - kSawWidth];
+          [_saws addObject:saw];
+      }
+  }
+  // tick and render the rects;
+  
+  for(PHSaw* saw in _saws) {
+          [saw tickWithSpeedMultiplier: 1];
+      [saw renderInContext:cx size:size];
+  }
 }
 
 - (NSString *)tooltipName {

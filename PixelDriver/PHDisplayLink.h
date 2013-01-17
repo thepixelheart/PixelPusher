@@ -18,6 +18,7 @@
 
 extern NSString* const PHDisplayLinkFiredNotification;
 extern NSString* const PHDisplayLinkFiredDriverKey;
+extern NSString* const PHDisplayLinkFiredSystemTickKey;
 
 @class PHAnimationDriver;
 

@@ -22,7 +22,7 @@
 
 @implementation PHWaveFormView
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
   float* waveData = nil;
   if (self.audioChannel == PHAudioChannelLeft) {
     waveData = driver.leftWaveData;
