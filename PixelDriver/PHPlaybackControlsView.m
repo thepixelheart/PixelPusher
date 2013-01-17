@@ -17,6 +17,8 @@
 #import "PHPlaybackControlsView.h"
 
 #import "PHSlider.h"
+#import "AppDelegate.h"
+#import "PHSystem.h"
 
 static const CGFloat kSliderWidth = 100;
 static const CGFloat kSliderHeight = 44;
@@ -52,7 +54,7 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 20;
 }
 
 - (void)faderSliderDidChange:(NSSlider *)slider {
-  NSLog(@"%f", slider.floatValue);
+  [PHSys() setFade:slider.floatValue];
 }
 
 @end

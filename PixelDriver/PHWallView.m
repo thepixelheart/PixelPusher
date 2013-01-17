@@ -46,19 +46,23 @@
   CGRect bounds = CGRectMake(0, 0, size.width, size.height);
   CGContextFillRect(cx, bounds);
 
-  CGContextRef wallContext;
-  if (_primary) {
+  CGContextRef wallContext = nil;
+  if (_systemContext == PHSystemContextLeft) {
     wallContext = systemTick.leftContextRef;
-  } else {
+  } else if (_systemContext == PHSystemContextRight) {
     wallContext = systemTick.rightContextRef;
+  } else if (_systemContext == PHSystemContextPreview) {
+    wallContext = systemTick.previewContextRef;
+  } else if (_systemContext == PHSystemContextWall) {
+    wallContext = systemTick.wallContextRef;
   }
   if (nil == wallContext) {
     return;
   }
 
-  if (_primary) {
-    [PHApp().driver queueContext:wallContext];
-  }
+  //if (_primary) {
+  //  [PHApp().driver queueContext:wallContext];
+  //}
 
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
@@ -70,7 +74,7 @@
 }
 
 - (double)threadPriority {
-  return _primary ? 0.9 : 0.7;
+  return 0.7;
 }
 
 @end

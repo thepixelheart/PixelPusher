@@ -22,6 +22,13 @@
 
 extern const NSInteger kPixelBorderSize;
 
+typedef enum {
+  PHSystemContextLeft,
+  PHSystemContextRight,
+  PHSystemContextPreview,
+  PHSystemContextWall,
+} PHSystemContext;
+
 @interface PHWallView : PHBitmapView
-@property (nonatomic, assign) BOOL primary;
+@property (nonatomic, assign) PHSystemContext systemContext;
 @end

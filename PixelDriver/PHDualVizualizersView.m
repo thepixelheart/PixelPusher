@@ -37,6 +37,7 @@ NSColor* PHBackgroundColor() {
   PHHeaderView* _headerBarView;
   PHContainerView* _leftVisualizationView;
   PHContainerView* _rightVisualizationView;
+  PHContainerView* _wallVisualizationView;
 
   PHPlaybackControlsView* _playbackControlsView;
 }
@@ -61,7 +62,7 @@ NSColor* PHBackgroundColor() {
 
     PHWallView* wallView = [[PHWallView alloc] initWithFrame:_leftVisualizationView.contentView.bounds];
     wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
-    wallView.primary = YES;
+    wallView.systemContext = PHSystemContextLeft;
     [_leftVisualizationView.contentView addSubview:wallView];
 
     // Right vizualization
@@ -70,8 +71,17 @@ NSColor* PHBackgroundColor() {
 
     wallView = [[PHWallView alloc] initWithFrame:_leftVisualizationView.contentView.bounds];
     wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
-    wallView.primary = NO;
+    wallView.systemContext = PHSystemContextRight;
     [_rightVisualizationView.contentView addSubview:wallView];
+
+    // Wall vizualization
+    _wallVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
+    [self addSubview:_wallVisualizationView];
+
+    wallView = [[PHWallView alloc] initWithFrame:_wallVisualizationView.contentView.bounds];
+    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    wallView.systemContext = PHSystemContextWall;
+    [_wallVisualizationView.contentView addSubview:wallView];
 
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
     [self addSubview:_playbackControlsView];
@@ -98,6 +108,10 @@ NSColor* PHBackgroundColor() {
                                             visualizerWidth, visualizerHeight);
   _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2 + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
                                              visualizerWidth, visualizerHeight);
+
+  CGFloat wallHeight = PHPlaybackControlsWidth * visualizerAspectRatio;
+  _wallVisualizationView.frame = CGRectMake(midX - PHPlaybackControlsWidth / 2, topEdge,
+                                            PHPlaybackControlsWidth, wallHeight);
 
   topEdge -= kPlaybackControlsHeight;
 
