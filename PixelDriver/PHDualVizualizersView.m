@@ -20,6 +20,7 @@
 #import "PHDriver.h"
 #import "PHWallView.h"
 #import "PHPlaybackControlsView.h"
+#import "PHAnimationsView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
@@ -41,6 +42,8 @@ NSColor* PHBackgroundColor() {
   PHContainerView* _wallVisualizationView;
 
   PHPlaybackControlsView* _playbackControlsView;
+
+  PHAnimationsView* _animationsView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -84,8 +87,13 @@ NSColor* PHBackgroundColor() {
     wallView.systemContext = PHSystemContextWall;
     [_wallVisualizationView.contentView addSubview:wallView];
 
+    // Playback controls
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
     [self addSubview:_playbackControlsView];
+
+    // Animations
+    _animationsView = [[PHAnimationsView alloc] init];
+    [self addSubview:_animationsView];
   }
   return self;
 }
@@ -123,6 +131,9 @@ NSColor* PHBackgroundColor() {
 
   _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
   [_playbackControlsView layout];
+
+  _animationsView.frame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
+  [_animationsView layout];
 }
 
 @end
