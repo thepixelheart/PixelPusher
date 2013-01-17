@@ -72,92 +72,90 @@ static const CGFloat kMinimumEnergyForExcite = 0.5;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
-    _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
+  _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
+  _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
 
-    BOOL canSwitchAnimations = NO;
-    if (_idleAnimation == _activeAnimation
-        || _shockedAnimation == _activeAnimation) {
+  BOOL canSwitchAnimations = NO;
+  if (_idleAnimation == _activeAnimation
+      || _shockedAnimation == _activeAnimation) {
+    canSwitchAnimations = _activeAnimation.isCurrentFrameStill;
+
+  } else if ([NSDate timeIntervalSinceReferenceDate] - _lastAnimationSwitchTime >= kMinimumTimeDoingAnimation) {
+    if (_jumpAnimation == _activeAnimation) {
+      canSwitchAnimations = _activeAnimation.currentFrameIndex == 2;
+
+    } else {
       canSwitchAnimations = _activeAnimation.isCurrentFrameStill;
+    }
+  }
 
-    } else if ([NSDate timeIntervalSinceReferenceDate] - _lastAnimationSwitchTime >= kMinimumTimeDoingAnimation) {
-      if (_jumpAnimation == _activeAnimation) {
-        canSwitchAnimations = _activeAnimation.currentFrameIndex == 2;
+  if (!_hasBeenLulling && self.bassDegrader.value < kMinimumBass) {
+    _hasBeenLulling = YES;
+  }
 
-      } else {
-        canSwitchAnimations = _activeAnimation.isCurrentFrameStill;
+  if (canSwitchAnimations) {
+    PHSpriteAnimation* previousAnimation = _activeAnimation;
+
+    if (_activeAnimation == _idleAnimation) {
+      if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
+        // Bass drop, surprise!
+        _hasBeenLulling = NO;
+        _activeAnimation = _shockedAnimation;
+        [_shockedAnimation setCurrentFrameIndex:0];
+        _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
       }
-    }
 
-    if (!_hasBeenLulling && self.bassDegrader.value < kMinimumBass) {
-      _hasBeenLulling = YES;
-    }
+      // else wait until a bass drop...
 
-    if (canSwitchAnimations) {
-      PHSpriteAnimation* previousAnimation = _activeAnimation;
+    } else {
+      CGFloat totalEnergy = _hihatAbsorber + _vocalAbsorber;
+      if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
+          && _hasBeenLulling
+          && self.bassDegrader.value > kMinimumBass) {
+        _hasBeenLulling = NO;
 
-      if (_activeAnimation == _idleAnimation) {
+        _activeAnimation = _shockedAnimation;
+        [_shockedAnimation setCurrentFrameIndex:0];
+        _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
+
+      } else if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
+                 && totalEnergy < kMinimumEnergyForExcite) {
+        _activeAnimation = _idleAnimation;
+
+      } else if (totalEnergy >= kMinimumEnergyForExcite) {
+        // Pretty fucking excited!
+        _activeAnimation = _jumpAnimation;
+        [_activeAnimation advanceToNextAnimation];
+
         if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
-          // Bass drop, surprise!
-          _hasBeenLulling = NO;
-          _activeAnimation = _shockedAnimation;
-          [_shockedAnimation setCurrentFrameIndex:0];
           _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
+          _hasBeenLulling = NO;
         }
 
-        // else wait until a bass drop...
-
       } else {
-        CGFloat totalEnergy = _hihatAbsorber + _vocalAbsorber;
-        if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
-            && _hasBeenLulling
-            && self.bassDegrader.value > kMinimumBass) {
+        // Havin' fun.
+        _activeAnimation = _danceAnimation;
+        if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
+          [_activeAnimation setCurrentFrameIndex:1];
           _hasBeenLulling = NO;
 
-          _activeAnimation = _shockedAnimation;
-          [_shockedAnimation setCurrentFrameIndex:0];
           _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
-
-        } else if ([NSDate timeIntervalSinceReferenceDate] >= _surprisedTime
-                   && totalEnergy < kMinimumEnergyForExcite) {
-          _activeAnimation = _idleAnimation;
-
-        } else if (totalEnergy >= kMinimumEnergyForExcite) {
-          // Pretty fucking excited!
-          _activeAnimation = _jumpAnimation;
-          [_activeAnimation advanceToNextAnimation];
-
-          if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
-            _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
-            _hasBeenLulling = NO;
-          }
 
         } else {
-          // Havin' fun.
-          _activeAnimation = _danceAnimation;
-          if (_hasBeenLulling && self.bassDegrader.value > kMinimumBass) {
-            [_activeAnimation setCurrentFrameIndex:1];
-            _hasBeenLulling = NO;
-
-            _surprisedTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSurprised;
-
-          } else {
-            [_activeAnimation setCurrentFrameIndex:0];
-          }
+          [_activeAnimation setCurrentFrameIndex:0];
         }
-      }
-
-      if (previousAnimation != _activeAnimation) {
-        _lastAnimationSwitchTime = [NSDate timeIntervalSinceReferenceDate];
       }
     }
 
-    CGImageRef imageRef = [_activeAnimation imageRefAtCurrentTick];
-    CGSize size = _spritesheet.spriteSize;
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
+    if (previousAnimation != _activeAnimation) {
+      _lastAnimationSwitchTime = [NSDate timeIntervalSinceReferenceDate];
+    }
   }
+
+  CGImageRef imageRef = [_activeAnimation imageRefAtCurrentTick];
+  CGSize sophjoySize = _spritesheet.spriteSize;
+  CGContextDrawImage(cx, CGRectMake(0, 0, sophjoySize.width, sophjoySize.height), imageRef);
+  CGImageRelease(imageRef);
 }
 
 - (NSString *)tooltipName {

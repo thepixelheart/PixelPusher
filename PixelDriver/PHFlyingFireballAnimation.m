@@ -72,37 +72,35 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    NSTimeInterval delta = self.secondsSinceLastTick;
+  NSTimeInterval delta = self.secondsSinceLastTick;
 
-    _advance += delta * (self.hihatDegrader.value + 0.2);
-    _advance2 += delta * (self.bassDegrader.value + 0.2);
+  _advance += delta * (self.hihatDegrader.value + 0.2);
+  _advance2 += delta * (self.bassDegrader.value + 0.2);
 
-    CGContextSetBlendMode(cx, kCGBlendModeScreen);
-    if (_imageOfPreviousFrame) {
-      CGContextSaveGState(cx);
-      CGContextSetAlpha(cx, 0.96);
-      CGContextDrawImage(cx, CGRectInset(CGRectMake(-1, 0, size.width, size.height), 0, self.bassDegrader.value * 4 - 2),
-                         _imageOfPreviousFrame);
-      CGContextRestoreGState(cx);
-    }
-
-    CGFloat xOff1 = sin(_advance) * 15;
-    CGFloat xOff2 = sin(_advance2 * 2) * 15;
-
-    if (xOff1 < xOff2) {
-      [self renderBall1AtX:xOff1 context:cx];
-      [self renderBall2AtX:xOff2 context:cx];
-    } else {
-      [self renderBall2AtX:xOff2 context:cx];
-      [self renderBall1AtX:xOff1 context:cx];
-    }
-
-    if (nil != _imageOfPreviousFrame) {
-      CGImageRelease(_imageOfPreviousFrame);
-    }
-    _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
+  CGContextSetBlendMode(cx, kCGBlendModeScreen);
+  if (_imageOfPreviousFrame) {
+    CGContextSaveGState(cx);
+    CGContextSetAlpha(cx, 0.96);
+    CGContextDrawImage(cx, CGRectInset(CGRectMake(-1, 0, size.width, size.height), 0, self.bassDegrader.value * 4 - 2),
+                       _imageOfPreviousFrame);
+    CGContextRestoreGState(cx);
   }
+
+  CGFloat xOff1 = sin(_advance) * 15;
+  CGFloat xOff2 = sin(_advance2 * 2) * 15;
+
+  if (xOff1 < xOff2) {
+    [self renderBall1AtX:xOff1 context:cx];
+    [self renderBall2AtX:xOff2 context:cx];
+  } else {
+    [self renderBall2AtX:xOff2 context:cx];
+    [self renderBall1AtX:xOff1 context:cx];
+  }
+
+  if (nil != _imageOfPreviousFrame) {
+    CGImageRelease(_imageOfPreviousFrame);
+  }
+  _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
 }
 
 - (NSString *)tooltipName {

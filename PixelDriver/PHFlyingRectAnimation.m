@@ -83,33 +83,31 @@ static const int kMaxRectanglesAddedPerStep = 5;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    // remove invisible rects
-    NSMutableArray *invisibleRects = [NSMutableArray array];
-    for(PHRect* rect in _rects) {
-      if (![rect isVisible:size]) {
-        [invisibleRects addObject:rect];
-      }
+  // remove invisible rects
+  NSMutableArray *invisibleRects = [NSMutableArray array];
+  for(PHRect* rect in _rects) {
+    if (![rect isVisible:size]) {
+      [invisibleRects addObject:rect];
     }
-    [_rects removeObjectsInArray:invisibleRects];
+  }
+  [_rects removeObjectsInArray:invisibleRects];
 
 
-    if (self.hihatDegrader.value > 0.2 && [_rects count] < kMaxRectanglesOnScreen) {
-      for (int i = 0; i < kMaxRectanglesAddedPerStep * self.hihatDegrader.value; ++i) {
-        PHRect* rect = [[PHRect alloc] initWithRect:CGRectMake(arc4random_uniform(size.width * 2) / size.width - 1,
-                                                               arc4random_uniform(size.height * 2) / size.height - 1,
-                                                               arc4random_uniform(size.width / 2) / size.width,
-                                                               arc4random_uniform(size.height / 2) / size.height)];
-        [_rects addObject:rect];
-      }
+  if (self.hihatDegrader.value > 0.2 && [_rects count] < kMaxRectanglesOnScreen) {
+    for (int i = 0; i < kMaxRectanglesAddedPerStep * self.hihatDegrader.value; ++i) {
+      PHRect* rect = [[PHRect alloc] initWithRect:CGRectMake(arc4random_uniform(size.width * 2) / size.width - 1,
+                                                             arc4random_uniform(size.height * 2) / size.height - 1,
+                                                             arc4random_uniform(size.width / 2) / size.width,
+                                                             arc4random_uniform(size.height / 2) / size.height)];
+      [_rects addObject:rect];
     }
+  }
 
-    // tick and render the rects;
-    for(PHRect* rect in _rects) {
-      [rect tickWithSpeedMultiplier: self.bassDegrader.value];
-      //            [rect tickWithSpeedMultiplier: 1];
-      [rect renderInContext:cx size:size];
-    }
+  // tick and render the rects;
+  for(PHRect* rect in _rects) {
+    [rect tickWithSpeedMultiplier: self.bassDegrader.value];
+    //            [rect tickWithSpeedMultiplier: 1];
+    [rect renderInContext:cx size:size];
   }
 }
 

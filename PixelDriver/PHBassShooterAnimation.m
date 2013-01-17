@@ -68,30 +68,28 @@ static const int kMinRaidus = 2;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-    if (self.driver.unifiedSpectrum) {
-        // remove invisible saws
-        NSMutableArray *invisibleSprites = [NSMutableArray array];
-        for(PHSprite* sp in _sprites) {
-            if (![sp isAlive]) {
-                [invisibleSprites addObject:sp];
-            }
-        }
-        [_sprites removeObjectsInArray:invisibleSprites];
-        
-        
-        if (self.vocalDegrader.value > 0.5) {
-            for (int i = 0; (i < kMaxAddPerFrame) && ([_sprites count] < kMaxSprites); ++i) {
-                PHSprite* sp = [[PHSprite alloc] initWithPosition:CGPointMake(arc4random_uniform(size.width), arc4random_uniform(size.height))];
-                [_sprites addObject:sp];
-            }
-        }
-        // tick and render the rects;
-        
-        for(PHSprite* sp in _sprites) {
-            [sp tickWithSpeedMultiplier: self.bassDegrader.value];
-            [sp renderInContext:cx size:size];
-        }
+  // remove invisible saws
+  NSMutableArray *invisibleSprites = [NSMutableArray array];
+  for(PHSprite* sp in _sprites) {
+    if (![sp isAlive]) {
+      [invisibleSprites addObject:sp];
     }
+  }
+  [_sprites removeObjectsInArray:invisibleSprites];
+
+
+  if (self.vocalDegrader.value > 0.5) {
+    for (int i = 0; (i < kMaxAddPerFrame) && ([_sprites count] < kMaxSprites); ++i) {
+      PHSprite* sp = [[PHSprite alloc] initWithPosition:CGPointMake(arc4random_uniform(size.width), arc4random_uniform(size.height))];
+      [_sprites addObject:sp];
+    }
+  }
+  // tick and render the rects;
+
+  for(PHSprite* sp in _sprites) {
+    [sp tickWithSpeedMultiplier: self.bassDegrader.value];
+    [sp renderInContext:cx size:size];
+  }
 }
 
 - (NSString *)tooltipName {

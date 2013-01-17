@@ -147,23 +147,21 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    if (self.driver.hihatAmplitude > 0.5) {
-      [self addRandomLife];
-    }
-
-    if (self.bassDegrader.value > 0.1 && [NSDate timeIntervalSinceReferenceDate] >= _lastTick + _deltaToNextTick * (1 - self.bassDegrader.value)) {
-      if (_shouldRestartWorld) {
-        [self initializeWorld];
-      } else {
-        [self tickWorld];
-      }
-    }
-
-    CGImageRef imageRef = CGBitmapContextCreateImage(_worldContextRef);
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
+  if (self.driver.hihatAmplitude > 0.5) {
+    [self addRandomLife];
   }
+
+  if (self.bassDegrader.value > 0.1 && [NSDate timeIntervalSinceReferenceDate] >= _lastTick + _deltaToNextTick * (1 - self.bassDegrader.value)) {
+    if (_shouldRestartWorld) {
+      [self initializeWorld];
+    } else {
+      [self tickWorld];
+    }
+  }
+
+  CGImageRef imageRef = CGBitmapContextCreateImage(_worldContextRef);
+  CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+  CGImageRelease(imageRef);
 }
 
 - (NSString *)tooltipName {

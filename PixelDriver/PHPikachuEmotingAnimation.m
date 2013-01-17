@@ -85,69 +85,67 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
-    _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
+  _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
+  _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
 
-    _hasBeenLulling = _hasBeenLulling || (self.driver.subBassAmplitude < 0.5);
+  _hasBeenLulling = _hasBeenLulling || (self.driver.subBassAmplitude < 0.5);
 
-    if (_activeAnimation.currentFrameIndex == 0 && [NSDate timeIntervalSinceReferenceDate] >= _nextAllowedAnimationChangeTime) {
-      PHSpriteAnimation* nextAnimation = _activeAnimation;
-      if (_isFrightened && _sleepingAnimation.currentFrameIndex < 2) {
-        _isFrightened = NO;
-        _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
-      }
-      if (_isFrightened) {
-        nextAnimation = _sleepingAnimation;
-      } else if (_hihatAbsorber > 0.5 && _vocalAbsorber > 0.5) {
-        nextAnimation = _ecstaticAnimation;
-      } else if (_hihatAbsorber > 0.3) {
-        nextAnimation = _happyAnimation;
-      } else if (_vocalAbsorber > 0.3) {
-        nextAnimation = _contentAnimation;
-      } else {
-        nextAnimation = _idleAnimation;
-      }
-
-      if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
-        nextAnimation = _sleepingAnimation;
-      }
-
-      if (nextAnimation != _activeAnimation) {
-        _activeAnimation = nextAnimation;
-        [_activeAnimation setCurrentFrameIndex:0];
-
-        if (_activeAnimation != _sleepingAnimation) {
-          _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
-        }
-      }
+  if (_activeAnimation.currentFrameIndex == 0 && [NSDate timeIntervalSinceReferenceDate] >= _nextAllowedAnimationChangeTime) {
+    PHSpriteAnimation* nextAnimation = _activeAnimation;
+    if (_isFrightened && _sleepingAnimation.currentFrameIndex < 2) {
+      _isFrightened = NO;
+      _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
     }
-
-    if (_hasBeenLulling && self.driver.subBassAmplitude > 0.5) {
-      if (!_isFrightened && _activeAnimation == _sleepingAnimation && _sleepingAnimation.currentFrameIndex < 2) {
-        [_sleepingAnimation setCurrentFrameIndex:2];
-        _isFrightened = YES;
-        _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
-
-      } else if (_activeAnimation.currentFrameIndex == 0 && _activeAnimation != _sleepingAnimation) {
-        [_activeAnimation advanceToNextAnimation];
-        _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
-      }
-      _hasBeenLulling = NO;
-    }
-
-    CGSize size = _pikachuSpritesheet.spriteSize;
-
-    CGImageRef imageRef = nil;
-    imageRef = [_activeAnimation imageRefAtCurrentTick];
     if (_isFrightened) {
-      CGImageRelease(imageRef);
-      imageRef = [_pikachuSpritesheet imageAtX:3 y:2];
+      nextAnimation = _sleepingAnimation;
+    } else if (_hihatAbsorber > 0.5 && _vocalAbsorber > 0.5) {
+      nextAnimation = _ecstaticAnimation;
+    } else if (_hihatAbsorber > 0.3) {
+      nextAnimation = _happyAnimation;
+    } else if (_vocalAbsorber > 0.3) {
+      nextAnimation = _contentAnimation;
+    } else {
+      nextAnimation = _idleAnimation;
     }
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
 
-    CGImageRelease(imageRef);
+    if ([NSDate timeIntervalSinceReferenceDate] >= _nextSleepTime) {
+      nextAnimation = _sleepingAnimation;
+    }
+
+    if (nextAnimation != _activeAnimation) {
+      _activeAnimation = nextAnimation;
+      [_activeAnimation setCurrentFrameIndex:0];
+
+      if (_activeAnimation != _sleepingAnimation) {
+        _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
+      }
+    }
   }
+
+  if (_hasBeenLulling && self.driver.subBassAmplitude > 0.5) {
+    if (!_isFrightened && _activeAnimation == _sleepingAnimation && _sleepingAnimation.currentFrameIndex < 2) {
+      [_sleepingAnimation setCurrentFrameIndex:2];
+      _isFrightened = YES;
+      _nextAllowedAnimationChangeTime = [NSDate timeIntervalSinceReferenceDate] + kMinimumAnimationChangeInterval;
+
+    } else if (_activeAnimation.currentFrameIndex == 0 && _activeAnimation != _sleepingAnimation) {
+      [_activeAnimation advanceToNextAnimation];
+      _nextSleepTime = [NSDate timeIntervalSinceReferenceDate] + kTimeUntilSleeping;
+    }
+    _hasBeenLulling = NO;
+  }
+
+  CGSize pikachuSize = _pikachuSpritesheet.spriteSize;
+
+  CGImageRef imageRef = nil;
+  imageRef = [_activeAnimation imageRefAtCurrentTick];
+  if (_isFrightened) {
+    CGImageRelease(imageRef);
+    imageRef = [_pikachuSpritesheet imageAtX:3 y:2];
+  }
+  CGContextDrawImage(cx, CGRectMake(0, 0, pikachuSize.width, pikachuSize.height), imageRef);
+
+  CGImageRelease(imageRef);
 }
 
 - (NSString *)tooltipName {

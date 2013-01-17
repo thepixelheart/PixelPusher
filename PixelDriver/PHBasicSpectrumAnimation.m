@@ -19,10 +19,8 @@
 @implementation PHBasicSpectrumAnimation
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
-    CGContextFillRect(cx, CGRectMake(0, 0, self.bassDegrader.value * size.width, kWallHeight));
-  }
+  CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
+  CGContextFillRect(cx, CGRectMake(0, 0, self.bassDegrader.value * size.width, kWallHeight));
 }
 
 @end

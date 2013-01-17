@@ -30,34 +30,32 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    CGFloat circleRadius = 5;
-    CGRect circleFrame = CGRectMake(0, 0, circleRadius * 2, circleRadius * 2);
-    CGFloat maxRadius = MIN(size.height, size.width) / 2 - circleRadius;
+  CGFloat circleRadius = 5;
+  CGRect circleFrame = CGRectMake(0, 0, circleRadius * 2, circleRadius * 2);
+  CGFloat maxRadius = MIN(size.height, size.width) / 2 - circleRadius;
 
-    for (PHMote* mote in self.driver.motes) {
-      CGFloat degrees = mote.joystickDegrees;
-      CGFloat radians = degrees * M_PI / 180;
-      CGFloat tilt = mote.joystickTilt;
+  for (PHMote* mote in self.driver.motes) {
+    CGFloat degrees = mote.joystickDegrees;
+    CGFloat radians = degrees * M_PI / 180;
+    CGFloat tilt = mote.joystickTilt;
 
-      [_aButtonDegrader tickWithPeak:mote.aIsBeingTapped ? 1 : 0];
-      [_bButtonDegrader tickWithPeak:mote.bIsBeingTapped ? 1 : 0];
+    [_aButtonDegrader tickWithPeak:mote.aIsBeingTapped ? 1 : 0];
+    [_bButtonDegrader tickWithPeak:mote.bIsBeingTapped ? 1 : 0];
 
-      if (_aButtonDegrader.value > 0) {
-        CGContextSetRGBFillColor(cx, 0, 1, 0, _aButtonDegrader.value);
-        CGContextFillRect(cx, CGRectMake(0, 0, size.width / 2, size.height));
-      }
-      if (_bButtonDegrader.value > 0) {
-        CGContextSetRGBFillColor(cx, 0, 0, 1, _bButtonDegrader.value);
-        CGContextFillRect(cx, CGRectMake(size.width / 2, 0, size.width / 2, size.height));
-      }
-
-      CGRect moteFrame = circleFrame;
-      moteFrame.origin.x = size.width / 2 - circleRadius + cosf(radians) * tilt * maxRadius;
-      moteFrame.origin.y = size.height / 2 - circleRadius + sinf(radians) * tilt * maxRadius;
-      CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
-      CGContextFillEllipseInRect(cx, moteFrame);
+    if (_aButtonDegrader.value > 0) {
+      CGContextSetRGBFillColor(cx, 0, 1, 0, _aButtonDegrader.value);
+      CGContextFillRect(cx, CGRectMake(0, 0, size.width / 2, size.height));
     }
+    if (_bButtonDegrader.value > 0) {
+      CGContextSetRGBFillColor(cx, 0, 0, 1, _bButtonDegrader.value);
+      CGContextFillRect(cx, CGRectMake(size.width / 2, 0, size.width / 2, size.height));
+    }
+
+    CGRect moteFrame = circleFrame;
+    moteFrame.origin.x = size.width / 2 - circleRadius + cosf(radians) * tilt * maxRadius;
+    moteFrame.origin.y = size.height / 2 - circleRadius + sinf(radians) * tilt * maxRadius;
+    CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
+    CGContextFillEllipseInRect(cx, moteFrame);
   }
 }
 

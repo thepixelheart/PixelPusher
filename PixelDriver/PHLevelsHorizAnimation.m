@@ -19,21 +19,19 @@
 @implementation PHLevelsHorizAnimation
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    CGFloat wallQuartile = kWallHeight / 4;
+  CGFloat wallQuartile = kWallHeight / 4;
 
-    CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
-    CGContextFillRect(cx, CGRectMake(0, 0, self.bassDegrader.value * size.width, wallQuartile));
+  CGContextSetRGBFillColor(cx, 1, 0, 0, 1);
+  CGContextFillRect(cx, CGRectMake(0, 0, self.bassDegrader.value * size.width, wallQuartile));
 
-    CGContextSetRGBFillColor(cx, 0, 1, 0, 1);
-    CGContextFillRect(cx, CGRectMake(0, wallQuartile, self.hihatDegrader.value * size.width, wallQuartile));
+  CGContextSetRGBFillColor(cx, 0, 1, 0, 1);
+  CGContextFillRect(cx, CGRectMake(0, wallQuartile, self.hihatDegrader.value * size.width, wallQuartile));
 
-    CGContextSetRGBFillColor(cx, 0, 0, 1, 1);
-    CGContextFillRect(cx, CGRectMake(0, 2 * wallQuartile, self.vocalDegrader.value * size.width, wallQuartile));
+  CGContextSetRGBFillColor(cx, 0, 0, 1, 1);
+  CGContextFillRect(cx, CGRectMake(0, 2 * wallQuartile, self.vocalDegrader.value * size.width, wallQuartile));
 
-    CGContextSetRGBFillColor(cx, 1, 0, 1, 1);
-    CGContextFillRect(cx, CGRectMake(0, 3 * wallQuartile, self.snareDegrader.value * size.width, wallQuartile));
-  }
+  CGContextSetRGBFillColor(cx, 1, 0, 1, 1);
+  CGContextFillRect(cx, CGRectMake(0, 3 * wallQuartile, self.snareDegrader.value * size.width, wallQuartile));
 }
 
 - (NSString *)tooltipName {

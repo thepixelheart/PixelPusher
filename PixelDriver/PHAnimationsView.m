@@ -18,138 +18,113 @@
 
 #import "PHAnimation.h"
 
-static NSString* const kIndexColumnIdentifier = @"indexColumn";
-static NSString* const kNameColumnIdentifier = @"nameColumn";
-static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
-
-@interface PHAnimationTableHeaderCell : NSTableHeaderCell
+@interface PHAnimationTileView : NSView
+@property (nonatomic, assign) BOOL selected;
+@property (nonatomic, copy) PHAnimation* animation;
 @end
 
-@implementation PHAnimationTableHeaderCell
+@implementation PHAnimationTileView
 
-- (void)drawWithFrame:(NSRect)cellFrame {
-  if (self.state == 1) {
-    NSColor* startingColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
-    NSColor* endingColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
-    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startingColor endingColor:endingColor];
-    [grad drawInRect:cellFrame angle:90];
+- (id)initWithFrame:(NSRect)frameRect {
+  CGFloat aspectRatio = (CGFloat)kWallWidth / (CGFloat)kWallHeight;
+  self = [super initWithFrame:(NSRect){frameRect.origin, CGSizeMake(150 * aspectRatio, 150)}];
+  if (self) {
+  }
+  return self;
+}
 
-  } else {
-    NSColor* startingColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
-    NSColor* endingColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
-    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startingColor endingColor:endingColor];
-    [grad drawInRect:cellFrame angle:90];
+- (void)drawRect:(NSRect)dirtyRect {
+  if (_selected) {
+    [[NSColor colorWithDeviceWhite:1 alpha:0.2] set];
+    NSRectFill([self bounds]);
   }
 
-  [[NSColor colorWithDeviceWhite:0.1 alpha:1] setFill];
-  CGRect border = cellFrame;
-  border.size.height = 1;
-  border.origin.y = cellFrame.size.height - 1;
-  NSRectFillUsingOperation(border, NSCompositeCopy);
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+  [_animation bitmapWillStartRendering];
+  [_animation renderBitmapInContext:contextRef size:wallSize];
+  [_animation bitmapDidFinishRendering];
+
+  CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
+  CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
+  CGContextSaveGState(cx);
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -self.bounds.size.height);
+  CGContextDrawImage(cx, self.bounds, imageRef);
+  CGImageRelease(imageRef);
+  CGContextRelease(contextRef);
+  contextRef = nil;
+  CGContextRestoreGState(cx);
 
   NSDictionary* attributes = @{
     NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:0.6 alpha:1],
     NSFontAttributeName:[NSFont boldSystemFontOfSize:11]
   };
-  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.stringValue attributes:attributes];
-  [string drawInRect:CGRectOffset(CGRectInset(cellFrame, 5, 0), 0, 1)];
-}
-
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  [self drawWithFrame:cellFrame];
-}
-
-@end
-
-@interface PHAnimationCell : NSTextFieldCell
-@end
-
-@implementation PHAnimationCell
-
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-  NSDictionary* attributes = @{
-    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:0.8 alpha:1],
-    NSFontAttributeName:[NSFont systemFontOfSize:12]
-  };
-  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.stringValue attributes:attributes];
-  [string drawInRect:CGRectInset(cellFrame, 5, 0)];
+  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:_animation.tooltipName attributes:attributes];
+  [string setAlignment:NSCenterTextAlignment range:NSMakeRange(0, string.length)];
+  CGRect textFrame = CGRectInset(self.bounds, 5, 5);
+  CGSize size = [string.string sizeWithAttributes:attributes];
+  textFrame.size.height = size.height;
+  [string drawInRect:textFrame];
 }
 
 @end
 
-@interface PHAnimationTableView : NSTableView
+@interface PHAnimationTileViewItem : NSCollectionViewItem
 @end
 
-@implementation PHAnimationTableView {
-  NSArray* _backgroundColors;
+@implementation PHAnimationTileViewItem
+
+- (void)loadView {
+  [self setView:[[PHAnimationTileView alloc] initWithFrame:NSZeroRect]];
 }
 
-- (id)initWithFrame:(NSRect)frameRect {
-  if ((self = [super initWithFrame:frameRect])) {
-    _backgroundColors = @[
-    [NSColor colorWithDeviceWhite:0.2 alpha:1],
-    [NSColor colorWithDeviceWhite:0.15 alpha:1],
-    ];
-  }
-  return self;
+- (void)setRepresentedObject:(id)representedObject {
+  [super setRepresentedObject:representedObject];
+
+  PHAnimationTileView* view = (PHAnimationTileView *)self.view;
+  view.animation = representedObject;
+  [view setNeedsDisplay:YES];
 }
 
-- (void)drawBackgroundInClipRect:(NSRect)inClipRect {
-  NSUInteger n = [_backgroundColors count];
-  NSUInteger i = 0;
+- (void)setSelected:(BOOL)selected {
+  [super setSelected:selected];
 
-  CGFloat height = self.rowHeight + self.intercellSpacing.height;
-  NSRect clipRect = [self bounds];
-  NSRect drawRect = clipRect;
-  drawRect.origin = NSZeroPoint;
-  drawRect.size.height = height;
-
-  [[self backgroundColor] set];
-  NSRectFillUsingOperation(inClipRect,NSCompositeSourceOver);
-
-  while ((NSMinY(drawRect) <= NSHeight(clipRect)))
-  {
-    if (NSIntersectsRect(drawRect,clipRect))
-    {
-      [[_backgroundColors objectAtIndex:i%n] setFill];
-      NSRectFillUsingOperation(drawRect,NSCompositeSourceOver);
-    }
-
-    drawRect.origin.y += height;
-    i++;
-  }
+  PHAnimationTileView* view = (PHAnimationTileView *)self.view;
+  [view setSelected:selected];
+  [view setNeedsDisplay:YES];
 }
 
 @end
 
-@interface PHAnimationsView() <NSTableViewDataSource, NSTableViewDelegate>
+@interface PHCollectionView : NSCollectionView
+@end
+
+@implementation PHCollectionView
+
+- (id)animationForKey:(NSString *)key {
+  return nil;
+}
+
 @end
 
 @implementation PHAnimationsView {
-  NSTableView* _tableView;
+  NSCollectionView* _collectionView;
   NSScrollView* _scrollView;
   NSArray* _animations;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
-    _tableView = [[PHAnimationTableView alloc] initWithFrame:self.contentView.bounds];
-    _tableView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.backgroundColor = PHBackgroundColor();
-
-    NSTableColumn* indexColumn = [[NSTableColumn alloc] initWithIdentifier:kIndexColumnIdentifier];
-    indexColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"#"];
-    [_tableView addTableColumn:indexColumn];
-
-    NSTableColumn* nameColumn = [[NSTableColumn alloc] initWithIdentifier:kNameColumnIdentifier];
-    nameColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"Name"];
-    [_tableView addTableColumn:nameColumn];
-
-    NSTableColumn* screenshotColumn = [[NSTableColumn alloc] initWithIdentifier:kScreenshotColumnIdentifier];
-    screenshotColumn.headerCell = [[PHAnimationTableHeaderCell alloc] initTextCell:@"Screenshot"];
-    [_tableView addTableColumn:screenshotColumn];
+    _collectionView = [[PHCollectionView alloc] initWithFrame:self.contentView.bounds];
+    _collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    _collectionView.itemPrototype = [PHAnimationTileViewItem new];
+    _collectionView.content = [PHAnimation allAnimations];
+    [_collectionView setSelectable:YES];
+    _collectionView.backgroundColors = @[
+      [NSColor colorWithDeviceWhite:0.2 alpha:1],
+      [NSColor colorWithDeviceWhite:0.15 alpha:1],
+    ];
 
     _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -158,45 +133,14 @@ static NSString* const kScreenshotColumnIdentifier = @"screenshotColumn";
     _scrollView.hasHorizontalScroller = NO;
     _scrollView.autohidesScrollers = YES;
     _scrollView.scrollerKnobStyle = NSScrollerKnobStyleLight;
+    _scrollView.backgroundColor = PHBackgroundColor();
 
-    _scrollView.documentView = _tableView;
+    _scrollView.documentView = _collectionView;
     [self.contentView addSubview:_scrollView];
 
     _animations = [PHAnimation allAnimations];
   }
   return self;
-}
-
-- (void)layout {
-  [super layout];
-
-  [_tableView reloadData];
-}
-
-#pragma mark - NSTableViewDataSource
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-  return _animations.count;
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  if ([tableColumn.identifier isEqualToString:kIndexColumnIdentifier]) {
-    return [NSString stringWithFormat:@"%ld", row + 1];
-  }
-  PHAnimation* animation = [_animations objectAtIndex:row];
-  if ([tableColumn.identifier isEqualToString:kNameColumnIdentifier]) {
-    return animation.tooltipName;
-  }
-  return nil;
-}
-
-- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  NSString* string = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
-  if (nil != string) {
-    return [[PHAnimationCell alloc] initTextCell:string];
-  } else {
-    return nil;
-  }
 }
 
 @end

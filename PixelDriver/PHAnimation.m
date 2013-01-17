@@ -69,6 +69,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHAnimation* animation = [[self.class allocWithZone:zone] init];
+  return animation;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   // No-op
 }

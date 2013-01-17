@@ -155,13 +155,11 @@ static const NSTimeInterval kMinimumPitchAge = 0.1;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    [self tickWorld];
+  [self tickWorld];
 
-    CGImageRef imageRef = CGBitmapContextCreateImage(_worldContextRef);
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
-  }
+  CGImageRef imageRef = CGBitmapContextCreateImage(_worldContextRef);
+  CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+  CGImageRelease(imageRef);
 }
 
 @end

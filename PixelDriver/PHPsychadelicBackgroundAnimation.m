@@ -34,39 +34,37 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    if (_lastTick) {
-      NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
-      if (self.bassDegrader.value < 0.4) {
-        if (!_didSwap) {
-          _direction = -_direction;
-          _didSwap = YES;
-        }
-      } else {
-        _didSwap = NO;
+  if (_lastTick) {
+    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
+    if (self.bassDegrader.value < 0.4) {
+      if (!_didSwap) {
+        _direction = -_direction;
+        _didSwap = YES;
       }
-      _advance += delta * 1 * self.bassDegrader.value * _direction;
-      _colorAdvance += delta * 3 * self.hihatDegrader.value * _direction;
-      _rotationAdvance += delta * 2 * self.driver.vocalAmplitude * _direction;
+    } else {
+      _didSwap = NO;
     }
-    CGRect pixelRect = CGRectMake(0, 0, 1, 1);
-    for (int ix = 0; ix < size.width; ++ix) {
-      pixelRect.origin.x = ix;
+    _advance += delta * 1 * self.bassDegrader.value * _direction;
+    _colorAdvance += delta * 3 * self.hihatDegrader.value * _direction;
+    _rotationAdvance += delta * 2 * self.driver.vocalAmplitude * _direction;
+  }
+  CGRect pixelRect = CGRectMake(0, 0, 1, 1);
+  for (int ix = 0; ix < size.width; ++ix) {
+    pixelRect.origin.x = ix;
 
-      CGFloat x = (CGFloat)((size.width / 2 - ix) * cos(_advance))  / size.width * 4 + _advance * 2;
+    CGFloat x = (CGFloat)((size.width / 2 - ix) * cos(_advance))  / size.width * 4 + _advance * 2;
 
-      for (int iy = 0; iy < size.height; ++iy) {
-        pixelRect.origin.y = iy;
+    for (int iy = 0; iy < size.height; ++iy) {
+      pixelRect.origin.y = iy;
 
-        CGFloat y = (CGFloat)((size.height / 2 - iy) * sin(_advance / 10)) / size.height * 4 + _advance * 1.4;
+      CGFloat y = (CGFloat)((size.height / 2 - iy) * sin(_advance / 10)) / size.height * 4 + _advance * 1.4;
 
-        CGFloat red = (sin(x + y + _colorAdvance) * 0.5f + 0.5f);
-        CGFloat green = (cos(y + _colorAdvance) * 0.5f + 0.5f);
-        CGFloat blue = (sin(x - _colorAdvance) * cos(y + x - _colorAdvance) * 0.5f + 0.5f);
+      CGFloat red = (sin(x + y + _colorAdvance) * 0.5f + 0.5f);
+      CGFloat green = (cos(y + _colorAdvance) * 0.5f + 0.5f);
+      CGFloat blue = (sin(x - _colorAdvance) * cos(y + x - _colorAdvance) * 0.5f + 0.5f);
 
-        CGContextSetRGBFillColor(cx, red, green, blue, 1);
-        CGContextFillRect(cx, pixelRect);
-      }
+      CGContextSetRGBFillColor(cx, red, green, blue, 1);
+      CGContextFillRect(cx, pixelRect);
     }
   }
 }

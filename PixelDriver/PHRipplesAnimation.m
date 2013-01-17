@@ -46,47 +46,50 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    CGContextSaveGState(cx);
+  CGContextSaveGState(cx);
 
-    _colorAdvance += self.secondsSinceLastTick / 16;
-    _movementAdvance += self.secondsSinceLastTick / 8 * self.bassDegrader.value;
+  _colorAdvance += self.secondsSinceLastTick / 16;
+  _movementAdvance += self.secondsSinceLastTick / 8 * self.bassDegrader.value;
 
-    PHRipple* newRipple = [[PHRipple alloc] init];
-    CGFloat value = fabsf(self.driver.unifiedWaveData[self.driver.numberOfWaveDataValues - 1]);
-    CGFloat scaledValue = value * 0.5 + 0.5;
-    newRipple.color = [NSColor colorWithDeviceHue:1 - fmodf(_colorAdvance, 1)
-                                       saturation:scaledValue
-                                       brightness:scaledValue
-                                            alpha:1];
-    if (!_stationary) {
-      CGPoint offset = CGPointMake(cos(_movementAdvance * 4 * 5) * 10, sin(_movementAdvance * 4 * 3) * 10);
-      newRipple.offset = offset;
-    }
-    newRipple.radius = fabsf(value) * 10;
-    [_ripples addObject:newRipple];
-
-    CGFloat maxRadius = size.width - 10;
-    NSArray* ripples = [_ripples copy];
-    for (PHRipple* ripple in ripples) {
-      CGContextSetStrokeColorWithColor(cx, ripple.color.CGColor);
-      if (ripple.radius >= maxRadius - 5) {
-        CGContextSetAlpha(cx, 1 - ripple.radius - (maxRadius - 5) / 5);
-      } else {
-        CGContextSetAlpha(cx, 1);
-      }
-      CGContextStrokeEllipseInRect(cx, CGRectInset(CGRectMake(ripple.offset.x + size.width / 2,
-                                                              ripple.offset.y + size.height / 2, 0, 0),
-                                                   -ripple.radius,
-                                                   -ripple.radius));
-      ripple.radius += 0.5 * MAX(0.1, PHEaseOut(1 - (ripple.radius / maxRadius)));
-
-      if (ripple.radius >= maxRadius) {
-        [_ripples removeObject:ripple];
-      }
-    }
-    CGContextRestoreGState(cx);
+  PHRipple* newRipple = [[PHRipple alloc] init];
+  CGFloat value;
+  if (self.driver.unifiedWaveData) {
+    value = fabsf(self.driver.unifiedWaveData[self.driver.numberOfWaveDataValues - 1]);
+  } else {
+    value = 0;
   }
+  CGFloat scaledValue = value * 0.5 + 0.5;
+  newRipple.color = [NSColor colorWithDeviceHue:1 - fmodf(_colorAdvance, 1)
+                                     saturation:scaledValue
+                                     brightness:scaledValue
+                                          alpha:1];
+  if (!_stationary) {
+    CGPoint offset = CGPointMake(cos(_movementAdvance * 4 * 5) * 10, sin(_movementAdvance * 4 * 3) * 10);
+    newRipple.offset = offset;
+  }
+  newRipple.radius = fabsf(value) * 10;
+  [_ripples addObject:newRipple];
+
+  CGFloat maxRadius = size.width - 10;
+  NSArray* ripples = [_ripples copy];
+  for (PHRipple* ripple in ripples) {
+    CGContextSetStrokeColorWithColor(cx, ripple.color.CGColor);
+    if (ripple.radius >= maxRadius - 5) {
+      CGContextSetAlpha(cx, 1 - ripple.radius - (maxRadius - 5) / 5);
+    } else {
+      CGContextSetAlpha(cx, 1);
+    }
+    CGContextStrokeEllipseInRect(cx, CGRectInset(CGRectMake(ripple.offset.x + size.width / 2,
+                                                            ripple.offset.y + size.height / 2, 0, 0),
+                                                 -ripple.radius,
+                                                 -ripple.radius));
+    ripple.radius += 0.5 * MAX(0.1, PHEaseOut(1 - (ripple.radius / maxRadius)));
+
+    if (ripple.radius >= maxRadius) {
+      [_ripples removeObject:ripple];
+    }
+  }
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {

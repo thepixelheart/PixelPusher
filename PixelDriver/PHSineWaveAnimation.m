@@ -29,32 +29,30 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    NSTimeInterval delta = self.secondsSinceLastTick;
-    _advance += delta;
-    _advanceSin += self.bassDegrader.value * delta * 20;
+  NSTimeInterval delta = self.secondsSinceLastTick;
+  _advance += delta;
+  _advanceSin += self.bassDegrader.value * delta * 20;
 
-    CGRect pixelRect = CGRectMake(0, 0, 1, 1);
-    for (int ix = 0; ix < size.width; ++ix) {
-      pixelRect.origin.x = ix;
-      for (int iy = 0; iy < size.height; ++iy) {
-        pixelRect.origin.y = iy;
+  CGRect pixelRect = CGRectMake(0, 0, 1, 1);
+  for (int ix = 0; ix < size.width; ++ix) {
+    pixelRect.origin.x = ix;
+    for (int iy = 0; iy < size.height; ++iy) {
+      pixelRect.origin.y = iy;
 
-        float centery = size.height / 2;
-        float sineAmplitude = sin(((float)ix / 2 + _advanceSin));
-        float sineWidth = self.hihatDegrader.value * 12;
-        float sineOffset = centery + sineAmplitude * sineWidth;
-        float offsety = sineOffset - iy;
+      float centery = size.height / 2;
+      float sineAmplitude = sin(((float)ix / 2 + _advanceSin));
+      float sineWidth = self.hihatDegrader.value * 12;
+      float sineOffset = centery + sineAmplitude * sineWidth;
+      float offsety = sineOffset - iy;
 
-        if (fabsf(offsety) <= sineWidth) {
-          float amplitude = fabsf((sineWidth - fabsf(offsety)) / sineWidth);
-          CGFloat red = (sin(_advance) * 0.5f + 0.5f);
-          CGFloat green = (cos(_advance) * 0.5f + 0.5f);
-          CGFloat blue = (sin(_advance) * cos(_advance) * 0.5f + 0.5f);
+      if (fabsf(offsety) <= sineWidth) {
+        float amplitude = fabsf((sineWidth - fabsf(offsety)) / sineWidth);
+        CGFloat red = (sin(_advance) * 0.5f + 0.5f);
+        CGFloat green = (cos(_advance) * 0.5f + 0.5f);
+        CGFloat blue = (sin(_advance) * cos(_advance) * 0.5f + 0.5f);
 
-          CGContextSetRGBFillColor(cx, red, green, blue, amplitude);
-          CGContextFillRect(cx, pixelRect);
-        }
+        CGContextSetRGBFillColor(cx, red, green, blue, amplitude);
+        CGContextFillRect(cx, pixelRect);
       }
     }
   }

@@ -33,35 +33,33 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum) {
-    CGContextSaveGState(cx);
-    CGSize spriteSize = _spritesheet.spriteSize;
+  CGContextSaveGState(cx);
+  CGSize spriteSize = _spritesheet.spriteSize;
 
-    CGFloat maxRadius = MIN(spriteSize.width, spriteSize.height) / 2;
+  CGFloat maxRadius = MIN(spriteSize.width, spriteSize.height) / 2;
 
-    CGFloat value = self.bassDegrader.value;
-    CGImageRef imageRef = [_animation imageRefAtCurrentTick];
-    CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),
-                                   floorf((size.height - spriteSize.height) / 2),
-                                   spriteSize.width,
-                                   spriteSize.height);
+  CGFloat value = self.bassDegrader.value;
+  CGImageRef imageRef = [_animation imageRefAtCurrentTick];
+  CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),
+                                 floorf((size.height - spriteSize.height) / 2),
+                                 spriteSize.width,
+                                 spriteSize.height);
 
-    if (self.driver.motes.count > 0) {
-      PHMote* mote = [self.driver.motes objectAtIndex:0];
-      CGFloat degrees = mote.joystickDegrees;
-      CGFloat radians = degrees * M_PI / 180;
-      CGFloat tilt = mote.joystickTilt;
+  if (self.driver.motes.count > 0) {
+    PHMote* mote = [self.driver.motes objectAtIndex:0];
+    CGFloat degrees = mote.joystickDegrees;
+    CGFloat radians = degrees * M_PI / 180;
+    CGFloat tilt = mote.joystickTilt;
 
-      heartFrame.origin.x = size.width / 2 - spriteSize.width / 2 + cosf(radians) * tilt * maxRadius;
-      heartFrame.origin.y = size.height / 2 - spriteSize.height / 2 + sinf(radians) * tilt * maxRadius;
-    }
-
-    heartFrame = CGRectInset(heartFrame, (1 - value) * 10 - 5, (1 - value) * 10 - 5);
-    CGContextDrawImage(cx, heartFrame, imageRef);
-    CGImageRelease(imageRef);
-
-    CGContextRestoreGState(cx);
+    heartFrame.origin.x = size.width / 2 - spriteSize.width / 2 + cosf(radians) * tilt * maxRadius;
+    heartFrame.origin.y = size.height / 2 - spriteSize.height / 2 + sinf(radians) * tilt * maxRadius;
   }
+
+  heartFrame = CGRectInset(heartFrame, (1 - value) * 10 - 5, (1 - value) * 10 - 5);
+  CGContextDrawImage(cx, heartFrame, imageRef);
+  CGImageRelease(imageRef);
+
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {

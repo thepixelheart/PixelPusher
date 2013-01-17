@@ -181,36 +181,32 @@ static const CGFloat kPHDaftPixelAnimationTimeDeltaThreshold = 0.125;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.unifiedSpectrum)
+  if(_frameQueue.count == 0) { [self populateFrameQueue]; }
+  
+  NSTimeInterval timeDelta      = [NSDate timeIntervalSinceReferenceDate] - _lastFrameUpdate;
+  CGFloat subBassAmplitudeDelta = self.driver.subBassAmplitude - _lastSubBassAmplitude;
+  CGFloat snareAmplitudeDelta   = self.driver.snareAmplitude - _lastSnareAmplitude;
+  CGFloat vocalAmplitudeDelta   = self.driver.vocalAmplitude - _lastVocalAmplitude;
+  
+  if ((snareAmplitudeDelta   > kPHDaftPixelAnimationAmplitudeThreshold ||
+       subBassAmplitudeDelta > kPHDaftPixelAnimationAmplitudeThreshold ||
+       vocalAmplitudeDelta   > kPHDaftPixelAnimationAmplitudeThreshold) &&
+      timeDelta > kPHDaftPixelAnimationTimeDeltaThreshold)
   {
-    if(_frameQueue.count == 0) { [self populateFrameQueue]; }
-    
-    NSTimeInterval timeDelta      = [NSDate timeIntervalSinceReferenceDate] - _lastFrameUpdate;
-    CGFloat subBassAmplitudeDelta = self.driver.subBassAmplitude - _lastSubBassAmplitude;
-    CGFloat snareAmplitudeDelta   = self.driver.snareAmplitude - _lastSnareAmplitude;
-    CGFloat vocalAmplitudeDelta   = self.driver.vocalAmplitude - _lastVocalAmplitude;
-    
-    if ((snareAmplitudeDelta   > kPHDaftPixelAnimationAmplitudeThreshold ||
-         subBassAmplitudeDelta > kPHDaftPixelAnimationAmplitudeThreshold ||
-         vocalAmplitudeDelta   > kPHDaftPixelAnimationAmplitudeThreshold) &&
-        timeDelta > kPHDaftPixelAnimationTimeDeltaThreshold)
-    {
-      _currentFrame = [self nextFrame];
-      _lastFrameUpdate = [NSDate timeIntervalSinceReferenceDate];
-    }
-    
-    CGColorRef frameColor = CGColorRetain([NSColor redColor].CGColor);
-    CGContextSetStrokeColorWithColor(cx, frameColor);
-    CGContextSetFillColorWithColor(cx, frameColor);
-    
-    [_currentFrame drawFrameInContext:cx size:size];
-    
-    _lastSnareAmplitude   = self.driver.snareAmplitude;
-    _lastSubBassAmplitude = self.driver.subBassAmplitude;
-    _lastVocalAmplitude   = self.driver.vocalAmplitude;
-    CGColorRelease(frameColor);
-
+    _currentFrame = [self nextFrame];
+    _lastFrameUpdate = [NSDate timeIntervalSinceReferenceDate];
   }
+  
+  CGColorRef frameColor = CGColorRetain([NSColor redColor].CGColor);
+  CGContextSetStrokeColorWithColor(cx, frameColor);
+  CGContextSetFillColorWithColor(cx, frameColor);
+  
+  [_currentFrame drawFrameInContext:cx size:size];
+  
+  _lastSnareAmplitude   = self.driver.snareAmplitude;
+  _lastSubBassAmplitude = self.driver.subBassAmplitude;
+  _lastVocalAmplitude   = self.driver.vocalAmplitude;
+  CGColorRelease(frameColor);
 }
 
 + (NSArray *)allSequences
