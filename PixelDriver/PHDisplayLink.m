@@ -18,6 +18,7 @@
 
 #import "PHFMODRecorder.h"
 #import "PHAnimationDriver.h"
+#import "PHDriver.h"
 #import "PHSystem.h"
 #import "AppDelegate.h"
 #import "Utilities.h"
@@ -54,6 +55,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     PHSystemTick* tick = [PHSys() tick];
     if (nil != tick) {
       [userInfo setObject:tick forKey:PHDisplayLinkFiredSystemTickKey];
+      [PHApp().driver queueContext:tick.wallContextRef];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:PHDisplayLinkFiredNotification
                                                         object:nil

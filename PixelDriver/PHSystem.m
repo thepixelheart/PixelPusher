@@ -22,6 +22,7 @@
 #import "PHMovingSawAnimation.h"
 #import "PHFlowerAnimation.h"
 #import "PHCrossFadeTransition.h"
+#import "PHStarWarsTransition.h"
 
 #import <objc/runtime.h>
 

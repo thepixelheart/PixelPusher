@@ -109,9 +109,14 @@ NSColor* PHBackgroundColor() {
   _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2 + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
                                              visualizerWidth, visualizerHeight);
 
-  CGFloat wallHeight = PHPlaybackControlsWidth * visualizerAspectRatio;
-  _wallVisualizationView.frame = CGRectMake(midX - PHPlaybackControlsWidth / 2, topEdge,
-                                            PHPlaybackControlsWidth, wallHeight);
+  CGFloat wallWidth = CGRectGetMinX(_rightVisualizationView.frame) - CGRectGetMaxX(_leftVisualizationView.frame);
+  CGFloat wallHeight = wallWidth * visualizerAspectRatio;
+  if (wallHeight >= kVisualizerMaxHeight / 2) {
+    wallHeight = kVisualizerMaxHeight / 2;
+    wallWidth = wallHeight / visualizerAspectRatio;
+  }
+  _wallVisualizationView.frame = CGRectMake(midX - wallWidth / 2, topEdge,
+                                            wallWidth, wallHeight);
 
   topEdge -= kPlaybackControlsHeight;
 
