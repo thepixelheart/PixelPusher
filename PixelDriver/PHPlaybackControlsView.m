@@ -23,7 +23,7 @@
 static const CGFloat kSliderWidth = 100;
 static const CGFloat kSliderHeight = 44;
 
-const CGFloat PHPlaybackControlsWidth = kSliderWidth + 20;
+const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 
 @implementation PHPlaybackControlsView {
   NSSlider* _faderSlider;

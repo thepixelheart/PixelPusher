@@ -17,5 +17,4 @@
 #import "PHTransition.h"
 
 @interface PHCrossFadeTransition : PHTransition
-
 @end

@@ -23,6 +23,7 @@
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
+static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 60;
 
 NSColor* PHBackgroundColor() {
@@ -111,8 +112,8 @@ NSColor* PHBackgroundColor() {
 
   CGFloat wallWidth = CGRectGetMinX(_rightVisualizationView.frame) - CGRectGetMaxX(_leftVisualizationView.frame);
   CGFloat wallHeight = wallWidth * visualizerAspectRatio;
-  if (wallHeight >= kVisualizerMaxHeight / 2) {
-    wallHeight = kVisualizerMaxHeight / 2;
+  if (wallHeight >= kWallVisualizerMaxHeight) {
+    wallHeight = kWallVisualizerMaxHeight;
     wallWidth = wallHeight / visualizerAspectRatio;
   }
   _wallVisualizationView.frame = CGRectMake(midX - wallWidth / 2, topEdge,

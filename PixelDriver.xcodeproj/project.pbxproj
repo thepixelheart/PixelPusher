@@ -21,6 +21,8 @@
 		661CC73516A780DF007F3900 /* PHTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73416A780DF007F3900 /* PHTransition.m */; };
 		661CC73816A78196007F3900 /* PHCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73716A78196007F3900 /* PHCrossFadeTransition.m */; };
 		661CC73B16A79030007F3900 /* PHStarWarsTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73A16A79030007F3900 /* PHStarWarsTransition.m */; };
+		661CC73E16A79E5B007F3900 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73C16A79E5B007F3900 /* left.png */; };
+		661CC73F16A79E5B007F3900 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73D16A79E5B007F3900 /* right.png */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
 		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
@@ -151,6 +153,8 @@
 		661CC73716A78196007F3900 /* PHCrossFadeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCrossFadeTransition.m; sourceTree = "<group>"; };
 		661CC73916A7902F007F3900 /* PHStarWarsTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHStarWarsTransition.h; sourceTree = "<group>"; };
 		661CC73A16A79030007F3900 /* PHStarWarsTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHStarWarsTransition.m; sourceTree = "<group>"; };
+		661CC73C16A79E5B007F3900 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = left.png; path = PixelDriver/resources/left.png; sourceTree = "<group>"; };
+		661CC73D16A79E5B007F3900 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right.png; path = PixelDriver/resources/right.png; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
@@ -700,6 +704,8 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				661CC73C16A79E5B007F3900 /* left.png */,
+				661CC73D16A79E5B007F3900 /* right.png */,
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
 				66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */,
 				66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */,
@@ -851,6 +857,8 @@
 				66BDB2BA16A6AFF700ED7C81 /* sliderbgLxx.png in Resources */,
 				66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */,
 				66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */,
+				661CC73E16A79E5B007F3900 /* left.png in Resources */,
+				661CC73F16A79E5B007F3900 /* right.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
