@@ -131,6 +131,7 @@
   NSCollectionView* _collectionView;
   NSScrollView* _scrollView;
   NSArray* _animations;
+  NSIndexSet* _previousSelectionIndexes;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -144,6 +145,9 @@
       [NSColor colorWithDeviceWhite:0.2 alpha:1],
       [NSColor colorWithDeviceWhite:0.15 alpha:1],
     ];
+    _collectionView.allowsMultipleSelection = YES;
+
+    [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
     _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -158,8 +162,28 @@
     [self.contentView addSubview:_scrollView];
 
     _animations = [PHAnimation allAnimations];
+
+    [_collectionView addObserver:self
+                      forKeyPath:@"selectionIndexes"
+                         options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                         context:NULL];
   }
   return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  NSLog(@"observed change, path = %@, object = %@, change = %@", keyPath, object, change );
+
+  if (_collectionView == object) {
+    if (_collectionView.selectionIndexes.count == 0) {
+      _collectionView.selectionIndexes = _previousSelectionIndexes;
+    } else {
+      _previousSelectionIndexes = [_collectionView.selectionIndexes copy];
+    }
+  }
 }
 
 @end
