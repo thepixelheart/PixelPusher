@@ -99,6 +99,8 @@
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
+    self.title = @"Categories";
+
     _tableView = [[PHCategoryTableView alloc] initWithFrame:self.contentView.bounds];
     _tableView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _tableView.headerView = nil;

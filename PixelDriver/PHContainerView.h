@@ -18,6 +18,7 @@
 
 @interface PHContainerView : NSView
 
+@property (nonatomic, copy) NSString* title;
 @property (nonatomic, strong, readonly) NSView* contentView;
 
 @end

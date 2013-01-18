@@ -151,7 +151,7 @@ static const CGFloat kExplorerWidth = 200;
   _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
 
-  _categoriesView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge);
+  _categoriesView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
   [_categoriesView layout];
 
   CGFloat previewHeight = kPreviewPaneWidth * visualizerAspectRatio;
