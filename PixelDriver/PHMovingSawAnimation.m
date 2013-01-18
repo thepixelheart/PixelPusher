@@ -47,6 +47,7 @@ static const int kSpeed = 1;
     CGPathCloseSubpath(pathRef);
     
     CGContextAddPath(cx, pathRef);
+    CGPathRelease(pathRef);
     CGContextFillPath(cx);
 }
 
