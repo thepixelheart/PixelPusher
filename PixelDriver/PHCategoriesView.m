@@ -134,6 +134,8 @@
   [super layout];
 
   [_tableView reloadData];
+  [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_previousSelectedRow]
+          byExtendingSelection:NO];
 }
 
 #pragma mark - NSTableViewDataSource

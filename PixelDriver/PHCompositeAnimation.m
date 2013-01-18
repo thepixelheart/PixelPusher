@@ -118,9 +118,20 @@
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  for (NSInteger ix = 0; ix < 30; ++ix) {
-    CGContextClearRect(cx, CGRectMake(0, 0, size.width, size.height));
-    [self renderBitmapInContext:cx size:size];
+  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    NSInteger animationIndex = _layerAnimationIndex[ix];;
+    if (animationIndex >= 0) {
+      PHAnimation* animation = _layerAnimation[ix];
+      CGContextRef subContextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(size.width, size.height));
+      [animation renderPreviewInContext:subContextRef size:size];
+
+      CGImageRef imageRef = CGBitmapContextCreateImage(subContextRef);
+      CGContextDrawImage(cx, CGRectMake((ix % 4) * size.width / 4,
+                                        (ix / 4) * size.height / 2 + 2,
+                                        size.width / 4, size.height / 2 - 4), imageRef);
+      CGImageRelease(imageRef);
+      CGContextRelease(subContextRef);
+    }
   }
 }
 

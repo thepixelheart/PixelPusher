@@ -71,7 +71,17 @@
   }
 
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
-  CGContextDrawImage(cx, CGRectInset(self.bounds, 5, 5), _previewImageRef);
+  CGRect insetBounds = CGRectInset(self.bounds, 5, 5);
+  CGFloat aspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
+  CGFloat width = insetBounds.size.width;
+  CGFloat height = width * aspectRatio;
+  if (height > insetBounds.size.height) {
+    height = insetBounds.size.height;
+    width = height / aspectRatio;
+  }
+  CGContextDrawImage(cx, CGRectMake(insetBounds.origin.x + floor((insetBounds.size.width - width) / 2),
+                                    insetBounds.origin.y + floor((insetBounds.size.height - height) / 2),
+                                    width, height), _previewImageRef);
   CGContextRestoreGState(cx);
 
   NSDictionary* attributes = @{
@@ -84,7 +94,7 @@
   CGSize size = [string.string sizeWithAttributes:attributes];
   textFrame.size.height = size.height;
 
-  CGContextSetRGBFillColor(cx, 0, 0, 0, 0.4);
+  CGContextSetRGBFillColor(cx, 0, 0, 0, 0.6);
   CGContextFillRect(cx, CGRectMake(0, 0, self.bounds.size.width, size.height + 10));
 
   [string drawInRect:textFrame];
@@ -159,6 +169,8 @@
       [NSColor colorWithDeviceWhite:0.15 alpha:1],
     ];
     _collectionView.allowsMultipleSelection = NO;
+    _collectionView.minItemSize = CGSizeMake(150, 100);
+    _collectionView.maxItemSize = CGSizeMake(450, 300);
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
@@ -189,7 +201,7 @@
 }
 
 - (void)updateSystemWithSelection {
-  PHAnimation* selectedAnimation = _animations[[_previousSelectionIndexes firstIndex]];
+  PHAnimation* selectedAnimation = _collectionView.content[[_previousSelectionIndexes firstIndex]];
   PHSys().previewAnimation = [selectedAnimation copy];
 }
 
