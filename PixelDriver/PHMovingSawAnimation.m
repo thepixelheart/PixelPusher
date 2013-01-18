@@ -104,4 +104,10 @@ static const int kSpeed = 1;
     return @"Moving Saw";
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
+}
+
 @end

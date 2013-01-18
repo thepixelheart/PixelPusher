@@ -92,8 +92,22 @@ static const int kMinRaidus = 2;
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  for (int i = 0; ([_sprites count] < 20); ++i) {
+    PHSprite* sp = [[PHSprite alloc] initWithPosition:CGPointMake(arc4random_uniform(size.width), arc4random_uniform(size.height))];
+    [_sprites addObject:sp];
+  }
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
     return @"Bass Shooter";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
 }
 
 @end

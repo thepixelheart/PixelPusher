@@ -45,6 +45,12 @@
   return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHRipplesAnimation* animation = [[self.class allocWithZone:zone] init];
+  animation->_stationary = _stationary;
+  return animation;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
 
@@ -92,8 +98,21 @@
   CGContextRestoreGState(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  for (NSInteger ix = 0; ix < 30; ++ix) {
+    CGContextClearRect(cx, CGRectMake(0, 0, size.width, size.height));
+    [self renderBitmapInContext:cx size:size];
+  }
+}
+
 - (NSString *)tooltipName {
   return _stationary ? @"Stationary Ripples" : @"Ripples";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
 }
 
 @end

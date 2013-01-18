@@ -50,10 +50,11 @@
 
 #import "PHCompositeAnimation.h"
 
-NSString* const PHAnimationCategoryVideoGames = @"Video Games";
+NSString* const PHAnimationCategorySprites = @"Sprites";
 NSString* const PHAnimationCategoryPipes = @"Pipes";
 NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
 NSString* const PHAnimationCategoryShapes = @"Shapes";
+NSString* const PHAnimationCategoryTrippy = @"Trippy";
 
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -76,6 +77,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 - (id)copyWithZone:(NSZone *)zone {
   PHAnimation* animation = [[self.class allocWithZone:zone] init];
+  animation->_driver = _driver;
   return animation;
 }
 
@@ -208,10 +210,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 + (NSArray *)allCategories {
   return @[
-    PHAnimationCategoryVideoGames,
+    PHAnimationCategorySprites,
     PHAnimationCategoryPipes,
     PHAnimationCategoryPixelHeart,
-    PHAnimationCategoryShapes
+    PHAnimationCategoryShapes,
+    PHAnimationCategoryTrippy
   ];
 }
 
@@ -276,6 +279,10 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 - (BOOL)isPipeAnimation {
   return NO;
+}
+
+- (NSArray *)categories {
+  return nil;
 }
 
 @end

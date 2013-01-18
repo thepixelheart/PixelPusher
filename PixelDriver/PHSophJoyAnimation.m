@@ -158,8 +158,22 @@ static const CGFloat kMinimumEnergyForExcite = 0.5;
   CGImageRelease(imageRef);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  _hihatAbsorber = 1;
+  _vocalAbsorber = 1;
+  _activeAnimation = _danceAnimation;
+  [_activeAnimation advanceToNextAnimation];
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"sophjoy";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
 }
 
 @end

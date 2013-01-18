@@ -32,6 +32,7 @@
 - (void)dealloc {
   if (nil != _previewImageRef) {
     CGImageRelease(_previewImageRef);
+    _previewImageRef = nil;
   }
 }
 
@@ -89,6 +90,17 @@
   [string drawInRect:textFrame];
 }
 
+- (void)setAnimation:(PHAnimation *)animation {
+  if (_animation != animation) {
+    _animation = [animation copy];
+
+    if (nil != _previewImageRef) {
+      CGImageRelease(_previewImageRef);
+      _previewImageRef = nil;
+    }
+  }
+}
+
 @end
 
 @interface PHAnimationTileViewItem : NSCollectionViewItem
@@ -141,7 +153,6 @@
     _collectionView = [[PHCollectionView alloc] initWithFrame:self.contentView.bounds];
     _collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _collectionView.itemPrototype = [PHAnimationTileViewItem new];
-    _collectionView.content = [PHAnimation allAnimations];
     [_collectionView setSelectable:YES];
     _collectionView.backgroundColors = @[
       [NSColor colorWithDeviceWhite:0.2 alpha:1],
@@ -164,6 +175,10 @@
     [self.contentView addSubview:_scrollView];
 
     _animations = [PHAnimation allAnimations];
+    for (PHAnimation* animation in _animations) {
+      animation.driver = PHApp().animationDriver;
+    }
+    _collectionView.content = _animations;
 
     [_collectionView addObserver:self
                       forKeyPath:@"selectionIndexes"
@@ -175,7 +190,7 @@
 
 - (void)updateSystemWithSelection {
   PHAnimation* selectedAnimation = _animations[[_previousSelectionIndexes firstIndex]];
-  PHSys().previewAnimation = selectedAnimation;
+  PHSys().previewAnimation = [selectedAnimation copy];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -189,6 +204,21 @@
       _previousSelectionIndexes = [_collectionView.selectionIndexes copy];
       [self updateSystemWithSelection];
     }
+  }
+}
+
+- (void)setCategoryFilter:(NSString *)category {
+  if ([category isEqualToString:@"All"]) {
+    _collectionView.content = _animations;
+
+  } else {
+    NSMutableArray* filteredArray = [NSMutableArray array];
+    for (PHAnimation* animation in _animations) {
+      if ([animation.categories containsObject:category]) {
+        [filteredArray addObject:animation];
+      }
+    }
+    _collectionView.content = filteredArray;
   }
 }
 

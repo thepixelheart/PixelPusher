@@ -117,6 +117,13 @@
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  for (NSInteger ix = 0; ix < 30; ++ix) {
+    CGContextClearRect(cx, CGRectMake(0, 0, size.width, size.height));
+    [self renderBitmapInContext:cx size:size];
+  }
+}
+
 - (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer {
   return _layerAnimationIndex[layer];
 }
@@ -170,6 +177,20 @@
     }
   }
   return tooltip;
+}
+
+- (NSArray *)categories {
+  NSMutableSet* categories = [NSMutableSet set];
+  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+
+    NSInteger animationIndex = _layerAnimationIndex[ix];;
+    if (animationIndex >= 0) {
+      PHAnimation* animation = _layerAnimation[ix];
+      [categories addObjectsFromArray:animation.categories];
+    }
+  }
+
+  return [categories allObjects];
 }
 
 @end

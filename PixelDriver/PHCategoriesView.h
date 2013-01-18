@@ -16,5 +16,13 @@
 
 #import "PHContainerView.h"
 
+@protocol PHCategoriesViewDelegate;
+
 @interface PHCategoriesView : PHContainerView
+@property (nonatomic, weak) id<PHCategoriesViewDelegate> delegate;
+@end
+
+@protocol PHCategoriesViewDelegate <NSObject>
+@required
+- (void)didSelectCategory:(NSString *)category;
 @end

@@ -62,8 +62,19 @@
   CGContextRestoreGState(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self.bassDegrader tickWithPeak:0.5];
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Pixel Heart";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryPixelHeart
+  ];
 }
 
 @end

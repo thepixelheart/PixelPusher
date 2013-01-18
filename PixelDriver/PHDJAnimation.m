@@ -334,4 +334,10 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   return @"Anton & Jeff";
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
+}
+
 @end

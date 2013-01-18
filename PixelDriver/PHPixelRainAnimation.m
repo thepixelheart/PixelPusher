@@ -139,6 +139,21 @@ static const CGFloat kMaximumRaindropLength = 4;
   CGContextRestoreGState(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  for (NSInteger ix = 0; ix < 20; ++ix) {
+    PHRaindrop* raindrop = [[PHRaindrop alloc] init];
+    raindrop.pos = CGPointMake(arc4random_uniform(size.width - 1), arc4random_uniform(size.height) - 4);
+    raindrop.length = arc4random_uniform(kMaximumRaindropLength - kMinimumRaindropLength) + kMinimumRaindropLength;
+    raindrop.vel = CGPointMake(0, size.height + arc4random_uniform(30) - 10);
+    raindrop.color = [generateRandomColor() colorWithAlphaComponent:0.5];
+    [_rainDrops addObject:raindrop];
+    _lastTimeRaindropsCreated = [NSDate timeIntervalSinceReferenceDate];
+  }
+  
+  [self.vocalDegrader tickWithPeak:1];
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Pixel Rain";
 }

@@ -41,6 +41,7 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
 
   CGFloat _hihatAbsorber;
   CGFloat _vocalAbsorber;
+  BOOL _previewing;
 }
 
 - (id)init {
@@ -128,12 +129,14 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
   _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
 
-  if (self.driver.hihatAmplitude < VOLUME_THRESHOLD &&
+  if (!_previewing
+      && self.driver.hihatAmplitude < VOLUME_THRESHOLD &&
       self.driver.subBassAmplitude < VOLUME_THRESHOLD &&
       self.driver.vocalAmplitude < VOLUME_THRESHOLD &&
       self.driver.snareAmplitude < VOLUME_THRESHOLD) {
     _activeAnimation = _idleAnimation;
-  } else if (self.driver.hihatAmplitude > 2 * VOLUME_THRESHOLD ||
+  } else if (_previewing
+             || self.driver.hihatAmplitude > 2 * VOLUME_THRESHOLD ||
              self.driver.subBassAmplitude > 2 * VOLUME_THRESHOLD ||
              self.driver.vocalAmplitude > 2 * VOLUME_THRESHOLD ||
              self.driver.snareAmplitude > 2 * VOLUME_THRESHOLD) {
@@ -149,8 +152,21 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   CGImageRelease(imageRef);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  _previewing = YES;
+  [_runningAnimation setCurrentFrameIndex:2];
+  [self renderBitmapInContext:cx size:size];
+  _previewing = NO;
+}
+
 - (NSString *)tooltipName {
   return @"Nyan Cat";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
 }
 
 @end

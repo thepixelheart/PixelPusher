@@ -131,8 +131,18 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
   CGImageRelease(imageRef);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
     return @"Adventure Time";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
 }
 
 @end

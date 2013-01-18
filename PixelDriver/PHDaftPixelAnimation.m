@@ -227,15 +227,24 @@ static const CGFloat kPHDaftPixelAnimationTimeDeltaThreshold = 0.125;
   [_frameQueue addObjectsFromArray:[allSequences objectAtIndex:arc4random_uniform((u_int32_t)allSequences.count)]];
 }
 
-- (PHDaftPixelAnimationFrame *)nextFrame
-{
+- (PHDaftPixelAnimationFrame *)nextFrame {
   PHDaftPixelAnimationFrame *frame = _frameQueue[0];
   [_frameQueue removeObjectAtIndex:0];
   return frame;
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Daft Pixel";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
 }
 
 @end

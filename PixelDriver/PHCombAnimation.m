@@ -82,8 +82,20 @@
   CGContextRestoreGState(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self.bassDegrader tickWithPeak:0.4];
+  [self.hihatDegrader tickWithPeak:1];
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Comb";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
 }
 
 @end

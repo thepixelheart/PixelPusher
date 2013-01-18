@@ -53,6 +53,7 @@
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -spriteSize.height);
 
+  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
   NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
   [NSGraphicsContext setCurrentContext:graphicsContext];
   [_image drawInRect:CGRectMake(0, 0, spriteSize.width, spriteSize.height)
@@ -61,7 +62,10 @@
             fraction:1];
 
   CGImageRef imageRef = CGBitmapContextCreateImage(cx);
+
   CGContextRelease(cx);
+
+  [NSGraphicsContext setCurrentContext:previousContext];
 
   return imageRef;
 }

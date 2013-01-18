@@ -17,4 +17,5 @@
 #import "PHContainerView.h"
 
 @interface PHAnimationsView : PHContainerView
+- (void)setCategoryFilter:(NSString *)category;
 @end

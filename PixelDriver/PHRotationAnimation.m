@@ -46,12 +46,37 @@
   CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  PHSpritesheet* spritesheet = [[PHSpritesheet alloc] initWithName:@"pixelheart" spriteSize:CGSizeMake(26, 23)];
+  CGImageRef imageRef = [spritesheet imageAtX:0 y:0];
+
+  CGSize spriteSize = spritesheet.spriteSize;
+  CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),
+                                 floorf((size.height - spriteSize.height) / 2),
+                                 spriteSize.width,
+                                 spriteSize.height);
+
+  CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
+  CGContextRotateCTM(cx, _direction > 0 ? M_PI_4 : -M_PI_4);
+  CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
+  heartFrame = CGRectInset(heartFrame, 3, 3);
+  CGContextDrawImage(cx, heartFrame, imageRef);
+
+  CGImageRelease(imageRef);
+}
+
 - (NSString *)tooltipName {
   return _direction > 0 ? @"Rotate Clockwise" : @"Rotate Counter-Clockwise";
 }
 
 - (BOOL)isPipeAnimation {
   return YES;
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryPipes
+  ];
 }
 
 @end

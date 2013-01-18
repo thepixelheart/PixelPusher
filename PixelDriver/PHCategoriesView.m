@@ -88,6 +88,13 @@
   NSTableView* _tableView;
   NSScrollView* _scrollView;
   NSArray* _categories;
+
+  NSInteger _previousSelectedRow;
+}
+
+- (void)dealloc {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc removeObserver:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -116,6 +123,9 @@
                                    }] mutableCopy];
     [categories insertObject:@"All" atIndex:0];
     _categories = [categories copy];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didChangeSelectionNotification:) name:NSTableViewSelectionDidChangeNotification object:_tableView];
   }
   return self;
 }
@@ -143,6 +153,20 @@
     return [[PHCategoryCell alloc] initTextCell:string];
   } else {
     return nil;
+  }
+}
+
+#pragma mark - Selection
+
+- (void)didChangeSelectionNotification:(NSNotification *)notification {
+  [_tableView becomeFirstResponder];
+  if (_tableView.selectedRow < 0 || _tableView.selectedRow > _categories.count) {
+    [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_previousSelectedRow]
+            byExtendingSelection:NO];
+
+  } else if (_previousSelectedRow != _tableView.selectedRow) {
+    [_delegate didSelectCategory:_categories[_tableView.selectedRow]];
+    _previousSelectedRow = _tableView.selectedRow;
   }
 }
 

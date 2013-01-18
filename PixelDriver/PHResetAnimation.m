@@ -38,4 +38,10 @@
   return @"Reset";
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryPipes
+  ];
+}
+
 @end

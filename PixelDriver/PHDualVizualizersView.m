@@ -30,6 +30,9 @@ static const CGFloat kPlaybackControlsHeight = 60;
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
 
+@interface PHDualVizualizersView() <PHCategoriesViewDelegate>
+@end
+
 @implementation PHDualVizualizersView {
   PHHeaderView* _headerBarView;
   PHContainerView* _leftVisualizationView;
@@ -98,6 +101,7 @@ static const CGFloat kExplorerWidth = 200;
     [self addSubview:_playbackControlsView];
 
     _categoriesView = [[PHCategoriesView alloc] init];
+    _categoriesView.delegate = self;
     [self addSubview:_categoriesView];
 
     // Animations
@@ -151,6 +155,12 @@ static const CGFloat kExplorerWidth = 200;
   _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
                                                floor((topEdge - previewHeight) / 2),
                                                kPreviewPaneWidth, previewHeight);
+}
+
+#pragma mark - PHCategoriesViewDelegate
+
+- (void)didSelectCategory:(NSString *)category {
+  [_animationsView setCategoryFilter:category];
 }
 
 @end

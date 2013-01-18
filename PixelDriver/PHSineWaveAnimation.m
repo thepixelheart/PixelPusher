@@ -58,6 +58,11 @@
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self.hihatDegrader tickWithPeak:0.3];
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Sine Wave";
 }

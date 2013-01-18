@@ -114,8 +114,25 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
   CGContextRestoreGState(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  for (NSInteger ix = 0; ix < 20; ++ix) {
+    PHPetal* petal = [[PHPetal alloc] init];
+    petal.color = generateRandomColor();
+    petal.scale = (CGFloat)ix * 0.05;
+    petal.radians = (CGFloat)ix * 0.7;
+    [_petals addObject:petal];
+  }
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"Flower";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryShapes
+  ];
 }
 
 @end

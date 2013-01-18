@@ -21,10 +21,11 @@
 #import "PHSpritesheet.h"
 
 // Categories
-extern NSString* const PHAnimationCategoryVideoGames;
+extern NSString* const PHAnimationCategorySprites;
 extern NSString* const PHAnimationCategoryPipes;
 extern NSString* const PHAnimationCategoryPixelHeart;
 extern NSString* const PHAnimationCategoryShapes;
+extern NSString* const PHAnimationCategoryTrippy;
 
 const NSInteger PHInitialAnimationIndex;
 
@@ -63,6 +64,7 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 
 - (NSString *)tooltipName;
 - (BOOL)isPipeAnimation; // Default returns NO
+- (NSArray *)categories;
 
 + (NSArray *)allAnimations;
 + (NSArray *)allCategories;

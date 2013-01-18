@@ -148,6 +148,10 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
   return @"gifs";
 }

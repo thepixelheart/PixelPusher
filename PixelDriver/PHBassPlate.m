@@ -61,4 +61,10 @@
   return @"Spiraling Vortex";
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryTrippy
+  ];
+}
+
 @end

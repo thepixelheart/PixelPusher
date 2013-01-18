@@ -161,4 +161,10 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
   return @"Pikachu";
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
+}
+
 @end

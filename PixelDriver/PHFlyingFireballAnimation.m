@@ -103,6 +103,15 @@
   _imageOfPreviousFrame = CGBitmapContextCreateImage(cx);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self.bassDegrader tickWithPeak:1];
+  [self.hihatDegrader tickWithPeak:1];
+  for (NSInteger ix = 0; ix < 30; ++ix) {
+    CGContextClearRect(cx, CGRectMake(0, 0, size.width, size.height));
+    [self renderBitmapInContext:cx size:size];
+  }
+}
+
 - (NSString *)tooltipName {
   return @"Fireballs";
 }

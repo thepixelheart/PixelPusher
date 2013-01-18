@@ -95,4 +95,10 @@ return nil;
   return YES;
 }
 
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategoryPipes
+  ];
+}
+
 @end

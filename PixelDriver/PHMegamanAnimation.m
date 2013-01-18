@@ -130,11 +130,20 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self.bassDegrader tickWithPeak:1];
+  _lastBlinkTime = [NSDate timeIntervalSinceReferenceDate];
+  [_runningAnimation setCurrentFrameIndex:2];
   [self renderBitmapInContext:cx size:size];
 }
 
 - (NSString *)tooltipName {
   return @"Megaman";
+}
+
+- (NSArray *)categories {
+  return @[
+    PHAnimationCategorySprites
+  ];
 }
 
 @end
