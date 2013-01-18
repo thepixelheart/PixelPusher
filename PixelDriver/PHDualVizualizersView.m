@@ -26,6 +26,8 @@ static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 60;
+static const CGFloat kPreviewPaneWidth = 300;
+static const CGFloat kExplorerWidth = 300;
 
 @implementation PHDualVizualizersView {
   PHHeaderView* _headerBarView;
@@ -124,7 +126,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
   _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
   [_playbackControlsView layout];
 
-  _animationsView.frame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
+  _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
 }
 
