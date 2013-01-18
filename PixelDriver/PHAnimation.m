@@ -50,6 +50,11 @@
 
 #import "PHCompositeAnimation.h"
 
+NSString* const PHAnimationCategoryVideoGames = @"Video Games";
+NSString* const PHAnimationCategoryPipes = @"Pipes";
+NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
+NSString* const PHAnimationCategoryShapes = @"Shapes";
+
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
@@ -199,6 +204,15 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   }
 
   return animations;
+}
+
++ (NSArray *)allCategories {
+  return @[
+    PHAnimationCategoryVideoGames,
+    PHAnimationCategoryPipes,
+    PHAnimationCategoryPixelHeart,
+    PHAnimationCategoryShapes
+  ];
 }
 
 + (void)setAdditionalAnimationCreator:(PHAdditionalAnimationBlock)block {

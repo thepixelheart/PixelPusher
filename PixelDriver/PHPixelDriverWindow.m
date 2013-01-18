@@ -19,7 +19,7 @@
 #import "PHHeaderView.h"
 #import "PHDualVizualizersView.h"
 
-static const CGSize kMinimumWindowSize = {600, 400};
+static const CGSize kMinimumWindowSize = {1000, 700};
 
 static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameName";
 

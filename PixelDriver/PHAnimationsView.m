@@ -16,7 +16,9 @@
 
 #import "PHAnimationsView.h"
 
+#import "AppDelegate.h"
 #import "PHAnimation.h"
+#import "PHSystem.h"
 
 @interface PHAnimationTileView : NSView
 @property (nonatomic, assign) BOOL selected;
@@ -145,7 +147,7 @@
       [NSColor colorWithDeviceWhite:0.2 alpha:1],
       [NSColor colorWithDeviceWhite:0.15 alpha:1],
     ];
-    _collectionView.allowsMultipleSelection = YES;
+    _collectionView.allowsMultipleSelection = NO;
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
@@ -171,17 +173,21 @@
   return self;
 }
 
+- (void)updateSystemWithSelection {
+  PHAnimation* selectedAnimation = _animations[[_previousSelectionIndexes firstIndex]];
+  PHSys().previewAnimation = selectedAnimation;
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-  NSLog(@"observed change, path = %@, object = %@, change = %@", keyPath, object, change );
-
   if (_collectionView == object) {
     if (_collectionView.selectionIndexes.count == 0) {
       _collectionView.selectionIndexes = _previousSelectionIndexes;
     } else {
       _previousSelectionIndexes = [_collectionView.selectionIndexes copy];
+      [self updateSystemWithSelection];
     }
   }
 }

@@ -16,6 +16,7 @@
 
 #import "PHDualVizualizersView.h"
 
+#import "PHCategoriesView.h"
 #import "PHHeaderView.h"
 #import "PHDriver.h"
 #import "PHWallView.h"
@@ -27,7 +28,7 @@ static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 60;
 static const CGFloat kPreviewPaneWidth = 300;
-static const CGFloat kExplorerWidth = 300;
+static const CGFloat kExplorerWidth = 200;
 
 @implementation PHDualVizualizersView {
   PHHeaderView* _headerBarView;
@@ -37,7 +38,9 @@ static const CGFloat kExplorerWidth = 300;
 
   PHPlaybackControlsView* _playbackControlsView;
 
+  PHCategoriesView* _categoriesView;
   PHAnimationsView* _animationsView;
+  PHContainerView* _previewVisualizationView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -81,9 +84,21 @@ static const CGFloat kExplorerWidth = 300;
     wallView.systemContext = PHSystemContextWall;
     [_wallVisualizationView.contentView addSubview:wallView];
 
+    // Preview vizualization
+    _previewVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
+    [self addSubview:_previewVisualizationView];
+
+    wallView = [[PHWallView alloc] initWithFrame:_previewVisualizationView.contentView.bounds];
+    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    wallView.systemContext = PHSystemContextPreview;
+    [_previewVisualizationView.contentView addSubview:wallView];
+
     // Playback controls
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
     [self addSubview:_playbackControlsView];
+
+    _categoriesView = [[PHCategoriesView alloc] init];
+    [self addSubview:_categoriesView];
 
     // Animations
     _animationsView = [[PHAnimationsView alloc] init];
@@ -128,6 +143,14 @@ static const CGFloat kExplorerWidth = 300;
 
   _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
+
+  _categoriesView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge);
+  [_categoriesView layout];
+
+  CGFloat previewHeight = kPreviewPaneWidth * visualizerAspectRatio;
+  _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
+                                               floor((topEdge - previewHeight) / 2),
+                                               kPreviewPaneWidth, previewHeight);
 }
 
 @end

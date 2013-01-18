@@ -20,6 +20,12 @@
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
 
+// Categories
+extern NSString* const PHAnimationCategoryVideoGames;
+extern NSString* const PHAnimationCategoryPipes;
+extern NSString* const PHAnimationCategoryPixelHeart;
+extern NSString* const PHAnimationCategoryShapes;
+
 const NSInteger PHInitialAnimationIndex;
 
 typedef NSArray* (^PHAdditionalAnimationBlock)();
@@ -59,6 +65,7 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 - (BOOL)isPipeAnimation; // Default returns NO
 
 + (NSArray *)allAnimations;
++ (NSArray *)allCategories;
 
 - (CGPathRef)createQuartzPathFromPath:(NSBezierPath *)bezierPath;
 
