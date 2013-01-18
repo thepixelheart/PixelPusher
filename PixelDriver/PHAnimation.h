@@ -48,6 +48,9 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 // This method will be called frequently.
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
 
+// Subclasses must implement this method to render a preview of the animation.
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size;
+
 // Subclasses should call super.
 - (void)bitmapWillStartRendering;
 - (void)bitmapDidFinishRendering;

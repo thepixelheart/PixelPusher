@@ -23,7 +23,15 @@
 @property (nonatomic, copy) PHAnimation* animation;
 @end
 
-@implementation PHAnimationTileView
+@implementation PHAnimationTileView {
+  CGImageRef _previewImageRef;
+}
+
+- (void)dealloc {
+  if (nil != _previewImageRef) {
+    CGImageRelease(_previewImageRef);
+  }
+}
 
 - (id)initWithFrame:(NSRect)frameRect {
   CGFloat aspectRatio = (CGFloat)kWallWidth / (CGFloat)kWallHeight;
@@ -39,25 +47,32 @@
     NSRectFill([self bounds]);
   }
 
-  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-  CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
-  [_animation bitmapWillStartRendering];
-  [_animation renderBitmapInContext:contextRef size:wallSize];
-  [_animation bitmapDidFinishRendering];
+  if (nil == _previewImageRef) {
+    CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+    [_animation renderPreviewInContext:contextRef size:wallSize];
+
+    _previewImageRef = CGBitmapContextCreateImage(contextRef);
+    CGContextRelease(contextRef);
+  }
 
   CGContextRef cx = [[NSGraphicsContext currentContext] graphicsPort];
-  CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
   CGContextSaveGState(cx);
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -self.bounds.size.height);
-  CGContextDrawImage(cx, self.bounds, imageRef);
-  CGImageRelease(imageRef);
-  CGContextRelease(contextRef);
-  contextRef = nil;
+
+  if (_selected) {
+    CGContextSetAlpha(cx, 1);
+  } else {
+    CGContextSetAlpha(cx, 0.5);
+  }
+
+  CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
+  CGContextDrawImage(cx, CGRectInset(self.bounds, 5, 5), _previewImageRef);
   CGContextRestoreGState(cx);
 
   NSDictionary* attributes = @{
-    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:0.6 alpha:1],
+    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:_selected ? 1.0 : 0.6 alpha:1],
     NSFontAttributeName:[NSFont boldSystemFontOfSize:11]
   };
   NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:_animation.tooltipName attributes:attributes];
@@ -65,6 +80,10 @@
   CGRect textFrame = CGRectInset(self.bounds, 5, 5);
   CGSize size = [string.string sizeWithAttributes:attributes];
   textFrame.size.height = size.height;
+
+  CGContextSetRGBFillColor(cx, 0, 0, 0, 0.4);
+  CGContextFillRect(cx, CGRectMake(0, 0, self.bounds.size.width, size.height + 10));
+
   [string drawInRect:textFrame];
 }
 

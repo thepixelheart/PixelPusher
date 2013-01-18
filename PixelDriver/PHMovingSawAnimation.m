@@ -96,6 +96,10 @@ static const int kSpeed = 1;
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self renderBitmapInContext:cx size:size];
+}
+
 - (NSString *)tooltipName {
     return @"Moving Saw";
 }

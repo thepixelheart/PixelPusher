@@ -297,6 +297,19 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
   }
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  PHDJAnimationState prevState = _state;
+  NSTimeInterval prevTick = _nextStateChangeTick;
+
+  _nextStateChangeTick = [NSDate timeIntervalSinceReferenceDate] + 1000;
+  _state = PHDJAnimationStateArmsUpFadePixelHeart;
+
+  [self renderBitmapInContext:cx size:size];
+
+  _state = prevState;
+  _nextStateChangeTick = prevTick;
+}
+
 - (PHSpriteAnimation *)walkingAnimationWithSpritesheet:(PHSpritesheet *)spritesheet {
   PHSpriteAnimation* animation = [[PHSpriteAnimation alloc] initWithSpritesheet:spritesheet];
   [animation addFrameAtX:2 y:0 duration:0.3];

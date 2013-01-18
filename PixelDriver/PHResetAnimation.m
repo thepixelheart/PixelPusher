@@ -24,6 +24,16 @@
   CGContextConcatCTM(cx, transform);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  CGContextSetRGBStrokeColor(cx, 1, 1, 1, 1);
+  CGContextSetLineWidth(cx, 5);
+  CGContextMoveToPoint(cx, size.width / 4, size.height / 4);
+  CGContextAddLineToPoint(cx, size.width * 3 / 4, size.height * 3 / 4);
+  CGContextMoveToPoint(cx, size.width * 3 / 4, size.height / 4);
+  CGContextAddLineToPoint(cx, size.width / 4, size.height * 3 / 4);
+  CGContextStrokePath(cx);
+}
+
 - (NSString *)tooltipName {
   return @"Reset";
 }

@@ -78,6 +78,10 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   // No-op
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  // No-op
+}
+
 - (NSTimeInterval)secondsSinceLastTick {
   return (_lastTick > 0) ? ([NSDate timeIntervalSinceReferenceDate] - _lastTick) : 0;
 }

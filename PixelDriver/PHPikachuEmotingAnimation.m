@@ -148,6 +148,15 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
   CGImageRelease(imageRef);
 }
 
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  CGSize pikachuSize = _pikachuSpritesheet.spriteSize;
+
+  CGImageRef imageRef = [_pikachuSpritesheet imageAtX:3 y:1];
+  CGContextDrawImage(cx, CGRectMake(0, 0, pikachuSize.width, pikachuSize.height), imageRef);
+
+  CGImageRelease(imageRef);
+}
+
 - (NSString *)tooltipName {
   return @"Pikachu";
 }
