@@ -20,5 +20,16 @@
 
 extern const CGFloat PHPlaybackControlsWidth;
 
+@protocol PHPlaybackControlsViewDelegate;
+
 @interface PHPlaybackControlsView : PHContainerView
+@property (nonatomic, weak) id<PHPlaybackControlsViewDelegate> delegate;
+@end
+
+@protocol PHPlaybackControlsViewDelegate <NSObject>
+@required
+
+- (void)didTapLoadLeftButton;
+- (void)didTapLoadRightButton;
+
 @end

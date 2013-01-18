@@ -16,12 +16,14 @@
 
 #import "PHDualVizualizersView.h"
 
+#import "AppDelegate.h"
 #import "PHCategoriesView.h"
 #import "PHHeaderView.h"
 #import "PHDriver.h"
 #import "PHWallView.h"
 #import "PHPlaybackControlsView.h"
 #import "PHAnimationsView.h"
+#import "PHSystem.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
@@ -30,7 +32,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
 
-@interface PHDualVizualizersView() <PHCategoriesViewDelegate>
+@interface PHDualVizualizersView() <PHCategoriesViewDelegate, PHPlaybackControlsViewDelegate>
 @end
 
 @implementation PHDualVizualizersView {
@@ -98,6 +100,7 @@ static const CGFloat kExplorerWidth = 200;
 
     // Playback controls
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
+    _playbackControlsView.delegate = self;
     [self addSubview:_playbackControlsView];
 
     _categoriesView = [[PHCategoriesView alloc] init];
@@ -161,6 +164,16 @@ static const CGFloat kExplorerWidth = 200;
 
 - (void)didSelectCategory:(NSString *)category {
   [_animationsView setCategoryFilter:category];
+}
+
+#pragma mark - PHPlaybackControlsViewDelegate
+
+- (void)didTapLoadLeftButton {
+  PHSys().leftAnimation = _animationsView.selectedAnimation;
+}
+
+- (void)didTapLoadRightButton {
+  PHSys().rightAnimation = _animationsView.selectedAnimation;
 }
 
 @end

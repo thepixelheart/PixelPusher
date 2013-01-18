@@ -18,6 +18,7 @@
 
 #import "AppDelegate.h"
 #import "PHAnimation.h"
+#import "PHCompositeAnimation.h"
 #import "PHSystem.h"
 
 @interface PHAnimationTileView : NSView
@@ -169,7 +170,7 @@
       [NSColor colorWithDeviceWhite:0.15 alpha:1],
     ];
     _collectionView.allowsMultipleSelection = NO;
-    _collectionView.minItemSize = CGSizeMake(150, 100);
+    _collectionView.minItemSize = CGSizeMake(186, 124);
     _collectionView.maxItemSize = CGSizeMake(450, 300);
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
@@ -196,13 +197,14 @@
                       forKeyPath:@"selectionIndexes"
                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                          context:NULL];
+    [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
   }
   return self;
 }
 
 - (void)updateSystemWithSelection {
   PHAnimation* selectedAnimation = _collectionView.content[[_previousSelectionIndexes firstIndex]];
-  PHSys().previewAnimation = [selectedAnimation copy];
+  PHSys().previewAnimation = selectedAnimation;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -226,12 +228,20 @@
   } else {
     NSMutableArray* filteredArray = [NSMutableArray array];
     for (PHAnimation* animation in _animations) {
+      if ([category isEqualToString:PHAnimationCategoryPipes]
+          && [animation isKindOfClass:[PHCompositeAnimation class]]) {
+        continue;
+      }
       if ([animation.categories containsObject:category]) {
         [filteredArray addObject:animation];
       }
     }
     _collectionView.content = filteredArray;
   }
+}
+
+- (PHAnimation *)selectedAnimation {
+  return _collectionView.content[[_previousSelectionIndexes firstIndex]];
 }
 
 @end
