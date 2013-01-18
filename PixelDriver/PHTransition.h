@@ -16,7 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PHTransition : NSObject
+@interface PHTransition : NSObject <NSCopying>
+
++ (id)transition;
 
 // Subclasses must implement this method to render their frames.
 // This method will be called once per tick.
@@ -25,5 +27,9 @@
                   leftContext:(CGContextRef)leftContext
                  rightContext:(CGContextRef)rightContext
                             t:(CGFloat)t;
+
+- (NSString *)tooltipName;
+
++ (NSArray *)allTransitions;
 
 @end

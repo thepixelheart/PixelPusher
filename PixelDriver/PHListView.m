@@ -14,14 +14,14 @@
 // limitations under the License.
 //
 
-#import "PHCategoriesView.h"
+#import "PHListView.h"
 
 #import "PHAnimation.h"
 
-@interface PHCategoryCell : NSTextFieldCell
+@interface PHListCell : NSTextFieldCell
 @end
 
-@implementation PHCategoryCell
+@implementation PHListCell
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
   if (self.isHighlighted) {
@@ -38,10 +38,10 @@
 
 @end
 
-@interface PHCategoryTableView : NSTableView
+@interface PHListTableView : NSTableView
 @end
 
-@implementation PHCategoryTableView {
+@implementation PHListTableView {
   NSArray* _backgroundColors;
 }
 
@@ -81,13 +81,12 @@
 
 @end
 
-@interface PHCategoriesView() <NSTableViewDataSource, NSTableViewDelegate>
+@interface PHListView() <NSTableViewDataSource, NSTableViewDelegate>
 @end
 
-@implementation PHCategoriesView {
+@implementation PHListView {
   NSTableView* _tableView;
   NSScrollView* _scrollView;
-  NSArray* _categories;
 
   NSInteger _previousSelectedRow;
 }
@@ -99,9 +98,7 @@
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
-    self.title = @"Categories";
-
-    _tableView = [[PHCategoryTableView alloc] initWithFrame:self.contentView.bounds];
+    _tableView = [[PHListTableView alloc] initWithFrame:self.contentView.bounds];
     _tableView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _tableView.headerView = nil;
     _tableView.delegate = self;
@@ -118,13 +115,6 @@
 
     _scrollView.documentView = _tableView;
     [self.contentView addSubview:_scrollView];
-
-    NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
-                                   ^NSComparisonResult(NSString* obj1, NSString* obj2) {
-                                     return [obj1 compare:obj2 ];
-                                   }] mutableCopy];
-    [categories insertObject:@"All" atIndex:0];
-    _categories = [categories copy];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(didChangeSelectionNotification:) name:NSTableViewSelectionDidChangeNotification object:_tableView];
@@ -143,18 +133,17 @@
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-  return _categories.count;
+  return [_dataSource numberOfRowsInListView:self];
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-  NSString* categoryName = [_categories objectAtIndex:row];
-  return categoryName;
+  return [_dataSource listView:self stringForRowAtIndex:row];
 }
 
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
   NSString* string = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
   if (nil != string) {
-    return [[PHCategoryCell alloc] initTextCell:string];
+    return [[PHListCell alloc] initTextCell:string];
   } else {
     return nil;
   }
@@ -164,12 +153,12 @@
 
 - (void)didChangeSelectionNotification:(NSNotification *)notification {
   [_tableView becomeFirstResponder];
-  if (_tableView.selectedRow < 0 || _tableView.selectedRow > _categories.count) {
+  if (_tableView.selectedRow < 0 || _tableView.selectedRow > [_dataSource numberOfRowsInListView:self]) {
     [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_previousSelectedRow]
             byExtendingSelection:NO];
 
   } else if (_previousSelectedRow != _tableView.selectedRow) {
-    [_delegate didSelectCategory:_categories[_tableView.selectedRow]];
+    [_delegate listView:self didSelectRowAtIndex:_tableView.selectedRow];
     _previousSelectedRow = _tableView.selectedRow;
   }
 }

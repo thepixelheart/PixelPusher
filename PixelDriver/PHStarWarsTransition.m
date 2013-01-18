@@ -46,4 +46,8 @@
   CGContextRestoreGState(cx);
 }
 
+- (NSString *)tooltipName {
+  return @"Star Wars";
+}
+
 @end

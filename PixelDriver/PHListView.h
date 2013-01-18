@@ -16,13 +16,21 @@
 
 #import "PHContainerView.h"
 
-@protocol PHCategoriesViewDelegate;
+@protocol PHListViewDelegate;
+@protocol PHListViewDataSource;
 
-@interface PHCategoriesView : PHContainerView
-@property (nonatomic, weak) id<PHCategoriesViewDelegate> delegate;
+@interface PHListView : PHContainerView
+@property (nonatomic, weak) id<PHListViewDelegate> delegate;
+@property (nonatomic, weak) id<PHListViewDataSource> dataSource;
 @end
 
-@protocol PHCategoriesViewDelegate <NSObject>
+@protocol PHListViewDataSource <NSObject>
 @required
-- (void)didSelectCategory:(NSString *)category;
+- (NSInteger)numberOfRowsInListView:(PHListView *)listView;
+- (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index;
+@end
+
+@protocol PHListViewDelegate <NSObject>
+@required
+- (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index;
 @end

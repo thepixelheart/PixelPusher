@@ -42,4 +42,8 @@
   CGContextRestoreGState(cx);
 }
 
+- (NSString *)tooltipName {
+  return @"Cross Fade";
+}
+
 @end

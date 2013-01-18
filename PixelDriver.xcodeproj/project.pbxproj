@@ -15,7 +15,7 @@
 		3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */; };
 		3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */; };
 		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
-		66021C2F16A935C400E99908 /* PHCategoriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHCategoriesView.m */; };
+		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
 		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
@@ -143,8 +143,8 @@
 		3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassShooterAnimation.m; sourceTree = "<group>"; };
 		528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDaftPixelAnimation.h; sourceTree = "<group>"; };
 		528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDaftPixelAnimation.m; sourceTree = "<group>"; };
-		66021C2D16A935C300E99908 /* PHCategoriesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCategoriesView.h; sourceTree = "<group>"; };
-		66021C2E16A935C400E99908 /* PHCategoriesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCategoriesView.m; sourceTree = "<group>"; };
+		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
+		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
 		660D25981689B20000727312 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotationAnimation.h; sourceTree = "<group>"; };
 		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
 		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
@@ -388,8 +388,8 @@
 				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
 				661CC74016A7A01C007F3900 /* PHAnimationsView.h */,
 				661CC74116A7A01D007F3900 /* PHAnimationsView.m */,
-				66021C2D16A935C300E99908 /* PHCategoriesView.h */,
-				66021C2E16A935C400E99908 /* PHCategoriesView.m */,
+				66021C2D16A935C300E99908 /* PHListView.h */,
+				66021C2E16A935C400E99908 /* PHListView.m */,
 			);
 			name = Window;
 			sourceTree = "<group>";
@@ -974,7 +974,7 @@
 				661CC73816A78196007F3900 /* PHCrossFadeTransition.m in Sources */,
 				661CC73B16A79030007F3900 /* PHStarWarsTransition.m in Sources */,
 				661CC74216A7A01D007F3900 /* PHAnimationsView.m in Sources */,
-				66021C2F16A935C400E99908 /* PHCategoriesView.m in Sources */,
+				66021C2F16A935C400E99908 /* PHListView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,7 +16,18 @@
 
 #import "PHTransition.h"
 
+#import "PHCrossFadeTransition.h"
+#import "PHStarWarsTransition.h"
+
 @implementation PHTransition
+
++ (id)transition {
+  return [[self alloc] init];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  return [[self.class allocWithZone:zone] init];
+}
 
 - (void)renderBitmapInContext:(CGContextRef)cx
                          size:(CGSize)size
@@ -24,6 +35,17 @@
                  rightContext:(CGContextRef)rightContext
                             t:(CGFloat)t {
   // No-op
+}
+
+- (NSString *)tooltipName {
+  return NSStringFromClass([self class]);
+}
+
++ (NSArray *)allTransitions {
+  return @[
+    [PHCrossFadeTransition transition],
+    [PHStarWarsTransition transition]
+  ];
 }
 
 @end

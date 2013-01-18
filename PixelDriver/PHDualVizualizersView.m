@@ -17,11 +17,13 @@
 #import "PHDualVizualizersView.h"
 
 #import "AppDelegate.h"
-#import "PHCategoriesView.h"
+#import "PHAnimation.h"
+#import "PHListView.h"
 #import "PHHeaderView.h"
 #import "PHDriver.h"
 #import "PHWallView.h"
 #import "PHPlaybackControlsView.h"
+#import "PHTransition.h"
 #import "PHAnimationsView.h"
 #import "PHSystem.h"
 
@@ -32,7 +34,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
 
-@interface PHDualVizualizersView() <PHCategoriesViewDelegate, PHPlaybackControlsViewDelegate>
+@interface PHDualVizualizersView() <PHListViewDelegate, PHListViewDataSource, PHPlaybackControlsViewDelegate>
 @end
 
 @implementation PHDualVizualizersView {
@@ -43,9 +45,13 @@ static const CGFloat kExplorerWidth = 200;
 
   PHPlaybackControlsView* _playbackControlsView;
 
-  PHCategoriesView* _categoriesView;
+  PHListView* _categoriesView;
+  PHListView* _transitionsView;
   PHAnimationsView* _animationsView;
   PHContainerView* _previewVisualizationView;
+
+  NSArray* _categories;
+  NSArray* _transitions;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -103,13 +109,30 @@ static const CGFloat kExplorerWidth = 200;
     _playbackControlsView.delegate = self;
     [self addSubview:_playbackControlsView];
 
-    _categoriesView = [[PHCategoriesView alloc] init];
+    _categoriesView = [[PHListView alloc] init];
+    _categoriesView.title = @"Categories";
+    _categoriesView.dataSource = self;
     _categoriesView.delegate = self;
     [self addSubview:_categoriesView];
+
+    _transitionsView = [[PHListView alloc] init];
+    _transitionsView.title = @"Transitions";
+    _transitionsView.dataSource = self;
+    _transitionsView.delegate = self;
+    [self addSubview:_transitionsView];
 
     // Animations
     _animationsView = [[PHAnimationsView alloc] init];
     [self addSubview:_animationsView];
+
+    NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
+                                   ^NSComparisonResult(NSString* obj1, NSString* obj2) {
+                                     return [obj1 compare:obj2 ];
+                                   }] mutableCopy];
+    [categories insertObject:@"All" atIndex:0];
+    _categories = [categories copy];
+
+    _transitions = [PHTransition allTransitions];
   }
   return self;
 }
@@ -154,6 +177,9 @@ static const CGFloat kExplorerWidth = 200;
   _categoriesView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
   [_categoriesView layout];
 
+  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 2);
+  [_transitionsView layout];
+
   CGFloat previewHeight = kPreviewPaneWidth * visualizerAspectRatio;
   _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
                                                floor((topEdge - previewHeight) / 2),
@@ -162,8 +188,35 @@ static const CGFloat kExplorerWidth = 200;
 
 #pragma mark - PHCategoriesViewDelegate
 
-- (void)didSelectCategory:(NSString *)category {
-  [_animationsView setCategoryFilter:category];
+- (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
+  if (listView == _categoriesView) {
+    [_animationsView setCategoryFilter:_categories[index]];
+
+  } else if (listView == _transitionsView) {
+    PHSys().faderTransition = _transitions[index];
+  }
+}
+
+#pragma mark - PHCategoriesViewDataSource
+
+- (NSInteger)numberOfRowsInListView:(PHListView *)listView {
+  if (listView == _categoriesView) {
+    return _categories.count;
+  } else if (listView == _transitionsView) {
+    return _transitions.count;
+  } else {
+    return 0;
+  }
+}
+
+- (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
+  if (listView == _categoriesView) {
+    return _categories[index];
+  } else if (listView == _transitionsView) {
+    return [_transitions[index] tooltipName];
+  } else {
+    return nil;
+  }
 }
 
 #pragma mark - PHPlaybackControlsViewDelegate
