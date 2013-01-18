@@ -106,8 +106,7 @@ static const NSInteger kNumberOfPixels = kNumberOfStrands * kPixelsPerStrand;
   if (nil != _context) {
     CGContextRelease(_context);
   }
-  CGContextRetain(context);
-  _context = context;
+  _context = CGContextRetain(context);
 }
 
 @end

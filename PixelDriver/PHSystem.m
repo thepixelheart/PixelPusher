@@ -119,12 +119,21 @@ static const char kAnimationContextKey = 0;
 
   if (nil != _leftAnimation) {
     tick.leftContextRef = [objc_getAssociatedObject(_leftAnimation, &kAnimationContextKey) pointerValue];
+    if (nil != tick.leftContextRef) {
+      CGContextRelease(tick.leftContextRef);
+    }
   }
   if (nil != _rightAnimation) {
     tick.rightContextRef = [objc_getAssociatedObject(_rightAnimation, &kAnimationContextKey) pointerValue];
+    if (nil != tick.rightContextRef) {
+      CGContextRelease(tick.rightContextRef);
+    }
   }
   if (nil != _previewAnimation) {
     tick.previewContextRef = [objc_getAssociatedObject(_previewAnimation, &kAnimationContextKey) pointerValue];
+    if (nil != tick.previewContextRef) {
+      CGContextRelease(tick.previewContextRef);
+    }
   }
 
   [tick updateWallContextWithTransition:_faderTransition t:_fade];
@@ -145,18 +154,21 @@ static const char kAnimationContextKey = 0;
   if (nil != _leftContextRef) {
     CGContextRelease(_leftContextRef);
   }
-  if (nil != _rightContextRef) {
+  if (nil != _rightContextRef && _rightContextRef != _leftContextRef) {
     CGContextRelease(_rightContextRef);
   }
-  if (nil != _previewContextRef) {
+  if (nil != _previewContextRef && _previewContextRef != _leftContextRef && _previewContextRef != _rightContextRef) {
     CGContextRelease(_previewContextRef);
   }
-  if (nil != _wallContextRef) {
+  if (nil != _wallContextRef && _wallContextRef != _previewContextRef && _wallContextRef != _rightContextRef && _wallContextRef != _leftContextRef) {
     CGContextRelease(_wallContextRef);
   }
 }
 
 - (void)setLeftContextRef:(CGContextRef)leftContextRef {
+  if (_leftContextRef == leftContextRef) {
+    return;
+  }
   if (nil != _leftContextRef) {
     CGContextRelease(_leftContextRef);
   }
@@ -164,21 +176,30 @@ static const char kAnimationContextKey = 0;
 }
 
 - (void)setRightContextRef:(CGContextRef)rightContextRef {
-  if (nil != _leftContextRef) {
+  if (_rightContextRef == rightContextRef) {
+    return;
+  }
+  if (nil != _rightContextRef) {
     CGContextRelease(_rightContextRef);
   }
   _rightContextRef = CGContextRetain(rightContextRef);
 }
 
 - (void)setPreviewContextRef:(CGContextRef)previewContextRef {
-  if (nil != _leftContextRef) {
+  if (_previewContextRef == previewContextRef) {
+    return;
+  }
+  if (nil != _previewContextRef) {
     CGContextRelease(_previewContextRef);
   }
   _previewContextRef = CGContextRetain(previewContextRef);
 }
 
 - (void)setWallContextRef:(CGContextRef)wallContextRef {
-  if (nil != _leftContextRef) {
+  if (_wallContextRef == wallContextRef) {
+    return;
+  }
+  if (nil != _wallContextRef) {
     CGContextRelease(_wallContextRef);
   }
   _wallContextRef = CGContextRetain(wallContextRef);
@@ -195,6 +216,8 @@ static const char kAnimationContextKey = 0;
                                   t:t];
 
   self.wallContextRef = wallContext;
+
+  CGContextRelease(wallContext);
 }
 
 @end

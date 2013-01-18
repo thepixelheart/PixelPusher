@@ -60,10 +60,6 @@
     return;
   }
 
-  //if (_primary) {
-  //  [PHApp().driver queueContext:wallContext];
-  //}
-
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
   CGImageRef imageRef = CGBitmapContextCreateImage(wallContext);
