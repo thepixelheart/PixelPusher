@@ -16,5 +16,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PHAnimation;
+
 @interface PHLibraryView : NSView
+
+- (PHAnimation *)selectedAnimation;
+
 @end

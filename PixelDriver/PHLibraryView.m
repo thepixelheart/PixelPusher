@@ -132,14 +132,10 @@ static const CGFloat kExplorerWidth = 200;
   }
 }
 
-#pragma mark - PHPlaybackControlsViewDelegate
+#pragma mark - Public Methods
 
-- (void)didTapLoadLeftButton {
-  PHSys().leftAnimation = _animationsView.selectedAnimation;
-}
-
-- (void)didTapLoadRightButton {
-  PHSys().rightAnimation = _animationsView.selectedAnimation;
+- (PHAnimation *)selectedAnimation {
+  return _animationsView.selectedAnimation;
 }
 
 @end

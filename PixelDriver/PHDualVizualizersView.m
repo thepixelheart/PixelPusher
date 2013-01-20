@@ -143,4 +143,14 @@ static const CGFloat kPlaybackControlsHeight = 60;
   
 }
 
+#pragma mark - PHPlaybackControlsViewDelegate
+
+- (void)didTapLoadLeftButton {
+  PHSys().leftAnimation = _libraryView.selectedAnimation;
+}
+
+- (void)didTapLoadRightButton {
+  PHSys().rightAnimation = _libraryView.selectedAnimation;
+}
+
 @end
