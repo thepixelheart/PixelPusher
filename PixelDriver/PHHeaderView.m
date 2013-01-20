@@ -16,6 +16,7 @@
 
 #import "PHHeaderView.h"
 
+#import "PHDualVizualizersView.h"
 #import "PHPixelImageView.h"
 #import "PHButton.h"
 
@@ -24,6 +25,10 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
 @implementation PHHeaderView {
   PHButton* _prefsButton;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -43,6 +48,9 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     _prefsButton.target = self;
     _prefsButton.action = @selector(didTapPrefsButton:);
     [self.contentView addSubview:_prefsButton];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didChangeViewMode:) name:PHChangeCurrentViewNotification object:nil];
   }
   return self;
 }
@@ -62,6 +70,16 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
 - (void)didTapPrefsButton:(NSButton *)button {
   [_delegate didTapPrefsButton];
+}
+
+- (void)didChangeViewMode:(NSNotification *)notification {
+  PHViewMode viewMode = [notification.userInfo[PHChangeCurrentViewKey] intValue];
+  if (viewMode != PHViewModePrefs) {
+    [_prefsButton setTitle:@"Prefs"];
+  } else {
+    [_prefsButton setTitle:@"Library"];
+  }
+  [self setNeedsLayout:YES];
 }
 
 @end
