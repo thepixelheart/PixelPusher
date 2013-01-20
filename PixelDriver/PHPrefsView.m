@@ -18,8 +18,11 @@
 
 #import "PHListView.h"
 #import "PHAudioPrefsPage.h"
+#import "PHSpectrumAnalyzerView.h"
+#import "PHWaveFormView.h"
 
 static const CGFloat kExplorerWidth = 200;
+static const CGFloat kAudioWidth = 200;
 
 @interface PHPrefsView() <PHListViewDelegate, PHListViewDataSource>
 @end
@@ -29,6 +32,8 @@ static const CGFloat kExplorerWidth = 200;
   NSDictionary* _nameToPrefsPageClass;
   NSArray* _prefPageNames;
 
+  PHContainerView* _fftView;
+  PHContainerView* _audioView;
   NSView* _activePageView;
 }
 
@@ -39,6 +44,22 @@ static const CGFloat kExplorerWidth = 200;
     _pagesView.dataSource = self;
     _pagesView.delegate = self;
     [self addSubview:_pagesView];
+
+    _fftView = [[PHContainerView alloc] init];
+    [self addSubview:_fftView];
+
+    PHSpectrumAnalyzerView* spectrumView = [[PHSpectrumAnalyzerView alloc] initWithFrame:_fftView.contentView.bounds];
+    spectrumView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    spectrumView.audioChannel = PHAudioChannelUnified;
+    [_fftView.contentView addSubview:spectrumView];
+
+    _audioView = [[PHContainerView alloc] init];
+    [self addSubview:_audioView];
+
+    PHWaveFormView* waveFormView = [[PHWaveFormView alloc] initWithFrame:_audioView.contentView.bounds];
+    waveFormView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    waveFormView.audioChannel = PHAudioChannelUnified;
+    [_audioView.contentView addSubview:waveFormView];
 
     _nameToPrefsPageClass = @{
       @"Audio": [PHAudioPrefsPage class]
@@ -60,8 +81,16 @@ static const CGFloat kExplorerWidth = 200;
   _pagesView.frame = CGRectMake(0, 0, kExplorerWidth, boundsSize.height);
   [_pagesView layout];
 
-  _activePageView.frame = CGRectMake(CGRectGetMaxX(_pagesView.frame), 0, boundsSize.width - CGRectGetMaxX(_pagesView.frame), boundsSize.height);
+  CGFloat pageWidth = boundsSize.width - CGRectGetMaxX(_pagesView.frame) - kAudioWidth;
+  _activePageView.frame = CGRectMake(CGRectGetMaxX(_pagesView.frame), 0, pageWidth, boundsSize.height);
   [_activePageView layout];
+
+  CGFloat leftEdge = CGRectGetMaxX(_activePageView.frame);
+
+  _fftView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth, kAudioWidth, kAudioWidth);
+  [_fftView layout];
+  _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth * 2, kAudioWidth, kAudioWidth);
+  [_audioView layout];
 }
 
 - (void)showPageAtIndex:(NSInteger)pageIndex {

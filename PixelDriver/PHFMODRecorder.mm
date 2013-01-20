@@ -174,7 +174,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
       usleep(25 * 1000);
       [self startPlaying];
     } else {
-      _listening = NO;
+      [self stopListening];
     }
 
   } else {

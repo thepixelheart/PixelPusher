@@ -40,10 +40,6 @@
 
   NSInteger numberOfWaveDataValues = driver.numberOfWaveDataValues;
 
-  CGRect bounds = CGRectMake(0, 0, size.width, size.height);
-  CGContextSetRGBFillColor(cx, (float)0xED / 255.f, (float)0xED / 255.f, (float)0xED / 255.f, 1);
-  CGContextFillRect(cx, bounds);
-
   CGContextBeginPath(cx);
   CGContextMoveToPoint(cx, 0, size.height / 2);
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
