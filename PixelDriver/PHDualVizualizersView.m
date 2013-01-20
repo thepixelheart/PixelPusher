@@ -25,6 +25,7 @@
 #import "PHTransition.h"
 #import "PHSystem.h"
 #import "PHLibraryView.h"
+#import "PHPrefsView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
@@ -43,6 +44,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
   PHPlaybackControlsView* _playbackControlsView;
 
   PHLibraryView* _libraryView;
+  PHPrefsView* _prefsView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -57,6 +59,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
                               bounds.size.width, kHeaderBarHeight);
     _headerBarView = [[PHHeaderView alloc] initWithFrame:frame];
     _headerBarView.autoresizingMask = (NSViewWidthSizable | NSViewMinYMargin);
+    _headerBarView.delegate = self;
     [self addSubview:_headerBarView];
 
     // Left visualization
@@ -133,14 +136,30 @@ static const CGFloat kPlaybackControlsHeight = 60;
   _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
   [_playbackControlsView layout];
 
-  _libraryView.frame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
-  [_libraryView layout];
+  CGRect contentFrame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
+  if (nil != _prefsView) {
+    _prefsView.frame = contentFrame;
+    [_prefsView layout];
+
+  } else {
+    _libraryView.frame = contentFrame;
+    [_libraryView layout];
+  }
 }
 
 #pragma mark - PHHeaderViewDelegate
 
 - (void)didTapPrefsButton {
-  
+  if (nil == _prefsView) {
+    _prefsView = [[PHPrefsView alloc] init];
+    [self addSubview:_prefsView];
+    [_libraryView setHidden:YES];
+  } else {
+    [_prefsView removeFromSuperview];
+    _prefsView = nil;
+    [_libraryView setHidden:NO];
+  }
+  [self setNeedsLayout:YES];
 }
 
 #pragma mark - PHPlaybackControlsViewDelegate

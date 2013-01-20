@@ -99,7 +99,7 @@ static const CGFloat kExplorerWidth = 200;
                                                kPreviewPaneWidth, previewHeight);
 }
 
-#pragma mark - PHCategoriesViewDelegate
+#pragma mark - PHListViewDelegate
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _categoriesView) {
@@ -110,7 +110,7 @@ static const CGFloat kExplorerWidth = 200;
   }
 }
 
-#pragma mark - PHCategoriesViewDataSource
+#pragma mark - PHListViewDataSource
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
   if (listView == _categoriesView) {
