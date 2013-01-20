@@ -33,8 +33,8 @@ typedef enum {
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _rowsOfViewPairs = [NSMutableArray array];
-    [self addRowWithLabel:@"Audio Source" popUpButtonId:PHAudioPrefIdSource];
-    [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination];
+    [self addRowWithLabel:@"Audio Source" popUpButtonId:PHAudioPrefIdSource selectedIndex:PHApp().audioRecorder.recordDriverIndex];
+    [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination selectedIndex:PHApp().audioRecorder.playbackDriverIndex];
   }
   return self;
 }
@@ -84,7 +84,7 @@ typedef enum {
 
 #pragma mark - Adding Rows
 
-- (void)addRowWithLabel:(NSString *)labelText popUpButtonId:(NSInteger)popUpButtonId {
+- (void)addRowWithLabel:(NSString *)labelText popUpButtonId:(NSInteger)popUpButtonId selectedIndex:(NSInteger)selectedIndex {
   NSTextField* label = [[NSTextField alloc] init];
   [label setEditable:NO];
   [label setBezeled:NO];
@@ -97,6 +97,10 @@ typedef enum {
 
   NSPopUpButton* button = [[NSPopUpButton alloc] init];
   [button addItemsWithTitles:[self popUpItemTitlesForId:popUpButtonId]];
+  [button selectItemAtIndex:selectedIndex];
+  button.target = self;
+  button.action = @selector(didChangePopUpButton:);
+  button.tag = popUpButtonId;
   [self.contentView addSubview:button];
 
   [_rowsOfViewPairs addObject:button];
@@ -110,6 +114,16 @@ typedef enum {
     return PHApp().audioRecorder.playbackDriverNames;
   }
   return nil;
+}
+
+#pragma mark - Actions
+
+- (void)didChangePopUpButton:(NSPopUpButton *)button {
+  if (button.tag == PHAudioPrefIdSource) {
+    [PHApp().audioRecorder setRecordDriverIndex:(int)button.indexOfSelectedItem];
+  } else if (button.tag == PHAudioPrefIdDestination) {
+    [PHApp().audioRecorder setPlaybackDriverIndex:(int)button.indexOfSelectedItem];
+  }
 }
 
 @end

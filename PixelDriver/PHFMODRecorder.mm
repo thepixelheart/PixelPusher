@@ -105,6 +105,11 @@ static const unsigned int kRecordingDuration = 60 * 5;
     }
     _playbackDriverNames = [driverNames copy];
 
+    if (nil == playbackDriverName) {
+      _playbackDriverIndex = 0;
+      [prefs setValue:_recordDriverNames[0] forKey:kPlaybackDriverNameUserDefaultsKey];
+    }
+
     result = _system->setDriver(_playbackDriverIndex);
     INITCHECKFMODRESULT(result);
 
@@ -130,6 +135,13 @@ static const unsigned int kRecordingDuration = 60 * 5;
       [driverNames addObject:driverName];
     }
     _recordDriverNames = [driverNames copy];
+
+    if (nil == recordingDriverName) {
+      _recordDriverIndex = 0;
+      [prefs setValue:_recordDriverNames[0] forKey:kRecordingDriverNameUserDefaultsKey];
+    }
+    [prefs removeObjectForKey:kRecordingDriverNameUserDefaultsKey];
+    [prefs removeObjectForKey:kPlaybackDriverNameUserDefaultsKey];
 
     result = _system->init(8, FMOD_INIT_NORMAL, 0);
     INITCHECKFMODRESULT(result);
