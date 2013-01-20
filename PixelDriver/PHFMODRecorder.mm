@@ -90,6 +90,9 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     NSString* playbackDriverName = [prefs valueForKey:kPlaybackDriverNameUserDefaultsKey];
+    if (nil == playbackDriverName) {
+      playbackDriverName = @"Built-in Output";
+    }
 
     NSMutableArray *driverNames = [NSMutableArray array];
     for (int ix = 0; ix < numberOfDrivers; ++ix) {
@@ -121,6 +124,9 @@ static const unsigned int kRecordingDuration = 60 * 5;
     INITCHECKFMODRESULT(result);
 
     NSString* recordingDriverName = [prefs valueForKey:kRecordingDriverNameUserDefaultsKey];
+    if (nil == recordingDriverName) {
+      recordingDriverName = @"Soundflower (2ch)";
+    }
 
     driverNames = [NSMutableArray array];
     for (int ix = 0; ix < numberOfDrivers; ++ix) {
