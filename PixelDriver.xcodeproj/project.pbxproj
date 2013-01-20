@@ -104,6 +104,7 @@
 		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
+		66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -311,6 +312,8 @@
 		66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLibraryView.m; sourceTree = "<group>"; };
 		66D1DA5416AB80B000E8FE9F /* PHPrefsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPrefsView.h; sourceTree = "<group>"; };
 		66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsView.m; sourceTree = "<group>"; };
+		66D1DA5716AB828200E8FE9F /* PHAudioPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAudioPrefsPage.h; sourceTree = "<group>"; };
+		66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAudioPrefsPage.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -653,6 +656,8 @@
 			children = (
 				66D1DA5416AB80B000E8FE9F /* PHPrefsView.h */,
 				66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */,
+				66D1DA5716AB828200E8FE9F /* PHAudioPrefsPage.h */,
+				66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */,
 			);
 			name = Prefs;
 			sourceTree = "<group>";
@@ -1009,6 +1014,7 @@
 				66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */,
 				66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */,
 				66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */,
+				66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

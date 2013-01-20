@@ -17,6 +17,7 @@
 #import "PHPrefsView.h"
 
 #import "PHListView.h"
+#import "PHAudioPrefsPage.h"
 
 static const CGFloat kExplorerWidth = 200;
 
@@ -25,6 +26,10 @@ static const CGFloat kExplorerWidth = 200;
 
 @implementation PHPrefsView {
   PHListView* _pagesView;
+  NSDictionary* _nameToPrefsPageClass;
+  NSArray* _prefPageNames;
+
+  NSView* _activePageView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -34,6 +39,16 @@ static const CGFloat kExplorerWidth = 200;
     _pagesView.dataSource = self;
     _pagesView.delegate = self;
     [self addSubview:_pagesView];
+
+    _nameToPrefsPageClass = @{
+      @"Audio": [PHAudioPrefsPage class]
+    };
+
+    _prefPageNames = [_nameToPrefsPageClass.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2) {
+      return [obj1 compare:obj2];
+    }];
+
+    [self showPageAtIndex:0];
   }
   return self;
 }
@@ -44,12 +59,27 @@ static const CGFloat kExplorerWidth = 200;
   CGSize boundsSize = self.bounds.size;
   _pagesView.frame = CGRectMake(0, 0, kExplorerWidth, boundsSize.height);
   [_pagesView layout];
+
+  _activePageView.frame = CGRectMake(CGRectGetMaxX(_pagesView.frame), 0, boundsSize.width - CGRectGetMaxX(_pagesView.frame), boundsSize.height);
+  [_activePageView layout];
+}
+
+- (void)showPageAtIndex:(NSInteger)pageIndex {
+  [_activePageView removeFromSuperview];
+
+  NSString* pageName = _prefPageNames[pageIndex];
+  Class pageClass = _nameToPrefsPageClass[pageName];
+  _activePageView = [[pageClass alloc] init];
+  [self addSubview:_activePageView];
+
+  [self setNeedsLayout:YES];
 }
 
 #pragma mark - PHListViewDelegate
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _pagesView) {
+    [self showPageAtIndex:index];
   }
 }
 
@@ -57,7 +87,7 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
   if (listView == _pagesView) {
-    return 1;
+    return _prefPageNames.count;
   } else {
     return 0;
   }
@@ -65,7 +95,7 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
   if (listView == _pagesView) {
-    return @"Hi";
+    return [_prefPageNames objectAtIndex:index];
   } else {
     return nil;
   }
