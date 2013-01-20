@@ -101,6 +101,8 @@
 		66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */; };
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
+		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
+		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -302,6 +304,10 @@
 		66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxxR.png; path = PixelDriver/resources/sliderbgxxR.png; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
+		66D1DA4B16AB7C5400E8FE9F /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
+		66D1DA4C16AB7C5400E8FE9F /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
+		66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLibraryView.h; sourceTree = "<group>"; };
+		66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLibraryView.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -380,6 +386,8 @@
 				6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */,
 				66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */,
 				66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */,
+				66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */,
+				66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */,
 				662CB20D16A67708008F497B /* PHHeaderView.h */,
 				662CB20E16A67708008F497B /* PHHeaderView.m */,
 				66DC7B7A167725E900453E8F /* PHWallView.h */,
@@ -622,6 +630,8 @@
 				662CB21116A67915008F497B /* PHPixelImageView.m */,
 				66BDB2AA16A6A6EC00ED7C81 /* PHSlider.h */,
 				66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */,
+				66D1DA4B16AB7C5400E8FE9F /* PHButton.h */,
+				66D1DA4C16AB7C5400E8FE9F /* PHButton.m */,
 			);
 			name = "Generic Views";
 			sourceTree = "<group>";
@@ -975,6 +985,8 @@
 				661CC73B16A79030007F3900 /* PHStarWarsTransition.m in Sources */,
 				661CC74216A7A01D007F3900 /* PHAnimationsView.m in Sources */,
 				66021C2F16A935C400E99908 /* PHListView.m in Sources */,
+				66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */,
+				66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

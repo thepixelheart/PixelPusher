@@ -19,17 +19,12 @@
 #import "PHSlider.h"
 #import "AppDelegate.h"
 #import "PHSystem.h"
+#import "PHButton.h"
 
 static const CGFloat kSliderWidth = 100;
 static const CGFloat kSliderHeight = 44;
 
 const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
-
-@interface PHButton : NSButton
-@end
-
-@implementation PHButton
-@end
 
 @implementation PHPlaybackControlsView {
   NSSlider* _faderSlider;

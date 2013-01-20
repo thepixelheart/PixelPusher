@@ -16,15 +16,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "PHContainerView.h"
-
-@protocol PHHeaderViewDelegate;
-
-@interface PHHeaderView : PHContainerView
-@property (nonatomic, weak) id<PHHeaderViewDelegate> delegate;
-@end
-
-@protocol PHHeaderViewDelegate <NSObject>
-@required
-- (void)didTapPrefsButton;
+@interface PHLibraryView : NSView
 @end

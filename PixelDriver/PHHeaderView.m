@@ -17,11 +17,14 @@
 #import "PHHeaderView.h"
 
 #import "PHPixelImageView.h"
+#import "PHButton.h"
 
 static const CGFloat kLogoInset = 3;
 static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLogoInset};
 
-@implementation PHHeaderView
+@implementation PHHeaderView {
+  PHButton* _prefsButton;
+}
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
@@ -34,8 +37,31 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     logoView.frame = CGRectMake(kLogoInsets.left, kLogoInsets.top,
                                 logoView.image.size.width * scale, logoHeight);
     [self.contentView addSubview:logoView];
+
+    _prefsButton = [[PHButton alloc] init];
+    [_prefsButton setTitle:@"Prefs"];
+    _prefsButton.target = self;
+    _prefsButton.action = @selector(didTapPrefsButton:);
+    [self.contentView addSubview:_prefsButton];
   }
   return self;
+}
+
+- (void)layout {
+  [super layout];
+
+  CGSize boundsSize = self.contentView.bounds.size;
+  [_prefsButton sizeToFit];
+  CGFloat topMargin = floor((boundsSize.height - _prefsButton.frame.size.height) / 2);
+  _prefsButton.frame = CGRectMake(boundsSize.width - _prefsButton.frame.size.width - topMargin,
+                                  topMargin,
+                                  _prefsButton.frame.size.width, _prefsButton.frame.size.height);
+}
+
+#pragma mark - User Actions
+
+- (void)didTapPrefsButton:(NSButton *)button {
+  [_delegate didTapPrefsButton];
 }
 
 @end

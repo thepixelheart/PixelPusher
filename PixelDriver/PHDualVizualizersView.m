@@ -18,23 +18,20 @@
 
 #import "AppDelegate.h"
 #import "PHAnimation.h"
-#import "PHListView.h"
 #import "PHHeaderView.h"
 #import "PHDriver.h"
 #import "PHWallView.h"
 #import "PHPlaybackControlsView.h"
 #import "PHTransition.h"
-#import "PHAnimationsView.h"
 #import "PHSystem.h"
+#import "PHLibraryView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 60;
-static const CGFloat kPreviewPaneWidth = 300;
-static const CGFloat kExplorerWidth = 200;
 
-@interface PHDualVizualizersView() <PHListViewDelegate, PHListViewDataSource, PHPlaybackControlsViewDelegate>
+@interface PHDualVizualizersView() <PHPlaybackControlsViewDelegate, PHHeaderViewDelegate>
 @end
 
 @implementation PHDualVizualizersView {
@@ -45,13 +42,7 @@ static const CGFloat kExplorerWidth = 200;
 
   PHPlaybackControlsView* _playbackControlsView;
 
-  PHListView* _categoriesView;
-  PHListView* _transitionsView;
-  PHAnimationsView* _animationsView;
-  PHContainerView* _previewVisualizationView;
-
-  NSArray* _categories;
-  NSArray* _transitions;
+  PHLibraryView* _libraryView;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -95,50 +86,21 @@ static const CGFloat kExplorerWidth = 200;
     wallView.systemContext = PHSystemContextWall;
     [_wallVisualizationView.contentView addSubview:wallView];
 
-    // Preview vizualization
-    _previewVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
-    [self addSubview:_previewVisualizationView];
-
-    wallView = [[PHWallView alloc] initWithFrame:_previewVisualizationView.contentView.bounds];
-    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
-    wallView.systemContext = PHSystemContextPreview;
-    [_previewVisualizationView.contentView addSubview:wallView];
-
     // Playback controls
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
     _playbackControlsView.delegate = self;
     [self addSubview:_playbackControlsView];
 
-    _categoriesView = [[PHListView alloc] init];
-    _categoriesView.title = @"Categories";
-    _categoriesView.dataSource = self;
-    _categoriesView.delegate = self;
-    [self addSubview:_categoriesView];
-
-    _transitionsView = [[PHListView alloc] init];
-    _transitionsView.title = @"Transitions";
-    _transitionsView.dataSource = self;
-    _transitionsView.delegate = self;
-    [self addSubview:_transitionsView];
-
-    // Animations
-    _animationsView = [[PHAnimationsView alloc] init];
-    [self addSubview:_animationsView];
-
-    NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
-                                   ^NSComparisonResult(NSString* obj1, NSString* obj2) {
-                                     return [obj1 compare:obj2 ];
-                                   }] mutableCopy];
-    [categories insertObject:@"All" atIndex:0];
-    _categories = [categories copy];
-
-    _transitions = [PHTransition allTransitions];
+    _libraryView = [[PHLibraryView alloc] init];
+    [self addSubview:_libraryView];
   }
   return self;
 }
 
 - (void)layout {
   [super layout];
+
+  [_headerBarView layout];
 
   CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
   CGFloat midX = self.bounds.size.width / 2;
@@ -171,62 +133,14 @@ static const CGFloat kExplorerWidth = 200;
   _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
   [_playbackControlsView layout];
 
-  _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
-  [_animationsView layout];
-
-  _categoriesView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
-  [_categoriesView layout];
-
-  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 2);
-  [_transitionsView layout];
-
-  CGFloat previewHeight = kPreviewPaneWidth * visualizerAspectRatio;
-  _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
-                                               floor((topEdge - previewHeight) / 2),
-                                               kPreviewPaneWidth, previewHeight);
+  _libraryView.frame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
+  [_libraryView layout];
 }
 
-#pragma mark - PHCategoriesViewDelegate
+#pragma mark - PHHeaderViewDelegate
 
-- (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
-  if (listView == _categoriesView) {
-    [_animationsView setCategoryFilter:_categories[index]];
-
-  } else if (listView == _transitionsView) {
-    PHSys().faderTransition = _transitions[index];
-  }
-}
-
-#pragma mark - PHCategoriesViewDataSource
-
-- (NSInteger)numberOfRowsInListView:(PHListView *)listView {
-  if (listView == _categoriesView) {
-    return _categories.count;
-  } else if (listView == _transitionsView) {
-    return _transitions.count;
-  } else {
-    return 0;
-  }
-}
-
-- (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
-  if (listView == _categoriesView) {
-    return _categories[index];
-  } else if (listView == _transitionsView) {
-    return [_transitions[index] tooltipName];
-  } else {
-    return nil;
-  }
-}
-
-#pragma mark - PHPlaybackControlsViewDelegate
-
-- (void)didTapLoadLeftButton {
-  PHSys().leftAnimation = _animationsView.selectedAnimation;
-}
-
-- (void)didTapLoadRightButton {
-  PHSys().rightAnimation = _animationsView.selectedAnimation;
+- (void)didTapPrefsButton {
+  
 }
 
 @end
