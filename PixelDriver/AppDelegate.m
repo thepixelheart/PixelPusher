@@ -35,6 +35,7 @@
 #import "PHTooltipWindow.h"
 #import "PHOverlay.h"
 #import "SCEvents.h"
+#import "PHDualVizualizersView.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -1207,6 +1208,20 @@ PHSystem* PHSys() {
     }
   }
   return nil;
+}
+
+#pragma mark - Keyboard Shortcuts
+
+- (IBAction)didTapViewLibrary:(id)sender {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
+   @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModeLibrary]}];
+}
+
+- (IBAction)didTapViewPrefs:(id)sender {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
+   @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModePrefs]}];
 }
 
 @end

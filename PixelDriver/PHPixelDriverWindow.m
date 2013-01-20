@@ -40,4 +40,30 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   return self;
 }
 
+- (void)sendEvent:(NSEvent *)theEvent {
+  BOOL didHandle = NO;
+  if (theEvent.type == NSKeyDown) {
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+
+    PHViewMode mode = PHViewModeLibrary;
+    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"l"]) {
+      didHandle = YES;
+      mode = PHViewModeLibrary;
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"p"]) {
+      didHandle = YES;
+      mode = PHViewModePrefs;
+    }
+
+    if (didHandle) {
+      [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
+       @{PHChangeCurrentViewKey: [NSNumber numberWithInt:mode]}];
+    }
+  }
+
+  if (!didHandle) {
+    [super sendEvent:theEvent];
+  }
+}
+
 @end

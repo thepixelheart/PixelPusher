@@ -27,6 +27,9 @@
 #import "PHLibraryView.h"
 #import "PHPrefsView.h"
 
+NSString* const PHChangeCurrentViewNotification = @"PHChangeCurrentViewNotification";
+NSString* const PHChangeCurrentViewKey = @"PHChangeCurrentViewKey";
+
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
@@ -45,10 +48,18 @@ static const CGFloat kPlaybackControlsHeight = 60;
 
   PHLibraryView* _libraryView;
   PHPrefsView* _prefsView;
+
+  PHViewMode _viewMode;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
+    _viewMode = PHViewModeLibrary;
+
     self.wantsLayer = YES;
     [self.layer setBackgroundColor:PHBackgroundColor().CGColor];
 
@@ -96,6 +107,9 @@ static const CGFloat kPlaybackControlsHeight = 60;
 
     _libraryView = [[PHLibraryView alloc] init];
     [self addSubview:_libraryView];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didChangeViewMode:) name:PHChangeCurrentViewNotification object:nil];
   }
   return self;
 }
@@ -137,11 +151,11 @@ static const CGFloat kPlaybackControlsHeight = 60;
   [_playbackControlsView layout];
 
   CGRect contentFrame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
-  if (nil != _prefsView) {
+  if (_viewMode == PHViewModePrefs) {
     _prefsView.frame = contentFrame;
     [_prefsView layout];
 
-  } else {
+  } else if (_viewMode == PHViewModeLibrary) {
     _libraryView.frame = contentFrame;
     [_libraryView layout];
   }
@@ -150,16 +164,14 @@ static const CGFloat kPlaybackControlsHeight = 60;
 #pragma mark - PHHeaderViewDelegate
 
 - (void)didTapPrefsButton {
-  if (nil == _prefsView) {
-    _prefsView = [[PHPrefsView alloc] init];
-    [self addSubview:_prefsView];
-    [_libraryView setHidden:YES];
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  if (_viewMode != PHViewModePrefs) {
+    [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
+     @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModePrefs]}];
   } else {
-    [_prefsView removeFromSuperview];
-    _prefsView = nil;
-    [_libraryView setHidden:NO];
+    [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
+     @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModeLibrary]}];
   }
-  [self setNeedsLayout:YES];
 }
 
 #pragma mark - PHPlaybackControlsViewDelegate
@@ -170,6 +182,26 @@ static const CGFloat kPlaybackControlsHeight = 60;
 
 - (void)didTapLoadRightButton {
   PHSys().rightAnimation = _libraryView.selectedAnimation;
+}
+
+#pragma mark - View Mode Notifications
+
+- (void)didChangeViewMode:(NSNotification *)notification {
+  _viewMode = [notification.userInfo[PHChangeCurrentViewKey] intValue];
+  if (_viewMode == PHViewModePrefs) {
+    if (nil == _prefsView) {
+      _prefsView = [[PHPrefsView alloc] init];
+      [self addSubview:_prefsView];
+    }
+    [_libraryView setHidden:YES];
+
+  } else if (_viewMode == PHViewModeLibrary) {
+    [_prefsView removeFromSuperview];
+    _prefsView = nil;
+    [_libraryView setHidden:NO];
+  }
+
+  [self setNeedsLayout:YES];
 }
 
 @end

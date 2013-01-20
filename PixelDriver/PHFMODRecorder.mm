@@ -215,13 +215,11 @@ static const unsigned int kRecordingDuration = 60 * 5;
            forKey:kPlaybackDriverNameUserDefaultsKey];
   [prefs synchronize];
 
-  FMOD_RESULT result = _system->setDriver(_playbackDriverIndex);
+  _system->setDriver(_playbackDriverIndex);
 
   if (_listening) {
     [self stopListening];
-    if (result == FMOD_OK) {
-      [self toggleListening];
-    }
+    [self toggleListening];
   }
 }
 

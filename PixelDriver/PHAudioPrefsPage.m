@@ -37,7 +37,7 @@ typedef enum {
     _rowsOfViewPairs = [NSMutableArray array];
     [self addRowWithLabel:@"Audio Source" popUpButtonId:PHAudioPrefIdSource selectedIndex:PHApp().audioRecorder.recordDriverIndex];
     [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination selectedIndex:PHApp().audioRecorder.playbackDriverIndex];
-    [self addRowWithLabel:@"Playback Enabled" buttonId:PHAudioPrefIdPlaybackEnabled];
+    [self addRowWithLabel:@"Playback" buttonId:PHAudioPrefIdPlaybackEnabled];
   }
   return self;
 }
