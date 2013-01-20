@@ -17,6 +17,7 @@
 #import "PHAudioPrefsPage.h"
 
 #import "AppDelegate.h"
+#import "PHButton.h"
 #import "PHFMODRecorder.h"
 
 static const NSEdgeInsets kContentPadding = {10, 10, 10, 10};
@@ -24,6 +25,7 @@ static const NSEdgeInsets kContentPadding = {10, 10, 10, 10};
 typedef enum {
   PHAudioPrefIdSource,
   PHAudioPrefIdDestination,
+  PHAudioPrefIdPlaybackEnabled,
 } PHAudioPrefId;
 
 @implementation PHAudioPrefsPage {
@@ -35,6 +37,7 @@ typedef enum {
     _rowsOfViewPairs = [NSMutableArray array];
     [self addRowWithLabel:@"Audio Source" popUpButtonId:PHAudioPrefIdSource selectedIndex:PHApp().audioRecorder.recordDriverIndex];
     [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination selectedIndex:PHApp().audioRecorder.playbackDriverIndex];
+    [self addRowWithLabel:@"Playback Enabled" buttonId:PHAudioPrefIdPlaybackEnabled];
   }
   return self;
 }
@@ -84,7 +87,7 @@ typedef enum {
 
 #pragma mark - Adding Rows
 
-- (void)addRowWithLabel:(NSString *)labelText popUpButtonId:(NSInteger)popUpButtonId selectedIndex:(NSInteger)selectedIndex {
+- (void)addLabel:(NSString *)labelText {
   NSTextField* label = [[NSTextField alloc] init];
   [label setEditable:NO];
   [label setBezeled:NO];
@@ -94,6 +97,10 @@ typedef enum {
   [self.contentView addSubview:label];
 
   [_rowsOfViewPairs addObject:label];
+}
+
+- (void)addRowWithLabel:(NSString *)labelText popUpButtonId:(NSInteger)popUpButtonId selectedIndex:(NSInteger)selectedIndex {
+  [self addLabel:labelText];
 
   NSPopUpButton* button = [[NSPopUpButton alloc] init];
   [button addItemsWithTitles:[self popUpItemTitlesForId:popUpButtonId]];
@@ -104,6 +111,28 @@ typedef enum {
   [self.contentView addSubview:button];
 
   [_rowsOfViewPairs addObject:button];
+}
+
+- (void)addRowWithLabel:(NSString *)labelText buttonId:(NSInteger)buttonId {
+  [self addLabel:labelText];
+
+  PHButton* button = [[PHButton alloc] init];
+  button.title = [self titleForButtonId:buttonId];
+  button.target = self;
+  button.action = @selector(didTapButton:);
+  button.tag = buttonId;
+  [self.contentView addSubview:button];
+
+  [_rowsOfViewPairs addObject:button];
+}
+
+- (NSString *)titleForButtonId:(NSInteger)buttonId {
+  if (buttonId == PHAudioPrefIdPlaybackEnabled) {
+    return PHApp().audioRecorder.isListening ? @"Stop Listening" : @"Start Listening";
+
+  } else {
+    return nil;
+  }
 }
 
 - (NSArray *)popUpItemTitlesForId:(NSInteger)popUpButtonId {
@@ -117,6 +146,13 @@ typedef enum {
 }
 
 #pragma mark - Actions
+
+- (void)didTapButton:(NSButton *)button {
+  if (button.tag == PHAudioPrefIdPlaybackEnabled) {
+    [PHApp().audioRecorder toggleListening];
+  }
+  [[self viewWithTag:button.tag] setTitle:[self titleForButtonId:button.tag]];
+}
 
 - (void)didChangePopUpButton:(NSPopUpButton *)button {
   if (button.tag == PHAudioPrefIdSource) {
