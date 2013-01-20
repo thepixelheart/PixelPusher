@@ -26,8 +26,6 @@
 
 #import <objc/runtime.h>
 
-static const char kAnimationContextKey = 0;
-
 @interface PHSystemTick()
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
 @end
@@ -94,6 +92,10 @@ static const char kAnimationContextKey = 0;
   return context;
 }
 
+- (id)keyForAnimation:(PHAnimation *)animation {
+  return [NSString stringWithFormat:@"%lld", (unsigned long long)animation];
+}
+
 - (PHSystemTick *)tick {
   PHSystemTick* tick = [[PHSystemTick alloc] init];
 
@@ -108,35 +110,29 @@ static const char kAnimationContextKey = 0;
     [uniqueAnimations addObject:_previewAnimation];
   }
 
+  NSMutableDictionary* animationToContext = [NSMutableDictionary dictionary];
   for (PHAnimation* animation in uniqueAnimations) {
     CGContextRef contextRef = [self createContextFromAnimation:animation];
 
-    objc_setAssociatedObject(animation,
-                             &kAnimationContextKey,
-                             [NSValue valueWithPointer:contextRef],
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [animationToContext setObject:[NSValue valueWithPointer:contextRef]
+                           forKey:[self keyForAnimation:animation]];
   }
 
   if (nil != _leftAnimation) {
-    tick.leftContextRef = [objc_getAssociatedObject(_leftAnimation, &kAnimationContextKey) pointerValue];
-    if (nil != tick.leftContextRef) {
-      CGContextRelease(tick.leftContextRef);
-    }
+    tick.leftContextRef = [[animationToContext objectForKey:[self keyForAnimation:_leftAnimation]] pointerValue];
   }
   if (nil != _rightAnimation) {
-    tick.rightContextRef = [objc_getAssociatedObject(_rightAnimation, &kAnimationContextKey) pointerValue];
-    if (nil != tick.rightContextRef) {
-      CGContextRelease(tick.rightContextRef);
-    }
+    tick.rightContextRef = [[animationToContext objectForKey:[self keyForAnimation:_rightAnimation]] pointerValue];
   }
   if (nil != _previewAnimation) {
-    tick.previewContextRef = [objc_getAssociatedObject(_previewAnimation, &kAnimationContextKey) pointerValue];
-    if (nil != tick.previewContextRef) {
-      CGContextRelease(tick.previewContextRef);
-    }
+    tick.previewContextRef = [[animationToContext objectForKey:[self keyForAnimation:_previewAnimation]] pointerValue];
   }
 
   [tick updateWallContextWithTransition:_faderTransition t:_fade];
+
+  for (NSValue* value in animationToContext.allValues) {
+    CGContextRelease([value pointerValue]);
+  }
 
   return tick;
 }
