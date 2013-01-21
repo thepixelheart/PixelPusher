@@ -43,6 +43,17 @@
   return self;
 }
 
+- (NSDictionary *)textAttributes {
+  NSShadow* shadow = [[NSShadow alloc] init];
+  shadow.shadowOffset = CGSizeMake(0, 1);
+  shadow.shadowColor = [NSColor blackColor];
+  return @{
+    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:1 alpha:1],
+    NSFontAttributeName:[NSFont boldSystemFontOfSize:10],
+    NSShadowAttributeName:shadow
+  };
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
   PHDegraderHistoryItem* item = [[PHDegraderHistoryItem alloc] init];
   item->_amplitudes[0] = driver.subBassAmplitude;
@@ -54,6 +65,10 @@
   while (_history.count > size.width) {
     [_history removeObjectAtIndex:0];
   }
+
+  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
+  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
+  [NSGraphicsContext setCurrentContext:graphicsContext];
 
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
   CGFloat quadrantHeight = size.height / 4;
@@ -77,7 +92,22 @@
     CGContextSetStrokeColorWithColor(cx, _colors[ix].CGColor);
 
     CGContextStrokePath(cx);
+
+    CGFloat scale = 0;
+    if (ix == 0) {
+      scale = driver.subBassScale;
+    } else if (ix == 1) {
+      scale = driver.hihatScale;
+    } else if (ix == 2) {
+      scale = driver.snareScale;
+    } else if (ix == 3) {
+      scale = driver.vocalScale;
+    }
+    NSString* label = [NSString stringWithFormat:@"%.2f", scale];
+    [label drawAtPoint:CGPointMake(5, quadrantBottom + 5) withAttributes:[self textAttributes]];
   }
+
+  [NSGraphicsContext setCurrentContext:previousContext];
 }
 
 - (double)threadPriority {

@@ -17,6 +17,7 @@
 #import "PHAudioPrefsPage.h"
 
 #import "AppDelegate.h"
+#import "PHAnimationDriver.h"
 #import "PHButton.h"
 #import "PHFMODRecorder.h"
 #import "PHSlider.h"
@@ -28,6 +29,7 @@ typedef enum {
   PHAudioPrefIdDestination,
   PHAudioPrefIdPlaybackEnabled,
   PHAudioPrefIdVolume,
+  PHAudioPrefIdResetScales,
 } PHAudioPrefId;
 
 @implementation PHAudioPrefsPage {
@@ -41,6 +43,7 @@ typedef enum {
     [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination selectedIndex:PHApp().audioRecorder.playbackDriverIndex];
     [self addRowWithLabel:@"Playback" buttonId:PHAudioPrefIdPlaybackEnabled];
     [self addRowWithLabel:@"Volume" sliderId:PHAudioPrefIdVolume];
+    [self addRowWithLabel:@"Reset Scales" buttonId:PHAudioPrefIdResetScales];
   }
   return self;
 }
@@ -152,7 +155,8 @@ typedef enum {
 - (NSString *)titleForButtonId:(NSInteger)buttonId {
   if (buttonId == PHAudioPrefIdPlaybackEnabled) {
     return PHApp().audioRecorder.isListening ? @"Stop Listening" : @"Start Listening";
-
+  } else if (buttonId == PHAudioPrefIdResetScales) {
+    return @"Reset Scales";
   } else {
     return nil;
   }
@@ -186,8 +190,11 @@ typedef enum {
 - (void)didTapButton:(NSButton *)button {
   if (button.tag == PHAudioPrefIdPlaybackEnabled) {
     [PHApp().audioRecorder toggleListening];
+    [[self viewWithTag:button.tag] setTitle:[self titleForButtonId:button.tag]];
+
+  } if (button.tag == PHAudioPrefIdResetScales) {
+    [[PHApp() animationDriver] resetScales];
   }
-  [[self viewWithTag:button.tag] setTitle:[self titleForButtonId:button.tag]];
 }
 
 - (void)didChangePopUpButton:(NSPopUpButton *)button {

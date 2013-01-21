@@ -203,7 +203,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
     _sound->setMode(FMOD_LOOP_NORMAL);
     FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
-    _channel->setVolume(_volume);
+    _channel->setVolume(_volume * _volume * _volume * _volume);
     if (result != FMOD_OK) {
       [self stopListening];
     }
@@ -318,7 +318,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
   [defaults setFloat:volume forKey:PHInfoPanelVolumeLevelKey];
 
   if (nil != _channel) {
-    _channel->setVolume(_volume);
+    _channel->setVolume(_volume * _volume * _volume * _volume);
   }
 }
 
