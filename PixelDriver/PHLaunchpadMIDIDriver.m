@@ -17,7 +17,7 @@
 #import "PHLaunchpadMIDIDriver.h"
 
 #import "PHDisplayLink.h"
-#import "PHMIDIMessage.h"
+#import "PHMIDIMessage+Launchpad.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
@@ -283,8 +283,8 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
       BOOL pressed = (message.data2 == 0x7F);
 
-      PHLaunchpadEvent event = message.event;
-      int buttonIndex = message.buttonIndex;
+      PHLaunchpadEvent event = message.launchpadEvent;
+      int buttonIndex = message.launchpadButtonIndex;
 
       NSDictionary* userInfo =
       @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],

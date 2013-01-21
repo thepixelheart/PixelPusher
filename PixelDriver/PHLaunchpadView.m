@@ -18,7 +18,7 @@
 
 #import "AppDelegate.h"
 #import "PHLaunchpadMIDIDriver.h"
-#import "PHMIDIMessage.h"
+#import "PHMIDIMessage+Launchpad.h"
 
 @interface PHLaunchpadButtonCell : NSButtonCell
 @property (nonatomic, assign) PHLaunchpadColor color;
@@ -427,8 +427,8 @@
         }
       }
 
-      int buttonIndex = midiMessage.buttonIndex;
-      PHLaunchpadEvent event = midiMessage.event;
+      int buttonIndex = midiMessage.launchpadButtonIndex;
+      PHLaunchpadEvent event = midiMessage.launchpadEvent;
       int tag;
       if (event == PHLaunchpadEventGridButtonState) {
         tag = buttonIndex;

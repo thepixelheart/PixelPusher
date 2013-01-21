@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,26 +16,12 @@
 
 #import "PHMIDIMessage.h"
 
-@implementation PHMIDIMessage
+const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount];
 
-- (id)initWithStatus:(Byte)status channel:(Byte)channel {
-  if ((self = [super init])) {
-    _status = status;
-    _channel = channel;
-    _data1 = -1;
-    _data2 = -1;
-  }
-  return self;
-}
+@interface PHMIDIMessage (Launchpad)
 
-- (NSString *)description {
-  return [NSString stringWithFormat:
-          @"<%@: 0x%X : %d : 0x%X : 0x%X>",
-          [super description],
-          _status,
-          _channel,
-          _data1,
-          _data2];
-}
+// Launchpad messages
+- (PHLaunchpadEvent)launchpadEvent;
+- (int)launchpadButtonIndex;
 
 @end

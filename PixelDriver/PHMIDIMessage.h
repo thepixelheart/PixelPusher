@@ -33,8 +33,6 @@ typedef enum {
   PHMIDIStatusEndSysex = 0xF7,
 } PHMIDIStatus;
 
-const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount];
-
 @interface PHMIDIMessage : NSObject
 
 - (id)initWithStatus:(Byte)type channel:(Byte)channel;
@@ -43,8 +41,5 @@ const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount];
 @property (nonatomic, readonly) Byte channel;
 @property (nonatomic, assign) Byte data1;
 @property (nonatomic, assign) Byte data2;
-
-- (PHLaunchpadEvent)event;
-- (int)buttonIndex;
 
 @end
