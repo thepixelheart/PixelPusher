@@ -40,8 +40,8 @@
     [self addButtonWithImage:[NSImage imageNamed:@"2"] tag:PHSystemButtonUserAction2];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHButtonPressedNotification object:nil];
-    [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHButtonReleasedNotification object:nil];
+    [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
+    [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
   }
   return self;
 }
@@ -86,13 +86,13 @@
 #pragma mark - Notifications
 
 - (void)systemButtonWasPressed:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHButtonIdentifierKey] intValue];
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
   NSButton* button = [self viewWithTag:buttonIdentifer];
   [button setState:NSOnState];
 }
 
 - (void)systemButtonWasReleased:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHButtonIdentifierKey] intValue];
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
   NSButton* button = [self viewWithTag:buttonIdentifer];
   [button setState:NSOffState];
 }

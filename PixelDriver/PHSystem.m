@@ -23,9 +23,9 @@
 
 #import <objc/runtime.h>
 
-NSString* const PHButtonPressedNotification = @"PHButtonPressedNotification";
-NSString* const PHButtonReleasedNotification = @"PHButtonReleasedNotification";
-NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
+NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
+NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
+NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
 
 @interface PHSystemTick()
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
@@ -155,7 +155,7 @@ NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHButtonPressedNotification object:nil userInfo:@{PHButtonIdentifierKey : [NSNumber numberWithInt:button]}];
+  [nc postNotificationName:PHSystemButtonPressedNotification object:nil userInfo:@{PHSystemButtonIdentifierKey : [NSNumber numberWithInt:button]}];
 }
 
 - (void)didReleaseButton:(PHSystemButton)button {
@@ -174,7 +174,7 @@ NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHButtonReleasedNotification object:nil userInfo:@{PHButtonIdentifierKey : [NSNumber numberWithInt:button]}];
+  [nc postNotificationName:PHSystemButtonReleasedNotification object:nil userInfo:@{PHSystemButtonIdentifierKey : [NSNumber numberWithInt:button]}];
 }
 
 @end

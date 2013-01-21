@@ -26,9 +26,9 @@ typedef enum {
   PHSystemButtonUserAction2,
 } PHSystemButton;
 
-extern NSString* const PHButtonPressedNotification;
-extern NSString* const PHButtonReleasedNotification;
-extern NSString* const PHButtonIdentifierKey;
+extern NSString* const PHSystemButtonPressedNotification;
+extern NSString* const PHSystemButtonReleasedNotification;
+extern NSString* const PHSystemButtonIdentifierKey;
 
 @interface PHSystem : NSObject
 
