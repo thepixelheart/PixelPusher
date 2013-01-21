@@ -29,6 +29,12 @@
   CGImageRef _renderedImage;
 }
 
+- (void)dealloc {
+  if (nil != _renderedImage) {
+    CGImageRelease(_renderedImage);
+  }
+}
+
 - (id)initWithBlock:(PHBitmapRenderBlock)block imageSize:(CGSize)size {
   if ((self = [super init])) {
     _block = [block copy];
@@ -83,6 +89,7 @@
     }
 
     CGImageRef imageRef = weakOp.renderedImage;
+    CGImageRetain(imageRef);
     dispatch_async(dispatch_get_main_queue(), ^{
       [delegate bitmapDidFinishRendering:imageRef];
       CGImageRelease(imageRef);

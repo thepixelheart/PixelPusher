@@ -55,9 +55,6 @@
                         | kCGBitmapByteOrder32Host // Necessary for intel macs.
                         | kCGBitmapFloatComponents);
   CGColorSpaceRelease(colorSpace);
-  if (nil == wallContext) {
-    return nil;
-  }
   return wallContext;
 }
 
