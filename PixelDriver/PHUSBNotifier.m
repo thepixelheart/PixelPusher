@@ -137,7 +137,6 @@ void RawDeviceRemoved(void *refCon, io_iterator_t iterator) {
     CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], runLoopSource, kCFRunLoopDefaultMode);
 
     matchingDict = (CFMutableDictionaryRef)CFRetain(matchingDict);
-    matchingDict = (CFMutableDictionaryRef)CFRetain(matchingDict);
 
     kr = IOServiceAddMatchingNotification(_notifyPort,
                                           kIOMatchedNotification, matchingDict,

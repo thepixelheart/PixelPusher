@@ -31,6 +31,7 @@ static const NSInteger kNumberOfWaveDataValues = 16384;
   } \
 } while(0)
 
+static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
 static const unsigned int kRecordingDuration = 60 * 5;
@@ -67,6 +68,11 @@ static const unsigned int kRecordingDuration = 60 * 5;
 - (id)init {
   if ((self = [super init])) {
     _volume = 1;
+
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:PHInfoPanelVolumeLevelKey]) {
+      _volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
+    }
 
     FMOD_RESULT result = FMOD::System_Create(&_system);
     INITCHECKFMODRESULT(result);
@@ -307,6 +313,9 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
 - (void)setVolume:(float)volume {
   _volume = volume;
+
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+  [defaults setFloat:volume forKey:PHInfoPanelVolumeLevelKey];
 
   if (nil != _channel) {
     _channel->setVolume(_volume);

@@ -22,7 +22,7 @@
 #import "PHWaveFormView.h"
 
 static const CGFloat kExplorerWidth = 200;
-static const CGFloat kAudioWidth = 200;
+static const CGFloat kAudioWidth = 400;
 
 @interface PHPrefsView() <PHListViewDelegate, PHListViewDataSource>
 @end
@@ -87,9 +87,9 @@ static const CGFloat kAudioWidth = 200;
 
   CGFloat leftEdge = CGRectGetMaxX(_activePageView.frame);
 
-  _fftView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth, kAudioWidth, kAudioWidth);
+  _fftView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth / 2, kAudioWidth, kAudioWidth / 2);
   [_fftView layout];
-  _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth * 2, kAudioWidth, kAudioWidth);
+  _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth, kAudioWidth, kAudioWidth / 2);
   [_audioView layout];
 }
 

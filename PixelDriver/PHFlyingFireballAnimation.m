@@ -23,6 +23,12 @@
   NSTimeInterval _lastTick;
 }
 
+- (void)dealloc {
+  if (nil != _imageOfPreviousFrame) {
+    CGImageRelease(_imageOfPreviousFrame);
+  }
+}
+
 - (void)renderBall1AtX:(CGFloat)xOff1 context:(CGContextRef)cx {
   CGFloat radius = self.bassDegrader.value * 5 + 1;
   CGFloat yOff = cos(_advance * 4) * 7;

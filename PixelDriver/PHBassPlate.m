@@ -22,6 +22,12 @@
   CGFloat _rotationAdvance;
 }
 
+- (void)dealloc {
+  if (nil != _imageOfPreviousFrame) {
+    CGImageRelease(_imageOfPreviousFrame);
+  }
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
   CGContextTranslateCTM(cx, size.width / 2, size.height / 2);

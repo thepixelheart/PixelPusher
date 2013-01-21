@@ -47,30 +47,27 @@
     CGContextTranslateCTM(cx, -size.width, 0);
     CGContextClipToRect(cx, CGRectMake(0, 0, size.width / 2, size.height));
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
 
   } else if (type == PHMirrorAnimationTypeRight) {
     CGContextScaleCTM(cx, -1, 1);
     CGContextTranslateCTM(cx, -size.width, 0);
     CGContextClipToRect(cx, CGRectMake(size.width / 2, 0, size.width / 2, size.height));
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
 
   } else if (type == PHMirrorAnimationTypeTop) {
     CGContextScaleCTM(cx, 1, -1);
     CGContextTranslateCTM(cx, 0, -size.height);
     CGContextClipToRect(cx, CGRectMake(0, 0, size.width, size.height / 2));
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
 
   } else if (type == PHMirrorAnimationTypeBottom) {
     CGContextScaleCTM(cx, 1, -1);
     CGContextTranslateCTM(cx, 0, -size.height);
     CGContextClipToRect(cx, CGRectMake(0, size.height / 2, size.width, size.height / 2));
     CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-    CGImageRelease(imageRef);
   }
-  
+  CGImageRelease(imageRef);
+
   CGContextRestoreGState(cx);
 }
 

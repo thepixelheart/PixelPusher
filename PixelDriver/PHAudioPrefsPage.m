@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 #import "PHButton.h"
 #import "PHFMODRecorder.h"
+#import "PHSlider.h"
 
 static const NSEdgeInsets kContentPadding = {10, 10, 10, 10};
 
@@ -26,6 +27,7 @@ typedef enum {
   PHAudioPrefIdSource,
   PHAudioPrefIdDestination,
   PHAudioPrefIdPlaybackEnabled,
+  PHAudioPrefIdVolume,
 } PHAudioPrefId;
 
 @implementation PHAudioPrefsPage {
@@ -38,6 +40,7 @@ typedef enum {
     [self addRowWithLabel:@"Audio Source" popUpButtonId:PHAudioPrefIdSource selectedIndex:PHApp().audioRecorder.recordDriverIndex];
     [self addRowWithLabel:@"Audio Destination" popUpButtonId:PHAudioPrefIdDestination selectedIndex:PHApp().audioRecorder.playbackDriverIndex];
     [self addRowWithLabel:@"Playback" buttonId:PHAudioPrefIdPlaybackEnabled];
+    [self addRowWithLabel:@"Volume" sliderId:PHAudioPrefIdVolume];
   }
   return self;
 }
@@ -62,7 +65,10 @@ typedef enum {
     if ([leftView respondsToSelector:sizeToFit]) {
       [leftView performSelector:sizeToFit];
     }
-    if ([rightView respondsToSelector:sizeToFit]) {
+    if ([rightView isKindOfClass:[NSSlider class]]) {
+      rightView.frame = CGRectMake(0, 0, 200, 44);
+
+    } else if ([rightView respondsToSelector:sizeToFit]) {
       [rightView performSelector:sizeToFit];
     }
 #pragma clang diagnostic pop
@@ -81,7 +87,7 @@ typedef enum {
     leftView.frame = CGRectMake(kContentPadding.left, bottomEdge + floor((height - leftView.frame.size.height) / 2), leftView.frame.size.width, leftView.frame.size.height);
     rightView.frame = CGRectMake(kContentPadding.left + leftColRightEdge + 10, bottomEdge + floor((height - rightView.frame.size.height) / 2), rightView.frame.size.width, rightView.frame.size.height);
 
-    topEdge = bottomEdge;
+    topEdge = bottomEdge - 10;
   }
 }
 
@@ -126,6 +132,23 @@ typedef enum {
   [_rowsOfViewPairs addObject:button];
 }
 
+- (void)addRowWithLabel:(NSString *)labelText sliderId:(NSInteger)sliderId {
+  [self addLabel:labelText];
+
+  PHSlider* slider = [[PHSlider alloc] init];
+  slider.target = self;
+  slider.action = @selector(didMoveSlider:);
+  slider.tag = sliderId;
+  slider.minValue = 0;
+  slider.maxValue = 1;
+  [slider setContinuous:YES];
+  slider.numberOfTickMarks = 11;
+  [slider setFloatValue:[self valueForSliderId:sliderId]];
+  [self.contentView addSubview:slider];
+
+  [_rowsOfViewPairs addObject:slider];
+}
+
 - (NSString *)titleForButtonId:(NSInteger)buttonId {
   if (buttonId == PHAudioPrefIdPlaybackEnabled) {
     return PHApp().audioRecorder.isListening ? @"Stop Listening" : @"Start Listening";
@@ -145,7 +168,20 @@ typedef enum {
   return nil;
 }
 
+- (float)valueForSliderId:(NSInteger)sliderId {
+  if (sliderId == PHAudioPrefIdVolume) {
+    return [PHApp().audioRecorder volume];
+  }
+  return 0;
+}
+
 #pragma mark - Actions
+
+- (void)didMoveSlider:(NSSlider *)slider {
+  if (slider.tag == PHAudioPrefIdVolume) {
+    [PHApp().audioRecorder setVolume:slider.floatValue];
+  }
+}
 
 - (void)didTapButton:(NSButton *)button {
   if (button.tag == PHAudioPrefIdPlaybackEnabled) {
