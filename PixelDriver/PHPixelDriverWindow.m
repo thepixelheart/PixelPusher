@@ -52,9 +52,31 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
 - (void)sendEvent:(NSEvent *)theEvent {
   BOOL didHandle = NO;
-  if (theEvent.type == NSKeyDown) {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 
+  NSDictionary* keyMappings = @{
+    @" ": [NSNumber numberWithInt:PHSystemButtonPixelHeart],
+    @"`": [NSNumber numberWithInt:PHSystemButtonPixelHeart],
+    @"1": [NSNumber numberWithInt:PHSystemButtonUserAction1],
+    @"2": [NSNumber numberWithInt:PHSystemButtonUserAction2],
+    @"[": [NSNumber numberWithInt:PHSystemButtonLoadLeft],
+    @"]": [NSNumber numberWithInt:PHSystemButtonLoadRight],
+  };
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+
+  if ((theEvent.type == NSKeyDown || theEvent.type == NSKeyUp)
+      && nil != keyMappings[theEvent.charactersIgnoringModifiers]) {
+    PHSystemButton button = [keyMappings[theEvent.charactersIgnoringModifiers] intValue];
+    if (theEvent.type == NSKeyDown) {
+      [PHSys() didPressButton:button];
+    } else {
+      [PHSys() didReleaseButton:button];
+    }
+
+    didHandle = YES;
+  }
+
+  if (!didHandle && theEvent.type == NSKeyDown) {
     PHViewMode mode = PHViewModeLibrary;
     if ([theEvent.charactersIgnoringModifiers isEqualToString:@"l"]
         || [theEvent.charactersIgnoringModifiers isEqualToString:@"p"]) {
@@ -63,45 +85,6 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
       [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
        @{PHChangeCurrentViewKey: [NSNumber numberWithInt:mode]}];
 
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@" "]
-               || [theEvent.charactersIgnoringModifiers isEqualToString:@"`"]) {
-      didHandle = YES;
-      [PHSys() didPressButton:PHSystemButtonPixelHeart];
-
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"1"]
-               || [theEvent.charactersIgnoringModifiers isEqualToString:@"2"]) {
-      didHandle = YES;
-
-      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
-      [PHSys() didPressButton:button];
-
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"["]
-               || [theEvent.charactersIgnoringModifiers isEqualToString:@"]"]) {
-      didHandle = YES;
-
-      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"["] ? PHSystemButtonLoadLeft : PHSystemButtonLoadRight;
-      [PHSys() didPressButton:button];
-    }
-
-  } else if (theEvent.type == NSKeyUp) {
-    if ([theEvent.charactersIgnoringModifiers isEqualToString:@" "]
-        || [theEvent.charactersIgnoringModifiers isEqualToString:@"`"]) {
-      didHandle = YES;
-      [PHSys() didReleaseButton:PHSystemButtonPixelHeart];
-
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"1"]
-        || [theEvent.charactersIgnoringModifiers isEqualToString:@"2"]) {
-      didHandle = YES;
-
-      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
-      [PHSys() didReleaseButton:button];
-
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"["]
-               || [theEvent.charactersIgnoringModifiers isEqualToString:@"]"]) {
-      didHandle = YES;
-
-      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"["] ? PHSystemButtonLoadLeft : PHSystemButtonLoadRight;
-      [PHSys() didReleaseButton:button];
     }
   }
 
