@@ -81,7 +81,6 @@
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
-		66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */; };
 		66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */; };
 		66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02F167C259A00FBAFE8 /* PHBitmapPipeline.m */; };
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
@@ -279,8 +278,6 @@
 		66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHFMODRecorder.mm; sourceTree = "<group>"; };
 		66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumAnalyzerView.h; sourceTree = "<group>"; };
 		66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumAnalyzerView.m; sourceTree = "<group>"; };
-		66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHInfoPanel.h; sourceTree = "<group>"; };
-		66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHInfoPanel.m; sourceTree = "<group>"; };
 		66A8E02A167C202B00FBAFE8 /* PHDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDisplayLink.h; sourceTree = "<group>"; };
 		66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDisplayLink.m; sourceTree = "<group>"; };
 		66A8E02E167C259A00FBAFE8 /* PHBitmapPipeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBitmapPipeline.h; sourceTree = "<group>"; };
@@ -797,8 +794,6 @@
 		66DC7B80167738EB00453E8F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				66A8E026167C11C000FBAFE8 /* PHInfoPanel.h */,
-				66A8E027167C11C100FBAFE8 /* PHInfoPanel.m */,
 				66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */,
 				66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */,
 				66A26D7416892A2E009F7B33 /* PHWaveFormView.h */,
@@ -963,7 +958,6 @@
 				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
 				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
 				66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */,
-				66A8E028167C11C100FBAFE8 /* PHInfoPanel.m in Sources */,
 				66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */,
 				66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */,
 				66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */,
