@@ -98,9 +98,9 @@ static const CGFloat kAudioWidth = 400;
 
   _fftView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth / 2, kAudioWidth, kAudioWidth / 2);
   [_fftView layout];
-  _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth, kAudioWidth, kAudioWidth / 2);
+  _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth / 2 - kAudioWidth / 4, kAudioWidth, kAudioWidth / 4);
   [_audioView layout];
-  _degraderView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth * 3 / 2, kAudioWidth, kAudioWidth / 2);
+  _degraderView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth / 2 - kAudioWidth / 4 - kAudioWidth / 2, kAudioWidth, kAudioWidth / 2);
   [_degraderView layout];
 }
 
