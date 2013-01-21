@@ -71,17 +71,16 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 
   [_loadLeftButton sizeToFit];
 
-  CGFloat leftWidth = CGRectGetMinX(_faderSlider.frame);
-  _loadLeftButton.frame = CGRectMake(floor((leftWidth - _loadLeftButton.frame.size.width) / 2),
+  CGFloat width = boundsSize.width / 2 - PHPlaybackControlsWidth / 2;
+  _loadLeftButton.frame = CGRectMake(floor((width - _loadLeftButton.frame.size.width) / 2),
                                      floor((boundsSize.height - _loadLeftButton.frame.size.height) / 2),
                                      _loadLeftButton.frame.size.width,
                                      _loadLeftButton.frame.size.height);
 
   [_loadRightButton sizeToFit];
 
-  CGFloat rightWidth = boundsSize.width - CGRectGetMaxX(_faderSlider.frame);
-  _loadRightButton.frame = CGRectMake(CGRectGetMaxX(_faderSlider.frame)
-                                      + floor((rightWidth - _loadRightButton.frame.size.width) / 2),
+  _loadRightButton.frame = CGRectMake(boundsSize.width / 2 + PHPlaybackControlsWidth / 2
+                                      + floor((width - _loadRightButton.frame.size.width) / 2),
                                       floor((boundsSize.height - _loadRightButton.frame.size.height) / 2),
                                       _loadRightButton.frame.size.width,
                                       _loadRightButton.frame.size.height);
