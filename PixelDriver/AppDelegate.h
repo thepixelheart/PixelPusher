@@ -61,13 +61,6 @@ PHSystem* PHSys();
 - (void)addOverlay:(PHOverlay *)overlay;
 - (void)removeOverlay:(PHOverlay *)overlay;
 
-// User buttons
-@property (nonatomic, readonly) NSInteger numberOfTimesUserButton1Pressed;
-@property (nonatomic, readonly) NSInteger numberOfTimesUserButton2Pressed;
-@property (nonatomic, readonly) BOOL isUserButton1Pressed;
-@property (nonatomic, readonly) BOOL isUserButton2Pressed;
-@property (nonatomic, readonly) BOOL isMixerButtonPressed;
-
 // Gifs
 @property (nonatomic, readonly) NSArray* gifs;
 - (NSString *)pathForUserGifs;

@@ -540,6 +540,8 @@
 				661CC6B116A72CE3007F3900 /* Window */,
 				661CC6B316A72D17007F3900 /* PHSystem.h */,
 				661CC6B416A72D17007F3900 /* PHSystem.m */,
+				668520EC168292200063A95A /* PHAnimationDriver.h */,
+				668520ED168292200063A95A /* PHAnimationDriver.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -829,8 +831,6 @@
 		66F6640D16855005001E77BC /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				668520EC168292200063A95A /* PHAnimationDriver.h */,
-				668520ED168292200063A95A /* PHAnimationDriver.m */,
 				6637526F16843E3C009A2F22 /* PHDegrader.h */,
 				6637527016843E3C009A2F22 /* PHDegrader.m */,
 				66393E67168AC819002BD86F /* PHMote.h */,

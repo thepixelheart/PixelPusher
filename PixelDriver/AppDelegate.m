@@ -835,10 +835,10 @@ PHSystem* PHSys() {
             [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex];
 
           } else if (buttonIndex == PHLaunchpadTopButtonUser1) {
-            _numberOfTimesUserButton1Pressed++;
+//            _numberOfTimesUserButton1Pressed++;
 
           } else if (buttonIndex == PHLaunchpadTopButtonUser2) {
-            _numberOfTimesUserButton2Pressed++;
+//            _numberOfTimesUserButton2Pressed++;
           }
         }
       }
@@ -852,13 +852,13 @@ PHSystem* PHSys() {
                              atIndex:buttonIndex];
 
         if (buttonIndex == PHLaunchpadTopButtonUser1) {
-          _isUserButton1Pressed = pressed;
+//          _isUserButton1Pressed = pressed;
 
         } else if (buttonIndex == PHLaunchpadTopButtonUser2) {
-          _isUserButton2Pressed = pressed;
+//          _isUserButton2Pressed = pressed;
 
         } else if (buttonIndex == PHLaunchpadTopButtonMixer) {
-          _isMixerButtonPressed = pressed;
+//          _isMixerButtonPressed = pressed;
         }
       }
 
@@ -1011,8 +1011,6 @@ PHSystem* PHSys() {
 }
 
 - (void)didTick {
-  _numberOfTimesUserButton1Pressed = 0;
-  _numberOfTimesUserButton2Pressed = 1;
   [_moteServer didTick];
 }
 

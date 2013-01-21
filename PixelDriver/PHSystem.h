@@ -55,6 +55,10 @@ extern NSString* const PHButtonIdentifierKey;
 // Actions
 
 @property (readonly, assign) BOOL overlayPixelHeart;
+@property (readonly, assign) NSInteger numberOfTimesUserButton1Pressed;
+@property (readonly, assign) NSInteger numberOfTimesUserButton2Pressed;
+@property (readonly, assign) BOOL isUserButton1Pressed;
+@property (readonly, assign) BOOL isUserButton2Pressed;
 
 // Buttons
 

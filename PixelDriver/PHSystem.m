@@ -17,7 +17,6 @@
 #import "PHSystem.h"
 
 #import "PHAnimation.h"
-#import "PHDriver.h"
 
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
@@ -97,6 +96,9 @@ NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
 }
 
 - (PHSystemTick *)tick {
+  _numberOfTimesUserButton1Pressed = 0;
+  _numberOfTimesUserButton2Pressed = 0;
+  
   PHSystemTick* tick = [[PHSystemTick alloc] init];
 
   NSMutableSet* uniqueAnimations = [NSMutableSet set];
@@ -140,8 +142,16 @@ NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
 #pragma mark - Button State
 
 - (void)didPressButton:(PHSystemButton)button {
-  if (button == PHSystemButtonPixelHeart) {
-    _overlayPixelHeart = YES;
+  switch (button) {
+    case PHSystemButtonPixelHeart:
+      _overlayPixelHeart = YES;
+      break;
+    case PHSystemButtonUserAction1:
+      _isUserButton1Pressed = YES;
+      break;
+    case PHSystemButtonUserAction2:
+      _isUserButton2Pressed = YES;
+      break;
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -149,8 +159,18 @@ NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
 }
 
 - (void)didReleaseButton:(PHSystemButton)button {
-  if (button == PHSystemButtonPixelHeart) {
-    _overlayPixelHeart = NO;
+  switch (button) {
+    case PHSystemButtonPixelHeart:
+      _overlayPixelHeart = NO;
+      break;
+    case PHSystemButtonUserAction1:
+      _numberOfTimesUserButton1Pressed++;
+      _isUserButton1Pressed = NO;
+      break;
+    case PHSystemButtonUserAction2:
+      _numberOfTimesUserButton2Pressed++;
+      _isUserButton2Pressed = NO;
+      break;
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
