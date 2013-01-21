@@ -20,6 +20,7 @@
 #import "PHAudioPrefsPage.h"
 #import "PHSpectrumAnalyzerView.h"
 #import "PHWaveFormView.h"
+#import "PHDegraderView.h"
 
 static const CGFloat kExplorerWidth = 200;
 static const CGFloat kAudioWidth = 400;
@@ -34,6 +35,7 @@ static const CGFloat kAudioWidth = 400;
 
   PHContainerView* _fftView;
   PHContainerView* _audioView;
+  PHContainerView* _degraderView;
   NSView* _activePageView;
 }
 
@@ -60,6 +62,13 @@ static const CGFloat kAudioWidth = 400;
     waveFormView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     waveFormView.audioChannel = PHAudioChannelUnified;
     [_audioView.contentView addSubview:waveFormView];
+
+    _degraderView = [[PHContainerView alloc] init];
+    [self addSubview:_degraderView];
+
+    PHDegraderView* degraderView = [[PHDegraderView alloc] initWithFrame:_degraderView.contentView.bounds];
+    degraderView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    [_degraderView.contentView addSubview:degraderView];
 
     _nameToPrefsPageClass = @{
       @"Audio": [PHAudioPrefsPage class]
@@ -91,6 +100,8 @@ static const CGFloat kAudioWidth = 400;
   [_fftView layout];
   _audioView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth, kAudioWidth, kAudioWidth / 2);
   [_audioView layout];
+  _degraderView.frame = CGRectMake(leftEdge, boundsSize.height - kAudioWidth * 3 / 2, kAudioWidth, kAudioWidth / 2);
+  [_degraderView layout];
 }
 
 - (void)showPageAtIndex:(NSInteger)pageIndex {

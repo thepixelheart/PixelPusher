@@ -101,6 +101,7 @@
 		66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */; };
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
+		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
 		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
@@ -306,6 +307,8 @@
 		66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxxR.png; path = PixelDriver/resources/sliderbgxxR.png; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
+		66CF636816ACD4E80048228F /* PHDegraderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegraderView.h; sourceTree = "<group>"; };
+		66CF636916ACD4E80048228F /* PHDegraderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegraderView.m; sourceTree = "<group>"; };
 		66D1DA4B16AB7C5400E8FE9F /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
 		66D1DA4C16AB7C5400E8FE9F /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLibraryView.h; sourceTree = "<group>"; };
@@ -784,6 +787,8 @@
 				66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */,
 				66A26D7416892A2E009F7B33 /* PHWaveFormView.h */,
 				66A26D7516892A2E009F7B33 /* PHWaveFormView.m */,
+				66CF636816ACD4E80048228F /* PHDegraderView.h */,
+				66CF636916ACD4E80048228F /* PHDegraderView.m */,
 				66393E79168AEFC7002BD86F /* PHTooltipWindow.h */,
 				66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */,
 				66393E7C168AEFFC002BD86F /* PHTooltipView.h */,
@@ -1015,6 +1020,7 @@
 				66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */,
 				66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */,
 				66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */,
+				66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
