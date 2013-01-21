@@ -27,6 +27,10 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
 @implementation PHPixelDriverWindow
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (id)initWithContentRect:(NSRect)contentRect
                 styleMask:(NSUInteger)aStyle
                   backing:(NSBackingStoreType)bufferingType
@@ -38,6 +42,10 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     [self setMovableByWindowBackground:YES];
 
     self.contentView = [[PHDualVizualizersView alloc] initWithFrame:[self.contentView bounds]];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
+    [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
   }
   return self;
 }
@@ -66,6 +74,13 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
       PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
       [PHSys() didPressButton:button];
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"["]
+               || [theEvent.charactersIgnoringModifiers isEqualToString:@"]"]) {
+      didHandle = YES;
+
+      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"["] ? PHSystemButtonLoadLeft : PHSystemButtonLoadRight;
+      [PHSys() didPressButton:button];
     }
 
   } else if (theEvent.type == NSKeyUp) {
@@ -80,12 +95,33 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
       PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
       [PHSys() didReleaseButton:button];
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"["]
+               || [theEvent.charactersIgnoringModifiers isEqualToString:@"]"]) {
+      didHandle = YES;
+
+      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"["] ? PHSystemButtonLoadLeft : PHSystemButtonLoadRight;
+      [PHSys() didReleaseButton:button];
     }
   }
 
   if (!didHandle) {
     [super sendEvent:theEvent];
   }
+}
+
+#pragma mark - Notifications
+
+- (void)systemButtonWasPressed:(NSNotification *)notification {
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
+  NSButton* button = [self.contentView viewWithTag:buttonIdentifer];
+  [button setState:NSOnState];
+}
+
+- (void)systemButtonWasReleased:(NSNotification *)notification {
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
+  NSButton* button = [self.contentView viewWithTag:buttonIdentifer];
+  [button setState:NSOffState];
 }
 
 @end

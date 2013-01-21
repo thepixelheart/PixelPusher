@@ -26,6 +26,9 @@ static const CGFloat kSliderHeight = 44;
 
 const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 
+@interface PHPlaybackControlsView() <PHButtonDelegate>
+@end
+
 @implementation PHPlaybackControlsView {
   NSSlider* _faderSlider;
   
@@ -47,15 +50,15 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
     _faderSlider.action = @selector(faderSliderDidChange:);
 
     _loadLeftButton = [[PHButton alloc] init];
+    _loadLeftButton.tag = PHSystemButtonLoadLeft;
+    _loadLeftButton.delegate = self;
     [_loadLeftButton setTitle:@"Load"];
-    _loadLeftButton.target = self;
-    _loadLeftButton.action = @selector(didTapLeftLoadButton:);
     [self.contentView addSubview:_loadLeftButton];
 
     _loadRightButton = [[PHButton alloc] init];
+    _loadRightButton.tag = PHSystemButtonLoadRight;
+    _loadRightButton.delegate = self;
     [_loadRightButton setTitle:@"Load"];
-    _loadRightButton.target = self;
-    _loadRightButton.action = @selector(didTapRightLoadButton:);
     [self.contentView addSubview:_loadRightButton];
   }
   return self;
@@ -90,14 +93,14 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
   [PHSys() setFade:slider.floatValue];
 }
 
-#pragma mark - Actions
+#pragma mark - PHButtonDelegate
 
-- (void)didTapLeftLoadButton:(NSButton *)button {
-  [_delegate didTapLoadLeftButton];
+- (void)didPressDownButton:(PHButton *)button {
+  [PHSys() didPressButton:(PHSystemButton)button.tag];
 }
 
-- (void)didTapRightLoadButton:(NSButton *)button {
-  [_delegate didTapLoadRightButton];
+- (void)didReleaseButton:(PHButton *)button {
+  [PHSys() didReleaseButton:(PHSystemButton)button.tag];
 }
 
 @end

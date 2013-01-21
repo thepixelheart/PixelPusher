@@ -186,11 +186,11 @@ static const CGFloat kPlaybackControlsHeight = 60;
 #pragma mark - PHPlaybackControlsViewDelegate
 
 - (void)didTapLoadLeftButton {
-  PHSys().leftAnimation = _libraryView.selectedAnimation;
+  [PHSys() didPressButton:PHSystemButtonLoadLeft];
 }
 
 - (void)didTapLoadRightButton {
-  PHSys().rightAnimation = _libraryView.selectedAnimation;
+  [PHSys() didPressButton:PHSystemButtonLoadRight];
 }
 
 #pragma mark - View Mode Notifications

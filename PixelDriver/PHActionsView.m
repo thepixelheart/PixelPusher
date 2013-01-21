@@ -27,10 +27,6 @@
   NSMutableArray* _buttons;
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _buttons = [NSMutableArray array];
@@ -38,10 +34,6 @@
     [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHSystemButtonPixelHeart];
     [self addButtonWithImage:[NSImage imageNamed:@"1"] tag:PHSystemButtonUserAction1];
     [self addButtonWithImage:[NSImage imageNamed:@"2"] tag:PHSystemButtonUserAction2];
-
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
-    [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
   }
   return self;
 }
@@ -81,20 +73,6 @@
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemButton)button.tag];
-}
-
-#pragma mark - Notifications
-
-- (void)systemButtonWasPressed:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
-  NSButton* button = [self viewWithTag:buttonIdentifer];
-  [button setState:NSOnState];
-}
-
-- (void)systemButtonWasReleased:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
-  NSButton* button = [self viewWithTag:buttonIdentifer];
-  [button setState:NSOffState];
 }
 
 @end

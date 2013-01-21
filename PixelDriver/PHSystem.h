@@ -24,6 +24,8 @@ typedef enum {
   PHSystemButtonPixelHeart = 1000,
   PHSystemButtonUserAction1,
   PHSystemButtonUserAction2,
+  PHSystemButtonLoadLeft,
+  PHSystemButtonLoadRight,
 } PHSystemButton;
 
 extern NSString* const PHSystemButtonPressedNotification;

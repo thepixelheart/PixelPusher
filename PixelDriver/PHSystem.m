@@ -152,6 +152,12 @@ NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
     case PHSystemButtonUserAction2:
       _isUserButton2Pressed = YES;
       break;
+    case PHSystemButtonLoadLeft:
+      _leftAnimation = _previewAnimation;
+      break;
+    case PHSystemButtonLoadRight:
+      _rightAnimation = _previewAnimation;
+      break;
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -170,6 +176,10 @@ NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
     case PHSystemButtonUserAction2:
       _numberOfTimesUserButton2Pressed++;
       _isUserButton2Pressed = NO;
+      break;
+    case PHSystemButtonLoadLeft:
+      break;
+    case PHSystemButtonLoadRight:
       break;
   }
 
