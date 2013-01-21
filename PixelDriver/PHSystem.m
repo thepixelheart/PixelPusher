@@ -28,11 +28,17 @@
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
 @end
 
-@implementation PHSystem
+@implementation PHSystem {
+  PHSpritesheet* _pixelHeartTextSpritesheet;
+}
 
 - (id)init {
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
+
+    _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
+                                                          spriteSize:CGSizeMake(42, 7)];
+
   }
   return self;
 }
@@ -69,18 +75,17 @@
   [animation renderBitmapInContext:context size:wallSize];
   [animation bitmapDidFinishRendering];
 
-  /*
-  if (_isMixerButtonPressed) {
+  if (_overlayPixelHeart) {
     CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
     CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
-    CGContextDrawImage(wallContext, CGRectMake(floorf((wallSize.width - textSize.width) / 2),
-                                               floorf((wallSize.height - textSize.height) / 2),
-                                               textSize.width, textSize.height), imageRef);
+    CGContextDrawImage(context, CGRectMake(floorf((wallSize.width - textSize.width) / 2),
+                                           floorf((wallSize.height - textSize.height) / 2),
+                                           textSize.width, textSize.height), imageRef);
     CGImageRelease(imageRef);
   }
 
-  [self drawOverlaysInContext:wallContext];
-*/
+//  [self drawOverlaysInContext:wallContext];
+
   return context;
 }
 

@@ -14,19 +14,7 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "PHContainerView.h"
 
-@protocol PHButtonDelegate;
-
-@interface PHButton : NSButton
-@property (nonatomic, strong) NSColor* tint;
-@property (nonatomic, weak) id<PHButtonDelegate> delegate;
-@end
-
-@protocol PHButtonDelegate <NSObject>
-@optional
-
-- (void)didPressDownButton:(PHButton *)button;
-- (void)didReleaseButton:(PHButton *)button;
-
+@interface PHActionsView : PHContainerView
 @end

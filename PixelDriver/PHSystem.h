@@ -42,6 +42,10 @@
 // The percentage fade from left to right.
 @property (assign) CGFloat fade; // 0..1
 
+// Actions
+
+@property (assign) BOOL overlayPixelHeart;
+
 // Ticking
 
 // To be called at the beginning of each tick. Renders all of the active

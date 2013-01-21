@@ -26,6 +26,7 @@
 #import "PHSystem.h"
 #import "PHLibraryView.h"
 #import "PHPrefsView.h"
+#import "PHActionsView.h"
 
 NSString* const PHChangeCurrentViewNotification = @"PHChangeCurrentViewNotification";
 NSString* const PHChangeCurrentViewKey = @"PHChangeCurrentViewKey";
@@ -43,6 +44,7 @@ static const CGFloat kPlaybackControlsHeight = 60;
   PHContainerView* _leftVisualizationView;
   PHContainerView* _rightVisualizationView;
   PHContainerView* _wallVisualizationView;
+  PHActionsView* _actionsView;
 
   PHPlaybackControlsView* _playbackControlsView;
 
@@ -100,6 +102,10 @@ static const CGFloat kPlaybackControlsHeight = 60;
     wallView.systemContext = PHSystemContextWall;
     [_wallVisualizationView.contentView addSubview:wallView];
 
+    // Actions
+    _actionsView = [[PHActionsView alloc] init];
+    [self addSubview:_actionsView];
+
     // Playback controls
     _playbackControlsView = [[PHPlaybackControlsView alloc] init];
     _playbackControlsView.delegate = self;
@@ -144,6 +150,9 @@ static const CGFloat kPlaybackControlsHeight = 60;
   }
   _wallVisualizationView.frame = CGRectMake(midX - wallWidth / 2, topEdge,
                                             wallWidth, wallHeight);
+
+  _actionsView.frame = CGRectMake(midX - wallWidth / 2, topEdge + wallHeight, wallWidth, CGRectGetMinY(_headerBarView.frame) - (topEdge + wallHeight));
+  [_actionsView layout];
 
   topEdge -= kPlaybackControlsHeight;
 

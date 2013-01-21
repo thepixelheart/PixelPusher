@@ -36,9 +36,11 @@
 }
 
 - (void)drawBezelWithFrame:(NSRect)frame
-                    inView:(NSView *)controlView {
+                    inView:(PHButton *)controlView {
   // http://www.amateurinmotion.com/articles/2010/05/06/drawing-custom-nsbutton-in-cocoa.html
   NSGraphicsContext *ctx = [NSGraphicsContext currentContext];
+
+  NSColor* tint = controlView.tint;
 
   CGFloat roundedRadius = 2.0f;
 
@@ -67,13 +69,14 @@
                                   yRadius:roundedRadius];
   [backgroundPath setClip];
 
+  NSColor* white = [NSColor colorWithDeviceWhite:1 alpha:1.0f];
   NSGradient *backgroundGradient = [[NSGradient alloc] initWithColorsAndLocations:
-                                    [NSColor colorWithDeviceWhite:0.17f alpha:1.0f], 0.0f,
-                                    [NSColor colorWithDeviceWhite:0.20f alpha:1.0f], 0.12f,
-                                    [NSColor colorWithDeviceWhite:0.27f alpha:1.0f], 0.5f,
-                                    [NSColor colorWithDeviceWhite:0.30f alpha:1.0f], 0.5f,
-                                    [NSColor colorWithDeviceWhite:0.42f alpha:1.0f], 0.98f,
-                                    [NSColor colorWithDeviceWhite:0.50f alpha:1.0f], 1.0f,
+                                    [white blendedColorWithFraction:1 - 0.17 ofColor:tint], 0.0f,
+                                    [white blendedColorWithFraction:1 - 0.20 ofColor:tint], 0.12f,
+                                    [white blendedColorWithFraction:1 - 0.27 ofColor:tint], 0.5f,
+                                    [white blendedColorWithFraction:1 - 0.30 ofColor:tint], 0.5f,
+                                    [white blendedColorWithFraction:1 - 0.42 ofColor:tint], 0.98f,
+                                    [white blendedColorWithFraction:1 - 0.50 ofColor:tint], 1.0f,
                                     nil];
 
   [backgroundGradient drawInRect:[backgroundPath bounds] angle:270.0f];
@@ -109,9 +112,30 @@
     [ctx restoreGraphicsState];
   }
 
-  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.title attributes:[self textAttributes]];
-  [string setAlignment:NSCenterTextAlignment range:NSMakeRange(0, string.length)];
-  [string drawInRect:CGRectInset(frame, 5, 6)];
+  if (self.title.length > 0) {
+    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.title attributes:[self textAttributes]];
+    [string setAlignment:NSCenterTextAlignment range:NSMakeRange(0, string.length)];
+    [string drawInRect:CGRectInset(frame, 5, 6)];
+  }
+
+  if (nil != self.image) {
+    NSGraphicsContext* ctx = [NSGraphicsContext currentContext];
+    CGContextRef cx = [ctx graphicsPort];
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+
+    CGContextScaleCTM(cx, 1, -1);
+    CGContextTranslateCTM(cx, 0, -frame.size.height);
+
+    [self.image drawInRect:CGRectInset(frame, 5, 5) fromRect:CGRectZero operation:NSCompositeSourceAtop fraction:1];
+  }
+}
+
+- (BOOL)startTrackingAt:(NSPoint)startPoint inView:(PHButton *)controlView {
+  if ([controlView.delegate respondsToSelector:@selector(didPressDownButton:)]) {
+    [controlView.delegate didPressDownButton:controlView];
+  }
+
+  return [super startTrackingAt:startPoint inView:controlView];
 }
 
 @end
@@ -122,9 +146,24 @@
   [PHButton setCellClass:[PHButtonCell class]];
 }
 
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    _tint = [NSColor blackColor];
+  }
+  return self;
+}
+
 - (void)sizeToFit {
   [super sizeToFit];
   self.frame = CGRectInset(self.frame, -2, -2);
+}
+
+- (void)mouseDown:(NSEvent *)theEvent {
+  [super mouseDown:theEvent];
+
+  if ([_delegate respondsToSelector:@selector(didReleaseButton:)]) {
+    [_delegate didReleaseButton:self];
+  }
 }
 
 @end

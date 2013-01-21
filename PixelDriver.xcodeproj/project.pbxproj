@@ -102,6 +102,8 @@
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
+		66CF637916AD061E0048228F /* PHActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF637816AD061E0048228F /* PHActionsView.m */; };
+		66CF637B16AD09FB0048228F /* pixelheart.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637A16AD09FB0048228F /* pixelheart.png */; };
 		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
@@ -309,6 +311,9 @@
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66CF636816ACD4E80048228F /* PHDegraderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegraderView.h; sourceTree = "<group>"; };
 		66CF636916ACD4E80048228F /* PHDegraderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegraderView.m; sourceTree = "<group>"; };
+		66CF637716AD061E0048228F /* PHActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHActionsView.h; sourceTree = "<group>"; };
+		66CF637816AD061E0048228F /* PHActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHActionsView.m; sourceTree = "<group>"; };
+		66CF637A16AD09FB0048228F /* pixelheart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pixelheart.png; path = PixelDriver/resources/pixelheart.png; sourceTree = "<group>"; };
 		66D1DA4B16AB7C5400E8FE9F /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
 		66D1DA4C16AB7C5400E8FE9F /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLibraryView.h; sourceTree = "<group>"; };
@@ -399,6 +404,8 @@
 				662CB20E16A67708008F497B /* PHHeaderView.m */,
 				66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */,
 				66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */,
+				66CF637716AD061E0048228F /* PHActionsView.h */,
+				66CF637816AD061E0048228F /* PHActionsView.m */,
 				66D1DA5216AB803200E8FE9F /* Library */,
 				66D1DA5316AB809D00E8FE9F /* Prefs */,
 			);
@@ -753,6 +760,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66CF637A16AD09FB0048228F /* pixelheart.png */,
 				661CC73C16A79E5B007F3900 /* left.png */,
 				661CC73D16A79E5B007F3900 /* right.png */,
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
@@ -910,6 +918,7 @@
 				66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */,
 				661CC73E16A79E5B007F3900 /* left.png in Resources */,
 				661CC73F16A79E5B007F3900 /* right.png in Resources */,
+				66CF637B16AD09FB0048228F /* pixelheart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1021,6 +1030,7 @@
 				66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */,
 				66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */,
 				66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */,
+				66CF637916AD061E0048228F /* PHActionsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
