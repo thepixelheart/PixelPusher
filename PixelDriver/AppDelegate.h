@@ -54,10 +54,6 @@ PHSystem* PHSys();
 - (NSString *)tooltipForTopButtonIndex:(NSInteger)buttonIndex;
 - (NSString *)tooltipForSideButtonIndex:(NSInteger)buttonIndex;
 
-// Must be released.
-- (CGContextRef)currentWallContext;
-- (CGContextRef)previewWallContext;
-
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
 

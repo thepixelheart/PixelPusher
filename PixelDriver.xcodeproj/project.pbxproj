@@ -104,6 +104,8 @@
 		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
 		66CF637916AD061E0048228F /* PHActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF637816AD061E0048228F /* PHActionsView.m */; };
 		66CF637B16AD09FB0048228F /* pixelheart.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637A16AD09FB0048228F /* pixelheart.png */; };
+		66CF637E16AD2C9C0048228F /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637C16AD2C9C0048228F /* 1.png */; };
+		66CF637F16AD2C9C0048228F /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637D16AD2C9C0048228F /* 2.png */; };
 		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
@@ -314,6 +316,8 @@
 		66CF637716AD061E0048228F /* PHActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHActionsView.h; sourceTree = "<group>"; };
 		66CF637816AD061E0048228F /* PHActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHActionsView.m; sourceTree = "<group>"; };
 		66CF637A16AD09FB0048228F /* pixelheart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pixelheart.png; path = PixelDriver/resources/pixelheart.png; sourceTree = "<group>"; };
+		66CF637C16AD2C9C0048228F /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.png; path = PixelDriver/resources/1.png; sourceTree = "<group>"; };
+		66CF637D16AD2C9C0048228F /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 2.png; path = PixelDriver/resources/2.png; sourceTree = "<group>"; };
 		66D1DA4B16AB7C5400E8FE9F /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
 		66D1DA4C16AB7C5400E8FE9F /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLibraryView.h; sourceTree = "<group>"; };
@@ -760,6 +764,8 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66CF637C16AD2C9C0048228F /* 1.png */,
+				66CF637D16AD2C9C0048228F /* 2.png */,
 				66CF637A16AD09FB0048228F /* pixelheart.png */,
 				661CC73C16A79E5B007F3900 /* left.png */,
 				661CC73D16A79E5B007F3900 /* right.png */,
@@ -919,6 +925,8 @@
 				661CC73E16A79E5B007F3900 /* left.png in Resources */,
 				661CC73F16A79E5B007F3900 /* right.png in Resources */,
 				66CF637B16AD09FB0048228F /* pixelheart.png in Resources */,
+				66CF637E16AD2C9C0048228F /* 1.png in Resources */,
+				66CF637F16AD2C9C0048228F /* 2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

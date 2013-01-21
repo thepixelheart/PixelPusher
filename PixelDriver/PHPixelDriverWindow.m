@@ -16,8 +16,10 @@
 
 #import "PHPixelDriverWindow.h"
 
+#import "AppDelegate.h"
 #import "PHHeaderView.h"
 #import "PHDualVizualizersView.h"
+#import "PHSystem.h"
 
 static const CGSize kMinimumWindowSize = {1000, 700};
 
@@ -46,18 +48,38 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 
     PHViewMode mode = PHViewModeLibrary;
-    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"l"]) {
+    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"l"]
+        || [theEvent.charactersIgnoringModifiers isEqualToString:@"p"]) {
       didHandle = YES;
-      mode = PHViewModeLibrary;
-
-    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"p"]) {
-      didHandle = YES;
-      mode = PHViewModePrefs;
-    }
-
-    if (didHandle) {
+      mode = [theEvent.charactersIgnoringModifiers isEqualToString:@"l"] ? PHViewModeLibrary : PHViewModePrefs;
       [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
        @{PHChangeCurrentViewKey: [NSNumber numberWithInt:mode]}];
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@" "]
+               || [theEvent.charactersIgnoringModifiers isEqualToString:@"`"]) {
+      didHandle = YES;
+      [PHSys() didPressButton:PHSystemButtonPixelHeart];
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"1"]
+               || [theEvent.charactersIgnoringModifiers isEqualToString:@"2"]) {
+      didHandle = YES;
+
+      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
+      [PHSys() didPressButton:button];
+    }
+
+  } else if (theEvent.type == NSKeyUp) {
+    if ([theEvent.charactersIgnoringModifiers isEqualToString:@" "]
+        || [theEvent.charactersIgnoringModifiers isEqualToString:@"`"]) {
+      didHandle = YES;
+      [PHSys() didReleaseButton:PHSystemButtonPixelHeart];
+
+    } else if ([theEvent.charactersIgnoringModifiers isEqualToString:@"1"]
+        || [theEvent.charactersIgnoringModifiers isEqualToString:@"2"]) {
+      didHandle = YES;
+
+      PHSystemButton button = [theEvent.charactersIgnoringModifiers isEqualToString:@"1"] ? PHSystemButtonUserAction1 : PHSystemButtonUserAction2;
+      [PHSys() didReleaseButton:button];
     }
   }
 

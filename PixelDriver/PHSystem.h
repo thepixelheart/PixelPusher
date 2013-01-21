@@ -20,6 +20,16 @@
 @class PHTransition;
 @class PHSystemTick;
 
+typedef enum {
+  PHSystemButtonPixelHeart = 1000,
+  PHSystemButtonUserAction1,
+  PHSystemButtonUserAction2,
+} PHSystemButton;
+
+extern NSString* const PHButtonPressedNotification;
+extern NSString* const PHButtonReleasedNotification;
+extern NSString* const PHButtonIdentifierKey;
+
 @interface PHSystem : NSObject
 
 // Active Animations
@@ -44,7 +54,12 @@
 
 // Actions
 
-@property (assign) BOOL overlayPixelHeart;
+@property (readonly, assign) BOOL overlayPixelHeart;
+
+// Buttons
+
+- (void)didPressButton:(PHSystemButton)button;
+- (void)didReleaseButton:(PHSystemButton)button;
 
 // Ticking
 

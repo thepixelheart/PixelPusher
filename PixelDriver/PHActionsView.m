@@ -20,10 +20,6 @@
 #import "AppDelegate.h"
 #import "PHSystem.h"
 
-typedef enum {
-  PHActionPixelHeart
-} PHAction;
-
 @interface PHActionsView() <PHButtonDelegate>
 @end
 
@@ -31,11 +27,21 @@ typedef enum {
   NSMutableArray* _buttons;
 }
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _buttons = [NSMutableArray array];
 
-    [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHActionPixelHeart];
+    [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHSystemButtonPixelHeart];
+    [self addButtonWithImage:[NSImage imageNamed:@"1"] tag:PHSystemButtonUserAction1];
+    [self addButtonWithImage:[NSImage imageNamed:@"2"] tag:PHSystemButtonUserAction2];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHButtonPressedNotification object:nil];
+    [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHButtonReleasedNotification object:nil];
   }
   return self;
 }
@@ -53,6 +59,7 @@ typedef enum {
       frame.size.width += boundsSize.width - CGRectGetMaxX(frame);
     }
     button.frame = frame;
+    ++ix;
   }
 }
 
@@ -69,15 +76,25 @@ typedef enum {
 #pragma mark - PHButtonDelegate
 
 - (void)didPressDownButton:(PHButton *)button {
-  if (button.tag == PHActionPixelHeart) {
-    PHSys().overlayPixelHeart = YES;
-  }
+  [PHSys() didPressButton:(PHSystemButton)button.tag];
 }
 
 - (void)didReleaseButton:(PHButton *)button {
-  if (button.tag == PHActionPixelHeart) {
-    PHSys().overlayPixelHeart = NO;
-  }
+  [PHSys() didReleaseButton:(PHSystemButton)button.tag];
+}
+
+#pragma mark - Notifications
+
+- (void)systemButtonWasPressed:(NSNotification *)notification {
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHButtonIdentifierKey] intValue];
+  NSButton* button = [self viewWithTag:buttonIdentifer];
+  [button setState:NSOnState];
+}
+
+- (void)systemButtonWasReleased:(NSNotification *)notification {
+  PHSystemButton buttonIdentifer = [notification.userInfo[PHButtonIdentifierKey] intValue];
+  NSButton* button = [self viewWithTag:buttonIdentifer];
+  [button setState:NSOffState];
 }
 
 @end

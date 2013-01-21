@@ -102,7 +102,7 @@
 
   // Draw darker overlay if button is pressed
 
-  if([self isHighlighted]) {
+  if ([self isHighlighted] || self.state == NSOnState) {
     [ctx saveGraphicsState];
     [[NSBezierPath bezierPathWithRoundedRect:NSInsetRect(frame, 1.0f, 1.0f)
                                      xRadius:roundedRadius

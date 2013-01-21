@@ -24,6 +24,10 @@
 
 #import <objc/runtime.h>
 
+NSString* const PHButtonPressedNotification = @"PHButtonPressedNotification";
+NSString* const PHButtonReleasedNotification = @"PHButtonReleasedNotification";
+NSString* const PHButtonIdentifierKey = @"PHButtonIdentifierKey";
+
 @interface PHSystemTick()
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
 @end
@@ -38,7 +42,6 @@
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
                                                           spriteSize:CGSizeMake(42, 7)];
-
   }
   return self;
 }
@@ -132,6 +135,26 @@
   }
 
   return tick;
+}
+
+#pragma mark - Button State
+
+- (void)didPressButton:(PHSystemButton)button {
+  if (button == PHSystemButtonPixelHeart) {
+    _overlayPixelHeart = YES;
+  }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHButtonPressedNotification object:nil userInfo:@{PHButtonIdentifierKey : [NSNumber numberWithInt:button]}];
+}
+
+- (void)didReleaseButton:(PHSystemButton)button {
+  if (button == PHSystemButtonPixelHeart) {
+    _overlayPixelHeart = NO;
+  }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHButtonReleasedNotification object:nil userInfo:@{PHButtonIdentifierKey : [NSNumber numberWithInt:button]}];
 }
 
 @end
