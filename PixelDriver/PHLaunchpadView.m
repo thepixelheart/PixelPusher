@@ -60,7 +60,10 @@
 }
 
 - (BOOL)startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
   [self.target performSelector:self.action withObject:self];
+#pragma clang diagnostic pop
 
   return [super startTrackingAt:startPoint inView:controlView];
 }
