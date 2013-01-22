@@ -18,6 +18,9 @@
 
 #import "PHMIDIDevice.h"
 
+NSString* const PHMIDIDriverDevicesDidChangeNotification = @"PHMIDIDriverDevicesDidChangeNotification";
+NSString* const PHMIDIDevicesKey = @"PHMIDIDevicesKey";
+
 @interface PHMIDIDriver() <PHMIDIClientDelegate>
 @end
 
@@ -61,6 +64,10 @@
       device.destinationEndpointRef = endpoint;
     }
   }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHMIDIDriverDevicesDidChangeNotification object:nil userInfo:
+   @{PHMIDIDevicesKey : [_devices copy]}];
 }
 
 @end

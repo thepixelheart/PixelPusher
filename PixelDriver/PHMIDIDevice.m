@@ -26,23 +26,23 @@ void PHMIDINotifyProc(const MIDINotification *msg, void *refCon);
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon);
 
 @interface PHMIDISenderOperation : NSOperation
-- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message;
+- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)destinationRef message:(PHMIDIMessage *)message;
 - (BOOL)appendedMessageIfInactive:(PHMIDIMessage *)message;
 @end
 
 @implementation PHMIDISenderOperation {
   MIDIPacketList* _packetList;
   MIDIPortRef _outputPortRef;
-  MIDIEndpointRef _launchpadDestinationRef;
+  MIDIEndpointRef _destinationRef;
   NSMutableArray* _messages;
   BOOL _running;
 }
 
-- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)launchpadDestinationRef message:(PHMIDIMessage *)message {
+- (id)initWithList:(MIDIPacketList *)list outputPort:(MIDIPortRef)outputPortRef destination:(MIDIEndpointRef)destinationRef message:(PHMIDIMessage *)message {
   if ((self = [super init])) {
     _packetList = list;
     _outputPortRef = outputPortRef;
-    _launchpadDestinationRef = launchpadDestinationRef;
+    _destinationRef = destinationRef;
     _messages = [NSMutableArray arrayWithObject:message];
   }
   return self;
@@ -69,7 +69,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   @synchronized(self) {
     _running = YES;
 
-    if (_launchpadDestinationRef) {
+    if (_destinationRef) {
       MIDIPacket* newPacket = nil;
       OSStatus err = noErr;
       Byte scratchStruct[4];
@@ -78,6 +78,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
 
       for (PHMIDIMessage* message in _messages) {
+        NSLog(@"%@", message);
         scratchStruct[0] = message.status | message.channel;
         switch (message.status)  {
           case PHMIDIStatusNoteOff:
@@ -96,14 +97,12 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
         currentPacket = newPacket;
       }
 
-      err = MIDISend(_outputPortRef, _launchpadDestinationRef, _packetList);
+      err = MIDISend(_outputPortRef, _destinationRef, _packetList);
       if (err != noErr)  {
         NSLog(@"Error sending packet: %ld", (long)err);
         return;
       }
     }
-
-  // TODO: Notify people of messages being sent.
   }
 }
 
@@ -120,7 +119,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   MIDIPortRef _outputPortRef;
 
   MIDIEndpointRef _sourceEndpointRef;
-  MIDIEndpointRef _destinationRef;
 
   NSOperationQueue* _sendQueue;
   MIDIPacketList* _packetList;
@@ -185,7 +183,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       }
     }
 
-    PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_destinationRef message:message];
+    PHMIDISenderOperation* op = [[PHMIDISenderOperation alloc] initWithList:_packetList outputPort:_outputPortRef destination:_destinationEndpointRef message:message];
     [_sendQueue addOperation:op];
   }
 }
@@ -215,10 +213,12 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
 - (void)setDestinationEndpointRef:(MIDIEndpointRef)destinationEndpointRef {
   if (_destinationEndpointRef != destinationEndpointRef) {
+    _destinationEndpointRef = destinationEndpointRef;
     CFStringRef senderName = (__bridge CFStringRef)[NSString stringWithFormat:kMIDISenderNameFormat, [self name]];
     OSStatus status = MIDIOutputPortCreate(_client.clientRef, senderName, &_outputPortRef);
     if (status != noErr) {
       NSLog(@"Failed to bind output MIDI port");
+      return;
     }
   }
 }
@@ -253,6 +253,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon) {
   @autoreleasepool {
     PHMIDIDevice* device = (__bridge PHMIDIDevice *)(readProcRefCon);
+    NSLog(@"Reading");
 
     if (device.isSysExDumping) {
       ++device.numberOfSysExReads;
@@ -270,7 +271,8 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     for (NSInteger ix = 0; ix < pktList->numPackets; ++ix) {
       for (NSInteger byteIndex = 0; byteIndex < packet->length; ++byteIndex)  {
         Byte byte = packet->data[byteIndex];
-        if ((byte & 0x80) && (byte <= 0xFF)) {
+        NSLog(@"%x", byte);
+        if (byte & 0x80) {
           Byte status = (byte & 0xF0);
           switch (status)  {
             case PHMIDIStatusNoteOff:

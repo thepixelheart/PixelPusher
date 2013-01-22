@@ -18,6 +18,8 @@
 
 #import "PHMIDIClient.h"
 
+@class PHMIDIMessage;
+
 @interface PHMIDIDevice : NSObject
 
 - (id)initWithClient:(PHMIDIClient *)client sourceEndpointRef:(MIDIEndpointRef)sourceEndpointRef;
@@ -29,5 +31,7 @@
 + (NSString *)nameFromEndpointRef:(MIDIEndpointRef)endpointRef;
 
 @property (nonatomic, assign) MIDIEndpointRef destinationEndpointRef;
+
+- (void)sendMessage:(PHMIDIMessage *)message;
 
 @end

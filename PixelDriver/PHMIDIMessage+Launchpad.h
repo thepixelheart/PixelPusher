@@ -17,8 +17,6 @@
 #import "PHMIDIMessage.h"
 #import "PHLaunchpadDevice.h"
 
-const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount];
-
 @interface PHMIDIMessage (Launchpad)
 
 // Launchpad messages

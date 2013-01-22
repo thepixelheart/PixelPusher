@@ -16,5 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString* const PHMIDIDriverDevicesDidChangeNotification;
+extern NSString* const PHMIDIDevicesKey; // NSDictionary of device name -> PHMIDIDevice
+
 @interface PHMIDIDriver : NSObject
 @end

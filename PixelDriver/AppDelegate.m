@@ -36,6 +36,7 @@
 #import "PHOverlay.h"
 #import "SCEvents.h"
 #import "PHDualVizualizersView.h"
+#import "PHLaunchpadDevice.h"
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -76,6 +77,9 @@ PHSystem* PHSys() {
 
   // Watching changes to the filesystem.
   SCEvents* _fsEvents;
+
+  // MIDI Devices
+  PHLaunchpadDevice* _launchpad;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -159,6 +163,7 @@ PHSystem* PHSys() {
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _system = [[PHSystem alloc] init];
+  _launchpad = [[PHLaunchpadDevice alloc] init];
 
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];

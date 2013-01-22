@@ -425,10 +425,10 @@
       // Changing a button color.
       int launchpadColor = 0;
       for (int ix = 0; ix < PHLaunchpadColorCount; ++ix) {
-        if (PHLaunchpadColorToByte[ix] == midiMessage.data2) {
+        /*if (PHLaunchpadColorToByte[ix] == midiMessage.data2) {
           launchpadColor = ix;
           break;
-        }
+        }*/
       }
 
       int buttonIndex = midiMessage.launchpadButtonIndex;

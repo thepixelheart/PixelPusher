@@ -85,14 +85,11 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 
 @interface PHLaunchpadDevice : NSObject
 
-- (void)startDoubleBuffering;
-- (void)enableFlashing;
-- (void)flipBuffer;
-- (void)tickFlashers;
-- (void)reset;
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
 - (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex;
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
-- (void)setRightButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
+- (void)setSideButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
+
+- (void)flipBuffer;
 
 @end

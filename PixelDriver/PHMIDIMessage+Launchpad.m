@@ -16,21 +16,6 @@
 
 #import "PHMIDIMessage+Launchpad.h"
 
-const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
-  0x0C, // Off
-  0x0D, // Red dim
-  0x0F, // Red bright
-  0x0B, // Red flashing
-  0x1D, // Amber dim
-  0x3F, // Amber bright
-  0x3B, // Amber flashing
-  0x3E, // Yellow bright
-  0x3A, // Yellow flashing
-  0x1C, // Green dim
-  0x3C, // Green bright
-  0x38, // Green flashing
-};
-
 @implementation PHMIDIMessage (Launchpad)
 
 - (PHLaunchpadEvent)launchpadEvent {

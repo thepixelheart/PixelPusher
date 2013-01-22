@@ -635,7 +635,7 @@
 			name = "Bitmap Rendering Pipeline";
 			sourceTree = "<group>";
 		};
-		66A8E037167D745F00FBAFE8 /* Launchpad */ = {
+		66A8E037167D745F00FBAFE8 /* MIDI */ = {
 			isa = PBXGroup;
 			children = (
 				66A8E038167D747400FBAFE8 /* PHMIDIDriver.h */,
@@ -648,7 +648,7 @@
 				662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */,
 				66CF639516AE47E40048228F /* Launchpad */,
 			);
-			name = Launchpad;
+			name = MIDI;
 			sourceTree = "<group>";
 		};
 		66BDB2A516A6A2F800ED7C81 /* Generic Views */ = {
@@ -756,7 +756,7 @@
 				662CA845167FFF7800FC800F /* Animations */,
 				661CC73116A780D4007F3900 /* Transitions */,
 				0EEA867016921ABE009ACDF3 /* Overlays */,
-				66A8E037167D745F00FBAFE8 /* Launchpad */,
+				66A8E037167D745F00FBAFE8 /* MIDI */,
 				66A8E029167C1FFC00FBAFE8 /* Display Link */,
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
