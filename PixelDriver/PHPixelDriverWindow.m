@@ -47,6 +47,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     [nc addObserver:self selector:@selector(systemSliderDidChange:) name:PHSystemSliderMovedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
+    [nc addObserver:self selector:@selector(didRotateKnob:) name:PHSystemKnobTurnedNotification object:nil];
   }
   return self;
 }
@@ -113,6 +114,28 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
   NSButton* button = [self.contentView viewWithTag:identifier];
   [button setState:NSOffState];
+}
+
+- (void)didRotateKnob:(NSNotification *)notification {
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+  PHSystemKnobDirection direction = [notification.userInfo[PHSystemValueKey] intValue];
+  NSScrollView* scrollView = [self.contentView viewWithTag:identifier];
+  NSCollectionView* list = scrollView.documentView;
+  if ([list isKindOfClass:[NSCollectionView class]] && list.content.count > 0) {
+    NSIndexSet* selection = list.selectionIndexes;
+    NSInteger newSelection = 0;
+    if (selection.count > 0) {
+      newSelection = [selection firstIndex];
+    }
+    newSelection = newSelection + ((direction == PHSystemKnobDirectionCw) ? 1 : -1);
+    newSelection = (newSelection + list.content.count) % list.content.count;
+    [list setSelectionIndexes:[NSIndexSet indexSetWithIndex:newSelection]];
+
+    CGRect selectionFrame = [list frameForItemAtIndex:newSelection];
+    CGPoint offset = CGPointMake(0, selectionFrame.origin.y - scrollView.bounds.size.height / 2);
+    offset.y = MAX(0, MIN(list.frame.size.height - scrollView.bounds.size.height, offset.y));
+    [scrollView.contentView scrollToPoint:offset];
+  }
 }
 
 @end

@@ -152,9 +152,16 @@
 
 @end
 
+@interface PHScrollView : NSScrollView
+@property (nonatomic, assign) NSInteger tag;
+@end
+
+@implementation PHScrollView
+@end
+
 @implementation PHAnimationsView {
-  NSCollectionView* _collectionView;
-  NSScrollView* _scrollView;
+  PHCollectionView* _collectionView;
+  PHScrollView* _scrollView;
   NSArray* _animations;
   NSIndexSet* _previousSelectionIndexes;
 }
@@ -175,8 +182,9 @@
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
-    _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
+    _scrollView = [[PHScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    _scrollView.tag = PHSystemAnimations;
     _scrollView.borderType = NSNoBorder;
     _scrollView.hasVerticalScroller = YES;
     _scrollView.hasHorizontalScroller = NO;

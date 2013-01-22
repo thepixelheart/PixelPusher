@@ -28,9 +28,17 @@ typedef enum {
   PHSystemButtonLoadRight,
 
   PHSystemSliderFader,
+
+  PHSystemAnimations,
 } PHSystemControlIdentifier;
 
+typedef enum {
+  PHSystemKnobDirectionCw,
+  PHSystemKnobDirectionCcw,
+} PHSystemKnobDirection;
+
 extern NSString* const PHSystemSliderMovedNotification;
+extern NSString* const PHSystemKnobTurnedNotification;
 extern NSString* const PHSystemButtonPressedNotification;
 extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
@@ -70,6 +78,9 @@ extern NSString* const PHSystemValueKey;
 
 - (void)didPressButton:(PHSystemControlIdentifier)button;
 - (void)didReleaseButton:(PHSystemControlIdentifier)button;
+
+- (void)incrementCurrentAnimationSelection;
+- (void)decrementCurrentAnimationSelection;
 
 // Ticking
 

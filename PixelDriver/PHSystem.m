@@ -27,6 +27,7 @@
 #import <objc/runtime.h>
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
+NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
 NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
@@ -245,7 +246,18 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 }
 
 - (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
+  switch (knob) {
+    case PHDJ2GOKnobBrowse:
+      if (direction == PHDJ2GODirectionCw) {
+        [self incrementCurrentAnimationSelection];
+      } else {
+        [self decrementCurrentAnimationSelection];
+      }
+      break;
 
+    default:
+      break;
+  }
 }
 
 - (void)buttonWasPressed:(PHDJ2GOButton)button {
@@ -276,6 +288,20 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
       // Do nothing.
       break;
   }
+}
+
+- (void)incrementCurrentAnimationSelection {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:PHSystemAnimations],
+          PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCw]}];
+}
+
+- (void)decrementCurrentAnimationSelection {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:PHSystemAnimations],
+          PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCcw]}];
 }
 
 @end
