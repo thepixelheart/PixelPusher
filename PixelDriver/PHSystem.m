@@ -49,6 +49,8 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
   NSInteger _numberOfLeftRotationTicks;
   NSInteger _numberOfRightRotationTicks;
+
+  PHSystemControlIdentifier _focusedList;
 }
 
 @synthesize fade = _fade;
@@ -60,6 +62,8 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     _launchpad = [[PHLaunchpadDevice alloc] init];
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
+
+    _focusedList = PHSystemAnimations;
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
                                                           spriteSize:CGSizeMake(42, 7)];
@@ -303,6 +307,20 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     case PHDJ2GOButtonLoadB:
       [self didReleaseButton:PHSystemButtonLoadRight];
       break;
+    case PHDJ2GOButtonBack:
+      if (_focusedList < PHSystemAnimationGroups) {
+        _focusedList++;
+      } else {
+        _focusedList = PHSystemAnimations;
+      }
+      break;
+    case PHDJ2GOButtonEnter:
+      if (_focusedList > PHSystemAnimations) {
+        _focusedList--;
+      } else {
+        _focusedList = PHSystemAnimationGroups;
+      }
+      break;
 
     default:
       // Do nothing.
@@ -313,14 +331,14 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 - (void)incrementCurrentAnimationSelection {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
-   @{PHSystemIdentifierKey: [NSNumber numberWithInt:PHSystemAnimations],
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList],
           PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCw]}];
 }
 
 - (void)decrementCurrentAnimationSelection {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
-   @{PHSystemIdentifierKey: [NSNumber numberWithInt:PHSystemAnimations],
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList],
           PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCcw]}];
 }
 

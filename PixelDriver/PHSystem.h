@@ -30,6 +30,8 @@ typedef enum {
   PHSystemSliderFader,
 
   PHSystemAnimations,
+  PHSystemTransitions,
+  PHSystemAnimationGroups,
 } PHSystemControlIdentifier;
 
 typedef enum {

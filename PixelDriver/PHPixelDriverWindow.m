@@ -119,21 +119,37 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
   PHSystemKnobDirection direction = [notification.userInfo[PHSystemValueKey] intValue];
   NSScrollView* scrollView = [self.contentView viewWithTag:identifier];
-  NSCollectionView* list = scrollView.documentView;
-  if ([list isKindOfClass:[NSCollectionView class]] && list.content.count > 0) {
-    NSIndexSet* selection = list.selectionIndexes;
-    NSInteger newSelection = 0;
-    if (selection.count > 0) {
-      newSelection = [selection firstIndex];
-    }
-    newSelection = newSelection + ((direction == PHSystemKnobDirectionCw) ? 1 : -1);
-    newSelection = (newSelection + list.content.count) % list.content.count;
-    [list setSelectionIndexes:[NSIndexSet indexSetWithIndex:newSelection]];
+  id documentView = scrollView.documentView;
+  if ([documentView isKindOfClass:[NSCollectionView class]]) {
+    NSCollectionView* collectionView = documentView;
+    if (collectionView.content.count > 0) {
+      NSIndexSet* selection = collectionView.selectionIndexes;
+      NSInteger newSelection = 0;
+      if (selection.count > 0) {
+        newSelection = [selection firstIndex];
+      }
+      newSelection = newSelection + ((direction == PHSystemKnobDirectionCw) ? 1 : -1);
+      newSelection = (newSelection + collectionView.content.count) % collectionView.content.count;
+      [collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:newSelection]];
 
-    CGRect selectionFrame = [list frameForItemAtIndex:newSelection];
-    CGPoint offset = CGPointMake(0, selectionFrame.origin.y - scrollView.bounds.size.height / 2);
-    offset.y = MAX(0, MIN(list.frame.size.height - scrollView.bounds.size.height, offset.y));
-    [scrollView.contentView scrollToPoint:offset];
+      CGRect selectionFrame = [collectionView frameForItemAtIndex:newSelection];
+      CGPoint offset = CGPointMake(0, selectionFrame.origin.y - scrollView.bounds.size.height / 2);
+      offset.y = MAX(0, MIN(collectionView.frame.size.height - scrollView.bounds.size.height, offset.y));
+      [scrollView.contentView scrollToPoint:offset];
+    }
+  } else if ([documentView isKindOfClass:[NSTableView class]]) {
+    NSTableView* tableView = documentView;
+    if (tableView.numberOfRows > 0) {
+      NSInteger newSelection = tableView.selectedRow;
+      newSelection = newSelection + ((direction == PHSystemKnobDirectionCw) ? 1 : -1);
+      newSelection = (newSelection + tableView.numberOfRows) % tableView.numberOfRows;
+      [tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:newSelection] byExtendingSelection:NO];
+
+      CGRect selectionFrame = [tableView frameOfCellAtColumn:0 row:newSelection];
+      CGPoint offset = CGPointMake(0, selectionFrame.origin.y - scrollView.bounds.size.height / 2);
+      offset.y = MAX(0, MIN(tableView.frame.size.height - scrollView.bounds.size.height, offset.y));
+      [scrollView.contentView scrollToPoint:offset];
+    }
   }
 }
 

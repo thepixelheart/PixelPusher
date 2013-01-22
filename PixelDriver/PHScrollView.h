@@ -14,24 +14,8 @@
 // limitations under the License.
 //
 
-#import "PHContainerView.h"
+#import <Cocoa/Cocoa.h>
 
-@protocol PHListViewDelegate;
-@protocol PHListViewDataSource;
-
-@interface PHListView : PHContainerView
+@interface PHScrollView : NSScrollView
 @property (nonatomic, assign) NSInteger tag;
-@property (nonatomic, weak) id<PHListViewDelegate> delegate;
-@property (nonatomic, weak) id<PHListViewDataSource> dataSource;
-@end
-
-@protocol PHListViewDataSource <NSObject>
-@required
-- (NSInteger)numberOfRowsInListView:(PHListView *)listView;
-- (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index;
-@end
-
-@protocol PHListViewDelegate <NSObject>
-@required
-- (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index;
 @end

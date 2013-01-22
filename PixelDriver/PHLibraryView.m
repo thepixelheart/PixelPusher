@@ -52,6 +52,7 @@ static const CGFloat kExplorerWidth = 200;
     [_previewVisualizationView.contentView addSubview:wallView];
 
     _categoriesView = [[PHListView alloc] init];
+    _categoriesView.tag = PHSystemAnimationGroups;
     _categoriesView.title = @"Categories";
     _categoriesView.dataSource = self;
     _categoriesView.delegate = self;
@@ -59,6 +60,7 @@ static const CGFloat kExplorerWidth = 200;
 
     _transitionsView = [[PHListView alloc] init];
     _transitionsView.title = @"Transitions";
+    _transitionsView.tag = PHSystemTransitions;
     _transitionsView.dataSource = self;
     _transitionsView.delegate = self;
     [self addSubview:_transitionsView];

@@ -120,7 +120,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPikachuEmotingAnimation animation],
 
     [PHDJAnimation animation],
-    [PHRotationAnimation animationWithDirection:1],
+  [PHRotationAnimation animationWithDirection:1],
+  [PHRotationAnimation animationWithDirection:0],
 
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
@@ -204,7 +205,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
                                         name:@"Trippy Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:1],
+    [PHRotationAnimation animationWithDirection:0],
     [PHMegamanAnimation animation]]
                                   animations:animations
                                         name:@"Rotating Megaman"],

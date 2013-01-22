@@ -86,6 +86,7 @@
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
 		66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
+		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
 		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
@@ -293,6 +294,8 @@
 		66A8E038167D747400FBAFE8 /* PHMIDIDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIDriver.h; sourceTree = "<group>"; };
 		66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIDriver.m; sourceTree = "<group>"; };
 		66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		66B16F0916AEB246003CF908 /* PHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScrollView.h; sourceTree = "<group>"; };
+		66B16F0A16AEB246003CF908 /* PHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScrollView.m; sourceTree = "<group>"; };
 		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
 		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
@@ -673,6 +676,8 @@
 				66021C2E16A935C400E99908 /* PHListView.m */,
 				66DC7B7A167725E900453E8F /* PHWallView.h */,
 				66DC7B7B167725E900453E8F /* PHWallView.m */,
+				66B16F0916AEB246003CF908 /* PHScrollView.h */,
+				66B16F0A16AEB246003CF908 /* PHScrollView.m */,
 			);
 			name = "Generic Views";
 			sourceTree = "<group>";
@@ -1085,6 +1090,7 @@
 				66CF639316AE44B60048228F /* PHLaunchpadDevice.m in Sources */,
 				66CF63BF16AE8BB40048228F /* PHDJ2GODevice.m in Sources */,
 				66CF63C216AE8EB60048228F /* PHMIDIMessage+DJ2GO.m in Sources */,
+				66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

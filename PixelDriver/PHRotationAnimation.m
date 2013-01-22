@@ -41,7 +41,7 @@
   }
 
   if (self.animationTick.numberOfRotationTicks != 0) {
-    _rotationAdvance += (CGFloat)self.animationTick.numberOfRotationTicks * M_PI * 8 / 180;
+    _rotationAdvance += (CGFloat)self.animationTick.numberOfRotationTicks * M_PI * 3 / 180;
   } else {
     _rotationAdvance += self.secondsSinceLastTick * direction * self.bassDegrader.value;
   }
@@ -62,7 +62,7 @@
                                  spriteSize.height);
 
   CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
-  CGContextRotateCTM(cx, _direction > 0 ? M_PI_4 : -M_PI_4);
+  CGContextRotateCTM(cx, _direction * M_PI_4);
   CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
   heartFrame = CGRectInset(heartFrame, 3, 3);
   CGContextDrawImage(cx, heartFrame, imageRef);
@@ -71,7 +71,13 @@
 }
 
 - (NSString *)tooltipName {
-  return _direction > 0 ? @"Rotate Clockwise" : @"Rotate Counter-Clockwise";
+  if (_direction > 0) {
+    return @"Rotate Clockwise";
+  } else if (_direction < 0) {
+    return @"Rotate Counter-Clockwise";
+  } else {
+    return @"Programmatic Rotation";
+  }
 }
 
 - (BOOL)isPipeAnimation {

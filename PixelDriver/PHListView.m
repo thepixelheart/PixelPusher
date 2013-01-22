@@ -17,6 +17,7 @@
 #import "PHListView.h"
 
 #import "PHAnimation.h"
+#import "PHScrollView.h"
 
 @interface PHListCell : NSTextFieldCell
 @end
@@ -86,7 +87,7 @@
 
 @implementation PHListView {
   NSTableView* _tableView;
-  NSScrollView* _scrollView;
+  PHScrollView* _scrollView;
 
   NSInteger _previousSelectedRow;
 }
@@ -105,7 +106,7 @@
     _tableView.dataSource = self;
     _tableView.backgroundColor = PHBackgroundColor();
 
-    _scrollView = [[NSScrollView alloc] initWithFrame:self.contentView.bounds];
+    _scrollView = [[PHScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _scrollView.borderType = NSNoBorder;
     _scrollView.hasVerticalScroller = YES;
@@ -128,6 +129,14 @@
   [_tableView reloadData];
   [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:_previousSelectedRow]
           byExtendingSelection:NO];
+}
+
+- (void)setTag:(NSInteger)tag {
+  _scrollView.tag = tag;
+}
+
+- (NSInteger)tag {
+  return 0;
 }
 
 #pragma mark - NSTableViewDataSource

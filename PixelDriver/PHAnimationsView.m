@@ -20,6 +20,7 @@
 #import "PHAnimation.h"
 #import "PHCompositeAnimation.h"
 #import "PHSystem.h"
+#import "PHScrollView.h"
 
 @interface PHAnimationTileView : NSView
 @property (nonatomic, assign) BOOL selected;
@@ -150,13 +151,6 @@
   return nil;
 }
 
-@end
-
-@interface PHScrollView : NSScrollView
-@property (nonatomic, assign) NSInteger tag;
-@end
-
-@implementation PHScrollView
 @end
 
 @implementation PHAnimationsView {
