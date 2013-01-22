@@ -54,6 +54,7 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 @implementation PHLaunchpadDevice {
   PHMIDIDevice* _device;
+
   BOOL _bufferFlipper;
   NSTimeInterval _lastFlashTimestamp;
   BOOL _flashingOn;
