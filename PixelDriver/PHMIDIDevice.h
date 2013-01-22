@@ -18,6 +18,9 @@
 
 #import "PHMIDIClient.h"
 
+extern NSString* const PHMIDIDeviceDidReceiveMessagesNotification;
+extern NSString* const PHMIDIMessagesKey;
+
 @class PHMIDIMessage;
 
 @interface PHMIDIDevice : NSObject

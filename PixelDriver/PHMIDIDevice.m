@@ -19,6 +19,9 @@
 #import "PHMIDIMessage.h"
 #import <CoreMIDI/CoreMIDI.h>
 
+NSString* const PHMIDIDeviceDidReceiveMessagesNotification = @"PHMIDIDeviceDidReceiveMessagesNotification";
+NSString* const PHMIDIMessagesKey = @"PHMIDIMessagesKey";
+
 static NSString* const kMIDISenderNameFormat = @"%@ to PixelPusher";
 static NSString* const kMIDIDestinationNameFormat = @"PixelPusher to %@";
 
@@ -78,7 +81,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
       MIDIPacket* currentPacket = MIDIPacketListInit(_packetList);
 
       for (PHMIDIMessage* message in _messages) {
-        NSLog(@"%@", message);
         scratchStruct[0] = message.status | message.channel;
         switch (message.status)  {
           case PHMIDIStatusNoteOff:
@@ -189,24 +191,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (void)receivedMessages:(NSArray *)messages {
-  for (PHMIDIMessage* message in messages) {
-    NSLog(@"Message: %@", message);
-    // TODO: Implement receiving messages.
-/*    if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
-      BOOL pressed = (message.data2 == 0x7F);
-
-      PHLaunchpadEvent event = message.launchpadEvent;
-      int buttonIndex = message.launchpadButtonIndex;
-
-      NSDictionary* userInfo =
-      @{PHLaunchpadEventTypeUserInfoKey: [NSNumber numberWithInt:event],
-        PHLaunchpadButtonPressedUserInfoKey: [NSNumber numberWithBool:pressed],
-        PHLaunchpadButtonIndexInfoKey: [NSNumber numberWithInt:buttonIndex]};
-
-      NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-      [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
-    }*/
-  }
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHMIDIDeviceDidReceiveMessagesNotification object:self userInfo:
+   @{PHMIDIMessagesKey : messages}];
 }
 
 #pragma mark - Public Methods
@@ -253,7 +240,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon) {
   @autoreleasepool {
     PHMIDIDevice* device = (__bridge PHMIDIDevice *)(readProcRefCon);
-    NSLog(@"Reading");
 
     if (device.isSysExDumping) {
       ++device.numberOfSysExReads;
@@ -271,7 +257,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     for (NSInteger ix = 0; ix < pktList->numPackets; ++ix) {
       for (NSInteger byteIndex = 0; byteIndex < packet->length; ++byteIndex)  {
         Byte byte = packet->data[byteIndex];
-        NSLog(@"%x", byte);
         if (byte & 0x80) {
           Byte status = (byte & 0xF0);
           switch (status)  {

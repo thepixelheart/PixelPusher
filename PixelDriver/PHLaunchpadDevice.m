@@ -75,9 +75,9 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     [nc addObserver:self selector:@selector(midiDevicesDidChangeNotification:)
                name:PHMIDIDriverDevicesDidChangeNotification object:nil];
 
-    memset(_buttonColor, PHLaunchpadColorOff, sizeof(PHLaunchpadColor) * [self numberOfButtons]);
-    memset(_topButtonColor, PHLaunchpadColorOff, sizeof(PHLaunchpadColor) * PHLaunchpadTopButtonCount);
-    memset(_sideButtonColor, PHLaunchpadColorRedBright, sizeof(PHLaunchpadColor) * PHLaunchpadSideButtonCount);
+    memset(_buttonColor, 0, sizeof(PHLaunchpadColor) * [self numberOfButtons]);
+    memset(_topButtonColor, 0, sizeof(PHLaunchpadColor) * PHLaunchpadTopButtonCount);
+    memset(_sideButtonColor, 0, sizeof(PHLaunchpadColor) * PHLaunchpadSideButtonCount);
   }
   return self;
 }
@@ -92,11 +92,26 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 - (void)midiDevicesDidChangeNotification:(NSNotification *)notification {
   NSDictionary* devices = notification.userInfo[PHMIDIDevicesKey];
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  if (nil != _device) {
+    [nc removeObserver:self name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
+  }
+
   _device = devices[kLaunchpadDeviceName];
 
   if (nil != _device) {
+    [nc addObserver:self selector:@selector(didReceiveMIDIMessages:) name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
+
     [self syncDeviceState];
   }
+}
+
+#pragma mark - PHMIDIDeviceDidReceiveMessagesNotification
+
+- (void)didReceiveMIDIMessages:(NSNotification *)notification {
+  NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
+  NSLog(@"MEssages: %@", messages);
 }
 
 - (void)syncDeviceState {
