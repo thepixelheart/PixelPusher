@@ -162,6 +162,16 @@
   }
 }
 
+- (void)setAnimationTick:(PHAnimationTick *)animationTick {
+  [super setAnimationTick:animationTick];
+
+  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    if (_layerAnimationIndex[ix] >= 0) {
+      _layerAnimation[ix].animationTick = self.animationTick;
+    }
+  }
+}
+
 - (void)reset {
   @synchronized(self) {
     for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {

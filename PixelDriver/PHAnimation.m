@@ -59,6 +59,9 @@ NSString* const PHAnimationCategoryTrippy = @"Trippy";
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
+@implementation PHAnimationTick
+@end
+
 @implementation PHAnimation
 
 + (id)animation {
@@ -199,6 +202,12 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelHeartAnimation animation]]
                                   animations:animations
                                         name:@"Trippy Heart"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRotationAnimation animationWithDirection:1],
+    [PHMegamanAnimation animation]]
+                                  animations:animations
+                                        name:@"Rotating Megaman"],
    ]];
 
   if (nil != sAdditionalAnimationBlock) {

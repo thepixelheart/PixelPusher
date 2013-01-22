@@ -31,6 +31,10 @@ const NSInteger PHInitialAnimationIndex;
 
 typedef NSArray* (^PHAdditionalAnimationBlock)();
 
+@interface PHAnimationTick : NSObject
+@property (nonatomic, assign) NSInteger numberOfRotationTicks;
+@end
+
 /**
  * The PHAnimation class exposes the fundamental tools and API for creating
  * Pixel Heart animations.
@@ -50,6 +54,9 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 // The driver exposes a number of pre-calculated values that all animations
 // share.
 @property (nonatomic, strong) PHAnimationDriver* driver;
+
+// Updated each frame with the information that has changed since the last tick.
+@property (nonatomic, strong) PHAnimationTick* animationTick;
 
 // Subclasses must implement this method to render their frames.
 // This method will be called frequently.

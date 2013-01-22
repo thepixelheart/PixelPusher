@@ -86,7 +86,6 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
       mode = [theEvent.charactersIgnoringModifiers isEqualToString:@"l"] ? PHViewModeLibrary : PHViewModePrefs;
       [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
        @{PHChangeCurrentViewKey: [NSNumber numberWithInt:mode]}];
-
     }
   }
 

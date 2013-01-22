@@ -39,7 +39,12 @@
       || self.driver.isUserButton2Pressed) {
     direction = -direction;
   }
-  _rotationAdvance += self.secondsSinceLastTick * direction * self.bassDegrader.value;
+
+  if (self.animationTick.numberOfRotationTicks != 0) {
+    _rotationAdvance += (CGFloat)self.animationTick.numberOfRotationTicks * M_PI * 8 / 180;
+  } else {
+    _rotationAdvance += self.secondsSinceLastTick * direction * self.bassDegrader.value;
+  }
 
   CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
   CGContextRotateCTM(cx, _rotationAdvance);

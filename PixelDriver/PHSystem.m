@@ -46,6 +46,9 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   // MIDI Devices
   PHLaunchpadDevice* _launchpad;
   PHDJ2GODevice* _dj2go;
+
+  NSInteger _numberOfLeftRotationTicks;
+  NSInteger _numberOfRightRotationTicks;
 }
 
 @synthesize fade = _fade;
@@ -130,6 +133,17 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   if (nil != _previewAnimation) {
     [uniqueAnimations addObject:_previewAnimation];
   }
+
+  PHAnimationTick* leftTick = [[PHAnimationTick alloc] init];
+  leftTick.numberOfRotationTicks = _numberOfLeftRotationTicks;
+  PHAnimationTick* rightTick = [[PHAnimationTick alloc] init];
+  rightTick.numberOfRotationTicks = _numberOfRightRotationTicks;
+
+  _numberOfLeftRotationTicks = 0;
+  _numberOfRightRotationTicks = 0;
+
+  _leftAnimation.animationTick = leftTick;
+  _rightAnimation.animationTick = rightTick;
 
   NSMutableDictionary* animationToContext = [NSMutableDictionary dictionary];
   for (PHAnimation* animation in uniqueAnimations) {
@@ -254,7 +268,13 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
         [self decrementCurrentAnimationSelection];
       }
       break;
-
+    case PHDJ2GOKnobLeft:
+      _numberOfLeftRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
+      break;
+    case PHDJ2GOKnobRight:
+      _numberOfRightRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
+      break;
+      
     default:
       break;
   }
