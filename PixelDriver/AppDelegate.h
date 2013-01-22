@@ -34,32 +34,13 @@ PHSystem* PHSys();
 
 @property (strong, readonly) PHSystem* system;
 
-@property (assign) IBOutlet NSWindow* launchpadWindow;
-@property (assign) IBOutlet PHTooltipWindow* tooltipWindow;
 @property (strong, readonly) PHDriver* driver;
 @property (strong, readonly) PHAnimationDriver* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;
 @property (strong, readonly) PHLaunchpadMIDIDriver* midiDriver;
 
-@property (strong, readonly) PHAnimation* previousAnimation;
-@property (strong, readonly) PHAnimation* activeAnimation;
-
-// Tooltip window
-- (void)pointTooltipAtView:(NSView *)view withString:(NSString *)string;
-- (void)bringTooltipForward;
-- (void)hideTooltip;
-
-// Button tooltips
-- (NSString *)tooltipForButtonIndex:(NSInteger)buttonIndex;
-- (NSString *)tooltipForTopButtonIndex:(NSInteger)buttonIndex;
-- (NSString *)tooltipForSideButtonIndex:(NSInteger)buttonIndex;
-
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
-
-// Update overlays
-- (void)addOverlay:(PHOverlay *)overlay;
-- (void)removeOverlay:(PHOverlay *)overlay;
 
 // Gifs
 @property (nonatomic, readonly) NSArray* gifs;

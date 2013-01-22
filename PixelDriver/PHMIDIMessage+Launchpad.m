@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHMIDIMessage.h"
+#import "PHMIDIMessage+Launchpad.h"
 
 const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
   0x0C, // Off

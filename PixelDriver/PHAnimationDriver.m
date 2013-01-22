@@ -137,8 +137,9 @@ static const float notefreq[PHPitch_Count] = {
 {
   for (PHMote *mote in motes) {
     if (mote.text.length) {
-      PHScrollingTextOverlay *overlay = [PHScrollingTextOverlay overlayWithText:mote.text];
-      [PHApp() addOverlay:overlay];
+      // TODO: Add support for overlays again.
+      //PHScrollingTextOverlay *overlay = [PHScrollingTextOverlay overlayWithText:mote.text];
+      //[PHApp() addOverlay:overlay];
     }
   }
 }

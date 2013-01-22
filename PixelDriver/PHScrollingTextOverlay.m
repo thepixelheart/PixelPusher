@@ -75,7 +75,8 @@ static const CGFloat kScrollSpeed = 8;
   CGContextRestoreGState(cx);
   
   if (_textAdvance > textSize.width + size.width) {
-    [PHApp() removeOverlay:self];
+    // TODO: Add support for overlays again.
+    //[PHApp() removeOverlay:self];
   }
 }
 

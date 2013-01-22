@@ -15,6 +15,7 @@
 //
 
 #import "PHMIDIMessage.h"
+#import "PHLaunchpadDevice.h"
 
 const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount];
 

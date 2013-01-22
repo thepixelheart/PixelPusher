@@ -392,7 +392,8 @@
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHLaunchpadDidReceiveStateChangeNotification object:nil userInfo:userInfo];
 
-  [PHApp() bringTooltipForward];
+  // TODO: Add support for tooltips again.
+  //[PHApp() bringTooltipForward];
 }
 
 - (void)midiDidSendMessageNotification:(NSNotification *)notification {
@@ -449,7 +450,8 @@
 }
 
 - (void)mouseDidEnterButton:(NSButton *)button {
-  NSString* tooltip = nil;
+  // TODO: Add support for tooltips again.
+  /*NSString* tooltip = nil;
   if (button.tag < 64) {
     tooltip = [PHApp() tooltipForButtonIndex:button.tag];
 
@@ -460,11 +462,12 @@
     tooltip = [PHApp() tooltipForSideButtonIndex:button.tag - 72];
   }
 
-  [PHApp() pointTooltipAtView:button withString:tooltip];
+  [PHApp() pointTooltipAtView:button withString:tooltip];*/
 }
 
 - (void)mouseDidLeaveButton:(NSButton *)button {
-  [PHApp() hideTooltip];
+  // TODO: Add support for tooltips again.
+  //[PHApp() hideTooltip];
 }
 
 @end

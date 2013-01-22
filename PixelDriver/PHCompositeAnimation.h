@@ -15,7 +15,7 @@
 //
 
 #import "PHAnimation.h"
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHLaunchpadDevice.h"
 
 @interface PHCompositeAnimation : PHAnimation <NSCopying, NSCoding>
 
