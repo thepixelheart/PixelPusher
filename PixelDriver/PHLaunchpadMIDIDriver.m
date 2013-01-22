@@ -18,6 +18,8 @@
 
 #import "PHDisplayLink.h"
 #import "PHMIDIMessage+Launchpad.h"
+#import "Utilities.h"
+#import "PHMIDIClient.h"
 #import <CoreMIDI/CoreMIDI.h>
 
 NSString* const PHLaunchpadDidReceiveStateChangeNotification = @"PHLaunchpadDidReceiveStateChangeNotification";
@@ -33,15 +35,6 @@ const NSInteger PHLaunchpadButtonGridHeight = 8;
 static const NSTimeInterval kFlashInterval = 0.1;
 
 #define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
-
-#define INITCHECKOSSTATUS(result) do {\
-  if (result != noErr) { \
-    NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:(result) userInfo:nil]; \
-    NSLog(@"Failed to set up the MIDI client: %@", error); \
-    self = nil; \
-    return self; \
-  } \
-} while(0)
 
 static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
@@ -132,21 +125,20 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 
 @end
 
-static NSString* const kMIDIClientName = @"PixelDriver MIDI Client";
 static NSString* const kMIDIDestinationName = @"MIDI to PixelDriver";
 static NSString* const kMIDISenderName = @"PixelDriver to MIDI";
 
 void PHMIDINotifyProc(const MIDINotification *msg, void *refCon);
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon);
 
-@interface PHLaunchpadMIDIDriver()
+@interface PHLaunchpadMIDIDriver() <PHMIDIClientDelegate>
 // MIDI state
 @property (nonatomic, assign, getter = isSysExDumping) BOOL sysExDumping;
 @property (nonatomic, assign) NSInteger numberOfSysExReads;
 @end
 
 @implementation PHLaunchpadMIDIDriver {
-  MIDIClientRef _clientRef;
+  PHMIDIClient* _client;
   MIDIEndpointRef _endpointRef;
   MIDIPortRef _inputPortRef;
   MIDIPortRef _outputPortRef;
@@ -168,10 +160,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-  if (_clientRef) {
-    MIDIClientDispose(_clientRef);
-  }
-
   if (_packetList)  {
     free(_packetList);
   }
@@ -182,20 +170,22 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
     _sendQueue = [[NSOperationQueue alloc] init];
     _sendQueue.maxConcurrentOperationCount = 1;
 
-    OSStatus status = MIDIClientCreate((__bridge CFStringRef)kMIDIClientName, PHMIDINotifyProc, (__bridge void *)(self), &_clientRef);
-    INITCHECKOSSTATUS(status);
+    _client = [[PHMIDIClient alloc] init];
+    _client.delegate = self;
 
     CFStringRef destinationName = (__bridge CFStringRef)kMIDIDestinationName;
     CFStringRef senderName = (__bridge CFStringRef)kMIDISenderName;
 
-    status = MIDIDestinationCreate(_clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self)
+    MIDIClientRef clientRef = _client.clientRef;
+
+    OSStatus status = MIDIDestinationCreate(clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self)
                                    , &_endpointRef);
     INITCHECKOSSTATUS(status);
 
-    status = MIDIInputPortCreate(_clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self), &_inputPortRef);
+    status = MIDIInputPortCreate(clientRef, destinationName, PHMIDIReadProc, (__bridge void *)(self), &_inputPortRef);
     INITCHECKOSSTATUS(status);
 
-    status = MIDIOutputPortCreate(_clientRef, senderName, &_outputPortRef);
+    status = MIDIOutputPortCreate(clientRef, senderName, &_outputPortRef);
     INITCHECKOSSTATUS(status);
 
     _packetList = (MIDIPacketList *)malloc(1024 * sizeof(char));
@@ -207,7 +197,9 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   //[self tickFlashers];
 }
 
-- (void)setupDidChange {
+#pragma mark - PHMIDIClientDelegate
+
+- (void)midiConnectionsDidChange {
   if (_launchpadSourceRef) {
     MIDIPortDisconnectSource(_inputPortRef, _launchpadSourceRef);
     _launchpadSourceRef = 0;
@@ -396,14 +388,6 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 @end
-
-void PHMIDINotifyProc(const MIDINotification *msg, void *refCon) {
-  @autoreleasepool {
-    if (msg->messageID == kMIDIMsgSetupChanged) {
-      [(__bridge PHLaunchpadMIDIDriver *)refCon setupDidChange];
-    }
-  }
-}
 
 void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *srcConnRefCon) {
   @autoreleasepool {

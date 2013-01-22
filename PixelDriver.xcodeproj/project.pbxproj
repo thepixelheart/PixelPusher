@@ -106,6 +106,7 @@
 		66CF637E16AD2C9C0048228F /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637C16AD2C9C0048228F /* 1.png */; };
 		66CF637F16AD2C9C0048228F /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637D16AD2C9C0048228F /* 2.png */; };
 		66CF638216AD3BE00048228F /* PHMIDIMessage+Launchpad.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF638116AD3BE00048228F /* PHMIDIMessage+Launchpad.m */; };
+		66CF638516AD3CD30048228F /* PHMIDIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF638416AD3CD30048228F /* PHMIDIClient.m */; };
 		66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA4C16AB7C5400E8FE9F /* PHButton.m */; };
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
@@ -318,6 +319,8 @@
 		66CF637D16AD2C9C0048228F /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 2.png; path = PixelDriver/resources/2.png; sourceTree = "<group>"; };
 		66CF638016AD3BC60048228F /* PHMIDIMessage+Launchpad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHMIDIMessage+Launchpad.h"; sourceTree = "<group>"; };
 		66CF638116AD3BE00048228F /* PHMIDIMessage+Launchpad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHMIDIMessage+Launchpad.m"; sourceTree = "<group>"; };
+		66CF638316AD3CD30048228F /* PHMIDIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIClient.h; sourceTree = "<group>"; };
+		66CF638416AD3CD30048228F /* PHMIDIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIClient.m; sourceTree = "<group>"; };
 		66D1DA4B16AB7C5400E8FE9F /* PHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHButton.h; sourceTree = "<group>"; };
 		66D1DA4C16AB7C5400E8FE9F /* PHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHButton.m; sourceTree = "<group>"; };
 		66D1DA4F16AB7E3C00E8FE9F /* PHLibraryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLibraryView.h; sourceTree = "<group>"; };
@@ -631,6 +634,8 @@
 			children = (
 				66A8E038167D747400FBAFE8 /* PHLaunchpadMIDIDriver.h */,
 				66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */,
+				66CF638316AD3CD30048228F /* PHMIDIClient.h */,
+				66CF638416AD3CD30048228F /* PHMIDIClient.m */,
 				662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */,
 				662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */,
 				66CF638016AD3BC60048228F /* PHMIDIMessage+Launchpad.h */,
@@ -1039,6 +1044,7 @@
 				66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */,
 				66CF637916AD061E0048228F /* PHActionsView.m in Sources */,
 				66CF638216AD3BE00048228F /* PHMIDIMessage+Launchpad.m in Sources */,
+				66CF638516AD3CD30048228F /* PHMIDIClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

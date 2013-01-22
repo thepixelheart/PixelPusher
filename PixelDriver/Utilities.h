@@ -16,6 +16,15 @@
 
 #import <Foundation/Foundation.h>
 
+#define INITCHECKOSSTATUS(result) do {\
+  if (result != noErr) { \
+    NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:(result) userInfo:nil]; \
+    NSLog(@"Failed to set up the MIDI client: %@", error); \
+    self = nil; \
+    return self; \
+  } \
+} while(0)
+
 NSColor* PHBackgroundColor();
 
 void PHAlert(NSString* message);
