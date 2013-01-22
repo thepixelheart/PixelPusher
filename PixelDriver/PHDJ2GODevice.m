@@ -28,6 +28,7 @@ const NSInteger PHDJ2GOUnknown = -1;
 
   CGFloat _sliders[PHDJ2GOSliderCount];
   CGFloat _volumes[PHDJ2GOVolumeCount];
+  BOOL _buttons[PHDJ2GOButtonCount];
 }
 
 - (void)dealloc {
@@ -42,6 +43,7 @@ const NSInteger PHDJ2GOUnknown = -1;
 
     memset(_sliders, 0, sizeof(CGFloat) * PHDJ2GOSliderCount);
     memset(_volumes, 0, sizeof(CGFloat) * PHDJ2GOVolumeCount);
+    memset(_buttons, 0, sizeof(BOOL) * PHDJ2GOButtonCount);
   }
   return self;
 }
@@ -68,8 +70,51 @@ const NSInteger PHDJ2GOUnknown = -1;
 - (void)didReceiveMIDIMessages:(NSNotification *)notification {
   NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
   for (PHMIDIMessage* message in messages) {
-    
+    PHDJ2GOMessageType type = message.dj2goType;
+    switch (type) {
+      case PHDJ2GOMessageTypeSlider:
+        [self slider:message.dj2goSlider didChange:message.dj2goSliderValue];
+        break;
+      case PHDJ2GOMessageTypeVolume:
+        [self volume:message.dj2goVolume didChange:message.dj2goVolumeValue];
+        break;
+      case PHDJ2GOMessageTypeKnob:
+        [self knob:message.dj2goKnob didRotate:message.dj2goKnobDirection];
+        break;
+      case PHDJ2GOMessageTypeButtonDown:
+        [self buttonWasPressed:message.dj2goButton];
+        break;
+      case PHDJ2GOMessageTypeButtonUp:
+        [self buttonWasReleased:message.dj2goButton];
+        break;
+
+      default:
+        NSLog(@"Unknown message type received %d", type);
+        break;
+    }
   }
+}
+
+#pragma mark - Message Handling
+
+- (void)slider:(PHDJ2GOSlider)slider didChange:(CGFloat)value {
+  _sliders[slider] = value;
+}
+
+- (void)volume:(PHDJ2GOVolume)volume didChange:(CGFloat)value {
+  _volumes[volume] = value;
+}
+
+- (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
+
+}
+
+- (void)buttonWasPressed:(PHDJ2GOButton)button {
+  _buttons[button] = YES;
+}
+
+- (void)buttonWasReleased:(PHDJ2GOButton)button {
+  _buttons[button] = NO;
 }
 
 @end
