@@ -44,6 +44,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     self.contentView = [[PHDualVizualizersView alloc] initWithFrame:[self.contentView bounds]];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(systemSliderDidChange:) name:PHSystemSliderMovedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
   }
@@ -66,7 +67,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
   if ((theEvent.type == NSKeyDown || theEvent.type == NSKeyUp)
       && nil != keyMappings[theEvent.charactersIgnoringModifiers]) {
-    PHSystemButton button = [keyMappings[theEvent.charactersIgnoringModifiers] intValue];
+    PHSystemControlIdentifier button = [keyMappings[theEvent.charactersIgnoringModifiers] intValue];
     if (theEvent.type == NSKeyDown) {
       [PHSys() didPressButton:button];
     } else {
@@ -95,15 +96,22 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
 #pragma mark - Notifications
 
+- (void)systemSliderDidChange:(NSNotification *)notification {
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+  NSSlider* slider = [self.contentView viewWithTag:identifier];
+  CGFloat value = [notification.userInfo[PHSystemValueKey] doubleValue];
+  [slider setFloatValue:value];
+}
+
 - (void)systemButtonWasPressed:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
-  NSButton* button = [self.contentView viewWithTag:buttonIdentifer];
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+  NSButton* button = [self.contentView viewWithTag:identifier];
   [button setState:NSOnState];
 }
 
 - (void)systemButtonWasReleased:(NSNotification *)notification {
-  PHSystemButton buttonIdentifer = [notification.userInfo[PHSystemButtonIdentifierKey] intValue];
-  NSButton* button = [self.contentView viewWithTag:buttonIdentifer];
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+  NSButton* button = [self.contentView viewWithTag:identifier];
   [button setState:NSOffState];
 }
 

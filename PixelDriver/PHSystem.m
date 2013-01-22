@@ -21,23 +21,41 @@
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
 
+#import "PHLaunchpadDevice.h"
+#import "PHDJ2GODevice.h"
+
 #import <objc/runtime.h>
 
+NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
-NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
+NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
+NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
 @interface PHSystemTick()
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
 @end
 
+@interface PHSystem() <PHDJ2GODeviceDelegate>
+@end
+
 @implementation PHSystem {
   PHSpritesheet* _pixelHeartTextSpritesheet;
+
+  // MIDI Devices
+  PHLaunchpadDevice* _launchpad;
+  PHDJ2GODevice* _dj2go;
 }
+
+@synthesize fade = _fade;
 
 - (id)init {
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
+
+    _launchpad = [[PHLaunchpadDevice alloc] init];
+    _dj2go = [[PHDJ2GODevice alloc] init];
+    _dj2go.delegate = self;
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
                                                           spriteSize:CGSizeMake(42, 7)];
@@ -141,7 +159,20 @@ NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
 
 #pragma mark - Button State
 
-- (void)didPressButton:(PHSystemButton)button {
+- (CGFloat)fade {
+  return _fade;
+}
+
+- (void)setFade:(CGFloat)fade {
+  _fade = fade;
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemSliderMovedNotification object:nil userInfo:
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:PHSystemSliderFader],
+          PHSystemValueKey: [NSNumber numberWithDouble:fade]}];
+}
+
+- (void)didPressButton:(PHSystemControlIdentifier)button {
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = YES;
@@ -158,13 +189,17 @@ NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
     case PHSystemButtonLoadRight:
       _rightAnimation = _previewAnimation;
       break;
+
+    default:
+      NSLog(@"%d is not a button", button);
+      break;
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHSystemButtonPressedNotification object:nil userInfo:@{PHSystemButtonIdentifierKey : [NSNumber numberWithInt:button]}];
+  [nc postNotificationName:PHSystemButtonPressedNotification object:nil userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:button]}];
 }
 
-- (void)didReleaseButton:(PHSystemButton)button {
+- (void)didReleaseButton:(PHSystemControlIdentifier)button {
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = NO;
@@ -181,10 +216,66 @@ NSString* const PHSystemButtonIdentifierKey = @"PHSystemButtonIdentifierKey";
       break;
     case PHSystemButtonLoadRight:
       break;
+
+    default:
+      NSLog(@"%d is not a button", button);
+      break;
   }
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHSystemButtonReleasedNotification object:nil userInfo:@{PHSystemButtonIdentifierKey : [NSNumber numberWithInt:button]}];
+  [nc postNotificationName:PHSystemButtonReleasedNotification object:nil userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:button]}];
+}
+
+#pragma mark - PHDJ2GODeviceDelegate
+
+- (void)slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value {
+  switch (slider) {
+    case PHDJ2GOSliderMid:
+      [self setFade:value];
+      break;
+
+    default:
+      // Do nothing.
+      break;
+  }
+}
+
+- (void)volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
+
+}
+
+- (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
+
+}
+
+- (void)buttonWasPressed:(PHDJ2GOButton)button {
+  switch (button) {
+    case PHDJ2GOButtonLoadA:
+      [self didPressButton:PHSystemButtonLoadLeft];
+      break;
+    case PHDJ2GOButtonLoadB:
+      [self didPressButton:PHSystemButtonLoadRight];
+      break;
+      
+    default:
+      // Do nothing.
+      break;
+  }
+}
+
+- (void)buttonWasReleased:(PHDJ2GOButton)button {
+  switch (button) {
+    case PHDJ2GOButtonLoadA:
+      [self didReleaseButton:PHSystemButtonLoadLeft];
+      break;
+    case PHDJ2GOButtonLoadB:
+      [self didReleaseButton:PHSystemButtonLoadRight];
+      break;
+
+    default:
+      // Do nothing.
+      break;
+  }
 }
 
 @end

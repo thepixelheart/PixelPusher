@@ -21,7 +21,6 @@
 #import "PHMIDIMessage+DJ2GO.h"
 
 static NSString* const kDeviceName = @"Numark DJ2Go";
-const NSInteger PHDJ2GOUnknown = -1;
 
 @implementation PHDJ2GODevice {
   PHMIDIDevice* _device;
@@ -68,6 +67,12 @@ const NSInteger PHDJ2GOUnknown = -1;
 #pragma mark - PHMIDIDeviceDidReceiveMessagesNotification
 
 - (void)didReceiveMIDIMessages:(NSNotification *)notification {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self didReceiveMIDIMessages:notification];
+    });
+    return;
+  }
   NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
   for (PHMIDIMessage* message in messages) {
     PHDJ2GOMessageType type = message.dj2goType;
@@ -99,22 +104,30 @@ const NSInteger PHDJ2GOUnknown = -1;
 
 - (void)slider:(PHDJ2GOSlider)slider didChange:(CGFloat)value {
   _sliders[slider] = value;
+
+  [_delegate slider:slider didChangeValue:value];
 }
 
 - (void)volume:(PHDJ2GOVolume)volume didChange:(CGFloat)value {
   _volumes[volume] = value;
+
+  [_delegate volume:volume didChangeValue:value];
 }
 
 - (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
-
+  [_delegate knob:knob didRotate:direction];
 }
 
 - (void)buttonWasPressed:(PHDJ2GOButton)button {
   _buttons[button] = YES;
+
+  [_delegate buttonWasPressed:button];
 }
 
 - (void)buttonWasReleased:(PHDJ2GOButton)button {
   _buttons[button] = NO;
+
+  [_delegate buttonWasReleased:button];
 }
 
 @end

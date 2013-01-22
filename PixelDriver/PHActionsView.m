@@ -68,11 +68,11 @@
 #pragma mark - PHButtonDelegate
 
 - (void)didPressDownButton:(PHButton *)button {
-  [PHSys() didPressButton:(PHSystemButton)button.tag];
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
 }
 
 - (void)didReleaseButton:(PHButton *)button {
-  [PHSys() didReleaseButton:(PHSystemButton)button.tag];
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
 
 @end

@@ -78,10 +78,6 @@ PHSystem* PHSys() {
 
   // Watching changes to the filesystem.
   SCEvents* _fsEvents;
-
-  // MIDI Devices
-  PHLaunchpadDevice* _launchpad;
-  PHDJ2GODevice* _dj2go;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -165,8 +161,6 @@ PHSystem* PHSys() {
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   _system = [[PHSystem alloc] init];
-  _launchpad = [[PHLaunchpadDevice alloc] init];
-  _dj2go = [[PHDJ2GODevice alloc] init];
 
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];

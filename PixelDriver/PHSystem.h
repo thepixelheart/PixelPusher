@@ -26,11 +26,15 @@ typedef enum {
   PHSystemButtonUserAction2,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
-} PHSystemButton;
 
+  PHSystemSliderFader,
+} PHSystemControlIdentifier;
+
+extern NSString* const PHSystemSliderMovedNotification;
 extern NSString* const PHSystemButtonPressedNotification;
 extern NSString* const PHSystemButtonReleasedNotification;
-extern NSString* const PHSystemButtonIdentifierKey;
+extern NSString* const PHSystemIdentifierKey;
+extern NSString* const PHSystemValueKey;
 
 @interface PHSystem : NSObject
 
@@ -52,7 +56,7 @@ extern NSString* const PHSystemButtonIdentifierKey;
 // Controller State
 
 // The percentage fade from left to right.
-@property (assign) CGFloat fade; // 0..1
+@property (nonatomic, assign) CGFloat fade; // 0..1
 
 // Actions
 
@@ -64,8 +68,8 @@ extern NSString* const PHSystemButtonIdentifierKey;
 
 // Buttons
 
-- (void)didPressButton:(PHSystemButton)button;
-- (void)didReleaseButton:(PHSystemButton)button;
+- (void)didPressButton:(PHSystemControlIdentifier)button;
+- (void)didReleaseButton:(PHSystemControlIdentifier)button;
 
 // Ticking
 

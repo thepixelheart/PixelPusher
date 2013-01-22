@@ -16,8 +16,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern const NSInteger PHDJ2GOUnknown;
-
 typedef enum {
   PHDJ2GOSliderLeft,
   PHDJ2GOSliderRight,
@@ -78,5 +76,18 @@ typedef enum {
   PHDJ2GODirectionUnknown,
 } PHDJ2GODirection;
 
+@protocol PHDJ2GODeviceDelegate;
+
 @interface PHDJ2GODevice : NSObject
+@property (nonatomic, weak) id<PHDJ2GODeviceDelegate> delegate;
+@end
+
+@protocol PHDJ2GODeviceDelegate <NSObject>
+
+- (void)slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value;
+- (void)volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value;
+- (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction;
+- (void)buttonWasPressed:(PHDJ2GOButton)button;
+- (void)buttonWasReleased:(PHDJ2GOButton)button;
+
 @end

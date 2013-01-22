@@ -43,6 +43,7 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
     _faderSlider.numberOfTickMarks = 11;
     _faderSlider.minValue = 0;
     _faderSlider.maxValue = 1;
+    _faderSlider.tag = PHSystemSliderFader;
     [_faderSlider setContinuous:YES];
     [self.contentView addSubview:_faderSlider];
 
@@ -96,11 +97,11 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 #pragma mark - PHButtonDelegate
 
 - (void)didPressDownButton:(PHButton *)button {
-  [PHSys() didPressButton:(PHSystemButton)button.tag];
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
 }
 
 - (void)didReleaseButton:(PHButton *)button {
-  [PHSys() didReleaseButton:(PHSystemButton)button.tag];
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
 
 @end
