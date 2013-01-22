@@ -16,12 +16,7 @@
 
 #import "PHMIDIDriver.h"
 
-#import "PHDisplayLink.h"
-#import "PHMIDIMessage+Launchpad.h"
 #import "PHMIDIDevice.h"
-#import "Utilities.h"
-#import "PHMIDIClient.h"
-#import <CoreMIDI/CoreMIDI.h>
 
 @interface PHMIDIDriver() <PHMIDIClientDelegate>
 @end
@@ -66,8 +61,6 @@
       device.destinationEndpointRef = endpoint;
     }
   }
-
-  NSLog(@"MIDI Devices updated: %@", _devices);
 }
 
 @end
