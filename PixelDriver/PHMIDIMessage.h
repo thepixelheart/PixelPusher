@@ -15,7 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIDriver.h"
 
 // http://www.midi.org/techspecs/midimessages.php
 typedef enum {

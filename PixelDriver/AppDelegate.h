@@ -21,7 +21,7 @@
 @class PHAnimation;
 @class PHFMODRecorder;
 @class AppDelegate;
-@class PHLaunchpadMIDIDriver;
+@class PHMIDIDriver;
 @class PHWallWindow;
 @class PHSystem;
 @class PHTooltipWindow;
@@ -37,7 +37,7 @@ PHSystem* PHSys();
 @property (strong, readonly) PHDriver* driver;
 @property (strong, readonly) PHAnimationDriver* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;
-@property (strong, readonly) PHLaunchpadMIDIDriver* midiDriver;
+@property (strong, readonly) PHMIDIDriver* midiDriver;
 
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote

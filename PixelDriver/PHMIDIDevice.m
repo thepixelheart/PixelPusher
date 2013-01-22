@@ -161,12 +161,10 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   return [NSString stringWithFormat:
           @"<%@ "
           @"name: %@, "
-          @"uniqueID: %@, "
           @"manufacturer: %@, "
           @"model: %@, ",
           [super description],
           [self name],
-          [self uniqueID],
           [self manufacturer],
           [self model]];
 }
@@ -194,6 +192,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 
 - (void)receivedMessages:(NSArray *)messages {
   for (PHMIDIMessage* message in messages) {
+    NSLog(@"Message: %@", message);
     // TODO: Implement receiving messages.
 /*    if (message.status == PHMIDIStatusNoteOn || message.status == PHMIDIStatusControlChange) {
       BOOL pressed = (message.data2 == 0x7F);
@@ -225,11 +224,7 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
 }
 
 - (NSString *)name {
-  return [self.class stringForKey:kMIDIPropertyName endpointRef:_sourceEndpointRef];
-}
-
-- (NSString *)uniqueID {
-  return [self.class uniqueIDFromEndpointRef:_sourceEndpointRef];
+  return [self.class nameFromEndpointRef:_sourceEndpointRef];
 }
 
 - (NSString *)manufacturer {
@@ -249,8 +244,8 @@ void PHMIDIReadProc(const MIDIPacketList *pktList, void *readProcRefCon, void *s
   return (__bridge NSString *)stringRef;
 }
 
-+ (NSString *)uniqueIDFromEndpointRef:(MIDIEndpointRef)endpointRef {
-  return [self stringForKey:kMIDIPropertyUniqueID endpointRef:endpointRef];
++ (NSString *)nameFromEndpointRef:(MIDIEndpointRef)endpointRef {
+  return [self stringForKey:kMIDIPropertyName endpointRef:endpointRef];
 }
 
 @end

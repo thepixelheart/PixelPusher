@@ -42,6 +42,14 @@ void PHMIDINotifyProc(const MIDINotification *msg, void *refCon);
   [_delegate midiConnectionsDidChange];
 }
 
+- (void)setDelegate:(id<PHMIDIClientDelegate>)delegate {
+  if (_delegate != delegate) {
+    _delegate = delegate;
+
+    [self setupDidChange];
+  }
+}
+
 @end
 
 void PHMIDINotifyProc(const MIDINotification *msg, void *refCon) {

@@ -16,5 +16,5 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PHLaunchpadMIDIDriver : NSObject
+@interface PHMIDIDriver : NSObject
 @end

@@ -84,7 +84,7 @@
 		66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */; };
 		66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02F167C259A00FBAFE8 /* PHBitmapPipeline.m */; };
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
-		66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */; };
+		66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
@@ -288,8 +288,8 @@
 		66A8E02F167C259A00FBAFE8 /* PHBitmapPipeline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBitmapPipeline.m; sourceTree = "<group>"; };
 		66A8E034167D731C00FBAFE8 /* PHBitmapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBitmapView.h; sourceTree = "<group>"; };
 		66A8E035167D731C00FBAFE8 /* PHBitmapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBitmapView.m; sourceTree = "<group>"; };
-		66A8E038167D747400FBAFE8 /* PHLaunchpadMIDIDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadMIDIDriver.h; sourceTree = "<group>"; };
-		66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadMIDIDriver.m; sourceTree = "<group>"; };
+		66A8E038167D747400FBAFE8 /* PHMIDIDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIDriver.h; sourceTree = "<group>"; };
+		66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIDriver.m; sourceTree = "<group>"; };
 		66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
@@ -638,18 +638,15 @@
 		66A8E037167D745F00FBAFE8 /* Launchpad */ = {
 			isa = PBXGroup;
 			children = (
-				66A8E038167D747400FBAFE8 /* PHLaunchpadMIDIDriver.h */,
-				66A8E039167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m */,
+				66A8E038167D747400FBAFE8 /* PHMIDIDriver.h */,
+				66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */,
 				66CF638316AD3CD30048228F /* PHMIDIClient.h */,
 				66CF638416AD3CD30048228F /* PHMIDIClient.m */,
 				66CF638616AE2CAF0048228F /* PHMIDIDevice.h */,
 				66CF638716AE2CAF0048228F /* PHMIDIDevice.m */,
-				66CF639116AE44B60048228F /* PHLaunchpadDevice.h */,
-				66CF639216AE44B60048228F /* PHLaunchpadDevice.m */,
 				662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */,
 				662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */,
-				66CF638016AD3BC60048228F /* PHMIDIMessage+Launchpad.h */,
-				66CF638116AD3BE00048228F /* PHMIDIMessage+Launchpad.m */,
+				66CF639516AE47E40048228F /* Launchpad */,
 			);
 			name = Launchpad;
 			sourceTree = "<group>";
@@ -671,6 +668,17 @@
 				66DC7B7B167725E900453E8F /* PHWallView.m */,
 			);
 			name = "Generic Views";
+			sourceTree = "<group>";
+		};
+		66CF639516AE47E40048228F /* Launchpad */ = {
+			isa = PBXGroup;
+			children = (
+				66CF639116AE44B60048228F /* PHLaunchpadDevice.h */,
+				66CF639216AE44B60048228F /* PHLaunchpadDevice.m */,
+				66CF638016AD3BC60048228F /* PHMIDIMessage+Launchpad.h */,
+				66CF638116AD3BE00048228F /* PHMIDIMessage+Launchpad.m */,
+			);
+			name = Launchpad;
 			sourceTree = "<group>";
 		};
 		66D1DA5216AB803200E8FE9F /* Library */ = {
@@ -981,7 +989,7 @@
 				66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */,
 				66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */,
 				66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */,
-				66A8E03A167D747400FBAFE8 /* PHLaunchpadMIDIDriver.m in Sources */,
+				66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */,
 				662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */,
 				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
 				668520EE168292200063A95A /* PHAnimationDriver.m in Sources */,

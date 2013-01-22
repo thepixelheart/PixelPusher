@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIDriver.h"
 
 #import "PHDisplayLink.h"
 #import "PHMIDIMessage+Launchpad.h"
@@ -23,10 +23,10 @@
 #import "PHMIDIClient.h"
 #import <CoreMIDI/CoreMIDI.h>
 
-@interface PHLaunchpadMIDIDriver() <PHMIDIClientDelegate>
+@interface PHMIDIDriver() <PHMIDIClientDelegate>
 @end
 
-@implementation PHLaunchpadMIDIDriver {
+@implementation PHMIDIDriver {
   PHMIDIClient* _client;
   NSMutableDictionary* _devices;
 }
@@ -53,19 +53,21 @@
     MIDIEndpointRef endpoint = MIDIGetSource(ix);
 
     PHMIDIDevice* device = [[PHMIDIDevice alloc] initWithClient:_client sourceEndpointRef:endpoint];
-    [_devices setObject:device forKey:[device uniqueID]];
+    [_devices setObject:device forKey:[device name]];
   }
 
   ItemCount numberOfDestinations = MIDIGetNumberOfDestinations();
   for (ItemCount ix = 0; ix < numberOfDestinations; ++ix)  {
     MIDIEndpointRef endpoint = MIDIGetDestination(ix);
 
-    NSString* uniqueId = [PHMIDIDevice uniqueIDFromEndpointRef:endpoint];
+    NSString* uniqueId = [PHMIDIDevice nameFromEndpointRef:endpoint];
     PHMIDIDevice* device = [_devices objectForKey:uniqueId];
     if (nil != device) {
       device.destinationEndpointRef = endpoint;
     }
   }
+
+  NSLog(@"MIDI Devices updated: %@", _devices);
 }
 
 @end

@@ -21,7 +21,7 @@
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIDriver.h"
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 #import "Utilities.h"
@@ -172,18 +172,6 @@ PHSystem* PHSys() {
 
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc addObserver:self
-         selector:@selector(launchpadStateDidChange:)
-             name:PHLaunchpadDidReceiveStateChangeNotification
-           object:nil];
-  [nc addObserver:self
-         selector:@selector(launchpadDidConnect:)
-             name:PHLaunchpadDidConnectNotification
-           object:nil];
-  [nc addObserver:self
-         selector:@selector(displayLinkDidFire:)
-             name:PHDisplayLinkFiredNotification
-           object:nil];
-  [nc addObserver:self
          selector:@selector(processingSourceListDidChange:)
              name:PHProcessingSourceListDidChangeNotification
            object:nil];
@@ -221,9 +209,9 @@ PHSystem* PHSys() {
   return _audioRecorder;
 }
 
-- (PHLaunchpadMIDIDriver *)midiDriver {
+- (PHMIDIDriver *)midiDriver {
   if (nil == _midiDriver) {
-    _midiDriver = [[PHLaunchpadMIDIDriver alloc] init];
+    _midiDriver = [[PHMIDIDriver alloc] init];
   }
   return _midiDriver;
 }

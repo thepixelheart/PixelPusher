@@ -23,11 +23,10 @@
 - (id)initWithClient:(PHMIDIClient *)client sourceEndpointRef:(MIDIEndpointRef)sourceEndpointRef;
 
 - (NSString *)name;
-- (NSString *)uniqueID;
 - (NSString *)manufacturer;
 - (NSString *)model;
 
-+ (NSString *)uniqueIDFromEndpointRef:(MIDIEndpointRef)endpointRef;
++ (NSString *)nameFromEndpointRef:(MIDIEndpointRef)endpointRef;
 
 @property (nonatomic, assign) MIDIEndpointRef destinationEndpointRef;
 

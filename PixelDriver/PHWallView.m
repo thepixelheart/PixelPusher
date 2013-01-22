@@ -21,7 +21,7 @@
 #import "PHDisplayLink.h"
 #import "PHDriver.h"
 #import "PHFMODRecorder.h"
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIDriver.h"
 #import "PHQuartzRenderer.h"
 #import "PHSystem.h"
 #import "Utilities.h"

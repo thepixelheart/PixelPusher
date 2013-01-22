@@ -17,7 +17,7 @@
 #import "PHLaunchpadView.h"
 
 #import "AppDelegate.h"
-#import "PHLaunchpadMIDIDriver.h"
+#import "PHMIDIDriver.h"
 #import "PHMIDIMessage+Launchpad.h"
 
 @interface PHLaunchpadButtonCell : NSButtonCell
