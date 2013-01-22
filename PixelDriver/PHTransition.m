@@ -18,6 +18,7 @@
 
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
+#import "PHShutterTransition.h"
 
 @implementation PHTransition
 
@@ -44,7 +45,8 @@
 + (NSArray *)allTransitions {
   return @[
     [PHCrossFadeTransition transition],
-    [PHStarWarsTransition transition]
+    [PHStarWarsTransition transition],
+    [PHShutterTransition transition]
   ];
 }
 
