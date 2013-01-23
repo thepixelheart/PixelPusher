@@ -88,6 +88,7 @@
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
+		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
 		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
@@ -299,6 +300,8 @@
 		66B16F0A16AEB246003CF908 /* PHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScrollView.m; sourceTree = "<group>"; };
 		66B16F0D16AF1B54003CF908 /* PHShutterTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHShutterTransition.h; sourceTree = "<group>"; };
 		66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHShutterTransition.m; sourceTree = "<group>"; };
+		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
+		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
 		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
 		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 				661CC73A16A79030007F3900 /* PHStarWarsTransition.m */,
 				66B16F0D16AF1B54003CF908 /* PHShutterTransition.h */,
 				66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */,
+				66B16FD716AF6450003CF908 /* PHNoiseTransition.h */,
+				66B16FD816AF6450003CF908 /* PHNoiseTransition.m */,
 			);
 			name = Transitions;
 			sourceTree = "<group>";
@@ -1097,6 +1102,7 @@
 				66CF63C216AE8EB60048228F /* PHMIDIMessage+DJ2GO.m in Sources */,
 				66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */,
 				66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */,
+				66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

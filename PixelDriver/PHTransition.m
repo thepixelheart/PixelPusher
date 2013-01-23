@@ -19,6 +19,7 @@
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
 #import "PHShutterTransition.h"
+#import "PHNoiseTransition.h"
 
 @implementation PHTransition
 
@@ -46,7 +47,8 @@
   return @[
     [PHCrossFadeTransition transition],
     [PHStarWarsTransition transition],
-    [PHShutterTransition transition]
+    [PHShutterTransition transition],
+    [PHNoiseTransition transition],
   ];
 }
 
