@@ -89,6 +89,7 @@
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
+		66B16FDD16AF69B2003CF908 /* PHRainbowHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */; };
 		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
 		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
 		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
@@ -302,6 +303,8 @@
 		66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHShutterTransition.m; sourceTree = "<group>"; };
 		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
 		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
+		66B16FDB16AF69B2003CF908 /* PHRainbowHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRainbowHeartAnimation.h; sourceTree = "<group>"; };
+		66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRainbowHeartAnimation.m; sourceTree = "<group>"; };
 		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
 		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
 		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
@@ -527,6 +530,8 @@
 				528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */,
 				661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */,
 				661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */,
+				66B16FDB16AF69B2003CF908 /* PHRainbowHeartAnimation.h */,
+				66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -1103,6 +1108,7 @@
 				66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */,
 				66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */,
 				66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */,
+				66B16FDD16AF69B2003CF908 /* PHRainbowHeartAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

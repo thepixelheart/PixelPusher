@@ -47,6 +47,7 @@
 #import "PHBassShooterAnimation.h"
 #import "PHFlowerAnimation.h"
 #import "PHDaftPixelAnimation.h"
+#import "PHRainbowHeartAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -159,6 +160,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSineWaveAnimation animation],
 
     [PHDaftPixelAnimation animation],
+  [PHRainbowHeartAnimation animation],
     ];
 
   // Obsolete animations.
