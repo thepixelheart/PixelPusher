@@ -25,6 +25,8 @@
 		661CC73E16A79E5B007F3900 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73C16A79E5B007F3900 /* left.png */; };
 		661CC73F16A79E5B007F3900 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73D16A79E5B007F3900 /* right.png */; };
 		661CC74216A7A01D007F3900 /* PHAnimationsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC74116A7A01D007F3900 /* PHAnimationsView.m */; };
+		661FFFEF16B38D0D007CE102 /* PHSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */; };
+		661FFFF316B4BD22007CE102 /* PHTronAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FFFF216B4BD21007CE102 /* PHTronAnimation.m */; };
 		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
 		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
@@ -179,6 +181,10 @@
 		661CC73D16A79E5B007F3900 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right.png; path = PixelDriver/resources/right.png; sourceTree = "<group>"; };
 		661CC74016A7A01C007F3900 /* PHAnimationsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationsView.h; sourceTree = "<group>"; };
 		661CC74116A7A01D007F3900 /* PHAnimationsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationsView.m; sourceTree = "<group>"; };
+		661FFFED16B38D0D007CE102 /* PHSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSquaresAnimation.h; sourceTree = "<group>"; };
+		661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSquaresAnimation.m; sourceTree = "<group>"; };
+		661FFFF116B4BD21007CE102 /* PHTronAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTronAnimation.h; sourceTree = "<group>"; };
+		661FFFF216B4BD21007CE102 /* PHTronAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTronAnimation.m; sourceTree = "<group>"; };
 		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
 		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
 		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
@@ -532,6 +538,10 @@
 				661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */,
 				66B16FDB16AF69B2003CF908 /* PHRainbowHeartAnimation.h */,
 				66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */,
+				661FFFED16B38D0D007CE102 /* PHSquaresAnimation.h */,
+				661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */,
+				661FFFF116B4BD21007CE102 /* PHTronAnimation.h */,
+				661FFFF216B4BD21007CE102 /* PHTronAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -1109,6 +1119,8 @@
 				66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */,
 				66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */,
 				66B16FDD16AF69B2003CF908 /* PHRainbowHeartAnimation.m in Sources */,
+				661FFFEF16B38D0D007CE102 /* PHSquaresAnimation.m in Sources */,
+				661FFFF316B4BD22007CE102 /* PHTronAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

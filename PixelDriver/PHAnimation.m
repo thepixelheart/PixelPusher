@@ -48,6 +48,7 @@
 #import "PHFlowerAnimation.h"
 #import "PHDaftPixelAnimation.h"
 #import "PHRainbowHeartAnimation.h"
+#import "PHTronAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -161,6 +162,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     [PHDaftPixelAnimation animation],
   [PHRainbowHeartAnimation animation],
+
+  [PHTronAnimation animation],
     ];
 
   // Obsolete animations.
@@ -211,6 +214,12 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMegamanAnimation animation]]
                                   animations:animations
                                         name:@"Rotating Megaman"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRotationAnimation animationWithDirection:0],
+    [PHRainbowHeartAnimation animation]]
+                                  animations:animations
+                                        name:@"Rotating Rainbow Heart"],
    ]];
 
   if (nil != sAdditionalAnimationBlock) {
