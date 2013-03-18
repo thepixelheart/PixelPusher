@@ -41,7 +41,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     NSInteger numberOfTimesUser2Pressed = PHSys().numberOfTimesUserButton2Pressed;
     NSInteger isUserButton1Pressed = PHSys().isUserButton1Pressed;
     NSInteger isUserButton2Pressed = PHSys().isUserButton2Pressed;
-    [displayLink.animationDriver updateWithAudioRecorder:PHApp().audioRecorder
+    [displayLink.systemState updateWithAudioRecorder:PHApp().audioRecorder
                                                    motes:motes
                                        didTapUserButton1:numberOfTimesUser1Pressed > 0
                                        didTapUserButton2:numberOfTimesUser2Pressed > 0
@@ -50,7 +50,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                                     gifs:PHApp().gifs];
 
     NSMutableDictionary* userInfo = [@{
-      PHDisplayLinkFiredDriverKey : displayLink.animationDriver
+      PHDisplayLinkFiredDriverKey : displayLink.systemState
     } mutableCopy];
 
     PHSystemTick* tick = [PHSys() tick];
@@ -76,7 +76,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 
 - (id)init {
   if ((self = [super init])) {
-    _animationDriver = [[PHSystemState alloc] init];
+    _systemState = [[PHSystemState alloc] init];
 
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink)) {
       PHAlert(@"Unable to set up a timer for the animations.");

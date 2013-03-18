@@ -23,5 +23,5 @@ extern NSString* const PHDisplayLinkFiredSystemTickKey;
 @class PHSystemState;
 
 @interface PHDisplayLink : NSObject
-@property (nonatomic, readonly, strong) PHSystemState* animationDriver;
+@property (nonatomic, readonly, strong) PHSystemState* systemState;
 @end

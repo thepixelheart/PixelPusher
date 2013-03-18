@@ -180,7 +180,7 @@ PHSystem* PHSys() {
 
   _driver = [[PHDriver alloc] init];
   _displayLink = [[PHDisplayLink alloc] init];
-  _animationDriver = _displayLink.animationDriver;
+  _animationDriver = _displayLink.systemState;
   _usbNotifier = [[PHUSBNotifier alloc] init];
   [self midiDriver];
 
