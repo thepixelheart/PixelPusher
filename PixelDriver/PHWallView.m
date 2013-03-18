@@ -17,6 +17,7 @@
 #import "PHWallView.h"
 
 #import "AppDelegate.h"
+#import "PHSystemTick.h"
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "PHDriver.h"

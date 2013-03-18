@@ -46,6 +46,11 @@ extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
 extern NSString* const PHSystemValueKey;
 
+/**
+ * The PHSystem class defines the global state of the Pixel Heart.
+ *
+ * This is a global object that must be accessed via PHSys() available from AppDelegate.h. 
+ */
 @interface PHSystem : NSObject
 
 // Active Animations
@@ -60,6 +65,9 @@ extern NSString* const PHSystemValueKey;
 // into the visualizer.
 @property (strong) PHAnimation* previewAnimation;
 
+// There is no PHAnimation property for the Heart because this is generated every time a tick is
+// generated as a fade of the left and right animations + fade using the faderTransition.
+
 // The transition used to fade between the left and right animations.
 @property (strong) PHTransition* faderTransition;
 
@@ -70,6 +78,7 @@ extern NSString* const PHSystemValueKey;
 
 // Actions
 
+// When enabled displays the Pixel Heart text over the current animation.
 @property (readonly, assign) BOOL overlayPixelHeart;
 @property (readonly, assign) NSInteger numberOfTimesUserButton1Pressed;
 @property (readonly, assign) NSInteger numberOfTimesUserButton2Pressed;
@@ -92,11 +101,4 @@ extern NSString* const PHSystemValueKey;
 // to display the animations.
 - (PHSystemTick *)tick;
 
-@end
-
-@interface PHSystemTick : NSObject
-@property (nonatomic, assign) CGContextRef leftContextRef;
-@property (nonatomic, assign) CGContextRef rightContextRef;
-@property (nonatomic, assign) CGContextRef previewContextRef;
-@property (nonatomic, assign) CGContextRef wallContextRef;
 @end

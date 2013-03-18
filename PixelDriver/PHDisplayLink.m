@@ -16,6 +16,7 @@
 
 #import "PHDisplayLink.h"
 
+#import "PHSystemTick.h"
 #import "PHFMODRecorder.h"
 #import "PHAnimationDriver.h"
 #import "PHDriver.h"

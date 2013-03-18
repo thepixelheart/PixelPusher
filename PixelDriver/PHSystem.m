@@ -17,6 +17,7 @@
 #import "PHSystem.h"
 
 #import "PHAnimation.h"
+#import "PHSystemTick+Protected.h"
 
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
@@ -33,17 +34,13 @@ NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNot
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
 NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
-@interface PHSystemTick()
-- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
-@end
-
 @interface PHSystem() <PHDJ2GODeviceDelegate>
 @end
 
 @implementation PHSystem {
   PHSpritesheet* _pixelHeartTextSpritesheet;
 
-  // MIDI Devices
+  // MIDI Devices (we only support one of each)
   PHLaunchpadDevice* _launchpad;
   PHDJ2GODevice* _dj2go;
 
@@ -340,85 +337,6 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
    @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList],
           PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCcw]}];
-}
-
-@end
-
-@implementation PHSystemTick
-
-@synthesize leftContextRef = _leftContextRef;
-@synthesize rightContextRef = _rightContextRef;
-@synthesize previewContextRef = _previewContextRef;
-@synthesize wallContextRef = _wallContextRef;
-
-- (void)dealloc {
-  if (nil != _leftContextRef) {
-    CGContextRelease(_leftContextRef);
-  }
-  if (nil != _rightContextRef) {
-    CGContextRelease(_rightContextRef);
-  }
-  if (nil != _previewContextRef) {
-    CGContextRelease(_previewContextRef);
-  }
-  if (nil != _wallContextRef) {
-    CGContextRelease(_wallContextRef);
-  }
-}
-
-- (void)setLeftContextRef:(CGContextRef)leftContextRef {
-  if (_leftContextRef == leftContextRef) {
-    return;
-  }
-  if (nil != _leftContextRef) {
-    CGContextRelease(_leftContextRef);
-  }
-  _leftContextRef = CGContextRetain(leftContextRef);
-}
-
-- (void)setRightContextRef:(CGContextRef)rightContextRef {
-  if (_rightContextRef == rightContextRef) {
-    return;
-  }
-  if (nil != _rightContextRef) {
-    CGContextRelease(_rightContextRef);
-  }
-  _rightContextRef = CGContextRetain(rightContextRef);
-}
-
-- (void)setPreviewContextRef:(CGContextRef)previewContextRef {
-  if (_previewContextRef == previewContextRef) {
-    return;
-  }
-  if (nil != _previewContextRef) {
-    CGContextRelease(_previewContextRef);
-  }
-  _previewContextRef = CGContextRetain(previewContextRef);
-}
-
-- (void)setWallContextRef:(CGContextRef)wallContextRef {
-  if (_wallContextRef == wallContextRef) {
-    return;
-  }
-  if (nil != _wallContextRef) {
-    CGContextRelease(_wallContextRef);
-  }
-  _wallContextRef = CGContextRetain(wallContextRef);
-}
-
-- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t {
-  CGContextRef wallContext = [PHSystem createWallContext];
-
-  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-  [transition renderBitmapInContext:wallContext
-                               size:wallSize
-                        leftContext:_leftContextRef
-                       rightContext:_rightContextRef
-                                  t:t];
-
-  self.wallContextRef = wallContext;
-
-  CGContextRelease(wallContext);
 }
 
 @end
