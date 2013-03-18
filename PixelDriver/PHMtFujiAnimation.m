@@ -16,7 +16,18 @@
 
 #import "PHMtFujiAnimation.h"
 
-@implementation PHMtFujiAnimation
+@implementation PHMtFujiAnimation {
+  CGFloat _offset;
+
+  PHSpritesheet* _mtfujiSpritesheet;
+}
+
+- (id)init {
+  if ((self = [super init])) {
+    _mtfujiSpritesheet = [[PHSpritesheet alloc] initWithName:@"mtfuji" spriteSize:CGSizeMake(17, 7)];
+  }
+  return self;
+}
 
 - (void)drawSkyInContext:(CGContextRef)cx size:(CGSize)size {
   CGRect rect = CGRectMake(0, 0, size.width, size.height);
@@ -30,9 +41,27 @@
   CGContextFillRect(cx, rect);
 }
 
+- (void)drawMtFujiInContext:(CGContextRef)cx size:(CGSize)size {
+  CGSize spriteSize = _mtfujiSpritesheet.spriteSize;
+
+  CGImageRef imageRef = [_mtfujiSpritesheet imageAtX:0 y:0];
+  CGFloat offset = floorf(_offset + size.width / 2 - spriteSize.width / 2);
+  CGFloat modulo = size.width + spriteSize.width;
+  offset = fmodf(offset + spriteSize.width, modulo) - spriteSize.width;
+  if (offset < -spriteSize.width) {
+    offset += modulo;
+  }
+  CGContextDrawImage(cx, CGRectMake(offset, size.height / 2 - spriteSize.height, spriteSize.width, spriteSize.height), imageRef);
+
+  CGImageRelease(imageRef);
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  _offset -= self.secondsSinceLastTick * 10;// * self.vocalDegrader.value;
+
   [self drawSkyInContext:cx size:size];
   [self drawWaterInContext:cx size:size];
+  [self drawMtFujiInContext:cx size:size];
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
