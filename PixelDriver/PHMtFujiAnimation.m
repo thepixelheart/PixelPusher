@@ -20,11 +20,13 @@
   CGFloat _offset;
 
   PHSpritesheet* _mtfujiSpritesheet;
+  PHSpritesheet* _sunSpritesheet;
 }
 
 - (id)init {
   if ((self = [super init])) {
     _mtfujiSpritesheet = [[PHSpritesheet alloc] initWithName:@"mtfuji" spriteSize:CGSizeMake(17, 7)];
+    _sunSpritesheet = [[PHSpritesheet alloc] initWithName:@"mtfuji_sun" spriteSize:CGSizeMake(4, 4)];
   }
   return self;
 }
@@ -41,12 +43,17 @@
   CGContextFillRect(cx, rect);
 }
 
+- (CGFloat)moduloWithSize:(CGSize)size {
+  CGSize spriteSize = _mtfujiSpritesheet.spriteSize;
+  return size.width + spriteSize.width;
+}
+
 - (void)drawMtFujiInContext:(CGContextRef)cx size:(CGSize)size {
   CGSize spriteSize = _mtfujiSpritesheet.spriteSize;
 
   CGImageRef imageRef = [_mtfujiSpritesheet imageAtX:0 y:0];
   CGFloat offset = floorf(_offset + size.width / 2 - spriteSize.width / 2);
-  CGFloat modulo = size.width + spriteSize.width;
+  CGFloat modulo = [self moduloWithSize:size];
   offset = fmodf(offset + spriteSize.width, modulo) - spriteSize.width;
   if (offset < -spriteSize.width) {
     offset += modulo;
@@ -56,11 +63,27 @@
   CGImageRelease(imageRef);
 }
 
+- (void)drawSunInContext:(CGContextRef)cx size:(CGSize)size {
+  CGSize spriteSize = _sunSpritesheet.spriteSize;
+
+  CGImageRef imageRef = [_sunSpritesheet imageAtX:0 y:0];
+  CGFloat offset = floorf(_offset + size.width / 2 - spriteSize.width / 2);
+  CGFloat modulo = [self moduloWithSize:size];
+  offset = fmodf(offset + spriteSize.width, modulo) - spriteSize.width;
+  if (offset < -spriteSize.width) {
+    offset += modulo;
+  }
+  CGContextDrawImage(cx, CGRectMake(offset + 2, size.height / 2 - spriteSize.height - 5, spriteSize.width, spriteSize.height), imageRef);
+
+  CGImageRelease(imageRef);
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _offset -= self.secondsSinceLastTick * 10;// * self.vocalDegrader.value;
 
   [self drawSkyInContext:cx size:size];
   [self drawWaterInContext:cx size:size];
+  [self drawSunInContext:cx size:size];
   [self drawMtFujiInContext:cx size:size];
 }
 
