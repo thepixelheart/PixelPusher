@@ -220,6 +220,12 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHRainbowHeartAnimation animation]]
                                   animations:animations
                                         name:@"Rotating Rainbow Heart"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRainbowHeartAnimation animation],
+    [PHPikachuEmotingAnimation animation]]
+                                  animations:animations
+                                        name:@"Heartachu"],
    ]];
 
   if (nil != sAdditionalAnimationBlock) {
