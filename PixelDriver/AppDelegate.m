@@ -88,7 +88,7 @@ PHSystem* PHSys() {
   NSArray* animations = [PHAnimation allAnimations];
 
   for (PHAnimation* animation in animations) {
-    animation.driver = self.animationDriver;
+    animation.systemState = self.animationDriver;
   }
 
   return [animations mutableCopy];

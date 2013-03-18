@@ -65,7 +65,7 @@
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
 		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
 		668520EA168290B90063A95A /* PHAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520E9168290B90063A95A /* PHAnimation.m */; };
-		668520EE168292200063A95A /* PHAnimationDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHAnimationDriver.m */; };
+		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
 		6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */; };
 		6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */; };
 		6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */; };
@@ -253,8 +253,8 @@
 		66753A9D168499010092EDF0 /* PHFlyingFireballAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingFireballAnimation.h; sourceTree = "<group>"; };
 		66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingFireballAnimation.m; sourceTree = "<group>"; };
 		668520E9168290B90063A95A /* PHAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimation.m; sourceTree = "<group>"; };
-		668520EC168292200063A95A /* PHAnimationDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationDriver.h; sourceTree = "<group>"; };
-		668520ED168292200063A95A /* PHAnimationDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationDriver.m; sourceTree = "<group>"; };
+		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
+		668520ED168292200063A95A /* PHSystemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemState.m; sourceTree = "<group>"; };
 		6693A306168BCF1B00DA2946 /* PHTunnelGameAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTunnelGameAnimation.h; sourceTree = "<group>"; };
 		6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTunnelGameAnimation.m; sourceTree = "<group>"; };
 		6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCountdownAnimation.h; sourceTree = "<group>"; };
@@ -592,8 +592,8 @@
 				6655AB6B16F74DF600B0ADA3 /* PHSystemTick.h */,
 				6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */,
 				6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */,
-				668520EC168292200063A95A /* PHAnimationDriver.h */,
-				668520ED168292200063A95A /* PHAnimationDriver.m */,
+				668520EC168292200063A95A /* PHSystemState.h */,
+				668520ED168292200063A95A /* PHSystemState.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -1049,7 +1049,7 @@
 				66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */,
 				662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */,
 				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
-				668520EE168292200063A95A /* PHAnimationDriver.m in Sources */,
+				668520EE168292200063A95A /* PHSystemState.m in Sources */,
 				66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */,
 				6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */,
 				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,

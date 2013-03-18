@@ -18,7 +18,7 @@
 
 #import "PHSystemTick.h"
 #import "PHFMODRecorder.h"
-#import "PHAnimationDriver.h"
+#import "PHSystemState.h"
 #import "PHDriver.h"
 #import "PHSystem.h"
 #import "AppDelegate.h"
@@ -76,7 +76,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 
 - (id)init {
   if ((self = [super init])) {
-    _animationDriver = [[PHAnimationDriver alloc] init];
+    _animationDriver = [[PHSystemState alloc] init];
 
     if (kCVReturnSuccess != CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink)) {
       PHAlert(@"Unable to set up a timer for the animations.");

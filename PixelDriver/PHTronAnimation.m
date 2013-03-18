@@ -90,7 +90,7 @@ NSColor* colors[5];
 }
 
 - (void)waitingForPlayers {
-  for (PHMote* mote in self.driver.motes) {
+  for (PHMote* mote in self.systemState.motes) {
     PHTronPlayer* player = _players[mote.identifier];
     if (nil == player) {
       player = [[PHTronPlayer alloc] init];
@@ -131,7 +131,7 @@ NSColor* colors[5];
   NSMutableArray* identifiersToRemove = [NSMutableArray array];
   for (NSString* identifier in _players) {
     BOOL foundMote = NO;
-    for (PHMote* mote in self.driver.motes) {
+    for (PHMote* mote in self.systemState.motes) {
       if ([mote.identifier isEqualToString:identifier]) {
         foundMote = YES;
         break;
@@ -222,7 +222,7 @@ NSColor* colors[5];
     CGPoint pos = player.pos;
 
     PHMote* playerMote = nil;
-    for (PHMote* mote in self.driver.motes) {
+    for (PHMote* mote in self.systemState.motes) {
       if ([mote.identifier isEqualToString:identifier]) {
         playerMote = mote;
         break;
@@ -312,7 +312,7 @@ NSColor* colors[5];
 }
 
 - (BOOL)anyButtonsPressed {
-  for (PHMote* mote in self.driver.motes) {
+  for (PHMote* mote in self.systemState.motes) {
     if (mote.numberOfTimesATapped || mote.numberOfTimesBTapped) {
       return YES;
     }

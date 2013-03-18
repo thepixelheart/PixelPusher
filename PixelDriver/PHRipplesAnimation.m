@@ -59,8 +59,8 @@
 
   PHRipple* newRipple = [[PHRipple alloc] init];
   CGFloat value;
-  if (self.driver.unifiedWaveData) {
-    value = fabsf(self.driver.unifiedWaveData[self.driver.numberOfWaveDataValues - 1]);
+  if (self.systemState.unifiedWaveData) {
+    value = fabsf(self.systemState.unifiedWaveData[self.systemState.numberOfWaveDataValues - 1]);
   } else {
     value = 0;
   }

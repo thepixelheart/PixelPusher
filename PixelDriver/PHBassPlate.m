@@ -44,8 +44,8 @@
   CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
 
   NSTimeInterval delta = self.secondsSinceLastTick;
-  _advance += delta * 10 * self.driver.hihatAmplitude;
-  _rotationAdvance += delta * self.driver.snareAmplitude / 4;
+  _advance += delta * 10 * self.systemState.hihatAmplitude;
+  _rotationAdvance += delta * self.systemState.snareAmplitude / 4;
 
   if (self.bassDegrader.value > 0.01) {
     CGFloat red = sin(_advance) * 0.5 + 0.5;

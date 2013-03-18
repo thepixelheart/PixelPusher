@@ -85,10 +85,10 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
-  _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
+  _hihatAbsorber = _hihatAbsorber * 0.99 + self.systemState.hihatAmplitude * 0.01;
+  _vocalAbsorber = _vocalAbsorber * 0.99 + self.systemState.vocalAmplitude * 0.01;
 
-  _hasBeenLulling = _hasBeenLulling || (self.driver.subBassAmplitude < 0.5);
+  _hasBeenLulling = _hasBeenLulling || (self.systemState.subBassAmplitude < 0.5);
 
   if (_activeAnimation.currentFrameIndex == 0 && [NSDate timeIntervalSinceReferenceDate] >= _nextAllowedAnimationChangeTime) {
     PHSpriteAnimation* nextAnimation = _activeAnimation;
@@ -122,7 +122,7 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
     }
   }
 
-  if (_hasBeenLulling && self.driver.subBassAmplitude > 0.5) {
+  if (_hasBeenLulling && self.systemState.subBassAmplitude > 0.5) {
     if (!_isFrightened && _activeAnimation == _sleepingAnimation && _sleepingAnimation.currentFrameIndex < 2) {
       [_sleepingAnimation setCurrentFrameIndex:2];
       _isFrightened = YES;

@@ -16,7 +16,7 @@
 
 #import "PHDegraderView.h"
 
-#import "PHAnimationDriver.h"
+#import "PHSystemState.h"
 
 @interface PHDegraderHistoryItem : NSObject {
 @public
@@ -54,7 +54,7 @@
   };
 }
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHSystemState *)driver systemTick:(PHSystemTick *)systemTick {
   PHDegraderHistoryItem* item = [[PHDegraderHistoryItem alloc] init];
   item->_amplitudes[0] = driver.subBassAmplitude;
   item->_amplitudes[1] = driver.hihatAmplitude;

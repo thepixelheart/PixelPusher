@@ -34,7 +34,7 @@
   CGRect circleFrame = CGRectMake(0, 0, circleRadius * 2, circleRadius * 2);
   CGFloat maxRadius = MIN(size.height, size.width) / 2 - circleRadius;
 
-  for (PHMote* mote in self.driver.motes) {
+  for (PHMote* mote in self.systemState.motes) {
     CGFloat degrees = mote.joystickDegrees;
     CGFloat radians = degrees * M_PI / 180;
     CGFloat tilt = mote.joystickTilt;

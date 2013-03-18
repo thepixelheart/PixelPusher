@@ -74,7 +74,7 @@
 
       if (_layerAnimationIndex[ix] >= 0 && _layerAnimationIndex[ix] < animations.count) {
         _layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
-        _layerAnimation[ix].driver = self.driver;
+        _layerAnimation[ix].systemState = self.systemState;
       } else {
         // This animation no longer exists.
         _layerAnimationIndex[ix] = -1;
@@ -89,7 +89,7 @@
 - (id)copyWithZone:(NSZone *)zone {
   PHCompositeAnimation* animation = [[[self class] allocWithZone:zone] init];
 
-  animation.driver = self.driver;
+  animation.systemState = self.systemState;
 
   // Create fresh animations for this copy.
   NSArray* animations = [PHAnimation allAnimations];
@@ -97,7 +97,7 @@
     animation->_layerAnimationIndex[ix] = _layerAnimationIndex[ix];
     if (_layerAnimationIndex[ix] >= 0) {
       animation->_layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
-      animation->_layerAnimation[ix].driver = self.driver;
+      animation->_layerAnimation[ix].systemState = self.systemState;
     }
   }
 
@@ -145,19 +145,19 @@
     if (animationIndex >= 0) {
       NSArray* animations = [PHAnimation allAnimations];
       _layerAnimation[layer] = animations[animationIndex];
-      _layerAnimation[layer].driver = self.driver;
+      _layerAnimation[layer].systemState = self.systemState;
     } else {
       _layerAnimation[layer] = nil;
     }
   }
 }
 
-- (void)setDriver:(PHAnimationDriver *)driver {
-  [super setDriver:driver];
+- (void)setSystemState:(PHSystemState *)driver {
+  [super setSystemState:driver];
 
   for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
     if (_layerAnimationIndex[ix] >= 0) {
-      _layerAnimation[ix].driver = self.driver;
+      _layerAnimation[ix].systemState = self.systemState;
     }
   }
 }

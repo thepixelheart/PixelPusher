@@ -73,13 +73,13 @@ static const NSTimeInterval kMinimumPitchAge = 0.1;
   }
 
   // Calculate the pitch.
-  if ((self.driver.dominantPitch >= kStartingPitch
-       && self.driver.dominantPitch <= kEndingPitch)
-      || self.driver.dominantPitch == PHPitch_Unknown) {
-    if (self.driver.dominantPitch == _currentPitch) {
+  if ((self.systemState.dominantPitch >= kStartingPitch
+       && self.systemState.dominantPitch <= kEndingPitch)
+      || self.systemState.dominantPitch == PHPitch_Unknown) {
+    if (self.systemState.dominantPitch == _currentPitch) {
       _ageOfCurrentPitch += self.secondsSinceLastTick;
     } else {
-      _currentPitch = self.driver.dominantPitch;
+      _currentPitch = self.systemState.dominantPitch;
       _ageOfCurrentPitch = 0;
     }
 
@@ -135,7 +135,7 @@ static const NSTimeInterval kMinimumPitchAge = 0.1;
 
   CGPoint centerPlayerPosition = CGPointMake(kWallWidth / 4, kWallHeight / 2);
   CGFloat movementRadius = kWallWidth / 4;
-  for (PHMote* mote in self.driver.motes) {
+  for (PHMote* mote in self.systemState.motes) {
     CGFloat degrees = mote.joystickDegrees;
     CGFloat radians = degrees * M_PI / 180;
     CGFloat tilt = mote.joystickTilt;

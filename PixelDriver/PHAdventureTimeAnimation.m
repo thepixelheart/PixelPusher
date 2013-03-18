@@ -61,7 +61,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _hasBeenLulling = _hasBeenLulling || (self.driver.hihatAmplitude < 0.3);
+  _hasBeenLulling = _hasBeenLulling || (self.systemState.hihatAmplitude < 0.3);
   if ([NSDate timeIntervalSinceReferenceDate] - _blinkStartedAtTime > 0.1) {
     _isBlinking = NO;
   }
@@ -109,7 +109,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
     _lastBlinkTime = [NSDate timeIntervalSinceReferenceDate];
   } else {
     if (!_isBlinking && _hasBeenLulling
-        && (self.driver.hihatAmplitude > 0.4
+        && (self.systemState.hihatAmplitude > 0.4
             || [NSDate timeIntervalSinceReferenceDate] - _lastBlinkTime > kMinimumBlinkInterval)) {
           _isBlinking = YES;
           _hasBeenLulling = NO;

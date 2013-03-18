@@ -191,7 +191,7 @@
 
     _animations = [PHAnimation allAnimations];
     for (PHAnimation* animation in _animations) {
-      animation.driver = PHApp().animationDriver;
+      animation.systemState = PHApp().animationDriver;
     }
     _collectionView.content = _animations;
 

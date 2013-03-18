@@ -147,7 +147,7 @@ typedef enum {
   PHPitch_Unknown,
 } PHPitch;
 
-@interface PHAnimationDriver : NSObject
+@interface PHSystemState : NSObject
 
 // Raw values
 @property (nonatomic, readonly) float* unifiedSpectrum;
@@ -208,7 +208,7 @@ typedef enum {
 
 @end
 
-@interface PHAnimationDriver()
+@interface PHSystemState()
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes

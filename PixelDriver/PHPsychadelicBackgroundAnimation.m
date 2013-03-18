@@ -46,7 +46,7 @@
     }
     _advance += delta * 1 * self.bassDegrader.value * _direction;
     _colorAdvance += delta * 3 * self.hihatDegrader.value * _direction;
-    _rotationAdvance += delta * 2 * self.driver.vocalAmplitude * _direction;
+    _rotationAdvance += delta * 2 * self.systemState.vocalAmplitude * _direction;
   }
   CGRect pixelRect = CGRectMake(0, 0, 1, 1);
   for (int ix = 0; ix < size.width; ++ix) {

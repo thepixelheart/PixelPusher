@@ -82,7 +82,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 - (id)copyWithZone:(NSZone *)zone {
   PHAnimation* animation = [[self.class allocWithZone:zone] init];
-  animation->_driver = _driver;
+  animation->_systemState = _systemState;
   return animation;
 }
 
@@ -99,11 +99,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 }
 
 - (void)bitmapWillStartRendering {
-  if (self.driver.unifiedSpectrum) {
-    [_bassDegrader tickWithPeak:self.driver.subBassAmplitude];
-    [_hihatDegrader tickWithPeak:self.driver.hihatAmplitude];
-    [_vocalDegrader tickWithPeak:self.driver.vocalAmplitude];
-    [_snareDegrader tickWithPeak:self.driver.snareAmplitude];
+  if (self.systemState.unifiedSpectrum) {
+    [_bassDegrader tickWithPeak:self.systemState.subBassAmplitude];
+    [_hihatDegrader tickWithPeak:self.systemState.hihatAmplitude];
+    [_vocalDegrader tickWithPeak:self.systemState.vocalAmplitude];
+    [_snareDegrader tickWithPeak:self.systemState.snareAmplitude];
   }
 }
 

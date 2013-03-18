@@ -36,7 +36,7 @@
   CGContextSaveGState(cx);
 
   PHMirrorAnimationType type = _type;
-  NSInteger offset = (self.driver.isUserButton1Pressed ? 0x02 : 0x0) | (self.driver.isUserButton2Pressed ? 0x01 : 0x0);
+  NSInteger offset = (self.systemState.isUserButton1Pressed ? 0x02 : 0x0) | (self.systemState.isUserButton2Pressed ? 0x01 : 0x0);
   type = (type + offset) % PHMirrorAnimationType_Count;
 
   CGImageRef imageRef = CGBitmapContextCreateImage(cx);

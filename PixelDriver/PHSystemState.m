@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHAnimationDriver.h"
+#import "PHSystemState.h"
 
 #import "AppDelegate.h"
 #import "PHFMODRecorder.h"
@@ -60,7 +60,7 @@ static const float notefreq[PHPitch_Count] = {
   8372.01f, 8869.84f, 9397.27f, 9956.06f, 10548.08f, 11175.30f, 11839.82f, 12543.85f, 13289.75f, 14080.00f, 14917.24f, 15804.26f
 };
 
-@implementation PHAnimationDriver
+@implementation PHSystemState
 
 - (id)init {
   if ((self = [super init])) {

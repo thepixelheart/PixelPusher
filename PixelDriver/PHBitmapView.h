@@ -16,7 +16,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PHAnimationDriver;
+@class PHSystemState;
 @class PHSystemTick;
 
 typedef enum {
@@ -29,7 +29,7 @@ typedef enum {
 @interface PHBitmapView : NSView
 
 // Subclassing. Do not call directly.
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick;
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHSystemState *)driver systemTick:(PHSystemTick *)systemTick;
 - (double)threadPriority;
 
 @end

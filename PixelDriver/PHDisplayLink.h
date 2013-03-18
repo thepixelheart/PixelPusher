@@ -20,8 +20,8 @@ extern NSString* const PHDisplayLinkFiredNotification;
 extern NSString* const PHDisplayLinkFiredDriverKey;
 extern NSString* const PHDisplayLinkFiredSystemTickKey;
 
-@class PHAnimationDriver;
+@class PHSystemState;
 
 @interface PHDisplayLink : NSObject
-@property (nonatomic, readonly, strong) PHAnimationDriver* animationDriver;
+@property (nonatomic, readonly, strong) PHSystemState* animationDriver;
 @end

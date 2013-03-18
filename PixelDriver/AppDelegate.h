@@ -17,7 +17,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class PHDriver;
-@class PHAnimationDriver;
+@class PHSystemState;
 @class PHAnimation;
 @class PHFMODRecorder;
 @class AppDelegate;
@@ -35,7 +35,7 @@ PHSystem* PHSys();
 @property (strong, readonly) PHSystem* system;
 
 @property (strong, readonly) PHDriver* driver;
-@property (strong, readonly) PHAnimationDriver* animationDriver;
+@property (strong, readonly) PHSystemState* animationDriver;
 @property (strong, readonly) PHFMODRecorder* audioRecorder;
 @property (strong, readonly) PHMIDIDriver* midiDriver;
 

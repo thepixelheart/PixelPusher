@@ -184,9 +184,9 @@ static const CGFloat kPHDaftPixelAnimationTimeDeltaThreshold = 0.125;
   if(_frameQueue.count == 0) { [self populateFrameQueue]; }
   
   NSTimeInterval timeDelta      = [NSDate timeIntervalSinceReferenceDate] - _lastFrameUpdate;
-  CGFloat subBassAmplitudeDelta = self.driver.subBassAmplitude - _lastSubBassAmplitude;
-  CGFloat snareAmplitudeDelta   = self.driver.snareAmplitude - _lastSnareAmplitude;
-  CGFloat vocalAmplitudeDelta   = self.driver.vocalAmplitude - _lastVocalAmplitude;
+  CGFloat subBassAmplitudeDelta = self.systemState.subBassAmplitude - _lastSubBassAmplitude;
+  CGFloat snareAmplitudeDelta   = self.systemState.snareAmplitude - _lastSnareAmplitude;
+  CGFloat vocalAmplitudeDelta   = self.systemState.vocalAmplitude - _lastVocalAmplitude;
   
   if ((snareAmplitudeDelta   > kPHDaftPixelAnimationAmplitudeThreshold ||
        subBassAmplitudeDelta > kPHDaftPixelAnimationAmplitudeThreshold ||
@@ -203,9 +203,9 @@ static const CGFloat kPHDaftPixelAnimationTimeDeltaThreshold = 0.125;
   
   [_currentFrame drawFrameInContext:cx size:size];
   
-  _lastSnareAmplitude   = self.driver.snareAmplitude;
-  _lastSubBassAmplitude = self.driver.subBassAmplitude;
-  _lastVocalAmplitude   = self.driver.vocalAmplitude;
+  _lastSnareAmplitude   = self.systemState.snareAmplitude;
+  _lastSubBassAmplitude = self.systemState.subBassAmplitude;
+  _lastVocalAmplitude   = self.systemState.vocalAmplitude;
   CGColorRelease(frameColor);
 }
 

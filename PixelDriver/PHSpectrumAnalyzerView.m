@@ -17,14 +17,14 @@
 #import "PHSpectrumAnalyzerView.h"
 
 #import "AppDelegate.h"
-#import "PHAnimationDriver.h"
+#import "PHSystemState.h"
 #import "PHBitmapPipeline.h"
 #import "PHDisplayLink.h"
 #import "Utilities.h"
 
 @implementation PHSpectrumAnalyzerView
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHAnimationDriver *)driver systemTick:(PHSystemTick *)systemTick {
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size driver:(PHSystemState *)driver systemTick:(PHSystemTick *)systemTick {
   float* spectrum = nil;
   if (self.audioChannel == PHAudioChannelLeft) {
     spectrum = driver.leftSpectrum;

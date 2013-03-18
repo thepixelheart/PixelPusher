@@ -57,13 +57,13 @@
 
     CGFloat amplitude = 0;
     if (ix == 0) {
-      amplitude = self.driver.subBassAmplitude;
+      amplitude = self.systemState.subBassAmplitude;
     } else if (ix == 1) {
-      amplitude = self.driver.hihatAmplitude;
+      amplitude = self.systemState.hihatAmplitude;
     } else if (ix == 2) {
-      amplitude = self.driver.vocalAmplitude;
+      amplitude = self.systemState.vocalAmplitude;
     } else if (ix == 3) {
-      amplitude = self.driver.snareAmplitude;
+      amplitude = self.systemState.snareAmplitude;
     }
     _histograms[ix * 48 + 47] = amplitude;
     CGContextSetFillColorWithColor(cx, color.CGColor);

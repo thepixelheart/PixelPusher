@@ -126,20 +126,20 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   _ticks++;
   _ticks = _ticks % (TICKEVERY * TICKMULTIPLIER * 2);
 
-  _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
-  _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
+  _hihatAbsorber = _hihatAbsorber * 0.99 + self.systemState.hihatAmplitude * 0.01;
+  _vocalAbsorber = _vocalAbsorber * 0.99 + self.systemState.vocalAmplitude * 0.01;
 
   if (!_previewing
-      && self.driver.hihatAmplitude < VOLUME_THRESHOLD &&
-      self.driver.subBassAmplitude < VOLUME_THRESHOLD &&
-      self.driver.vocalAmplitude < VOLUME_THRESHOLD &&
-      self.driver.snareAmplitude < VOLUME_THRESHOLD) {
+      && self.systemState.hihatAmplitude < VOLUME_THRESHOLD &&
+      self.systemState.subBassAmplitude < VOLUME_THRESHOLD &&
+      self.systemState.vocalAmplitude < VOLUME_THRESHOLD &&
+      self.systemState.snareAmplitude < VOLUME_THRESHOLD) {
     _activeAnimation = _idleAnimation;
   } else if (_previewing
-             || self.driver.hihatAmplitude > 2 * VOLUME_THRESHOLD ||
-             self.driver.subBassAmplitude > 2 * VOLUME_THRESHOLD ||
-             self.driver.vocalAmplitude > 2 * VOLUME_THRESHOLD ||
-             self.driver.snareAmplitude > 2 * VOLUME_THRESHOLD) {
+             || self.systemState.hihatAmplitude > 2 * VOLUME_THRESHOLD ||
+             self.systemState.subBassAmplitude > 2 * VOLUME_THRESHOLD ||
+             self.systemState.vocalAmplitude > 2 * VOLUME_THRESHOLD ||
+             self.systemState.snareAmplitude > 2 * VOLUME_THRESHOLD) {
     _activeAnimation = _runningAnimation;
   }
 

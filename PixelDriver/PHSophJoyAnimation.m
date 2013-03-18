@@ -72,8 +72,8 @@ static const CGFloat kMinimumEnergyForExcite = 0.5;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _hihatAbsorber = _hihatAbsorber * 0.99 + self.driver.hihatAmplitude * 0.01;
-  _vocalAbsorber = _vocalAbsorber * 0.99 + self.driver.vocalAmplitude * 0.01;
+  _hihatAbsorber = _hihatAbsorber * 0.99 + self.systemState.hihatAmplitude * 0.01;
+  _vocalAbsorber = _vocalAbsorber * 0.99 + self.systemState.vocalAmplitude * 0.01;
 
   BOOL canSwitchAnimations = NO;
   if (_idleAnimation == _activeAnimation

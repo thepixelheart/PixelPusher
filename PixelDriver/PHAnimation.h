@@ -15,7 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PHAnimationDriver.h"
+#import "PHSystemState.h"
 #import "PHDriver.h"
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
@@ -53,7 +53,7 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 
 // The driver exposes a number of pre-calculated values that all animations
 // share.
-@property (nonatomic, strong) PHAnimationDriver* driver;
+@property (nonatomic, strong) PHSystemState* systemState;
 
 // Updated each frame with the information that has changed since the last tick.
 @property (nonatomic, strong) PHAnimationTick* animationTick;

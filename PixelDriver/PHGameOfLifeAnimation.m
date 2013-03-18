@@ -147,7 +147,7 @@ static const NSTimeInterval kTimeUntilWorldRestarts = 1;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.driver.hihatAmplitude > 0.5) {
+  if (self.systemState.hihatAmplitude > 0.5) {
     [self addRandomLife];
   }
 

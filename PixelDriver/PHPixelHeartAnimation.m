@@ -45,8 +45,8 @@
                                  spriteSize.width,
                                  spriteSize.height);
 
-  if (self.driver.motes.count > 0) {
-    PHMote* mote = [self.driver.motes objectAtIndex:0];
+  if (self.systemState.motes.count > 0) {
+    PHMote* mote = [self.systemState.motes objectAtIndex:0];
     CGFloat degrees = mote.joystickDegrees;
     CGFloat radians = degrees * M_PI / 180;
     CGFloat tilt = mote.joystickTilt;

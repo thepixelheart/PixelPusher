@@ -66,8 +66,8 @@ static const CGFloat kGravity = 9.8;
     CGContextRestoreGState(cx);
   }
 
-  _rollingSubBassAverage[_rollingAverageCount % kRollingAverageCount] = self.driver.subBassAmplitude;
-  _rollingHitAverage[_rollingAverageCount % kRollingAverageCount] = self.driver.hihatAmplitude;
+  _rollingSubBassAverage[_rollingAverageCount % kRollingAverageCount] = self.systemState.subBassAmplitude;
+  _rollingHitAverage[_rollingAverageCount % kRollingAverageCount] = self.systemState.hihatAmplitude;
   _rollingAverageCount++;
 
   NSInteger start = 0;
@@ -127,14 +127,14 @@ static const CGFloat kGravity = 9.8;
 
   if (_fireworks.count > 0
       && [NSDate timeIntervalSinceReferenceDate] >= _nextExplosionTime
-      && self.driver.hihatAmplitude >= hihatAverage + 0.2) {
+      && self.systemState.hihatAmplitude >= hihatAverage + 0.2) {
     NSMutableArray* fireworksToExplode = [NSMutableArray array];
     for (PHFirework* firework in _fireworks) {
       if (firework.position.y < kWallHeight * 2 / 3) {
         [fireworksToExplode addObject:firework];
       }
     }
-    NSInteger numberToExplode = fireworksToExplode.count - 1 - arc4random_uniform(fireworksToExplode.count * self.driver.hihatAmplitude);
+    NSInteger numberToExplode = fireworksToExplode.count - 1 - arc4random_uniform(fireworksToExplode.count * self.systemState.hihatAmplitude);
     while (fireworksToExplode.count > numberToExplode) {
       PHFirework* sourceFirework = [fireworksToExplode objectAtIndex:arc4random_uniform((u_int32_t)fireworksToExplode.count)];
       [_fireworks removeObject:sourceFirework];
@@ -156,8 +156,8 @@ static const CGFloat kGravity = 9.8;
     _nextExplosionTime = [NSDate timeIntervalSinceReferenceDate] + kMinFireworkCreationInterval * 4;
   }
 
-  if ([NSDate timeIntervalSinceReferenceDate] >= _nextCreationTime && self.driver.subBassAmplitude >= bassAverage + 0.2) {
-    for (NSInteger ix = 0; ix < arc4random_uniform(10 * self.driver.subBassAmplitude) + 1; ++ix) {
+  if ([NSDate timeIntervalSinceReferenceDate] >= _nextCreationTime && self.systemState.subBassAmplitude >= bassAverage + 0.2) {
+    for (NSInteger ix = 0; ix < arc4random_uniform(10 * self.systemState.subBassAmplitude) + 1; ++ix) {
       PHFirework* firework = [[PHFirework alloc] init];
       firework.position = CGPointMake(((CGFloat)(arc4random_uniform(kWallWidth + kWallBuffer * 2) + kWallBuffer) * 100) / 100 - kWallBuffer, kWallHeight + 1.5);
       firework.velocity = CGPointMake( (((CGFloat)arc4random_uniform(500)) - 250) / 15,

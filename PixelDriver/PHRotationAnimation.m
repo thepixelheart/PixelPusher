@@ -35,8 +35,8 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGFloat direction = _direction;
-  if (self.driver.isUserButton1Pressed
-      || self.driver.isUserButton2Pressed) {
+  if (self.systemState.isUserButton1Pressed
+      || self.systemState.isUserButton2Pressed) {
     direction = -direction;
   }
 

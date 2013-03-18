@@ -95,32 +95,32 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   @synchronized(self) {
     CGContextSaveGState(cx);
 
-    BOOL buttonPressed = self.driver.isUserButton1Pressed || self.driver.isUserButton2Pressed;
+    BOOL buttonPressed = self.systemState.isUserButton1Pressed || self.systemState.isUserButton2Pressed;
     if (!buttonPressed) {
       _buttonWasntPressed = YES;
     }
 
-    if ((nil == _activeGif && self.driver.gifs.count > 0)
+    if ((nil == _activeGif && self.systemState.gifs.count > 0)
         || (((_hasPlayedOnce
               && [NSDate timeIntervalSinceReferenceDate] >= _nextGifChangeTick)
              || (buttonPressed && _buttonWasntPressed))
-            && self.driver.gifs.count > 1)) {
+            && self.systemState.gifs.count > 1)) {
       if (nil == _activeGif) {
-        _currentGifIndex = arc4random_uniform((u_int32_t)self.driver.gifs.count);
+        _currentGifIndex = arc4random_uniform((u_int32_t)self.systemState.gifs.count);
       }
       _buttonWasntPressed = NO;
 
-      if (self.driver.isUserButton1Pressed) {
+      if (self.systemState.isUserButton1Pressed) {
         _currentGifIndex--;
       } else {
         _currentGifIndex++;
       }
       _nextFrameTickForPreviousGif = _nextFrameTick;
-      if (!self.driver.isUserButton2Pressed
-          && !self.driver.isUserButton1Pressed) {
+      if (!self.systemState.isUserButton2Pressed
+          && !self.systemState.isUserButton1Pressed) {
         _previousGif = _activeGif;
       }
-      _activeGif = self.driver.gifs[(_currentGifIndex + self.driver.gifs.count) % self.driver.gifs.count];
+      _activeGif = self.systemState.gifs[(_currentGifIndex + self.systemState.gifs.count) % self.systemState.gifs.count];
       _transitionStartedAtTick = [NSDate timeIntervalSinceReferenceDate];
       _hasPlayedOnce = NO;
     }
