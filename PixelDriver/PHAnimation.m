@@ -49,6 +49,7 @@
 #import "PHDaftPixelAnimation.h"
 #import "PHRainbowHeartAnimation.h"
 #import "PHTronAnimation.h"
+#import "PHMtFujiAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -164,6 +165,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   [PHRainbowHeartAnimation animation],
 
   [PHTronAnimation animation],
+    [PHMtFujiAnimation animation],
     ];
 
   // Obsolete animations.
