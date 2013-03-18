@@ -355,13 +355,13 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   if (nil != _leftContextRef) {
     CGContextRelease(_leftContextRef);
   }
-  if (nil != _rightContextRef && _rightContextRef != _leftContextRef) {
+  if (nil != _rightContextRef) {
     CGContextRelease(_rightContextRef);
   }
-  if (nil != _previewContextRef && _previewContextRef != _leftContextRef && _previewContextRef != _rightContextRef) {
+  if (nil != _previewContextRef) {
     CGContextRelease(_previewContextRef);
   }
-  if (nil != _wallContextRef && _wallContextRef != _previewContextRef && _wallContextRef != _rightContextRef && _wallContextRef != _leftContextRef) {
+  if (nil != _wallContextRef) {
     CGContextRelease(_wallContextRef);
   }
 }
