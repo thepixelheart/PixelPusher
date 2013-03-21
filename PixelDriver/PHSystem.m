@@ -289,6 +289,10 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     case PHDJ2GOButtonLoadB:
       [self didPressButton:PHSystemButtonLoadRight];
       break;
+    case PHDJ2GOButtonLeftHeadphones:
+    case PHDJ2GOButtonRightHeadphones:
+      [self didPressButton:PHSystemButtonPixelHeart];
+      break;
       
     default:
       // Do nothing.
@@ -303,6 +307,10 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
       break;
     case PHDJ2GOButtonLoadB:
       [self didReleaseButton:PHSystemButtonLoadRight];
+      break;
+    case PHDJ2GOButtonLeftHeadphones:
+    case PHDJ2GOButtonRightHeadphones:
+      [self didReleaseButton:PHSystemButtonPixelHeart];
       break;
     case PHDJ2GOButtonBack:
       if (_focusedList < PHSystemAnimationGroups) {
