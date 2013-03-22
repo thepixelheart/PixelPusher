@@ -14,44 +14,36 @@
 // limitations under the License.
 //
 
-#import "PHTransition.h"
-
-#import "PHCrossFadeTransition.h"
 #import "PHMidCrossFadeTransition.h"
-#import "PHStarWarsTransition.h"
-#import "PHShutterTransition.h"
-#import "PHNoiseTransition.h"
 
-@implementation PHTransition
-
-+ (id)transition {
-  return [[self alloc] init];
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-  return [[self.class allocWithZone:zone] init];
-}
+@implementation PHMidCrossFadeTransition
 
 - (void)renderBitmapInContext:(CGContextRef)cx
                          size:(CGSize)size
                   leftContext:(CGContextRef)leftContext
                  rightContext:(CGContextRef)rightContext
                             t:(CGFloat)t {
-  // No-op
+  CGRect frame = CGRectMake(0, 0, size.width, size.height);
+  CGContextSaveGState(cx);
+
+  if (nil != leftContext) {
+    CGImageRef leftImage = CGBitmapContextCreateImage(leftContext);
+    CGContextSetAlpha(cx, 1 - MAX(0, (t - 0.5)) / 0.5);
+    CGContextDrawImage(cx, frame, leftImage);
+    CGImageRelease(leftImage);
+  }
+  if (nil != rightContext) {
+    CGImageRef rightImage = CGBitmapContextCreateImage(rightContext);
+    CGContextSetAlpha(cx, (MIN(t, 0.5) / 0.5));
+    CGContextDrawImage(cx, frame, rightImage);
+    CGImageRelease(rightImage);
+  }
+
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {
-  return NSStringFromClass([self class]);
-}
-
-+ (NSArray *)allTransitions {
-  return @[
-    [PHCrossFadeTransition transition],
-    [PHMidCrossFadeTransition transition],
-    [PHStarWarsTransition transition],
-    [PHShutterTransition transition],
-    [PHNoiseTransition transition],
-  ];
+  return @"Mid Cross Fade";
 }
 
 @end

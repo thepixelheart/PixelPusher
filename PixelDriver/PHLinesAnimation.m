@@ -15,13 +15,13 @@
 
 #import "PHLinesAnimation.h"
 
-static const NSTimeInterval kDeltaBetweenLineBirths = 0.2;
+static const NSTimeInterval kDeltaBetweenLineBirths = 0.8;
 
 CGPoint startingPoints[] = {
-  {-10,  -10},
-  {58, -10},
-  {58, 58},
-  {-10, 58},
+  {-15, -15},
+  {63, -15},
+  {63, 47},
+  {-15, 47},
 };
 
 @interface PHLine : NSObject
@@ -109,7 +109,7 @@ CGPoint startingPoints[] = {
     // Create a line.
     PHLine* line = [PHLine generateLine];
     line.color = [NSColor colorWithDeviceHue:1 - fmodf(_colorAdvance, 1)
-                                  saturation:1
+                                  saturation:self.vocalDegrader.value
                                   brightness:1
                                        alpha:1];
     [_lines addObject:line];
@@ -119,6 +119,7 @@ CGPoint startingPoints[] = {
 
   CGContextSetBlendMode(cx, kCGBlendModeLighten);
   NSMutableArray *newLines = [NSMutableArray array];
+  CGContextSetLineWidth(cx, self.hihatDegrader.value * 2 + 1);
   for (PHLine *line in _lines) {
     CGContextSaveGState(cx);
     CGMutablePathRef pathRef = CGPathCreateMutable();
@@ -132,12 +133,12 @@ CGPoint startingPoints[] = {
     CGPathRelease(pathRef);
 
     CGContextSetStrokeColorWithColor(cx, line.color.CGColor);
-    CGContextSetAlpha(cx, line.alpha);
+    CGContextSetAlpha(cx, 1 - line.progress);
     CGContextStrokePath(cx);
 
     CGContextRestoreGState(cx);
 
-    line.progress += self.secondsSinceLastTick * degraderValue;
+    line.progress += MAX(0.1 * self.secondsSinceLastTick, self.secondsSinceLastTick * degraderValue * 0.8);
 
     if (line.progress <= 1) {
       [newLines addObject:line];
