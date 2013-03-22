@@ -50,6 +50,7 @@
 #import "PHRainbowHeartAnimation.h"
 #import "PHTronAnimation.h"
 #import "PHMtFujiAnimation.h"
+#import "PHLinesAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -166,6 +167,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
   [PHTronAnimation animation],
     [PHMtFujiAnimation animation],
+
+    [PHLinesAnimation animation],
     ];
 
   // Obsolete animations.
@@ -228,6 +231,16 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPikachuEmotingAnimation animation]]
                                   animations:animations
                                         name:@"Heartachu"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRotationAnimation animationWithDirection:1],
+    [PHLinesAnimation animation],
+    [PHResetAnimation animation],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHPixelHeartAnimation animation]]
+                                  animations:animations
+                                        name:@"Energy Heart"],
+
    ]];
 
   if (nil != sAdditionalAnimationBlock) {
