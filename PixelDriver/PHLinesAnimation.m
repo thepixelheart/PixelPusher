@@ -15,7 +15,7 @@
 
 #import "PHLinesAnimation.h"
 
-static const NSTimeInterval kDeltaBetweenLineBirths = 0.8;
+static const NSTimeInterval kDeltaBetweenLineBirths = 0.3;
 
 CGPoint startingPoints[] = {
   {-15, -15},
@@ -32,6 +32,7 @@ CGPoint startingPoints[] = {
 @property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, strong) NSColor *color;
 @property (nonatomic, assign) CGFloat alpha;
+@property (nonatomic, assign) CGFloat age;
 @property (nonatomic, assign) CGFloat pt1scale;
 @property (nonatomic, assign) CGFloat pt2scale;
 + (PHLine *)generateLine;
@@ -107,19 +108,21 @@ CGPoint startingPoints[] = {
   if ((!_nextLineBirthTime || [NSDate timeIntervalSinceReferenceDate] >= _nextLineBirthTime)
       && degraderValue > 0.2) {
     // Create a line.
-    PHLine* line = [PHLine generateLine];
-    line.color = [NSColor colorWithDeviceHue:1 - fmodf(_colorAdvance, 1)
-                                  saturation:self.vocalDegrader.value
-                                  brightness:1
-                                       alpha:1];
-    [_lines addObject:line];
+    for (NSInteger ix = 0; ix < degraderValue * 4; ++ix) {
+      PHLine* line = [PHLine generateLine];
+      line.color = [NSColor colorWithDeviceHue:1 - fmodf(_colorAdvance, 1)
+                                    saturation:self.vocalDegrader.value
+                                    brightness:1
+                                         alpha:1];
+      [_lines addObject:line];
+    }
 
-    _nextLineBirthTime = [NSDate timeIntervalSinceReferenceDate];
+    _nextLineBirthTime = [NSDate timeIntervalSinceReferenceDate] + kDeltaBetweenLineBirths;
   }
 
   CGContextSetBlendMode(cx, kCGBlendModeLighten);
   NSMutableArray *newLines = [NSMutableArray array];
-  CGContextSetLineWidth(cx, self.hihatDegrader.value * 2 + 1);
+  CGContextSetLineWidth(cx, self.vocalDegrader.value * 2 + 2);
   for (PHLine *line in _lines) {
     CGContextSaveGState(cx);
     CGMutablePathRef pathRef = CGPathCreateMutable();
@@ -133,14 +136,15 @@ CGPoint startingPoints[] = {
     CGPathRelease(pathRef);
 
     CGContextSetStrokeColorWithColor(cx, line.color.CGColor);
-    CGContextSetAlpha(cx, 1 - line.progress);
+    CGContextSetAlpha(cx, 1 - line.age / 3);
     CGContextStrokePath(cx);
 
     CGContextRestoreGState(cx);
 
-    line.progress += MAX(0.1 * self.secondsSinceLastTick, self.secondsSinceLastTick * degraderValue * 0.8);
+    line.age += self.secondsSinceLastTick;
+    line.progress += MAX(0.1 * self.secondsSinceLastTick, self.secondsSinceLastTick * degraderValue * 0.1);
 
-    if (line.progress <= 1) {
+    if (line.progress <= 1 && line.age < 3) {
       [newLines addObject:line];
     }
   }
