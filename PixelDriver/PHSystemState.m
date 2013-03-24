@@ -99,13 +99,14 @@ static const float notefreq[PHPitch_Count] = {
       } else {
         distanceRatio = (range.end - hz) / (range.end - range.center);
       }
-      float scale = sinf((distanceRatio - 0.5) * M_PI) / 2.f + 0.5f;
-      decibels *= scale;
+      float dbscale = sinf((distanceRatio - 0.5) * M_PI) / 2.f + 0.5f;
+      decibels *= dbscale;
     }
 
     amplitude += decibels;
   }
   amplitude /= (float)(end - start);
+  *scale = (*scale + 0.001);
   float scaledAmplitude = amplitude * (*scale);
   if (scaledAmplitude > 1) {
     *scale = 1 / amplitude;
