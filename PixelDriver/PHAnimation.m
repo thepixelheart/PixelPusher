@@ -51,6 +51,7 @@
 #import "PHTronAnimation.h"
 #import "PHMtFujiAnimation.h"
 #import "PHLinesAnimation.h"
+#import "PHTetrisAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -169,6 +170,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMtFujiAnimation animation],
 
     [PHLinesAnimation animation],
+    [PHTetrisAnimation animation],
     ];
 
   // Obsolete animations.
