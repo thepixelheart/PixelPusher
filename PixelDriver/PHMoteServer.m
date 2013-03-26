@@ -271,6 +271,9 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       PHMote* mote = [_streamToMote objectForKey:key];
       [motes addObject:[mote copy]];
     }
+    [motes addObject:[[PHMote alloc] initWithName:@"Jeff" identifier:@"Identifier" stream:nil]];
+    [motes addObject:[[PHMote alloc] initWithName:@"Jeffb" identifier:@"Identifier2" stream:nil]];
+    [motes addObject:[[PHMote alloc] initWithName:@"Jeffc" identifier:@"Identifier3" stream:nil]];
   }
   return motes;
 }
