@@ -52,6 +52,7 @@
 #import "PHMtFujiAnimation.h"
 #import "PHLinesAnimation.h"
 #import "PHTetrisAnimation.h"
+#import "PHSpiralingSquareAnimation.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -171,6 +172,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     [PHLinesAnimation animation],
     [PHTetrisAnimation animation],
+
+    [PHSpiralingSquareAnimation animation],
     ];
 
   // Obsolete animations.
@@ -242,6 +245,13 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelHeartAnimation animation]]
                                   animations:animations
                                         name:@"Energy Heart"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHRotationAnimation animationWithDirection:1],
+    [PHSpiralingSquareAnimation animation],]
+                                  animations:animations
+                                        name:@"Rotating Spiral"],
+
 
    ]];
 

@@ -110,6 +110,7 @@
 		66BDB2BA16A6AFF700ED7C81 /* sliderbgLxx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */; };
 		66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */; };
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
+		66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */; };
 		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
 		66CF637916AD061E0048228F /* PHActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF637816AD061E0048228F /* PHActionsView.m */; };
@@ -347,6 +348,8 @@
 		66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgLxx.png; path = PixelDriver/resources/sliderbgLxx.png; sourceTree = "<group>"; };
 		66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxMx.png; path = PixelDriver/resources/sliderbgxMx.png; sourceTree = "<group>"; };
 		66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxxR.png; path = PixelDriver/resources/sliderbgxxR.png; sourceTree = "<group>"; };
+		66C62B81170680830061C424 /* PHSpiralingSquareAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpiralingSquareAnimation.h; sourceTree = "<group>"; };
+		66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpiralingSquareAnimation.m; sourceTree = "<group>"; };
 		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
 		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66CF636816ACD4E80048228F /* PHDegraderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegraderView.h; sourceTree = "<group>"; };
@@ -565,6 +568,8 @@
 				66A14E0016FBCE950094150E /* PHLinesAnimation.m */,
 				665B44AF16FF0E3E009E8D28 /* PHTetrisAnimation.h */,
 				665B44B016FF0E3E009E8D28 /* PHTetrisAnimation.m */,
+				66C62B81170680830061C424 /* PHSpiralingSquareAnimation.h */,
+				66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */,
 				661FFFF116B4BD21007CE102 /* PHTronAnimation.h */,
 				661FFFF216B4BD21007CE102 /* PHTronAnimation.m */,
 			);
@@ -1155,6 +1160,7 @@
 				66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */,
 				66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */,
 				665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */,
+				66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
