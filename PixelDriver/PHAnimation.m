@@ -54,6 +54,9 @@
 #import "PHTetrisAnimation.h"
 #import "PHSpiralingSquareAnimation.h"
 
+// Filters
+#import "PHHoleDistortionFilter.h"
+
 #import "PHCompositeAnimation.h"
 
 NSString* const PHAnimationCategorySprites = @"Sprites";
@@ -131,6 +134,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
+
+    [PHHoleDistortionFilter animation],
 
     // Row 2
     [PHPixelHeartAnimation animation],
@@ -251,6 +256,26 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSpiralingSquareAnimation animation],]
                                   animations:animations
                                         name:@"Rotating Spiral"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHMovingSawAnimation animation],
+    [PHHoleDistortionFilter animation]]
+                                  animations:animations
+                                        name:@"Hole Moving Saw"],
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHMegamanAnimation animation],
+    [PHHoleDistortionFilter animation]]
+                                  animations:animations
+                                        name:@"Hole Moving Saw"],
+
+
+   [PHCompositeAnimation animationWithLayers:@[
+    [PHFlowerAnimation animation],
+    [PHHoleDistortionFilter animation]]
+                                  animations:animations
+                                        name:@"Hole Moving Saw"],
+
 
 
    ]];

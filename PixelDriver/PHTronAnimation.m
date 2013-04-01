@@ -69,7 +69,7 @@ NSColor* colors[5];
   colors[1] = [NSColor blueColor];
   colors[2] = [NSColor greenColor];
   colors[3] = [NSColor orangeColor];
-  colors[4] = [NSColor whiteColor];
+  colors[4] = [NSColor colorWithDeviceWhite:1 alpha:1];
 }
 
 - (void)dealloc {

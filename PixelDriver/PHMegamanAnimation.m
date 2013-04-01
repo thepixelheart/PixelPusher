@@ -28,6 +28,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
   CGFloat _backgroundOffset;
   CGFloat _foregroundOffset;
   CGFloat _advance;
+  CGFloat _test;
 
   BOOL _isBlinking;
   BOOL _hasBeenLulling;

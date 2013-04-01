@@ -32,12 +32,12 @@
 
   CGRect currentPixelFrame = CGRectMake(_spiralCenterPoint.x, _spiralCenterPoint.y, 1, 1);
   CGPoint direction = CGPointMake(1, 0);
-  _accum += self.secondsSinceLastTick * 0.5 * (self.bassDegrader.value + 1);
+  _accum += self.secondsSinceLastTick * (self.bassDegrader.value + 1);
   CGFloat colorOffset = _accum;
   BOOL isFirstStep = YES;
   NSInteger stepLength = 1;
   NSInteger stepWalk = 0;
-  CGFloat increase = 0.001 * self.snareDegrader.value;
+  CGFloat increase = 0.002 * self.snareDegrader.value;
   while (stepLength < kWallWidth + 12) {
     NSColor *color = [NSColor colorWithDeviceHue:1 - fmodf(colorOffset, 1)
                                       saturation:self.hihatDegrader.value * 0.5 + 0.5

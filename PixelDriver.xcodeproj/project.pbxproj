@@ -72,6 +72,7 @@
 		6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */; };
 		6693A313168FE0D800DA2946 /* PHSophJoyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */; };
 		6693A316168FF0F700DA2946 /* PHCombAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A315168FF0F600DA2946 /* PHCombAnimation.m */; };
+		669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 669666EA170919B0008A389E /* PHHoleDistortionFilter.m */; };
 		66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14DCC16F757220094150E /* PHMtFujiAnimation.m */; };
 		66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0016FBCE950094150E /* PHLinesAnimation.m */; };
 		66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */; };
@@ -272,6 +273,8 @@
 		6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSophJoyAnimation.m; sourceTree = "<group>"; };
 		6693A314168FF0F500DA2946 /* PHCombAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCombAnimation.h; sourceTree = "<group>"; };
 		6693A315168FF0F600DA2946 /* PHCombAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCombAnimation.m; sourceTree = "<group>"; };
+		669666E9170919B0008A389E /* PHHoleDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHoleDistortionFilter.h; sourceTree = "<group>"; };
+		669666EA170919B0008A389E /* PHHoleDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHoleDistortionFilter.m; sourceTree = "<group>"; };
 		66A14DCB16F757220094150E /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMtFujiAnimation.h; sourceTree = "<group>"; };
 		66A14DCC16F757220094150E /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMtFujiAnimation.m; sourceTree = "<group>"; };
 		66A14DFF16FBCE930094150E /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLinesAnimation.h; sourceTree = "<group>"; };
@@ -492,6 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				66F6640D16855005001E77BC /* Tools */,
+				669666E81709198D008A389E /* Filters */,
 				662CA84A167FFFE400FC800F /* PHAnimation.h */,
 				668520E9168290B90063A95A /* PHAnimation.m */,
 				66DF3F9216854C15008E8105 /* PHResetAnimation.h */,
@@ -643,6 +647,15 @@
 				663C83A8168EE542003B88A1 /* PHProcessingSource.m */,
 			);
 			name = Processing;
+			sourceTree = "<group>";
+		};
+		669666E81709198D008A389E /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				669666E9170919B0008A389E /* PHHoleDistortionFilter.h */,
+				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
+			);
+			name = Filters;
 			sourceTree = "<group>";
 		};
 		66A64E951691693600A701BA /* SCEvents */ = {
@@ -1161,6 +1174,7 @@
 				66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */,
 				665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */,
 				66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */,
+				669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
