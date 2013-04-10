@@ -16,6 +16,7 @@
 
 #import "PHCompositeEditorView.h"
 
+#import "PHAnimation.h"
 #import "PHButton.h"
 #import "PHListView.h"
 #import "PHSystem.h"
@@ -29,10 +30,17 @@ static const CGFloat kCompositesListWidth = 150;
 @implementation PHCompositeEditorView {
   PHButton* _newButton;
   PHListView* _compositesView;
+  NSArray* _composites;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObject:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
+    _composites = [PHSys().compositeAnimations copy];
+
     _compositesView = [[PHListView alloc] init];
     _compositesView.tag = PHSystemComposites;
     _compositesView.title = @"Composites";
@@ -45,6 +53,9 @@ static const CGFloat kCompositesListWidth = 150;
     _newButton.delegate = self;
     [_newButton setTitle:@"New"];
     [self addSubview:_newButton];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didCreateNewCompositeNotification:) name:PHSystemDidCreateNewCompositeNotification object:nil];
   }
   return self;
 }
@@ -72,7 +83,7 @@ static const CGFloat kCompositesListWidth = 150;
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
   if (listView == _compositesView) {
-    return 2;
+    return _composites.count;
   } else {
     return 0;
   }
@@ -80,7 +91,7 @@ static const CGFloat kCompositesListWidth = 150;
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
   if (listView == _compositesView) {
-    return @"Composite";
+    return [_composites[index] tooltipName];
   } else {
     return nil;
   }
@@ -94,6 +105,13 @@ static const CGFloat kCompositesListWidth = 150;
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
+}
+
+#pragma mark - NSNotifications
+
+- (void)didCreateNewCompositeNotification:(NSNotification *)notification {
+  _composites = [PHSys().compositeAnimations copy];
+  [_compositesView reloadData];
 }
 
 @end

@@ -317,6 +317,7 @@ NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateN
       PHCompositeAnimation* animation = [PHCompositeAnimation animation];
       [_compositeAnimations addObject:animation];
       extraNotificationName = PHSystemDidCreateNewCompositeNotification;
+      [self saveComposites];
       break;
     }
 

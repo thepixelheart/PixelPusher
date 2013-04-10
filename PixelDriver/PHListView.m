@@ -172,4 +172,10 @@
   }
 }
 
+#pragma mark - Public Methods
+
+- (void)reloadData {
+  [_tableView reloadData];
+}
+
 @end

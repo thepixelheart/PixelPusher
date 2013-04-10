@@ -188,6 +188,9 @@ const NSInteger PHNumberOfCompositeLayers = 8;
       [tooltip appendString:animation.tooltipName];
     }
   }
+  if ([tooltip length] == 0) {
+    [tooltip appendString:@"<New Composite>"];
+  }
   return tooltip;
 }
 

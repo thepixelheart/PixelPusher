@@ -23,6 +23,8 @@
 @property (nonatomic, assign) NSInteger tag;
 @property (nonatomic, weak) id<PHListViewDelegate> delegate;
 @property (nonatomic, weak) id<PHListViewDataSource> dataSource;
+
+- (void)reloadData;
 @end
 
 @protocol PHListViewDataSource <NSObject>
