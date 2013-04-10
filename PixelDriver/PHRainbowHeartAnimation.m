@@ -36,7 +36,7 @@
 
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
-  _scaleAdvance += self.secondsSinceLastTick * (4 * (self.bassDegrader.value + 0.2));
+  _scaleAdvance += self.secondsSinceLastTick * (2 * (self.bassDegrader.value + 0.2));
 
   CGRect frame = CGRectMake(0, 0, size.width, size.height);
   CGContextScaleCTM(cx, 1, -1);

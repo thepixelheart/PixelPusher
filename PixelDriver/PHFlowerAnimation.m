@@ -97,7 +97,7 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
     CGPathRelease(pathRef);
 
     petal.scale += self.secondsSinceLastTick / 12;
-    petal.radians += self.secondsSinceLastTick * M_PI_2;
+    petal.radians += self.secondsSinceLastTick * M_PI_4;
 
     if (alpha == 0) {
       [_petals removeObject:petal];
