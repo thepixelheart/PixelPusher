@@ -16,6 +16,8 @@
 
 #import "PHMirrorAnimation.h"
 
+static NSString* const kTypeKey = @"kTypeKey";
+
 @implementation PHMirrorAnimation {
   PHMirrorAnimationType _type;
 }
@@ -69,6 +71,14 @@
   CGImageRelease(imageRef);
 
   CGContextRestoreGState(cx);
+}
+
+- (id)definingProperties {
+  return @{kTypeKey:@(_type)};
+}
+
+- (void)setDefiningProperties:(id)definingProperties {
+  _type = [definingProperties[kTypeKey] intValue];
 }
 
 - (NSString *)tooltipName {

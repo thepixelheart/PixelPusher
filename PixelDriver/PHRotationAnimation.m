@@ -16,6 +16,8 @@
 
 #import "PHRotationAnimation.h"
 
+static NSString* const kDirectionKey = @"kDirectionKey";
+
 @implementation PHRotationAnimation {
   CGFloat _rotationAdvance;
   CGFloat _direction;
@@ -68,6 +70,14 @@
   CGContextDrawImage(cx, heartFrame, imageRef);
 
   CGImageRelease(imageRef);
+}
+
+- (id)definingProperties {
+  return @{kDirectionKey:@(_direction)};
+}
+
+- (void)setDefiningProperties:(id)definingProperties {
+  _direction = [definingProperties[kDirectionKey] floatValue];
 }
 
 - (NSString *)tooltipName {

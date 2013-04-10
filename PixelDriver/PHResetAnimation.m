@@ -25,6 +25,7 @@
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  // Render an X
   CGContextSetRGBStrokeColor(cx, 1, 1, 1, 1);
   CGContextSetLineWidth(cx, 5);
   CGContextMoveToPoint(cx, size.width / 4, size.height / 4);
@@ -36,6 +37,10 @@
 
 - (NSString *)tooltipName {
   return @"Reset";
+}
+
+- (BOOL)isPipeAnimation {
+  return YES;
 }
 
 - (NSArray *)categories {

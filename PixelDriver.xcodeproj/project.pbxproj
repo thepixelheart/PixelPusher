@@ -501,18 +501,13 @@
 			children = (
 				66F6640D16855005001E77BC /* Tools */,
 				669666E81709198D008A389E /* Filters */,
+				66A601D0171542A9005523C2 /* Pipes */,
 				662CA84A167FFFE400FC800F /* PHAnimation.h */,
 				668520E9168290B90063A95A /* PHAnimation.m */,
 				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
 				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
 				663C83A4168EE50E003B88A1 /* PHProcessingAnimation.h */,
 				663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */,
-				66DF3F9216854C15008E8105 /* PHResetAnimation.h */,
-				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
-				660D25981689B20000727312 /* PHRotationAnimation.h */,
-				660D25991689B20000727312 /* PHRotationAnimation.m */,
-				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
-				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
 				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
 				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
 				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
@@ -666,6 +661,19 @@
 				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
 			);
 			name = Filters;
+			sourceTree = "<group>";
+		};
+		66A601D0171542A9005523C2 /* Pipes */ = {
+			isa = PBXGroup;
+			children = (
+				66DF3F9216854C15008E8105 /* PHResetAnimation.h */,
+				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
+				660D25981689B20000727312 /* PHRotationAnimation.h */,
+				660D25991689B20000727312 /* PHRotationAnimation.m */,
+				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
+				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
+			);
+			name = Pipes;
 			sourceTree = "<group>";
 		};
 		66A64E951691693600A701BA /* SCEvents */ = {

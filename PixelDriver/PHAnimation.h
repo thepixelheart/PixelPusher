@@ -73,6 +73,8 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
 - (BOOL)isPipeAnimation; // Default returns NO
 - (NSArray *)categories;
 
+@property (nonatomic, copy) id definingProperties;
+
 + (NSArray *)allAnimations;
 + (NSArray *)allCategories;
 

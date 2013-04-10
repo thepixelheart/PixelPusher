@@ -53,21 +53,41 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 #pragma mark - NSCoding
 
+- (id)keyForIndex:(NSInteger)ix {
+  return [NSString stringWithFormat:@"%ld", ix];
+}
+
+- (id)keyForDefiningPropertiesIndex:(NSInteger)ix {
+  return [NSString stringWithFormat:@"props.%ld", ix];
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    NSString *key = [NSString stringWithFormat:@"%ld", ix];
-    [coder encodeObject:[_layerAnimation[ix] className] forKey:key];
+    if (nil != _layerAnimation[ix]) {
+      NSString *key = [self keyForIndex:ix];
+      [coder encodeObject:[_layerAnimation[ix] className] forKey:key];
+
+      id definingProperties = [_layerAnimation[ix] definingProperties];
+      if (nil != definingProperties) {
+        key = [self keyForDefiningPropertiesIndex:ix];
+        [coder encodeObject:definingProperties forKey:key];
+      }
+    }
   }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
   if ((self = [super init])) {
     for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      NSString *key = [NSString stringWithFormat:@"%ld", ix];
+      NSString *key = [self keyForIndex:ix];
       NSString *className = [decoder decodeObjectForKey:key];
       Class aClass = NSClassFromString(className);
       if (nil != aClass) {
         _layerAnimation[ix] = [aClass animation];
+
+        key = [self keyForDefiningPropertiesIndex:ix];
+        id definingProperties = [decoder decodeObjectForKey:key];
+        _layerAnimation[ix].definingProperties = definingProperties;
       }
     }
   }
