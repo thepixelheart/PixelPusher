@@ -50,6 +50,12 @@
   return YES;
 }
 
+- (NSArray *)categories {
+  return @[
+           PHAnimationCategoryPipes
+           ];
+}
+
 - (NSString *)tooltipName {
   return @"Hole Distortion Filter";
 }
