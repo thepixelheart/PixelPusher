@@ -210,6 +210,7 @@
       [categories addObjectsFromArray:animation.categories];
     }
   }
+  [categories removeObject:PHAnimationCategoryPipes];
 
   return [categories allObjects];
 }
