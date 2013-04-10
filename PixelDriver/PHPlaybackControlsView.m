@@ -34,7 +34,6 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
   
   PHButton* _loadLeftButton;
   PHButton* _loadRightButton;
-  
 }
 
 - (id)initWithFrame:(NSRect)frameRect {

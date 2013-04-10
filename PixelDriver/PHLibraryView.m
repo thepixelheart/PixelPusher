@@ -134,10 +134,4 @@ static const CGFloat kExplorerWidth = 200;
   }
 }
 
-#pragma mark - Public Methods
-
-- (PHAnimation *)selectedAnimation {
-  return _animationsView.selectedAnimation;
-}
-
 @end

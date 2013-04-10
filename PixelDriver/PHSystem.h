@@ -37,6 +37,10 @@ typedef enum {
   PHSystemAnimations,
   PHSystemTransitions,
   PHSystemAnimationGroups,
+  PHSystemComposites,
+
+  // Composite Editor
+  PHSystemButtonNewComposite,
 } PHSystemControlIdentifier;
 
 typedef enum {

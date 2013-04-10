@@ -19,7 +19,4 @@
 @class PHAnimation;
 
 @interface PHLibraryView : NSView
-
-- (PHAnimation *)selectedAnimation;
-
 @end
