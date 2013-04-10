@@ -34,7 +34,7 @@ static const CGFloat kCompositesListWidth = 150;
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObject:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {

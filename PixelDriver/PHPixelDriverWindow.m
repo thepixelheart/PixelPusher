@@ -55,17 +55,21 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 - (void)sendEvent:(NSEvent *)theEvent {
   BOOL didHandle = NO;
 
-  NSDictionary* keyMappings = @{
-    @" ": [NSNumber numberWithInt:PHSystemButtonPixelHeart],
-    @"`": [NSNumber numberWithInt:PHSystemButtonPixelHeart],
-    @"1": [NSNumber numberWithInt:PHSystemButtonUserAction1],
-    @"2": [NSNumber numberWithInt:PHSystemButtonUserAction2],
-    @"[": [NSNumber numberWithInt:PHSystemButtonLoadLeft],
-    @"]": [NSNumber numberWithInt:PHSystemButtonLoadRight],
-    @"p": [NSNumber numberWithInt:PHSystemButtonPrefs],
-    @"l": [NSNumber numberWithInt:PHSystemButtonLibrary],
-    @"c": [NSNumber numberWithInt:PHSystemButtonCompositeEditor],
-  };
+  NSMutableDictionary* keyMappings = [@{
+    @" ": @(PHSystemButtonPixelHeart),
+    @"`": @(PHSystemButtonPixelHeart),
+    @"1": @(PHSystemButtonUserAction1),
+    @"2": @(PHSystemButtonUserAction2),
+    @"[": @(PHSystemButtonLoadLeft),
+    @"]": @(PHSystemButtonLoadRight),
+    @"p": @(PHSystemButtonPrefs),
+    @"l": @(PHSystemButtonLibrary),
+    @"c": @(PHSystemButtonCompositeEditor),
+  } mutableCopy];
+
+  if (PHSys().viewMode == PHViewModeCompositeEditor) {
+    keyMappings[@"n"] = @(PHSystemButtonNewComposite);
+  }
 
   if ((theEvent.type == NSKeyDown || theEvent.type == NSKeyUp)
       && nil != keyMappings[theEvent.charactersIgnoringModifiers]) {
