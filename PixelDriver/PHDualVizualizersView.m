@@ -31,6 +31,7 @@
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
+static const CGFloat kCompositeEditorMaxHeight = 400;
 static const CGFloat kWallVisualizerMaxHeight = 130;
 static const CGFloat kPlaybackControlsHeight = 40;
 
@@ -163,13 +164,23 @@ static const CGFloat kPlaybackControlsHeight = 40;
     _prefsView.frame = contentFrame;
     [_prefsView layout];
 
-  } else if (_viewMode == PHViewModeLibrary) {
-    _libraryView.frame = contentFrame;
+  } else if (_viewMode == PHViewModeCompositeEditor) {
+    CGRect compositeEditorFrame = contentFrame;
+    compositeEditorFrame.size.height = MIN(kCompositeEditorMaxHeight, compositeEditorFrame.size.height / 3);
+    compositeEditorFrame.origin.y = topEdge - compositeEditorFrame.size.height;
+
+    _compositeEditorView.frame = compositeEditorFrame;
+    [_compositeEditorView layout];
+
+    CGRect libraryFrame = compositeEditorFrame;
+    libraryFrame.origin.y = 0;
+    libraryFrame.size.height = contentFrame.size.height - compositeEditorFrame.size.height;
+    _libraryView.frame = libraryFrame;
     [_libraryView layout];
 
-  } else if (_viewMode == PHViewModeCompositeEditor) {
-    _compositeEditorView.frame = contentFrame;
-    [_compositeEditorView layout];
+  } else {
+    _libraryView.frame = contentFrame;
+    [_libraryView layout];
   }
 }
 
@@ -199,16 +210,19 @@ static const CGFloat kPlaybackControlsHeight = 40;
       [_compositeEditorView removeFromSuperview];
       _compositeEditorView = nil;
 
+      BOOL hideLibrary = NO;
+
       if (_viewMode == PHViewModePrefs) {
         _prefsView = [[PHPrefsView alloc] init];
         [self addSubview:_prefsView];
+        hideLibrary = YES;
 
       } else if (_viewMode == PHViewModeCompositeEditor) {
         _compositeEditorView = [[PHCompositeEditorView alloc] init];
         [self addSubview:_compositeEditorView];
       }
 
-      [_libraryView setHidden:_viewMode != PHViewModeLibrary];
+      [_libraryView setHidden:hideLibrary];
     }
   }
 }
