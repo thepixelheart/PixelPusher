@@ -16,9 +16,11 @@
 
 #import "PHCompositeAnimation.h"
 
+const NSInteger PHNumberOfCompositeLayers = 8;
+
 @implementation PHCompositeAnimation {
-  NSInteger _layerAnimationIndex[PHLaunchpadTopButtonCount];
-  PHAnimation* _layerAnimation[PHLaunchpadTopButtonCount];
+  NSInteger _layerAnimationIndex[PHNumberOfCompositeLayers];
+  PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
   NSArray* _classes;
   NSString* _name;
 }
@@ -27,7 +29,7 @@
   PHCompositeAnimation* animation = [super animation];
   animation->_name = [name copy];
 
-  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount && ix < layers.count; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers && ix < layers.count; ++ix) {
     PHAnimation* layerAnimation = layers[ix];
     animation->_layerAnimation[ix] = layerAnimation;
     for (PHAnimation* animationInList in animations) {
@@ -50,7 +52,7 @@
 
 - (NSString *)description {
   NSMutableString* description = [[super description] mutableCopy];
-  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     [description appendFormat:@" %@", _layerAnimation[ix]];
   }
   [description appendString:@">"];
@@ -60,7 +62,7 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     [coder encodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
   }
 }
@@ -69,7 +71,7 @@
   if ((self = [super init])) {
     NSArray* animations = [PHAnimation allAnimations];
 
-    for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
       [decoder decodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
 
       if (_layerAnimationIndex[ix] >= 0 && _layerAnimationIndex[ix] < animations.count) {
@@ -93,7 +95,7 @@
 
   // Create fresh animations for this copy.
   NSArray* animations = [PHAnimation allAnimations];
-  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     animation->_layerAnimationIndex[ix] = _layerAnimationIndex[ix];
     if (_layerAnimationIndex[ix] >= 0) {
       animation->_layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
@@ -108,7 +110,7 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   @synchronized(self) {
-    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
       PHAnimation* animation = _layerAnimation[ix];
       [animation bitmapWillStartRendering];
       [animation renderBitmapInContext:cx size:size];
@@ -118,7 +120,7 @@
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     NSInteger animationIndex = _layerAnimationIndex[ix];;
     if (animationIndex >= 0) {
       PHAnimation* animation = _layerAnimation[ix];
@@ -135,11 +137,11 @@
   }
 }
 
-- (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer {
+- (NSInteger)indexOfAnimationForLayer:(NSInteger)layer {
   return _layerAnimationIndex[layer];
 }
 
-- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer {
+- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(NSInteger)layer {
   @synchronized(self) {
     _layerAnimationIndex[layer] = animationIndex;
     if (animationIndex >= 0) {
@@ -155,7 +157,7 @@
 - (void)setSystemState:(PHSystemState *)driver {
   [super setSystemState:driver];
 
-  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     if (_layerAnimationIndex[ix] >= 0) {
       _layerAnimation[ix].systemState = self.systemState;
     }
@@ -165,7 +167,7 @@
 - (void)setAnimationTick:(PHAnimationTick *)animationTick {
   [super setAnimationTick:animationTick];
 
-  for (NSUInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     if (_layerAnimationIndex[ix] >= 0) {
       _layerAnimation[ix].animationTick = self.animationTick;
     }
@@ -174,7 +176,7 @@
 
 - (void)reset {
   @synchronized(self) {
-    for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
       _layerAnimationIndex[ix] = -1;
       _layerAnimation[ix] = nil;
     }
@@ -187,7 +189,7 @@
     [tooltip appendString:_name];
     [tooltip appendString:@"\n"];
   }
-  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     NSInteger animationIndex = _layerAnimationIndex[ix];;
     if (animationIndex >= 0) {
       if (tooltip.length > 0) {
@@ -202,7 +204,7 @@
 
 - (NSArray *)categories {
   NSMutableSet* categories = [NSMutableSet set];
-  for (PHLaunchpadTopButton ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
 
     NSInteger animationIndex = _layerAnimationIndex[ix];;
     if (animationIndex >= 0) {

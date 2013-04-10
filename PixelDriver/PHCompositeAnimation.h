@@ -15,14 +15,15 @@
 //
 
 #import "PHAnimation.h"
-#import "PHLaunchpadDevice.h"
+
+extern const NSInteger PHNumberOfCompositeLayers;
 
 @interface PHCompositeAnimation : PHAnimation <NSCopying, NSCoding>
 
 + (id)animationWithLayers:(NSArray *)layers animations:(NSArray *)animations name:(NSString *)name;
 
-- (NSInteger)indexOfAnimationForLayer:(PHLaunchpadTopButton)layer;
-- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(PHLaunchpadTopButton)layer;
+- (NSInteger)indexOfAnimationForLayer:(NSInteger)layer;
+- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(NSInteger)layer;
 - (void)reset;
 
 @end
