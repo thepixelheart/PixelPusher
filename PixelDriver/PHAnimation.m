@@ -106,6 +106,10 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 }
 
 - (void)bitmapWillStartRendering {
+  if (nil == self.systemState) {
+    NSLog(@"Animation %@ has no system state!", self.className);
+  }
+
   if (self.systemState.unifiedSpectrum) {
     [_bassDegrader tickWithPeak:self.systemState.subBassAmplitude];
     [_hihatDegrader tickWithPeak:self.systemState.hihatAmplitude];
@@ -198,13 +202,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHResetAnimation animation],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHFlyingFireballAnimation animation]]
-                                   animations:animations
                                         name:@"Mirrored Streamers"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHFlowerAnimation animation],
     [PHPixelHeartAnimation animation]]
-                                  animations:animations
                                         name:@"Flowered Pixel Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
@@ -213,7 +215,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
     [PHResetAnimation animation],
     [PHPixelHeartAnimation animation]]
-                                  animations:animations
                                         name:@"Kaleidescope Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
@@ -221,25 +222,21 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFlyingFireballAnimation animation],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
     [PHPixelHeartAnimation animation]]
-                                  animations:animations
                                         name:@"Trippy Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHRotationAnimation animationWithDirection:0],
     [PHMegamanAnimation animation]]
-                                  animations:animations
                                         name:@"Rotating Megaman"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHRotationAnimation animationWithDirection:0],
     [PHRainbowHeartAnimation animation]]
-                                  animations:animations
                                         name:@"Rotating Rainbow Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHRainbowHeartAnimation animation],
     [PHPikachuEmotingAnimation animation]]
-                                  animations:animations
                                         name:@"Heartachu"],
 
    [PHCompositeAnimation animationWithLayers:@[
@@ -248,32 +245,27 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHResetAnimation animation],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHPixelHeartAnimation animation]]
-                                  animations:animations
                                         name:@"Energy Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHRotationAnimation animationWithDirection:1],
     [PHSpiralingSquareAnimation animation],]
-                                  animations:animations
                                         name:@"Rotating Spiral"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHMovingSawAnimation animation],
     [PHHoleDistortionFilter animation]]
-                                  animations:animations
                                         name:@"Hole Moving Saw"],
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHMegamanAnimation animation],
     [PHHoleDistortionFilter animation]]
-                                  animations:animations
                                         name:@"Hole Moving Saw"],
 
 
    [PHCompositeAnimation animationWithLayers:@[
     [PHFlowerAnimation animation],
     [PHHoleDistortionFilter animation]]
-                                  animations:animations
                                         name:@"Hole Moving Saw"],
 
 

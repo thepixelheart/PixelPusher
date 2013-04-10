@@ -19,26 +19,18 @@
 const NSInteger PHNumberOfCompositeLayers = 8;
 
 @implementation PHCompositeAnimation {
-  NSInteger _layerAnimationIndex[PHNumberOfCompositeLayers];
   PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
-  NSArray* _classes;
   NSString* _name;
 }
 
-+ (id)animationWithLayers:(NSArray *)layers animations:(NSArray *)animations name:(NSString *)name {
++ (id)animationWithLayers:(NSArray *)layers
+                     name:(NSString *)name {
   PHCompositeAnimation* animation = [super animation];
   animation->_name = [name copy];
 
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers && ix < layers.count; ++ix) {
     PHAnimation* layerAnimation = layers[ix];
     animation->_layerAnimation[ix] = layerAnimation;
-    for (PHAnimation* animationInList in animations) {
-      if ([animationInList.class isSubclassOfClass:layerAnimation.class]
-          && [layerAnimation.class isSubclassOfClass:animationInList.class]) {
-        animation->_layerAnimationIndex[ix] = [animations indexOfObject:animationInList];
-        break;
-      }
-    }
   }
   return animation;
 }
@@ -63,23 +55,19 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    [coder encodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
+    NSString *key = [NSString stringWithFormat:@"%ld", ix];
+    [coder encodeObject:[_layerAnimation[ix] className] forKey:key];
   }
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
   if ((self = [super init])) {
-    NSArray* animations = [PHAnimation allAnimations];
-
     for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      [decoder decodeValueOfObjCType:@encode(NSInteger) at:&_layerAnimationIndex[ix]];
-
-      if (_layerAnimationIndex[ix] >= 0 && _layerAnimationIndex[ix] < animations.count) {
-        _layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
-        _layerAnimation[ix].systemState = self.systemState;
-      } else {
-        // This animation no longer exists.
-        _layerAnimationIndex[ix] = -1;
+      NSString *key = [NSString stringWithFormat:@"%ld", ix];
+      NSString *className = [decoder decodeObjectForKey:key];
+      Class aClass = NSClassFromString(className);
+      if (nil != aClass) {
+        _layerAnimation[ix] = [aClass animation];
       }
     }
   }
@@ -92,26 +80,20 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   PHCompositeAnimation* animation = [[[self class] allocWithZone:zone] init];
 
   animation.systemState = self.systemState;
+  animation->_name = [_name copyWithZone:zone];
 
   // Create fresh animations for this copy.
-  NSArray* animations = [PHAnimation allAnimations];
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    animation->_layerAnimationIndex[ix] = _layerAnimationIndex[ix];
-    if (_layerAnimationIndex[ix] >= 0) {
-      animation->_layerAnimation[ix] = animations[_layerAnimationIndex[ix]];
-      animation->_layerAnimation[ix].systemState = self.systemState;
-    }
+    animation->_layerAnimation[ix] = [_layerAnimation[ix] copy];
   }
-
-  animation->_name = [_name copyWithZone:zone];
 
   return animation;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  @synchronized(self) {
-    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      PHAnimation* animation = _layerAnimation[ix];
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+    PHAnimation* animation = _layerAnimation[ix];
+    if (nil != animation) {
       [animation bitmapWillStartRendering];
       [animation renderBitmapInContext:cx size:size];
       [animation bitmapDidFinishRendering];
@@ -121,9 +103,8 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    NSInteger animationIndex = _layerAnimationIndex[ix];;
-    if (animationIndex >= 0) {
-      PHAnimation* animation = _layerAnimation[ix];
+    PHAnimation* animation = _layerAnimation[ix];
+    if (nil != animation) {
       CGContextRef subContextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(size.width, size.height));
       [animation renderPreviewInContext:subContextRef size:size];
 
@@ -137,28 +118,15 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   }
 }
 
-- (NSInteger)indexOfAnimationForLayer:(NSInteger)layer {
-  return _layerAnimationIndex[layer];
-}
-
-- (void)setAnimationIndex:(NSInteger)animationIndex forLayer:(NSInteger)layer {
-  @synchronized(self) {
-    _layerAnimationIndex[layer] = animationIndex;
-    if (animationIndex >= 0) {
-      NSArray* animations = [PHAnimation allAnimations];
-      _layerAnimation[layer] = animations[animationIndex];
-      _layerAnimation[layer].systemState = self.systemState;
-    } else {
-      _layerAnimation[layer] = nil;
-    }
-  }
+- (void)setAnimation:(PHAnimation *)animation forLayer:(NSInteger)layer {
+  _layerAnimation[layer] = [animation copy];
 }
 
 - (void)setSystemState:(PHSystemState *)driver {
   [super setSystemState:driver];
 
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    if (_layerAnimationIndex[ix] >= 0) {
+    if (nil != _layerAnimation[ix]) {
       _layerAnimation[ix].systemState = self.systemState;
     }
   }
@@ -168,18 +136,15 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   [super setAnimationTick:animationTick];
 
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    if (_layerAnimationIndex[ix] >= 0) {
+    if (nil != _layerAnimation[ix]) {
       _layerAnimation[ix].animationTick = self.animationTick;
     }
   }
 }
 
 - (void)reset {
-  @synchronized(self) {
-    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      _layerAnimationIndex[ix] = -1;
-      _layerAnimation[ix] = nil;
-    }
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+    _layerAnimation[ix] = nil;
   }
 }
 
@@ -190,8 +155,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
     [tooltip appendString:@"\n"];
   }
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    NSInteger animationIndex = _layerAnimationIndex[ix];;
-    if (animationIndex >= 0) {
+    if (nil != _layerAnimation[ix]) {
       if (tooltip.length > 0) {
         [tooltip appendString:@"\n"];
       }
@@ -206,9 +170,8 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   NSMutableSet* categories = [NSMutableSet set];
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
 
-    NSInteger animationIndex = _layerAnimationIndex[ix];;
-    if (animationIndex >= 0) {
-      PHAnimation* animation = _layerAnimation[ix];
+    PHAnimation* animation = _layerAnimation[ix];
+    if (nil != animation) {
       [categories addObjectsFromArray:animation.categories];
     }
   }
