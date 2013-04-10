@@ -62,6 +62,14 @@ extern NSString* const PHSystemValueKey;
  */
 @interface PHSystem : NSObject
 
+// Animations
+
+// All compiled animations included with the PixelPusher.
+@property (strong) NSArray* compiledAnimations;
+
+// All composite animations that have been loaded from disk.
+@property (strong) NSArray* compositeAnimations;
+
 // Active Animations
 
 // The animation being displayed in the left visualizer.

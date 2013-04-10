@@ -17,5 +17,4 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PHCompositeEditorView : NSView
-
 @end

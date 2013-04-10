@@ -189,10 +189,7 @@
     _scrollView.documentView = _collectionView;
     [self.contentView addSubview:_scrollView];
 
-    _animations = [PHAnimation allAnimations];
-    for (PHAnimation* animation in _animations) {
-      animation.systemState = PHApp().animationDriver;
-    }
+    _animations = [PHSys().compiledAnimations copy];
     _collectionView.content = _animations;
 
     [_collectionView addObserver:self

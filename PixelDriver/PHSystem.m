@@ -16,6 +16,8 @@
 
 #import "PHSystem.h"
 
+#import "AppDelegate.h"
+
 #import "PHAnimation.h"
 #import "PHSystemTick+Protected.h"
 
@@ -55,6 +57,11 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 - (id)init {
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
+
+    _compiledAnimations = [PHAnimation allAnimations];
+    for (PHAnimation* animation in _compiledAnimations) {
+      animation.systemState = PHApp().animationDriver;
+    }
 
     _viewMode = PHViewModeLibrary;
     _launchpad = [[PHLaunchpadDevice alloc] init];
