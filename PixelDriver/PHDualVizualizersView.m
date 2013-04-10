@@ -32,7 +32,7 @@
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
 static const CGFloat kWallVisualizerMaxHeight = 130;
-static const CGFloat kPlaybackControlsHeight = 60;
+static const CGFloat kPlaybackControlsHeight = 40;
 
 @interface PHDualVizualizersView() <PHPlaybackControlsViewDelegate>
 @end
@@ -129,8 +129,9 @@ static const CGFloat kPlaybackControlsHeight = 60;
   CGFloat visualizerWidth = visualizerMaxWidth;
 
   CGFloat visualizerHeight = visualizerMaxWidth * visualizerAspectRatio;
-  if (visualizerHeight > kVisualizerMaxHeight) {
-    visualizerHeight = kVisualizerMaxHeight;
+  CGFloat maxVisualizerHeight = MIN(kVisualizerMaxHeight, self.bounds.size.height / 3);
+  if (visualizerHeight > maxVisualizerHeight) {
+    visualizerHeight = maxVisualizerHeight;
     visualizerWidth = visualizerHeight / visualizerAspectRatio;
   }
 

@@ -22,7 +22,7 @@
 #import "PHButton.h"
 
 static const CGFloat kSliderWidth = 100;
-static const CGFloat kSliderHeight = 44;
+static const CGFloat kSliderHeight = 33;
 
 const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 
