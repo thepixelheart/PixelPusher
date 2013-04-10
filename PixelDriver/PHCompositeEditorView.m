@@ -29,6 +29,7 @@ static const CGFloat kCompositesListWidth = 150;
 
 @implementation PHCompositeEditorView {
   PHButton* _newButton;
+  PHButton* _deleteButton;
   PHListView* _compositesView;
   NSArray* _composites;
 }
@@ -54,8 +55,14 @@ static const CGFloat kCompositesListWidth = 150;
     [_newButton setTitle:@"New"];
     [self addSubview:_newButton];
 
+    _deleteButton = [[PHButton alloc] init];
+    _deleteButton.tag = PHSystemButtonDeleteComposite;
+    _deleteButton.delegate = self;
+    [_deleteButton setTitle:@"Delete"];
+    [self addSubview:_deleteButton];
+
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(didCreateNewCompositeNotification:) name:PHSystemDidCreateNewCompositeNotification object:nil];
+    [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
   }
   return self;
 }
@@ -64,10 +71,13 @@ static const CGFloat kCompositesListWidth = 150;
   [super layout];
 
   [_newButton sizeToFit];
+  [_deleteButton sizeToFit];
 
   CGFloat topEdge = self.bounds.size.height;
 
   _newButton.frame = CGRectMake(0, topEdge - _newButton.frame.size.height, _newButton.frame.size.width, _newButton.frame.size.height);
+  _deleteButton.frame = CGRectMake(0, _newButton.frame.origin.y - _deleteButton.frame.size.height, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
+
   _compositesView.frame = CGRectMake(_newButton.frame.size.width, 0, kCompositesListWidth, topEdge);
   [_compositesView layout];
 }
@@ -76,6 +86,7 @@ static const CGFloat kCompositesListWidth = 150;
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _compositesView) {
+    PHSys().editingCompositeAnimation = _composites[index];
   }
 }
 
@@ -109,9 +120,12 @@ static const CGFloat kCompositesListWidth = 150;
 
 #pragma mark - NSNotifications
 
-- (void)didCreateNewCompositeNotification:(NSNotification *)notification {
+- (void)compositesDidChangeNotification:(NSNotification *)notification {
   _composites = [PHSys().compositeAnimations copy];
   [_compositesView reloadData];
+
+  NSInteger indexOfEditingComposite = [_composites indexOfObject:PHSys().editingCompositeAnimation];
+  [_compositesView setSelectedIndex:indexOfEditingComposite];
 }
 
 @end

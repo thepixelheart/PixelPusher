@@ -25,6 +25,7 @@
 @property (nonatomic, weak) id<PHListViewDataSource> dataSource;
 
 - (void)reloadData;
+- (void)setSelectedIndex:(NSInteger)index;
 @end
 
 @protocol PHListViewDataSource <NSObject>

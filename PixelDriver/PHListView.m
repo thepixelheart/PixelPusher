@@ -178,4 +178,9 @@
   [_tableView reloadData];
 }
 
+- (void)setSelectedIndex:(NSInteger)index {
+  [_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index]
+          byExtendingSelection:NO];
+}
+
 @end

@@ -19,6 +19,7 @@
 #import "PHViewMode.h"
 
 @class PHAnimation;
+@class PHCompositeAnimation;
 @class PHTransition;
 @class PHSystemTick;
 
@@ -41,6 +42,7 @@ typedef enum {
 
   // Composite Editor
   PHSystemButtonNewComposite,
+  PHSystemButtonDeleteComposite,
 } PHSystemControlIdentifier;
 
 typedef enum {
@@ -55,9 +57,8 @@ extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
 extern NSString* const PHSystemValueKey;
 
-
 extern NSString* const PHSystemViewStateChangedNotification;
-extern NSString* const PHSystemDidCreateNewCompositeNotification;
+extern NSString* const PHSystemCompositesDidChangeNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -85,6 +86,10 @@ extern NSString* const PHSystemDidCreateNewCompositeNotification;
 // The animation being displayed in the preview pane for loading animations
 // into the visualizer.
 @property (strong) PHAnimation* previewAnimation;
+
+// The animation being displayed in the preview pane for loading animations
+// into the visualizer.
+@property (strong) PHCompositeAnimation* editingCompositeAnimation;
 
 // There is no PHAnimation property for the Heart because this is generated every time a tick is
 // generated as a fade of the left and right animations + fade using the faderTransition.

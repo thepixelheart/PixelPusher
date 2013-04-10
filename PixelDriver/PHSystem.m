@@ -37,7 +37,7 @@ NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNot
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
 NSString* const PHSystemValueKey = @"PHSystemValueKey";
 NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChangedNotification";
-NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateNewCompositeNotification";
+NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 
 @interface PHSystem() <PHDJ2GODeviceDelegate>
 @end
@@ -94,6 +94,11 @@ NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateN
     if (nil != codedData) {
       NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
       _compositeAnimations = [[unarchiver decodeObject] mutableCopy];
+
+      if (_compositeAnimations.count > 0) {
+        _editingCompositeAnimation = _compositeAnimations[0];
+      }
+
       [unarchiver finishDecoding];
     }
   }
@@ -275,6 +280,8 @@ NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateN
       
     case PHSystemButtonNewComposite:
       break;
+    case PHSystemButtonDeleteComposite:
+      break;
 
     default:
       NSLog(@"%d is not a button", button);
@@ -315,8 +322,14 @@ NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateN
       break;
     case PHSystemButtonNewComposite: {
       PHCompositeAnimation* animation = [PHCompositeAnimation animation];
+      // Always immediately start editing the new animation.
+      _editingCompositeAnimation = animation;
       [_compositeAnimations addObject:animation];
-      extraNotificationName = PHSystemDidCreateNewCompositeNotification;
+      extraNotificationName = PHSystemCompositesDidChangeNotification;
+      [self saveComposites];
+      break;
+    }
+    case PHSystemButtonDeleteComposite: {
       [self saveComposites];
       break;
     }
