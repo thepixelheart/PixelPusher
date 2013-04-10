@@ -330,7 +330,19 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
       break;
     }
     case PHSystemButtonDeleteComposite: {
-      [self saveComposites];
+      NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
+      if (indexOfEditingObject != NSNotFound) {
+        [_compositeAnimations removeObject:_editingCompositeAnimation];
+        if (_compositeAnimations.count > 0) {
+          _editingCompositeAnimation = _compositeAnimations[MIN(_compositeAnimations.count - 1,
+                                                                indexOfEditingObject)];
+        } else {
+          _editingCompositeAnimation = nil;
+        }
+
+        extraNotificationName = PHSystemCompositesDidChangeNotification;
+        [self saveComposites];
+      }
       break;
     }
 

@@ -124,8 +124,11 @@ static const CGFloat kCompositesListWidth = 150;
   _composites = [PHSys().compositeAnimations copy];
   [_compositesView reloadData];
 
-  NSInteger indexOfEditingComposite = [_composites indexOfObject:PHSys().editingCompositeAnimation];
-  [_compositesView setSelectedIndex:indexOfEditingComposite];
+  PHCompositeAnimation *editingAnimation = PHSys().editingCompositeAnimation;
+  if (nil != editingAnimation) {
+    NSInteger indexOfEditingComposite = [_composites indexOfObject:editingAnimation];
+    [_compositesView setSelectedIndex:indexOfEditingComposite];
+  }
 }
 
 @end

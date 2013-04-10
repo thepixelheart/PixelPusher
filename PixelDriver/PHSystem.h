@@ -18,6 +18,14 @@
 
 #import "PHViewMode.h"
 
+// TODO TODO TODO  TODO  TODO  TODO  TODO
+//
+// [x] Implement deletion
+// [ ] Implement editing
+// [ ] Implement renaming
+//
+//  TODO  TODO  TODO  TODO  TODO  TODO
+
 @class PHAnimation;
 @class PHCompositeAnimation;
 @class PHTransition;
