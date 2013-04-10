@@ -11,13 +11,13 @@
 #import "Utilities.h"
 
 static const int kSawWidth = 6;
-static const int kSpeed = 1;
+static const CGFloat kSpeed = 0.5;
 
 @interface PHSaw : NSObject
 @end
 
 @implementation PHSaw {
-    long _position;
+    CGFloat _position;
     NSColor* _color;
 }
 
