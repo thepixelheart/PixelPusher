@@ -14,9 +14,10 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-#import "PHContainerView.h"
-
-@interface PHHeaderView : PHContainerView
-@end
+typedef enum {
+  PHViewModeLibrary,
+  PHViewModePrefs,
+  PHViewModeCompositeEditor
+} PHViewMode;

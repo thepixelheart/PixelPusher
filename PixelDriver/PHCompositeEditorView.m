@@ -14,9 +14,8 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
+#import "PHCompositeEditorView.h"
 
-#import "PHContainerView.h"
+@implementation PHCompositeEditorView
 
-@interface PHHeaderView : PHContainerView
 @end

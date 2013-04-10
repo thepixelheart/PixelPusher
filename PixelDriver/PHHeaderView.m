@@ -19,16 +19,19 @@
 #import "PHDualVizualizersView.h"
 #import "PHPixelImageView.h"
 #import "PHButton.h"
+#import "PHSystem.h"
+#import "AppDelegate.h"
 
 static const CGFloat kLogoInset = 3;
 static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLogoInset};
 
-@implementation PHHeaderView {
-  PHButton* _prefsButton;
-}
+@interface PHHeaderView () <PHButtonDelegate>
+@end
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObject:self];
+@implementation PHHeaderView {
+  PHButton* _libraryButton;
+  PHButton* _prefsButton;
+  PHButton* _compositeEditorButton;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -43,14 +46,23 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
                                 logoView.image.size.width * scale, logoHeight);
     [self.contentView addSubview:logoView];
 
+    _libraryButton = [[PHButton alloc] init];
+    _libraryButton.tag = PHSystemButtonLibrary;
+    [_libraryButton setTitle:@"Library"];
+    _libraryButton.delegate = self;
+    [self.contentView addSubview:_libraryButton];
+
     _prefsButton = [[PHButton alloc] init];
+    _prefsButton.tag = PHSystemButtonPrefs;
     [_prefsButton setTitle:@"Prefs"];
-    _prefsButton.target = self;
-    _prefsButton.action = @selector(didTapPrefsButton:);
+    _prefsButton.delegate = self;
     [self.contentView addSubview:_prefsButton];
 
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(didChangeViewMode:) name:PHChangeCurrentViewNotification object:nil];
+    _compositeEditorButton = [[PHButton alloc] init];
+    _compositeEditorButton.tag = PHSystemButtonCompositeEditor;
+    [_compositeEditorButton setTitle:@"Composite Editor"];
+    _compositeEditorButton.delegate = self;
+    [self.contentView addSubview:_compositeEditorButton];
   }
   return self;
 }
@@ -59,27 +71,39 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
   [super layout];
 
   CGSize boundsSize = self.contentView.bounds.size;
+
   [_prefsButton sizeToFit];
+  [_compositeEditorButton sizeToFit];
+  [_libraryButton sizeToFit];
+
   CGFloat topMargin = floor((boundsSize.height - _prefsButton.frame.size.height) / 2);
-  _prefsButton.frame = CGRectMake(boundsSize.width - _prefsButton.frame.size.width - topMargin,
+  CGFloat leftEdge = topMargin;
+
+  _prefsButton.frame = CGRectMake(boundsSize.width - _prefsButton.frame.size.width - leftEdge,
                                   topMargin,
                                   _prefsButton.frame.size.width, _prefsButton.frame.size.height);
+  leftEdge = _prefsButton.frame.origin.x - topMargin;
+
+  topMargin = floor((boundsSize.height - _compositeEditorButton.frame.size.height) / 2);
+  _compositeEditorButton.frame = CGRectMake(leftEdge - _compositeEditorButton.frame.size.width,
+                                            topMargin,
+                                            _compositeEditorButton.frame.size.width, _compositeEditorButton.frame.size.height);
+  leftEdge = _compositeEditorButton.frame.origin.x - topMargin;
+
+  topMargin = floor((boundsSize.height - _libraryButton.frame.size.height) / 2);
+  _libraryButton.frame = CGRectMake(leftEdge - _libraryButton.frame.size.width,
+                                    topMargin,
+                                    _libraryButton.frame.size.width, _libraryButton.frame.size.height);
 }
 
-#pragma mark - User Actions
+#pragma mark - PHButtonDelegate
 
-- (void)didTapPrefsButton:(NSButton *)button {
-  [_delegate didTapPrefsButton];
+- (void)didPressDownButton:(PHButton *)button {
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
 }
 
-- (void)didChangeViewMode:(NSNotification *)notification {
-  PHViewMode viewMode = [notification.userInfo[PHChangeCurrentViewKey] intValue];
-  if (viewMode != PHViewModePrefs) {
-    [_prefsButton setTitle:@"Prefs"];
-  } else {
-    [_prefsButton setTitle:@"Library"];
-  }
-  [self setNeedsLayout:YES];
+- (void)didReleaseButton:(PHButton *)button {
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
 
 @end

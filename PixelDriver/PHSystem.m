@@ -56,6 +56,7 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
 
+    _viewMode = PHViewModeLibrary;
     _launchpad = [[PHLaunchpadDevice alloc] init];
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
@@ -205,6 +206,15 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     case PHSystemButtonLoadRight:
       _rightAnimation = _previewAnimation;
       break;
+    case PHSystemButtonLibrary:
+      _viewMode = PHViewModeLibrary;
+      break;
+    case PHSystemButtonCompositeEditor:
+      _viewMode = PHViewModeCompositeEditor;
+      break;
+    case PHSystemButtonPrefs:
+      _viewMode = PHViewModePrefs;
+      break;
 
     default:
       NSLog(@"%d is not a button", button);
@@ -231,6 +241,12 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     case PHSystemButtonLoadLeft:
       break;
     case PHSystemButtonLoadRight:
+      break;
+    case PHSystemButtonLibrary:
+      break;
+    case PHSystemButtonCompositeEditor:
+      break;
+    case PHSystemButtonPrefs:
       break;
 
     default:

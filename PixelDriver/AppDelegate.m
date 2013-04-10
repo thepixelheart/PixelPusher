@@ -228,18 +228,4 @@ PHSystem* PHSys() {
   [_moteServer didTick];
 }
 
-#pragma mark - Keyboard Shortcuts
-
-- (IBAction)didTapViewLibrary:(id)sender {
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
-   @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModeLibrary]}];
-}
-
-- (IBAction)didTapViewPrefs:(id)sender {
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
-   @{PHChangeCurrentViewKey: [NSNumber numberWithInt:PHViewModePrefs]}];
-}
-
 @end

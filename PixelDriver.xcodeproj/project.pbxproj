@@ -128,6 +128,7 @@
 		66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5016AB7E3C00E8FE9F /* PHLibraryView.m */; };
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
 		66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */; };
+		66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D855BB171520E5000A861F /* PHCompositeEditorView.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -382,6 +383,9 @@
 		66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsView.m; sourceTree = "<group>"; };
 		66D1DA5716AB828200E8FE9F /* PHAudioPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAudioPrefsPage.h; sourceTree = "<group>"; };
 		66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAudioPrefsPage.m; sourceTree = "<group>"; };
+		66D855BA171520E5000A861F /* PHCompositeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCompositeEditorView.h; sourceTree = "<group>"; };
+		66D855BB171520E5000A861F /* PHCompositeEditorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCompositeEditorView.m; sourceTree = "<group>"; };
+		66D855BD171524EE000A861F /* PHViewMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHViewMode.h; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -468,6 +472,7 @@
 				66CF637816AD061E0048228F /* PHActionsView.m */,
 				66D1DA5216AB803200E8FE9F /* Library */,
 				66D1DA5316AB809D00E8FE9F /* Prefs */,
+				66D855B9171520C7000A861F /* Composites */,
 			);
 			name = Window;
 			sourceTree = "<group>";
@@ -618,6 +623,7 @@
 				661CC6B316A72D17007F3900 /* PHSystem.h */,
 				661CC6B416A72D17007F3900 /* PHSystem.m */,
 				6655AB6F16F74EA300B0ADA3 /* PHSystem+Protected.h */,
+				66D855BD171524EE000A861F /* PHViewMode.h */,
 				6655AB6B16F74DF600B0ADA3 /* PHSystemTick.h */,
 				6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */,
 				6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */,
@@ -796,6 +802,15 @@
 				66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */,
 			);
 			name = Prefs;
+			sourceTree = "<group>";
+		};
+		66D855B9171520C7000A861F /* Composites */ = {
+			isa = PBXGroup;
+			children = (
+				66D855BA171520E5000A861F /* PHCompositeEditorView.h */,
+				66D855BB171520E5000A861F /* PHCompositeEditorView.m */,
+			);
+			name = Composites;
 			sourceTree = "<group>";
 		};
 		66DC7B421676FC2F00453E8F = {
@@ -1175,6 +1190,7 @@
 				665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */,
 				66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */,
 				669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */,
+				66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

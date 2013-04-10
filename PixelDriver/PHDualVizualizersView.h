@@ -16,13 +16,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
-  PHViewModeLibrary,
-  PHViewModePrefs
-} PHViewMode;
-
-extern NSString* const PHChangeCurrentViewNotification;
-extern NSString* const PHChangeCurrentViewKey;
-
 @interface PHDualVizualizersView : NSView
 @end

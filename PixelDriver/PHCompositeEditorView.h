@@ -16,7 +16,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "PHContainerView.h"
+@interface PHCompositeEditorView : NSView
 
-@interface PHHeaderView : PHContainerView
 @end

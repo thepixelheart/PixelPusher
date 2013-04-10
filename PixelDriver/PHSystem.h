@@ -16,6 +16,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "PHViewMode.h"
+
 @class PHAnimation;
 @class PHTransition;
 @class PHSystemTick;
@@ -26,6 +28,9 @@ typedef enum {
   PHSystemButtonUserAction2,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
+  PHSystemButtonLibrary,
+  PHSystemButtonCompositeEditor,
+  PHSystemButtonPrefs,
 
   PHSystemSliderFader,
 
@@ -92,6 +97,10 @@ extern NSString* const PHSystemValueKey;
 
 - (void)incrementCurrentAnimationSelection;
 - (void)decrementCurrentAnimationSelection;
+
+// Editor State
+
+@property (nonatomic, assign) PHViewMode viewMode;
 
 // Ticking
 

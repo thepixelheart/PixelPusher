@@ -62,9 +62,10 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     @"2": [NSNumber numberWithInt:PHSystemButtonUserAction2],
     @"[": [NSNumber numberWithInt:PHSystemButtonLoadLeft],
     @"]": [NSNumber numberWithInt:PHSystemButtonLoadRight],
+    @"p": [NSNumber numberWithInt:PHSystemButtonPrefs],
+    @"l": [NSNumber numberWithInt:PHSystemButtonLibrary],
+    @"c": [NSNumber numberWithInt:PHSystemButtonCompositeEditor],
   };
-
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 
   if ((theEvent.type == NSKeyDown || theEvent.type == NSKeyUp)
       && nil != keyMappings[theEvent.charactersIgnoringModifiers]) {
@@ -76,17 +77,6 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     }
 
     didHandle = YES;
-  }
-
-  if (!didHandle && theEvent.type == NSKeyDown) {
-    PHViewMode mode = PHViewModeLibrary;
-    if ([theEvent.charactersIgnoringModifiers isEqualToString:@"l"]
-        || [theEvent.charactersIgnoringModifiers isEqualToString:@"p"]) {
-      didHandle = YES;
-      mode = [theEvent.charactersIgnoringModifiers isEqualToString:@"l"] ? PHViewModeLibrary : PHViewModePrefs;
-      [nc postNotificationName:PHChangeCurrentViewNotification object:nil userInfo:
-       @{PHChangeCurrentViewKey: [NSNumber numberWithInt:mode]}];
-    }
   }
 
   if (!didHandle) {
