@@ -63,6 +63,8 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
       animation.systemState = PHApp().animationDriver;
     }
 
+    _compositeAnimations = @[];
+
     _viewMode = PHViewModeLibrary;
     _launchpad = [[PHLaunchpadDevice alloc] init];
     _dj2go = [[PHDJ2GODevice alloc] init];
@@ -72,8 +74,44 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
                                                           spriteSize:CGSizeMake(42, 7)];
+
+    NSFileManager* fm = [NSFileManager defaultManager];
+
+    NSString* diskStorage = [self pathForDiskStorage];
+
+    if ([fm fileExistsAtPath:diskStorage] == NO) {
+      [fm createDirectoryAtPath:diskStorage withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    NSString *compositesPath = [self pathForCompositeFile];
+    NSData *codedData = [NSData dataWithContentsOfFile:compositesPath];
+
+    if (nil != codedData) {
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
+      _compositeAnimations = [unarchiver decodeObject];
+      [unarchiver finishDecoding];
+    }
   }
   return self;
+}
+
+- (void)saveComposites {
+  NSMutableData *data = [[NSMutableData alloc] init];
+  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+  [archiver encodeObject:_compositeAnimations];
+  [archiver finishEncoding];
+
+  NSString *compositesPath = [self pathForCompositeFile];
+  [data writeToFile:compositesPath atomically:YES];
+}
+
+- (NSString *)pathForDiskStorage {
+  NSString* userGifsPath = @"~/Library/Application Support/PixelDriver/";
+  return [userGifsPath stringByExpandingTildeInPath];
+}
+
+- (NSString *)pathForCompositeFile {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"composites.plist"];
 }
 
 + (CGContextRef)createWallContext {

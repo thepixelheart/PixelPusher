@@ -160,6 +160,9 @@ PHSystem* PHSys() {
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
+  _displayLink = [[PHDisplayLink alloc] init];
+  _animationDriver = _displayLink.systemState;
+
   _system = [[PHSystem alloc] init];
 
   _moteServer = [[PHMoteServer alloc] init];
@@ -179,8 +182,6 @@ PHSystem* PHSys() {
            object:nil];
 
   _driver = [[PHDriver alloc] init];
-  _displayLink = [[PHDisplayLink alloc] init];
-  _animationDriver = _displayLink.systemState;
   _usbNotifier = [[PHUSBNotifier alloc] init];
   [self midiDriver];
 
