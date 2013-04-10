@@ -16,6 +16,7 @@
 
 #import "PHCompositeAnimation.h"
 
+static NSString* kNameKey = @"kNameKey";
 const NSInteger PHNumberOfCompositeLayers = 8;
 
 @implementation PHCompositeAnimation {
@@ -62,6 +63,8 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:_name forKey:kNameKey];
+
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     if (nil != _layerAnimation[ix]) {
       NSString *key = [self keyForIndex:ix];
@@ -78,6 +81,8 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 - (id)initWithCoder:(NSCoder *)decoder {
   if ((self = [super init])) {
+    _name = [[decoder decodeObjectForKey:kNameKey] copy];
+
     for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
       NSString *key = [self keyForIndex:ix];
       NSString *className = [decoder decodeObjectForKey:key];
