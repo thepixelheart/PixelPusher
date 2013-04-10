@@ -16,6 +16,8 @@
 
 #import "PHAnimation.h"
 
+#import "AppDelegate.h"
+
 #import "PHBasicSpectrumAnimation.h"
 #import "PHSpectrumViewerAnimation.h"
 #import "PHBassPlate.h"
@@ -83,6 +85,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     _hihatDegrader = [[PHDegrader alloc] init];
     _vocalDegrader = [[PHDegrader alloc] init];
     _snareDegrader = [[PHDegrader alloc] init];
+
+    _systemState = PHApp().animationDriver;
   }
   return self;
 }

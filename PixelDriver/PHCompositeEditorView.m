@@ -19,10 +19,12 @@
 #import "PHAnimation.h"
 #import "PHButton.h"
 #import "PHListView.h"
+#import "PHWallView.h"
 #import "PHSystem.h"
 #import "AppDelegate.h"
 
 static const CGFloat kCompositesListWidth = 150;
+static const CGFloat kPreviewPaneWidth = 200;
 
 @interface PHCompositeEditorView() <PHButtonDelegate, PHListViewDelegate, PHListViewDataSource>
 @end
@@ -32,6 +34,8 @@ static const CGFloat kCompositesListWidth = 150;
   PHButton* _deleteButton;
   PHListView* _compositesView;
   NSArray* _composites;
+
+  PHContainerView* _previewCompositeView;
 }
 
 - (void)dealloc {
@@ -41,6 +45,15 @@ static const CGFloat kCompositesListWidth = 150;
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _composites = [PHSys().compositeAnimations copy];
+
+    // Preview vizualization
+    _previewCompositeView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
+    [self addSubview:_previewCompositeView];
+
+    PHWallView* wallView = [[PHWallView alloc] initWithFrame:_previewCompositeView.contentView.bounds];
+    wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+    wallView.systemContext = PHSystemContextCompositePreview;
+    [_previewCompositeView.contentView addSubview:wallView];
 
     _compositesView = [[PHListView alloc] init];
     _compositesView.tag = PHSystemComposites;
@@ -80,6 +93,12 @@ static const CGFloat kCompositesListWidth = 150;
 
   _compositesView.frame = CGRectMake(_newButton.frame.size.width, 0, kCompositesListWidth, topEdge);
   [_compositesView layout];
+
+  CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
+  CGFloat previewHeight = kPreviewPaneWidth * visualizerAspectRatio;
+  _previewCompositeView.frame = CGRectMake(self.bounds.size.width - kPreviewPaneWidth,
+                                           floor((topEdge - previewHeight) / 2),
+                                           kPreviewPaneWidth, previewHeight);
 }
 
 #pragma mark - PHListViewDelegate

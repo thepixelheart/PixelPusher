@@ -181,6 +181,9 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
   if (nil != _previewAnimation) {
     [uniqueAnimations addObject:_previewAnimation];
   }
+  if (nil != _editingCompositeAnimation) {
+    [uniqueAnimations addObject:_editingCompositeAnimation];
+  }
 
   PHAnimationTick* leftTick = [[PHAnimationTick alloc] init];
   leftTick.numberOfRotationTicks = _numberOfLeftRotationTicks;
@@ -209,6 +212,9 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
   }
   if (nil != _previewAnimation) {
     tick.previewContextRef = [[animationToContext objectForKey:[self keyForAnimation:_previewAnimation]] pointerValue];
+  }
+  if (nil != _editingCompositeAnimation) {
+    tick.editingCompositeContextRef = [[animationToContext objectForKey:[self keyForAnimation:_editingCompositeAnimation]] pointerValue];
   }
 
   [tick updateWallContextWithTransition:_faderTransition t:_fade];

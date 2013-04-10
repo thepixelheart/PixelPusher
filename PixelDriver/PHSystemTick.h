@@ -21,4 +21,5 @@
 @property (nonatomic, assign) CGContextRef rightContextRef;
 @property (nonatomic, assign) CGContextRef previewContextRef;
 @property (nonatomic, assign) CGContextRef wallContextRef;
+@property (nonatomic, assign) CGContextRef editingCompositeContextRef;
 @end

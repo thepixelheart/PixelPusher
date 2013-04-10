@@ -40,6 +40,9 @@
   if (nil != _wallContextRef) {
     CGContextRelease(_wallContextRef);
   }
+  if (nil != _editingCompositeContextRef) {
+    CGContextRelease(_editingCompositeContextRef);
+  }
 }
 
 - (void)setLeftContextRef:(CGContextRef)leftContextRef {
@@ -80,6 +83,16 @@
     CGContextRelease(_wallContextRef);
   }
   _wallContextRef = CGContextRetain(wallContextRef);
+}
+
+- (void)setEditingCompositeContextRef:(CGContextRef)editingCompositeContextRef {
+  if (_editingCompositeContextRef == editingCompositeContextRef) {
+    return;
+  }
+  if (nil != _editingCompositeContextRef) {
+    CGContextRelease(_editingCompositeContextRef);
+  }
+  _editingCompositeContextRef = CGContextRetain(editingCompositeContextRef);
 }
 
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t {

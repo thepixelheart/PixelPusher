@@ -56,6 +56,8 @@
     wallContext = systemTick.previewContextRef;
   } else if (_systemContext == PHSystemContextWall) {
     wallContext = systemTick.wallContextRef;
+  } else if (_systemContext == PHSystemContextCompositePreview) {
+    wallContext = systemTick.editingCompositeContextRef;
   }
   if (nil == wallContext) {
     return;

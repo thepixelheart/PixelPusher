@@ -27,6 +27,7 @@ typedef enum {
   PHSystemContextRight,
   PHSystemContextPreview,
   PHSystemContextWall,
+  PHSystemContextCompositePreview,
 } PHSystemContext;
 
 @interface PHWallView : PHBitmapView
