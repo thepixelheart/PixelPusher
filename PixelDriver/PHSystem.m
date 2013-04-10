@@ -21,6 +21,7 @@
 #import "PHAnimation.h"
 #import "PHSystemTick+Protected.h"
 
+#import "PHCompositeAnimation.h"
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
 
@@ -35,6 +36,8 @@ NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotif
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
 NSString* const PHSystemValueKey = @"PHSystemValueKey";
+NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChangedNotification";
+NSString* const PHSystemDidCreateNewCompositeNotification = @"PHSystemDidCreateNewCompositeNotification";
 
 @interface PHSystem() <PHDJ2GODeviceDelegate>
 @end
@@ -50,6 +53,8 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   NSInteger _numberOfRightRotationTicks;
 
   PHSystemControlIdentifier _focusedList;
+
+  NSMutableArray* _compositeAnimations;
 }
 
 @synthesize fade = _fade;
@@ -63,7 +68,7 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
       animation.systemState = PHApp().animationDriver;
     }
 
-    _compositeAnimations = @[];
+    _compositeAnimations = [@[] mutableCopy];
 
     _viewMode = PHViewModeLibrary;
     _launchpad = [[PHLaunchpadDevice alloc] init];
@@ -88,7 +93,7 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
     if (nil != codedData) {
       NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
-      _compositeAnimations = [unarchiver decodeObject];
+      _compositeAnimations = [[unarchiver decodeObject] mutableCopy];
       [unarchiver finishDecoding];
     }
   }
@@ -235,6 +240,8 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 }
 
 - (void)didPressButton:(PHSystemControlIdentifier)button {
+  NSString *extraNotificationName = nil;
+  
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = YES;
@@ -245,20 +252,28 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
     case PHSystemButtonUserAction2:
       _isUserButton2Pressed = YES;
       break;
+      
     case PHSystemButtonLoadLeft:
       _leftAnimation = _previewAnimation;
       break;
     case PHSystemButtonLoadRight:
       _rightAnimation = _previewAnimation;
       break;
+      
     case PHSystemButtonLibrary:
       _viewMode = PHViewModeLibrary;
+      extraNotificationName = PHSystemViewStateChangedNotification;
       break;
     case PHSystemButtonCompositeEditor:
       _viewMode = PHViewModeCompositeEditor;
+      extraNotificationName = PHSystemViewStateChangedNotification;
       break;
     case PHSystemButtonPrefs:
       _viewMode = PHViewModePrefs;
+      extraNotificationName = PHSystemViewStateChangedNotification;
+      break;
+      
+    case PHSystemButtonNewComposite:
       break;
 
     default:
@@ -268,9 +283,14 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemButtonPressedNotification object:nil userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:button]}];
+  if (nil != extraNotificationName) {
+    [nc postNotificationName:extraNotificationName object:nil];
+  }
 }
 
 - (void)didReleaseButton:(PHSystemControlIdentifier)button {
+  NSString *extraNotificationName = nil;
+  
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = NO;
@@ -293,6 +313,12 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
       break;
     case PHSystemButtonPrefs:
       break;
+    case PHSystemButtonNewComposite: {
+      PHCompositeAnimation* animation = [PHCompositeAnimation animation];
+      [_compositeAnimations addObject:animation];
+      extraNotificationName = PHSystemDidCreateNewCompositeNotification;
+      break;
+    }
 
     default:
       NSLog(@"%d is not a button", button);
@@ -301,6 +327,9 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemButtonReleasedNotification object:nil userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:button]}];
+  if (nil != extraNotificationName) {
+    [nc postNotificationName:extraNotificationName object:nil];
+  }
 }
 
 #pragma mark - PHDJ2GODeviceDelegate
@@ -406,6 +435,10 @@ NSString* const PHSystemValueKey = @"PHSystemValueKey";
   [nc postNotificationName:PHSystemKnobTurnedNotification object:nil userInfo:
    @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList],
           PHSystemValueKey: [NSNumber numberWithInt:PHSystemKnobDirectionCcw]}];
+}
+
+- (NSArray *)compositeAnimations {
+  return _compositeAnimations;
 }
 
 @end

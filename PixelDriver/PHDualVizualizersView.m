@@ -114,7 +114,7 @@ static const CGFloat kPlaybackControlsHeight = 40;
     [self addSubview:_libraryView];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(didPressButton:) name:PHSystemButtonPressedNotification object:nil];
+    [nc addObserver:self selector:@selector(didChangeViewStateNotification:) name:PHSystemViewStateChangedNotification object:nil];
   }
   return self;
 }
@@ -196,34 +196,29 @@ static const CGFloat kPlaybackControlsHeight = 40;
 
 #pragma mark - View Mode Notifications
 
-- (void)didPressButton:(NSNotification *)notification {
-  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
-  if (identifier == PHSystemButtonCompositeEditor
-      || identifier == PHSystemButtonLibrary
-      || identifier == PHSystemButtonPrefs) {
-    PHViewMode newViewMode = PHSys().viewMode;
-    if (newViewMode != _viewMode) {
-      _viewMode = newViewMode;
+- (void)didChangeViewStateNotification:(NSNotification *)notification {
+  PHViewMode newViewMode = PHSys().viewMode;
+  if (newViewMode != _viewMode) {
+    _viewMode = newViewMode;
 
-      [_prefsView removeFromSuperview];
-      _prefsView = nil;
-      [_compositeEditorView removeFromSuperview];
-      _compositeEditorView = nil;
+    [_prefsView removeFromSuperview];
+    _prefsView = nil;
+    [_compositeEditorView removeFromSuperview];
+    _compositeEditorView = nil;
 
-      BOOL hideLibrary = NO;
+    BOOL hideLibrary = NO;
 
-      if (_viewMode == PHViewModePrefs) {
-        _prefsView = [[PHPrefsView alloc] init];
-        [self addSubview:_prefsView];
-        hideLibrary = YES;
+    if (_viewMode == PHViewModePrefs) {
+      _prefsView = [[PHPrefsView alloc] init];
+      [self addSubview:_prefsView];
+      hideLibrary = YES;
 
-      } else if (_viewMode == PHViewModeCompositeEditor) {
-        _compositeEditorView = [[PHCompositeEditorView alloc] init];
-        [self addSubview:_compositeEditorView];
-      }
-
-      [_libraryView setHidden:hideLibrary];
+    } else if (_viewMode == PHViewModeCompositeEditor) {
+      _compositeEditorView = [[PHCompositeEditorView alloc] init];
+      [self addSubview:_compositeEditorView];
     }
+
+    [_libraryView setHidden:hideLibrary];
   }
 }
 

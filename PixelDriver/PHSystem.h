@@ -55,6 +55,10 @@ extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
 extern NSString* const PHSystemValueKey;
 
+
+extern NSString* const PHSystemViewStateChangedNotification;
+extern NSString* const PHSystemDidCreateNewCompositeNotification;
+
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
  *
@@ -65,10 +69,10 @@ extern NSString* const PHSystemValueKey;
 // Animations
 
 // All compiled animations included with the PixelPusher.
-@property (strong) NSArray* compiledAnimations;
+@property (readonly, strong) NSArray* compiledAnimations;
 
 // All composite animations that have been loaded from disk.
-@property (strong) NSArray* compositeAnimations;
+@property (readonly, strong) NSArray* compositeAnimations;
 
 // Active Animations
 
