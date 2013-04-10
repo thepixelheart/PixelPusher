@@ -200,6 +200,8 @@
                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                          context:NULL];
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+
+    [self setCategoryFilter:@"All"];
   }
   return self;
 }
@@ -225,7 +227,13 @@
 
 - (void)setCategoryFilter:(NSString *)category {
   if ([category isEqualToString:@"All"]) {
-    _collectionView.content = _animations;
+    NSMutableArray* filteredArray = [NSMutableArray array];
+    for (PHAnimation* animation in _animations) {
+      if (![animation.categories containsObject:PHAnimationCategoryPipes]) {
+        [filteredArray addObject:animation];
+      }
+    }
+    _collectionView.content = filteredArray;
 
   } else {
     NSMutableArray* filteredArray = [NSMutableArray array];
