@@ -88,7 +88,7 @@ static const CGFloat kPreviewPaneWidth = 200;
     for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
       PHAnimationTileView *view = [[PHAnimationTileView alloc] init];
       [layerViews addObject:view];
-      [_layersContainerView addSubview:view];
+      [_layersContainerView.contentView addSubview:view];
     }
     _layerViews = [layerViews copy];
 
@@ -132,6 +132,33 @@ static const CGFloat kPreviewPaneWidth = 200;
   CGFloat layerViewsLeftEdge = CGRectGetMaxX(_compositesView.frame);
   CGFloat layerViewsRightEdge = CGRectGetMinX(_previewCompositeView.frame);
   _layersContainerView.frame = CGRectMake(layerViewsLeftEdge, 0, layerViewsRightEdge - layerViewsLeftEdge, self.bounds.size.height);
+
+  NSInteger halfway = _layerViews.count / 2;
+  CGFloat layerViewWidth = floor(_layersContainerView.contentView.frame.size.width / (CGFloat)halfway);
+
+  CGFloat layerHeight = layerViewWidth * visualizerAspectRatio;
+  CGFloat halfHeight = _layersContainerView.contentView.frame.size.height / 2;
+
+  CGFloat leftEdge = 0;
+  if (layerHeight > halfHeight) {
+    layerHeight = halfHeight;
+    layerViewWidth = layerHeight / visualizerAspectRatio;
+
+    leftEdge = floorf((_layersContainerView.contentView.frame.size.width - layerViewWidth * halfway) / 2);
+  }
+
+  for (NSInteger ix = 0; ix < _layerViews.count; ++ix) {
+    NSView *view = _layerViews[ix];
+    NSInteger col = ix % halfway;
+    NSInteger row = ix / halfway;
+    view.frame = CGRectMake(col * layerViewWidth, _layersContainerView.contentView.frame.size.height - (row + 1) * halfHeight + floorf((halfHeight - layerHeight) / 2), layerViewWidth, layerHeight);
+  }
+
+  CGFloat shrinkAmount = leftEdge + _layersContainerView.contentView.frame.origin.x;
+  frame = _layersContainerView.frame;
+  frame.origin.x += shrinkAmount;
+  frame.size.width -= shrinkAmount * 2;
+  _layersContainerView.frame = frame;
 }
 
 #pragma mark - PHListViewDelegate

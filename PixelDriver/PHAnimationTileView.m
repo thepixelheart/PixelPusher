@@ -42,8 +42,12 @@
     [[NSColor colorWithDeviceWhite:1 alpha:0.2] set];
     NSRectFill([self bounds]);
   }
+  if (nil == _animation) {
+    [[NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:1] set];
+    NSRectFill([self bounds]);
+  }
 
-  if (nil == _previewImageRef) {
+  if (nil == _previewImageRef && nil != _animation) {
     CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
     CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
     [_animation renderPreviewInContext:contextRef size:wallSize];
