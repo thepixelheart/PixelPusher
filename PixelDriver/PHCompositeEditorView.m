@@ -253,9 +253,9 @@ static const CGFloat kPreviewPaneWidth = 200;
   if (nil != editingAnimation) {
     NSInteger indexOfEditingComposite = [_composites indexOfObject:editingAnimation];
     [_compositesView setSelectedIndex:indexOfEditingComposite];
-
-    [self compositeDidChange];
   }
+
+  [self compositeDidChange];
 }
 
 - (void)activeCompositeDidChangeNotification:(NSNotification *)notification {
