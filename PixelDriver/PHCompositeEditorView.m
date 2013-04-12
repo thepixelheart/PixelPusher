@@ -94,6 +94,8 @@ static const CGFloat kPreviewPaneWidth = 200;
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
+
+    [self compositeDidChange];
   }
   return self;
 }
