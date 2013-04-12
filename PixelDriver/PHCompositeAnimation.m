@@ -21,7 +21,6 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 @implementation PHCompositeAnimation {
   PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
-  NSString* _name;
 }
 
 + (id)animationWithLayers:(NSArray *)layers

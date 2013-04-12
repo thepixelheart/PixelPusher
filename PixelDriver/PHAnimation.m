@@ -130,18 +130,22 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   NSArray* animations =
   // Row 1
   @[
+    // Pipes
     [PHResetAnimation animation],
+    [PHRotationAnimation animationWithDirection:1],
+    [PHRotationAnimation animationWithDirection:0],
+    [PHRotationAnimation animationWithDirection:-1],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
+    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+
     [PHBassPlate animation],
 
     [PHMegamanAnimation animation],
     [PHPikachuEmotingAnimation animation],
 
     [PHDJAnimation animation],
-  [PHRotationAnimation animationWithDirection:1],
-  [PHRotationAnimation animationWithDirection:0],
-
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
 
     [PHHoleDistortionFilter animation],
 
@@ -153,10 +157,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHNyanCatAnimation animation],
 
     [PHAdventureTimeAnimation animation],
-    [PHRotationAnimation animationWithDirection:-1],
-
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
 
     // Row 3
     [PHCombAnimation animation],

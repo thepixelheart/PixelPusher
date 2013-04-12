@@ -44,6 +44,7 @@ typedef enum {
   // Composite Editor
   PHSystemButtonNewComposite,
   PHSystemButtonDeleteComposite,
+  PHSystemButtonRenameComposite,
   PHSystemButtonLoadCompositeIntoActiveLayer,
   PHSystemButtonClearCompositeActiveLayer,
 

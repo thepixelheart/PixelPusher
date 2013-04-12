@@ -22,6 +22,8 @@ extern const NSInteger PHNumberOfCompositeLayers;
 
 + (id)animationWithLayers:(NSArray *)layers name:(NSString *)name;
 
+@property (nonatomic, copy) NSString* name;
+
 - (void)setAnimation:(PHAnimation *)animation forLayer:(NSInteger)layer;
 - (PHAnimation *)animationAtLayer:(NSInteger)layer;
 - (NSArray *)layers;

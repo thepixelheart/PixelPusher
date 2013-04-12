@@ -37,6 +37,7 @@ static const CGFloat kPreviewPaneWidth = 200;
 @implementation PHCompositeEditorView {
   PHButton* _newButton;
   PHButton* _deleteButton;
+  PHButton* _renameButton;
   PHListView* _compositesView;
   NSArray* _composites;
 
@@ -79,6 +80,12 @@ static const CGFloat kPreviewPaneWidth = 200;
     _newButton.delegate = self;
     [_newButton setTitle:@"New"];
     [self addSubview:_newButton];
+
+    _renameButton = [[PHButton alloc] init];
+    _renameButton.tag = PHSystemButtonRenameComposite;
+    _renameButton.delegate = self;
+    [_renameButton setTitle:@"Rename"];
+    [self addSubview:_renameButton];
 
     _deleteButton = [[PHButton alloc] init];
     _deleteButton.tag = PHSystemButtonDeleteComposite;
@@ -124,14 +131,17 @@ static const CGFloat kPreviewPaneWidth = 200;
 
   [_newButton sizeToFit];
   [_deleteButton sizeToFit];
+  [_renameButton sizeToFit];
 
   CGFloat topEdge = self.bounds.size.height;
 
   _newButton.frame = CGRectMake(kButtonMargins.left, topEdge - _newButton.frame.size.height - kButtonMargins.top, _newButton.frame.size.width, _newButton.frame.size.height);
-  _deleteButton.frame = CGRectMake(kButtonMargins.left, _newButton.frame.origin.y - kButtonMargins.bottom - _deleteButton.frame.size.height, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
+  _renameButton.frame = CGRectMake(kButtonMargins.left, _newButton.frame.origin.y - kButtonMargins.bottom - _renameButton.frame.size.height, _renameButton.frame.size.width, _renameButton.frame.size.height);
+  _deleteButton.frame = CGRectMake(kButtonMargins.left, _renameButton.frame.origin.y - kButtonMargins.bottom - _deleteButton.frame.size.height, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
 
-  CGFloat buttonRightEdge = MAX(CGRectGetMaxX(_newButton.frame),
-                                CGRectGetMaxX(_deleteButton.frame)) + kButtonMargins.right;
+  CGFloat buttonRightEdge = MAX(MAX(CGRectGetMaxX(_newButton.frame),
+                                    CGRectGetMaxX(_deleteButton.frame)),
+                                CGRectGetMaxX(_renameButton.frame)) + kButtonMargins.right;
 
   CGRect frame = _newButton.frame;
   frame.origin.x = floorf((buttonRightEdge - frame.size.width) / 2);
@@ -140,6 +150,10 @@ static const CGFloat kPreviewPaneWidth = 200;
   frame = _deleteButton.frame;
   frame.origin.x = floorf((buttonRightEdge - frame.size.width) / 2);
   _deleteButton.frame = frame;
+
+  frame = _renameButton.frame;
+  frame.origin.x = floorf((buttonRightEdge - frame.size.width) / 2);
+  _renameButton.frame = frame;
 
   _compositesView.frame = CGRectMake(buttonRightEdge, 0, kCompositesListWidth, topEdge);
   [_compositesView layout];

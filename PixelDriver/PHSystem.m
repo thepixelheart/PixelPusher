@@ -322,6 +322,8 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
       break;
     case PHSystemButtonDeleteComposite:
       break;
+    case PHSystemButtonRenameComposite:
+      break;
 
     case PHSystemButtonClearCompositeActiveLayer:
       [_editingCompositeAnimation setAnimation:nil
@@ -399,6 +401,25 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
       }
       break;
     }
+    case PHSystemButtonRenameComposite: {
+      if (nil != _editingCompositeAnimation) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setMessageText:@"What'cha callin' it?"];
+        NSTextView *textView = [[NSTextView alloc] init];
+        textView.frame = CGRectMake(0, 0, 200, 100);
+        if (nil != _editingCompositeAnimation.name) {
+          textView.string = _editingCompositeAnimation.name;
+        }
+        [alert setAccessoryView:textView];
+
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndRenamingAlert:)
+                            contextInfo:nil];
+      }
+      break;
+    }
 
     case PHSystemButtonLoadCompositeIntoActiveLayer:
       break;
@@ -413,6 +434,16 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   if (nil != extraNotificationName) {
     [nc postNotificationName:extraNotificationName object:nil];
   }
+}
+
+- (void)didEndRenamingAlert:(NSAlert *)alert {
+  NSTextView *textView = (NSTextView *)alert.accessoryView;
+  NSString *compositeName = textView.string;
+  _editingCompositeAnimation.name = compositeName;
+  [self saveComposites];
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
 }
 
 #pragma mark - PHDJ2GODeviceDelegate
