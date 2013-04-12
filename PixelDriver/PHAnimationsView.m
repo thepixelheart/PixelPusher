@@ -30,6 +30,11 @@
   PHScrollView* _scrollView;
   NSArray* _animations;
   NSIndexSet* _previousSelectionIndexes;
+  NSString* _categoryFilter;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -61,7 +66,7 @@
     _scrollView.documentView = _collectionView;
     [self.contentView addSubview:_scrollView];
 
-    _animations = [PHSys().compiledAnimations copy];
+    _animations = [self allAnimations];
     _collectionView.content = _animations;
 
     [_collectionView addObserver:self
@@ -72,8 +77,16 @@
     [self setCategoryFilter:@"All"];
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
   }
   return self;
+}
+
+- (NSArray *)allAnimations {
+  return [PHSys().compiledAnimations arrayByAddingObjectsFromArray:PHSys().compositeAnimations];
 }
 
 - (void)updateSystemWithSelection {
@@ -96,6 +109,8 @@
 }
 
 - (void)setCategoryFilter:(NSString *)category {
+  _categoryFilter = [category copy];
+
   if ([category isEqualToString:@"All"]) {
     NSMutableArray* filteredArray = [NSMutableArray array];
     for (PHAnimation* animation in _animations) {
@@ -122,6 +137,19 @@
 
 - (PHAnimation *)selectedAnimation {
   return _collectionView.content[[_previousSelectionIndexes firstIndex]];
+}
+
+#pragma mark - NSNotifications
+
+- (void)compositesDidChangeNotification:(NSNotification *)notification {
+  _animations = [self allAnimations];
+  [self setCategoryFilter:_categoryFilter];
+
+  CGRect selectionFrame = [_collectionView frameForItemAtIndex:_previousSelectionIndexes];
+  CGPoint offset = CGPointMake(0, selectionFrame.origin.y - _scrollView.bounds.size.height / 2);
+  offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
+  [_scrollView.contentView scrollToPoint:offset];
+  _collectionView.selectionIndexes = _previousSelectionIndexes;
 }
 
 @end

@@ -424,6 +424,9 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
     case PHSystemButtonLoadCompositeIntoActiveLayer:
       break;
 
+    case PHSystemButtonClearCompositeActiveLayer:
+      break;
+
     default:
       NSLog(@"%d is not a button", button);
       break;

@@ -105,12 +105,11 @@
       animation = nil;
     }
     _animation = [animation copy];
+  }
 
-    if (nil != _previewImageRef) {
-      CGImageRelease(_previewImageRef);
-      _previewImageRef = nil;
-    }
-    [self setNeedsDisplay:YES];
+  if (nil != _previewImageRef) {
+    CGImageRelease(_previewImageRef);
+    _previewImageRef = nil;
   }
 }
 

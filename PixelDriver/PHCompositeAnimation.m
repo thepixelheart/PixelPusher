@@ -44,6 +44,9 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
 - (NSString *)description {
   NSMutableString* description = [[super description] mutableCopy];
+  if (_name.length > 0) {
+    [description appendFormat:@"name: %@", _name];
+  }
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     [description appendFormat:@" %@", _layerAnimation[ix]];
   }
