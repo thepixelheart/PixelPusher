@@ -41,6 +41,7 @@ NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
 NSString* const PHSystemValueKey = @"PHSystemValueKey";
 NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChangedNotification";
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
+NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 
 @interface PHSystem() <PHDJ2GODeviceDelegate>
 @end
@@ -324,6 +325,13 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
     case PHSystemButtonDeleteComposite:
       break;
 
+    case PHSystemButtonLoadCompositeIntoActiveLayer:
+      [_editingCompositeAnimation setAnimation:[_previewAnimation copy]
+                                      forLayer:_activeCompositeLayer];
+      extraNotificationName = PHSystemActiveCompositeDidChangeNotification;
+      [self saveComposites];
+      break;
+
     default:
       NSLog(@"%d is not a button", button);
       break;
@@ -388,6 +396,9 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
         extraNotificationName = PHSystemCompositesDidChangeNotification;
         [self saveComposites];
       }
+      break;
+
+    case PHSystemButtonLoadCompositeIntoActiveLayer:
       break;
     }
 

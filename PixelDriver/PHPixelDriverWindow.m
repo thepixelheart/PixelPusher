@@ -70,9 +70,11 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   if (PHSys().viewMode == PHViewModeCompositeEditor) {
     keyMappings[@"n"] = @(PHSystemButtonNewComposite);
     keyMappings[@"51"] = @(PHSystemButtonDeleteComposite);
+    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer);
   }
 
-  if ((theEvent.type == NSKeyDown || theEvent.type == NSKeyUp)
+  if ((theEvent.type ==
+       NSKeyDown || theEvent.type == NSKeyUp)
       && (nil != keyMappings[theEvent.charactersIgnoringModifiers]
           || nil != keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]])) {
     id value = keyMappings[theEvent.charactersIgnoringModifiers];

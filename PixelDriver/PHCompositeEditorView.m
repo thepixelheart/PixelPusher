@@ -49,6 +49,7 @@ static const CGFloat kPreviewPaneWidth = 200;
 
 - (void)dealloc {
   [_layersView removeObserver:self forKeyPath:@"selectionIndexes"];
+
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -105,6 +106,7 @@ static const CGFloat kPreviewPaneWidth = 200;
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(activeCompositeDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
 
     [self compositeDidChange];
 
@@ -196,6 +198,8 @@ static const CGFloat kPreviewPaneWidth = 200;
     } else {
       _previousSelectionIndexes = [_layersView.selectionIndexes copy];
       [self compositeDidChange];
+
+      PHSys().activeCompositeLayer = [_layersView.selectionIndexes firstIndex];
     }
   }
 }
@@ -252,6 +256,10 @@ static const CGFloat kPreviewPaneWidth = 200;
 
     [self compositeDidChange];
   }
+}
+
+- (void)activeCompositeDidChangeNotification:(NSNotification *)notification {
+  [self compositeDidChange];
 }
 
 #pragma mark - Private Methods

@@ -40,6 +40,7 @@ typedef enum {
   PHSystemButtonLibrary,
   PHSystemButtonCompositeEditor,
   PHSystemButtonPrefs,
+  PHSystemButtonLoadCompositeIntoActiveLayer,
 
   PHSystemSliderFader,
 
@@ -68,6 +69,7 @@ extern NSString* const PHSystemValueKey;
 
 extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
+extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -99,6 +101,9 @@ extern NSString* const PHSystemCompositesDidChangeNotification;
 // The animation being displayed in the preview pane for loading animations
 // into the visualizer.
 @property (strong) PHCompositeAnimation* editingCompositeAnimation;
+
+// The current layer of the composite that is being modified.
+@property (assign) NSInteger activeCompositeLayer;
 
 // There is no PHAnimation property for the Heart because this is generated every time a tick is
 // generated as a fade of the left and right animations + fade using the faderTransition.
