@@ -206,6 +206,8 @@ static const CGFloat kPreviewPaneWidth = 200;
   if (listView == _compositesView) {
     PHSys().editingCompositeAnimation = _composites[index];
     [self compositeDidChange];
+
+    [_layersView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
   }
 }
 
