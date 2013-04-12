@@ -386,18 +386,17 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
       break;
     }
     case PHSystemButtonDeleteComposite: {
-      NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
-      if (indexOfEditingObject != NSNotFound) {
-        [_compositeAnimations removeObject:_editingCompositeAnimation];
-        if (_compositeAnimations.count > 0) {
-          _editingCompositeAnimation = _compositeAnimations[MIN(_compositeAnimations.count - 1,
-                                                                indexOfEditingObject)];
-        } else {
-          _editingCompositeAnimation = nil;
-        }
+      if (nil != _editingCompositeAnimation) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:@"You're about to delete a composite."];
+        [alert addButtonWithTitle:@"Cancel"];
+        [alert addButtonWithTitle:@"DESTROY IT!"];
 
-        extraNotificationName = PHSystemCompositesDidChangeNotification;
-        [self saveComposites];
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndDeleteAlert:returnCode:contextInfo:)
+                            contextInfo:nil];
       }
       break;
     }
@@ -436,6 +435,26 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   [nc postNotificationName:PHSystemButtonReleasedNotification object:nil userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:button]}];
   if (nil != extraNotificationName) {
     [nc postNotificationName:extraNotificationName object:nil];
+  }
+}
+
+- (void)didEndDeleteAlert:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+  if (returnCode == NSAlertSecondButtonReturn) {
+    NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
+    if (indexOfEditingObject != NSNotFound) {
+      [_compositeAnimations removeObject:_editingCompositeAnimation];
+      if (_compositeAnimations.count > 0) {
+        _editingCompositeAnimation = _compositeAnimations[MIN(_compositeAnimations.count - 1,
+                                                              indexOfEditingObject)];
+      } else {
+        _editingCompositeAnimation = nil;
+      }
+
+      [self saveComposites];
+
+      NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+      [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
+    }
   }
 }
 
