@@ -55,13 +55,6 @@
 
 @implementation PHCollectionView
 
-- (id)initWithFrame:(NSRect)frameRect {
-  if ((self = [super initWithFrame:frameRect])) {
-    [self setValue:@(0) forKey:@"_animationDuration"];
-  }
-  return self;
-}
-
 - (id)animationForKey:(NSString *)key {
   return nil;
 }
