@@ -14,12 +14,23 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "PHAnimationCollectionView.h"
 
-@class PHAnimation;
+@implementation PHAnimationCollectionViewItem
+@end
 
-@interface PHAnimationTileView : NSView
-@property (nonatomic, assign) BOOL selected;
-@property (nonatomic, copy) PHAnimationCollectionViewItem* item;
+@implementation PHAnimationCollectionView
+
+- (void)setContent:(NSArray *)content {
+  NSMutableArray *wrappedContent = [NSMutableArray array];
+  for (PHAnimation* animation in content) {
+    PHAnimationCollectionViewItem* item = [[PHAnimationCollectionViewItem alloc] init];
+    item.animation = animation;
+    item.isDragDestination = self.isDragDestination;
+    item.isDragSource = self.isDragSource;
+    [wrappedContent addObject:item];
+  }
+  [super setContent:wrappedContent];
+}
+
 @end

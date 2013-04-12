@@ -39,7 +39,7 @@ typedef NSArray* (^PHAdditionalAnimationBlock)();
  * The PHAnimation class exposes the fundamental tools and API for creating
  * Pixel Heart animations.
  */
-@interface PHAnimation : NSObject <NSCopying>
+@interface PHAnimation : NSObject <NSCopying, NSCoding>
 
 // Convenience method for creating an animation object.
 + (id)animation;

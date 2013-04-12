@@ -144,6 +144,7 @@
 		66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */; };
 		66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */; };
 		66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7AA1717BE3E00205745 /* PHCollectionView.m */; };
+		66DCB7B31717E71E00205745 /* PHAnimationCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7B21717E71D00205745 /* PHAnimationCollectionView.m */; };
 		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
 		66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
@@ -421,6 +422,8 @@
 		66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTileViewItem.m; sourceTree = "<group>"; };
 		66DCB7A91717BE3E00205745 /* PHCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCollectionView.h; sourceTree = "<group>"; };
 		66DCB7AA1717BE3E00205745 /* PHCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCollectionView.m; sourceTree = "<group>"; };
+		66DCB7B11717E71D00205745 /* PHAnimationCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationCollectionView.h; sourceTree = "<group>"; };
+		66DCB7B21717E71D00205745 /* PHAnimationCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationCollectionView.m; sourceTree = "<group>"; };
 		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
 		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
 		66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowerAnimation.h; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 				66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */,
 				66DCB7A91717BE3E00205745 /* PHCollectionView.h */,
 				66DCB7AA1717BE3E00205745 /* PHCollectionView.m */,
+				66DCB7B11717E71D00205745 /* PHAnimationCollectionView.h */,
+				66DCB7B21717E71D00205745 /* PHAnimationCollectionView.m */,
 				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
 				6634E1FD16A66C6700AD86B1 /* PHContainerView.m */,
 				662CB21016A67915008F497B /* PHPixelImageView.h */,
@@ -1217,6 +1222,7 @@
 				66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */,
 				66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */,
 				66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */,
+				66DCB7B31717E71E00205745 /* PHAnimationCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,12 +14,17 @@
 // limitations under the License.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "PHAnimationCollectionView.h"
+#import "PHCollectionView.h"
 
 @class PHAnimation;
 
-@interface PHAnimationTileView : NSView
-@property (nonatomic, assign) BOOL selected;
-@property (nonatomic, copy) PHAnimationCollectionViewItem* item;
+@interface PHAnimationCollectionViewItem : NSObject
+@property (nonatomic, copy) PHAnimation *animation;
+@property (nonatomic, assign) BOOL isDragSource; // NO by default
+@property (nonatomic, assign) BOOL isDragDestination; // NO by default
+@end
+
+@interface PHAnimationCollectionView : PHCollectionView
+@property (nonatomic, assign) BOOL isDragSource; // NO by default
+@property (nonatomic, assign) BOOL isDragDestination; // NO by default
 @end

@@ -66,6 +66,7 @@ NSString* const PHAnimationCategoryPipes = @"Pipes";
 NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
 NSString* const PHAnimationCategoryShapes = @"Shapes";
 NSString* const PHAnimationCategoryTrippy = @"Trippy";
+NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
@@ -95,6 +96,20 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   PHAnimation* animation = [[self.class allocWithZone:zone] init];
   animation->_systemState = _systemState;
   return animation;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  id definingProperties = [self definingProperties];
+  if (nil != definingProperties) {
+    [coder encodeObject:definingProperties forKey:kDefiningPropertiesKey];
+  }
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+  if ((self = [super init])) {
+    [self setDefiningProperties:[decoder decodeObjectForKey:kDefiningPropertiesKey]];
+  }
+  return self;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {

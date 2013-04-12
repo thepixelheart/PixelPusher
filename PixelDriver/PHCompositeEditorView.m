@@ -18,6 +18,7 @@
 
 #import "PHAnimation.h"
 #import "PHAnimationTileView.h"
+#import "PHAnimationCollectionView.h"
 #import "PHAnimationTileViewItem.h"
 #import "PHCompositeAnimation.h"
 #import "PHCollectionView.h"
@@ -44,7 +45,7 @@ static const CGFloat kPreviewPaneWidth = 200;
   PHContainerView* _previewCompositeView;
 
   PHContainerView* _layersContainerView;
-  PHCollectionView* _layersView;
+  PHAnimationCollectionView* _layersView;
   NSIndexSet* _previousSelectionIndexes;
 }
 
@@ -97,7 +98,9 @@ static const CGFloat kPreviewPaneWidth = 200;
     _layersContainerView = [[PHContainerView alloc] init];
     [self addSubview:_layersContainerView];
 
-    _layersView = [[PHCollectionView alloc] init];
+    _layersView = [[PHAnimationCollectionView alloc] init];
+    _layersView.isDragSource = YES;
+    _layersView.isDragDestination = YES;
     _layersView.tag = PHSystemCompositeLayers;
     _layersView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _layersView.itemPrototype = [PHAnimationTileViewItem new];
