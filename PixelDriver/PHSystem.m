@@ -21,8 +21,6 @@
 #import "PHAnimation.h"
 #import "PHSystemTick+Protected.h"
 
-#import "PHPixelHeartAnimation.h"
-#import "PHMegamanAnimation.h"
 #import "PHCompositeAnimation.h"
 
 #import "PHCrossFadeTransition.h"
@@ -379,10 +377,6 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
     case PHSystemButtonNewComposite: {
       PHCompositeAnimation* animation = [PHCompositeAnimation animation];
       // Always immediately start editing the new animation.
-      [animation setAnimation:[PHPixelHeartAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
-      [animation setAnimation:[PHMegamanAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
-      [animation setAnimation:[PHPixelHeartAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
-      [animation setAnimation:[PHMegamanAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
       _editingCompositeAnimation = animation;
       [_compositeAnimations addObject:animation];
       extraNotificationName = PHSystemCompositesDidChangeNotification;
