@@ -166,6 +166,7 @@ static const CGFloat kPreviewPaneWidth = 200;
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _compositesView) {
     PHSys().editingCompositeAnimation = _composites[index];
+    [self compositeDidChange];
   }
 }
 
@@ -207,6 +208,16 @@ static const CGFloat kPreviewPaneWidth = 200;
   if (nil != editingAnimation) {
     NSInteger indexOfEditingComposite = [_composites indexOfObject:editingAnimation];
     [_compositesView setSelectedIndex:indexOfEditingComposite];
+
+    [self compositeDidChange];
+  }
+}
+
+#pragma mark - Private Methods
+
+- (void)compositeDidChange {
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+    [_layerViews[ix] setAnimation:[PHSys().editingCompositeAnimation animationAtLayer:ix]];
   }
 }
 

@@ -21,7 +21,10 @@
 #import "PHAnimation.h"
 #import "PHSystemTick+Protected.h"
 
+#import "PHPixelHeartAnimation.h"
+#import "PHMegamanAnimation.h"
 #import "PHCompositeAnimation.h"
+
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
 
@@ -361,6 +364,10 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
     case PHSystemButtonNewComposite: {
       PHCompositeAnimation* animation = [PHCompositeAnimation animation];
       // Always immediately start editing the new animation.
+      [animation setAnimation:[PHPixelHeartAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
+      [animation setAnimation:[PHMegamanAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
+      [animation setAnimation:[PHPixelHeartAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
+      [animation setAnimation:[PHMegamanAnimation animation] forLayer:arc4random_uniform((u_int32_t)PHNumberOfCompositeLayers)];
       _editingCompositeAnimation = animation;
       [_compositeAnimations addObject:animation];
       extraNotificationName = PHSystemCompositesDidChangeNotification;
@@ -467,7 +474,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
       [self didReleaseButton:PHSystemButtonPixelHeart];
       break;
     case PHDJ2GOButtonBack:
-      if (_focusedList < PHSystemAnimationGroups) {
+      if (_focusedList < PHSystemComposites) {
         _focusedList++;
       } else {
         _focusedList = PHSystemAnimations;
@@ -477,7 +484,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
       if (_focusedList > PHSystemAnimations) {
         _focusedList--;
       } else {
-        _focusedList = PHSystemAnimationGroups;
+        _focusedList = PHSystemComposites;
       }
       break;
 

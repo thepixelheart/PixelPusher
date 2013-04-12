@@ -147,6 +147,10 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   _layerAnimation[layer] = [animation copy];
 }
 
+- (PHAnimation *)animationAtLayer:(NSInteger)layer {
+  return _layerAnimation[layer];
+}
+
 - (void)setSystemState:(PHSystemState *)driver {
   [super setSystemState:driver];
 

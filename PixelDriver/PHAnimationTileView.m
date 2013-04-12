@@ -107,6 +107,7 @@
       CGImageRelease(_previewImageRef);
       _previewImageRef = nil;
     }
+    [self setNeedsDisplay:YES];
   }
 }
 
