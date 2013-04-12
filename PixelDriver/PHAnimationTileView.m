@@ -38,12 +38,12 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-  if (_selected) {
-    [[NSColor colorWithDeviceWhite:1 alpha:0.2] set];
-    NSRectFill([self bounds]);
-  }
   if (nil == _animation) {
     [[NSColor colorWithDeviceRed:0 green:0 blue:0 alpha:1] set];
+    NSRectFill([self bounds]);
+  }
+  if (_selected) {
+    [[NSColor colorWithDeviceWhite:1 alpha:0.2] set];
     NSRectFill([self bounds]);
   }
 
@@ -99,8 +99,11 @@
   }
 }
 
-- (void)setAnimation:(PHAnimation *)animation {
+- (void)setAnimation:(id)animation {
   if (_animation != animation) {
+    if (![animation isKindOfClass:[PHAnimation class]]) {
+      animation = nil;
+    }
     _animation = [animation copy];
 
     if (nil != _previewImageRef) {

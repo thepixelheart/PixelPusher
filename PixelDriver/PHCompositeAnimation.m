@@ -151,6 +151,18 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   return _layerAnimation[layer];
 }
 
+- (NSArray *)layers {
+  NSMutableArray *layers = [NSMutableArray array];
+  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+    if (nil != _layerAnimation[ix]) {
+      [layers addObject:_layerAnimation[ix]];
+    } else {
+      [layers addObject:@(ix)];
+    }
+  }
+  return layers;
+}
+
 - (void)setSystemState:(PHSystemState *)driver {
   [super setSystemState:driver];
 

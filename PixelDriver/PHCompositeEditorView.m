@@ -18,7 +18,9 @@
 
 #import "PHAnimation.h"
 #import "PHAnimationTileView.h"
+#import "PHAnimationTileViewItem.h"
 #import "PHCompositeAnimation.h"
+#import "PHCollectionView.h"
 #import "PHButton.h"
 #import "PHListView.h"
 #import "PHWallView.h"
@@ -39,11 +41,14 @@ static const CGFloat kPreviewPaneWidth = 200;
   NSArray* _composites;
 
   PHContainerView* _previewCompositeView;
+
   PHContainerView* _layersContainerView;
-  NSArray *_layerViews;
+  PHCollectionView* _layersView;
+  NSIndexSet* _previousSelectionIndexes;
 }
 
 - (void)dealloc {
+  [_layersView removeObserver:self forKeyPath:@"selectionIndexes"];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -84,18 +89,29 @@ static const CGFloat kPreviewPaneWidth = 200;
     _layersContainerView = [[PHContainerView alloc] init];
     [self addSubview:_layersContainerView];
 
-    NSMutableArray* layerViews = [NSMutableArray array];
-    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      PHAnimationTileView *view = [[PHAnimationTileView alloc] init];
-      [layerViews addObject:view];
-      [_layersContainerView.contentView addSubview:view];
-    }
-    _layerViews = [layerViews copy];
+    _layersView = [[PHCollectionView alloc] init];
+    _layersView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+    _layersView.itemPrototype = [PHAnimationTileViewItem new];
+    [_layersView setSelectable:YES];
+    _layersView.backgroundColors = @[
+                                     [NSColor colorWithDeviceWhite:0.2 alpha:1],
+                                     [NSColor colorWithDeviceWhite:0.15 alpha:1],
+                                     ];
+    _layersView.allowsMultipleSelection = NO;
+    [_layersContainerView.contentView addSubview:_layersView];
+
+    [_layersView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
 
     [self compositeDidChange];
+
+    [_layersView addObserver:self
+                      forKeyPath:@"selectionIndexes"
+                         options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+                         context:NULL];
+    [_layersView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
   }
   return self;
 }
@@ -135,32 +151,52 @@ static const CGFloat kPreviewPaneWidth = 200;
   CGFloat layerViewsRightEdge = CGRectGetMinX(_previewCompositeView.frame);
   _layersContainerView.frame = CGRectMake(layerViewsLeftEdge, 0, layerViewsRightEdge - layerViewsLeftEdge, self.bounds.size.height);
 
-  NSInteger halfway = _layerViews.count / 2;
+  NSInteger halfway = PHNumberOfCompositeLayers / 2;
   CGFloat layerViewWidth = floor(_layersContainerView.contentView.frame.size.width / (CGFloat)halfway);
 
   CGFloat layerHeight = layerViewWidth * visualizerAspectRatio;
   CGFloat halfHeight = _layersContainerView.contentView.frame.size.height / 2;
 
   CGFloat leftEdge = 0;
+  topEdge = 0;
   if (layerHeight > halfHeight) {
     layerHeight = halfHeight;
     layerViewWidth = layerHeight / visualizerAspectRatio;
 
     leftEdge = floorf((_layersContainerView.contentView.frame.size.width - layerViewWidth * halfway) / 2);
+
+  } else if (layerHeight < halfHeight) {
+    topEdge = floorf((_layersContainerView.contentView.frame.size.height - layerHeight * 2) / 2);
   }
 
-  for (NSInteger ix = 0; ix < _layerViews.count; ++ix) {
-    NSView *view = _layerViews[ix];
-    NSInteger col = ix % halfway;
-    NSInteger row = ix / halfway;
-    view.frame = CGRectMake(col * layerViewWidth, _layersContainerView.contentView.frame.size.height - (row + 1) * halfHeight + floorf((halfHeight - layerHeight) / 2), layerViewWidth, layerHeight);
-  }
+  CGSize itemSize = CGSizeMake(layerViewWidth, layerHeight);
+  _layersView.minItemSize = itemSize;
+  _layersView.maxItemSize = itemSize;
 
-  CGFloat shrinkAmount = leftEdge + _layersContainerView.contentView.frame.origin.x;
+  CGFloat shrinkAmountX = leftEdge + _layersContainerView.contentView.frame.origin.x;
+  CGFloat shrinkAmountY = topEdge + _layersContainerView.contentView.frame.origin.y;
   frame = _layersContainerView.frame;
-  frame.origin.x += shrinkAmount;
-  frame.size.width -= shrinkAmount * 2;
+  frame.origin.x += shrinkAmountX;
+  frame.size.width -= shrinkAmountX * 2;
+  frame.origin.y += shrinkAmountY;
+  frame.size.height -= shrinkAmountY * 2;
   _layersContainerView.frame = frame;
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  if (_layersView == object) {
+    if (_layersView.selectionIndexes.count == 0) {
+      _layersView.selectionIndexes = _previousSelectionIndexes;
+    } else {
+      _previousSelectionIndexes = [_layersView.selectionIndexes copy];
+      [self compositeDidChange];
+    }
+  }
 }
 
 #pragma mark - PHListViewDelegate
@@ -218,9 +254,7 @@ static const CGFloat kPreviewPaneWidth = 200;
 #pragma mark - Private Methods
 
 - (void)compositeDidChange {
-  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    [_layerViews[ix] setAnimation:[PHSys().editingCompositeAnimation animationAtLayer:ix]];
-  }
+  _layersView.content = [PHSys().editingCompositeAnimation layers];
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,8 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import <Cocoa/Cocoa.h>
 
-extern const NSInteger PHNumberOfCompositeLayers;
-
-@interface PHCompositeAnimation : PHAnimation <NSCopying, NSCoding>
-
-+ (id)animationWithLayers:(NSArray *)layers name:(NSString *)name;
-
-- (void)setAnimation:(PHAnimation *)animation forLayer:(NSInteger)layer;
-- (PHAnimation *)animationAtLayer:(NSInteger)layer;
-- (NSArray *)layers;
-- (void)reset;
+@interface PHCollectionView : NSCollectionView
 
 @end

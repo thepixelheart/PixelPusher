@@ -19,47 +19,11 @@
 #import "AppDelegate.h"
 #import "PHAnimation.h"
 #import "PHAnimationTileView.h"
+#import "PHAnimationTileViewItem.h"
+#import "PHCollectionView.h"
 #import "PHCompositeAnimation.h"
 #import "PHSystem.h"
 #import "PHScrollView.h"
-
-@interface PHAnimationTileViewItem : NSCollectionViewItem
-@end
-
-@implementation PHAnimationTileViewItem
-
-- (void)loadView {
-  [self setView:[[PHAnimationTileView alloc] initWithFrame:NSZeroRect]];
-}
-
-- (void)setRepresentedObject:(id)representedObject {
-  [super setRepresentedObject:representedObject];
-
-  PHAnimationTileView* view = (PHAnimationTileView *)self.view;
-  view.animation = representedObject;
-  [view setNeedsDisplay:YES];
-}
-
-- (void)setSelected:(BOOL)selected {
-  [super setSelected:selected];
-
-  PHAnimationTileView* view = (PHAnimationTileView *)self.view;
-  [view setSelected:selected];
-  [view setNeedsDisplay:YES];
-}
-
-@end
-
-@interface PHCollectionView : NSCollectionView
-@end
-
-@implementation PHCollectionView
-
-- (id)animationForKey:(NSString *)key {
-  return nil;
-}
-
-@end
 
 @implementation PHAnimationsView {
   PHCollectionView* _collectionView;
@@ -104,9 +68,10 @@
                       forKeyPath:@"selectionIndexes"
                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                          context:NULL];
-    [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
     [self setCategoryFilter:@"All"];
+    
+    [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
   }
   return self;
 }
