@@ -17,5 +17,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface PHCollectionView : NSCollectionView
-
+@property (nonatomic, assign) NSInteger tag;
 @end

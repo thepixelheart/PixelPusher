@@ -90,6 +90,7 @@ static const CGFloat kPreviewPaneWidth = 200;
     [self addSubview:_layersContainerView];
 
     _layersView = [[PHCollectionView alloc] init];
+    _layersView.tag = PHSystemCompositeLayers;
     _layersView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _layersView.itemPrototype = [PHAnimationTileViewItem new];
     [_layersView setSelectable:YES];

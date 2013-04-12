@@ -70,7 +70,7 @@
                          context:NULL];
 
     [self setCategoryFilter:@"All"];
-    
+
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
   }
   return self;

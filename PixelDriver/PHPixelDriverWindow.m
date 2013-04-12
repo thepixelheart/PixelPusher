@@ -118,10 +118,18 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 - (void)didRotateKnob:(NSNotification *)notification {
   PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
   PHSystemKnobDirection direction = [notification.userInfo[PHSystemValueKey] intValue];
-  NSScrollView* scrollView = [self.contentView viewWithTag:identifier];
-  id documentView = scrollView.documentView;
-  if ([documentView isKindOfClass:[NSCollectionView class]]) {
-    NSCollectionView* collectionView = documentView;
+  id view = [self.contentView viewWithTag:identifier];
+  id targetView = nil;
+  NSScrollView *scrollView = nil;
+
+  if ([view isKindOfClass:[NSScrollView class]]) {
+    scrollView = view;
+    targetView = [scrollView documentView];
+  } else {
+    targetView = view;
+  }
+  if ([targetView isKindOfClass:[NSCollectionView class]]) {
+    NSCollectionView* collectionView = targetView;
     if (collectionView.content.count > 0) {
       NSIndexSet* selection = collectionView.selectionIndexes;
       NSInteger newSelection = 0;
@@ -137,8 +145,8 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
       offset.y = MAX(0, MIN(collectionView.frame.size.height - scrollView.bounds.size.height, offset.y));
       [scrollView.contentView scrollToPoint:offset];
     }
-  } else if ([documentView isKindOfClass:[NSTableView class]]) {
-    NSTableView* tableView = documentView;
+  } else if ([targetView isKindOfClass:[NSTableView class]]) {
+    NSTableView* tableView = targetView;
     if (tableView.numberOfRows > 0) {
       NSInteger newSelection = tableView.selectedRow;
       newSelection = newSelection + ((direction == PHSystemKnobDirectionCw) ? 1 : -1);

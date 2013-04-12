@@ -474,7 +474,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
       [self didReleaseButton:PHSystemButtonPixelHeart];
       break;
     case PHDJ2GOButtonBack:
-      if (_focusedList < PHSystemComposites) {
+      if (_focusedList < PHSystemCompositeLayers) {
         _focusedList++;
       } else {
         _focusedList = PHSystemAnimations;
@@ -484,7 +484,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
       if (_focusedList > PHSystemAnimations) {
         _focusedList--;
       } else {
-        _focusedList = PHSystemComposites;
+        _focusedList = PHSystemCompositeLayers;
       }
       break;
 
