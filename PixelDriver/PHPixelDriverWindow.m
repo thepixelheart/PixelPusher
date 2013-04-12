@@ -69,8 +69,8 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {
     keyMappings[@"n"] = @(PHSystemButtonNewComposite);
-    keyMappings[@"51"] = @(PHSystemButtonDeleteComposite);
-    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer);
+    keyMappings[@"51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
+    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
   }
 
   if ((theEvent.type ==

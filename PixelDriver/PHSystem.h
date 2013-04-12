@@ -40,7 +40,12 @@ typedef enum {
   PHSystemButtonLibrary,
   PHSystemButtonCompositeEditor,
   PHSystemButtonPrefs,
+
+  // Composite Editor
+  PHSystemButtonNewComposite,
+  PHSystemButtonDeleteComposite,
   PHSystemButtonLoadCompositeIntoActiveLayer,
+  PHSystemButtonClearCompositeActiveLayer,
 
   PHSystemSliderFader,
 
@@ -50,9 +55,6 @@ typedef enum {
   PHSystemComposites,
   PHSystemCompositeLayers,
 
-  // Composite Editor
-  PHSystemButtonNewComposite,
-  PHSystemButtonDeleteComposite,
 } PHSystemControlIdentifier;
 
 typedef enum {

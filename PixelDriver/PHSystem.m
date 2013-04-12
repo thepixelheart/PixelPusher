@@ -325,6 +325,13 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
     case PHSystemButtonDeleteComposite:
       break;
 
+    case PHSystemButtonClearCompositeActiveLayer:
+      [_editingCompositeAnimation setAnimation:nil
+                                      forLayer:_activeCompositeLayer];
+      extraNotificationName = PHSystemActiveCompositeDidChangeNotification;
+      [self saveComposites];
+      break;
+
     case PHSystemButtonLoadCompositeIntoActiveLayer:
       [_editingCompositeAnimation setAnimation:[_previewAnimation copy]
                                       forLayer:_activeCompositeLayer];
@@ -397,10 +404,10 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
         [self saveComposites];
       }
       break;
+    }
 
     case PHSystemButtonLoadCompositeIntoActiveLayer:
       break;
-    }
 
     default:
       NSLog(@"%d is not a button", button);
