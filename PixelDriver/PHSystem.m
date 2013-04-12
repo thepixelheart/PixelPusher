@@ -55,6 +55,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
   PHSystemControlIdentifier _focusedList;
 
   NSMutableArray* _compositeAnimations;
+  BOOL _tookScreenshot;
 }
 
 @synthesize fade = _fade;
@@ -226,6 +227,37 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
                                                        floorf((kWallHeight - textSize.height) / 2),
                                                        textSize.width, textSize.height), imageRef);
     CGImageRelease(imageRef);
+  }
+
+  // TODO: Implement screenshot button.
+  if (0) {
+    if (!_tookScreenshot) {
+      _tookScreenshot = YES;
+
+      CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
+      CGContextSetFillColorWithColor(contextRef, [NSColor blackColor].CGColor);
+      CGContextFillRect(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+      CGImageRef imageRef = CGBitmapContextCreateImage(tick.wallContextRef);
+      CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
+      CGImageRelease(imageRef);
+
+      NSString *path = [self pathForDiskStorage];
+      path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f", [NSDate timeIntervalSinceReferenceDate]]];
+      CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
+      CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeBMP, 1, NULL);
+      imageRef = CGBitmapContextCreateImage(contextRef);
+      CGImageDestinationAddImage(destination, imageRef, nil);
+      CGImageRelease(imageRef);
+      CGContextRelease(contextRef);
+
+      if (!CGImageDestinationFinalize(destination)) {
+        NSLog(@"Failed to write image to %@", path);
+      }
+
+      CFRelease(destination);
+    }
+  } else {
+    _tookScreenshot = NO;
   }
 
   for (NSValue* value in animationToContext.allValues) {
