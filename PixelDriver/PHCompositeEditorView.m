@@ -23,6 +23,7 @@
 #import "PHSystem.h"
 #import "AppDelegate.h"
 
+static const NSEdgeInsets kButtonMargins = {5, 5, 5, 5};
 static const CGFloat kCompositesListWidth = 150;
 static const CGFloat kPreviewPaneWidth = 200;
 
@@ -88,10 +89,21 @@ static const CGFloat kPreviewPaneWidth = 200;
 
   CGFloat topEdge = self.bounds.size.height;
 
-  _newButton.frame = CGRectMake(0, topEdge - _newButton.frame.size.height, _newButton.frame.size.width, _newButton.frame.size.height);
-  _deleteButton.frame = CGRectMake(0, _newButton.frame.origin.y - _deleteButton.frame.size.height, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
+  _newButton.frame = CGRectMake(kButtonMargins.left, topEdge - _newButton.frame.size.height - kButtonMargins.top, _newButton.frame.size.width, _newButton.frame.size.height);
+  _deleteButton.frame = CGRectMake(kButtonMargins.left, _newButton.frame.origin.y - kButtonMargins.bottom - _deleteButton.frame.size.height, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
 
-  _compositesView.frame = CGRectMake(_newButton.frame.size.width, 0, kCompositesListWidth, topEdge);
+  CGFloat buttonRightEdge = MAX(CGRectGetMaxX(_newButton.frame),
+                                CGRectGetMaxX(_deleteButton.frame)) + kButtonMargins.right;
+
+  CGRect frame = _newButton.frame;
+  frame.origin.x = floorf((buttonRightEdge - frame.size.width) / 2);
+  _newButton.frame = frame;
+
+  frame = _deleteButton.frame;
+  frame.origin.x = floorf((buttonRightEdge - frame.size.width) / 2);
+  _deleteButton.frame = frame;
+
+  _compositesView.frame = CGRectMake(buttonRightEdge, 0, kCompositesListWidth, topEdge);
   [_compositesView layout];
 
   CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
