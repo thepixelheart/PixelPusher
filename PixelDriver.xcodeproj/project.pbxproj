@@ -141,6 +141,7 @@
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
 		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
+		66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */; };
 		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
 		66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
@@ -412,6 +413,8 @@
 		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
 		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		66DCB7A01717ADDD00205745 /* PHAnimationTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTileView.h; sourceTree = "<group>"; };
+		66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTileView.m; sourceTree = "<group>"; };
 		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
 		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
 		66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowerAnimation.h; sourceTree = "<group>"; };
@@ -754,6 +757,8 @@
 		66BDB2A516A6A2F800ED7C81 /* Generic Views */ = {
 			isa = PBXGroup;
 			children = (
+				66DCB7A01717ADDD00205745 /* PHAnimationTileView.h */,
+				66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */,
 				6634E1FC16A66C6700AD86B1 /* PHContainerView.h */,
 				6634E1FD16A66C6700AD86B1 /* PHContainerView.m */,
 				662CB21016A67915008F497B /* PHPixelImageView.h */,
@@ -1199,6 +1204,7 @@
 				66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */,
 				669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */,
 				66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */,
+				66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
