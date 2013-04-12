@@ -100,7 +100,9 @@
                        context:(void *)context {
   if (_collectionView == object) {
     if (_collectionView.selectionIndexes.count == 0) {
-      _collectionView.selectionIndexes = _previousSelectionIndexes;
+      if (_previousSelectionIndexes.count > 0) {
+        _collectionView.selectionIndexes = _previousSelectionIndexes;
+      }
     } else {
       _previousSelectionIndexes = [_collectionView.selectionIndexes copy];
       [self updateSystemWithSelection];

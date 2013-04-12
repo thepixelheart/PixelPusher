@@ -208,7 +208,9 @@ static const CGFloat kPreviewPaneWidth = 200;
                        context:(void *)context {
   if (_layersView == object) {
     if (_layersView.selectionIndexes.count == 0) {
-      _layersView.selectionIndexes = _previousSelectionIndexes;
+      if (_previousSelectionIndexes.count > 0) {
+        _layersView.selectionIndexes = _previousSelectionIndexes;
+      }
     } else {
       _previousSelectionIndexes = [_layersView.selectionIndexes copy];
       [self compositeDidChange];
