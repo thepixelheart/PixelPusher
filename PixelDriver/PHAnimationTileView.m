@@ -77,20 +77,22 @@
                                     width, height), _previewImageRef);
   CGContextRestoreGState(cx);
 
-  NSDictionary* attributes = @{
-    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:_selected ? 1.0 : 0.6 alpha:1],
-    NSFontAttributeName:[NSFont boldSystemFontOfSize:11]
-  };
-  NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:_animation.tooltipName attributes:attributes];
-  [string setAlignment:NSCenterTextAlignment range:NSMakeRange(0, string.length)];
-  CGRect textFrame = CGRectInset(self.bounds, 5, 5);
-  CGSize size = [string.string sizeWithAttributes:attributes];
-  textFrame.size.height = size.height;
+  if (_animation.tooltipName.length > 0) {
+    NSDictionary* attributes = @{
+      NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:_selected ? 1.0 : 0.6 alpha:1],
+      NSFontAttributeName:[NSFont boldSystemFontOfSize:11]
+    };
+    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:_animation.tooltipName attributes:attributes];
+    [string setAlignment:NSCenterTextAlignment range:NSMakeRange(0, string.length)];
+    CGRect textFrame = CGRectInset(self.bounds, 5, 5);
+    CGSize size = [string.string sizeWithAttributes:attributes];
+    textFrame.size.height = size.height;
 
-  CGContextSetRGBFillColor(cx, 0, 0, 0, 0.6);
-  CGContextFillRect(cx, CGRectMake(0, 0, self.bounds.size.width, size.height + 10));
+    CGContextSetRGBFillColor(cx, 0, 0, 0, 0.6);
+    CGContextFillRect(cx, CGRectMake(0, 0, self.bounds.size.width, size.height + 10));
 
-  [string drawInRect:textFrame];
+    [string drawInRect:textFrame];
+  }
 }
 
 - (void)setAnimation:(PHAnimation *)animation {

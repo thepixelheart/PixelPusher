@@ -17,6 +17,8 @@
 #import "PHCompositeEditorView.h"
 
 #import "PHAnimation.h"
+#import "PHAnimationTileView.h"
+#import "PHCompositeAnimation.h"
 #import "PHButton.h"
 #import "PHListView.h"
 #import "PHWallView.h"
@@ -37,6 +39,8 @@ static const CGFloat kPreviewPaneWidth = 200;
   NSArray* _composites;
 
   PHContainerView* _previewCompositeView;
+  PHContainerView* _layersContainerView;
+  NSArray *_layerViews;
 }
 
 - (void)dealloc {
@@ -63,6 +67,7 @@ static const CGFloat kPreviewPaneWidth = 200;
     _compositesView.delegate = self;
     [self addSubview:_compositesView];
 
+    // Buttons
     _newButton = [[PHButton alloc] init];
     _newButton.tag = PHSystemButtonNewComposite;
     _newButton.delegate = self;
@@ -74,6 +79,18 @@ static const CGFloat kPreviewPaneWidth = 200;
     _deleteButton.delegate = self;
     [_deleteButton setTitle:@"Delete"];
     [self addSubview:_deleteButton];
+
+    // Layer Views
+    _layersContainerView = [[PHContainerView alloc] init];
+    [self addSubview:_layersContainerView];
+
+    NSMutableArray* layerViews = [NSMutableArray array];
+    for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+      PHAnimationTileView *view = [[PHAnimationTileView alloc] init];
+      [layerViews addObject:view];
+      [_layersContainerView addSubview:view];
+    }
+    _layerViews = [layerViews copy];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
@@ -111,6 +128,10 @@ static const CGFloat kPreviewPaneWidth = 200;
   _previewCompositeView.frame = CGRectMake(self.bounds.size.width - kPreviewPaneWidth,
                                            floor((topEdge - previewHeight) / 2),
                                            kPreviewPaneWidth, previewHeight);
+
+  CGFloat layerViewsLeftEdge = CGRectGetMaxX(_compositesView.frame);
+  CGFloat layerViewsRightEdge = CGRectGetMinX(_previewCompositeView.frame);
+  _layersContainerView.frame = CGRectMake(layerViewsLeftEdge, 0, layerViewsRightEdge - layerViewsLeftEdge, self.bounds.size.height);
 }
 
 #pragma mark - PHListViewDelegate
