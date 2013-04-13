@@ -328,15 +328,13 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
     case PHSystemButtonClearCompositeActiveLayer:
       [_editingCompositeAnimation setAnimation:nil
                                       forLayer:_activeCompositeLayer];
-      extraNotificationName = PHSystemActiveCompositeDidChangeNotification;
-      [self saveComposites];
+      [self didModifyActiveComposition];
       break;
 
     case PHSystemButtonLoadCompositeIntoActiveLayer:
       [_editingCompositeAnimation setAnimation:[_previewAnimation copy]
                                       forLayer:_activeCompositeLayer];
-      extraNotificationName = PHSystemActiveCompositeDidChangeNotification;
-      [self saveComposites];
+      [self didModifyActiveComposition];
       break;
 
     default:
