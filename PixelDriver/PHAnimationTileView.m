@@ -198,9 +198,6 @@
 
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     PHAnimation *animation = [unarchiver decodeObject];
-
-    // TODO: For composite layers we need to store which index this is.
-    // TODO: Tile view needs to store the composite animation.
     if ([_item.animation isKindOfClass:[PHCompositeAnimation class]]) {
       PHCompositeAnimation *composite = (PHCompositeAnimation *)_item.animation;
       [composite setAnimation:animation forLayer:0];
