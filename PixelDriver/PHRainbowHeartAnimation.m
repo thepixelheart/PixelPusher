@@ -18,15 +18,13 @@
 
 @implementation PHRainbowHeartAnimation {
   CGFloat _scaleAdvance;
+  CGFloat _colorAdvance;
   NSMutableArray* _colors;
 }
 
 - (id)init {
   if ((self = [super init])) {
     _colors = [NSMutableArray array];
-    for (NSInteger ix = 0; ix < 40; ++ix) {
-      [_colors addObject:generateRandomColor()];
-    }
   }
   return self;
 }
@@ -45,6 +43,17 @@
   CGFloat scaleDelta = 0.25;
   CGFloat scaleOffset = fmod(_scaleAdvance, scaleDelta);
   CGFloat scale = 4 + scaleOffset;
+
+  _colorAdvance += self.secondsSinceLastTick * 0.2;
+
+  [_colors removeAllObjects];
+  for (NSInteger ix = 0; ix < 40; ++ix) {
+    CGFloat offset = _colorAdvance + (CGFloat)ix * 0.05;
+    CGFloat red = sin(offset) * 0.5 + 0.5;
+    CGFloat green = cos(offset * 5 + M_PI_2) * 0.5 + 0.5;
+    CGFloat blue = sin(offset * 13 - M_PI_4) * 0.5 + 0.5;
+    [_colors addObject:[NSColor colorWithDeviceRed:red green:green blue:blue alpha:1]];
+  }
 
   NSInteger colorOffset = (NSInteger)floor(_scaleAdvance / scaleDelta) % _colors.count;
   if (colorOffset < 0) {

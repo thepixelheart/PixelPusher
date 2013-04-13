@@ -29,6 +29,7 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 
 @implementation PHFlowerAnimation {
   NSMutableArray* _petals;
+  CGFloat _colorAdvance;
 }
 
 - (id)init {
@@ -107,7 +108,15 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
   PHPetal* lastPetal = [_petals lastObject];
   if (lastPetal.radians >= kMinimumRadianBeforeNewPetal) {
     PHPetal* petal = [[PHPetal alloc] init];
-    petal.color = generateRandomColor();
+
+    _colorAdvance += self.secondsSinceLastTick * 3;
+
+    CGFloat offset = _colorAdvance;
+    CGFloat red = sin(offset) * 0.5 + 0.5;
+    CGFloat green = cos(offset * 5 + M_PI_2) * 0.5 + 0.5;
+    CGFloat blue = sin(offset * 13 - M_PI_4) * 0.5 + 0.5;
+    petal.color = [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1];
+
     petal.scale = 0.01;
     [_petals addObject:petal];
   }
@@ -117,7 +126,13 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
   for (NSInteger ix = 0; ix < 20; ++ix) {
     PHPetal* petal = [[PHPetal alloc] init];
-    petal.color = generateRandomColor();
+  
+    CGFloat offset = (CGFloat)ix * 0.05;
+    CGFloat red = sin(offset) * 0.5 + 0.5;
+    CGFloat green = cos(offset * 5 + M_PI_2) * 0.5 + 0.5;
+    CGFloat blue = sin(offset * 13 - M_PI_4) * 0.5 + 0.5;
+    petal.color = [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1];
+
     petal.scale = (CGFloat)ix * 0.05;
     petal.radians = (CGFloat)ix * 0.7;
     [_petals addObject:petal];
