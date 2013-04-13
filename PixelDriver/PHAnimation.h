@@ -22,6 +22,7 @@
 
 // Categories
 extern NSString* const PHAnimationCategorySprites;
+extern NSString* const PHAnimationCategoryFilters;
 extern NSString* const PHAnimationCategoryPipes;
 extern NSString* const PHAnimationCategoryPixelHeart;
 extern NSString* const PHAnimationCategoryShapes;

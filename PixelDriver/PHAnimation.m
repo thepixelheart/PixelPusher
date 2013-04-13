@@ -57,11 +57,13 @@
 #import "PHSpiralingSquareAnimation.h"
 
 // Filters
+#import "PHBoxBlurFilter.h"
 #import "PHHoleDistortionFilter.h"
 
 #import "PHCompositeAnimation.h"
 
 NSString* const PHAnimationCategorySprites = @"Sprites";
+NSString* const PHAnimationCategoryFilters = @"Filters";
 NSString* const PHAnimationCategoryPipes = @"Pipes";
 NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
 NSString* const PHAnimationCategoryShapes = @"Shapes";
@@ -156,14 +158,16 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
 
+    // Filters
+    [PHBoxBlurFilter animation],
+    [PHHoleDistortionFilter animation],
+
     [PHBassPlate animation],
 
     [PHMegamanAnimation animation],
     [PHPikachuEmotingAnimation animation],
 
     [PHDJAnimation animation],
-
-    [PHHoleDistortionFilter animation],
 
     // Row 2
     [PHPixelHeartAnimation animation],
@@ -304,6 +308,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   return @[
     PHAnimationCategorySprites,
     PHAnimationCategoryPipes,
+    PHAnimationCategoryFilters,
     PHAnimationCategoryPixelHeart,
     PHAnimationCategoryShapes,
     PHAnimationCategoryTrippy

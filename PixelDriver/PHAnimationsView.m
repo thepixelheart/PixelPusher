@@ -117,7 +117,9 @@
   if ([category isEqualToString:@"All"]) {
     NSMutableArray* filteredArray = [NSMutableArray array];
     for (PHAnimation* animation in _animations) {
-      if (![animation.categories containsObject:PHAnimationCategoryPipes]) {
+      if ((![animation.categories containsObject:PHAnimationCategoryPipes]
+           && ![animation.categories containsObject:PHAnimationCategoryFilters])
+          || [animation isKindOfClass:[PHCompositeAnimation class]]) {
         [filteredArray addObject:animation];
       }
     }
@@ -126,7 +128,8 @@
   } else {
     NSMutableArray* filteredArray = [NSMutableArray array];
     for (PHAnimation* animation in _animations) {
-      if ([category isEqualToString:PHAnimationCategoryPipes]
+      if (([category isEqualToString:PHAnimationCategoryPipes]
+           || [category isEqualToString:PHAnimationCategoryFilters])
           && [animation isKindOfClass:[PHCompositeAnimation class]]) {
         continue;
       }

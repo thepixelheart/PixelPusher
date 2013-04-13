@@ -14,11 +14,11 @@
 // limitations under the License.
 //
 
-#import "PHHoleDistortionFilter.h"
+#import "PHBoxBlurFilter.h"
 
 #import <QuartzCore/CoreImage.h>
 
-@implementation PHHoleDistortionFilter
+@implementation PHBoxBlurFilter
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
@@ -27,10 +27,9 @@
   CIImage *image = [CIImage imageWithCGImage:currentImageRef];
   CGImageRelease(currentImageRef);
 
-  CIFilter *filter = [CIFilter filterWithName:@"CIHoleDistortion"
+  CIFilter *filter = [CIFilter filterWithName:@"CIBoxBlur"
                                 keysAndValues:
                       kCIInputImageKey, image,
-                      kCIInputCenterKey, [CIVector vectorWithX:kWallWidth / 2 Y:kWallHeight / 2],
                       kCIInputRadiusKey, @(self.bassDegrader.value * 16),
                       nil];
 
@@ -58,7 +57,7 @@
 }
 
 - (NSString *)tooltipName {
-  return @"Hole Distortion Filter";
+  return @"Box Blur Filter";
 }
 
 @end
