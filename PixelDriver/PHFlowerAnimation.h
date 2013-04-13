@@ -17,4 +17,5 @@
 #import "PHAnimation.h"
 
 @interface PHFlowerAnimation : PHAnimation
++ (id)animationWithReactiveCenter:(BOOL)reactiveCenter;
 @end

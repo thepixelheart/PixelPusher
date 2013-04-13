@@ -16,6 +16,8 @@
 
 #import "PHFlowerAnimation.h"
 
+static NSString* const kReactiveKey = @"kReactiveKey";
+
 static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 
 @interface PHPetal : NSObject
@@ -30,11 +32,20 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
 @implementation PHFlowerAnimation {
   NSMutableArray* _petals;
   CGFloat _colorAdvance;
+  BOOL _reactiveCenter;
+}
+
++ (id)animationWithReactiveCenter:(BOOL)reactiveCenter {
+  PHFlowerAnimation *animation = [[self alloc] init];
+  animation->_reactiveCenter = reactiveCenter;
+  return animation;
 }
 
 - (id)init {
   if ((self = [super init])) {
     _petals = [NSMutableArray array];
+
+    _reactiveCenter = YES;
 
     PHPetal* petal = [[PHPetal alloc] init];
     petal.color = generateRandomColor();
@@ -44,10 +55,16 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
   return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHFlowerAnimation* copy = [[self.class allocWithZone:zone] init];
+  copy->_reactiveCenter = _reactiveCenter;
+  return copy;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
   CGPoint centerPoint = CGPointMake(size.width / 2, size.height / 2);
-  CGFloat centerRadius = self.vocalDegrader.value * 8;
+  CGFloat centerRadius = _reactiveCenter ? self.vocalDegrader.value * 8 : 0;
   CGFloat maxPetalLength = size.width * 3 / 4;
   CGContextSetBlendMode(cx, kCGBlendModeColor);
   NSArray* petals = [_petals copy];
@@ -140,8 +157,16 @@ static const NSTimeInterval kMinimumRadianBeforeNewPetal = M_PI * 2 / 360 * 20;
   [self renderBitmapInContext:cx size:size];
 }
 
+- (id)definingProperties {
+  return @{kReactiveKey:@(_reactiveCenter)};
+}
+
+- (void)setDefiningProperties:(id)definingProperties {
+  _reactiveCenter = [definingProperties[kReactiveKey] boolValue];
+}
+
 - (NSString *)tooltipName {
-  return @"Flower";
+  return _reactiveCenter ? @"Reactive Flower" : @"Flower";
 }
 
 - (NSArray *)categories {

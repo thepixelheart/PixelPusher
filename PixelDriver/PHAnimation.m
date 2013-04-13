@@ -189,7 +189,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     // Row 4
     [PHFlyingRectAnimation animation],
-    [PHFlowerAnimation animation],
+    [PHFlowerAnimation animationWithReactiveCenter:YES],
+    [PHFlowerAnimation animationWithReactiveCenter:NO],
 
     [PHSineWaveAnimation animation],
 
