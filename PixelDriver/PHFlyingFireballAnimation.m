@@ -87,7 +87,7 @@
   if (_imageOfPreviousFrame) {
     CGContextSaveGState(cx);
     CGContextSetAlpha(cx, 0.96);
-    CGContextDrawImage(cx, CGRectInset(CGRectMake(-1, 0, size.width, size.height), 0, self.bassDegrader.value * 4 - 2),
+    CGContextDrawImage(cx, CGRectInset(CGRectMake(-1 - size.width / 2, -size.height / 2, size.width * 2, size.height * 2), 0, self.bassDegrader.value * 4 - 2),
                        _imageOfPreviousFrame);
     CGContextRestoreGState(cx);
   }

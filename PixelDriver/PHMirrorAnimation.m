@@ -44,29 +44,31 @@ static NSString* const kTypeKey = @"kTypeKey";
   CGImageRef imageRef = CGBitmapContextCreateImage(cx);
   CGContextSetBlendMode(cx, kCGBlendModeCopy);
 
+  CGRect imageRect = CGRectMake(-size.width / 2, -size.height / 2, size.width * 2, size.height * 2);
+
   if (type == PHMirrorAnimationTypeLeft) {
     CGContextScaleCTM(cx, -1, 1);
     CGContextTranslateCTM(cx, -size.width, 0);
     CGContextClipToRect(cx, CGRectMake(0, 0, size.width / 2, size.height));
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+    CGContextDrawImage(cx, imageRect, imageRef);
 
   } else if (type == PHMirrorAnimationTypeRight) {
     CGContextScaleCTM(cx, -1, 1);
     CGContextTranslateCTM(cx, -size.width, 0);
     CGContextClipToRect(cx, CGRectMake(size.width / 2, 0, size.width / 2, size.height));
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+    CGContextDrawImage(cx, imageRect, imageRef);
 
   } else if (type == PHMirrorAnimationTypeTop) {
     CGContextScaleCTM(cx, 1, -1);
     CGContextTranslateCTM(cx, 0, -size.height);
     CGContextClipToRect(cx, CGRectMake(0, 0, size.width, size.height / 2));
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+    CGContextDrawImage(cx, imageRect, imageRef);
 
   } else if (type == PHMirrorAnimationTypeBottom) {
     CGContextScaleCTM(cx, 1, -1);
     CGContextTranslateCTM(cx, 0, -size.height);
     CGContextClipToRect(cx, CGRectMake(0, size.height / 2, size.width, size.height / 2));
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+    CGContextDrawImage(cx, imageRect, imageRef);
   }
   CGImageRelease(imageRef);
 

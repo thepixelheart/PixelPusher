@@ -127,6 +127,27 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   return [[self pathForDiskStorage] stringByAppendingPathComponent:@"composites.plist"];
 }
 
++ (CGContextRef)createRenderContext {
+  CGSize wallSize = CGSizeMake(kWallWidth * 2, kWallHeight * 2);
+
+  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+  if (nil == colorSpace) {
+    return nil;
+  }
+  CGContextRef wallContext =
+  CGBitmapContextCreate(NULL,
+                        wallSize.width,
+                        wallSize.height,
+                        32,
+                        0,
+                        colorSpace,
+                        kCGImageAlphaPremultipliedLast
+                        | kCGBitmapByteOrder32Host // Necessary for intel macs.
+                        | kCGBitmapFloatComponents);
+  CGColorSpaceRelease(colorSpace);
+  return wallContext;
+}
+
 + (CGContextRef)createWallContext {
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
 
@@ -152,16 +173,23 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
   CGRect wallFrame = CGRectMake(0, 0, wallSize.width, wallSize.height);
 
-  CGContextRef context = [self.class createWallContext];
+  CGContextRef context = [self.class createRenderContext];
   CGContextClearRect(context, wallFrame);
+  CGContextTranslateCTM(context, kWallWidth / 2, kWallHeight / 2);
 
   [animation bitmapWillStartRendering];
   [animation renderBitmapInContext:context size:wallSize];
   [animation bitmapDidFinishRendering];
 
+  CGContextRef wallContext = [self.class createWallContext];
+  CGImageRef imageRef = CGBitmapContextCreateImage(context);
+  CGContextDrawImage(wallContext, CGRectMake(-kWallWidth / 2, -kWallHeight / 2, kWallWidth * 2, kWallHeight * 2), imageRef);
+  CGImageRelease(imageRef);
+  CGContextRelease(context);
+
 //  [self drawOverlaysInContext:wallContext];
 
-  return context;
+  return wallContext;
 }
 
 - (id)keyForAnimation:(PHAnimation *)animation {

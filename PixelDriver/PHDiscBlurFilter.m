@@ -35,11 +35,12 @@
 
   CIImage *result = [filter valueForKey:kCIOutputImageKey];
   CGRect frame = CGRectMake(0, 0, size.width, size.height);
+  CGRect sourceFrame = CGRectMake(size.width / 2, size.height / 2, size.width, size.height);
 
   NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
   NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
   [NSGraphicsContext setCurrentContext:graphicsContext];
-  [result drawInRect:frame fromRect:frame operation:NSCompositeCopy fraction:1];
+  [result drawInRect:frame fromRect:sourceFrame operation:NSCompositeCopy fraction:1];
   [NSGraphicsContext setCurrentContext:previousContext];
 
   CGContextRestoreGState(cx);

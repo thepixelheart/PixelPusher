@@ -37,7 +37,11 @@
     CGContextSaveGState(cx);
     CGContextSetAlpha(cx, 0.90);
     CGContextTranslateCTM(cx, -size.width / 2, -size.height / 2);
-    CGContextDrawImage(cx, CGRectMake(1, 0, size.width - 2, size.height - 1), _imageOfPreviousFrame);
+    CGRect imageRect = CGRectMake(-size.width / 2, -size.height / 2, size.width * 2, size.height * 2);
+    imageRect.origin.x += 2;
+    imageRect.size.width -= 4;
+    imageRect.size.height -= 2;
+    CGContextDrawImage(cx, imageRect, _imageOfPreviousFrame);
     CGContextRestoreGState(cx);
   }
 
