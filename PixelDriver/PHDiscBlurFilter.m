@@ -30,7 +30,7 @@
   CIFilter *filter = [CIFilter filterWithName:@"CIDiscBlur"
                                 keysAndValues:
                       kCIInputImageKey, image,
-                      kCIInputRadiusKey, @(self.bassDegrader.value * 16),
+                      kCIInputRadiusKey, @(self.bassDegrader.value * 10),
                       nil];
 
   CIImage *result = [filter valueForKey:kCIOutputImageKey];
