@@ -130,6 +130,7 @@
 		66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */; };
 		66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D855BB171520E5000A861F /* PHCompositeEditorView.m */; };
 		66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */; };
+		66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -392,6 +393,8 @@
 		66D855BD171524EE000A861F /* PHViewMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHViewMode.h; sourceTree = "<group>"; };
 		66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBoxBlurFilter.h; sourceTree = "<group>"; };
 		66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBoxBlurFilter.m; sourceTree = "<group>"; };
+		66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDiscBlurFilter.h; sourceTree = "<group>"; };
+		66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDiscBlurFilter.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -671,6 +674,8 @@
 			children = (
 				66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */,
 				66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */,
+				66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */,
+				66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */,
 				669666E9170919B0008A389E /* PHHoleDistortionFilter.h */,
 				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
 			);
@@ -1223,6 +1228,7 @@
 				66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */,
 				66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */,
 				66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */,
+				66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
