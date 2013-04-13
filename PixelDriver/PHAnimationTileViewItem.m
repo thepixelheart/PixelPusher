@@ -28,7 +28,7 @@
   [super setRepresentedObject:representedObject];
 
   PHAnimationTileView* view = (PHAnimationTileView *)self.view;
-  view.item = representedObject;
+  view.animation = representedObject;
   [view setNeedsDisplay:YES];
 }
 

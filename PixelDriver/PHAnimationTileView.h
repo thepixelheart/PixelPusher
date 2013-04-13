@@ -15,11 +15,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PHAnimationCollectionView.h"
 
 @class PHAnimation;
 
 @interface PHAnimationTileView : NSView
 @property (nonatomic, assign) BOOL selected;
-@property (nonatomic, copy) PHAnimationCollectionViewItem* item;
+@property (nonatomic, copy) PHAnimation* animation;
 @end

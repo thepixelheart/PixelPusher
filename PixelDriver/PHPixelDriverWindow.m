@@ -38,7 +38,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   if ((self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag])) {
     [self setMinSize:kMinimumWindowSize];
     [self setFrameAutosaveName:kPixelDriverWindowFrameName];
-    [self setAcceptsMouseMovedEvents:YES];
+//    [self setAcceptsMouseMovedEvents:YES];
 //    [self setMovableByWindowBackground:YES];
 
     self.contentView = [[PHDualVizualizersView alloc] initWithFrame:[self.contentView bounds]];

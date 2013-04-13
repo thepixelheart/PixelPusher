@@ -24,10 +24,9 @@
 #import "PHCompositeAnimation.h"
 #import "PHSystem.h"
 #import "PHScrollView.h"
-#import "PHAnimationCollectionView.h"
 
 @implementation PHAnimationsView {
-  PHAnimationCollectionView* _collectionView;
+  PHCollectionView* _collectionView;
   PHScrollView* _scrollView;
   NSArray* _animations;
   NSIndexSet* _previousSelectionIndexes;
@@ -40,8 +39,7 @@
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
-    _collectionView = [[PHAnimationCollectionView alloc] initWithFrame:self.contentView.bounds];
-    _collectionView.isDragSource = YES;
+    _collectionView = [[PHCollectionView alloc] initWithFrame:self.contentView.bounds];
     _collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _collectionView.itemPrototype = [PHAnimationTileViewItem new];
     [_collectionView setSelectable:YES];
@@ -92,7 +90,7 @@
 }
 
 - (void)updateSystemWithSelection {
-  PHAnimation* selectedAnimation = [_collectionView.content[[_previousSelectionIndexes firstIndex]] animation];
+  PHAnimation* selectedAnimation = _collectionView.content[[_previousSelectionIndexes firstIndex]];
   PHSys().previewAnimation = selectedAnimation;
 }
 
@@ -140,7 +138,7 @@
 }
 
 - (PHAnimation *)selectedAnimation {
-  return [_collectionView.content[[_previousSelectionIndexes firstIndex]] animation];
+  return _collectionView.content[[_previousSelectionIndexes firstIndex]];
 }
 
 #pragma mark - NSNotifications
