@@ -18,14 +18,6 @@
 
 #import "PHViewMode.h"
 
-// TODO TODO TODO  TODO  TODO  TODO  TODO
-//
-// [x] Implement deletion
-// [ ] Implement editing
-// [ ] Implement renaming
-//
-//  TODO  TODO  TODO  TODO  TODO  TODO
-
 @class PHAnimation;
 @class PHCompositeAnimation;
 @class PHTransition;
@@ -104,6 +96,7 @@ extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 // The animation being displayed in the preview pane for loading animations
 // into the visualizer.
 @property (strong) PHCompositeAnimation* editingCompositeAnimation;
+- (void)didModifyActiveComposition;
 
 // The current layer of the composite that is being modified.
 @property (assign) NSInteger activeCompositeLayer;

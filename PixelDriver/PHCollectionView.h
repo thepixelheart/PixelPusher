@@ -16,6 +16,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class PHAnimation;
+@protocol PHCollectionViewDragDestinationDelegate;
+
 @interface PHCollectionView : NSCollectionView
 @property (nonatomic, assign) NSInteger tag;
+@property (nonatomic, assign) BOOL isDragSource; // Default NO
+@property (nonatomic, assign) BOOL isDragDestination; // Default NO
+@property (nonatomic, weak) id<PHCollectionViewDragDestinationDelegate> dragDestinationDelegate;
+@end
+
+@protocol PHCollectionViewDragDestinationDelegate <NSObject>
+@required
+
+- (void)collectionView:(PHCollectionView *)collectionView didDropAnimation:(PHAnimation *)animation atIndex:(NSInteger)index;
+- (void)collectionView:(PHCollectionView *)collectionView didMoveAnimation:(PHAnimation *)animation fromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex;
+
 @end

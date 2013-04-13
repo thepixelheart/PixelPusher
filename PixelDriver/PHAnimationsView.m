@@ -40,6 +40,7 @@
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _collectionView = [[PHCollectionView alloc] initWithFrame:self.contentView.bounds];
+    _collectionView.isDragSource = YES;
     _collectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _collectionView.itemPrototype = [PHAnimationTileViewItem new];
     [_collectionView setSelectable:YES];

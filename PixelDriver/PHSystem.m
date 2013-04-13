@@ -468,6 +468,13 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
 }
 
+- (void)didModifyActiveComposition {
+  [self saveComposites];
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemActiveCompositeDidChangeNotification object:nil];
+}
+
 #pragma mark - PHDJ2GODeviceDelegate
 
 - (void)slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value {

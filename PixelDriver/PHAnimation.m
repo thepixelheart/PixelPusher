@@ -107,7 +107,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-  if ((self = [super init])) {
+  if ((self = [self init])) {
     [self setDefiningProperties:[decoder decodeObjectForKey:kDefiningPropertiesKey]];
   }
   return self;

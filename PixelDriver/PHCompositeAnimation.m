@@ -82,7 +82,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
-  if ((self = [super init])) {
+  if ((self = [self init])) {
     _name = [[decoder decodeObjectForKey:kNameKey] copy];
 
     for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {

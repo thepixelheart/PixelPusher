@@ -31,7 +31,7 @@ static const NSEdgeInsets kButtonMargins = {5, 5, 5, 5};
 static const CGFloat kCompositesListWidth = 150;
 static const CGFloat kPreviewPaneWidth = 200;
 
-@interface PHCompositeEditorView() <PHButtonDelegate, PHListViewDelegate, PHListViewDataSource>
+@interface PHCompositeEditorView() <PHButtonDelegate, PHListViewDelegate, PHListViewDataSource, PHCollectionViewDragDestinationDelegate>
 @end
 
 @implementation PHCompositeEditorView {
@@ -98,6 +98,9 @@ static const CGFloat kPreviewPaneWidth = 200;
     [self addSubview:_layersContainerView];
 
     _layersView = [[PHCollectionView alloc] init];
+    _layersView.isDragSource = YES;
+    _layersView.isDragDestination = YES;
+    _layersView.dragDestinationDelegate = self;
     _layersView.tag = PHSystemCompositeLayers;
     _layersView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _layersView.itemPrototype = [PHAnimationTileViewItem new];
@@ -257,6 +260,29 @@ static const CGFloat kPreviewPaneWidth = 200;
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
+}
+
+#pragma mark - PHCollectionViewDragDestinationDelegate
+
+- (void)collectionView:(PHCollectionView *)collectionView didDropAnimation:(PHAnimation *)animation atIndex:(NSInteger)index {
+  PHCompositeAnimation *editingAnimation = PHSys().editingCompositeAnimation;
+  if (nil != editingAnimation) {
+    
+    [editingAnimation setAnimation:animation forLayer:index];
+
+    [PHSys() didModifyActiveComposition];
+  }
+}
+
+- (void)collectionView:(PHCollectionView *)collectionView didMoveAnimation:(PHAnimation *)animation fromIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex {
+  PHCompositeAnimation *editingAnimation = PHSys().editingCompositeAnimation;
+  if (nil != editingAnimation) {
+    PHAnimation *destinationAnimation = [editingAnimation animationAtLayer:toIndex];
+    [editingAnimation setAnimation:destinationAnimation forLayer:fromIndex];
+    [editingAnimation setAnimation:animation forLayer:toIndex];
+
+    [PHSys() didModifyActiveComposition];
+  }
 }
 
 #pragma mark - NSNotifications
