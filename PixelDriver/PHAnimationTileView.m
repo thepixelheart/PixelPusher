@@ -27,7 +27,6 @@
   CGImageRef _previewImageRef;
   BOOL _isDragDestination;
   BOOL _isDragSource;
-  NSEvent *_mouseDownEvent;
 }
 
 - (void)dealloc {
@@ -214,52 +213,42 @@
 
 #pragma mark - Dragging
 
-- (void)mouseDown:(NSEvent *)event {
-  [super mouseDown:event];
+- (void)mouseDown:(NSEvent *)theEvent {
+  // You have to implement this in order to get the mouseDragged event, but
+  // then you can't select the tile. wtffff
+}
 
+- (void)mouseDragged:(NSEvent *)event {
   if (_isDragSource) {
-    _mouseDownEvent = event;
-    [self performSelector:@selector(dragIfMouseStillDown) withObject:nil afterDelay:0.5];
+    NSPasteboardItem *pbItem = [NSPasteboardItem new];
+    /* Our pasteboard item will support public.tiff, public.pdf, and our custom UTI (see comment in -draggingEntered)
+     * representations of our data (the image).  Rather than compute both of these representations now, promise that
+     * we will provide either of these representations when asked.  When a receiver wants our data in one of the above
+     * representations, we'll get a call to  the NSPasteboardItemDataProvider protocol method –pasteboard:item:provideDataForType:. */
+    [pbItem setDataProvider:self forTypes:[NSArray arrayWithObjects:NSPasteboardTypeString, nil]];
+
+    //create a new NSDraggingItem with our pasteboard item.
+    NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:pbItem];
+
+    /* The coordinates of the dragging frame are relative to our view.  Setting them to our view's bounds will cause the drag image
+     * to be the same size as our view.  Alternatively, you can set the draggingFrame to an NSRect that is the size of the image in
+     * the view but this can cause the dragged image to not line up with the mouse if the actual image is smaller than the size of the
+     * our view. */
+    NSRect draggingRect = self.bounds;
+
+    /* While our dragging item is represented by an image, this image can be made up of multiple images which
+     * are automatically composited together in painting order.  However, since we are only dragging a single
+     * item composed of a single image, we can use the convince method below. For a more complex example
+     * please see the MultiPhotoFrame sample. */
+    NSImage* image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self bounds]]];
+    [dragItem setDraggingFrame:draggingRect contents:image];
+
+    //create a dragging session with our drag item and ourself as the source.
+    NSDraggingSession *draggingSession = [self beginDraggingSessionWithItems:[NSArray arrayWithObject:dragItem] event:event source:self];
+    draggingSession.animatesToStartingPositionsOnCancelOrFail = NO;
+
+    draggingSession.draggingFormation = NSDraggingFormationNone;
   }
-}
-
-- (void)mouseUp:(NSEvent *)theEvent {
-  [super mouseUp:theEvent];
-  _mouseDownEvent = nil;
-}
-
-- (void)dragIfMouseStillDown {
-  if (nil == _mouseDownEvent) {
-    return;
-  }
-  NSPasteboardItem *pbItem = [NSPasteboardItem new];
-  /* Our pasteboard item will support public.tiff, public.pdf, and our custom UTI (see comment in -draggingEntered)
-   * representations of our data (the image).  Rather than compute both of these representations now, promise that
-   * we will provide either of these representations when asked.  When a receiver wants our data in one of the above
-   * representations, we'll get a call to  the NSPasteboardItemDataProvider protocol method –pasteboard:item:provideDataForType:. */
-  [pbItem setDataProvider:self forTypes:[NSArray arrayWithObjects:NSPasteboardTypeString, nil]];
-
-  //create a new NSDraggingItem with our pasteboard item.
-  NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:pbItem];
-
-  /* The coordinates of the dragging frame are relative to our view.  Setting them to our view's bounds will cause the drag image
-   * to be the same size as our view.  Alternatively, you can set the draggingFrame to an NSRect that is the size of the image in
-   * the view but this can cause the dragged image to not line up with the mouse if the actual image is smaller than the size of the
-   * our view. */
-  NSRect draggingRect = self.bounds;
-
-  /* While our dragging item is represented by an image, this image can be made up of multiple images which
-   * are automatically composited together in painting order.  However, since we are only dragging a single
-   * item composed of a single image, we can use the convince method below. For a more complex example
-   * please see the MultiPhotoFrame sample. */
-  NSImage* image = [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self bounds]]];
-  [dragItem setDraggingFrame:draggingRect contents:image];
-
-  //create a dragging session with our drag item and ourself as the source.
-  NSDraggingSession *draggingSession = [self beginDraggingSessionWithItems:[NSArray arrayWithObject:dragItem] event:_mouseDownEvent source:self];
-  draggingSession.animatesToStartingPositionsOnCancelOrFail = NO;
-
-  draggingSession.draggingFormation = NSDraggingFormationNone;
 }
 
 @end
