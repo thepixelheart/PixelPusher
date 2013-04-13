@@ -107,7 +107,7 @@ static NSString* const kSourceTagKey = @"kSourceTagKey";
                     dropOperation:(NSCollectionViewDropOperation *)proposedDropOperation {
   if (*proposedDropOperation == NSCollectionViewDropBefore) {
     *proposedDropOperation = NSCollectionViewDropOn;
-    *proposedDropIndex = (*proposedDropIndex) - 1;
+    *proposedDropIndex = MAX(0, (*proposedDropIndex) - 1);
   }
   return NSDragOperationGeneric;
 }

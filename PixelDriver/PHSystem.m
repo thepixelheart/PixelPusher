@@ -391,7 +391,7 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
         [alert setAlertStyle:NSWarningAlertStyle];
         [alert setMessageText:@"You're about to delete a composite."];
         [alert addButtonWithTitle:@"Cancel"];
-        [alert addButtonWithTitle:@"DESTROY IT!"];
+        [alert addButtonWithTitle:@"Kill it dead"];
 
         [alert beginSheetModalForWindow:nil
                           modalDelegate:self
