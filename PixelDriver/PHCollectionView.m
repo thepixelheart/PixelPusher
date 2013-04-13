@@ -16,10 +16,38 @@
 
 #import "PHCollectionView.h"
 
+#import "PHAnimation.h"
+
+@interface PHCollectionView () <NSCollectionViewDelegate>
+@end
+
 @implementation PHCollectionView
+
+- (id)initWithFrame:(NSRect)frameRect {
+  if ((self = [super initWithFrame:frameRect])) {
+    self.delegate = self;
+  }
+  return self;
+}
 
 - (id)animationForKey:(NSString *)key {
   return nil;
+}
+
+#pragma mark - NSCollectionViewDelegate
+
+- (BOOL)collectionView:(NSCollectionView *)cv writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard {
+  if (indexes.count == 1) {
+    PHAnimation* animation = cv.content[indexes.firstIndex];
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:animation];
+    [archiver finishEncoding];
+
+    [pasteboard setData:data forType:NSStringPboardType];
+    return YES;
+  }
+  return NO;
 }
 
 @end
