@@ -80,7 +80,7 @@
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
-    [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(activeCompositeDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
   }
   return self;
 }
@@ -152,6 +152,10 @@
   offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
   [_scrollView.contentView scrollToPoint:offset];
   _collectionView.selectionIndexes = _previousSelectionIndexes;
+}
+
+- (void)activeCompositeDidChangeNotification:(NSNotification *)notification {
+  
 }
 
 @end
