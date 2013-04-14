@@ -14,40 +14,56 @@
 // limitations under the License.
 //
 
-#import "PHDotScreenFilter.h"
+#import "PHDrosteFilter.h"
 
-@implementation PHDotScreenFilter {
+@implementation PHDrosteFilter {
   CGFloat _rotationAdvance;
+  CGFloat _xOffset;
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _rotationAdvance += self.secondsSinceLastTick;
+  _xOffset += self.animationTick.numberOfRotationTicks;
 
   [super renderBitmapInContext:cx size:size];
 }
 
 - (NSString *)filterName {
-  return @"CIDotScreen";
+  return @"CIDroste";
 }
 
-- (id)centerValue {
-  return [self wallCenterValue];
+- (BOOL)useCroppedImage {
+  return YES;
 }
 
-- (id)angleValue {
-  return @(_rotationAdvance);
+- (id)insetPoint0Value {
+  CIVector *centerPoint = [self wallCenterValue];
+  return [CIVector vectorWithX:centerPoint.X - kWallWidth / 2 + 1  Y:centerPoint.Y - kWallHeight / 2 + 1];
 }
 
-- (id)widthValue {
-  return @(self.bassDegrader.value * 4 + 1);
+- (id)insetPoint1Value {
+  CIVector *centerPoint = [self wallCenterValue];
+  return [CIVector vectorWithX:centerPoint.X + kWallWidth / 2 - 1 Y:centerPoint.Y + kWallHeight / 2 - 1];
 }
 
-- (id)sharpnessValue {
-  return @(0.70);
+- (id)strandsValue {
+  return @(1);
+}
+
+- (id)periodicityValue {
+  return @(0);
+}
+
+- (id)rotationValue {
+  return @(0);
+}
+
+- (id)zoomValue {
+  return @(self.bassDegrader.value * 0.5 + 0.5);
 }
 
 - (NSString *)tooltipName {
-  return @"Dot Screen Filter";
+  return @"Droste Filter";
 }
 
 @end

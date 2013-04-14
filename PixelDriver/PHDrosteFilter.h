@@ -14,24 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHFilter.h"
 
-@interface PHFilter : PHAnimation
-
-- (NSString *)filterName;
-
-- (id)wallCenterValue;
-
-- (id)radiusValue;
-- (id)centerValue;
-- (id)angleValue;
-- (id)widthValue;
-- (id)sharpnessValue;
-- (id)zoomValue;
-- (id)rotationValue;
-- (id)periodicityValue;
-- (id)insetPoint0Value;
-- (id)insetPoint1Value;
-- (id)strandsValue;
-
+@interface PHDrosteFilter : PHFilter
 @end

@@ -141,4 +141,6 @@ extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 // to display the animations.
 - (PHSystemTick *)tick;
 
++ (CGContextRef)createWallContext;
+
 @end
