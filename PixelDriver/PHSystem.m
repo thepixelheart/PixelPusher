@@ -38,6 +38,7 @@ NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotif
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
 NSString* const PHSystemValueKey = @"PHSystemValueKey";
+NSString* const PHSystemFocusDidChangeNotification = @"PHSystemFocusDidChangeNotification";
 NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChangedNotification";
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
@@ -609,6 +610,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       } else {
         _focusedList = PHSystemAnimations;
       }
+      [self updateFocus];
       break;
     case PHDJ2GOButtonEnter:
       if (_focusedList > PHSystemAnimations) {
@@ -616,12 +618,19 @@ static const CGFloat kFaderTickLength = 0.007874;
       } else {
         _focusedList = PHSystemCompositeLayers;
       }
+      [self updateFocus];
       break;
 
     default:
       // Do nothing.
       break;
   }
+}
+
+- (void)updateFocus {
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemFocusDidChangeNotification object:nil userInfo:
+   @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList]}];
 }
 
 - (void)incrementCurrentAnimationSelection {

@@ -61,6 +61,10 @@ static const NSEdgeInsets kContentInset = {2, 2, 2, 2};
 
   NSColor* lightBorderColor = [NSColor colorWithDeviceWhite:0.25 alpha:1];
   NSColor* darkBorderColor = [NSColor colorWithDeviceWhite:0.2 alpha:1];
+  if (_focused) {
+    lightBorderColor = [NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1];
+    darkBorderColor = [NSColor colorWithDeviceRed:0 green:0 blue:0.4 alpha:1];
+  }
   [lightBorderColor setFill];
   [[NSBezierPath bezierPathWithRect:
     CGRectMake(1, 1,
@@ -84,6 +88,11 @@ static const NSEdgeInsets kContentInset = {2, 2, 2, 2};
     contentFrame.size.height -= size.height;
   }
   _contentView.frame = contentFrame;
+}
+
+- (void)setFocused:(BOOL)focused {
+  _focused = focused;
+  [self setNeedsDisplay:YES];
 }
 
 @end

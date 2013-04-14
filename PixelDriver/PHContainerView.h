@@ -20,5 +20,6 @@
 
 @property (nonatomic, copy) NSString* title;
 @property (nonatomic, strong, readonly) NSView* contentView;
+@property (nonatomic, assign) BOOL focused;
 
 @end

@@ -62,6 +62,7 @@ extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
 extern NSString* const PHSystemValueKey;
 
+extern NSString* const PHSystemFocusDidChangeNotification;
 extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;

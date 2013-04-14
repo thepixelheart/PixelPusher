@@ -25,7 +25,9 @@ static const CGSize kMinimumWindowSize = {1000, 700};
 
 static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameName";
 
-@implementation PHPixelDriverWindow
+@implementation PHPixelDriverWindow {
+  NSInteger _focusedList;
+}
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -48,6 +50,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
     [nc addObserver:self selector:@selector(didRotateKnob:) name:PHSystemKnobTurnedNotification object:nil];
+    [nc addObserver:self selector:@selector(focusDidChange:) name:PHSystemFocusDidChangeNotification object:nil];
   }
   return self;
 }
@@ -161,6 +164,31 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
       [scrollView.contentView scrollToPoint:offset];
     }
   }
+  _focusedList = identifier;
+}
+
+- (void)focusDidChange:(NSNotification *)notification {
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+
+  if (_focusedList > 0) {
+
+    id view = [self.contentView viewWithTag:_focusedList];
+    while (nil != view && ![view isKindOfClass:[PHContainerView class]]) {
+      view = [view superview];
+    }
+
+    [view setFocused:NO];
+  }
+
+  id view = [self.contentView viewWithTag:identifier];
+  while (nil != view && ![view isKindOfClass:[PHContainerView class]]) {
+    view = [view superview];
+  }
+
+  PHContainerView *containerView = view;
+  containerView.focused = YES;
+
+  _focusedList = identifier;
 }
 
 @end
