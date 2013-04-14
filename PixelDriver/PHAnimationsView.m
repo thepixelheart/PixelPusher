@@ -101,7 +101,7 @@
                        context:(void *)context {
   if (_collectionView == object) {
     if (_collectionView.selectionIndexes.count == 0) {
-      if (_previousSelectionIndexes.count > 0 && _previousSelectionIndexes.count > 0) {
+      if (_previousSelectionIndexes.count > 0) {
         _collectionView.selectionIndexes = _previousSelectionIndexes;
       }
     } else {
@@ -151,11 +151,17 @@
   _animations = [self allAnimations];
   [self setCategoryFilter:_categoryFilter];
 
-  CGRect selectionFrame = [_collectionView frameForItemAtIndex:_previousSelectionIndexes];
+  NSIndexSet *selection = _previousSelectionIndexes;
+  if (selection.firstIndex >= _collectionView.content.count) {
+    selection = [NSIndexSet indexSetWithIndex:_collectionView.content.count - 1];
+  }
+  CGRect selectionFrame = [_collectionView frameForItemAtIndex:selection];
   CGPoint offset = CGPointMake(0, selectionFrame.origin.y - _scrollView.bounds.size.height / 2);
   offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
   [_scrollView.contentView scrollToPoint:offset];
-  _collectionView.selectionIndexes = _previousSelectionIndexes;
+  _collectionView.selectionIndexes = selection;
+
+  _previousSelectionIndexes = selection;
 }
 
 - (void)activeCompositeDidChangeNotification:(NSNotification *)notification {
