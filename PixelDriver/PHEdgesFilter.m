@@ -14,25 +14,20 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHEdgesFilter.h"
 
-@interface PHFilter : PHAnimation
+@implementation PHEdgesFilter
 
-- (NSString *)filterName;
+- (NSString *)filterName {
+  return @"CIEdges";
+}
 
-- (id)wallCenterValue;
+- (id)intensityValue {
+  return @(1);
+}
 
-- (id)radiusValue;
-- (id)centerValue;
-- (id)angleValue;
-- (id)widthValue;
-- (id)sharpnessValue;
-- (id)zoomValue;
-- (id)rotationValue;
-- (id)periodicityValue;
-- (id)insetPoint0Value;
-- (id)insetPoint1Value;
-- (id)strandsValue;
-- (id)intensityValue;
+- (NSString *)tooltipName {
+  return @"Edges Filter";
+}
 
 @end

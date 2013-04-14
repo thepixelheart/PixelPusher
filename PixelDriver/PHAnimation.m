@@ -61,6 +61,7 @@
 #import "PHDiscBlurFilter.h"
 #import "PHDotScreenFilter.h"
 #import "PHDrosteFilter.h"
+#import "PHEdgesFilter.h"
 #import "PHHoleDistortionFilter.h"
 
 #import "PHCompositeAnimation.h"
@@ -166,6 +167,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHDiscBlurFilter animation],
     [PHDotScreenFilter animation],
     [PHDrosteFilter animation],
+    [PHEdgesFilter animation],
     [PHHoleDistortionFilter animation],
 
     [PHBassPlate animation],
