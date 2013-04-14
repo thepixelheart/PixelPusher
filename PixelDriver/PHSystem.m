@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 
 #import "PHAnimation.h"
+#import "PHHardwareState.h"
 #import "PHSystemTick+Protected.h"
 
 #import "PHCompositeAnimation.h"
@@ -41,6 +42,8 @@ NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChange
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 
+static const CGFloat kFaderTickLength = 0.007874;
+
 @interface PHSystem() <PHDJ2GODeviceDelegate>
 @end
 
@@ -51,8 +54,8 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   PHLaunchpadDevice* _launchpad;
   PHDJ2GODevice* _dj2go;
 
-  NSInteger _numberOfLeftRotationTicks;
-  NSInteger _numberOfRightRotationTicks;
+  PHHardwareState *_hardwareLeft;
+  PHHardwareState *_hardwareRight;
 
   PHSystemControlIdentifier _focusedList;
 
@@ -65,6 +68,8 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
 - (id)init {
   if ((self = [super init])) {
     _faderTransition = [[PHCrossFadeTransition alloc] init];
+    _hardwareLeft = [[PHHardwareState alloc] init];
+    _hardwareRight = [[PHHardwareState alloc] init];
 
     _compiledAnimations = [PHAnimation allAnimations];
     for (PHAnimation* animation in _compiledAnimations) {
@@ -217,12 +222,12 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
   }
 
   PHAnimationTick* leftTick = [[PHAnimationTick alloc] init];
-  leftTick.numberOfRotationTicks = _numberOfLeftRotationTicks;
+  leftTick.hardwareState = _hardwareLeft;
   PHAnimationTick* rightTick = [[PHAnimationTick alloc] init];
-  rightTick.numberOfRotationTicks = _numberOfRightRotationTicks;
+  rightTick.hardwareState = _hardwareRight;
 
-  _numberOfLeftRotationTicks = 0;
-  _numberOfRightRotationTicks = 0;
+  [_hardwareLeft tick];
+  [_hardwareRight tick];
 
   _leftAnimation.animationTick = leftTick;
   _rightAnimation.animationTick = rightTick;
@@ -509,6 +514,16 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
       [self setFade:value];
       break;
 
+    case PHDJ2GOSliderLeft:
+      // It seems that the mid-point value overshoots the midway point by
+      // one half of an tick length, so we compensate for that here.
+      _hardwareLeft.fader = (value - kFaderTickLength / 2) - 0.5;
+      break;
+
+    case PHDJ2GOSliderRight:
+      _hardwareRight.fader = (value - kFaderTickLength / 2) - 0.5;
+      break;
+
     default:
       // Do nothing.
       break;
@@ -529,10 +544,10 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
       }
       break;
     case PHDJ2GOKnobLeft:
-      _numberOfLeftRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
+      _hardwareLeft.numberOfRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
       break;
     case PHDJ2GOKnobRight:
-      _numberOfRightRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
+      _hardwareRight.numberOfRotationTicks += ((direction == PHDJ2GODirectionCw) ? 1 : -1);
       break;
       
     default:

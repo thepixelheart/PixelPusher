@@ -142,6 +142,7 @@
 		66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */; };
 		66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C99171A8BE1004ACAA2 /* PHHolesTransition.m */; };
 		66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */; };
+		66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -428,6 +429,8 @@
 		66DB8C99171A8BE1004ACAA2 /* PHHolesTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHolesTransition.m; sourceTree = "<group>"; };
 		66DB8C9B171B5355004ACAA2 /* PHAnimationTick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTick.h; sourceTree = "<group>"; };
 		66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTick.m; sourceTree = "<group>"; };
+		66DB8C9E171B5482004ACAA2 /* PHHardwareState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHardwareState.h; sourceTree = "<group>"; };
+		66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHardwareState.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -682,6 +685,8 @@
 				668520ED168292200063A95A /* PHSystemState.m */,
 				66DB8C9B171B5355004ACAA2 /* PHAnimationTick.h */,
 				66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */,
+				66DB8C9E171B5482004ACAA2 /* PHHardwareState.h */,
+				66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */,
 			);
 			name = "Pixel Driver";
 			sourceTree = "<group>";
@@ -1295,6 +1300,7 @@
 				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
 				66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */,
+				66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

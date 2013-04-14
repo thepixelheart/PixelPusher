@@ -23,7 +23,7 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _rotationAdvance += self.secondsSinceLastTick;
-  _xOffset += self.animationTick.numberOfRotationTicks;
+  _xOffset += self.animationTick.hardwareState.numberOfRotationTicks;
 
   [super renderBitmapInContext:cx size:size];
 }

@@ -42,8 +42,8 @@ static NSString* const kDirectionKey = @"kDirectionKey";
     direction = -direction;
   }
 
-  if (self.animationTick.numberOfRotationTicks != 0) {
-    _rotationAdvance += (CGFloat)self.animationTick.numberOfRotationTicks * M_PI * 3 / 180;
+  if (self.animationTick.hardwareState.numberOfRotationTicks != 0) {
+    _rotationAdvance += (CGFloat)self.animationTick.hardwareState.numberOfRotationTicks * M_PI * 3 / 180;
   } else {
     _rotationAdvance += self.secondsSinceLastTick * direction * self.bassDegrader.value;
   }

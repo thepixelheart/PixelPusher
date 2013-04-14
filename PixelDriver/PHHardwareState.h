@@ -16,8 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PHHardwareState.h"
+@interface PHHardwareState : NSObject <NSCopying>
+@property (nonatomic, assign) NSInteger numberOfRotationTicks;
+@property (nonatomic, assign) CGFloat fader;
 
-@interface PHAnimationTick : NSObject
-@property (nonatomic, copy) PHHardwareState* hardwareState;
+- (void)tick;
 @end

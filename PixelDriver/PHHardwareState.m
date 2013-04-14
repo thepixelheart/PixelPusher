@@ -14,10 +14,23 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "PHHardwareState.h"
 
-@interface PHAnimationTick : NSObject
-@property (nonatomic, copy) PHHardwareState* hardwareState;
+@implementation PHHardwareState
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+  PHHardwareState *state = [[[self class] allocWithZone:zone] init];
+  state->_numberOfRotationTicks = _numberOfRotationTicks;
+  state->_fader = _fader;
+  return state;
+}
+
+#pragma mark - Public Methods
+
+- (void)tick {
+  _numberOfRotationTicks = 0;
+}
+
 @end
