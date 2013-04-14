@@ -25,8 +25,6 @@
 
 typedef enum {
   PHSystemButtonPixelHeart = 1000,
-  PHSystemButtonUserAction1,
-  PHSystemButtonUserAction2,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
   PHSystemButtonLibrary,
@@ -117,10 +115,6 @@ extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 
 // When enabled displays the Pixel Heart text over the current animation.
 @property (readonly, assign) BOOL overlayPixelHeart;
-@property (readonly, assign) NSInteger numberOfTimesUserButton1Pressed;
-@property (readonly, assign) NSInteger numberOfTimesUserButton2Pressed;
-@property (readonly, assign) BOOL isUserButton1Pressed;
-@property (readonly, assign) BOOL isUserButton2Pressed;
 
 // Buttons
 

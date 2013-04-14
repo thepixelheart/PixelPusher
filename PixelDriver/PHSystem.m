@@ -210,9 +210,6 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHSystemTick *)tick {
-  _numberOfTimesUserButton1Pressed = 0;
-  _numberOfTimesUserButton2Pressed = 0;
-  
   PHSystemTick* tick = [[PHSystemTick alloc] initWithMasterFade:_masterFade];
 
   NSMutableSet* uniqueAnimations = [NSMutableSet set];
@@ -337,13 +334,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:YES];
       [_dj2go setButton:PHDJ2GOButtonRightHeadphones ledStateEnabled:YES];
       break;
-    case PHSystemButtonUserAction1:
-      _isUserButton1Pressed = YES;
-      break;
-    case PHSystemButtonUserAction2:
-      _isUserButton2Pressed = YES;
-      break;
-      
+
     case PHSystemButtonLoadLeft:
       _leftAnimation = _previewAnimation;
       break;
@@ -403,14 +394,6 @@ static const CGFloat kFaderTickLength = 0.007874;
       _overlayPixelHeart = NO;
       [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:NO];
       [_dj2go setButton:PHDJ2GOButtonRightHeadphones ledStateEnabled:NO];
-      break;
-    case PHSystemButtonUserAction1:
-      _numberOfTimesUserButton1Pressed++;
-      _isUserButton1Pressed = NO;
-      break;
-    case PHSystemButtonUserAction2:
-      _numberOfTimesUserButton2Pressed++;
-      _isUserButton2Pressed = NO;
       break;
     case PHSystemButtonLoadLeft:
       break;
@@ -604,7 +587,25 @@ static const CGFloat kFaderTickLength = 0.007874;
       _hardwareRight.playing = !_hardwareRight.playing;
       [_dj2go setButton:button ledStateEnabled:_hardwareRight.playing];
       break;
-      
+
+    case PHDJ2GOButtonLeftCue:
+      _hardwareLeft.isUserButton1Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+    case PHDJ2GOButtonRightCue:
+      _hardwareRight.isUserButton1Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+
+    case PHDJ2GOButtonLeftSync:
+      _hardwareLeft.isUserButton2Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+    case PHDJ2GOButtonRightSync:
+      _hardwareRight.isUserButton2Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+
     default:
       // Do nothing.
       break;
@@ -638,6 +639,24 @@ static const CGFloat kFaderTickLength = 0.007874;
         _focusedList = PHSystemCompositeLayers;
       }
       [self updateFocus];
+      break;
+
+    case PHDJ2GOButtonLeftCue:
+      _hardwareLeft.isUserButton1Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+    case PHDJ2GOButtonRightCue:
+      _hardwareRight.isUserButton1Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+
+    case PHDJ2GOButtonLeftSync:
+      _hardwareLeft.isUserButton2Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+    case PHDJ2GOButtonRightSync:
+      _hardwareRight.isUserButton2Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
       break;
 
     default:

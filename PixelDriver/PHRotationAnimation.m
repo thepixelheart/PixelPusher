@@ -37,8 +37,8 @@ static NSString* const kDirectionKey = @"kDirectionKey";
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGFloat direction = _direction;
-  if (self.systemState.isUserButton1Pressed
-      || self.systemState.isUserButton2Pressed) {
+  if (self.animationTick.hardwareState.isUserButton1Pressed
+      || self.animationTick.hardwareState.isUserButton2Pressed) {
     direction = -direction;
   }
 

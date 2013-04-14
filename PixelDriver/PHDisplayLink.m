@@ -37,17 +37,9 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
   @autoreleasepool {
     PHDisplayLink* displayLink = (__bridge PHDisplayLink *)(displayLinkContext);
     NSArray* motes = [PHApp() allMotes];
-    NSInteger numberOfTimesUser1Pressed = PHSys().numberOfTimesUserButton1Pressed;
-    NSInteger numberOfTimesUser2Pressed = PHSys().numberOfTimesUserButton2Pressed;
-    NSInteger isUserButton1Pressed = PHSys().isUserButton1Pressed;
-    NSInteger isUserButton2Pressed = PHSys().isUserButton2Pressed;
     [displayLink.systemState updateWithAudioRecorder:PHApp().audioRecorder
-                                                   motes:motes
-                                       didTapUserButton1:numberOfTimesUser1Pressed > 0
-                                       didTapUserButton2:numberOfTimesUser2Pressed > 0
-                                    isUserButton1Pressed:isUserButton1Pressed
-                                    isUserButton2Pressed:isUserButton2Pressed
-                                                    gifs:PHApp().gifs];
+                                               motes:motes
+                                                gifs:PHApp().gifs];
 
     NSMutableDictionary* userInfo = [@{
       PHDisplayLinkFiredDriverKey : displayLink.systemState

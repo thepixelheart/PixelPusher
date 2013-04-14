@@ -61,8 +61,6 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   NSMutableDictionary* keyMappings = [@{
     @" ": @(PHSystemButtonPixelHeart),
     @"`": @(PHSystemButtonPixelHeart),
-    @"1": @(PHSystemButtonUserAction1),
-    @"2": @(PHSystemButtonUserAction2),
     @"[": @(PHSystemButtonLoadLeft),
     @"]": @(PHSystemButtonLoadRight),
     @"p": @(PHSystemButtonPrefs),

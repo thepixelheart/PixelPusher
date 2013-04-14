@@ -22,5 +22,10 @@
 @property (nonatomic, assign) CGFloat volume; // 0...1
 @property (nonatomic, assign) BOOL playing;
 
+@property (nonatomic, assign) BOOL didTapUserButton1;
+@property (nonatomic, assign) BOOL didTapUserButton2;
+@property (nonatomic, assign) BOOL isUserButton1Pressed;
+@property (nonatomic, assign) BOOL isUserButton2Pressed;
+
 - (void)tick;
 @end

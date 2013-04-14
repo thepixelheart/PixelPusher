@@ -95,7 +95,7 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   @synchronized(self) {
     CGContextSaveGState(cx);
 
-    BOOL buttonPressed = self.systemState.isUserButton1Pressed || self.systemState.isUserButton2Pressed;
+    BOOL buttonPressed = self.animationTick.hardwareState.isUserButton1Pressed || self.animationTick.hardwareState.isUserButton2Pressed;
     if (!buttonPressed) {
       _buttonWasntPressed = YES;
     }
@@ -110,14 +110,14 @@ static const NSTimeInterval kTransitionDuration = 0.5;
       }
       _buttonWasntPressed = NO;
 
-      if (self.systemState.isUserButton1Pressed) {
+      if (self.animationTick.hardwareState.isUserButton1Pressed) {
         _currentGifIndex--;
       } else {
         _currentGifIndex++;
       }
       _nextFrameTickForPreviousGif = _nextFrameTick;
-      if (!self.systemState.isUserButton2Pressed
-          && !self.systemState.isUserButton1Pressed) {
+      if (!self.animationTick.hardwareState.isUserButton2Pressed
+          && !self.animationTick.hardwareState.isUserButton1Pressed) {
         _previousGif = _activeGif;
       }
       _activeGif = self.systemState.gifs[(_currentGifIndex + self.systemState.gifs.count) % self.systemState.gifs.count];

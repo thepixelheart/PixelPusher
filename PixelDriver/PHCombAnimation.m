@@ -35,8 +35,8 @@
   BOOL flipper = NO;
 
   BOOL colorize = YES;
-  if (self.systemState.isUserButton1Pressed
-      || self.systemState.isUserButton2Pressed) {
+  if (self.animationTick.hardwareState.isUserButton1Pressed
+      || self.animationTick.hardwareState.isUserButton2Pressed) {
     colorize = NO;
     CGContextSetFillColorWithColor(cx, [NSColor whiteColor].CGColor);
   }

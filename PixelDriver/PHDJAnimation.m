@@ -96,8 +96,8 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (self.systemState.isUserButton1Pressed
-      || self.systemState.isUserButton2Pressed) {
+  if (self.animationTick.hardwareState.isUserButton1Pressed
+      || self.animationTick.hardwareState.isUserButton2Pressed) {
     _nextStateChangeTick = 0;
   }
   if (0 == _nextStateChangeTick) {

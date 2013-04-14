@@ -32,8 +32,6 @@
     _buttons = [NSMutableArray array];
 
     [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHSystemButtonPixelHeart];
-    [self addButtonWithImage:[NSImage imageNamed:@"1"] tag:PHSystemButtonUserAction1];
-    [self addButtonWithImage:[NSImage imageNamed:@"2"] tag:PHSystemButtonUserAction2];
   }
   return self;
 }

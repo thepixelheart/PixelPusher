@@ -194,12 +194,6 @@ typedef enum {
 @property (nonatomic, readonly) PHPitch dominantPitch;
 - (NSString *)nameOfPitch:(PHPitch)pitch;
 
-// Launchpad Buttons
-@property (nonatomic, readonly) BOOL didTapUserButton1;
-@property (nonatomic, readonly) BOOL didTapUserButton2;
-@property (nonatomic, readonly) BOOL isUserButton1Pressed;
-@property (nonatomic, readonly) BOOL isUserButton2Pressed;
-
 // Motes
 @property (nonatomic, readonly) NSArray* motes;
 
@@ -212,10 +206,6 @@ typedef enum {
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
-              didTapUserButton1:(BOOL)didTapUserButton1
-              didTapUserButton2:(BOOL)didTapUserButton2
-           isUserButton1Pressed:(BOOL)isUserButton1Pressed
-           isUserButton2Pressed:(BOOL)isUserButton2Pressed
                            gifs:(NSArray *)gifs;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)

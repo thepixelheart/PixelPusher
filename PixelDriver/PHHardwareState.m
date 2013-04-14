@@ -34,13 +34,31 @@
   state->_fader = _fader;
   state->_volume = _volume;
   state->_playing = _playing;
+  state->_isUserButton1Pressed = _isUserButton1Pressed;
+  state->_isUserButton2Pressed = _isUserButton2Pressed;
+  state->_didTapUserButton1 = _didTapUserButton1;
+  state->_didTapUserButton2 = _didTapUserButton2;
   return state;
 }
 
 #pragma mark - Public Methods
 
+- (void)setIsUserButton1Pressed:(BOOL)isUserButton1Pressed {
+  _isUserButton1Pressed = isUserButton1Pressed;
+
+  _didTapUserButton1 = _didTapUserButton1 || _isUserButton1Pressed;
+}
+
+- (void)setIsUserButton2Pressed:(BOOL)isUserButton2Pressed {
+  _isUserButton2Pressed = isUserButton2Pressed;
+
+  _didTapUserButton2 = _didTapUserButton2 || _isUserButton2Pressed;
+}
+
 - (void)tick {
   _numberOfRotationTicks = 0;
+  _didTapUserButton1 = NO;
+  _didTapUserButton2 = NO;
 }
 
 @end

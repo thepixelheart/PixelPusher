@@ -117,20 +117,12 @@ static const float notefreq[PHPitch_Count] = {
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
-              didTapUserButton1:(BOOL)didTapUserButton1
-              didTapUserButton2:(BOOL)didTapUserButton2
-           isUserButton1Pressed:(BOOL)isUserButton1Pressed
-           isUserButton2Pressed:(BOOL)isUserButton2Pressed
                            gifs:(NSArray *)gifs {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
   [self updateActionsWithMotes:motes];
   _motes = [motes copy];
-  _didTapUserButton1 = didTapUserButton1;
-  _didTapUserButton2 = didTapUserButton2;
-  _isUserButton1Pressed = isUserButton1Pressed;
-  _isUserButton2Pressed = isUserButton2Pressed;
   _gifs = [gifs copy];
 }
 
