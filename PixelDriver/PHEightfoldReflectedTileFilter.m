@@ -23,10 +23,11 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _rotationAdvance += self.secondsSinceLastTick;
-  // TODO: Make the width modified by the relative offset bar.
-  _width += (CGFloat)self.animationTick.hardwareState.numberOfRotationTicks * 0.1;
 
-  _width = MAX(4, MIN(kWallWidth, _width));
+  CGFloat fader = 1 - pow(self.animationTick.hardwareState.fader + 0.5, 0.5);
+  CGFloat upperBound = kWallWidth;
+  CGFloat lowerBound = 4;
+  _width = fader * (upperBound - lowerBound) + lowerBound;
 
   [super renderBitmapInContext:cx size:size];
 }

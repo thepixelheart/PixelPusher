@@ -517,11 +517,11 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHDJ2GOSliderLeft:
       // It seems that the mid-point value overshoots the midway point by
       // one half of an tick length, so we compensate for that here.
-      _hardwareLeft.fader = (value - kFaderTickLength / 2) - 0.5;
+      _hardwareLeft.fader = MAX(-0.5, MIN(0.5, (value - kFaderTickLength / 2) - 0.5));
       break;
 
     case PHDJ2GOSliderRight:
-      _hardwareRight.fader = (value - kFaderTickLength / 2) - 0.5;
+      _hardwareRight.fader = MAX(-0.5, MIN(0.5, (value - kFaderTickLength / 2) - 0.5));
       break;
 
     default:

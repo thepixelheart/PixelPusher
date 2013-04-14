@@ -31,7 +31,7 @@
   if (_lastTick != 0) {
     NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
     delta = MIN(1, delta);
-    _accum += delta;
+    _accum += delta * 0.3;
   }
 
   CGRect frame = CGRectMake(0, 0, size.width, size.height);
