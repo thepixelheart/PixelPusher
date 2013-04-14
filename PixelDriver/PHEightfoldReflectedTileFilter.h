@@ -14,20 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHEdgeWorkFilter.h"
+#import "PHFilter.h"
 
-@implementation PHEdgeWorkFilter
-
-- (NSString *)filterName {
-  return @"CIEdgeWork";
-}
-
-- (id)radiusValue {
-  return @(kWallWidth);
-}
-
-- (NSString *)tooltipName {
-  return @"Edge Work Filter";
-}
-
+@interface PHEightfoldReflectedTileFilter : PHFilter
 @end

@@ -63,6 +63,7 @@
 #import "PHDrosteFilter.h"
 #import "PHEdgesFilter.h"
 #import "PHEdgeWorkFilter.h"
+#import "PHEightfoldReflectedTileFilter.h"
 #import "PHHoleDistortionFilter.h"
 
 #import "PHCompositeAnimation.h"
@@ -170,6 +171,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHDrosteFilter animation],
     [PHEdgesFilter animation],
 //    [PHEdgeWorkFilter animation],
+    [PHEightfoldReflectedTileFilter animation],
     [PHHoleDistortionFilter animation],
 
     [PHBassPlate animation],
