@@ -14,26 +14,24 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHEdgeWorkFilter.h"
 
-@interface PHFilter : PHAnimation
+@implementation PHEdgeWorkFilter
 
-- (NSString *)filterName;
+- (NSString *)filterName {
+  return @"CIEdgeWork";
+}
 
-- (BOOL)useCroppedImage;
-- (id)wallCenterValue;
+- (BOOL)useCroppedImage {
+  return YES;
+}
 
-- (id)radiusValue;
-- (id)centerValue;
-- (id)angleValue;
-- (id)widthValue;
-- (id)sharpnessValue;
-- (id)zoomValue;
-- (id)rotationValue;
-- (id)periodicityValue;
-- (id)insetPoint0Value;
-- (id)insetPoint1Value;
-- (id)strandsValue;
-- (id)intensityValue;
+- (id)radiusValue {
+  return @(kWallWidth);
+}
+
+- (NSString *)tooltipName {
+  return @"Edge Work Filter";
+}
 
 @end

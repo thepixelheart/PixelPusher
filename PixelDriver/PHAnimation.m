@@ -62,6 +62,7 @@
 #import "PHDotScreenFilter.h"
 #import "PHDrosteFilter.h"
 #import "PHEdgesFilter.h"
+#import "PHEdgeWorkFilter.h"
 #import "PHHoleDistortionFilter.h"
 
 #import "PHCompositeAnimation.h"
@@ -162,12 +163,13 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
 
-    // Filters
+    // Filters (commented out ones don't work)
     [PHBoxBlurFilter animation],
     [PHDiscBlurFilter animation],
     [PHDotScreenFilter animation],
     [PHDrosteFilter animation],
     [PHEdgesFilter animation],
+//    [PHEdgeWorkFilter animation],
     [PHHoleDistortionFilter animation],
 
     [PHBassPlate animation],

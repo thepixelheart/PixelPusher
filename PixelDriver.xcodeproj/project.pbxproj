@@ -135,6 +135,7 @@
 		66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7E171A70B5004ACAA2 /* PHFilter.m */; };
 		66DB8C82171A75FD004ACAA2 /* PHDrosteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */; };
 		66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */; };
+		66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -407,6 +408,8 @@
 		66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDrosteFilter.m; sourceTree = "<group>"; };
 		66DB8C83171A7E91004ACAA2 /* PHEdgesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEdgesFilter.h; sourceTree = "<group>"; };
 		66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEdgesFilter.m; sourceTree = "<group>"; };
+		66DB8C86171A8077004ACAA2 /* PHEdgeWorkFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEdgeWorkFilter.h; sourceTree = "<group>"; };
+		66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEdgeWorkFilter.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -696,6 +699,8 @@
 				66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */,
 				66DB8C83171A7E91004ACAA2 /* PHEdgesFilter.h */,
 				66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */,
+				66DB8C86171A8077004ACAA2 /* PHEdgeWorkFilter.h */,
+				66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */,
 				669666E9170919B0008A389E /* PHHoleDistortionFilter.h */,
 				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
 			);
@@ -1253,6 +1258,7 @@
 				66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */,
 				66DB8C82171A75FD004ACAA2 /* PHDrosteFilter.m in Sources */,
 				66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */,
+				66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
