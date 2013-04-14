@@ -14,27 +14,20 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHExposureAdjustFilter.h"
 
-@interface PHFilter : PHAnimation
+@implementation PHExposureAdjustFilter
 
-- (NSString *)filterName;
+- (NSString *)filterName {
+  return @"CIExposureAdjust";
+}
 
-- (BOOL)useCroppedImage;
-- (id)wallCenterValue;
+- (id)evValue {
+  return @(self.bassDegrader.value * 3);
+}
 
-- (id)radiusValue;
-- (id)centerValue;
-- (id)angleValue;
-- (id)widthValue;
-- (id)sharpnessValue;
-- (id)zoomValue;
-- (id)rotationValue;
-- (id)periodicityValue;
-- (id)insetPoint0Value;
-- (id)insetPoint1Value;
-- (id)strandsValue;
-- (id)intensityValue;
-- (id)evValue;
+- (NSString *)tooltipName {
+  return @"Exposure Adjust Filter";
+}
 
 @end

@@ -137,6 +137,7 @@
 		66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */; };
 		66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */; };
 		66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */; };
+		66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -413,6 +414,8 @@
 		66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEdgeWorkFilter.m; sourceTree = "<group>"; };
 		66DB8C89171A817D004ACAA2 /* PHEightfoldReflectedTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEightfoldReflectedTileFilter.h; sourceTree = "<group>"; };
 		66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEightfoldReflectedTileFilter.m; sourceTree = "<group>"; };
+		66DB8C8F171A8509004ACAA2 /* PHExposureAdjustFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHExposureAdjustFilter.h; sourceTree = "<group>"; };
+		66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHExposureAdjustFilter.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -706,6 +709,8 @@
 				66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */,
 				66DB8C89171A817D004ACAA2 /* PHEightfoldReflectedTileFilter.h */,
 				66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */,
+				66DB8C8F171A8509004ACAA2 /* PHExposureAdjustFilter.h */,
+				66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */,
 				669666E9170919B0008A389E /* PHHoleDistortionFilter.h */,
 				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
 			);
@@ -1265,6 +1270,7 @@
 				66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */,
 				66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */,
 				66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */,
+				66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
