@@ -17,14 +17,15 @@
 #import "PHCompositeAnimation.h"
 
 static NSString* kNameKey = @"kNameKey";
+static NSString* kVersionKey = @"kVersionKey";
+static const NSInteger kVersion = 1;
 const NSInteger PHNumberOfCompositeLayers = 8;
 
 @implementation PHCompositeAnimation {
   PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
 }
 
-+ (id)animationWithLayers:(NSArray *)layers
-                     name:(NSString *)name {
++ (id)animationWithLayers:(NSArray *)layers name:(NSString *)name {
   PHCompositeAnimation* animation = [super animation];
   animation->_name = [name copy];
 
@@ -60,23 +61,22 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   return [NSString stringWithFormat:@"%ld", ix];
 }
 
+- (id)keyForAnimationAtIndex:(NSInteger)ix {
+  return [NSString stringWithFormat:@"animation.%ld", ix];
+}
+
 - (id)keyForDefiningPropertiesIndex:(NSInteger)ix {
   return [NSString stringWithFormat:@"props.%ld", ix];
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:_name forKey:kNameKey];
+  [coder encodeObject:@(kVersion) forKey:kVersionKey];
 
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     if (nil != _layerAnimation[ix]) {
-      NSString *key = [self keyForIndex:ix];
-      [coder encodeObject:[_layerAnimation[ix] className] forKey:key];
-
-      id definingProperties = [_layerAnimation[ix] definingProperties];
-      if (nil != definingProperties) {
-        key = [self keyForDefiningPropertiesIndex:ix];
-        [coder encodeObject:definingProperties forKey:key];
-      }
+      id key = [self keyForAnimationAtIndex:ix];
+      [coder encodeObject:_layerAnimation[ix] forKey:key];
     }
   }
 }
@@ -85,16 +85,33 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   if ((self = [self init])) {
     _name = [[decoder decodeObjectForKey:kNameKey] copy];
 
-    for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-      NSString *key = [self keyForIndex:ix];
-      NSString *className = [decoder decodeObjectForKey:key];
-      Class aClass = NSClassFromString(className);
-      if (nil != aClass) {
-        _layerAnimation[ix] = [aClass animation];
+    NSNumber *versionValue = [decoder decodeObjectForKey:kVersionKey];
+    NSInteger version = 0;
+    if (nil != versionValue) {
+      version = [versionValue intValue];
+    }
 
-        key = [self keyForDefiningPropertiesIndex:ix];
-        id definingProperties = [decoder decodeObjectForKey:key];
-        _layerAnimation[ix].definingProperties = definingProperties;
+    if (version == 1) {
+      for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+        NSString *key = [self keyForAnimationAtIndex:ix];
+        PHAnimation* animation = [decoder decodeObjectForKey:key];
+        if (nil != animation) {
+          _layerAnimation[ix] = animation;
+        }
+      }
+
+    } else if (version == 0) {
+      for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
+        NSString *key = [self keyForIndex:ix];
+        NSString *className = [decoder decodeObjectForKey:key];
+        Class aClass = NSClassFromString(className);
+        if (nil != aClass) {
+          _layerAnimation[ix] = [aClass animation];
+
+          key = [self keyForDefiningPropertiesIndex:ix];
+          id definingProperties = [decoder decodeObjectForKey:key];
+          _layerAnimation[ix].definingProperties = definingProperties;
+        }
       }
     }
   }
