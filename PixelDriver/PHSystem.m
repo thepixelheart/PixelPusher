@@ -531,7 +531,17 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
+  switch (volume) {
+    case PHDJ2GOVolumeA:
+      _hardwareLeft.volume = value;
+      break;
+    case PHDJ2GOVolumeB:
+      _hardwareRight.volume = value;
+      break;
 
+    default:
+      break;
+  }
 }
 
 - (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {

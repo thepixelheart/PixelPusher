@@ -17,8 +17,9 @@
 #import <Foundation/Foundation.h>
 
 @interface PHHardwareState : NSObject <NSCopying>
-@property (nonatomic, assign) NSInteger numberOfRotationTicks;
-@property (nonatomic, assign) CGFloat fader;
+@property (nonatomic, assign) NSInteger numberOfRotationTicks; // negative or positive
+@property (nonatomic, assign) CGFloat fader; // -0.5...0.5
+@property (nonatomic, assign) CGFloat volume; // 0...1
 
 - (void)tick;
 @end
