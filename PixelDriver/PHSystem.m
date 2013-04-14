@@ -56,6 +56,7 @@ static const CGFloat kFaderTickLength = 0.007874;
 
   PHHardwareState *_hardwareLeft;
   PHHardwareState *_hardwareRight;
+  CGFloat _masterFade;
 
   PHSystemControlIdentifier _focusedList;
 
@@ -67,6 +68,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (id)init {
   if ((self = [super init])) {
+    _masterFade = 1;
+
     _faderTransition = [[PHCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
     _hardwareRight = [[PHHardwareState alloc] init];
@@ -205,7 +208,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   _numberOfTimesUserButton1Pressed = 0;
   _numberOfTimesUserButton2Pressed = 0;
   
-  PHSystemTick* tick = [[PHSystemTick alloc] init];
+  PHSystemTick* tick = [[PHSystemTick alloc] initWithMasterFade:_masterFade];
 
   NSMutableSet* uniqueAnimations = [NSMutableSet set];
   if (nil != _leftAnimation) {
@@ -258,6 +261,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   if (_overlayPixelHeart) {
     CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
     CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
+    CGContextSetAlpha(tick.wallContextRef, 1);
     CGContextDrawImage(tick.wallContextRef, CGRectMake(floorf((kWallWidth - textSize.width) / 2),
                                                        floorf((kWallHeight - textSize.height) / 2),
                                                        textSize.width, textSize.height), imageRef);
@@ -537,6 +541,9 @@ static const CGFloat kFaderTickLength = 0.007874;
       break;
     case PHDJ2GOVolumeB:
       _hardwareRight.volume = value;
+      break;
+    case PHDJ2GOVolumeMaster:
+      _masterFade = value;
       break;
 
     default:

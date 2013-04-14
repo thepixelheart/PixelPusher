@@ -20,7 +20,9 @@
 #import "PHSystem+Protected.h"
 #import "PHTransition.h"
 
-@implementation PHSystemTick
+@implementation PHSystemTick {
+  CGFloat _masterFade;
+}
 
 @synthesize leftContextRef = _leftContextRef;
 @synthesize rightContextRef = _rightContextRef;
@@ -43,6 +45,13 @@
   if (nil != _editingCompositeContextRef) {
     CGContextRelease(_editingCompositeContextRef);
   }
+}
+
+- (id)initWithMasterFade:(CGFloat)masterFade {
+  if ((self = [super init])) {
+    _masterFade = masterFade;
+  }
+  return self;
 }
 
 - (void)setLeftContextRef:(CGContextRef)leftContextRef {
@@ -96,14 +105,21 @@
 }
 
 - (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t {
-  CGContextRef wallContext = [PHSystem createWallContext];
+  CGContextRef wallPrepContext = [PHSystem createWallContext];
 
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-  [transition renderBitmapInContext:wallContext
+  [transition renderBitmapInContext:wallPrepContext
                                size:wallSize
                         leftContext:_leftContextRef
                        rightContext:_rightContextRef
                                   t:t];
+
+  CGContextRef wallContext = [PHSystem createWallContext];
+  CGContextSetAlpha(wallContext, _masterFade);
+  CGImageRef prepImageRef = CGBitmapContextCreateImage(wallPrepContext);
+  CGContextDrawImage(wallContext, CGRectMake(0, 0, kWallWidth, kWallHeight), prepImageRef);
+  CGImageRelease(prepImageRef);
+  CGContextRelease(wallPrepContext);
 
   self.wallContextRef = wallContext;
 

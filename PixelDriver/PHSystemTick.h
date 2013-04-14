@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PHSystemTick : NSObject
+- (id)initWithMasterFade:(CGFloat)masterFade;
 @property (nonatomic, assign) CGContextRef leftContextRef;
 @property (nonatomic, assign) CGContextRef rightContextRef;
 @property (nonatomic, assign) CGContextRef previewContextRef;
