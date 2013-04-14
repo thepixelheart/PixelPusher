@@ -16,5 +16,6 @@
 
 #import "PHTransition.h"
 
-@interface PHFlashTransition : PHTransition
+@interface PHHolesTransition : PHTransition
+
 @end
