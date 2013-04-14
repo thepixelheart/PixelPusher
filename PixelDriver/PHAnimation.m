@@ -129,7 +129,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 }
 
 - (NSTimeInterval)secondsSinceLastTick {
-  return (_lastTick > 0) ? ([NSDate timeIntervalSinceReferenceDate] - _lastTick) : 0;
+  NSTimeInterval secondsSinceLastTick = (_lastTick > 0) ? ([NSDate timeIntervalSinceReferenceDate] - _lastTick) : 0;
+  return secondsSinceLastTick * self.animationTick.hardwareState.volume * 2;
 }
 
 - (void)bitmapWillStartRendering {

@@ -18,12 +18,20 @@
 
 @implementation PHHardwareState
 
+- (id)init {
+  if ((self = [super init])) {
+    _volume = 0.5;
+  }
+  return self;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
   PHHardwareState *state = [[[self class] allocWithZone:zone] init];
   state->_numberOfRotationTicks = _numberOfRotationTicks;
   state->_fader = _fader;
+  state->_volume = _volume;
   return state;
 }
 

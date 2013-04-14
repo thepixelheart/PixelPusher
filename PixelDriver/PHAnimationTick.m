@@ -17,4 +17,12 @@
 #import "PHAnimationTick.h"
 
 @implementation PHAnimationTick
+
+- (id)init {
+  if ((self = [super init])) {
+    _hardwareState = [[PHHardwareState alloc] init];
+  }
+  return self;
+}
+
 @end

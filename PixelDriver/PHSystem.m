@@ -233,6 +233,8 @@ static const CGFloat kFaderTickLength = 0.007874;
   [_hardwareLeft tick];
   [_hardwareRight tick];
 
+  _editingCompositeAnimation.animationTick = [[PHAnimationTick alloc] init];
+  _previewAnimation.animationTick = [[PHAnimationTick alloc] init];
   _leftAnimation.animationTick = leftTick;
   _rightAnimation.animationTick = rightTick;
 
