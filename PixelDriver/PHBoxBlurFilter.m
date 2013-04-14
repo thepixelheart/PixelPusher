@@ -16,45 +16,14 @@
 
 #import "PHBoxBlurFilter.h"
 
-#import <QuartzCore/CoreImage.h>
-
 @implementation PHBoxBlurFilter
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  CGContextSaveGState(cx);
-
-  CGImageRef currentImageRef = CGBitmapContextCreateImage(cx);
-  CIImage *image = [CIImage imageWithCGImage:currentImageRef];
-  CGImageRelease(currentImageRef);
-
-  CIFilter *filter = [CIFilter filterWithName:@"CIBoxBlur"
-                                keysAndValues:
-                      kCIInputImageKey, image,
-                      kCIInputRadiusKey, @(self.bassDegrader.value * 10),
-                      nil];
-
-  CIImage *result = [filter valueForKey:kCIOutputImageKey];
-  CGRect frame = CGRectMake(0, 0, size.width, size.height);
-  CGRect sourceFrame = CGRectMake(size.width / 2, size.height / 2, size.width, size.height);
-
-  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
-  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
-  [NSGraphicsContext setCurrentContext:graphicsContext];
-  [result drawInRect:frame fromRect:sourceFrame operation:NSCompositeCopy fraction:1];
-  [NSGraphicsContext setCurrentContext:previousContext];
-
-  CGContextRestoreGState(cx);
+- (NSString *)filterName {
+  return @"CIBoxBlur";
 }
 
-- (BOOL)isPipeAnimation {
-  return YES;
-}
-
-- (NSArray *)categories {
-  return @[
-           PHAnimationCategoryFilters,
-           PHAnimationCategoryPipes
-           ];
+- (id)radiusValue {
+  return @(self.bassDegrader.value * 10);
 }
 
 - (NSString *)tooltipName {

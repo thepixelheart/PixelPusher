@@ -132,6 +132,7 @@
 		66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */; };
 		66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */; };
 		66DB8C7C17190654004ACAA2 /* PHDotScreenFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7B17190654004ACAA2 /* PHDotScreenFilter.m */; };
+		66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7E171A70B5004ACAA2 /* PHFilter.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -398,6 +399,8 @@
 		66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDiscBlurFilter.m; sourceTree = "<group>"; };
 		66DB8C7A17190654004ACAA2 /* PHDotScreenFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDotScreenFilter.h; sourceTree = "<group>"; };
 		66DB8C7B17190654004ACAA2 /* PHDotScreenFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDotScreenFilter.m; sourceTree = "<group>"; };
+		66DB8C7D171A70B5004ACAA2 /* PHFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFilter.h; sourceTree = "<group>"; };
+		66DB8C7E171A70B5004ACAA2 /* PHFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFilter.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -675,6 +678,8 @@
 		669666E81709198D008A389E /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				66DB8C7D171A70B5004ACAA2 /* PHFilter.h */,
+				66DB8C7E171A70B5004ACAA2 /* PHFilter.m */,
 				66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */,
 				66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */,
 				66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */,
@@ -1235,6 +1240,7 @@
 				66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */,
 				66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */,
 				66DB8C7C17190654004ACAA2 /* PHDotScreenFilter.m in Sources */,
+				66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,7 +14,18 @@
 // limitations under the License.
 //
 
-#import "PHFilter.h"
+#import "PHAnimation.h"
 
-@interface PHHoleDistortionFilter : PHFilter
+@interface PHFilter : PHAnimation
+
+- (NSString *)filterName;
+
+- (id)wallCenterValue;
+
+- (id)radiusValue;
+- (id)centerValue;
+- (id)angleValue;
+- (id)widthValue;
+- (id)sharpnessValue;
+
 @end

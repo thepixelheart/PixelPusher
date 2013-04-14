@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHFilter.h"
 
-@interface PHBoxBlurFilter : PHAnimation
+@interface PHBoxBlurFilter : PHFilter
 @end
