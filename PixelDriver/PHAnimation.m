@@ -281,24 +281,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSpiralingSquareAnimation animation],]
                                         name:@"Rotating Spiral"],
 
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHMovingSawAnimation animation],
-    [PHHoleDistortionFilter animation]]
-                                        name:@"Hole Moving Saw"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHMegamanAnimation animation],
-    [PHHoleDistortionFilter animation]]
-                                        name:@"Hole Moving Saw"],
-
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHFlowerAnimation animation],
-    [PHHoleDistortionFilter animation]]
-                                        name:@"Hole Moving Saw"],
-
-
-
    ]];
 
   if (nil != sAdditionalAnimationBlock) {
