@@ -82,9 +82,6 @@ static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
-@implementation PHAnimationTick
-@end
-
 @implementation PHAnimation
 
 + (id)animation {

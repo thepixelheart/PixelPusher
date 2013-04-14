@@ -15,6 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PHAnimationTick.h"
 #import "PHSystemState.h"
 #import "PHDriver.h"
 #import "PHDegrader.h"
@@ -31,10 +32,6 @@ extern NSString* const PHAnimationCategoryTrippy;
 const NSInteger PHInitialAnimationIndex;
 
 typedef NSArray* (^PHAdditionalAnimationBlock)();
-
-@interface PHAnimationTick : NSObject
-@property (nonatomic, assign) NSInteger numberOfRotationTicks;
-@end
 
 /**
  * The PHAnimation class exposes the fundamental tools and API for creating
