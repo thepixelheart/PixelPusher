@@ -20,6 +20,7 @@
 @property (nonatomic, assign) NSInteger numberOfRotationTicks; // negative or positive
 @property (nonatomic, assign) CGFloat fader; // -0.5...0.5
 @property (nonatomic, assign) CGFloat volume; // 0...1
+@property (nonatomic, assign) BOOL playing;
 
 - (void)tick;
 @end

@@ -21,6 +21,7 @@
 - (id)init {
   if ((self = [super init])) {
     _volume = 0.5;
+    _playing = YES;
   }
   return self;
 }
@@ -32,6 +33,7 @@
   state->_numberOfRotationTicks = _numberOfRotationTicks;
   state->_fader = _fader;
   state->_volume = _volume;
+  state->_playing = _playing;
   return state;
 }
 

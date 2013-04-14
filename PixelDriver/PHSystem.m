@@ -87,6 +87,10 @@ static const CGFloat kFaderTickLength = 0.007874;
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
 
+    // Animations are playing by default.
+    [_dj2go setButton:PHDJ2GOButtonLeftPlayPause ledStateEnabled:YES];
+    [_dj2go setButton:PHDJ2GOButtonRightPlayPause ledStateEnabled:YES];
+
     _focusedList = PHSystemAnimations;
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
@@ -330,6 +334,8 @@ static const CGFloat kFaderTickLength = 0.007874;
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = YES;
+      [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:YES];
+      [_dj2go setButton:PHDJ2GOButtonRightHeadphones ledStateEnabled:YES];
       break;
     case PHSystemButtonUserAction1:
       _isUserButton1Pressed = YES;
@@ -395,6 +401,8 @@ static const CGFloat kFaderTickLength = 0.007874;
   switch (button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = NO;
+      [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:NO];
+      [_dj2go setButton:PHDJ2GOButtonRightHeadphones ledStateEnabled:NO];
       break;
     case PHSystemButtonUserAction1:
       _numberOfTimesUserButton1Pressed++;
@@ -586,6 +594,15 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHDJ2GOButtonLeftHeadphones:
     case PHDJ2GOButtonRightHeadphones:
       [self didPressButton:PHSystemButtonPixelHeart];
+      break;
+
+    case PHDJ2GOButtonLeftPlayPause:
+      _hardwareLeft.playing = !_hardwareLeft.playing;
+      [_dj2go setButton:button ledStateEnabled:_hardwareLeft.playing];
+      break;
+    case PHDJ2GOButtonRightPlayPause:
+      _hardwareRight.playing = !_hardwareRight.playing;
+      [_dj2go setButton:button ledStateEnabled:_hardwareRight.playing];
       break;
       
     default:

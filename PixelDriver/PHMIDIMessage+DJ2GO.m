@@ -54,6 +54,17 @@ static const Byte kLoadBValue = 0x34;
 static const Byte kBackValue = 0x59;
 static const Byte kEnterValue = 0x5A;
 
+const Byte PHDJ2GOLEDButtonToByte[PHDJ2GOButtonLEDCount] = {
+  kLeftSyncValue,
+  kLeftHeadphonesValue,
+  kLeftCueValue,
+  kLeftPlayPauseValue,
+  kRightSyncValue,
+  kRightHeadphonesValue,
+  kRightCueValue,
+  kRightPlayPauseValue,
+};
+
 @implementation PHMIDIMessage (DJ2GO)
 
 - (PHDJ2GOMessageType)dj2goType {

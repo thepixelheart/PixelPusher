@@ -18,6 +18,8 @@
 
 #import "PHDJ2GODevice.h"
 
+extern const Byte PHDJ2GOLEDButtonToByte[PHDJ2GOButtonLEDCount];
+
 typedef enum {
   PHDJ2GOMessageTypeSlider,
   PHDJ2GOMessageTypeVolume,

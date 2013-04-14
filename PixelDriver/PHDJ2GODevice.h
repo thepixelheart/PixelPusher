@@ -45,19 +45,23 @@ typedef enum {
 } PHDJ2GOKnob;
 
 typedef enum {
-  PHDJ2GOButtonLeftPitchBendNeg,
-  PHDJ2GOButtonLeftPitchBendPos,
   PHDJ2GOButtonLeftSync,
   PHDJ2GOButtonLeftHeadphones,
   PHDJ2GOButtonLeftCue,
   PHDJ2GOButtonLeftPlayPause,
 
-  PHDJ2GOButtonRightPitchBendNeg,
-  PHDJ2GOButtonRightPitchBendPos,
   PHDJ2GOButtonRightSync,
   PHDJ2GOButtonRightHeadphones,
   PHDJ2GOButtonRightCue,
   PHDJ2GOButtonRightPlayPause,
+
+  PHDJ2GOButtonLEDCount,
+
+  PHDJ2GOButtonLeftPitchBendNeg = PHDJ2GOButtonLEDCount,
+  PHDJ2GOButtonLeftPitchBendPos,
+
+  PHDJ2GOButtonRightPitchBendNeg,
+  PHDJ2GOButtonRightPitchBendPos,
 
   PHDJ2GOButtonLoadA,
   PHDJ2GOButtonLoadB,
@@ -80,6 +84,9 @@ typedef enum {
 
 @interface PHDJ2GODevice : NSObject
 @property (nonatomic, weak) id<PHDJ2GODeviceDelegate> delegate;
+
+- (void)setButton:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled;
+
 @end
 
 @protocol PHDJ2GODeviceDelegate <NSObject>

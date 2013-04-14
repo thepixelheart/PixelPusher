@@ -28,6 +28,7 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
   CGFloat _sliders[PHDJ2GOSliderCount];
   CGFloat _volumes[PHDJ2GOVolumeCount];
   BOOL _buttons[PHDJ2GOButtonCount];
+  BOOL _buttonLEDs[PHDJ2GOButtonLEDCount];
 }
 
 - (void)dealloc {
@@ -43,6 +44,7 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
     memset(_sliders, 0, sizeof(CGFloat) * PHDJ2GOSliderCount);
     memset(_volumes, 0, sizeof(CGFloat) * PHDJ2GOVolumeCount);
     memset(_buttons, 0, sizeof(BOOL) * PHDJ2GOButtonCount);
+    memset(_buttonLEDs, 0, sizeof(BOOL) * PHDJ2GOButtonLEDCount);
   }
   return self;
 }
@@ -61,6 +63,8 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
 
   if (nil != _device) {
     [nc addObserver:self selector:@selector(didReceiveMIDIMessages:) name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
+
+    [self syncDeviceState];
   }
 }
 
@@ -100,6 +104,21 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
   }
 }
 
+- (void)syncDeviceState {
+  for (PHDJ2GOButton button = 0; button < PHDJ2GOButtonLEDCount; ++button) {
+    [self sendButtonColorMessage:button ledStateEnabled:_buttonLEDs[button]];
+  }
+}
+
+- (void)sendButtonColorMessage:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled {
+  if (_device) {
+    PHMIDIMessage* msg = [[PHMIDIMessage alloc] initWithStatus:enabled ? PHMIDIStatusNoteOn : PHMIDIStatusNoteOff channel:0];
+    msg.data1 = PHDJ2GOLEDButtonToByte[button];
+    msg.data2 = 1;
+    [_device sendMessage:msg];
+  }
+}
+
 #pragma mark - Message Handling
 
 - (void)slider:(PHDJ2GOSlider)slider didChange:(CGFloat)value {
@@ -128,6 +147,18 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
   _buttons[button] = NO;
 
   [_delegate buttonWasReleased:button];
+}
+
+- (void)setButton:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled {
+  if (button >= PHDJ2GOButtonLEDCount) {
+    return;
+  }
+
+  if (_buttonLEDs[button] != enabled) {
+    _buttonLEDs[button] = enabled;
+
+    [self sendButtonColorMessage:button ledStateEnabled:enabled];
+  }
 }
 
 @end
