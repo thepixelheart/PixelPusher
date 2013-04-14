@@ -81,6 +81,14 @@
   return nil;
 }
 
+- (id)color0Value {
+  return nil;
+}
+
+- (id)color1Value {
+  return nil;
+}
+
 - (CIImage *)imageValueWithContext:(CGContextRef)cx {
   CGImageRef currentImageRef = CGBitmapContextCreateImage(cx);
   if ([self useCroppedImage]) {
@@ -113,6 +121,8 @@
   [self storeValue:[self imageValueWithContext:cx] forKey:kCIInputImageKey inFilter:filter];
   [self storeValue:[self angleValue] forKey:kCIInputAngleKey inFilter:filter];
   [self storeValue:[self centerValue] forKey:kCIInputCenterKey inFilter:filter];
+  [self storeValue:[self color0Value] forKey:@"inputColor0" inFilter:filter];
+  [self storeValue:[self color1Value] forKey:@"inputColor1" inFilter:filter];
   [self storeValue:[self evValue] forKey:kCIInputEVKey inFilter:filter];
   [self storeValue:[self insetPoint0Value] forKey:@"inputInsetPoint0" inFilter:filter];
   [self storeValue:[self insetPoint1Value] forKey:@"inputInsetPoint1" inFilter:filter];
