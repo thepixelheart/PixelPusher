@@ -139,6 +139,7 @@
 		66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */; };
 		66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */; };
 		66DB8C94171A8637004ACAA2 /* PHFalseColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C93171A8637004ACAA2 /* PHFalseColorFilter.m */; };
+		66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -419,6 +420,8 @@
 		66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHExposureAdjustFilter.m; sourceTree = "<group>"; };
 		66DB8C92171A8636004ACAA2 /* PHFalseColorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFalseColorFilter.h; sourceTree = "<group>"; };
 		66DB8C93171A8637004ACAA2 /* PHFalseColorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFalseColorFilter.m; sourceTree = "<group>"; };
+		66DB8C95171A87F4004ACAA2 /* PHFlashTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlashTransition.h; sourceTree = "<group>"; };
+		66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlashTransition.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -531,6 +534,8 @@
 				66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */,
 				66B16FD716AF6450003CF908 /* PHNoiseTransition.h */,
 				66B16FD816AF6450003CF908 /* PHNoiseTransition.m */,
+				66DB8C95171A87F4004ACAA2 /* PHFlashTransition.h */,
+				66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */,
 			);
 			name = Transitions;
 			sourceTree = "<group>";
@@ -1277,6 +1282,7 @@
 				66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */,
 				66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */,
 				66DB8C94171A8637004ACAA2 /* PHFalseColorFilter.m in Sources */,
+				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

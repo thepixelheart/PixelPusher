@@ -21,6 +21,7 @@
 #import "PHStarWarsTransition.h"
 #import "PHShutterTransition.h"
 #import "PHNoiseTransition.h"
+#import "PHFlashTransition.h"
 
 @implementation PHTransition
 
@@ -51,6 +52,7 @@
     [PHStarWarsTransition transition],
     [PHShutterTransition transition],
     [PHNoiseTransition transition],
+    [PHFlashTransition transition],
   ];
 }
 
