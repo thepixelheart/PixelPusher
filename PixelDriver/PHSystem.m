@@ -624,7 +624,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHDJ2GOButtonRightHeadphones:
       [self didReleaseButton:PHSystemButtonPixelHeart];
       break;
-    case PHDJ2GOButtonBack:
+    case PHDJ2GOButtonEnter:
       if (_focusedList < PHSystemCompositeLayers) {
         _focusedList++;
       } else {
@@ -632,7 +632,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
       [self updateFocus];
       break;
-    case PHDJ2GOButtonEnter:
+    case PHDJ2GOButtonBack:
       if (_focusedList > PHSystemAnimations) {
         _focusedList--;
       } else {
@@ -667,6 +667,11 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (void)updateFocus {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  if ((_focusedList == PHSystemComposites || _focusedList == PHSystemCompositeLayers)
+      && _viewMode != PHViewModeCompositeEditor) {
+    _viewMode = PHViewModeCompositeEditor;
+    [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+  }
   [nc postNotificationName:PHSystemFocusDidChangeNotification object:nil userInfo:
    @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList]}];
 }
