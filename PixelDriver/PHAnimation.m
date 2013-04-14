@@ -201,7 +201,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMovingSawAnimation animation],
 
     [PHBassShooterAnimation animation],
-    [PHCountdownAnimation animation],
 
     [PHPixelRainAnimation animation],
     [PHFlyingFireballAnimation animation],
@@ -214,21 +213,21 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFlowerAnimation animationWithReactiveCenter:YES],
     [PHFlowerAnimation animationWithReactiveCenter:NO],
 
-    [PHSineWaveAnimation animation],
-
-    [PHDaftPixelAnimation animation],
   [PHRainbowHeartAnimation animation],
 
-  [PHTronAnimation animation],
-    [PHMtFujiAnimation animation],
-
     [PHLinesAnimation animation],
-    [PHTetrisAnimation animation],
 
     [PHSpiralingSquareAnimation animation],
+
+    [PHTronAnimation animation],
     ];
 
   // Obsolete animations.
+  //[PHTetrisAnimation animation],
+  //[PHMtFujiAnimation animation],
+  //[PHCountdownAnimation animation],
+  //[PHSineWaveAnimation animation],
+  //[PHDaftPixelAnimation animation],
   //[PHSpectrumViewerAnimation animation],
   //[PHFireworksAnimation animation],
   //[PHPsychadelicBackgroundAnimation animation],
@@ -268,32 +267,12 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
                                         name:@"Trippy Heart"],
 
    [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:0],
-    [PHMegamanAnimation animation]]
-                                        name:@"Rotating Megaman"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:0],
-    [PHRainbowHeartAnimation animation]]
-                                        name:@"Rotating Rainbow Heart"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHRainbowHeartAnimation animation],
-    [PHPikachuEmotingAnimation animation]]
-                                        name:@"Heartachu"],
-
-   [PHCompositeAnimation animationWithLayers:@[
     [PHRotationAnimation animationWithDirection:1],
     [PHLinesAnimation animation],
     [PHResetAnimation animation],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHPixelHeartAnimation animation]]
                                         name:@"Energy Heart"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:1],
-    [PHSpiralingSquareAnimation animation],]
-                                        name:@"Rotating Spiral"],
 
    ]];
 
