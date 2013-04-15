@@ -62,6 +62,7 @@ static const CGFloat kFaderTickLength = 0.007874;
 
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
+  NSInteger _animationPage;
 
   NSMutableArray* _compositeAnimations;
   BOOL _tookScreenshot;
@@ -348,12 +349,23 @@ static const CGFloat kFaderTickLength = 0.007874;
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
 }
 
+- (NSInteger)indexOfPreviewAnimation {
+  return [[self filteredAnimations] indexOfObject:_previewAnimation];
+}
+
 - (void)setPreviewAnimation:(PHAnimation *)previewAnimation {
   if (_previewAnimation != previewAnimation) {
     _previewAnimation = previewAnimation;
 
+    NSInteger previewIndex = [self indexOfPreviewAnimation];
+    _animationPage = previewIndex / [self numberOfButtonsPerPage];
+
     [self refreshLaunchpad];
   }
+}
+
+- (PHAnimation *)previewAnimation {
+  return _previewAnimation;
 }
 
 - (void)didPressButton:(PHSystemControlIdentifier)button {
@@ -860,14 +872,24 @@ static const CGFloat kFaderTickLength = 0.007874;
   }
 }
 
+- (NSInteger)numberOfButtonsPerPage {
+  return PHLaunchpadButtonGridHeight * PHLaunchpadButtonGridWidth;
+}
+
+- (NSInteger)animationIndexFromButtonIndex:(NSInteger)buttonIndex {
+  return _animationPage * [self numberOfButtonsPerPage] + buttonIndex;
+}
+
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
   NSArray *filteredAnimations = [self filteredAnimations];
   PHLaunchpadColor color = PHLaunchpadColorOff;
-  if (buttonIndex < filteredAnimations.count) {
-    PHAnimation* animation = filteredAnimations[buttonIndex];
+
+  NSInteger animationIndex = [self animationIndexFromButtonIndex:buttonIndex];
+  if (animationIndex < filteredAnimations.count) {
+    PHAnimation* animation = filteredAnimations[animationIndex];
     color = [self buttonColorForAnimation:animation pressed:_previewAnimation == animation];
   }
-  
+
   return color;
 }
 
