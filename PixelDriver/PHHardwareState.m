@@ -15,13 +15,19 @@
 //
 
 #import "PHHardwareState.h"
+#import "PHHardwareState+System.h"
 
-@implementation PHHardwareState
+#import "PHLaunchpadDevice.h"
+
+@implementation PHHardwareState {
+  BOOL _launchpadButtonState[64];
+}
 
 - (id)init {
   if ((self = [super init])) {
     _volume = 0.5;
     _playing = YES;
+    memset(_launchpadButtonState, 0, sizeof(BOOL) * 64);
   }
   return self;
 }
@@ -59,6 +65,16 @@
   _numberOfRotationTicks = 0;
   _didTapUserButton1 = NO;
   _didTapUserButton2 = NO;
+
+  memset(_launchpadButtonState, 0, sizeof(BOOL) * 64);
+}
+
+- (void)didPressLaunchpadButtonAtX:(NSInteger)x y:(NSInteger)y {
+  _launchpadButtonState[x + y * PHLaunchpadButtonGridWidth] = YES;
+}
+
+- (BOOL)wasLaunchpadButtonPressedAtX:(NSInteger)x y:(NSInteger)y {
+  return _launchpadButtonState[x + y * PHLaunchpadButtonGridWidth];
 }
 
 @end

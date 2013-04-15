@@ -19,7 +19,7 @@
 #import "AppDelegate.h"
 
 #import "PHAnimation.h"
-#import "PHHardwareState.h"
+#import "PHHardwareState+System.h"
 #import "PHSystemTick+Protected.h"
 
 #import "PHCompositeAnimation.h"

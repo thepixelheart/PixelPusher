@@ -17,15 +17,16 @@
 #import <Foundation/Foundation.h>
 
 @interface PHHardwareState : NSObject <NSCopying>
-@property (nonatomic, assign) NSInteger numberOfRotationTicks; // negative or positive
-@property (nonatomic, assign) CGFloat fader; // -0.5...0.5
-@property (nonatomic, assign) CGFloat volume; // 0...1
-@property (nonatomic, assign) BOOL playing;
+@property (nonatomic, readonly, assign) NSInteger numberOfRotationTicks; // negative or positive
+@property (nonatomic, readonly, assign) CGFloat fader; // -0.5...0.5
+@property (nonatomic, readonly, assign) CGFloat volume; // 0...1
+@property (nonatomic, readonly, assign) BOOL playing;
 
-@property (nonatomic, assign) BOOL didTapUserButton1;
-@property (nonatomic, assign) BOOL didTapUserButton2;
-@property (nonatomic, assign) BOOL isUserButton1Pressed;
-@property (nonatomic, assign) BOOL isUserButton2Pressed;
+@property (nonatomic, readonly, assign) BOOL didTapUserButton1;
+@property (nonatomic, readonly, assign) BOOL didTapUserButton2;
+@property (nonatomic, readonly, assign) BOOL isUserButton1Pressed;
+@property (nonatomic, readonly, assign) BOOL isUserButton2Pressed;
 
-- (void)tick;
+- (BOOL)wasLaunchpadButtonPressedAtX:(NSInteger)x y:(NSInteger)y;
+
 @end
