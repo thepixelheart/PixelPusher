@@ -427,6 +427,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       break;
 
     case PHSystemButtonLoadCompositeIntoActiveLayer:
+      _isLaunchpadLoadingComposite = NO;
       [_editingCompositeAnimation setAnimation:[_previewAnimation copy]
                                       forLayer:_activeCompositeLayer];
       [self didModifyActiveComposition];
@@ -562,6 +563,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)didModifyActiveComposition {
+  [self refreshTopButtons];
+  [_launchpad flipBuffer];
   [self saveComposites];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -742,7 +745,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     NSInteger previewAnimationIndex = [self indexOfPreviewAnimation];
     if (previewAnimationIndex == animationIndex) {
       if (_viewMode == PHViewModeCompositeEditor) {
-        _isLaunchpadLoadingComposite = YES;
+        _isLaunchpadLoadingComposite = !_isLaunchpadLoadingComposite;
         [self refreshTopButtons];
       }
 
@@ -757,6 +760,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
+  if (_isLaunchpadLoadingComposite) {
+    if (pressed) {
+      _activeCompositeLayer = button;
+
+      [self didPressButton:PHSystemButtonLoadCompositeIntoActiveLayer];
+    }
+    return;
+  }
   switch (button) {
     case PHLaunchpadTopButtonUpArrow: {
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
@@ -1011,7 +1022,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
   if (_isLaunchpadLoadingComposite) {
-    return PHLaunchpadColorAmberDim;
+    PHAnimation* animation = [_editingCompositeAnimation animationAtLayer:buttonIndex];
+    return (nil != animation) ? PHLaunchpadColorAmberBright : PHLaunchpadColorOff;
   }
   switch (buttonIndex) {
     case PHLaunchpadTopButtonUpArrow:
