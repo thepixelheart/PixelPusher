@@ -731,6 +731,34 @@ static const CGFloat kFaderTickLength = 0.007874;
   }
 }
 
+- (NSArray *)filteredAnimations {
+  NSArray* allAnimations = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
+
+  NSMutableArray* filteredArray = [NSMutableArray array];
+  if ([_activeCategory isEqualToString:@"All"]) {
+    for (PHAnimation* animation in allAnimations) {
+      if ((![animation.categories containsObject:PHAnimationCategoryPipes]
+           && ![animation.categories containsObject:PHAnimationCategoryFilters])
+          || [animation isKindOfClass:[PHCompositeAnimation class]]) {
+        [filteredArray addObject:animation];
+      }
+    }
+
+  } else {
+    for (PHAnimation* animation in allAnimations) {
+      if (([_activeCategory isEqualToString:PHAnimationCategoryPipes]
+           || [_activeCategory isEqualToString:PHAnimationCategoryFilters])
+          && [animation isKindOfClass:[PHCompositeAnimation class]]) {
+        continue;
+      }
+      if ([animation.categories containsObject:_activeCategory]) {
+        [filteredArray addObject:animation];
+      }
+    }
+  }
+  return filteredArray;
+}
+
 - (void)updateFocus {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   if ((_focusedList == PHSystemComposites || _focusedList == PHSystemCompositeLayers)

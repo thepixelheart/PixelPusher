@@ -19,6 +19,5 @@
 @class PHAnimation;
 
 @interface PHAnimationsView : PHContainerView
-- (void)setCategoryFilter:(NSString *)category;
 - (PHAnimation *)selectedAnimation;
 @end

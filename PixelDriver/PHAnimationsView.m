@@ -75,13 +75,14 @@
                          options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
                          context:NULL];
 
-    [self setCategoryFilter:@"All"];
+    [self updateCollection];
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(activeCompositeDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
   }
   return self;
 }
@@ -111,45 +112,19 @@
   }
 }
 
-- (void)setCategoryFilter:(NSString *)category {
-  _categoryFilter = [category copy];
-
-  if ([category isEqualToString:@"All"]) {
-    NSMutableArray* filteredArray = [NSMutableArray array];
-    for (PHAnimation* animation in _animations) {
-      if ((![animation.categories containsObject:PHAnimationCategoryPipes]
-           && ![animation.categories containsObject:PHAnimationCategoryFilters])
-          || [animation isKindOfClass:[PHCompositeAnimation class]]) {
-        [filteredArray addObject:animation];
-      }
-    }
-    _collectionView.content = filteredArray;
-
-  } else {
-    NSMutableArray* filteredArray = [NSMutableArray array];
-    for (PHAnimation* animation in _animations) {
-      if (([category isEqualToString:PHAnimationCategoryPipes]
-           || [category isEqualToString:PHAnimationCategoryFilters])
-          && [animation isKindOfClass:[PHCompositeAnimation class]]) {
-        continue;
-      }
-      if ([animation.categories containsObject:category]) {
-        [filteredArray addObject:animation];
-      }
-    }
-    _collectionView.content = filteredArray;
-  }
-}
-
 - (PHAnimation *)selectedAnimation {
   return _collectionView.content[[_previousSelectionIndexes firstIndex]];
+}
+
+- (void)updateCollection {
+  _animations = [PHSys() filteredAnimations];
+  _collectionView.content = _animations;
 }
 
 #pragma mark - NSNotifications
 
 - (void)compositesDidChangeNotification:(NSNotification *)notification {
-  _animations = [self allAnimations];
-  [self setCategoryFilter:_categoryFilter];
+  [self updateCollection];
 
   NSIndexSet *selection = _previousSelectionIndexes;
   if (selection.firstIndex >= _collectionView.content.count) {
@@ -166,6 +141,10 @@
 
 - (void)activeCompositeDidChangeNotification:(NSNotification *)notification {
   
+}
+
+- (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
+  [self updateCollection];
 }
 
 @end

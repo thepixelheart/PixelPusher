@@ -130,6 +130,7 @@ extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 @property (nonatomic, assign) PHViewMode viewMode;
 @property (nonatomic, readonly) NSArray* allCategories; // Sorted
 @property (nonatomic, copy) NSString* activeCategory;
+@property (nonatomic, readonly) NSArray* filteredAnimations;
 
 // Ticking
 
