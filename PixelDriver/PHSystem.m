@@ -74,7 +74,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   NSInteger _selectedCompositeLayer;
 
   NSMutableArray* _compositeAnimations;
-  BOOL _tookScreenshot;
+  BOOL _shouldTakeScreenshot;
 }
 
 @synthesize fade = _fade, previewAnimation = _previewAnimation;
@@ -296,35 +296,34 @@ static const CGFloat kFaderTickLength = 0.007874;
     CGImageRelease(imageRef);
   }
 
-  // TODO: Implement screenshot button.
-  if (0) {
-    if (!_tookScreenshot) {
-      _tookScreenshot = YES;
+  if (_shouldTakeScreenshot) {
+    _shouldTakeScreenshot = NO;
 
-      CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
-      CGContextSetFillColorWithColor(contextRef, [NSColor blackColor].CGColor);
-      CGContextFillRect(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
-      CGImageRef imageRef = CGBitmapContextCreateImage(tick.wallContextRef);
-      CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
-      CGImageRelease(imageRef);
+    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
+    CGContextSetFillColorWithColor(contextRef, [NSColor blackColor].CGColor);
+    CGContextFillRect(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+    CGImageRef imageRef = CGBitmapContextCreateImage(tick.wallContextRef);
+    CGContextScaleCTM(contextRef, 1, -1);
+    CGContextTranslateCTM(contextRef, 0, -kWallHeight);
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
+    CGImageRelease(imageRef);
 
-      NSString *path = [self pathForDiskStorage];
-      path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f", [NSDate timeIntervalSinceReferenceDate]]];
-      CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
-      CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeBMP, 1, NULL);
-      imageRef = CGBitmapContextCreateImage(contextRef);
-      CGImageDestinationAddImage(destination, imageRef, nil);
-      CGImageRelease(imageRef);
-      CGContextRelease(contextRef);
+    NSString *path = [self pathForDiskStorage];
+    path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f", [NSDate timeIntervalSinceReferenceDate]]];
+    CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
+    CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeBMP, 1, NULL);
+    imageRef = CGBitmapContextCreateImage(contextRef);
+    CGImageDestinationAddImage(destination, imageRef, nil);
+    CGImageRelease(imageRef);
+    CGContextRelease(contextRef);
 
-      if (!CGImageDestinationFinalize(destination)) {
-        NSLog(@"Failed to write image to %@", path);
-      }
-
-      CFRelease(destination);
+    if (!CGImageDestinationFinalize(destination)) {
+      NSLog(@"Failed to write image to %@", path);
     }
-  } else {
-    _tookScreenshot = NO;
+
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+
+    CFRelease(destination);
   }
 
   for (NSValue* value in animationToContext.allValues) {
@@ -420,13 +419,6 @@ static const CGFloat kFaderTickLength = 0.007874;
       [self setViewMode:PHViewModePrefs];
       break;
 
-    case PHSystemButtonNewComposite:
-      break;
-    case PHSystemButtonDeleteComposite:
-      break;
-    case PHSystemButtonRenameComposite:
-      break;
-
     case PHSystemButtonClearCompositeActiveLayer:
       [_editingCompositeAnimation setAnimation:nil
                                       forLayer:_activeCompositeLayer];
@@ -440,8 +432,11 @@ static const CGFloat kFaderTickLength = 0.007874;
       [self didModifyActiveComposition];
       break;
 
+    case PHSystemButtonScreenshot:
+      _shouldTakeScreenshot = YES;
+      break;
+
     default:
-      NSLog(@"%d is not a button", button);
       break;
   }
 
@@ -468,12 +463,6 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHSystemButtonLoadRight:
       [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonSendB] atIndex:PHLaunchpadSideButtonSendB];
       [_launchpad flipBuffer];
-      break;
-    case PHSystemButtonLibrary:
-      break;
-    case PHSystemButtonCompositeEditor:
-      break;
-    case PHSystemButtonPrefs:
       break;
     case PHSystemButtonNewComposite: {
       PHCompositeAnimation* animation = [PHCompositeAnimation animation];
@@ -519,15 +508,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
       break;
     }
-
-    case PHSystemButtonLoadCompositeIntoActiveLayer:
-      break;
-
-    case PHSystemButtonClearCompositeActiveLayer:
-      break;
-
     default:
-      NSLog(@"%d is not a button", button);
       break;
   }
 

@@ -32,6 +32,7 @@
     _buttons = [NSMutableArray array];
 
     [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHSystemButtonPixelHeart];
+    [self addButtonWithImage:[NSImage imageNamed:@"camera"] tag:PHSystemButtonScreenshot];
   }
   return self;
 }

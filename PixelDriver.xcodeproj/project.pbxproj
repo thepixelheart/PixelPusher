@@ -144,6 +144,7 @@
 		66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */; };
 		66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */; };
 		66DB8CA3171B7306004ACAA2 /* PHSpectrumLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */; };
+		66DB8CA5171BB4A9004ACAA2 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DB8CA4171BB4A9004ACAA2 /* camera.png */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -434,6 +435,7 @@
 		66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHardwareState.m; sourceTree = "<group>"; };
 		66DB8CA1171B7301004ACAA2 /* PHSpectrumLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumLinesAnimation.h; sourceTree = "<group>"; };
 		66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumLinesAnimation.m; sourceTree = "<group>"; };
+		66DB8CA4171BB4A9004ACAA2 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = PixelDriver/resources/camera.png; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -1003,6 +1005,7 @@
 				66CF637D16AD2C9C0048228F /* 2.png */,
 				66CF637A16AD09FB0048228F /* pixelheart.png */,
 				661CC73C16A79E5B007F3900 /* left.png */,
+				66DB8CA4171BB4A9004ACAA2 /* camera.png */,
 				661CC73D16A79E5B007F3900 /* right.png */,
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
 				66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */,
@@ -1158,6 +1161,7 @@
 				66CF637B16AD09FB0048228F /* pixelheart.png in Resources */,
 				66CF637E16AD2C9C0048228F /* 1.png in Resources */,
 				66CF637F16AD2C9C0048228F /* 2.png in Resources */,
+				66DB8CA5171BB4A9004ACAA2 /* camera.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

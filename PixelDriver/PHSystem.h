@@ -30,6 +30,7 @@ typedef enum {
   PHSystemButtonLibrary,
   PHSystemButtonCompositeEditor,
   PHSystemButtonPrefs,
+  PHSystemButtonScreenshot,
 
   // Composite Editor
   PHSystemButtonNewComposite,
