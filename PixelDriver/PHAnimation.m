@@ -182,29 +182,32 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHHoleDistortionFilter animation],
 
     // Animations
-    [PHMegamanAnimation animation],
-    [PHPikachuEmotingAnimation animation],
     [PHPixelHeartAnimation animation],
+    [PHRainbowHeartAnimation animation],
     [PHGifAnimation animation],
-    [PHSophJoyAnimation animation],
-    [PHNyanCatAnimation animation],
-    [PHAdventureTimeAnimation animation],
     [PHCombAnimation animation],
     [PHMovingSawAnimation animation],
     [PHBassShooterAnimation animation],
     [PHPixelRainAnimation animation],
-    [PHFlyingFireballAnimation animation],
     [PHRipplesAnimation animationStationary],
     [PHRipplesAnimation animation],
     [PHFlyingRectAnimation animation],
     [PHFlowerAnimation animationWithReactiveCenter:YES],
     [PHFlowerAnimation animationWithReactiveCenter:NO],
-    [PHRainbowHeartAnimation animation],
     [PHLinesAnimation animation],
     [PHBassPlate animation],
     [PHSpiralingSquareAnimation animation],
     [PHSpectrumLinesAnimation animation],
+    [PHFlyingFireballAnimation animation],
 
+    // Sprites
+    [PHMegamanAnimation animation],
+    [PHPikachuEmotingAnimation animation],
+    [PHAdventureTimeAnimation animation],
+    [PHSophJoyAnimation animation],
+    [PHNyanCatAnimation animation],
+
+    // Games
     [PHTronAnimation animation],
     ];
 
