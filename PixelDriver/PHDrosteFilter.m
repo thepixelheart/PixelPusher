@@ -59,7 +59,7 @@
 }
 
 - (id)zoomValue {
-  return @(self.bassDegrader.value * 0.5 + 0.5);
+  return @(self.bassDegrader.value * 0.5 + 0.5 + self.animationTick.hardwareState.fader + 0.5);
 }
 
 - (NSString *)tooltipName {
