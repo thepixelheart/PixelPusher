@@ -95,7 +95,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     _compositeAnimations = [@[] mutableCopy];
 
     _viewMode = PHViewModeLibrary;
-    _focusedList = PHSystemAnimations;
+    _focusedList = PHSystemTransitions;
 
     // Hardware
     _launchpad = [[PHLaunchpadDevice alloc] init];
@@ -407,7 +407,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHSystemButtonPrefs:
       [self setViewMode:PHViewModePrefs];
       break;
-      
+
     case PHSystemButtonNewComposite:
       break;
     case PHSystemButtonDeleteComposite:
@@ -759,7 +759,7 @@ static const CGFloat kFaderTickLength = 0.007874;
 
     case PHLaunchpadTopButtonLeftArrow: {
       if ([self numberOfPages] > 1) {
-        [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+        [_launchpad setTopButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
         if (pressed) {
           _animationPage = (_animationPage + 1) % [self numberOfPages];
           [self refreshGrid];
@@ -770,7 +770,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     }
     case PHLaunchpadTopButtonRightArrow: {
       if ([self numberOfPages] > 1) {
-        [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+        [_launchpad setTopButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
         if (pressed) {
           _animationPage = (_animationPage - 1 + [self numberOfPages]) % [self numberOfPages];
           [self refreshGrid];
@@ -786,7 +786,27 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad sideButton:(PHLaunchpadSideButton)button isPressed:(BOOL)pressed {
+  switch (button) {
+    case PHLaunchpadSideButtonSendA:
+      if (pressed) {
+        [self didPressButton:PHSystemButtonLoadLeft];
+      } else {
+        [self didReleaseButton:PHSystemButtonLoadLeft];
+      }
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+      break;
+    case PHLaunchpadSideButtonSendB:
+      if (pressed) {
+        [self didPressButton:PHSystemButtonLoadRight];
+      } else {
+        [self didReleaseButton:PHSystemButtonLoadRight];
+      }
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+      break;
 
+    default:
+      break;
+  }
 }
 
 - (void)setActiveCategory:(NSString *)activeCategory {
@@ -969,6 +989,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
+  switch (buttonIndex) {
+    case PHLaunchpadSideButtonSendA:
+    case PHLaunchpadSideButtonSendB:
+      return PHLaunchpadColorGreenDim;
+
+    default:
+      break;
+  }
   return PHLaunchpadColorOff;
 }
 
