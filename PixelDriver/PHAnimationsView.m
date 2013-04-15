@@ -83,6 +83,7 @@
     [nc addObserver:self selector:@selector(compositesDidChangeNotification:) name:PHSystemCompositesDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(activeCompositeDidChangeNotification:) name:PHSystemActiveCompositeDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(previewAnimationDidChangeNotification:) name:PHSystemPreviewAnimationDidChangeNotification object:nil];
   }
   return self;
 }
@@ -119,21 +120,6 @@
 - (void)updateCollection {
   _animations = [PHSys() filteredAnimations];
   _collectionView.content = _animations;
-
-  NSInteger selectionIndex = [_animations indexOfObject:[PHSys() previewAnimation]];
-  if (selectionIndex != NSNotFound) {
-    NSIndexSet *selection = [NSIndexSet indexSetWithIndex:selectionIndex];
-    if (selection.firstIndex >= _collectionView.content.count) {
-      selection = [NSIndexSet indexSetWithIndex:_collectionView.content.count - 1];
-    }
-    CGRect selectionFrame = [_collectionView frameForItemAtIndex:selection];
-    CGPoint offset = CGPointMake(0, selectionFrame.origin.y - _scrollView.bounds.size.height / 2);
-    offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
-    [_scrollView.contentView scrollToPoint:offset];
-    _collectionView.selectionIndexes = selection;
-
-    _previousSelectionIndexes = selection;
-  }
 }
 
 #pragma mark - NSNotifications
@@ -148,6 +134,23 @@
 
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
   [self updateCollection];
+}
+
+- (void)previewAnimationDidChangeNotification:(NSNotification *)notification {
+  NSInteger selectionIndex = [_animations indexOfObject:[PHSys() previewAnimation]];
+  if (selectionIndex != NSNotFound) {
+    NSIndexSet *selection = [NSIndexSet indexSetWithIndex:selectionIndex];
+    if (selection.firstIndex >= _collectionView.content.count) {
+      selection = [NSIndexSet indexSetWithIndex:_collectionView.content.count - 1];
+    }
+    CGRect selectionFrame = [_collectionView frameForItemAtIndex:selection];
+    CGPoint offset = CGPointMake(0, selectionFrame.origin.y - _scrollView.bounds.size.height / 2);
+    offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
+    [_scrollView.contentView scrollToPoint:offset];
+    _collectionView.selectionIndexes = selection;
+
+    _previousSelectionIndexes = selection;
+  }
 }
 
 @end

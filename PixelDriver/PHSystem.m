@@ -43,6 +43,7 @@ NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChange
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
+NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
 
 static const CGFloat kFaderTickLength = 0.007874;
 
@@ -370,6 +371,9 @@ static const CGFloat kFaderTickLength = 0.007874;
 
     [self refreshGrid];
     [_launchpad flipBuffer];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemPreviewAnimationDidChangeNotification object:nil];
   }
 }
 

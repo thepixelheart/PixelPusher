@@ -65,6 +65,7 @@ extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 extern NSString* const PHSystemActiveCategoryDidChangeNotification;
+extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
