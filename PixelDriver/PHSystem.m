@@ -132,7 +132,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       [unarchiver finishDecoding];
     }
 
-    [self launchpadStateDidChange];
+    [self refreshLaunchpad];
   }
   return self;
 }
@@ -344,7 +344,7 @@ static const CGFloat kFaderTickLength = 0.007874;
 - (void)setViewMode:(PHViewMode)viewMode {
   _viewMode = viewMode;
 
-  [self launchpadStateDidChange];
+  [self refreshLaunchpad];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
@@ -393,9 +393,13 @@ static const CGFloat kFaderTickLength = 0.007874;
 
     case PHSystemButtonLoadLeft:
       _leftAnimation = _previewAnimation;
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonSendA] + 1 atIndex:PHLaunchpadSideButtonSendA];
+      [_launchpad flipBuffer];
       break;
     case PHSystemButtonLoadRight:
       _rightAnimation = _previewAnimation;
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonSendB] + 1 atIndex:PHLaunchpadSideButtonSendB];
+      [_launchpad flipBuffer];
       break;
       
     case PHSystemButtonLibrary:
@@ -449,8 +453,12 @@ static const CGFloat kFaderTickLength = 0.007874;
       [_dj2go setButton:PHDJ2GOButtonRightHeadphones ledStateEnabled:NO];
       break;
     case PHSystemButtonLoadLeft:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonSendA] atIndex:PHLaunchpadSideButtonSendA];
+      [_launchpad flipBuffer];
       break;
     case PHSystemButtonLoadRight:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonSendB] atIndex:PHLaunchpadSideButtonSendB];
+      [_launchpad flipBuffer];
       break;
     case PHSystemButtonLibrary:
       break;
@@ -780,6 +788,20 @@ static const CGFloat kFaderTickLength = 0.007874;
       break;
     }
 
+    case PHLaunchpadTopButtonMixer: {
+      if (pressed && _viewMode != PHViewModeCompositeEditor) {
+        [self didPressButton:PHSystemButtonCompositeEditor];
+      } else if (!pressed && _viewMode == PHViewModeCompositeEditor) {
+        [self didReleaseButton:PHSystemButtonCompositeEditor];
+
+      } else if (pressed && _viewMode != PHViewModeLibrary) {
+        [self didPressButton:PHSystemButtonLibrary];
+      } else if (!pressed && _viewMode == PHViewModeLibrary) {
+        [self didReleaseButton:PHSystemButtonLibrary];
+      }
+      break;
+    }
+
     default:
       break;
   }
@@ -793,7 +815,6 @@ static const CGFloat kFaderTickLength = 0.007874;
       } else {
         [self didReleaseButton:PHSystemButtonLoadLeft];
       }
-      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
       break;
     case PHLaunchpadSideButtonSendB:
       if (pressed) {
@@ -801,7 +822,6 @@ static const CGFloat kFaderTickLength = 0.007874;
       } else {
         [self didReleaseButton:PHSystemButtonLoadRight];
       }
-      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
       break;
 
     default:
@@ -888,10 +908,6 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (NSArray *)compositeAnimations {
   return _compositeAnimations;
-}
-
-- (void)launchpadStateDidChange {
-  [self refreshLaunchpad];
 }
 
 - (void)refreshLaunchpad {
@@ -981,6 +997,8 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHLaunchpadTopButtonLeftArrow:
     case PHLaunchpadTopButtonRightArrow:
       return ([self numberOfPages] > 1) ? PHLaunchpadColorGreenDim : PHLaunchpadColorOff;
+    case PHLaunchpadTopButtonMixer:
+      return _viewMode == PHViewModeCompositeEditor ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
 
     default:
       break;

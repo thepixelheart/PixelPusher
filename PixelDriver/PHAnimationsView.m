@@ -143,7 +143,7 @@
     if (selection.firstIndex >= _collectionView.content.count) {
       selection = [NSIndexSet indexSetWithIndex:_collectionView.content.count - 1];
     }
-    CGRect selectionFrame = [_collectionView frameForItemAtIndex:selection];
+    CGRect selectionFrame = [_collectionView frameForItemAtIndex:selection.firstIndex];
     CGPoint offset = CGPointMake(0, selectionFrame.origin.y - _scrollView.bounds.size.height / 2);
     offset.y = MAX(0, MIN(_collectionView.frame.size.height - _scrollView.bounds.size.height, offset.y));
     [_scrollView.contentView scrollToPoint:offset];
