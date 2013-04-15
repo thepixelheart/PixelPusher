@@ -64,6 +64,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
   NSInteger _animationPage;
+  BOOL _isLaunchpadLoadingComposite;
 
   NSMutableArray* _compositeAnimations;
   BOOL _tookScreenshot;
@@ -471,6 +472,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       // Always immediately start editing the new animation.
       _editingCompositeAnimation = animation;
       [_compositeAnimations addObject:animation];
+      _filteredAnimations = nil;
       extraNotificationName = PHSystemCompositesDidChangeNotification;
       [self saveComposites];
       break;
@@ -533,6 +535,7 @@ static const CGFloat kFaderTickLength = 0.007874;
     NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
     if (indexOfEditingObject != NSNotFound) {
       [_compositeAnimations removeObject:_editingCompositeAnimation];
+      _filteredAnimations = nil;
       if (_compositeAnimations.count > 0) {
         _editingCompositeAnimation = _compositeAnimations[MIN(_compositeAnimations.count - 1,
                                                               indexOfEditingObject)];
@@ -729,10 +732,27 @@ static const CGFloat kFaderTickLength = 0.007874;
 #pragma mark - PHLaunchpadDeviceDelegate
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad buttonAtX:(NSInteger)x y:(NSInteger)y isPressed:(BOOL)pressed {
+  if (!pressed) {
+    return;
+  }
+
   NSInteger buttonIndex = x + y * PHLaunchpadButtonGridWidth;
   NSInteger animationIndex = [self animationIndexFromButtonIndex:buttonIndex];
   if (animationIndex < [self filteredAnimations].count) {
-    [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
+    NSInteger previewAnimationIndex = [self indexOfPreviewAnimation];
+    if (previewAnimationIndex == animationIndex) {
+      if (_viewMode == PHViewModeCompositeEditor) {
+        _isLaunchpadLoadingComposite = YES;
+        [self refreshTopButtons];
+      }
+
+    } else {
+      if (_isLaunchpadLoadingComposite) {
+        _isLaunchpadLoadingComposite = NO;
+        [self refreshTopButtons];
+      }
+      [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
+    }
   }
 }
 
@@ -990,6 +1010,9 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
+  if (_isLaunchpadLoadingComposite) {
+    return PHLaunchpadColorAmberDim;
+  }
   switch (buttonIndex) {
     case PHLaunchpadTopButtonUpArrow:
     case PHLaunchpadTopButtonDownArrow:
