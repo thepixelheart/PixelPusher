@@ -61,12 +61,13 @@ static const CGFloat kFaderTickLength = 0.007874;
   CGFloat _masterFade;
 
   PHSystemControlIdentifier _focusedList;
+  NSArray *_filteredAnimations;
 
   NSMutableArray* _compositeAnimations;
   BOOL _tookScreenshot;
 }
 
-@synthesize fade = _fade;
+@synthesize fade = _fade, previewAnimation = _previewAnimation;
 
 - (id)init {
   if ((self = [super init])) {
@@ -345,6 +346,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+}
+
+- (void)setPreviewAnimation:(PHAnimation *)previewAnimation {
+  if (_previewAnimation != previewAnimation) {
+    _previewAnimation = previewAnimation;
+
+    [self refreshLaunchpad];
+  }
 }
 
 - (void)didPressButton:(PHSystemControlIdentifier)button {
@@ -725,6 +734,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 - (void)setActiveCategory:(NSString *)activeCategory {
   if (![_activeCategory isEqualToString:activeCategory]) {
     _activeCategory = [activeCategory copy];
+    _filteredAnimations = nil;
+    [self refreshGrid];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:PHSystemActiveCategoryDidChangeNotification object:nil];
@@ -732,6 +743,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (NSArray *)filteredAnimations {
+  if (nil != _filteredAnimations) {
+    return _filteredAnimations;
+  }
+
   NSArray* allAnimations = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
@@ -756,6 +771,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
     }
   }
+  _filteredAnimations = filteredArray;
   return filteredArray;
 }
 
@@ -836,8 +852,23 @@ static const CGFloat kFaderTickLength = 0.007874;
   }
 }
 
+- (PHLaunchpadColor)buttonColorForAnimation:(PHAnimation *)animation pressed:(BOOL)pressed {
+  if ([animation isKindOfClass:[PHCompositeAnimation class]]) {
+    return pressed ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim;
+  } else {
+    return pressed ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
+  }
+}
+
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
-  return _viewMode == PHViewModeCompositeEditor ? PHLaunchpadColorGreenBright : PHLaunchpadColorRedBright;
+  NSArray *filteredAnimations = [self filteredAnimations];
+  PHLaunchpadColor color = PHLaunchpadColorOff;
+  if (buttonIndex < filteredAnimations.count) {
+    PHAnimation* animation = filteredAnimations[buttonIndex];
+    color = [self buttonColorForAnimation:animation pressed:_previewAnimation == animation];
+  }
+  
+  return color;
 }
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
