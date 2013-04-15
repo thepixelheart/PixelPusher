@@ -147,6 +147,7 @@
 		66DB8CA5171BB4A9004ACAA2 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DB8CA4171BB4A9004ACAA2 /* camera.png */; };
 		66DB8CA8171BB7A2004ACAA2 /* PHAffineTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */; };
 		66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */; };
+		66DB8CAE171BBF2B004ACAA2 /* PHRotatingSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -442,6 +443,8 @@
 		66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAffineTileFilter.m; sourceTree = "<group>"; };
 		66DB8CA9171BBB84004ACAA2 /* PHBarsSwipeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBarsSwipeTransition.h; sourceTree = "<group>"; };
 		66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBarsSwipeTransition.m; sourceTree = "<group>"; };
+		66DB8CAC171BBF21004ACAA2 /* PHRotatingSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingSquaresAnimation.h; sourceTree = "<group>"; };
+		66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingSquaresAnimation.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -650,6 +653,8 @@
 				661FFFF216B4BD21007CE102 /* PHTronAnimation.m */,
 				66DB8CA1171B7301004ACAA2 /* PHSpectrumLinesAnimation.h */,
 				66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */,
+				66DB8CAC171BBF21004ACAA2 /* PHRotatingSquaresAnimation.h */,
+				66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -1323,6 +1328,7 @@
 				66DB8CA3171B7306004ACAA2 /* PHSpectrumLinesAnimation.m in Sources */,
 				66DB8CA8171BB7A2004ACAA2 /* PHAffineTileFilter.m in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
+				66DB8CAE171BBF2B004ACAA2 /* PHRotatingSquaresAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
