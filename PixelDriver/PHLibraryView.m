@@ -138,6 +138,7 @@ static const CGFloat kExplorerWidth = 200;
 #pragma mark - NSNotification
 
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
+  [_categoriesView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
   [_animationsView setCategoryFilter:[PHSys() activeCategory]];
 }
 

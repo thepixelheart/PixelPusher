@@ -46,7 +46,7 @@ NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCa
 
 static const CGFloat kFaderTickLength = 0.007874;
 
-@interface PHSystem() <PHDJ2GODeviceDelegate>
+@interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate>
 @end
 
 @implementation PHSystem {
@@ -92,15 +92,17 @@ static const CGFloat kFaderTickLength = 0.007874;
     _compositeAnimations = [@[] mutableCopy];
 
     _viewMode = PHViewModeLibrary;
+    _focusedList = PHSystemAnimations;
+
+    // Hardware
     _launchpad = [[PHLaunchpadDevice alloc] init];
+    _launchpad.delegate = self;
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
 
     // Animations are playing by default.
     [_dj2go setButton:PHDJ2GOButtonLeftPlayPause ledStateEnabled:YES];
     [_dj2go setButton:PHDJ2GOButtonRightPlayPause ledStateEnabled:YES];
-
-    _focusedList = PHSystemAnimations;
 
     _pixelHeartTextSpritesheet = [[PHSpritesheet alloc] initWithName:@"pixelhearttext"
                                                           spriteSize:CGSizeMake(42, 7)];
@@ -682,6 +684,44 @@ static const CGFloat kFaderTickLength = 0.007874;
   }
 }
 
+#pragma mark - PHLaunchpadDeviceDelegate
+
+- (void)launchpad:(PHLaunchpadDevice *)launchpad buttonAtX:(NSInteger)x y:(NSInteger)y isPressed:(BOOL)pressed {
+
+}
+
+- (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
+  switch (button) {
+    case PHLaunchpadTopButtonUpArrow: {
+      if (pressed) {
+        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
+        currentIndex = (currentIndex - 1 + _allCategories.count) % _allCategories.count;
+        [self setActiveCategory:_allCategories[currentIndex]];
+      }
+
+      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+      break;
+    }
+    case PHLaunchpadTopButtonDownArrow: {
+      if (pressed) {
+        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
+        currentIndex = (currentIndex + 1 + _allCategories.count) % _allCategories.count;
+        [self setActiveCategory:_allCategories[currentIndex]];
+      }
+
+      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+- (void)launchpad:(PHLaunchpadDevice *)launchpad sideButton:(PHLaunchpadSideButton)button isPressed:(BOOL)pressed {
+
+}
+
 - (void)setActiveCategory:(NSString *)activeCategory {
   if (![_activeCategory isEqualToString:activeCategory]) {
     _activeCategory = [activeCategory copy];
@@ -773,6 +813,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
+  switch (buttonIndex) {
+    case PHLaunchpadTopButtonUpArrow:
+    case PHLaunchpadTopButtonDownArrow:
+      return PHLaunchpadColorGreenDim;
+
+    default:
+      break;
+  }
   return PHLaunchpadColorOff;
 }
 

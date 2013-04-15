@@ -83,6 +83,8 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 #define PHGRIDXFROMBUTTONINDEX(index) (NSInteger)((index) % PHLaunchpadButtonGridWidth)
 #define PHGRIDYFROMBUTTONINDEX(index) (NSInteger)((index) / PHLaunchpadButtonGridWidth)
 
+@protocol PHLaunchpadDeviceDelegate;
+
 @interface PHLaunchpadDevice : NSObject
 
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
@@ -92,5 +94,15 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 
 - (void)reset;
 - (void)flipBuffer;
+
+@property (nonatomic, weak) id<PHLaunchpadDeviceDelegate> delegate;
+
+@end
+
+@protocol PHLaunchpadDeviceDelegate <NSObject>
+
+- (void)launchpad:(PHLaunchpadDevice *)launchpad buttonAtX:(NSInteger)x y:(NSInteger)y isPressed:(BOOL)pressed;
+- (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed;
+- (void)launchpad:(PHLaunchpadDevice *)launchpad sideButton:(PHLaunchpadSideButton)button isPressed:(BOOL)pressed;
 
 @end

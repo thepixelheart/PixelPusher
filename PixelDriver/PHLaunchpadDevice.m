@@ -111,8 +111,34 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 #pragma mark - PHMIDIDeviceDidReceiveMessagesNotification
 
 - (void)didReceiveMIDIMessages:(NSNotification *)notification {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self didReceiveMIDIMessages:notification];
+    });
+    return;
+  }
   NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
-  NSLog(@"MEssages: %@", messages);
+  for (PHMIDIMessage* message in messages) {
+    PHLaunchpadEvent event = message.launchpadEvent;
+    NSInteger buttonIndex = message.launchpadButtonIndex;
+    BOOL pressed = message.launchpadButtonIsPressed;
+    switch (event) {
+      case PHLaunchpadEventGridButtonState:
+        [_delegate launchpad:self buttonAtX:buttonIndex % PHLaunchpadButtonGridWidth y:buttonIndex / PHLaunchpadButtonGridWidth isPressed:pressed];
+        break;
+      case PHLaunchpadEventRightButtonState:
+        [_delegate launchpad:self sideButton:(PHLaunchpadSideButton)buttonIndex isPressed:pressed];
+        break;
+      case PHLaunchpadEventTopButtonState:
+        [_delegate launchpad:self topButton:(PHLaunchpadSideButton)buttonIndex isPressed:pressed];
+        break;
+
+      default:
+        NSLog(@"Unknown message type received %d", event);
+        break;
+    }
+  }
+
 }
 
 - (void)syncDeviceState {

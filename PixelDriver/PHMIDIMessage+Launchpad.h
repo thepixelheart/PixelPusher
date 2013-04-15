@@ -22,5 +22,6 @@
 // Launchpad messages
 - (PHLaunchpadEvent)launchpadEvent;
 - (int)launchpadButtonIndex;
+- (BOOL)launchpadButtonIsPressed;
 
 @end

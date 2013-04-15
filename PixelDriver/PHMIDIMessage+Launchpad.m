@@ -56,4 +56,8 @@
   return buttonIndex;
 }
 
+- (BOOL)launchpadButtonIsPressed {
+  return (self.data2 == 0x7F);
+}
+
 @end
