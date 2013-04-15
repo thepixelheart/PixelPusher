@@ -23,6 +23,15 @@
   BOOL _launchpadButtonState[64];
 }
 
+@synthesize numberOfRotationTicks = _numberOfRotationTicks;
+@synthesize fader = _fader;
+@synthesize volume = _volume;
+@synthesize playing = _playing;
+@synthesize didTapUserButton1 = _didTapUserButton1;
+@synthesize didTapUserButton2 = _didTapUserButton2;
+@synthesize isUserButton1Pressed = _isUserButton1Pressed;
+@synthesize isUserButton2Pressed = _isUserButton2Pressed;
+
 - (id)init {
   if ((self = [super init])) {
     _volume = 0.5;
@@ -44,6 +53,7 @@
   state->_isUserButton2Pressed = _isUserButton2Pressed;
   state->_didTapUserButton1 = _didTapUserButton1;
   state->_didTapUserButton2 = _didTapUserButton2;
+  memcpy(state->_launchpadButtonState, _launchpadButtonState, sizeof(BOOL) * 64);
   return state;
 }
 

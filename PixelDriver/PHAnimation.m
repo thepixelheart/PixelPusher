@@ -57,6 +57,7 @@
 #import "PHSpiralingSquareAnimation.h"
 #import "PHSpectrumLinesAnimation.h"
 #import "PHRotatingSquaresAnimation.h"
+#import "PHLaunchpadDemoAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -203,6 +204,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSpectrumLinesAnimation animation],
     [PHFlyingFireballAnimation animation],
     [PHRotatingSquaresAnimation animation],
+    [PHLaunchpadDemoAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

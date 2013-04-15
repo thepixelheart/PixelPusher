@@ -14,22 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHHardwareState.h"
+#import "PHAnimation.h"
 
-@interface PHHardwareState ()
-
-@property (nonatomic, assign) NSInteger numberOfRotationTicks; // negative or positive
-@property (nonatomic, assign) CGFloat fader; // -0.5...0.5
-@property (nonatomic, assign) CGFloat volume; // 0...1
-@property (nonatomic, assign) BOOL playing;
-
-@property (nonatomic, assign) BOOL didTapUserButton1;
-@property (nonatomic, assign) BOOL didTapUserButton2;
-@property (nonatomic, assign) BOOL isUserButton1Pressed;
-@property (nonatomic, assign) BOOL isUserButton2Pressed;
-
-- (void)didPressLaunchpadButtonAtX:(NSInteger)x y:(NSInteger)y;
-
-- (void)tick;
-
+@interface PHLaunchpadDemoAnimation : PHAnimation
 @end

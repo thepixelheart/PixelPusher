@@ -70,6 +70,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
   NSInteger _animationPage;
+  BOOL _isLaunchpadInputMode;
   PHLaunchpadCompositeMode _launchpadCompositeMode;
   NSInteger _selectedCompositeLayer;
 
@@ -723,6 +724,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 #pragma mark - PHLaunchpadDeviceDelegate
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad buttonAtX:(NSInteger)x y:(NSInteger)y isPressed:(BOOL)pressed {
+  if (_isLaunchpadInputMode) {
+    if (pressed) {
+      [_hardwareLeft didPressLaunchpadButtonAtX:x y:y];
+      [_hardwareRight didPressLaunchpadButtonAtX:x y:y];
+    }
+    [_launchpad setButtonColor:PHLaunchpadColorRedDim + pressed atX:x y:y];
+    return;
+  }
   if (!pressed) {
     return;
   }
@@ -767,6 +776,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
+  if (_isLaunchpadInputMode) {
+    return;
+  }
+
   if (_launchpadCompositeMode == PHLaunchpadCompositeModeLoad) {
     if (pressed) {
       _activeCompositeLayer = button;
@@ -878,6 +891,13 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad sideButton:(PHLaunchpadSideButton)button isPressed:(BOOL)pressed {
+  if (_isLaunchpadInputMode) {
+    if (pressed && button == PHLaunchpadSideButtonSolo) {
+      _isLaunchpadInputMode = NO;
+      [self refreshLaunchpad];
+    }
+    return;
+  }
   switch (button) {
     case PHLaunchpadSideButtonSendA:
       if (pressed) {
@@ -904,6 +924,13 @@ static const CGFloat kFaderTickLength = 0.007874;
         [self refreshTopButtons];
         [self refreshSideButtons];
         [_launchpad flipBuffer];
+      }
+      break;
+
+    case PHLaunchpadSideButtonSolo:
+      if (pressed) {
+        _isLaunchpadInputMode = !_isLaunchpadInputMode;
+        [self refreshLaunchpad];
       }
       break;
 
@@ -1060,6 +1087,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
+  if (_isLaunchpadInputMode) {
+    return PHLaunchpadColorRedDim;
+  }
+
   NSArray *filteredAnimations = [self filteredAnimations];
   PHLaunchpadColor color = PHLaunchpadColorOff;
 
@@ -1073,6 +1104,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
+  if (_isLaunchpadInputMode) {
+    return PHLaunchpadColorOff;
+  }
+
   if (_launchpadCompositeMode == PHLaunchpadCompositeModeLoad) {
     PHAnimation* animation = [_editingCompositeAnimation animationAtLayer:buttonIndex];
     return (nil != animation) ? PHLaunchpadColorAmberBright : PHLaunchpadColorOff;
@@ -1104,6 +1139,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
+  if (_isLaunchpadInputMode) {
+    return (buttonIndex == PHLaunchpadSideButtonSolo) ? PHLaunchpadColorRedBright: PHLaunchpadColorOff;
+  }
+
   switch (buttonIndex) {
     case PHLaunchpadSideButtonSendA:
     case PHLaunchpadSideButtonSendB:
@@ -1114,6 +1153,10 @@ static const CGFloat kFaderTickLength = 0.007874;
       } else {
         return PHLaunchpadColorOff;
       }
+
+    case PHLaunchpadSideButtonSolo:
+      return PHLaunchpadColorRedDim;
+      break;
 
     default:
       break;
