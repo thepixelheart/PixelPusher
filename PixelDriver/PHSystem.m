@@ -751,21 +751,36 @@ static const CGFloat kFaderTickLength = 0.007874;
   if (animationIndex < [self filteredAnimations].count) {
     NSInteger previewAnimationIndex = [self indexOfPreviewAnimation];
     if (previewAnimationIndex == animationIndex) {
+      // Picked the same animation.
+
       if (_viewMode == PHViewModeCompositeEditor) {
-        if (_launchpadCompositeMode == PHLaunchpadCompositeModeNone) {
-          _launchpadCompositeMode = PHLaunchpadCompositeModeLoad;
-        } else {
-          _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+        if (pressed) {
+          if (_launchpadCompositeMode == PHLaunchpadCompositeModeNone) {
+            _launchpadCompositeMode = PHLaunchpadCompositeModeLoad;
+          } else {
+            _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+          }
+          [self refreshTopButtons];
         }
-        [self refreshTopButtons];
+
+      } else if (_viewMode == PHViewModeLibrary) {
+        if (pressed) {
+          if (_fade <= 0.01) {
+            [self didPressButton:PHSystemButtonLoadRight];
+          } else if (_fade >= 1. - 0.01) {
+            [self didPressButton:PHSystemButtonLoadLeft];
+          }
+        }
       }
 
     } else {
-      if (_launchpadCompositeMode != PHLaunchpadCompositeModeNone) {
-        _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
-        [self refreshTopButtons];
+      if (pressed) {
+        if (_launchpadCompositeMode != PHLaunchpadCompositeModeNone) {
+          _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+          [self refreshTopButtons];
+        }
+        [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
       }
-      [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
     }
   }
 }
