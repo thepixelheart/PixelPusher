@@ -117,6 +117,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 
       [unarchiver finishDecoding];
     }
+
+    [self launchpadStateDidChange];
   }
   return self;
 }
@@ -325,6 +327,15 @@ static const CGFloat kFaderTickLength = 0.007874;
           PHSystemValueKey: [NSNumber numberWithDouble:fade]}];
 }
 
+- (void)setViewMode:(PHViewMode)viewMode {
+  _viewMode = viewMode;
+
+  [self launchpadStateDidChange];
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+}
+
 - (void)didPressButton:(PHSystemControlIdentifier)button {
   NSString *extraNotificationName = nil;
   
@@ -343,16 +354,13 @@ static const CGFloat kFaderTickLength = 0.007874;
       break;
       
     case PHSystemButtonLibrary:
-      _viewMode = PHViewModeLibrary;
-      extraNotificationName = PHSystemViewStateChangedNotification;
+      [self setViewMode:PHViewModeLibrary];
       break;
     case PHSystemButtonCompositeEditor:
-      _viewMode = PHViewModeCompositeEditor;
-      extraNotificationName = PHSystemViewStateChangedNotification;
+      [self setViewMode:PHViewModeCompositeEditor];
       break;
     case PHSystemButtonPrefs:
-      _viewMode = PHViewModePrefs;
-      extraNotificationName = PHSystemViewStateChangedNotification;
+      [self setViewMode:PHViewModePrefs];
       break;
       
     case PHSystemButtonNewComposite:
@@ -692,6 +700,67 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (NSArray *)compositeAnimations {
   return _compositeAnimations;
+}
+
+- (void)launchpadStateDidChange {
+  [self refreshLaunchpad];
+}
+
+- (void)refreshLaunchpad {
+  [self refreshGrid];
+  [self refreshTopButtons];
+  [self refreshSideButtons];
+}
+
+- (void)refreshGrid {
+  for (NSInteger ix = 0; ix < PHLaunchpadButtonGridWidth * PHLaunchpadButtonGridHeight; ++ix) {
+    [self refreshButtonColorAtIndex:ix];
+  }
+}
+
+- (void)refreshTopButtons {
+  for (NSInteger ix = 0; ix < PHLaunchpadTopButtonCount; ++ix) {
+    [self refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)ix];
+  }
+}
+
+- (void)refreshSideButtons {
+  for (NSInteger ix = 0; ix < PHLaunchpadSideButtonCount; ++ix) {
+    [self refreshSideButtonColorAtIndex:(PHLaunchpadSideButton)ix];
+  }
+}
+
+- (void)refreshButtonColorAtIndex:(NSInteger)buttonIndex {
+  if (buttonIndex >= 0 && buttonIndex < 64) {
+    [_launchpad setButtonColor:[self buttonColorForButtonIndex:buttonIndex]
+                 atButtonIndex:buttonIndex];
+  }
+}
+
+- (void)refreshTopButtonColorAtIndex:(PHLaunchpadTopButton)buttonIndex {
+  if (buttonIndex < PHLaunchpadTopButtonCount) {
+    [_launchpad setTopButtonColor:[self topButtonColorForIndex:buttonIndex]
+                         atIndex:buttonIndex];
+  }
+}
+
+- (void)refreshSideButtonColorAtIndex:(PHLaunchpadSideButton)buttonIndex {
+  if (buttonIndex < PHLaunchpadSideButtonCount) {
+    [_launchpad setSideButtonColor:[self sideButtonColorForIndex:buttonIndex]
+                           atIndex:buttonIndex];
+  }
+}
+
+- (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
+  return _viewMode == PHViewModeCompositeEditor ? PHLaunchpadColorGreenBright : PHLaunchpadColorRedBright;
+}
+
+- (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
+  return PHLaunchpadColorOff;
+}
+
+- (PHLaunchpadColor)sideButtonColorForIndex:(PHLaunchpadSideButton)buttonIndex {
+  return PHLaunchpadColorOff;
 }
 
 @end

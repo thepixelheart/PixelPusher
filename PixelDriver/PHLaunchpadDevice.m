@@ -198,7 +198,6 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     _buttonColor[index] = color;
 
     [self sendButtonColorMessage:color atX:x y:y];
-    [self flipBuffer];
   }
 }
 
@@ -211,7 +210,6 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     _buttonColor[buttonIndex] = color;
 
     [self sendButtonColorMessage:color atX:buttonIndex % 8 y:buttonIndex / 8];
-    [self flipBuffer];
   }
 }
 
@@ -224,7 +222,6 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     _topButtonColor[buttonIndex] = color;
 
     [self sendTopButtonColorMessage:color atIndex:buttonIndex];
-    [self flipBuffer];
   }
 }
 
@@ -237,7 +234,6 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
     _sideButtonColor[buttonIndex] = color;
 
     [self sendSideButtonColorMessage:color atIndex:buttonIndex];
-    [self flipBuffer];
   }
 }
 

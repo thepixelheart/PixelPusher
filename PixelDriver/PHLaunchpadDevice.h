@@ -90,6 +90,7 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 - (void)setTopButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 - (void)setSideButtonColor:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex;
 
+- (void)reset;
 - (void)flipBuffer;
 
 @end
