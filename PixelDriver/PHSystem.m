@@ -717,7 +717,11 @@ static const CGFloat kFaderTickLength = 0.007874;
 #pragma mark - PHLaunchpadDeviceDelegate
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad buttonAtX:(NSInteger)x y:(NSInteger)y isPressed:(BOOL)pressed {
-
+  NSInteger buttonIndex = x + y * PHLaunchpadButtonGridWidth;
+  NSInteger animationIndex = [self animationIndexFromButtonIndex:buttonIndex];
+  if (animationIndex < [self filteredAnimations].count) {
+    [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
+  }
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
@@ -926,6 +930,10 @@ static const CGFloat kFaderTickLength = 0.007874;
 
 - (NSInteger)animationIndexFromButtonIndex:(NSInteger)buttonIndex {
   return _animationPage * [self numberOfButtonsPerPage] + buttonIndex;
+}
+
+- (NSInteger)buttonIndexFromAnimationIndex:(NSInteger)animationIndex {
+  return animationIndex % [self numberOfButtonsPerPage];
 }
 
 - (PHLaunchpadColor)buttonColorForButtonIndex:(NSInteger)buttonIndex {
