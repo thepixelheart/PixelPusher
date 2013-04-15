@@ -45,6 +45,12 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
 NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
 
+typedef enum {
+  PHLaunchpadCompositeModeNone,
+  PHLaunchpadCompositeModeLoad,
+  PHLaunchpadCompositeModeEdit,
+} PHLaunchpadCompositeMode;
+
 static const CGFloat kFaderTickLength = 0.007874;
 
 @interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate>
@@ -64,7 +70,8 @@ static const CGFloat kFaderTickLength = 0.007874;
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
   NSInteger _animationPage;
-  BOOL _isLaunchpadLoadingComposite;
+  PHLaunchpadCompositeMode _launchpadCompositeMode;
+  NSInteger _selectedCompositeLayer;
 
   NSMutableArray* _compositeAnimations;
   BOOL _tookScreenshot;
@@ -427,7 +434,7 @@ static const CGFloat kFaderTickLength = 0.007874;
       break;
 
     case PHSystemButtonLoadCompositeIntoActiveLayer:
-      _isLaunchpadLoadingComposite = NO;
+      _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
       [_editingCompositeAnimation setAnimation:[_previewAnimation copy]
                                       forLayer:_activeCompositeLayer];
       [self didModifyActiveComposition];
@@ -745,13 +752,17 @@ static const CGFloat kFaderTickLength = 0.007874;
     NSInteger previewAnimationIndex = [self indexOfPreviewAnimation];
     if (previewAnimationIndex == animationIndex) {
       if (_viewMode == PHViewModeCompositeEditor) {
-        _isLaunchpadLoadingComposite = !_isLaunchpadLoadingComposite;
+        if (_launchpadCompositeMode == PHLaunchpadCompositeModeNone) {
+          _launchpadCompositeMode = PHLaunchpadCompositeModeLoad;
+        } else {
+          _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+        }
         [self refreshTopButtons];
       }
 
     } else {
-      if (_isLaunchpadLoadingComposite) {
-        _isLaunchpadLoadingComposite = NO;
+      if (_launchpadCompositeMode != PHLaunchpadCompositeModeNone) {
+        _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
         [self refreshTopButtons];
       }
       [self setPreviewAnimation:[self filteredAnimations][animationIndex]];
@@ -760,14 +771,46 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
-  if (_isLaunchpadLoadingComposite) {
+  if (_launchpadCompositeMode == PHLaunchpadCompositeModeLoad) {
     if (pressed) {
       _activeCompositeLayer = button;
 
       [self didPressButton:PHSystemButtonLoadCompositeIntoActiveLayer];
     }
     return;
+  } else if (_launchpadCompositeMode == PHLaunchpadCompositeModeEdit) {
+    if (_selectedCompositeLayer < 0) {
+      // Selecting the layer to edit.
+      if (nil != [_editingCompositeAnimation animationAtLayer:button]) {
+        if (pressed) {
+          _selectedCompositeLayer = button;
+          [self refreshTopButtons];
+        }
+
+      } else {
+        [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorRedBright : [self topButtonColorForIndex:button] atIndex:button];
+        [_launchpad flipBuffer];
+      }
+
+    } else {
+      // Moving/deleting the layer.
+      if (pressed) {
+        if (button == _selectedCompositeLayer) {
+          // Deleting this composite.
+          [_editingCompositeAnimation setAnimation:nil forLayer:_selectedCompositeLayer];
+        } else {
+          PHAnimation* animation = [_editingCompositeAnimation animationAtLayer:_selectedCompositeLayer];
+          [_editingCompositeAnimation setAnimation:[_editingCompositeAnimation animationAtLayer:button] forLayer:_selectedCompositeLayer];
+          [_editingCompositeAnimation setAnimation:animation forLayer:button];
+        }
+
+        _selectedCompositeLayer = -1;
+        [self didModifyActiveComposition];
+      }
+    }
+    return;
   }
+
   switch (button) {
     case PHLaunchpadTopButtonUpArrow: {
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
@@ -852,6 +895,19 @@ static const CGFloat kFaderTickLength = 0.007874;
         [self didPressButton:PHSystemButtonLoadRight];
       } else {
         [self didReleaseButton:PHSystemButtonLoadRight];
+      }
+      break;
+    case PHLaunchpadSideButtonArm:
+      if (pressed) {
+        if (_launchpadCompositeMode != PHLaunchpadCompositeModeEdit) {
+          _selectedCompositeLayer = -1;
+          _launchpadCompositeMode = PHLaunchpadCompositeModeEdit;
+        } else {
+          _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+        }
+        [self refreshTopButtons];
+        [self refreshSideButtons];
+        [_launchpad flipBuffer];
       }
       break;
 
@@ -1021,10 +1077,20 @@ static const CGFloat kFaderTickLength = 0.007874;
 }
 
 - (PHLaunchpadColor)topButtonColorForIndex:(PHLaunchpadTopButton)buttonIndex {
-  if (_isLaunchpadLoadingComposite) {
+  if (_launchpadCompositeMode == PHLaunchpadCompositeModeLoad) {
     PHAnimation* animation = [_editingCompositeAnimation animationAtLayer:buttonIndex];
     return (nil != animation) ? PHLaunchpadColorAmberBright : PHLaunchpadColorOff;
+
+  } else if (_launchpadCompositeMode == PHLaunchpadCompositeModeEdit) {
+    PHAnimation* animation = [_editingCompositeAnimation animationAtLayer:buttonIndex];
+    if (nil != animation) {
+      return _selectedCompositeLayer == buttonIndex ? PHLaunchpadColorAmberBright : PHLaunchpadColorAmberDim;
+
+    } else {
+      return PHLaunchpadColorOff;
+    }
   }
+
   switch (buttonIndex) {
     case PHLaunchpadTopButtonUpArrow:
     case PHLaunchpadTopButtonDownArrow:
@@ -1046,6 +1112,12 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHLaunchpadSideButtonSendA:
     case PHLaunchpadSideButtonSendB:
       return PHLaunchpadColorGreenDim;
+    case PHLaunchpadSideButtonArm:
+      if (_viewMode == PHViewModeCompositeEditor) {
+        return _launchpadCompositeMode == PHLaunchpadCompositeModeEdit ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
+      } else {
+        return PHLaunchpadColorOff;
+      }
 
     default:
       break;
