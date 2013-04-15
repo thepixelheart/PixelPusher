@@ -353,14 +353,23 @@ static const CGFloat kFaderTickLength = 0.007874;
   return [[self filteredAnimations] indexOfObject:_previewAnimation];
 }
 
+- (NSInteger)numberOfPages {
+  return ([self filteredAnimations].count + [self numberOfButtonsPerPage] - 1) / [self numberOfButtonsPerPage];
+}
+
+- (void)updateAnimationPage {
+  NSInteger previewIndex = [self indexOfPreviewAnimation];
+  _animationPage = previewIndex / [self numberOfButtonsPerPage];
+}
+
 - (void)setPreviewAnimation:(PHAnimation *)previewAnimation {
   if (_previewAnimation != previewAnimation) {
     _previewAnimation = previewAnimation;
 
-    NSInteger previewIndex = [self indexOfPreviewAnimation];
-    _animationPage = previewIndex / [self numberOfButtonsPerPage];
+    [self updateAnimationPage];
 
-    [self refreshLaunchpad];
+    [self refreshGrid];
+    [_launchpad flipBuffer];
   }
 }
 
@@ -714,23 +723,52 @@ static const CGFloat kFaderTickLength = 0.007874;
 - (void)launchpad:(PHLaunchpadDevice *)launchpad topButton:(PHLaunchpadTopButton)button isPressed:(BOOL)pressed {
   switch (button) {
     case PHLaunchpadTopButtonUpArrow: {
+      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+
       if (pressed) {
         NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
         currentIndex = (currentIndex - 1 + _allCategories.count) % _allCategories.count;
         [self setActiveCategory:_allCategories[currentIndex]];
+        [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
+        [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
-
-      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+      [_launchpad flipBuffer];
       break;
     }
     case PHLaunchpadTopButtonDownArrow: {
+      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+
       if (pressed) {
         NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
         currentIndex = (currentIndex + 1 + _allCategories.count) % _allCategories.count;
         [self setActiveCategory:_allCategories[currentIndex]];
+        [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
+        [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
+      [_launchpad flipBuffer];
+      break;
+    }
 
-      [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+    case PHLaunchpadTopButtonLeftArrow: {
+      if ([self numberOfPages] > 1) {
+        [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+        if (pressed) {
+          _animationPage = (_animationPage + 1) % [self numberOfPages];
+          [self refreshGrid];
+          [_launchpad flipBuffer];
+        }
+      }
+      break;
+    }
+    case PHLaunchpadTopButtonRightArrow: {
+      if ([self numberOfPages] > 1) {
+        [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
+        if (pressed) {
+          _animationPage = (_animationPage - 1 + [self numberOfPages]) % [self numberOfPages];
+          [self refreshGrid];
+          [_launchpad flipBuffer];
+        }
+      }
       break;
     }
 
@@ -747,7 +785,16 @@ static const CGFloat kFaderTickLength = 0.007874;
   if (![_activeCategory isEqualToString:activeCategory]) {
     _activeCategory = [activeCategory copy];
     _filteredAnimations = nil;
+
+    NSInteger previewIndex = [self indexOfPreviewAnimation];
+    if (previewIndex == NSNotFound) {
+      if ([[self filteredAnimations] count] > 0) {
+        _previewAnimation = [[self filteredAnimations] objectAtIndex:0];
+      }
+    }
+    [self updateAnimationPage];
     [self refreshGrid];
+    [_launchpad flipBuffer];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:PHSystemActiveCategoryDidChangeNotification object:nil];
@@ -823,6 +870,7 @@ static const CGFloat kFaderTickLength = 0.007874;
   [self refreshGrid];
   [self refreshTopButtons];
   [self refreshSideButtons];
+  [_launchpad flipBuffer];
 }
 
 - (void)refreshGrid {
@@ -898,6 +946,9 @@ static const CGFloat kFaderTickLength = 0.007874;
     case PHLaunchpadTopButtonUpArrow:
     case PHLaunchpadTopButtonDownArrow:
       return PHLaunchpadColorGreenDim;
+    case PHLaunchpadTopButtonLeftArrow:
+    case PHLaunchpadTopButtonRightArrow:
+      return ([self numberOfPages] > 1) ? PHLaunchpadColorGreenDim : PHLaunchpadColorOff;
 
     default:
       break;
