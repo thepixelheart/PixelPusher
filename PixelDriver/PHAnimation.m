@@ -58,6 +58,7 @@
 #import "PHSpectrumLinesAnimation.h"
 
 // Filters
+#import "PHAffineTileFilter.h"
 #import "PHBoxBlurFilter.h"
 #import "PHDiscBlurFilter.h"
 #import "PHDotScreenFilter.h"
@@ -170,6 +171,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
 
     // Filters (commented out ones don't work)
+    [PHAffineTileFilter animation],
     [PHBoxBlurFilter animation],
     [PHDiscBlurFilter animation],
     [PHDotScreenFilter animation],

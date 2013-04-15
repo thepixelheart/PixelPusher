@@ -89,6 +89,10 @@
   return nil;
 }
 
+- (id)transformValue {
+  return nil;
+}
+
 - (CIImage *)imageValueWithContext:(CGContextRef)cx {
   CGImageRef currentImageRef = CGBitmapContextCreateImage(cx);
   if ([self useCroppedImage]) {
@@ -132,6 +136,7 @@
   [self storeValue:[self rotationValue] forKey:@"inputRotation" inFilter:filter];
   [self storeValue:[self sharpnessValue] forKey:kCIInputSharpnessKey inFilter:filter];
   [self storeValue:[self strandsValue] forKey:@"inputStrands" inFilter:filter];
+  [self storeValue:[self transformValue] forKey:kCIInputTransformKey inFilter:filter];
   [self storeValue:[self widthValue] forKey:kCIInputWidthKey inFilter:filter];
   [self storeValue:[self zoomValue] forKey:@"inputZoom" inFilter:filter];
 
