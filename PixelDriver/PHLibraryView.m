@@ -40,6 +40,10 @@ static const CGFloat kExplorerWidth = 200;
   NSArray* _transitions;
 }
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     // Preview vizualization
@@ -69,14 +73,11 @@ static const CGFloat kExplorerWidth = 200;
     _animationsView = [[PHAnimationsView alloc] init];
     [self addSubview:_animationsView];
 
-    NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
-                                   ^NSComparisonResult(NSString* obj1, NSString* obj2) {
-                                     return [obj1 compare:obj2 ];
-                                   }] mutableCopy];
-    [categories insertObject:@"All" atIndex:0];
-    _categories = [categories copy];
-
+    _categories = [PHSys() allCategories];
     _transitions = [PHTransition allTransitions];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
   }
   return self;
 }
@@ -105,7 +106,7 @@ static const CGFloat kExplorerWidth = 200;
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _categoriesView) {
-    [_animationsView setCategoryFilter:_categories[index]];
+    [PHSys() setActiveCategory:_categories[index]];
 
   } else if (listView == _transitionsView) {
     PHSys().faderTransition = _transitions[index];
@@ -132,6 +133,12 @@ static const CGFloat kExplorerWidth = 200;
   } else {
     return nil;
   }
+}
+
+#pragma mark - NSNotification
+
+- (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
+  [_animationsView setCategoryFilter:[PHSys() activeCategory]];
 }
 
 @end

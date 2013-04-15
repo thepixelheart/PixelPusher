@@ -42,6 +42,7 @@ NSString* const PHSystemFocusDidChangeNotification = @"PHSystemFocusDidChangeNot
 NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChangedNotification";
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
+NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
 
 static const CGFloat kFaderTickLength = 0.007874;
 
@@ -70,6 +71,14 @@ static const CGFloat kFaderTickLength = 0.007874;
 - (id)init {
   if ((self = [super init])) {
     _masterFade = 1;
+
+    NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
+                                   ^NSComparisonResult(NSString* obj1, NSString* obj2) {
+                                     return [obj1 compare:obj2 ];
+                                   }] mutableCopy];
+    [categories insertObject:@"All" atIndex:0];
+    _allCategories = categories;
+    _activeCategory = @"All";
 
     _faderTransition = [[PHCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
@@ -673,12 +682,20 @@ static const CGFloat kFaderTickLength = 0.007874;
   }
 }
 
+- (void)setActiveCategory:(NSString *)activeCategory {
+  if (![_activeCategory isEqualToString:activeCategory]) {
+    _activeCategory = [activeCategory copy];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemActiveCategoryDidChangeNotification object:nil];
+  }
+}
+
 - (void)updateFocus {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   if ((_focusedList == PHSystemComposites || _focusedList == PHSystemCompositeLayers)
       && _viewMode != PHViewModeCompositeEditor) {
-    _viewMode = PHViewModeCompositeEditor;
-    [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+    [self setViewMode:PHViewModeCompositeEditor];
   }
   [nc postNotificationName:PHSystemFocusDidChangeNotification object:nil userInfo:
    @{PHSystemIdentifierKey: [NSNumber numberWithInt:_focusedList]}];

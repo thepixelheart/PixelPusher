@@ -64,6 +64,7 @@ extern NSString* const PHSystemFocusDidChangeNotification;
 extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;
+extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -127,6 +128,8 @@ extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 // Editor State
 
 @property (nonatomic, assign) PHViewMode viewMode;
+@property (nonatomic, readonly) NSArray* allCategories; // Sorted
+@property (nonatomic, copy) NSString* activeCategory;
 
 // Ticking
 
