@@ -55,6 +55,7 @@
 #import "PHLinesAnimation.h"
 #import "PHTetrisAnimation.h"
 #import "PHSpiralingSquareAnimation.h"
+#import "PHSpectrumLinesAnimation.h"
 
 // Filters
 #import "PHBoxBlurFilter.h"
@@ -180,49 +181,35 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFalseColorFilter animation],
     [PHHoleDistortionFilter animation],
 
-    [PHBassPlate animation],
-
+    // Animations
     [PHMegamanAnimation animation],
     [PHPikachuEmotingAnimation animation],
-
-    [PHDJAnimation animation],
-
-    // Row 2
     [PHPixelHeartAnimation animation],
     [PHGifAnimation animation],
-
     [PHSophJoyAnimation animation],
     [PHNyanCatAnimation animation],
-
     [PHAdventureTimeAnimation animation],
-
-    // Row 3
     [PHCombAnimation animation],
     [PHMovingSawAnimation animation],
-
     [PHBassShooterAnimation animation],
-
     [PHPixelRainAnimation animation],
     [PHFlyingFireballAnimation animation],
-
     [PHRipplesAnimation animationStationary],
     [PHRipplesAnimation animation],
-
-    // Row 4
     [PHFlyingRectAnimation animation],
     [PHFlowerAnimation animationWithReactiveCenter:YES],
     [PHFlowerAnimation animationWithReactiveCenter:NO],
-
-  [PHRainbowHeartAnimation animation],
-
+    [PHRainbowHeartAnimation animation],
     [PHLinesAnimation animation],
-
+    [PHBassPlate animation],
     [PHSpiralingSquareAnimation animation],
+    [PHSpectrumLinesAnimation animation],
 
     [PHTronAnimation animation],
     ];
 
   // Obsolete animations.
+  //[PHDJAnimation animation],
   //[PHTetrisAnimation animation],
   //[PHMtFujiAnimation animation],
   //[PHCountdownAnimation animation],
