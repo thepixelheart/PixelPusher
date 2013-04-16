@@ -32,6 +32,8 @@
 
 #import <objc/runtime.h>
 
+static const NSTimeInterval kStrobeAge = 0.3;
+
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
 NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
@@ -76,6 +78,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 
   NSMutableArray* _compositeAnimations;
   BOOL _shouldTakeScreenshot;
+  BOOL _strobeOn;
+  NSTimeInterval _strobeDeathStartTime;
 }
 
 @synthesize fade = _fade, previewAnimation = _previewAnimation;
@@ -287,6 +291,17 @@ static const CGFloat kFaderTickLength = 0.007874;
 
   [tick updateWallContextWithTransition:_faderTransition t:_fade];
 
+  NSTimeInterval strobeAge = [NSDate timeIntervalSinceReferenceDate] - _strobeDeathStartTime;
+  if (_strobeOn || strobeAge < kStrobeAge) {
+    CGContextSaveGState(tick.wallContextRef);
+    if (!_strobeOn) {
+      CGContextSetAlpha(tick.wallContextRef, PHEaseInEaseOut(MAX(0, 1 - strobeAge / kStrobeAge)));
+    }
+    CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor whiteColor].CGColor);
+    CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+    CGContextRestoreGState(tick.wallContextRef);
+  }
+
   if (_overlayPixelHeart) {
     CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
     CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
@@ -437,6 +452,12 @@ static const CGFloat kFaderTickLength = 0.007874;
       _shouldTakeScreenshot = YES;
       break;
 
+    case PHSystemButtonStrobe:
+      _strobeOn = YES;
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonTrackOn] + 1 atIndex:PHLaunchpadSideButtonTrackOn];
+      [_launchpad flipBuffer];
+      break;
+
     default:
       break;
   }
@@ -509,6 +530,14 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
       break;
     }
+
+    case PHSystemButtonStrobe:
+      _strobeOn = NO;
+      _strobeDeathStartTime = [NSDate timeIntervalSinceReferenceDate];
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonTrackOn] atIndex:PHLaunchpadSideButtonTrackOn];
+      [_launchpad flipBuffer];
+      break;
+
     default:
       break;
   }
@@ -934,6 +963,14 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
       break;
 
+    case PHLaunchpadSideButtonTrackOn:
+      if (pressed) {
+        [self didPressButton:PHSystemButtonStrobe];
+      } else {
+        [self didReleaseButton:PHSystemButtonStrobe];
+      }
+      break;
+
     default:
       break;
   }
@@ -1156,7 +1193,9 @@ static const CGFloat kFaderTickLength = 0.007874;
 
     case PHLaunchpadSideButtonSolo:
       return PHLaunchpadColorRedDim;
-      break;
+
+    case PHLaunchpadSideButtonTrackOn:
+      return PHLaunchpadColorGreenDim;
 
     default:
       break;
