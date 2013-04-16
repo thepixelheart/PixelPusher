@@ -943,16 +943,18 @@ static const CGFloat kFaderTickLength = 0.007874;
       }
       break;
     case PHLaunchpadSideButtonArm:
-      if (pressed) {
-        if (_launchpadCompositeMode != PHLaunchpadCompositeModeEdit) {
-          _selectedCompositeLayer = -1;
-          _launchpadCompositeMode = PHLaunchpadCompositeModeEdit;
-        } else {
-          _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+      if (_viewMode == PHViewModeCompositeEditor) {
+        if (pressed) {
+          if (_launchpadCompositeMode != PHLaunchpadCompositeModeEdit) {
+            _selectedCompositeLayer = -1;
+            _launchpadCompositeMode = PHLaunchpadCompositeModeEdit;
+          } else {
+            _launchpadCompositeMode = PHLaunchpadCompositeModeNone;
+          }
+          [self refreshTopButtons];
+          [self refreshSideButtons];
+          [_launchpad flipBuffer];
         }
-        [self refreshTopButtons];
-        [self refreshSideButtons];
-        [_launchpad flipBuffer];
       }
       break;
 
