@@ -212,16 +212,6 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   NSMutableString* tooltip = [NSMutableString string];
   if (_name.length > 0) {
     [tooltip appendString:_name];
-    [tooltip appendString:@"\n"];
-  }
-  for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
-    if (nil != _layerAnimation[ix]) {
-      if (tooltip.length > 0) {
-        [tooltip appendString:@"\n"];
-      }
-      PHAnimation* animation = _layerAnimation[ix];
-      [tooltip appendString:animation.tooltipName];
-    }
   }
   if ([tooltip length] == 0) {
     [tooltip appendString:@"<New Composite>"];
