@@ -129,7 +129,20 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  // No-op
+  NSImage *previewImage = [self previewImage];
+  if (nil != previewImage) {
+    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)[previewImage TIFFRepresentation], NULL);
+    CGImageRef imageRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+    CGContextScaleCTM(cx, 1, -1);
+    CGContextTranslateCTM(cx, 0, -size.height);
+    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
+    CGImageRelease(imageRef);
+    CFRelease(source);
+  }
+}
+
+- (NSImage *)previewImage {
+  return nil;
 }
 
 - (NSTimeInterval)secondsSinceLastTick {

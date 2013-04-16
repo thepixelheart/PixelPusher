@@ -44,6 +44,10 @@
   return transform;
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"affinetransform"];
+}
+
 - (NSString *)tooltipName {
   return @"Affine Tile Filter";
 }

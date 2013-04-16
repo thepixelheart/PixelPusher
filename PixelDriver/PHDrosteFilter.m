@@ -62,6 +62,10 @@
   return @(self.bassDegrader.value * 0.5 + 0.5 + self.animationTick.hardwareState.fader + 0.5);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"droste"];
+}
+
 - (NSString *)tooltipName {
   return @"Droste Filter";
 }

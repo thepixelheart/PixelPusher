@@ -108,12 +108,8 @@ static const NSTimeInterval kShiftPixelsInterval = 0.05;
   }
 }
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  [self tick];
-
-  CGImageRef imageRef = CGBitmapContextCreateImage(_linesContextRef);
-  CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), imageRef);
-  CGImageRelease(imageRef);
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"spectrumlines"];
 }
 
 - (NSString *)tooltipName {

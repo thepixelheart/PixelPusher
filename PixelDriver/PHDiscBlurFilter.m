@@ -26,6 +26,10 @@
   return @(self.bassDegrader.value * 10);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"discblur"];
+}
+
 - (NSString *)tooltipName {
   return @"Disc Blur Filter";
 }

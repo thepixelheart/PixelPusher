@@ -30,6 +30,10 @@
   return @(self.bassDegrader.value * 16);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"hole"];
+}
+
 - (NSString *)tooltipName {
   return @"Hole Distortion Filter";
 }

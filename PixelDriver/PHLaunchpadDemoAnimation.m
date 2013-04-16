@@ -123,8 +123,8 @@ static const NSInteger kNumberOfLaunchpadRows = 8;
   CGContextRestoreGState(cx);
 }
 
-- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  [self renderBitmapInContext:cx size:size];
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"launchpad"];
 }
 
 - (NSString *)tooltipName {

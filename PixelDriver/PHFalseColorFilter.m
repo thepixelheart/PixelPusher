@@ -48,6 +48,10 @@
   return [CIColor colorWithRed:red green:green blue:blue];
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"falsecolor"];
+}
+
 - (NSString *)tooltipName {
   return @"False Color Filter";
 }

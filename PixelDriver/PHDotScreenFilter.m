@@ -46,6 +46,10 @@
   return @(0.70);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"dotfilter"];
+}
+
 - (NSString *)tooltipName {
   return @"Dot Screen Filter";
 }

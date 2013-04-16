@@ -26,6 +26,10 @@
   return @(self.bassDegrader.value * 3);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"exposure"];
+}
+
 - (NSString *)tooltipName {
   return @"Exposure Adjust Filter";
 }

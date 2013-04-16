@@ -75,6 +75,22 @@ static NSString* const kTypeKey = @"kTypeKey";
   CGContextRestoreGState(cx);
 }
 
+- (NSImage *)previewImage {
+  switch (_type) {
+    case PHMirrorAnimationTypeLeft:
+      return [NSImage imageNamed:@"mirrorleft"];
+    case PHMirrorAnimationTypeRight:
+      return [NSImage imageNamed:@"mirrorright"];
+    case PHMirrorAnimationTypeTop:
+      return [NSImage imageNamed:@"mirrortop"];
+    case PHMirrorAnimationTypeBottom:
+      return [NSImage imageNamed:@"mirrorbottom"];
+
+    default:
+      break;
+  }
+}
+
 - (id)definingProperties {
   return @{kTypeKey:@(_type)};
 }

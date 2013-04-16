@@ -67,6 +67,10 @@
   CGContextRestoreGState(cx);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"spiralingvortex"];
+}
+
 - (NSString *)tooltipName {
   return @"Spiraling Vortex";
 }

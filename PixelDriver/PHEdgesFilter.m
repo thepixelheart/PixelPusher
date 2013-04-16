@@ -26,6 +26,10 @@
   return @(1);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"edges"];
+}
+
 - (NSString *)tooltipName {
   return @"Edges Filter";
 }

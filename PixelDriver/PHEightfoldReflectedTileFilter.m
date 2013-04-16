@@ -48,6 +48,10 @@
   return @(_width);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"eightfold"];
+}
+
 - (NSString *)tooltipName {
   return @"Eightfold Reflected Tile Filter";
 }

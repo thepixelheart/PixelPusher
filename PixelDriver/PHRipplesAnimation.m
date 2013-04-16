@@ -98,11 +98,8 @@
   CGContextRestoreGState(cx);
 }
 
-- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  for (NSInteger ix = 0; ix < 30; ++ix) {
-    CGContextClearRect(cx, CGRectMake(0, 0, size.width, size.height));
-    [self renderBitmapInContext:cx size:size];
-  }
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"ripples"];
 }
 
 - (NSString *)tooltipName {

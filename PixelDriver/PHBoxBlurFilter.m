@@ -26,6 +26,10 @@
   return @(self.bassDegrader.value * 10);
 }
 
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"boxblur"];
+}
+
 - (NSString *)tooltipName {
   return @"Box Blur Filter";
 }

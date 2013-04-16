@@ -153,8 +153,8 @@ CGPoint startingPoints[] = {
   CGContextRestoreGState(cx);
 }
 
-- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
-  [self renderBitmapInContext:cx size:size];
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"lines"];
 }
 
 - (NSString *)tooltipName {
