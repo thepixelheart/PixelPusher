@@ -96,6 +96,7 @@
 		66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E61171DCAEC0092E43D /* PHBloomFilter.m */; };
 		66A13E64171DCC860092E43D /* bloom.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E63171DCC860092E43D /* bloom.png */; };
 		66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */; };
+		66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E68171DCE360092E43D /* bumpdistortion.png */; };
 		66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14DCC16F757220094150E /* PHMtFujiAnimation.m */; };
 		66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0016FBCE950094150E /* PHLinesAnimation.m */; };
 		66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */; };
@@ -348,6 +349,7 @@
 		66A13E63171DCC860092E43D /* bloom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bloom.png; path = PixelDriver/resources/bloom.png; sourceTree = "<group>"; };
 		66A13E65171DCCC30092E43D /* PHBumpDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBumpDistortionFilter.h; sourceTree = "<group>"; };
 		66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBumpDistortionFilter.m; sourceTree = "<group>"; };
+		66A13E68171DCE360092E43D /* bumpdistortion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bumpdistortion.png; path = PixelDriver/resources/bumpdistortion.png; sourceTree = "<group>"; };
 		66A14DCB16F757220094150E /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMtFujiAnimation.h; sourceTree = "<group>"; };
 		66A14DCC16F757220094150E /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMtFujiAnimation.m; sourceTree = "<group>"; };
 		66A14DFF16FBCE930094150E /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLinesAnimation.h; sourceTree = "<group>"; };
@@ -1082,6 +1084,7 @@
 				66A13E5B171D316D0092E43D /* strobe.png */,
 				66CF637D16AD2C9C0048228F /* 2.png */,
 				66CF637A16AD09FB0048228F /* pixelheart.png */,
+				66A13E68171DCE360092E43D /* bumpdistortion.png */,
 				66A13E3F171D2B770092E43D /* boxblur.png */,
 				66A13E41171D2BAD0092E43D /* discblur.png */,
 				661CC73C16A79E5B007F3900 /* left.png */,
@@ -1279,6 +1282,7 @@
 				66A13E5A171D2DE60092E43D /* eightfold.png in Resources */,
 				66A13E5C171D316D0092E43D /* strobe.png in Resources */,
 				66A13E64171DCC860092E43D /* bloom.png in Resources */,
+				66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
