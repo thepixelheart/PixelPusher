@@ -89,6 +89,7 @@ static NSString* const kTypeKey = @"kTypeKey";
     default:
       break;
   }
+  return nil;
 }
 
 - (id)definingProperties {

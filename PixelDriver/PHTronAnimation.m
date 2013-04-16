@@ -368,4 +368,8 @@ NSColor* colors[5];
   CGContextRestoreGState(cx);
 }
 
+- (NSArray *)categories {
+  return @[PHAnimationCategoryGames];
+}
+
 @end

@@ -109,4 +109,8 @@
   [self renderBitmapInContext:cx size:size];
 }
 
+- (NSArray *)categories {
+  return @[PHAnimationCategoryPixelHeart];
+}
+
 @end

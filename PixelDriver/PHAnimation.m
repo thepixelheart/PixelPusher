@@ -80,6 +80,7 @@ NSString* const PHAnimationCategoryPipes = @"Pipes";
 NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
 NSString* const PHAnimationCategoryShapes = @"Shapes";
 NSString* const PHAnimationCategoryTrippy = @"Trippy";
+NSString* const PHAnimationCategoryGames = @"Games";
 
 static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
@@ -299,7 +300,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     PHAnimationCategoryFilters,
     PHAnimationCategoryPixelHeart,
     PHAnimationCategoryShapes,
-    PHAnimationCategoryTrippy
+    PHAnimationCategoryTrippy,
+    PHAnimationCategoryGames
   ];
 }
 
