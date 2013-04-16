@@ -14,7 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHFilter.h"
+#import "PHAnimation.h"
 
-@interface PHAffineTileFilter : PHFilter
+@interface PHPixelLifeAnimation : PHAnimation
 @end

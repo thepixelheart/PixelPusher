@@ -14,7 +14,28 @@
 // limitations under the License.
 //
 
-#import "PHFilter.h"
+#import "PHBloomFilter.h"
 
-@interface PHAffineTileFilter : PHFilter
+@implementation PHBloomFilter
+
+- (NSString *)filterName {
+  return @"CIBloom";
+}
+
+- (id)radiusValue {
+  return @(5);
+}
+
+- (id)intensityValue {
+  return @(1);
+}
+
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"bloom"];
+}
+
+- (NSString *)tooltipName {
+  return @"Bloom Filter";
+}
+
 @end

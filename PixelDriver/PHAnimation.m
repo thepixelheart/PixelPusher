@@ -58,9 +58,11 @@
 #import "PHSpectrumLinesAnimation.h"
 #import "PHRotatingSquaresAnimation.h"
 #import "PHLaunchpadDemoAnimation.h"
+#import "PHPixelLifeAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
+#import "PHBloomFilter.h"
 #import "PHBoxBlurFilter.h"
 #import "PHDiscBlurFilter.h"
 #import "PHDotScreenFilter.h"
@@ -188,6 +190,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     // Filters (commented out ones don't work)
     [PHAffineTileFilter animation],
+    [PHBloomFilter animation],
     [PHBoxBlurFilter animation],
     [PHDiscBlurFilter animation],
     [PHDotScreenFilter animation],
@@ -219,6 +222,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFlyingFireballAnimation animation],
     [PHRotatingSquaresAnimation animation],
     [PHLaunchpadDemoAnimation animation],
+    [PHPixelLifeAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

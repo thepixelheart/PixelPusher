@@ -16,5 +16,5 @@
 
 #import "PHFilter.h"
 
-@interface PHAffineTileFilter : PHFilter
+@interface PHBloomFilter : PHFilter
 @end

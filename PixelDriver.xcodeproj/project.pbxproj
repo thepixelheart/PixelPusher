@@ -92,6 +92,9 @@
 		66A13E58171D2D9C0092E43D /* mirrortop.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E54171D2D9C0092E43D /* mirrortop.png */; };
 		66A13E5A171D2DE60092E43D /* eightfold.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E59171D2DE60092E43D /* eightfold.png */; };
 		66A13E5C171D316D0092E43D /* strobe.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E5B171D316D0092E43D /* strobe.png */; };
+		66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */; };
+		66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E61171DCAEC0092E43D /* PHBloomFilter.m */; };
+		66A13E64171DCC860092E43D /* bloom.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E63171DCC860092E43D /* bloom.png */; };
 		66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14DCC16F757220094150E /* PHMtFujiAnimation.m */; };
 		66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0016FBCE950094150E /* PHLinesAnimation.m */; };
 		66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */; };
@@ -337,6 +340,11 @@
 		66A13E54171D2D9C0092E43D /* mirrortop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mirrortop.png; path = PixelDriver/resources/mirrortop.png; sourceTree = "<group>"; };
 		66A13E59171D2DE60092E43D /* eightfold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eightfold.png; path = PixelDriver/resources/eightfold.png; sourceTree = "<group>"; };
 		66A13E5B171D316D0092E43D /* strobe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = strobe.png; path = PixelDriver/resources/strobe.png; sourceTree = "<group>"; };
+		66A13E5D171D34230092E43D /* PHPixelLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelLifeAnimation.h; sourceTree = "<group>"; };
+		66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelLifeAnimation.m; sourceTree = "<group>"; };
+		66A13E60171DCAEB0092E43D /* PHBloomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBloomFilter.h; sourceTree = "<group>"; };
+		66A13E61171DCAEC0092E43D /* PHBloomFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBloomFilter.m; sourceTree = "<group>"; };
+		66A13E63171DCC860092E43D /* bloom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bloom.png; path = PixelDriver/resources/bloom.png; sourceTree = "<group>"; };
 		66A14DCB16F757220094150E /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMtFujiAnimation.h; sourceTree = "<group>"; };
 		66A14DCC16F757220094150E /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMtFujiAnimation.m; sourceTree = "<group>"; };
 		66A14DFF16FBCE930094150E /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLinesAnimation.h; sourceTree = "<group>"; };
@@ -699,6 +707,8 @@
 				66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */,
 				66DB8CB0171BD834004ACAA2 /* PHLaunchpadDemoAnimation.h */,
 				66DB8CB1171BD838004ACAA2 /* PHLaunchpadDemoAnimation.m */,
+				66A13E5D171D34230092E43D /* PHPixelLifeAnimation.h */,
+				66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -785,6 +795,8 @@
 				66DB8C7E171A70B5004ACAA2 /* PHFilter.m */,
 				66DB8CA6171BB7A0004ACAA2 /* PHAffineTileFilter.h */,
 				66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */,
+				66A13E60171DCAEB0092E43D /* PHBloomFilter.h */,
+				66A13E61171DCAEC0092E43D /* PHBloomFilter.m */,
 				66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */,
 				66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */,
 				66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */,
@@ -1074,6 +1086,7 @@
 				66DB8CA4171BB4A9004ACAA2 /* camera.png */,
 				66A13E45171D2BFD0092E43D /* droste.png */,
 				66A13E3B171D2A9F0092E43D /* launchpad.png */,
+				66A13E63171DCC860092E43D /* bloom.png */,
 				661CC73D16A79E5B007F3900 /* right.png */,
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
 				66A13E59171D2DE60092E43D /* eightfold.png */,
@@ -1260,6 +1273,7 @@
 				66A13E58171D2D9C0092E43D /* mirrortop.png in Resources */,
 				66A13E5A171D2DE60092E43D /* eightfold.png in Resources */,
 				66A13E5C171D316D0092E43D /* strobe.png in Resources */,
+				66A13E64171DCC860092E43D /* bloom.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,6 +1427,8 @@
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
 				66DB8CAE171BBF2B004ACAA2 /* PHRotatingSquaresAnimation.m in Sources */,
 				66DB8CB2171BD83D004ACAA2 /* PHLaunchpadDemoAnimation.m in Sources */,
+				66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */,
+				66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
