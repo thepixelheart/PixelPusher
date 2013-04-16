@@ -93,6 +93,10 @@
   return nil;
 }
 
+- (id)scaleValue {
+  return nil;
+}
+
 - (CIImage *)imageValueWithContext:(CGContextRef)cx {
   CGImageRef currentImageRef = CGBitmapContextCreateImage(cx);
   if ([self useCroppedImage]) {
@@ -134,6 +138,7 @@
   [self storeValue:[self periodicityValue] forKey:@"inputPeriodicity" inFilter:filter];
   [self storeValue:[self radiusValue] forKey:kCIInputRadiusKey inFilter:filter];
   [self storeValue:[self rotationValue] forKey:@"inputRotation" inFilter:filter];
+  [self storeValue:[self scaleValue] forKey:kCIInputScaleKey inFilter:filter];
   [self storeValue:[self sharpnessValue] forKey:kCIInputSharpnessKey inFilter:filter];
   [self storeValue:[self strandsValue] forKey:@"inputStrands" inFilter:filter];
   [self storeValue:[self transformValue] forKey:kCIInputTransformKey inFilter:filter];

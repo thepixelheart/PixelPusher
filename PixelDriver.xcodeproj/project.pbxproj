@@ -95,6 +95,7 @@
 		66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */; };
 		66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E61171DCAEC0092E43D /* PHBloomFilter.m */; };
 		66A13E64171DCC860092E43D /* bloom.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E63171DCC860092E43D /* bloom.png */; };
+		66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */; };
 		66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14DCC16F757220094150E /* PHMtFujiAnimation.m */; };
 		66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0016FBCE950094150E /* PHLinesAnimation.m */; };
 		66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */; };
@@ -345,6 +346,8 @@
 		66A13E60171DCAEB0092E43D /* PHBloomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBloomFilter.h; sourceTree = "<group>"; };
 		66A13E61171DCAEC0092E43D /* PHBloomFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBloomFilter.m; sourceTree = "<group>"; };
 		66A13E63171DCC860092E43D /* bloom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bloom.png; path = PixelDriver/resources/bloom.png; sourceTree = "<group>"; };
+		66A13E65171DCCC30092E43D /* PHBumpDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBumpDistortionFilter.h; sourceTree = "<group>"; };
+		66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBumpDistortionFilter.m; sourceTree = "<group>"; };
 		66A14DCB16F757220094150E /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMtFujiAnimation.h; sourceTree = "<group>"; };
 		66A14DCC16F757220094150E /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMtFujiAnimation.m; sourceTree = "<group>"; };
 		66A14DFF16FBCE930094150E /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLinesAnimation.h; sourceTree = "<group>"; };
@@ -799,6 +802,8 @@
 				66A13E61171DCAEC0092E43D /* PHBloomFilter.m */,
 				66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */,
 				66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */,
+				66A13E65171DCCC30092E43D /* PHBumpDistortionFilter.h */,
+				66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */,
 				66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */,
 				66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */,
 				66DB8C7A17190654004ACAA2 /* PHDotScreenFilter.h */,
@@ -1429,6 +1434,7 @@
 				66DB8CB2171BD83D004ACAA2 /* PHLaunchpadDemoAnimation.m in Sources */,
 				66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */,
 				66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */,
+				66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

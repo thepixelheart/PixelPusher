@@ -14,31 +14,33 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHBumpDistortionFilter.h"
 
-@interface PHFilter : PHAnimation
+@implementation PHBumpDistortionFilter
 
-- (NSString *)filterName;
+- (NSString *)filterName {
+  return @"CIBumpDistortion";
+}
 
-- (BOOL)useCroppedImage;
-- (id)wallCenterValue;
+- (id)centerValue {
+  return [self wallCenterValue];
+}
 
-- (id)radiusValue;
-- (id)centerValue;
-- (id)angleValue;
-- (id)widthValue;
-- (id)sharpnessValue;
-- (id)zoomValue;
-- (id)rotationValue;
-- (id)periodicityValue;
-- (id)insetPoint0Value;
-- (id)insetPoint1Value;
-- (id)strandsValue;
-- (id)intensityValue;
-- (id)evValue;
-- (id)color0Value;
-- (id)color1Value;
-- (id)transformValue;
-- (id)scaleValue;
+- (id)radiusValue {
+  return @(self.bassDegrader.value * kWallWidth);
+}
+
+- (id)scaleValue {
+  return @(self.animationTick.hardwareState.fader * 2);
+}
+
+- (NSImage *)previewImage {
+  return [NSImage imageNamed:@"bumpdistortion"];
+}
+
+- (NSString *)tooltipName {
+  return @"Bump Distortion Filter";
+}
+
 
 @end

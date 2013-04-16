@@ -63,6 +63,7 @@
 // Filters
 #import "PHAffineTileFilter.h"
 #import "PHBloomFilter.h"
+#import "PHBumpDistortionFilter.h"
 #import "PHBoxBlurFilter.h"
 #import "PHDiscBlurFilter.h"
 #import "PHDotScreenFilter.h"
@@ -200,6 +201,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHEightfoldReflectedTileFilter animation],
     [PHExposureAdjustFilter animation],
     [PHFalseColorFilter animation],
+    [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
 
     // Animations
