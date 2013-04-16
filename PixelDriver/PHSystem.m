@@ -324,6 +324,20 @@ static const CGFloat kFaderTickLength = 0.007874;
     CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
     CGImageRelease(imageRef);
 
+    PHCompositeAnimation* composite = nil;
+    if (_fade == 0 && [_leftAnimation isKindOfClass:[PHCompositeAnimation class]]) {
+      composite = (PHCompositeAnimation *)_leftAnimation;
+    } else if (_fade == 1 && [_leftAnimation isKindOfClass:[PHCompositeAnimation class]]) {
+      composite = (PHCompositeAnimation *)_rightAnimation;
+    }
+    if (composite) {
+      CGImageRef flippedImageRef = CGBitmapContextCreateImage(contextRef);
+      composite.screenshot = [[NSImage alloc] initWithCGImage:flippedImageRef
+                                                         size:CGSizeMake(kWallWidth, kWallHeight)];
+      CGImageRelease(flippedImageRef);
+      [self saveComposites];
+    }
+
     NSString *path = [self pathForDiskStorage];
     path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f", [NSDate timeIntervalSinceReferenceDate]]];
     CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];

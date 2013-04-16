@@ -18,6 +18,7 @@
 
 static NSString* kNameKey = @"kNameKey";
 static NSString* kVersionKey = @"kVersionKey";
+static NSString* kScreenshotKey = @"kScreenshotKey";
 static const NSInteger kVersion = 1;
 const NSInteger PHNumberOfCompositeLayers = 8;
 
@@ -72,6 +73,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:_name forKey:kNameKey];
   [coder encodeObject:@(kVersion) forKey:kVersionKey];
+  [coder encodeObject:_screenshot forKey:kScreenshotKey];
 
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     if (nil != _layerAnimation[ix]) {
@@ -99,6 +101,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
           _layerAnimation[ix] = animation;
         }
       }
+      _screenshot = [decoder decodeObjectForKey:kScreenshotKey];
 
     } else if (version == 0) {
       for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
@@ -125,6 +128,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 
   animation.systemState = self.systemState;
   animation->_name = [_name copyWithZone:zone];
+  animation->_screenshot = _screenshot;
 
   // Create fresh animations for this copy.
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
@@ -145,7 +149,16 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   }
 }
 
+- (NSImage *)previewImage {
+  return _screenshot;
+}
+
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  if (_screenshot) {
+    [super renderPreviewInContext:cx size:size];
+    return;
+  }
+
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
     PHAnimation* animation = _layerAnimation[ix];
     if (nil != animation) {
