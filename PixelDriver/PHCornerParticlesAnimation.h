@@ -16,5 +16,5 @@
 
 #import "PHBox2DAnimation.h"
 
-@interface PHDancingManAnimation : PHBox2DAnimation
+@interface PHCornerParticlesAnimation : PHBox2DAnimation
 @end

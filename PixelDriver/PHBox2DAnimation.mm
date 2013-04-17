@@ -109,7 +109,14 @@ static const CGFloat kScale = 2;
             }
           }
 
-          CGContextSetFillColorWithColor(cx, [NSColor whiteColor].CGColor);
+          int tag = b->GetUserTag();
+
+          CGFloat offset = tag * 0.5;
+          CGFloat red = sin(offset) * 0.5 + 0.5;
+          CGFloat green = cos(offset * 5 + M_PI_2) * 0.5 + 0.5;
+          CGFloat blue = sin(offset * 13 - M_PI_4) * 0.5 + 0.5;
+
+          CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1].CGColor);
           CGContextEOFillPath(cx);
           break;
         }

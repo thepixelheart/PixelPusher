@@ -61,6 +61,7 @@
 #import "PHPixelLifeAnimation.h"
 #import "PHBox2DAnimation.h"
 #import "PHDancingManAnimation.h"
+#import "PHCornerParticlesAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -227,6 +228,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHLaunchpadDemoAnimation animation],
     [PHPixelLifeAnimation animation],
     [PHDancingManAnimation animation],
+    [PHCornerParticlesAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

@@ -114,6 +114,7 @@
 		6617FCF7171E8503006E0DF8 /* libbox2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617FAB2171E8073006E0DF8 /* libbox2d.a */; };
 		6617FCFB171F316F006E0DF8 /* PHDancingManAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */; };
 		6617FCFE171F32DD006E0DF8 /* PHBox2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FCFD171F32DD006E0DF8 /* PHBox2D.mm */; };
+		6617FD01171F34FB006E0DF8 /* PHCornerParticlesAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */; };
 		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
 		661CC73516A780DF007F3900 /* PHTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73416A780DF007F3900 /* PHTransition.m */; };
@@ -429,6 +430,8 @@
 		6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHDancingManAnimation.mm; sourceTree = "<group>"; };
 		6617FCFC171F32DD006E0DF8 /* PHBox2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBox2D.h; sourceTree = "<group>"; };
 		6617FCFD171F32DD006E0DF8 /* PHBox2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHBox2D.mm; sourceTree = "<group>"; };
+		6617FCFF171F34F9006E0DF8 /* PHCornerParticlesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCornerParticlesAnimation.h; sourceTree = "<group>"; };
+		6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHCornerParticlesAnimation.mm; sourceTree = "<group>"; };
 		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
 		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
 		661CC6B316A72D17007F3900 /* PHSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystem.h; sourceTree = "<group>"; };
@@ -1106,6 +1109,8 @@
 				6617FAA3171E3566006E0DF8 /* PHBox2DAnimation.mm */,
 				6617FCF9171F316F006E0DF8 /* PHDancingManAnimation.h */,
 				6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */,
+				6617FCFF171F34F9006E0DF8 /* PHCornerParticlesAnimation.h */,
+				6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -1967,6 +1972,7 @@
 				6617FAA4171E3566006E0DF8 /* PHBox2DAnimation.mm in Sources */,
 				6617FCFB171F316F006E0DF8 /* PHDancingManAnimation.mm in Sources */,
 				6617FCFE171F32DD006E0DF8 /* PHBox2D.mm in Sources */,
+				6617FD01171F34FB006E0DF8 /* PHCornerParticlesAnimation.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
