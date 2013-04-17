@@ -29,6 +29,7 @@
 
 #import "PHLaunchpadDevice.h"
 #import "PHDJ2GODevice.h"
+#import "PHOpenGLView.h"
 
 #import <objc/runtime.h>
 
@@ -87,6 +88,8 @@ static const CGFloat kFaderTickLength = 0.007874;
 - (id)init {
   if ((self = [super init])) {
     _masterFade = 1;
+
+    _glView = [[PHOpenGLView alloc] initWithFrame:CGRectMake(0, 0, kWallWidth * 10, kWallHeight * 10)];
 
     NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
                                    ^NSComparisonResult(NSString* obj1, NSString* obj2) {

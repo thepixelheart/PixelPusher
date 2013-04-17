@@ -23,6 +23,7 @@
 #import "PHListView.h"
 #import "PHAnimationsView.h"
 #import "PHWallView.h"
+#import "PHOpenGLView.h"
 
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
@@ -76,6 +77,8 @@ static const CGFloat kExplorerWidth = 200;
     _categories = [PHSys() allCategories];
     _transitions = [PHTransition allTransitions];
 
+    [self addSubview:[PHSys() glView]];
+
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
   }
@@ -100,6 +103,11 @@ static const CGFloat kExplorerWidth = 200;
   _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
                                                floor((topEdge - previewHeight) / 2),
                                                kPreviewPaneWidth, previewHeight);
+
+  PHOpenGLView *glView = [PHSys() glView];
+  glView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame) + floorf((kPreviewPaneWidth - glView.frame.size.width) / 2.f),
+                            CGRectGetMaxY(_previewVisualizationView.frame),
+                            glView.frame.size.width, glView.frame.size.height);
 }
 
 #pragma mark - PHListViewDelegate

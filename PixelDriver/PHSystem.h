@@ -22,6 +22,7 @@
 @class PHCompositeAnimation;
 @class PHTransition;
 @class PHSystemTick;
+@class PHOpenGLView;
 
 typedef enum {
   PHSystemButtonPixelHeart = 1000,
@@ -143,6 +144,7 @@ extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 // to display the animations.
 - (PHSystemTick *)tick;
 
+@property (nonatomic, readonly, strong) PHOpenGLView* glView;
 + (CGContextRef)createWallContext;
 
 @end
