@@ -19,8 +19,6 @@
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
 		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
 		6617FAA4171E3566006E0DF8 /* PHGLAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6617FAA3171E3566006E0DF8 /* PHGLAnimation.m */; };
-		6617FAA7171E3697006E0DF8 /* PHOpenGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6617FAA6171E3697006E0DF8 /* PHOpenGLView.m */; };
-		6617FAA9171E3A69006E0DF8 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617FAA8171E3A68006E0DF8 /* GLUT.framework */; };
 		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
 		661CC73516A780DF007F3900 /* PHTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73416A780DF007F3900 /* PHTransition.m */; };
@@ -229,9 +227,6 @@
 		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
 		6617FAA2171E3566006E0DF8 /* PHGLAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGLAnimation.h; sourceTree = "<group>"; };
 		6617FAA3171E3566006E0DF8 /* PHGLAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGLAnimation.m; sourceTree = "<group>"; };
-		6617FAA5171E3697006E0DF8 /* PHOpenGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHOpenGLView.h; sourceTree = "<group>"; };
-		6617FAA6171E3697006E0DF8 /* PHOpenGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHOpenGLView.m; sourceTree = "<group>"; };
-		6617FAA8171E3A68006E0DF8 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
 		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
 		661CC6B316A72D17007F3900 /* PHSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystem.h; sourceTree = "<group>"; };
@@ -564,7 +559,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6617FAA9171E3A69006E0DF8 /* GLUT.framework in Frameworks */,
 				66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */,
 				662F591A16784B3D00ADE02C /* OpenGL.framework in Frameworks */,
 				662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */,
@@ -952,8 +946,6 @@
 				66DC7B7B167725E900453E8F /* PHWallView.m */,
 				66B16F0916AEB246003CF908 /* PHScrollView.h */,
 				66B16F0A16AEB246003CF908 /* PHScrollView.m */,
-				6617FAA5171E3697006E0DF8 /* PHOpenGLView.h */,
-				6617FAA6171E3697006E0DF8 /* PHOpenGLView.m */,
 			);
 			name = "Generic Views";
 			sourceTree = "<group>";
@@ -1038,7 +1030,6 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6617FAA8171E3A68006E0DF8 /* GLUT.framework */,
 				66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */,
 				662F591916784B3D00ADE02C /* OpenGL.framework */,
 				662F591716784B2F00ADE02C /* Quartz.framework */,
@@ -1458,7 +1449,6 @@
 				66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */,
 				66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */,
 				6617FAA4171E3566006E0DF8 /* PHGLAnimation.m in Sources */,
-				6617FAA7171E3697006E0DF8 /* PHOpenGLView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
