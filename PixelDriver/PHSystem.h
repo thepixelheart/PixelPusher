@@ -144,7 +144,6 @@ extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 // to display the animations.
 - (PHSystemTick *)tick;
 
-@property (nonatomic, readonly, strong) PHOpenGLView* glView;
 + (CGContextRef)createWallContext;
 
 @end
