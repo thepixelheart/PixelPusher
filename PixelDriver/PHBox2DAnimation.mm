@@ -113,6 +113,8 @@ static const CGFloat kScale = 2;
           CGContextEOFillPath(cx);
           break;
         }
+        default:
+          break;
       }
 
       CGContextRestoreGState(cx);
@@ -135,6 +137,8 @@ static const CGFloat kScale = 2;
         CGContextSetStrokeColorWithColor(cx, [NSColor redColor].CGColor);
         CGContextStrokePath(cx);
       }
+        break;
+      default:
         break;
     }
     
