@@ -60,6 +60,7 @@
 #import "PHLaunchpadDemoAnimation.h"
 #import "PHPixelLifeAnimation.h"
 #import "PHBox2DAnimation.h"
+#import "PHDancingManAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -203,7 +204,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFalseColorFilter animation],
     [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
-    [PHBox2DAnimation animation],
 
     // Animations
     [PHPixelHeartAnimation animation],
@@ -226,6 +226,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHRotatingSquaresAnimation animation],
     [PHLaunchpadDemoAnimation animation],
     [PHPixelLifeAnimation animation],
+    [PHDancingManAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

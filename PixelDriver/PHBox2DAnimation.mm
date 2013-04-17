@@ -16,141 +16,15 @@
 
 #import "PHBox2DAnimation.h"
 
-#import "Box2D.h"
+#import "PHBox2D.h"
 
 static const CGFloat kScale = 2;
 
-@implementation PHBox2DAnimation {
-  b2World *_world;
-	b2Body* m_bodies[4];
-	b2Joint* m_joints[8];
-  CGFloat _advance;
-}
-
-- (void)dealloc {
-  if (nil != _world) {
-    delete _world;
-  }
-}
+@implementation PHBox2DAnimation
 
 - (id)init {
   if ((self = [super init])) {
-    b2Vec2 gravity(0.0f, -10.0f);
-    _world = new b2World(gravity);
-
-		b2Body* ground = NULL;
-		{
-			b2BodyDef bd;
-			ground = _world->CreateBody(&bd);
-		}
-
-    b2PolygonShape shape;
-    shape.SetAsBox(1, 1);
-
-    b2BodyDef bd;
-    bd.type = b2_dynamicBody;
-
-    bd.position.Set(-5.0f + kWallWidth / 2, -5.0f + kWallHeight / 2);
-    m_bodies[0] = _world->CreateBody(&bd);
-    m_bodies[0]->CreateFixture(&shape, 5.0f);
-
-    bd.position.Set(5.0f + kWallWidth / 2, -5.0f + kWallHeight / 2);
-    m_bodies[1] = _world->CreateBody(&bd);
-    m_bodies[1]->CreateFixture(&shape, 5.0f);
-
-    bd.position.Set(5.0f + kWallWidth / 2, 5.0f + kWallHeight / 2);
-    m_bodies[2] = _world->CreateBody(&bd);
-    m_bodies[2]->CreateFixture(&shape, 5.0f);
-
-    bd.position.Set(-5.0f + kWallWidth / 2, 5.0f + kWallHeight / 2);
-    m_bodies[3] = _world->CreateBody(&bd);
-    m_bodies[3]->CreateFixture(&shape, 5.0f);
-
-    b2DistanceJointDef jd;
-    b2Vec2 p1, p2, d;
-
-    jd.frequencyHz = 2.0f;
-    jd.dampingRatio = 0.0f;
-
-    jd.bodyA = ground;
-    jd.bodyB = m_bodies[0];
-    jd.localAnchorA.Set(-5.0f + kWallWidth / 2, 0.0f);
-    jd.localAnchorB.Set(-0.5f, -0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[0] = _world->CreateJoint(&jd);
-
-    jd.bodyA = ground;
-    jd.bodyB = m_bodies[1];
-    jd.localAnchorA.Set(5.0f + kWallWidth / 2, 0.0f);
-    jd.localAnchorB.Set(0.5f, -0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[1] = _world->CreateJoint(&jd);
-
-    jd.bodyA = ground;
-    jd.bodyB = m_bodies[2];
-    jd.localAnchorA.Set(10.0f + kWallWidth / 2, 0.0f + kWallHeight - 4);
-    jd.localAnchorB.Set(0.5f, 0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[2] = _world->CreateJoint(&jd);
-
-    jd.bodyA = ground;
-    jd.bodyB = m_bodies[3];
-    jd.localAnchorA.Set(-10.0f + kWallWidth / 2, 0.0f + kWallHeight - 4);
-    jd.localAnchorB.Set(-0.5f, 0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[3] = _world->CreateJoint(&jd);
-
-    jd.bodyA = m_bodies[0];
-    jd.bodyB = m_bodies[1];
-    jd.localAnchorA.Set(0.5f, 0.0f);
-    jd.localAnchorB.Set(-0.5f, 0.0f);;
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[4] = _world->CreateJoint(&jd);
-
-    jd.bodyA = m_bodies[1];
-    jd.bodyB = m_bodies[2];
-    jd.localAnchorA.Set(0.0f, 0.5f);
-    jd.localAnchorB.Set(0.0f, -0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[5] = _world->CreateJoint(&jd);
-
-    jd.bodyA = m_bodies[2];
-    jd.bodyB = m_bodies[3];
-    jd.localAnchorA.Set(-0.5f, 0.0f);
-    jd.localAnchorB.Set(0.5f, 0.0f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[6] = _world->CreateJoint(&jd);
-
-    jd.bodyA = m_bodies[3];
-    jd.bodyB = m_bodies[0];
-    jd.localAnchorA.Set(0.0f, -0.5f);
-    jd.localAnchorB.Set(0.0f, 0.5f);
-    p1 = jd.bodyA->GetWorldPoint(jd.localAnchorA);
-    p2 = jd.bodyB->GetWorldPoint(jd.localAnchorB);
-    d = p2 - p1;
-    jd.length = d.Length();
-    m_joints[7] = _world->CreateJoint(&jd);
+    _box2d = [[PHBox2D alloc] initWithGravity:CGPointMake(0, -10)];
   }
   return self;
 }
@@ -162,13 +36,9 @@ static const CGFloat kScale = 2;
 
 	int32 velocityIterations = 6;
 	int32 positionIterations = 2;
-  _world->Step(self.secondsSinceLastTick, velocityIterations, positionIterations);
+  _box2d.world->Step(self.secondsSinceLastTick, velocityIterations, positionIterations);
 
-  _advance += self.secondsSinceLastTick * 5;
-  m_bodies[0]->ApplyLinearImpulse(b2Vec2(self.bassDegrader.value * 100 * sin(_advance), 0), m_bodies[0]->GetPosition());
-  m_bodies[1]->ApplyLinearImpulse(b2Vec2(self.bassDegrader.value * 100 * sin(_advance), 0), m_bodies[1]->GetPosition());
-
-  for (b2Body* b = _world->GetBodyList(); b; b = b->GetNext()) {
+  for (b2Body* b = _box2d.world->GetBodyList(); b; b = b->GetNext()) {
     const b2Transform& xf = b->GetTransform();
     for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext()) {
       CGContextSaveGState(cx);
@@ -249,15 +119,9 @@ static const CGFloat kScale = 2;
     }
   }
 
-  for (b2Joint* b = _world->GetJointList(); b; b = b->GetNext()) {
+  for (b2Joint* b = _box2d.world->GetJointList(); b; b = b->GetNext()) {
     CGContextSaveGState(cx);
 
-    b2Body* bodyA = b->GetBodyA();
-    b2Body* bodyB = b->GetBodyB();
-    const b2Transform& xf1 = bodyA->GetTransform();
-    const b2Transform& xf2 = bodyB->GetTransform();
-    b2Vec2 x1 = xf1.p;
-    b2Vec2 x2 = xf2.p;
     b2Vec2 p1 = b->GetAnchorA();
     b2Vec2 p2 = b->GetAnchorB();
 

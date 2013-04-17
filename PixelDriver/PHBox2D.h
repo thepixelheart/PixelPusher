@@ -14,10 +14,11 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import <Foundation/Foundation.h>
 
-@class PHBox2D;
+#import "Box2D.h"
 
-@interface PHBox2DAnimation : PHAnimation
-@property (nonatomic, readonly, strong) PHBox2D* box2d;
+@interface PHBox2D : NSObject
+- (id)initWithGravity:(CGPoint)gravity;
+- (b2World *)world;
 @end

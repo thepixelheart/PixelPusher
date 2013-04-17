@@ -14,10 +14,29 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHBox2D.h"
 
-@class PHBox2D;
+@implementation PHBox2D {
+  b2World *_world;
+}
 
-@interface PHBox2DAnimation : PHAnimation
-@property (nonatomic, readonly, strong) PHBox2D* box2d;
+- (void)dealloc {
+  if (nil != _world) {
+    delete _world;
+  }
+}
+
+- (id)initWithGravity:(CGPoint)gravity {
+  if ((self = [super init])) {
+    b2Vec2 grav(gravity.x, gravity.y);
+    _world = new b2World(grav);
+  }
+  return self;
+}
+
+- (b2World *)world {
+  return _world;
+}
+
+
 @end

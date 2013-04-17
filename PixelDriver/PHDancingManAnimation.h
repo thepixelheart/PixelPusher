@@ -14,10 +14,8 @@
 // limitations under the License.
 //
 
-#import "PHAnimation.h"
+#import "PHBox2DAnimation.h"
 
-@class PHBox2D;
+@interface PHDancingManAnimation : PHBox2DAnimation
 
-@interface PHBox2DAnimation : PHAnimation
-@property (nonatomic, readonly, strong) PHBox2D* box2d;
 @end
