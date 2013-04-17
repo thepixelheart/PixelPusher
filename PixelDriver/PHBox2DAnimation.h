@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHGLAnimation.h"
+#import "PHAnimation.h"
 
-@implementation PHGLAnimation
-
+@interface PHBox2DAnimation : PHAnimation
 @end

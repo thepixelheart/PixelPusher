@@ -30,8 +30,6 @@ extern NSString* const PHAnimationCategoryShapes;
 extern NSString* const PHAnimationCategoryTrippy;
 extern NSString* const PHAnimationCategoryGames;
 
-const NSInteger PHInitialAnimationIndex;
-
 typedef NSArray* (^PHAdditionalAnimationBlock)();
 
 /**

@@ -59,6 +59,7 @@
 #import "PHRotatingSquaresAnimation.h"
 #import "PHLaunchpadDemoAnimation.h"
 #import "PHPixelLifeAnimation.h"
+#import "PHBox2DAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -87,7 +88,6 @@ NSString* const PHAnimationCategoryGames = @"Games";
 
 static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
-const NSInteger PHInitialAnimationIndex = 3;
 static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 @implementation PHAnimation
@@ -203,6 +203,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFalseColorFilter animation],
     [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
+    [PHBox2DAnimation animation],
 
     // Animations
     [PHPixelHeartAnimation animation],
