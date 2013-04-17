@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
+  PHViewModeUmanoMode,
   PHViewModeLibrary,
   PHViewModePrefs,
   PHViewModeCompositeEditor

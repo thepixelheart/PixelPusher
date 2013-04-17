@@ -155,32 +155,36 @@ static const CGFloat kPlaybackControlsHeight = 40;
   [_actionsView layout];
 
   topEdge -= kPlaybackControlsHeight;
-
-  _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
-  [_playbackControlsView layout];
-
-  CGRect contentFrame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
-  if (_viewMode == PHViewModePrefs) {
-    _prefsView.frame = contentFrame;
-    [_prefsView layout];
-
-  } else if (_viewMode == PHViewModeCompositeEditor) {
-    CGRect compositeEditorFrame = contentFrame;
-    compositeEditorFrame.size.height = MIN(kCompositeEditorMaxHeight, compositeEditorFrame.size.height / 3);
-    compositeEditorFrame.origin.y = topEdge - compositeEditorFrame.size.height;
-
-    _compositeEditorView.frame = compositeEditorFrame;
-    [_compositeEditorView layout];
-
-    CGRect libraryFrame = compositeEditorFrame;
-    libraryFrame.origin.y = 0;
-    libraryFrame.size.height = contentFrame.size.height - compositeEditorFrame.size.height;
-    _libraryView.frame = libraryFrame;
-    [_libraryView layout];
-
+  
+  if (_viewMode != PHViewModeUmanoMode) {
+    _playbackControlsView.frame = CGRectMake(0, topEdge, self.bounds.size.width, kPlaybackControlsHeight);
+    [_playbackControlsView layout];
+    
+    CGRect contentFrame = CGRectMake(0, 0, self.bounds.size.width, topEdge);
+    if (_viewMode == PHViewModePrefs) {
+      _prefsView.frame = contentFrame;
+      [_prefsView layout];
+      
+    } else if (_viewMode == PHViewModeCompositeEditor) {
+      CGRect compositeEditorFrame = contentFrame;
+      compositeEditorFrame.size.height = MIN(kCompositeEditorMaxHeight, compositeEditorFrame.size.height / 3);
+      compositeEditorFrame.origin.y = topEdge - compositeEditorFrame.size.height;
+      
+      _compositeEditorView.frame = compositeEditorFrame;
+      [_compositeEditorView layout];
+      
+      CGRect libraryFrame = compositeEditorFrame;
+      libraryFrame.origin.y = 0;
+      libraryFrame.size.height = contentFrame.size.height - compositeEditorFrame.size.height;
+      _libraryView.frame = libraryFrame;
+      [_libraryView layout];
+      
+    } else {
+      _libraryView.frame = contentFrame;
+      [_libraryView layout];
+    }
   } else {
-    _libraryView.frame = contentFrame;
-    [_libraryView layout];
+    
   }
 }
 
@@ -207,6 +211,7 @@ static const CGFloat kPlaybackControlsHeight = 40;
     _compositeEditorView = nil;
 
     BOOL hideLibrary = NO;
+    BOOL hidePlaybackControls = NO;
 
     if (_viewMode == PHViewModePrefs) {
       _prefsView = [[PHPrefsView alloc] init];
@@ -216,9 +221,13 @@ static const CGFloat kPlaybackControlsHeight = 40;
     } else if (_viewMode == PHViewModeCompositeEditor) {
       _compositeEditorView = [[PHCompositeEditorView alloc] init];
       [self addSubview:_compositeEditorView];
+    } else if (_viewMode == PHViewModeUmanoMode) {
+      hideLibrary = YES;
+      hidePlaybackControls = YES;
     }
 
     [_libraryView setHidden:hideLibrary];
+    [_playbackControlsView setHidden:hidePlaybackControls];
   }
 }
 

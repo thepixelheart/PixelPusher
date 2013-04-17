@@ -31,6 +31,7 @@
 #import "PHDJ2GODevice.h"
 
 #import <objc/runtime.h>
+#import <stdlib.h>
 
 static const NSTimeInterval kStrobeAge = 0.3;
 
@@ -53,7 +54,18 @@ typedef enum {
   PHLaunchpadCompositeModeEdit,
 } PHLaunchpadCompositeMode;
 
+typedef enum {
+  PHUmanoModeStatusIdleLeft,
+  PHUmanoModeStatusIdleRight,
+  PHUmanoModeStatusFadingLeft,
+  PHUmanoModeStatusFadingRight,
+} PHUmanoModeStatus;
+
+
 static const CGFloat kFaderTickLength = 0.007874;
+
+static const NSTimeInterval kIdleTimeLength = 5;
+static const NSTimeInterval kFadeTimeLength = 3;
 
 @interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate>
 @end
@@ -75,6 +87,9 @@ static const CGFloat kFaderTickLength = 0.007874;
   BOOL _isLaunchpadInputMode;
   PHLaunchpadCompositeMode _launchpadCompositeMode;
   NSInteger _selectedCompositeLayer;
+  
+  NSTimeInterval _timerStart;
+  PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
   BOOL _shouldTakeScreenshot;
@@ -241,8 +256,51 @@ static const CGFloat kFaderTickLength = 0.007874;
   return [NSString stringWithFormat:@"%lld", (unsigned long long)animation];
 }
 
+- (PHAnimation *)getRandomAnimation {
+  NSArray* allAnimation = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
+  allAnimation = [allAnimation filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(PHAnimation *evaluatedObject, NSDictionary *bindings) {
+    return (!([evaluatedObject.categories containsObject:PHAnimationCategoryFilters] && [evaluatedObject.categories containsObject:PHAnimationCategoryPipes]) || ![evaluatedObject isKindOfClass:[PHCompositeAnimation class]]);
+  }]];
+  return allAnimation[arc4random_uniform(allAnimation.count)];
+  
+}
+
 - (PHSystemTick *)tick {
   PHSystemTick* tick = [[PHSystemTick alloc] initWithMasterFade:_masterFade];
+  
+  if ([self umanoMode]) {
+    switch (_umamoModeStatus) {
+      case PHUmanoModeStatusFadingLeft:
+      case PHUmanoModeStatusFadingRight:
+        if (_umamoModeStatus == PHUmanoModeStatusFadingRight) {
+          [self setFade:1 - ([NSDate timeIntervalSinceReferenceDate] - _timerStart)/kFadeTimeLength];
+        } else {
+          [self setFade:([NSDate timeIntervalSinceReferenceDate] - _timerStart)/kFadeTimeLength];
+        }
+        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > kFadeTimeLength) {
+          _timerStart = [NSDate timeIntervalSinceReferenceDate];
+          if (_umamoModeStatus == PHUmanoModeStatusFadingRight) {
+            _umamoModeStatus = PHUmanoModeStatusIdleRight;
+          } else {
+            _umamoModeStatus = PHUmanoModeStatusIdleLeft;
+          }
+        }
+        break;
+      case PHUmanoModeStatusIdleLeft:
+      case PHUmanoModeStatusIdleRight:
+        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > kIdleTimeLength) {
+          _timerStart = [NSDate timeIntervalSinceReferenceDate];
+          if (_umamoModeStatus == PHUmanoModeStatusIdleLeft) {
+            _umamoModeStatus = PHUmanoModeStatusFadingRight;
+            _leftAnimation = [self getRandomAnimation];
+          } else {
+            _umamoModeStatus = PHUmanoModeStatusFadingLeft;
+            _rightAnimation = [self getRandomAnimation];
+          }
+        }
+        break;
+    }
+  }  
 
   NSMutableSet* uniqueAnimations = [NSMutableSet set];
   if (nil != _leftAnimation) {
@@ -477,6 +535,23 @@ static const CGFloat kFaderTickLength = 0.007874;
 
     case PHSystemButtonUmanoMode:
       [PHSys() setUmanoMode:![PHSys() umanoMode]];
+      if ([PHSys() umanoMode]) {
+        [self setViewMode:PHViewModeUmanoMode];
+        
+        if ([self fade] > 0.5) {
+          _umamoModeStatus = PHUmanoModeStatusIdleRight;
+          [self setFade:1];
+        } else {
+          _umamoModeStatus = PHUmanoModeStatusIdleLeft;
+          [self setFade:0];
+        }
+        _leftAnimation = [self getRandomAnimation];
+        _rightAnimation = [self getRandomAnimation];
+        _timerStart = [NSDate timeIntervalSinceReferenceDate];
+      } else {
+        [self setViewMode:PHViewModeLibrary];
+      }
+      
       break;
       
     default:
