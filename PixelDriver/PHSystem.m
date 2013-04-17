@@ -147,6 +147,9 @@ static const CGFloat kFaderTickLength = 0.007874;
 
       [unarchiver finishDecoding];
     }
+    
+    // Umano mode OFF
+    [self setUmanoMode:FALSE];
 
     [self refreshLaunchpad];
   }
@@ -475,6 +478,10 @@ static const CGFloat kFaderTickLength = 0.007874;
       [_launchpad flipBuffer];
       break;
 
+    case PHSystemButtonUmanoMode:
+      [PHSys() setUmanoMode:![PHSys() umanoMode]];
+      break;
+      
     default:
       break;
   }

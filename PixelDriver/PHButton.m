@@ -17,6 +17,7 @@
 #import "PHButton.h"
 
 @interface PHButtonCell : NSButtonCell
+@property (nonatomic, strong) NSColor* textColor;
 @end
 
 @implementation PHButtonCell
@@ -29,7 +30,7 @@
   shadow.shadowOffset = CGSizeMake(0, 1);
   shadow.shadowColor = [NSColor blackColor];
   return @{
-    NSForegroundColorAttributeName:[NSColor colorWithDeviceWhite:1 alpha:1],
+    NSForegroundColorAttributeName:[self textColor],
     NSFontAttributeName:[NSFont boldSystemFontOfSize:10],
     NSShadowAttributeName:shadow
   };
@@ -149,6 +150,7 @@
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _tint = [NSColor blackColor];
+    [self setTextColor:[NSColor whiteColor]];
   }
   return self;
 }
@@ -164,6 +166,14 @@
   if ([_delegate respondsToSelector:@selector(didReleaseButton:)]) {
     [_delegate didReleaseButton:self];
   }
+}
+
+- (void)setTextColor:(NSColor *)textColor {
+  [self.cell setTextColor:textColor];
+}
+
+- (NSColor *)textColor {
+  return [self.cell textColor];
 }
 
 @end

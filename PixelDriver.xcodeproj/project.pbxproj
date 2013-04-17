@@ -12,6 +12,7 @@
 		1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */; };
 		1E791A74168820AB008106F3 /* PHNyanCatAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */; };
 		3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */; };
+		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */; };
 		3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */; };
 		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
@@ -215,6 +216,7 @@
 		1E791A75168820BF008106F3 /* PHNyanCatAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNyanCatAnimation.h; sourceTree = "<group>"; };
 		3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMovingSawAnimation.h; sourceTree = "<group>"; };
 		3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMovingSawAnimation.m; sourceTree = "<group>"; };
+		3A43C268171E6E33006A441E /* umano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = umano.png; path = PixelDriver/resources/umano.png; sourceTree = "<group>"; };
 		3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingRectAnimation.h; sourceTree = "<group>"; };
 		3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingRectAnimation.m; sourceTree = "<group>"; };
 		3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassShooterAnimation.h; sourceTree = "<group>"; };
@@ -1094,6 +1096,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3A43C268171E6E33006A441E /* umano.png */,
 				66CF637C16AD2C9C0048228F /* 1.png */,
 				66A13E5B171D316D0092E43D /* strobe.png */,
 				66CF637D16AD2C9C0048228F /* 2.png */,
@@ -1297,6 +1300,7 @@
 				66A13E5C171D316D0092E43D /* strobe.png in Resources */,
 				66A13E64171DCC860092E43D /* bloom.png in Resources */,
 				66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */,
+				3A43C269171E6E33006A441E /* umano.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,12 +28,13 @@ typedef enum {
   PHSystemButtonPixelHeart = 1000,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
+  PHSystemButtonUmanoMode,
   PHSystemButtonLibrary,
   PHSystemButtonCompositeEditor,
   PHSystemButtonPrefs,
   PHSystemButtonScreenshot,
   PHSystemButtonStrobe,
-
+  
   // Composite Editor
   PHSystemButtonNewComposite,
   PHSystemButtonDeleteComposite,
@@ -120,6 +121,10 @@ extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 
 // When enabled displays the Pixel Heart text over the current animation.
 @property (readonly, assign) BOOL overlayPixelHeart;
+
+// When enabled displays the Pixel Heart text over the current animation.
+@property (assign) BOOL umanoMode;
+
 
 // Buttons
 

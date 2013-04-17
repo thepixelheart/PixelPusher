@@ -29,6 +29,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 @end
 
 @implementation PHHeaderView {
+  PHButton* _umanoModeButton;
   PHButton* _libraryButton;
   PHButton* _prefsButton;
   PHButton* _compositeEditorButton;
@@ -46,8 +47,19 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
                                 logoView.image.size.width * scale, logoHeight);
     [self.contentView addSubview:logoView];
 
+    _umanoModeButton = [[PHButton alloc] init];
+    _umanoModeButton.tag = PHSystemButtonUmanoMode;
+    if ([PHSys() umanoMode]) {
+      [_umanoModeButton setTextColor:[NSColor orangeColor]];
+    } else {
+      [_umanoModeButton setTextColor:[NSColor whiteColor]];
+    }
+    [_umanoModeButton setTitle:@"Umano Mode"];
+    _umanoModeButton.delegate = self;
+    [self.contentView addSubview:_umanoModeButton];
+    
     _libraryButton = [[PHButton alloc] init];
-    _libraryButton.tag = PHSystemButtonLibrary;
+    _libraryButton.tag = PHSystemButtonUmanoMode;
     [_libraryButton setTitle:@"Library"];
     _libraryButton.delegate = self;
     [self.contentView addSubview:_libraryButton];
@@ -75,6 +87,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
   [_prefsButton sizeToFit];
   [_compositeEditorButton sizeToFit];
   [_libraryButton sizeToFit];
+  [_umanoModeButton sizeToFit];
 
   CGFloat topMargin = floor((boundsSize.height - _prefsButton.frame.size.height) / 2);
   CGFloat leftEdge = topMargin;
@@ -94,12 +107,26 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
   _libraryButton.frame = CGRectMake(leftEdge - _libraryButton.frame.size.width,
                                     topMargin,
                                     _libraryButton.frame.size.width, _libraryButton.frame.size.height);
+  
+  leftEdge = _libraryButton.frame.origin.x - topMargin;
+  
+  topMargin = floor((boundsSize.height - _umanoModeButton.frame.size.height) / 2);
+  _umanoModeButton.frame = CGRectMake(leftEdge - _umanoModeButton.frame.size.width,
+                                    topMargin,
+                                    _umanoModeButton.frame.size.width, _umanoModeButton.frame.size.height);
 }
 
 #pragma mark - PHButtonDelegate
 
 - (void)didPressDownButton:(PHButton *)button {
   [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
+  if (((PHSystemControlIdentifier)button.tag) == PHSystemButtonUmanoMode) {
+    if ([PHSys() umanoMode]) {
+      [_umanoModeButton setTextColor:[NSColor orangeColor]];
+    } else {
+      [_umanoModeButton setTextColor:[NSColor whiteColor]];
+    }
+  }
 }
 
 - (void)didReleaseButton:(PHButton *)button {

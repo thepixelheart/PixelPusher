@@ -20,6 +20,7 @@
 
 @interface PHButton : NSButton
 @property (nonatomic, strong) NSColor* tint;
+@property (nonatomic, strong) NSColor* textColor;
 @property (nonatomic, weak) id<PHButtonDelegate> delegate;
 @end
 
