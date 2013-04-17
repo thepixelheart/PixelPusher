@@ -252,46 +252,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   //[PHSimpleMoteAnimation animation],
   //[PHTunnelGameAnimation animation],
 
-  animations =
-  [animations arrayByAddingObjectsFromArray:@[
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:1],
-    [PHPixelRainAnimation animation],
-    [PHResetAnimation animation],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
-    [PHFlyingFireballAnimation animation]]
-                                        name:@"Mirrored Streamers"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHFlowerAnimation animation],
-    [PHPixelHeartAnimation animation]]
-                                        name:@"Flowered Pixel Heart"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHFlowerAnimation animation],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
-    [PHResetAnimation animation],
-    [PHPixelHeartAnimation animation]]
-                                        name:@"Kaleidescope Heart"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHBassPlate animation],
-    [PHFlyingFireballAnimation animation],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeLeft],
-    [PHPixelHeartAnimation animation]]
-                                        name:@"Trippy Heart"],
-
-   [PHCompositeAnimation animationWithLayers:@[
-    [PHRotationAnimation animationWithDirection:1],
-    [PHLinesAnimation animation],
-    [PHResetAnimation animation],
-    [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
-    [PHPixelHeartAnimation animation]]
-                                        name:@"Energy Heart"],
-
-   ]];
-
   if (nil != sAdditionalAnimationBlock) {
     animations = [animations arrayByAddingObjectsFromArray:sAdditionalAnimationBlock()];
   }
