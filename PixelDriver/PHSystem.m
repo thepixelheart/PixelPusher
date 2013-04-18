@@ -557,6 +557,10 @@ static const NSTimeInterval kFadeTimeLength = 3;
       [_hardwareLeft recordBeat];
       [_hardwareRight recordBeat];
       break;
+    case PHSystemButtonClearBPM:
+      [_hardwareLeft clearBpm];
+      [_hardwareRight clearBpm];
+      break;
       
     default:
       break;
@@ -979,7 +983,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
 
     case PHLaunchpadTopButtonLeftArrow: {
       if ([self numberOfPages] > 1) {
-        [_launchpad setTopButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+        [_launchpad setTopButtonColor:[self topButtonColorForIndex:button] + pressed atIndex:button];
         if (pressed) {
           _animationPage = (_animationPage + 1) % [self numberOfPages];
           [self refreshGrid];
@@ -990,7 +994,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
     }
     case PHLaunchpadTopButtonRightArrow: {
       if ([self numberOfPages] > 1) {
-        [_launchpad setTopButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+        [_launchpad setTopButtonColor:[self topButtonColorForIndex:button] + pressed atIndex:button];
         if (pressed) {
           _animationPage = (_animationPage - 1 + [self numberOfPages]) % [self numberOfPages];
           [self refreshGrid];
@@ -1055,6 +1059,20 @@ static const NSTimeInterval kFadeTimeLength = 3;
           [self refreshSideButtons];
           [_launchpad flipBuffer];
         }
+      } else {
+        [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+        if (pressed) {
+          [_hardwareLeft recordBeat];
+          [_hardwareRight recordBeat];
+        }
+      }
+      break;
+
+    case PHLaunchpadSideButtonStop:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
+      if (pressed) {
+        [_hardwareLeft clearBpm];
+        [_hardwareRight clearBpm];
       }
       break;
 
@@ -1290,7 +1308,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
       if (_viewMode == PHViewModeCompositeEditor) {
         return _launchpadCompositeMode == PHLaunchpadCompositeModeEdit ? PHLaunchpadColorGreenBright : PHLaunchpadColorGreenDim;
       } else {
-        return PHLaunchpadColorOff;
+        return PHLaunchpadColorGreenDim;
       }
 
     case PHLaunchpadSideButtonSolo:
@@ -1298,6 +1316,9 @@ static const NSTimeInterval kFadeTimeLength = 3;
 
     case PHLaunchpadSideButtonTrackOn:
       return PHLaunchpadColorGreenDim;
+
+    case PHLaunchpadSideButtonStop:
+      return PHLaunchpadColorRedDim;
 
     default:
       break;

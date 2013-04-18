@@ -62,6 +62,7 @@
 #import "PHBox2DAnimation.h"
 #import "PHDancingManAnimation.h"
 #import "PHCornerParticlesAnimation.h"
+#import "PHMotionBlurAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -190,6 +191,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeRight],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
+    [PHMotionBlurAnimation animation],
 
     // Filters (commented out ones don't work)
     [PHAffineTileFilter animation],

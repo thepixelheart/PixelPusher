@@ -158,6 +158,10 @@
 		663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A8168EE542003B88A1 /* PHProcessingSource.m */; };
 		663C83AC168F0520003B88A1 /* PHDJAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83AB168F0520003B88A1 /* PHDJAnimation.m */; };
 		6655AB6D16F74DF600B0ADA3 /* PHSystemTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */; };
+		6656525A171FACF100030D76 /* PHMotionBlurAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66565259171FACF100030D76 /* PHMotionBlurAnimation.m */; };
+		6656525C171FAFA200030D76 /* motionblur.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525B171FAFA200030D76 /* motionblur.png */; };
+		6656525E171FB19C00030D76 /* bpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525D171FB19C00030D76 /* bpm.png */; };
+		66565260171FB21300030D76 /* nobpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525F171FB21300030D76 /* nobpm.png */; };
 		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
 		665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B44B016FF0E3E009E8D28 /* PHTetrisAnimation.m */; };
 		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
@@ -509,6 +513,11 @@
 		6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemTick.m; sourceTree = "<group>"; };
 		6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHSystemTick+Protected.h"; sourceTree = "<group>"; };
 		6655AB6F16F74EA300B0ADA3 /* PHSystem+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHSystem+Protected.h"; sourceTree = "<group>"; };
+		66565258171FACF100030D76 /* PHMotionBlurAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMotionBlurAnimation.h; sourceTree = "<group>"; };
+		66565259171FACF100030D76 /* PHMotionBlurAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMotionBlurAnimation.m; sourceTree = "<group>"; };
+		6656525B171FAFA200030D76 /* motionblur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = motionblur.png; path = PixelDriver/resources/motionblur.png; sourceTree = "<group>"; };
+		6656525D171FB19C00030D76 /* bpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bpm.png; path = PixelDriver/resources/bpm.png; sourceTree = "<group>"; };
+		6656525F171FB21300030D76 /* nobpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nobpm.png; path = PixelDriver/resources/nobpm.png; sourceTree = "<group>"; };
 		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
 		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
 		665B44AF16FF0E3E009E8D28 /* PHTetrisAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTetrisAnimation.h; sourceTree = "<group>"; };
@@ -1234,6 +1243,8 @@
 				660D25991689B20000727312 /* PHRotationAnimation.m */,
 				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
 				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
+				66565258171FACF100030D76 /* PHMotionBlurAnimation.h */,
+				66565259171FACF100030D76 /* PHMotionBlurAnimation.m */,
 			);
 			name = Pipes;
 			sourceTree = "<group>";
@@ -1497,15 +1508,18 @@
 				66A13E63171DCC860092E43D /* bloom.png */,
 				661CC73D16A79E5B007F3900 /* right.png */,
 				662CB20B16A676E0008F497B /* pixeldriver.png */,
+				6656525D171FB19C00030D76 /* bpm.png */,
 				66A13E59171D2DE60092E43D /* eightfold.png */,
 				66A13E4D171D2CA30092E43D /* falsecolor.png */,
 				66A13E35171D29FC0092E43D /* ripples.png */,
 				66A13E4B171D2C7B0092E43D /* exposure.png */,
 				66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */,
 				66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */,
+				6656525B171FAFA200030D76 /* motionblur.png */,
 				66A13E51171D2D9C0092E43D /* mirrorbottom.png */,
 				66A13E52171D2D9C0092E43D /* mirrorleft.png */,
 				66A13E53171D2D9C0092E43D /* mirrorright.png */,
+				6656525F171FB21300030D76 /* nobpm.png */,
 				66A13E54171D2D9C0092E43D /* mirrortop.png */,
 				66A13E47171D2C310092E43D /* edges.png */,
 				66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */,
@@ -1761,6 +1775,9 @@
 				66A13E64171DCC860092E43D /* bloom.png in Resources */,
 				66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */,
 				3A43C269171E6E33006A441E /* umano.png in Resources */,
+				6656525C171FAFA200030D76 /* motionblur.png in Resources */,
+				6656525E171FB19C00030D76 /* bpm.png in Resources */,
+				66565260171FB21300030D76 /* nobpm.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1973,6 +1990,7 @@
 				6617FCFB171F316F006E0DF8 /* PHDancingManAnimation.mm in Sources */,
 				6617FCFE171F32DD006E0DF8 /* PHBox2D.mm in Sources */,
 				6617FD01171F34FB006E0DF8 /* PHCornerParticlesAnimation.mm in Sources */,
+				6656525A171FACF100030D76 /* PHMotionBlurAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -34,7 +34,8 @@
     [self addButtonWithImage:[NSImage imageNamed:@"pixelheart"] tag:PHSystemButtonPixelHeart];
     [self addButtonWithImage:[NSImage imageNamed:@"camera"] tag:PHSystemButtonScreenshot];
     [self addButtonWithImage:[NSImage imageNamed:@"strobe"] tag:PHSystemButtonStrobe];
-    [self addButtonWithImage:[NSImage imageNamed:@"strobe"] tag:PHSystemButtonTapBPM];
+    [self addButtonWithImage:[NSImage imageNamed:@"bpm"] tag:PHSystemButtonTapBPM];
+    [self addButtonWithImage:[NSImage imageNamed:@"nobpm"] tag:PHSystemButtonClearBPM];
   }
   return self;
 }

@@ -29,6 +29,7 @@
 @property (nonatomic, assign) BOOL isUserButton2Pressed;
 
 - (void)recordBeat;
+- (void)clearBpm;
 
 - (void)didPressLaunchpadButtonAtX:(NSInteger)x y:(NSInteger)y;
 

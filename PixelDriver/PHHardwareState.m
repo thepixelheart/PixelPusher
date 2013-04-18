@@ -108,6 +108,11 @@ static const NSInteger kMaxNumberOfBeats = 10;
   }
 }
 
+- (void)clearBpm {
+  _queuedTime1 = 0;
+  [_recordedBeatTimes removeAllObjects];
+}
+
 - (NSTimeInterval)averageTimeBetweenBeats {
   if (_recordedBeatTimes.count <= 1) {
     return -1;
