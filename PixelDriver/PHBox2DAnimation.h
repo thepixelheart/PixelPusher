@@ -20,4 +20,7 @@
 
 @interface PHBox2DAnimation : PHAnimation
 @property (nonatomic, readonly, strong) PHBox2D* box2d;
+
+- (void)renderBodiesInContext:(CGContextRef)cx size:(CGSize)size;
+- (void)renderJointsInContext:(CGContextRef)cx size:(CGSize)size;
 @end

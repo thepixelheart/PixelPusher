@@ -49,7 +49,6 @@
       bd.position.Set(0, 0);
       body = self.box2d.world->CreateBody(&bd);
 
-      body->SetUserTag((int)(_colorAdvance));
       body->SetLinearVelocity(b2Vec2((sin(_advance) * 0.8 + 0.1) * speed + speed, (cos(_advance) * 0.8 + 0.1) * speed + speed));
       body->SetAngularVelocity((CGFloat)arc4random_uniform(100) / 100.0 * M_PI);
       body->CreateFixture(&shape, 1.0f);
@@ -59,7 +58,6 @@
       bd.position.Set(kWallWidth, 0);
       body = self.box2d.world->CreateBody(&bd);
       body->SetUserData((void *)2);
-      body->SetUserTag((int)(_colorAdvance));
       body->SetLinearVelocity(b2Vec2(-((sin(_advance) * 0.8 + 0.1) * speed + speed), (cos(-_advance) * 0.8 + 0.1) * speed + speed));
       body->SetAngularVelocity((CGFloat)arc4random_uniform(100) / 100.0 * M_PI);
       body->CreateFixture(&shape, 1.0f);
@@ -69,7 +67,6 @@
       bd.position.Set(kWallWidth, kWallHeight);
       body = self.box2d.world->CreateBody(&bd);
       body->SetUserData((void *)2);
-      body->SetUserTag((int)(_colorAdvance));
       body->SetLinearVelocity(b2Vec2(-((sin(-_advance) * 0.8 + 0.1) * speed + speed), -((cos(_advance) * 0.8 + 0.1) * speed + speed)));
       body->SetAngularVelocity((CGFloat)arc4random_uniform(100) / 100.0 * M_PI);
       body->CreateFixture(&shape, 1.0f);
@@ -79,7 +76,6 @@
       bd.position.Set(0, kWallHeight);
       body = self.box2d.world->CreateBody(&bd);
       body->SetUserData((void *)2);
-      body->SetUserTag((int)(_colorAdvance));
       body->SetLinearVelocity(b2Vec2(((sin(-_advance) * 0.8 + 0.1) * speed + speed), -((cos(-_advance) * 0.8 + 0.1) * speed + speed)));
       body->SetAngularVelocity((CGFloat)arc4random_uniform(100) / 100.0 * M_PI);
       body->CreateFixture(&shape, 1.0f);

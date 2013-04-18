@@ -29,14 +29,14 @@ static const CGFloat kScale = 2;
   return self;
 }
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+- (NSColor *)colorForBody:(b2Body *)body {
+  return [NSColor whiteColor];
+}
+
+- (void)renderBodiesInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -size.height);
-
-	int32 velocityIterations = 6;
-	int32 positionIterations = 2;
-  _box2d.world->Step(self.secondsSinceLastTick, velocityIterations, positionIterations);
 
   for (b2Body* b = _box2d.world->GetBodyList(); b; b = b->GetNext()) {
     const b2Transform& xf = b->GetTransform();
@@ -51,6 +51,7 @@ static const CGFloat kScale = 2;
           float32 radius = circle->m_radius;
 
           CGContextTranslateCTM(cx, center.x, center.y);
+          CGContextSetFillColorWithColor(cx, [self colorForBody:b].CGColor);
           CGContextFillEllipseInRect(cx, CGRectMake(-radius, -radius, radius * 2, radius * 2));
           break;
         }
@@ -65,7 +66,7 @@ static const CGFloat kScale = 2;
           CGContextMoveToPoint(cx, v1.x, v1.y);
           CGContextAddLineToPoint(cx, v2.x, v2.y);
 
-          CGContextSetStrokeColorWithColor(cx, [NSColor whiteColor].CGColor);
+          CGContextSetStrokeColorWithColor(cx, [self colorForBody:b].CGColor);
           CGContextStrokePath(cx);
         }
           break;
@@ -88,7 +89,7 @@ static const CGFloat kScale = 2;
 
             v1 = v2;
           }
-          CGContextSetStrokeColorWithColor(cx, [NSColor whiteColor].CGColor);
+          CGContextSetStrokeColorWithColor(cx, [self colorForBody:b].CGColor);
           CGContextStrokePath(cx);
         }
           break;
@@ -109,24 +110,24 @@ static const CGFloat kScale = 2;
             }
           }
 
-          int tag = b->GetUserTag();
-
-          CGFloat offset = tag * 0.5;
-          CGFloat red = sin(offset) * 0.5 + 0.5;
-          CGFloat green = cos(offset * 5 + M_PI_2) * 0.5 + 0.5;
-          CGFloat blue = sin(offset * 13 - M_PI_4) * 0.5 + 0.5;
-
-          CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1].CGColor);
+          CGContextSetFillColorWithColor(cx, [self colorForBody:b].CGColor);
           CGContextEOFillPath(cx);
           break;
         }
         default:
           break;
       }
-
+      
       CGContextRestoreGState(cx);
     }
   }
+  CGContextRestoreGState(cx);
+}
+
+- (void)renderJointsInContext:(CGContextRef)cx size:(CGSize)size {
+  CGContextSaveGState(cx);
+  CGContextScaleCTM(cx, 1, -1);
+  CGContextTranslateCTM(cx, 0, -size.height);
 
   for (b2Joint* b = _box2d.world->GetJointList(); b; b = b->GetNext()) {
     CGContextSaveGState(cx);
@@ -148,10 +149,16 @@ static const CGFloat kScale = 2;
       default:
         break;
     }
-    
+
     CGContextRestoreGState(cx);
   }
   CGContextRestoreGState(cx);
+}
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+	int32 velocityIterations = 6;
+	int32 positionIterations = 2;
+  _box2d.world->Step(self.secondsSinceLastTick, velocityIterations, positionIterations);
 }
 
 - (NSString *)tooltipName {

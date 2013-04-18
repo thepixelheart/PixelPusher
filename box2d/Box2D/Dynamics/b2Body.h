@@ -371,9 +371,6 @@ public:
 	/// Set the user data. Use this to store your application specific data.
 	void SetUserData(void* data);
 
-  void SetUserTag(int tag);
-  int GetUserTag() const;
-
 	/// Get the parent world of this body.
 	b2World* GetWorld();
 	const b2World* GetWorld() const;
@@ -461,7 +458,6 @@ private:
 	float32 m_sleepTime;
 
 	void* m_userData;
-  int m_userTag;
 };
 
 inline b2BodyType b2Body::GetType() const
@@ -744,16 +740,6 @@ inline void b2Body::SetUserData(void* data)
 inline void* b2Body::GetUserData() const
 {
 	return m_userData;
-}
-
-inline void b2Body::SetUserTag(int tag)
-{
-	m_userTag = tag;
-}
-
-inline int b2Body::GetUserTag() const
-{
-	return m_userTag;
 }
 
 inline void b2Body::ApplyForce(const b2Vec2& force, const b2Vec2& point)
