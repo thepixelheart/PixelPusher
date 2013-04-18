@@ -554,10 +554,12 @@ static const NSTimeInterval kFadeTimeLength = 3;
       break;
 
     case PHSystemButtonTapBPM:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonArm] + 1 atIndex:PHLaunchpadSideButtonArm];
       [_hardwareLeft recordBeat];
       [_hardwareRight recordBeat];
       break;
     case PHSystemButtonClearBPM:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonStop] + 1 atIndex:PHLaunchpadSideButtonStop];
       [_hardwareLeft clearBpm];
       [_hardwareRight clearBpm];
       break;
@@ -640,6 +642,13 @@ static const NSTimeInterval kFadeTimeLength = 3;
       _strobeDeathStartTime = [NSDate timeIntervalSinceReferenceDate];
       [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonTrackOn] atIndex:PHLaunchpadSideButtonTrackOn];
       [_launchpad flipBuffer];
+      break;
+
+    case PHSystemButtonTapBPM:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonArm] atIndex:PHLaunchpadSideButtonArm];
+      break;
+    case PHSystemButtonClearBPM:
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonStop] atIndex:PHLaunchpadSideButtonStop];
       break;
 
     default:
@@ -1060,19 +1069,19 @@ static const NSTimeInterval kFadeTimeLength = 3;
           [_launchpad flipBuffer];
         }
       } else {
-        [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
         if (pressed) {
-          [_hardwareLeft recordBeat];
-          [_hardwareRight recordBeat];
+          [self didPressButton:PHSystemButtonTapBPM];
+        } else {
+          [self didReleaseButton:PHSystemButtonTapBPM];
         }
       }
       break;
 
     case PHLaunchpadSideButtonStop:
-      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:button] + pressed atIndex:button];
       if (pressed) {
-        [_hardwareLeft clearBpm];
-        [_hardwareRight clearBpm];
+        [self didPressButton:PHSystemButtonClearBPM];
+      } else {
+        [self didReleaseButton:PHSystemButtonClearBPM];
       }
       break;
 
