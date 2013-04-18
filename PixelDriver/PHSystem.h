@@ -34,6 +34,7 @@ typedef enum {
   PHSystemButtonPrefs,
   PHSystemButtonScreenshot,
   PHSystemButtonStrobe,
+  PHSystemButtonTapBPM,
   
   // Composite Editor
   PHSystemButtonNewComposite,

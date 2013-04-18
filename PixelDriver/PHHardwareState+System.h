@@ -28,6 +28,8 @@
 @property (nonatomic, assign) BOOL isUserButton1Pressed;
 @property (nonatomic, assign) BOOL isUserButton2Pressed;
 
+- (void)recordBeat;
+
 - (void)didPressLaunchpadButtonAtX:(NSInteger)x y:(NSInteger)y;
 
 - (void)tick;

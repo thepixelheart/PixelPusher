@@ -19,8 +19,12 @@
 
 #import "PHLaunchpadDevice.h"
 
+static const NSInteger kMaxNumberOfBeats = 10;
+
 @implementation PHHardwareState {
   BOOL _launchpadButtonState[64];
+  NSMutableArray* _recordedBeatTimes;
+  NSTimeInterval _queuedTime1;
 }
 
 @synthesize numberOfRotationTicks = _numberOfRotationTicks;
@@ -34,6 +38,7 @@
 
 - (id)init {
   if ((self = [super init])) {
+    _recordedBeatTimes = [NSMutableArray array];
     _volume = 0.5;
     _playing = YES;
     memset(_launchpadButtonState, 0, sizeof(BOOL) * 64);
@@ -53,6 +58,8 @@
   state->_isUserButton2Pressed = _isUserButton2Pressed;
   state->_didTapUserButton1 = _didTapUserButton1;
   state->_didTapUserButton2 = _didTapUserButton2;
+  state->_recordedBeatTimes = [_recordedBeatTimes mutableCopy];
+  state->_queuedTime1 = _queuedTime1;
   memcpy(state->_launchpadButtonState, _launchpadButtonState, sizeof(BOOL) * 64);
   return state;
 }
@@ -69,6 +76,106 @@
   _isUserButton2Pressed = isUserButton2Pressed;
 
   _didTapUserButton2 = _didTapUserButton2 || _isUserButton2Pressed;
+}
+
+- (void)recordBeat {
+  NSTimeInterval currentTick = [NSDate timeIntervalSinceReferenceDate];
+
+  BOOL shouldRecordBeat = YES;
+  if ([self canPredictBeat]) {
+    // Try to avoid killing existing bpm if there was a significant gap between
+    // the last time we tried to record beats.
+    NSTimeInterval lastRecordedBeat = [self lastRecordedBeat];
+    if (currentTick - lastRecordedBeat > 1) {
+      if (_queuedTime1 == 0 || (currentTick - _queuedTime1) > 1) {
+        _queuedTime1 = currentTick;
+        shouldRecordBeat = NO;
+
+      } else {
+        [_recordedBeatTimes removeAllObjects];
+        // queued time 1 is valid and delta between that and this one is reasonable.
+        [_recordedBeatTimes addObject:@(_queuedTime1)];
+        _queuedTime1 = 0;
+      }
+    }
+  }
+  if (shouldRecordBeat) {
+    [_recordedBeatTimes addObject:@(currentTick)];
+  }
+
+  while ([_recordedBeatTimes count] > kMaxNumberOfBeats) {
+    [_recordedBeatTimes removeObjectAtIndex:0];
+  }
+}
+
+- (NSTimeInterval)averageTimeBetweenBeats {
+  if (_recordedBeatTimes.count <= 1) {
+    return -1;
+  }
+
+  NSTimeInterval totalDelta = 0;
+  NSNumber* lastTick = nil;
+  for (NSNumber* tick in _recordedBeatTimes) {
+    if (nil != lastTick) {
+      totalDelta += [tick doubleValue] - [lastTick doubleValue];
+    }
+    lastTick = tick;
+  }
+
+  return totalDelta / (NSTimeInterval)(_recordedBeatTimes.count - 1);
+}
+
+- (NSTimeInterval)lastRecordedBeat {
+  return [[_recordedBeatTimes lastObject] doubleValue];
+}
+
+- (BOOL)canPredictBeat {
+  return _recordedBeatTimes.count >= 2;
+}
+
+- (NSTimeInterval)lastBeatTime {
+  if (![self canPredictBeat]) {
+    return -1;
+  }
+
+  NSTimeInterval lastRecordedBeat = [self lastRecordedBeat];
+  NSTimeInterval currentTick = [NSDate timeIntervalSinceReferenceDate];
+  NSTimeInterval delta = currentTick - lastRecordedBeat;
+  NSTimeInterval averageTimeBetweenBeats = [self averageTimeBetweenBeats];
+  NSTimeInterval nummberOfSlices = floor(delta / averageTimeBetweenBeats);
+  return lastRecordedBeat + nummberOfSlices * averageTimeBetweenBeats;
+}
+
+- (NSTimeInterval)nextBeatTime {
+  if (![self canPredictBeat]) {
+    return -1;
+  }
+  return [self lastBeatTime] + [self averageTimeBetweenBeats];
+}
+
+- (CGFloat)bpm {
+  if (![self canPredictBeat]) {
+    return -1;
+  }
+
+  NSTimeInterval averageTimeBetweenBeats = [self averageTimeBetweenBeats];
+  if (averageTimeBetweenBeats > 0) {
+    return 60 / averageTimeBetweenBeats;
+  } else {
+    return -1;
+  }
+}
+
+- (BOOL)isBeating {
+  if (![self canPredictBeat]) {
+    return 0;
+  }
+
+  NSTimeInterval lastBeatTime = [self lastBeatTime];
+  NSTimeInterval nextBeatTime = [self nextBeatTime];
+  NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
+  return ((currentTime - lastBeatTime < 0.1)
+          || (nextBeatTime - currentTime < 0.1));
 }
 
 - (void)tick {

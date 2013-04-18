@@ -27,6 +27,11 @@
 @property (nonatomic, readonly, assign) BOOL isUserButton1Pressed;
 @property (nonatomic, readonly, assign) BOOL isUserButton2Pressed;
 
+@property (nonatomic, readonly, assign) NSTimeInterval lastBeatTime;
+@property (nonatomic, readonly, assign) NSTimeInterval nextBeatTime;
+@property (nonatomic, readonly, assign) CGFloat bpm;
+@property (nonatomic, readonly, assign) BOOL isBeating;
+
 - (BOOL)wasLaunchpadButtonPressedAtX:(NSInteger)x y:(NSInteger)y;
 
 @end

@@ -551,7 +551,11 @@ static const NSTimeInterval kFadeTimeLength = 3;
       } else {
         [self setViewMode:PHViewModeLibrary];
       }
-      
+      break;
+
+    case PHSystemButtonTapBPM:
+      [_hardwareLeft recordBeat];
+      [_hardwareRight recordBeat];
       break;
       
     default:
