@@ -63,6 +63,7 @@
 #import "PHDancingManAnimation.h"
 #import "PHCornerParticlesAnimation.h"
 #import "PHMotionBlurAnimation.h"
+#import "PHPixelTunnelAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -224,13 +225,12 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHLinesAnimation animation],
     [PHBassPlate animation],
     [PHSpiralingSquareAnimation animation],
-    [PHSpectrumLinesAnimation animation],
     [PHFlyingFireballAnimation animation],
     [PHRotatingSquaresAnimation animation],
     [PHLaunchpadDemoAnimation animation],
     [PHPixelLifeAnimation animation],
     [PHDancingManAnimation animation],
-    [PHCornerParticlesAnimation animation],
+    [PHPixelTunnelAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
@@ -244,6 +244,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     ];
 
   // Obsolete animations.
+  //[PHCornerParticlesAnimation animation],
+  //[PHSpectrumLinesAnimation animation],
   //[PHDJAnimation animation],
   //[PHTetrisAnimation animation],
   //[PHMtFujiAnimation animation],

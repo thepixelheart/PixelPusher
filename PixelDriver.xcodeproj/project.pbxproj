@@ -293,6 +293,8 @@
 		668EACB61720C72B0056C8C3 /* text_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 668EACB11720C72B0056C8C3 /* text_2.png */; };
 		668EACB71720C72B0056C8C3 /* text_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 668EACB21720C72B0056C8C3 /* text_3.png */; };
 		668EACB81720C72B0056C8C3 /* text_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 668EACB31720C72B0056C8C3 /* text_4.png */; };
+		668EACBB1720CD5C0056C8C3 /* PHPixelTunnelAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EACB91720CD5A0056C8C3 /* PHPixelTunnelAnimation.h */; };
+		668EACBC1720CD5C0056C8C3 /* PHPixelTunnelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EACBA1720CD5B0056C8C3 /* PHPixelTunnelAnimation.m */; };
 		66A13E34171D28020092E43D /* spectrumlines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E33171D28020092E43D /* spectrumlines.png */; };
 		66A13E36171D29FC0092E43D /* ripples.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E35171D29FC0092E43D /* ripples.png */; };
 		66A13E38171D2A130092E43D /* lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E37171D2A130092E43D /* lines.png */; };
@@ -715,6 +717,8 @@
 		668EACB11720C72B0056C8C3 /* text_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = text_2.png; path = PixelDriver/resources/text_2.png; sourceTree = "<group>"; };
 		668EACB21720C72B0056C8C3 /* text_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = text_3.png; path = PixelDriver/resources/text_3.png; sourceTree = "<group>"; };
 		668EACB31720C72B0056C8C3 /* text_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = text_4.png; path = PixelDriver/resources/text_4.png; sourceTree = "<group>"; };
+		668EACB91720CD5A0056C8C3 /* PHPixelTunnelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPixelTunnelAnimation.h; path = PixelCore/PHPixelTunnelAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EACBA1720CD5B0056C8C3 /* PHPixelTunnelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelTunnelAnimation.m; path = PixelCore/PHPixelTunnelAnimation.m; sourceTree = SOURCE_ROOT; };
 		66A13E33171D28020092E43D /* spectrumlines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spectrumlines.png; path = PixelDriver/resources/spectrumlines.png; sourceTree = "<group>"; };
 		66A13E35171D29FC0092E43D /* ripples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ripples.png; path = PixelDriver/resources/ripples.png; sourceTree = "<group>"; };
 		66A13E37171D2A130092E43D /* lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lines.png; path = PixelDriver/resources/lines.png; sourceTree = "<group>"; };
@@ -1189,6 +1193,8 @@
 				668EAA321720BFBB0056C8C3 /* PHPixelLifeAnimation.m */,
 				668EAA331720BFBB0056C8C3 /* PHPixelRainAnimation.h */,
 				668EAA341720BFBB0056C8C3 /* PHPixelRainAnimation.m */,
+				668EACB91720CD5A0056C8C3 /* PHPixelTunnelAnimation.h */,
+				668EACBA1720CD5B0056C8C3 /* PHPixelTunnelAnimation.m */,
 				668EAA351720BFBB0056C8C3 /* PHProcessingAnimation.h */,
 				668EAA361720BFBB0056C8C3 /* PHProcessingAnimation.m */,
 				668EAA371720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.h */,
@@ -1850,6 +1856,7 @@
 				668EAB0E1720C0770056C8C3 /* Utilities.h in Headers */,
 				668EAC9D1720C1D60056C8C3 /* PHAnimationTick.h in Headers */,
 				668EAC9F1720C1D60056C8C3 /* PHHardwareState.h in Headers */,
+				668EACBB1720CD5C0056C8C3 /* PHPixelTunnelAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2160,6 +2167,7 @@
 				668EAB0F1720C0770056C8C3 /* Utilities.m in Sources */,
 				668EAC9E1720C1D60056C8C3 /* PHAnimationTick.m in Sources */,
 				668EACA01720C1D60056C8C3 /* PHHardwareState.m in Sources */,
+				668EACBC1720CD5C0056C8C3 /* PHPixelTunnelAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
