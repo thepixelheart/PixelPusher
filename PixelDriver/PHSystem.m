@@ -611,7 +611,6 @@ static const NSTimeInterval kFadeTimeLength = 3;
       break;
     case PHSystemButtonText:
       _countdownOverlay = PHCountdownOverlayText;
-      _countdownTextIndex = arc4random_uniform(5);
       break;
       
     default:
@@ -719,6 +718,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
     case PHSystemButtonText:
       if (_countdownOverlay == PHCountdownOverlayText) {
         _countdownOverlay = PHCountdownOverlayNone;
+        _countdownTextIndex = arc4random_uniform(5);
       }
       break;
 

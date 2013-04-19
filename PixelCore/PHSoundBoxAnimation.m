@@ -16,8 +16,8 @@
 
 #import "PHSoundBoxAnimation.h"
 
-static const NSInteger kNumberOfSteps = 90;
-static const CGFloat kMinRadius = 4;
+static const NSInteger kNumberOfSteps = 50;
+static const CGFloat kMinRadius = 2;
 
 @implementation PHSoundBoxAnimation {
   CGFloat _scalers[kNumberOfSteps];
@@ -28,7 +28,7 @@ static const CGFloat kMinRadius = 4;
 - (id)init {
   if ((self = [super init])) {
     for (NSInteger ix = 0; ix < kNumberOfSteps; ++ix) {
-      _scalers[ix] = 1000000;
+      _scalers[ix] = 1000;
       _peaks[ix] = 0;
     }
   }
@@ -68,8 +68,8 @@ static const CGFloat kMinRadius = 4;
 
     CGFloat radian = (CGFloat)ix * stepSize + stepSize / 2;
 
-    CGPoint position = CGPointMake(sin(radian) * (kMinRadius + _peaks[ix] * (kWallHeight / 2 - kMinRadius)) + kWallWidth / 2,
-                                   cos(radian) * (kMinRadius + _peaks[ix] * (kWallHeight / 2 - kMinRadius)) + kWallHeight / 2);
+    CGPoint position = CGPointMake(sin(radian) * (kMinRadius + _peaks[ix] * (kWallHeight - kMinRadius)) + kWallWidth / 2,
+                                   cos(radian) * (kMinRadius + _peaks[ix] * (kWallHeight - kMinRadius)) + kWallHeight / 2);
     if (ix == 0) {
       CGContextMoveToPoint(cx, position.x, position.y);
     } else {
@@ -80,10 +80,17 @@ static const CGFloat kMinRadius = 4;
   CGContextClosePath(cx);
 
   CGFloat offset = _colorAdvance;
-  CGFloat red = sin(offset * 3) * 0.4 + 0.6;
-  CGFloat green = cos(offset * 5 + M_PI_2) * 0.4 + 0.6;
-  CGFloat blue = sin(offset * 7 - M_PI_4) * 0.4 + 0.6;
+  CGFloat red = sin(offset * 3) * 0.3 + 0.7;
+  CGFloat green = cos(offset * 5 + M_PI_2) * 0.3 + 0.7;
+  CGFloat blue = sin(offset * 7 - M_PI_4) * 0.3 + 0.7;
   CGContextSetStrokeColorWithColor(cx, [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1].CGColor);
+
+  offset = -_colorAdvance;
+  red = sin(offset * 3) * 0.4 + 0.6;
+  green = cos(offset * 5 + M_PI_2) * 0.4 + 0.6;
+  blue = sin(offset * 7 - M_PI_4) * 0.4 + 0.6;
+  CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1].CGColor);
+  CGContextFillPath(cx);
 
   CGContextStrokePath(cx);
 

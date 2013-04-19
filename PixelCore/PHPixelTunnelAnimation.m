@@ -22,6 +22,13 @@
   CGFloat _colorAdvance;
 }
 
+- (id)init {
+  if ((self = [super init])) {
+    self.bassDegrader.deltaPerSecond = 0.2;
+  }
+  return self;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
 
@@ -30,8 +37,8 @@
   _rotationAdvance += self.secondsSinceLastTick * (self.hihatDegrader.value + 0.4);
 
   CGPoint center = CGPointMake(kWallWidth / 2, kWallHeight / 2);
-  CGPoint start = CGPointMake(center.x + cos(_centerPointAdvance * 5) * (kWallWidth / 2 - 4),
-                              center.y + sin(_centerPointAdvance * 3) * (kWallWidth / 2 - 4));
+  CGPoint start = CGPointMake(center.x + cos(_centerPointAdvance * 5) * (self.bassDegrader.value * 0.7 + 0.3) * (kWallWidth / 2 - 4),
+                              center.y + sin(_centerPointAdvance * 3) * (self.bassDegrader.value * 0.7 + 0.3) * (kWallWidth / 2 - 4));
   CGFloat startRot = sin(_rotationAdvance) * M_PI;
   CGFloat endRot = 0;
 
