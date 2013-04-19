@@ -61,6 +61,14 @@ typedef enum {
   PHUmanoModeStatusFadingRight,
 } PHUmanoModeStatus;
 
+typedef enum {
+  PHCountdownOverlayNone,
+  PHCountdownOverlay1,
+  PHCountdownOverlay2,
+  PHCountdownOverlay3,
+  PHCountdownOverlayText,
+} PHCountdownOverlay;
+
 
 static const CGFloat kFaderTickLength = 0.007874;
 
@@ -95,6 +103,9 @@ static const NSTimeInterval kFadeTimeLength = 3;
   BOOL _shouldTakeScreenshot;
   BOOL _strobeOn;
   NSTimeInterval _strobeDeathStartTime;
+
+  PHCountdownOverlay _countdownOverlay;
+  NSInteger _countdownTextIndex;
 }
 
 @synthesize fade = _fade, previewAnimation = _previewAnimation;
@@ -373,6 +384,31 @@ static const NSTimeInterval kFadeTimeLength = 3;
     CGImageRelease(imageRef);
   }
 
+  if (_countdownOverlay != PHCountdownOverlayNone) {
+    NSImage* countdownImage = nil;
+    if (_countdownOverlay == PHCountdownOverlayText) {
+      countdownImage = [NSImage imageNamed:[NSString stringWithFormat:@"text_%ld", (long)_countdownTextIndex]];
+    } else {
+      countdownImage = [NSImage imageNamed:[NSString stringWithFormat:@"countdown_%d", _countdownOverlay]];
+    }
+
+    if (nil != countdownImage) {
+      CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)[countdownImage TIFFRepresentation], NULL);
+      CGImageRef imageRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+      CGContextSaveGState(tick.wallContextRef);
+      CGContextScaleCTM(tick.wallContextRef, 1, -1);
+      CGContextTranslateCTM(tick.wallContextRef, 0, -kWallHeight);
+
+      CGContextSetAlpha(tick.wallContextRef, 1);
+      CGContextDrawImage(tick.wallContextRef, CGRectMake(0,
+                                                         0,
+                                                         kWallWidth, kWallHeight), imageRef);
+      CGImageRelease(imageRef);
+
+      CGContextRestoreGState(tick.wallContextRef);
+    }
+  }
+
   if (_shouldTakeScreenshot) {
     _shouldTakeScreenshot = NO;
 
@@ -563,6 +599,20 @@ static const NSTimeInterval kFadeTimeLength = 3;
       [_hardwareLeft clearBpm];
       [_hardwareRight clearBpm];
       break;
+
+    case PHSystemButton3:
+      _countdownOverlay = PHCountdownOverlay3;
+      break;
+    case PHSystemButton2:
+      _countdownOverlay = PHCountdownOverlay2;
+      break;
+    case PHSystemButton1:
+      _countdownOverlay = PHCountdownOverlay1;
+      break;
+    case PHSystemButtonText:
+      _countdownOverlay = PHCountdownOverlayText;
+      _countdownTextIndex = arc4random_uniform(5);
+      break;
       
     default:
       break;
@@ -649,6 +699,27 @@ static const NSTimeInterval kFadeTimeLength = 3;
       break;
     case PHSystemButtonClearBPM:
       [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonStop] atIndex:PHLaunchpadSideButtonStop];
+      break;
+
+    case PHSystemButton3:
+      if (_countdownOverlay == PHCountdownOverlay3) {
+        _countdownOverlay = PHCountdownOverlayNone;
+      }
+      break;
+    case PHSystemButton2:
+      if (_countdownOverlay == PHCountdownOverlay2) {
+        _countdownOverlay = PHCountdownOverlayNone;
+      }
+      break;
+    case PHSystemButton1:
+      if (_countdownOverlay == PHCountdownOverlay1) {
+        _countdownOverlay = PHCountdownOverlayNone;
+      }
+      break;
+    case PHSystemButtonText:
+      if (_countdownOverlay == PHCountdownOverlayText) {
+        _countdownOverlay = PHCountdownOverlayNone;
+      }
       break;
 
     default:

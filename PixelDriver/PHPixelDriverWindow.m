@@ -60,13 +60,16 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
   NSMutableDictionary* keyMappings = [@{
     @" ": @(PHSystemButtonPixelHeart),
-    @"`": @(PHSystemButtonPixelHeart),
     @"[": @(PHSystemButtonLoadLeft),
     @"]": @(PHSystemButtonLoadRight),
     @"p": @(PHSystemButtonPrefs),
     @"l": @(PHSystemButtonLibrary),
     @"c": @(PHSystemButtonCompositeEditor),
     @"b": @(PHSystemButtonTapBPM),
+    @"3": @(PHSystemButton3),
+    @"2": @(PHSystemButton2),
+    @"1": @(PHSystemButton1),
+    @"`": @(PHSystemButtonText),
   } mutableCopy];
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {
