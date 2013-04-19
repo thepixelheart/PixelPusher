@@ -9,16 +9,8 @@
 /* Begin PBXBuildFile section */
 		0EEA867316921B24009ACDF3 /* PHOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867216921B24009ACDF3 /* PHOverlay.m */; };
 		0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */; };
-		1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */; };
-		1E791A74168820AB008106F3 /* PHNyanCatAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */; };
-		3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */; };
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
-		3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */; };
-		3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */; };
-		528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
-		660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 660D25991689B20000727312 /* PHRotationAnimation.m */; };
-		6617FAA4171E3566006E0DF8 /* PHBox2DAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FAA3171E3566006E0DF8 /* PHBox2DAnimation.mm */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -112,10 +104,6 @@
 		6617FCF5171E8377006E0DF8 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC9A171E8376006E0DF8 /* b2Rope.cpp */; };
 		6617FCF6171E8377006E0DF8 /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC9B171E8376006E0DF8 /* b2Rope.h */; };
 		6617FCF7171E8503006E0DF8 /* libbox2d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6617FAB2171E8073006E0DF8 /* libbox2d.a */; };
-		6617FCFB171F316F006E0DF8 /* PHDancingManAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */; };
-		6617FCFE171F32DD006E0DF8 /* PHBox2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FCFD171F32DD006E0DF8 /* PHBox2D.mm */; };
-		6617FD01171F34FB006E0DF8 /* PHCornerParticlesAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */; };
-		661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */; };
 		661CC6B516A72D17007F3900 /* PHSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC6B416A72D17007F3900 /* PHSystem.m */; };
 		661CC73516A780DF007F3900 /* PHTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73416A780DF007F3900 /* PHTransition.m */; };
 		661CC73816A78196007F3900 /* PHCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC73716A78196007F3900 /* PHCrossFadeTransition.m */; };
@@ -123,9 +111,6 @@
 		661CC73E16A79E5B007F3900 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73C16A79E5B007F3900 /* left.png */; };
 		661CC73F16A79E5B007F3900 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 661CC73D16A79E5B007F3900 /* right.png */; };
 		661CC74216A7A01D007F3900 /* PHAnimationsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 661CC74116A7A01D007F3900 /* PHAnimationsView.m */; };
-		661FFFEF16B38D0D007CE102 /* PHSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */; };
-		661FFFF316B4BD22007CE102 /* PHTronAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 661FFFF216B4BD21007CE102 /* PHTronAnimation.m */; };
-		662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */; };
 		662CB20C16A676E0008F497B /* pixeldriver.png in Resources */ = {isa = PBXBuildFile; fileRef = 662CB20B16A676E0008F497B /* pixeldriver.png */; };
 		662CB20F16A67708008F497B /* PHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB20E16A67708008F497B /* PHHeaderView.m */; };
 		662CB21216A67915008F497B /* PHPixelImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21116A67915008F497B /* PHPixelImageView.m */; };
@@ -145,35 +130,157 @@
 		662F592816785DF700ADE02C /* tree.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 662F592716785DF700ADE02C /* tree.qtz */; };
 		6634E1F616A6612300AD86B1 /* PHPixelDriverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */; };
 		6634E1FE16A66C6700AD86B1 /* PHContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6634E1FD16A66C6700AD86B1 /* PHContainerView.m */; };
-		6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */; };
-		6637527116843E3C009A2F22 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6637527016843E3C009A2F22 /* PHDegrader.m */; };
-		66393E69168AC819002BD86F /* PHMote.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E68168AC819002BD86F /* PHMote.m */; };
 		66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6C168AD63E002BD86F /* PHMoteServer.m */; };
-		66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */; };
 		66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7A168AEFC7002BD86F /* PHTooltipWindow.m */; };
 		66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66393E7D168AEFFD002BD86F /* PHTooltipView.m */; };
 		663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A0168EC254003B88A1 /* PHProcessingServer.m */; };
 		663C83A3168ECD84003B88A1 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 663C83A2168ECD84003B88A1 /* fonts */; };
-		663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */; };
 		663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A8168EE542003B88A1 /* PHProcessingSource.m */; };
-		663C83AC168F0520003B88A1 /* PHDJAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83AB168F0520003B88A1 /* PHDJAnimation.m */; };
 		6655AB6D16F74DF600B0ADA3 /* PHSystemTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */; };
-		6656525A171FACF100030D76 /* PHMotionBlurAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66565259171FACF100030D76 /* PHMotionBlurAnimation.m */; };
 		6656525C171FAFA200030D76 /* motionblur.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525B171FAFA200030D76 /* motionblur.png */; };
 		6656525E171FB19C00030D76 /* bpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525D171FB19C00030D76 /* bpm.png */; };
 		66565260171FB21300030D76 /* nobpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525F171FB21300030D76 /* nobpm.png */; };
-		66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */; };
-		665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B44B016FF0E3E009E8D28 /* PHTetrisAnimation.m */; };
-		66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9A168486220092EDF0 /* PHFireworksAnimation.m */; };
-		66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */; };
-		668520EA168290B90063A95A /* PHAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520E9168290B90063A95A /* PHAnimation.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
-		6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */; };
-		6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */; };
-		6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */; };
-		6693A313168FE0D800DA2946 /* PHSophJoyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */; };
-		6693A316168FF0F700DA2946 /* PHCombAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6693A315168FF0F600DA2946 /* PHCombAnimation.m */; };
-		669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 669666EA170919B0008A389E /* PHHoleDistortionFilter.m */; };
+		668EA9EF1720BEB20056C8C3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
+		668EAA551720BFBB0056C8C3 /* PHAdventureTimeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */; };
+		668EAA561720BFBB0056C8C3 /* PHAdventureTimeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EA9FA1720BFBB0056C8C3 /* PHAdventureTimeAnimation.m */; };
+		668EAA571720BFBB0056C8C3 /* PHAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9FB1720BFBB0056C8C3 /* PHAnimation.h */; };
+		668EAA581720BFBB0056C8C3 /* PHAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EA9FC1720BFBB0056C8C3 /* PHAnimation.m */; };
+		668EAA591720BFBB0056C8C3 /* PHBasicSpectrumAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9FD1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.h */; };
+		668EAA5A1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EA9FE1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m */; };
+		668EAA5B1720BFBB0056C8C3 /* PHBassPlate.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9FF1720BFBB0056C8C3 /* PHBassPlate.h */; };
+		668EAA5C1720BFBB0056C8C3 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA001720BFBB0056C8C3 /* PHBassPlate.m */; };
+		668EAA5D1720BFBB0056C8C3 /* PHBassShooterAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA011720BFBB0056C8C3 /* PHBassShooterAnimation.h */; };
+		668EAA5E1720BFBB0056C8C3 /* PHBassShooterAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA021720BFBB0056C8C3 /* PHBassShooterAnimation.m */; };
+		668EAA5F1720BFBB0056C8C3 /* PHBox2DAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA031720BFBB0056C8C3 /* PHBox2DAnimation.h */; };
+		668EAA601720BFBB0056C8C3 /* PHBox2DAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA041720BFBB0056C8C3 /* PHBox2DAnimation.mm */; };
+		668EAA611720BFBB0056C8C3 /* PHCombAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA051720BFBB0056C8C3 /* PHCombAnimation.h */; };
+		668EAA621720BFBB0056C8C3 /* PHCombAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA061720BFBB0056C8C3 /* PHCombAnimation.m */; };
+		668EAA631720BFBB0056C8C3 /* PHCompositeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA071720BFBB0056C8C3 /* PHCompositeAnimation.h */; };
+		668EAA641720BFBB0056C8C3 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA081720BFBB0056C8C3 /* PHCompositeAnimation.m */; };
+		668EAA651720BFBB0056C8C3 /* PHCornerParticlesAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA091720BFBB0056C8C3 /* PHCornerParticlesAnimation.h */; };
+		668EAA661720BFBB0056C8C3 /* PHCornerParticlesAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA0A1720BFBB0056C8C3 /* PHCornerParticlesAnimation.mm */; };
+		668EAA671720BFBB0056C8C3 /* PHCountdownAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA0B1720BFBB0056C8C3 /* PHCountdownAnimation.h */; };
+		668EAA681720BFBB0056C8C3 /* PHCountdownAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA0C1720BFBB0056C8C3 /* PHCountdownAnimation.m */; };
+		668EAA691720BFBB0056C8C3 /* PHDaftPixelAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA0D1720BFBB0056C8C3 /* PHDaftPixelAnimation.h */; };
+		668EAA6A1720BFBB0056C8C3 /* PHDaftPixelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA0E1720BFBB0056C8C3 /* PHDaftPixelAnimation.m */; };
+		668EAA6B1720BFBB0056C8C3 /* PHDancingManAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA0F1720BFBB0056C8C3 /* PHDancingManAnimation.h */; };
+		668EAA6C1720BFBB0056C8C3 /* PHDancingManAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA101720BFBB0056C8C3 /* PHDancingManAnimation.mm */; };
+		668EAA6D1720BFBB0056C8C3 /* PHDJAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA111720BFBB0056C8C3 /* PHDJAnimation.h */; };
+		668EAA6E1720BFBB0056C8C3 /* PHDJAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA121720BFBB0056C8C3 /* PHDJAnimation.m */; };
+		668EAA6F1720BFBB0056C8C3 /* PHFireworksAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA131720BFBB0056C8C3 /* PHFireworksAnimation.h */; };
+		668EAA701720BFBB0056C8C3 /* PHFireworksAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA141720BFBB0056C8C3 /* PHFireworksAnimation.m */; };
+		668EAA711720BFBB0056C8C3 /* PHFlowerAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA151720BFBB0056C8C3 /* PHFlowerAnimation.h */; };
+		668EAA721720BFBB0056C8C3 /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA161720BFBB0056C8C3 /* PHFlowerAnimation.m */; };
+		668EAA731720BFBB0056C8C3 /* PHFlyingFireballAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA171720BFBB0056C8C3 /* PHFlyingFireballAnimation.h */; };
+		668EAA741720BFBB0056C8C3 /* PHFlyingFireballAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA181720BFBB0056C8C3 /* PHFlyingFireballAnimation.m */; };
+		668EAA751720BFBC0056C8C3 /* PHFlyingRectAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA191720BFBB0056C8C3 /* PHFlyingRectAnimation.h */; };
+		668EAA761720BFBC0056C8C3 /* PHFlyingRectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA1A1720BFBB0056C8C3 /* PHFlyingRectAnimation.m */; };
+		668EAA771720BFBC0056C8C3 /* PHGameOfLifeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA1B1720BFBB0056C8C3 /* PHGameOfLifeAnimation.h */; };
+		668EAA781720BFBC0056C8C3 /* PHGameOfLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA1C1720BFBB0056C8C3 /* PHGameOfLifeAnimation.m */; };
+		668EAA791720BFBC0056C8C3 /* PHGifAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA1D1720BFBB0056C8C3 /* PHGifAnimation.h */; };
+		668EAA7A1720BFBC0056C8C3 /* PHGifAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA1E1720BFBB0056C8C3 /* PHGifAnimation.m */; };
+		668EAA7B1720BFBC0056C8C3 /* PHLaunchpadDemoAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA1F1720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.h */; };
+		668EAA7C1720BFBC0056C8C3 /* PHLaunchpadDemoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA201720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.m */; };
+		668EAA7D1720BFBC0056C8C3 /* PHLevelsHorizAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA211720BFBB0056C8C3 /* PHLevelsHorizAnimation.h */; };
+		668EAA7E1720BFBC0056C8C3 /* PHLevelsHorizAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA221720BFBB0056C8C3 /* PHLevelsHorizAnimation.m */; };
+		668EAA7F1720BFBC0056C8C3 /* PHLinesAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA231720BFBB0056C8C3 /* PHLinesAnimation.h */; };
+		668EAA801720BFBC0056C8C3 /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA241720BFBB0056C8C3 /* PHLinesAnimation.m */; };
+		668EAA811720BFBC0056C8C3 /* PHMegamanAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA251720BFBB0056C8C3 /* PHMegamanAnimation.h */; };
+		668EAA821720BFBC0056C8C3 /* PHMegamanAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA261720BFBB0056C8C3 /* PHMegamanAnimation.m */; };
+		668EAA831720BFBC0056C8C3 /* PHMovingSawAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA271720BFBB0056C8C3 /* PHMovingSawAnimation.h */; };
+		668EAA841720BFBC0056C8C3 /* PHMovingSawAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA281720BFBB0056C8C3 /* PHMovingSawAnimation.m */; };
+		668EAA851720BFBC0056C8C3 /* PHMtFujiAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA291720BFBB0056C8C3 /* PHMtFujiAnimation.h */; };
+		668EAA861720BFBC0056C8C3 /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA2A1720BFBB0056C8C3 /* PHMtFujiAnimation.m */; };
+		668EAA871720BFBC0056C8C3 /* PHNyanCatAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA2B1720BFBB0056C8C3 /* PHNyanCatAnimation.h */; };
+		668EAA881720BFBC0056C8C3 /* PHNyanCatAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA2C1720BFBB0056C8C3 /* PHNyanCatAnimation.m */; };
+		668EAA891720BFBC0056C8C3 /* PHPikachuEmotingAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA2D1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.h */; };
+		668EAA8A1720BFBC0056C8C3 /* PHPikachuEmotingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA2E1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.m */; };
+		668EAA8B1720BFBC0056C8C3 /* PHPixelHeartAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA2F1720BFBB0056C8C3 /* PHPixelHeartAnimation.h */; };
+		668EAA8C1720BFBC0056C8C3 /* PHPixelHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA301720BFBB0056C8C3 /* PHPixelHeartAnimation.m */; };
+		668EAA8D1720BFBC0056C8C3 /* PHPixelLifeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA311720BFBB0056C8C3 /* PHPixelLifeAnimation.h */; };
+		668EAA8E1720BFBC0056C8C3 /* PHPixelLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA321720BFBB0056C8C3 /* PHPixelLifeAnimation.m */; };
+		668EAA8F1720BFBC0056C8C3 /* PHPixelRainAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA331720BFBB0056C8C3 /* PHPixelRainAnimation.h */; };
+		668EAA901720BFBC0056C8C3 /* PHPixelRainAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA341720BFBB0056C8C3 /* PHPixelRainAnimation.m */; };
+		668EAA911720BFBC0056C8C3 /* PHProcessingAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA351720BFBB0056C8C3 /* PHProcessingAnimation.h */; };
+		668EAA921720BFBC0056C8C3 /* PHProcessingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA361720BFBB0056C8C3 /* PHProcessingAnimation.m */; };
+		668EAA931720BFBC0056C8C3 /* PHPsychadelicBackgroundAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA371720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.h */; };
+		668EAA941720BFBC0056C8C3 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA381720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.m */; };
+		668EAA951720BFBC0056C8C3 /* PHRainbowHeartAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA391720BFBB0056C8C3 /* PHRainbowHeartAnimation.h */; };
+		668EAA961720BFBC0056C8C3 /* PHRainbowHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA3A1720BFBB0056C8C3 /* PHRainbowHeartAnimation.m */; };
+		668EAA971720BFBC0056C8C3 /* PHRipplesAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA3B1720BFBB0056C8C3 /* PHRipplesAnimation.h */; };
+		668EAA981720BFBC0056C8C3 /* PHRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA3C1720BFBB0056C8C3 /* PHRipplesAnimation.m */; };
+		668EAA991720BFBC0056C8C3 /* PHRotatingPlaneAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA3D1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.h */; };
+		668EAA9A1720BFBC0056C8C3 /* PHRotatingPlaneAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA3E1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.m */; };
+		668EAA9B1720BFBC0056C8C3 /* PHRotatingSquaresAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA3F1720BFBB0056C8C3 /* PHRotatingSquaresAnimation.h */; };
+		668EAA9C1720BFBC0056C8C3 /* PHRotatingSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA401720BFBB0056C8C3 /* PHRotatingSquaresAnimation.m */; };
+		668EAA9D1720BFBC0056C8C3 /* PHSimpleMoteAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA411720BFBB0056C8C3 /* PHSimpleMoteAnimation.h */; };
+		668EAA9E1720BFBC0056C8C3 /* PHSimpleMoteAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA421720BFBB0056C8C3 /* PHSimpleMoteAnimation.m */; };
+		668EAA9F1720BFBC0056C8C3 /* PHSineWaveAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA431720BFBB0056C8C3 /* PHSineWaveAnimation.h */; };
+		668EAAA01720BFBC0056C8C3 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA441720BFBB0056C8C3 /* PHSineWaveAnimation.m */; };
+		668EAAA11720BFBC0056C8C3 /* PHSophJoyAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA451720BFBB0056C8C3 /* PHSophJoyAnimation.h */; };
+		668EAAA21720BFBC0056C8C3 /* PHSophJoyAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA461720BFBB0056C8C3 /* PHSophJoyAnimation.m */; };
+		668EAAA31720BFBC0056C8C3 /* PHSpectrumLinesAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA471720BFBB0056C8C3 /* PHSpectrumLinesAnimation.h */; };
+		668EAAA41720BFBC0056C8C3 /* PHSpectrumLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA481720BFBB0056C8C3 /* PHSpectrumLinesAnimation.m */; };
+		668EAAA51720BFBC0056C8C3 /* PHSpectrumViewerAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA491720BFBB0056C8C3 /* PHSpectrumViewerAnimation.h */; };
+		668EAAA61720BFBC0056C8C3 /* PHSpectrumViewerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA4A1720BFBB0056C8C3 /* PHSpectrumViewerAnimation.m */; };
+		668EAAA71720BFBC0056C8C3 /* PHSpiralingSquareAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA4B1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.h */; };
+		668EAAA81720BFBC0056C8C3 /* PHSpiralingSquareAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA4C1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.m */; };
+		668EAAA91720BFBC0056C8C3 /* PHSquaresAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA4D1720BFBB0056C8C3 /* PHSquaresAnimation.h */; };
+		668EAAAA1720BFBC0056C8C3 /* PHSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA4E1720BFBB0056C8C3 /* PHSquaresAnimation.m */; };
+		668EAAAB1720BFBC0056C8C3 /* PHTetrisAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA4F1720BFBB0056C8C3 /* PHTetrisAnimation.h */; };
+		668EAAAC1720BFBC0056C8C3 /* PHTetrisAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA501720BFBB0056C8C3 /* PHTetrisAnimation.m */; };
+		668EAAAD1720BFBC0056C8C3 /* PHTronAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA511720BFBB0056C8C3 /* PHTronAnimation.h */; };
+		668EAAAE1720BFBC0056C8C3 /* PHTronAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA521720BFBB0056C8C3 /* PHTronAnimation.m */; };
+		668EAAAF1720BFBC0056C8C3 /* PHTunnelGameAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAA531720BFBB0056C8C3 /* PHTunnelGameAnimation.h */; };
+		668EAAB01720BFBC0056C8C3 /* PHTunnelGameAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAA541720BFBB0056C8C3 /* PHTunnelGameAnimation.m */; };
+		668EAAB91720BFD40056C8C3 /* PHMirrorAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAB11720BFD40056C8C3 /* PHMirrorAnimation.h */; };
+		668EAABA1720BFD40056C8C3 /* PHMirrorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAB21720BFD40056C8C3 /* PHMirrorAnimation.m */; };
+		668EAABB1720BFD40056C8C3 /* PHMotionBlurAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAB31720BFD40056C8C3 /* PHMotionBlurAnimation.h */; };
+		668EAABC1720BFD40056C8C3 /* PHMotionBlurAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAB41720BFD40056C8C3 /* PHMotionBlurAnimation.m */; };
+		668EAABD1720BFD40056C8C3 /* PHResetAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAB51720BFD40056C8C3 /* PHResetAnimation.h */; };
+		668EAABE1720BFD40056C8C3 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAB61720BFD40056C8C3 /* PHResetAnimation.m */; };
+		668EAABF1720BFD40056C8C3 /* PHRotationAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAB71720BFD40056C8C3 /* PHRotationAnimation.h */; };
+		668EAAC01720BFD40056C8C3 /* PHRotationAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAB81720BFD40056C8C3 /* PHRotationAnimation.m */; };
+		668EAADD1720BFF40056C8C3 /* PHAffineTileFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC11720BFF40056C8C3 /* PHAffineTileFilter.h */; };
+		668EAADE1720BFF40056C8C3 /* PHAffineTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC21720BFF40056C8C3 /* PHAffineTileFilter.m */; };
+		668EAADF1720BFF40056C8C3 /* PHBloomFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC31720BFF40056C8C3 /* PHBloomFilter.h */; };
+		668EAAE01720BFF40056C8C3 /* PHBloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC41720BFF40056C8C3 /* PHBloomFilter.m */; };
+		668EAAE11720BFF40056C8C3 /* PHBoxBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC51720BFF40056C8C3 /* PHBoxBlurFilter.h */; };
+		668EAAE21720BFF40056C8C3 /* PHBoxBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC61720BFF40056C8C3 /* PHBoxBlurFilter.m */; };
+		668EAAE31720BFF40056C8C3 /* PHBumpDistortionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC71720BFF40056C8C3 /* PHBumpDistortionFilter.h */; };
+		668EAAE41720BFF40056C8C3 /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */; };
+		668EAAE51720BFF40056C8C3 /* PHDiscBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */; };
+		668EAAE61720BFF40056C8C3 /* PHDiscBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */; };
+		668EAAE71720BFF40056C8C3 /* PHDotScreenFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */; };
+		668EAAE81720BFF40056C8C3 /* PHDotScreenFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAACC1720BFF40056C8C3 /* PHDotScreenFilter.m */; };
+		668EAAE91720BFF40056C8C3 /* PHDrosteFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAACD1720BFF40056C8C3 /* PHDrosteFilter.h */; };
+		668EAAEA1720BFF40056C8C3 /* PHDrosteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAACE1720BFF40056C8C3 /* PHDrosteFilter.m */; };
+		668EAAEB1720BFF40056C8C3 /* PHEdgesFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAACF1720BFF40056C8C3 /* PHEdgesFilter.h */; };
+		668EAAEC1720BFF40056C8C3 /* PHEdgesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAD01720BFF40056C8C3 /* PHEdgesFilter.m */; };
+		668EAAED1720BFF40056C8C3 /* PHEdgeWorkFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAD11720BFF40056C8C3 /* PHEdgeWorkFilter.h */; };
+		668EAAEE1720BFF40056C8C3 /* PHEdgeWorkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAD21720BFF40056C8C3 /* PHEdgeWorkFilter.m */; };
+		668EAAEF1720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAD31720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h */; };
+		668EAAF01720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAD41720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.m */; };
+		668EAAF11720BFF40056C8C3 /* PHExposureAdjustFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAD51720BFF40056C8C3 /* PHExposureAdjustFilter.h */; };
+		668EAAF21720BFF40056C8C3 /* PHExposureAdjustFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAD61720BFF40056C8C3 /* PHExposureAdjustFilter.m */; };
+		668EAAF31720BFF40056C8C3 /* PHFalseColorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAD71720BFF40056C8C3 /* PHFalseColorFilter.h */; };
+		668EAAF41720BFF40056C8C3 /* PHFalseColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAD81720BFF40056C8C3 /* PHFalseColorFilter.m */; };
+		668EAAF51720BFF40056C8C3 /* PHFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAD91720BFF40056C8C3 /* PHFilter.h */; };
+		668EAAF61720BFF40056C8C3 /* PHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAADA1720BFF40056C8C3 /* PHFilter.m */; };
+		668EAAF71720BFF40056C8C3 /* PHHoleDistortionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAADB1720BFF40056C8C3 /* PHHoleDistortionFilter.h */; };
+		668EAAF81720BFF40056C8C3 /* PHHoleDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAADC1720BFF40056C8C3 /* PHHoleDistortionFilter.m */; };
+		668EAB011720C0090056C8C3 /* PHBox2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAF91720C0090056C8C3 /* PHBox2D.h */; };
+		668EAB021720C0090056C8C3 /* PHBox2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAFA1720C0090056C8C3 /* PHBox2D.mm */; };
+		668EAB031720C0090056C8C3 /* PHDegrader.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAFB1720C0090056C8C3 /* PHDegrader.h */; };
+		668EAB041720C0090056C8C3 /* PHDegrader.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAFC1720C0090056C8C3 /* PHDegrader.m */; };
+		668EAB051720C0090056C8C3 /* PHMote.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAFD1720C0090056C8C3 /* PHMote.h */; };
+		668EAB061720C0090056C8C3 /* PHMote.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAFE1720C0090056C8C3 /* PHMote.m */; };
+		668EAB071720C0090056C8C3 /* PHSpritesheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAFF1720C0090056C8C3 /* PHSpritesheet.h */; };
+		668EAB081720C0090056C8C3 /* PHSpritesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAB001720C0090056C8C3 /* PHSpritesheet.m */; };
+		668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668EA9EE1720BEB10056C8C3 /* libPixelCore.a */; };
+		668EAB0E1720C0770056C8C3 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAB0C1720C0770056C8C3 /* Utilities.h */; };
+		668EAB0F1720C0770056C8C3 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAB0D1720C0770056C8C3 /* Utilities.m */; };
 		66A13E34171D28020092E43D /* spectrumlines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E33171D28020092E43D /* spectrumlines.png */; };
 		66A13E36171D29FC0092E43D /* ripples.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E35171D29FC0092E43D /* ripples.png */; };
 		66A13E38171D2A130092E43D /* lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E37171D2A130092E43D /* lines.png */; };
@@ -194,24 +301,13 @@
 		66A13E58171D2D9C0092E43D /* mirrortop.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E54171D2D9C0092E43D /* mirrortop.png */; };
 		66A13E5A171D2DE60092E43D /* eightfold.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E59171D2DE60092E43D /* eightfold.png */; };
 		66A13E5C171D316D0092E43D /* strobe.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E5B171D316D0092E43D /* strobe.png */; };
-		66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */; };
-		66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E61171DCAEC0092E43D /* PHBloomFilter.m */; };
 		66A13E64171DCC860092E43D /* bloom.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E63171DCC860092E43D /* bloom.png */; };
-		66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */; };
 		66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E68171DCE360092E43D /* bumpdistortion.png */; };
-		66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14DCC16F757220094150E /* PHMtFujiAnimation.m */; };
-		66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0016FBCE950094150E /* PHLinesAnimation.m */; };
 		66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */; };
-		66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */; };
-		66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */; };
 		66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A26D7516892A2E009F7B33 /* PHWaveFormView.m */; };
-		66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */; };
-		66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */; };
 		66A64E911691583600A701BA /* gifs in Resources */ = {isa = PBXBuildFile; fileRef = 66A64E901691583600A701BA /* gifs */; };
-		66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E93169158F400A701BA /* PHGifAnimation.m */; };
 		66A64E9C1691693600A701BA /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E981691693600A701BA /* SCEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		66A64E9D1691693600A701BA /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9B1691693600A701BA /* SCEvents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9F169176E500A701BA /* PHMirrorAnimation.m */; };
 		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
@@ -223,10 +319,6 @@
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
-		66B16FDD16AF69B2003CF908 /* PHRainbowHeartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */; };
-		66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */; };
-		66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */; };
-		66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -237,8 +329,6 @@
 		66BDB2BA16A6AFF700ED7C81 /* sliderbgLxx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */; };
 		66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */; };
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
-		66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */; };
-		66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */; };
 		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
 		66CF637916AD061E0048228F /* PHActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF637816AD061E0048228F /* PHActionsView.m */; };
 		66CF637B16AD09FB0048228F /* pixelheart.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637A16AD09FB0048228F /* pixelheart.png */; };
@@ -255,26 +345,12 @@
 		66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */; };
 		66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */; };
 		66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D855BB171520E5000A861F /* PHCompositeEditorView.m */; };
-		66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */; };
-		66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */; };
-		66DB8C7C17190654004ACAA2 /* PHDotScreenFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7B17190654004ACAA2 /* PHDotScreenFilter.m */; };
-		66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C7E171A70B5004ACAA2 /* PHFilter.m */; };
-		66DB8C82171A75FD004ACAA2 /* PHDrosteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */; };
-		66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */; };
-		66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */; };
-		66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */; };
-		66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */; };
-		66DB8C94171A8637004ACAA2 /* PHFalseColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C93171A8637004ACAA2 /* PHFalseColorFilter.m */; };
 		66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */; };
 		66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C99171A8BE1004ACAA2 /* PHHolesTransition.m */; };
 		66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */; };
 		66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */; };
-		66DB8CA3171B7306004ACAA2 /* PHSpectrumLinesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */; };
 		66DB8CA5171BB4A9004ACAA2 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DB8CA4171BB4A9004ACAA2 /* camera.png */; };
-		66DB8CA8171BB7A2004ACAA2 /* PHAffineTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */; };
 		66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */; };
-		66DB8CAE171BBF2B004ACAA2 /* PHRotatingSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */; };
-		66DB8CB2171BD83D004ACAA2 /* PHLaunchpadDemoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CB1171BD838004ACAA2 /* PHLaunchpadDemoAnimation.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B5A1676FC2F00453E8F /* InfoPlist.strings */; };
 		66DC7B5E1676FC2F00453E8F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B5D1676FC2F00453E8F /* main.m */; };
@@ -286,15 +362,10 @@
 		66DC7B7F1677299300453E8F /* PHDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7E1677299300453E8F /* PHDriver.m */; };
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
 		66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8516773EE000453E8F /* PHUSBNotifier.m */; };
-		66DC7B8916773FC200453E8F /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B8816773FC200453E8F /* Utilities.m */; };
 		66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */; };
 		66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */; };
 		66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7AA1717BE3E00205745 /* PHCollectionView.m */; };
-		66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DF3F9316854C15008E8105 /* PHResetAnimation.m */; };
-		66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
-		66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */; };
-		66F664101685504F001E77BC /* PHSpritesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 66F6640F1685504F001E77BC /* PHSpritesheet.m */; };
 		66FC91E316785FA100C02C59 /* slime.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E216785FA100C02C59 /* slime.qtz */; };
 		66FC91E7167863CB00C02C59 /* fire.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E6167863CB00C02C59 /* fire.qtz */; };
 		66FC91E9167864B200C02C59 /* mouse.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E8167864B200C02C59 /* mouse.qtz */; };
@@ -311,6 +382,13 @@
 			remoteGlobalIDString = 6617FAB1171E8073006E0DF8;
 			remoteInfo = box2d;
 		};
+		668EAB091720C0230056C8C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 66DC7B441676FC2F00453E8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 668EA9ED1720BEB10056C8C3;
+			remoteInfo = PixelCore;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -318,25 +396,9 @@
 		0EEA867216921B24009ACDF3 /* PHOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHOverlay.m; sourceTree = "<group>"; };
 		0EEA867416921C98009ACDF3 /* PHScrollingTextOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScrollingTextOverlay.h; sourceTree = "<group>"; };
 		0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScrollingTextOverlay.m; sourceTree = "<group>"; };
-		1E791A6F1688122E008106F3 /* PHLevelsHorizAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLevelsHorizAnimation.h; sourceTree = "<group>"; };
-		1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLevelsHorizAnimation.m; sourceTree = "<group>"; };
-		1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNyanCatAnimation.m; sourceTree = "<group>"; };
-		1E791A75168820BF008106F3 /* PHNyanCatAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNyanCatAnimation.h; sourceTree = "<group>"; };
-		3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMovingSawAnimation.h; sourceTree = "<group>"; };
-		3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMovingSawAnimation.m; sourceTree = "<group>"; };
 		3A43C268171E6E33006A441E /* umano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = umano.png; path = PixelDriver/resources/umano.png; sourceTree = "<group>"; };
-		3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingRectAnimation.h; sourceTree = "<group>"; };
-		3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingRectAnimation.m; sourceTree = "<group>"; };
-		3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassShooterAnimation.h; sourceTree = "<group>"; };
-		3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassShooterAnimation.m; sourceTree = "<group>"; };
-		528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDaftPixelAnimation.h; sourceTree = "<group>"; };
-		528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDaftPixelAnimation.m; sourceTree = "<group>"; };
 		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
-		660D25981689B20000727312 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotationAnimation.h; sourceTree = "<group>"; };
-		660D25991689B20000727312 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotationAnimation.m; sourceTree = "<group>"; };
-		6617FAA2171E3566006E0DF8 /* PHBox2DAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBox2DAnimation.h; sourceTree = "<group>"; };
-		6617FAA3171E3566006E0DF8 /* PHBox2DAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHBox2DAnimation.mm; sourceTree = "<group>"; };
 		6617FAB2171E8073006E0DF8 /* libbox2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbox2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "box2d-Prefix.pch"; sourceTree = "<group>"; };
 		6617FC3A171E8376006E0DF8 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -430,14 +492,6 @@
 		6617FC98171E8376006E0DF8 /* b2WheelJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2WheelJoint.h; sourceTree = "<group>"; };
 		6617FC9A171E8376006E0DF8 /* b2Rope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2Rope.cpp; sourceTree = "<group>"; };
 		6617FC9B171E8376006E0DF8 /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
-		6617FCF9171F316F006E0DF8 /* PHDancingManAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDancingManAnimation.h; sourceTree = "<group>"; };
-		6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHDancingManAnimation.mm; sourceTree = "<group>"; };
-		6617FCFC171F32DD006E0DF8 /* PHBox2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBox2D.h; sourceTree = "<group>"; };
-		6617FCFD171F32DD006E0DF8 /* PHBox2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHBox2D.mm; sourceTree = "<group>"; };
-		6617FCFF171F34F9006E0DF8 /* PHCornerParticlesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCornerParticlesAnimation.h; sourceTree = "<group>"; };
-		6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHCornerParticlesAnimation.mm; sourceTree = "<group>"; };
-		661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingPlaneAnimation.h; sourceTree = "<group>"; };
-		661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingPlaneAnimation.m; sourceTree = "<group>"; };
 		661CC6B316A72D17007F3900 /* PHSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystem.h; sourceTree = "<group>"; };
 		661CC6B416A72D17007F3900 /* PHSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystem.m; sourceTree = "<group>"; };
 		661CC73316A780DF007F3900 /* PHTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTransition.h; sourceTree = "<group>"; };
@@ -450,13 +504,6 @@
 		661CC73D16A79E5B007F3900 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right.png; path = PixelDriver/resources/right.png; sourceTree = "<group>"; };
 		661CC74016A7A01C007F3900 /* PHAnimationsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationsView.h; sourceTree = "<group>"; };
 		661CC74116A7A01D007F3900 /* PHAnimationsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationsView.m; sourceTree = "<group>"; };
-		661FFFED16B38D0D007CE102 /* PHSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSquaresAnimation.h; sourceTree = "<group>"; };
-		661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSquaresAnimation.m; sourceTree = "<group>"; };
-		661FFFF116B4BD21007CE102 /* PHTronAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTronAnimation.h; sourceTree = "<group>"; };
-		661FFFF216B4BD21007CE102 /* PHTronAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTronAnimation.m; sourceTree = "<group>"; };
-		662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumViewerAnimation.h; sourceTree = "<group>"; };
-		662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumViewerAnimation.m; sourceTree = "<group>"; };
-		662CA84A167FFFE400FC800F /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimation.h; sourceTree = "<group>"; };
 		662CB20B16A676E0008F497B /* pixeldriver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pixeldriver.png; path = PixelDriver/resources/pixeldriver.png; sourceTree = "<group>"; };
 		662CB20D16A67708008F497B /* PHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHeaderView.h; sourceTree = "<group>"; };
 		662CB20E16A67708008F497B /* PHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHeaderView.m; sourceTree = "<group>"; };
@@ -484,16 +531,8 @@
 		6634E1F516A6612300AD86B1 /* PHPixelDriverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelDriverWindow.m; sourceTree = "<group>"; };
 		6634E1FC16A66C6700AD86B1 /* PHContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHContainerView.h; sourceTree = "<group>"; };
 		6634E1FD16A66C6700AD86B1 /* PHContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHContainerView.m; sourceTree = "<group>"; };
-		6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBasicSpectrumAnimation.h; sourceTree = "<group>"; };
-		6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBasicSpectrumAnimation.m; sourceTree = "<group>"; };
-		6637526F16843E3C009A2F22 /* PHDegrader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegrader.h; sourceTree = "<group>"; };
-		6637527016843E3C009A2F22 /* PHDegrader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegrader.m; sourceTree = "<group>"; };
-		66393E67168AC819002BD86F /* PHMote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMote.h; sourceTree = "<group>"; };
-		66393E68168AC819002BD86F /* PHMote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMote.m; sourceTree = "<group>"; };
 		66393E6B168AD63E002BD86F /* PHMoteServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMoteServer.h; sourceTree = "<group>"; };
 		66393E6C168AD63E002BD86F /* PHMoteServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMoteServer.m; sourceTree = "<group>"; };
-		66393E6E168ADB9A002BD86F /* PHSimpleMoteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSimpleMoteAnimation.h; sourceTree = "<group>"; };
-		66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSimpleMoteAnimation.m; sourceTree = "<group>"; };
 		66393E71168AE392002BD86F /* PHMote+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMote+Private.h"; sourceTree = "<group>"; };
 		66393E76168AE46B002BD86F /* PHMoteState+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMoteState+Private.h"; sourceTree = "<group>"; };
 		66393E79168AEFC7002BD86F /* PHTooltipWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTooltipWindow.h; sourceTree = "<group>"; };
@@ -503,44 +542,157 @@
 		663C839F168EC254003B88A1 /* PHProcessingServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingServer.h; sourceTree = "<group>"; };
 		663C83A0168EC254003B88A1 /* PHProcessingServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingServer.m; sourceTree = "<group>"; };
 		663C83A2168ECD84003B88A1 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		663C83A4168EE50E003B88A1 /* PHProcessingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingAnimation.h; sourceTree = "<group>"; };
-		663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingAnimation.m; sourceTree = "<group>"; };
 		663C83A7168EE542003B88A1 /* PHProcessingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHProcessingSource.h; sourceTree = "<group>"; };
 		663C83A8168EE542003B88A1 /* PHProcessingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingSource.m; sourceTree = "<group>"; };
-		663C83AA168F0520003B88A1 /* PHDJAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDJAnimation.h; sourceTree = "<group>"; };
-		663C83AB168F0520003B88A1 /* PHDJAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDJAnimation.m; sourceTree = "<group>"; };
 		6655AB6B16F74DF600B0ADA3 /* PHSystemTick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemTick.h; sourceTree = "<group>"; };
 		6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemTick.m; sourceTree = "<group>"; };
 		6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHSystemTick+Protected.h"; sourceTree = "<group>"; };
 		6655AB6F16F74EA300B0ADA3 /* PHSystem+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHSystem+Protected.h"; sourceTree = "<group>"; };
-		66565258171FACF100030D76 /* PHMotionBlurAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMotionBlurAnimation.h; sourceTree = "<group>"; };
-		66565259171FACF100030D76 /* PHMotionBlurAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMotionBlurAnimation.m; sourceTree = "<group>"; };
 		6656525B171FAFA200030D76 /* motionblur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = motionblur.png; path = PixelDriver/resources/motionblur.png; sourceTree = "<group>"; };
 		6656525D171FB19C00030D76 /* bpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bpm.png; path = PixelDriver/resources/bpm.png; sourceTree = "<group>"; };
 		6656525F171FB21300030D76 /* nobpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nobpm.png; path = PixelDriver/resources/nobpm.png; sourceTree = "<group>"; };
-		66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPikachuEmotingAnimation.h; sourceTree = "<group>"; };
-		66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPikachuEmotingAnimation.m; sourceTree = "<group>"; };
-		665B44AF16FF0E3E009E8D28 /* PHTetrisAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTetrisAnimation.h; sourceTree = "<group>"; };
-		665B44B016FF0E3E009E8D28 /* PHTetrisAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTetrisAnimation.m; sourceTree = "<group>"; };
-		66753A99168486220092EDF0 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFireworksAnimation.h; sourceTree = "<group>"; };
-		66753A9A168486220092EDF0 /* PHFireworksAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFireworksAnimation.m; sourceTree = "<group>"; };
-		66753A9D168499010092EDF0 /* PHFlyingFireballAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlyingFireballAnimation.h; sourceTree = "<group>"; };
-		66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlyingFireballAnimation.m; sourceTree = "<group>"; };
-		668520E9168290B90063A95A /* PHAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHSystemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemState.m; sourceTree = "<group>"; };
-		6693A306168BCF1B00DA2946 /* PHTunnelGameAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTunnelGameAnimation.h; sourceTree = "<group>"; };
-		6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTunnelGameAnimation.m; sourceTree = "<group>"; };
-		6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCountdownAnimation.h; sourceTree = "<group>"; };
-		6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCountdownAnimation.m; sourceTree = "<group>"; };
-		6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRipplesAnimation.h; sourceTree = "<group>"; };
-		6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRipplesAnimation.m; sourceTree = "<group>"; };
-		6693A311168FE0D600DA2946 /* PHSophJoyAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSophJoyAnimation.h; sourceTree = "<group>"; };
-		6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSophJoyAnimation.m; sourceTree = "<group>"; };
-		6693A314168FF0F500DA2946 /* PHCombAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCombAnimation.h; sourceTree = "<group>"; };
-		6693A315168FF0F600DA2946 /* PHCombAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCombAnimation.m; sourceTree = "<group>"; };
-		669666E9170919B0008A389E /* PHHoleDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHoleDistortionFilter.h; sourceTree = "<group>"; };
-		669666EA170919B0008A389E /* PHHoleDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHoleDistortionFilter.m; sourceTree = "<group>"; };
+		668EA9EE1720BEB10056C8C3 /* libPixelCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPixelCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		668EA9F21720BEB20056C8C3 /* PixelCore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PixelCore-Prefix.pch"; sourceTree = "<group>"; };
+		668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHAdventureTimeAnimation.h; path = PixelCore/PHAdventureTimeAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EA9FA1720BFBB0056C8C3 /* PHAdventureTimeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHAdventureTimeAnimation.m; path = PixelCore/PHAdventureTimeAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EA9FB1720BFBB0056C8C3 /* PHAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHAnimation.h; path = PixelCore/PHAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EA9FC1720BFBB0056C8C3 /* PHAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHAnimation.m; path = PixelCore/PHAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EA9FD1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBasicSpectrumAnimation.h; path = PixelCore/PHBasicSpectrumAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EA9FE1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBasicSpectrumAnimation.m; path = PixelCore/PHBasicSpectrumAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EA9FF1720BFBB0056C8C3 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBassPlate.h; path = PixelCore/PHBassPlate.h; sourceTree = SOURCE_ROOT; };
+		668EAA001720BFBB0056C8C3 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBassPlate.m; path = PixelCore/PHBassPlate.m; sourceTree = SOURCE_ROOT; };
+		668EAA011720BFBB0056C8C3 /* PHBassShooterAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBassShooterAnimation.h; path = PixelCore/PHBassShooterAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA021720BFBB0056C8C3 /* PHBassShooterAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBassShooterAnimation.m; path = PixelCore/PHBassShooterAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA031720BFBB0056C8C3 /* PHBox2DAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBox2DAnimation.h; path = PixelCore/PHBox2DAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA041720BFBB0056C8C3 /* PHBox2DAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PHBox2DAnimation.mm; path = PixelCore/PHBox2DAnimation.mm; sourceTree = SOURCE_ROOT; };
+		668EAA051720BFBB0056C8C3 /* PHCombAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHCombAnimation.h; path = PixelCore/PHCombAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA061720BFBB0056C8C3 /* PHCombAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHCombAnimation.m; path = PixelCore/PHCombAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA071720BFBB0056C8C3 /* PHCompositeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHCompositeAnimation.h; path = PixelCore/PHCompositeAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA081720BFBB0056C8C3 /* PHCompositeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHCompositeAnimation.m; path = PixelCore/PHCompositeAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA091720BFBB0056C8C3 /* PHCornerParticlesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHCornerParticlesAnimation.h; path = PixelCore/PHCornerParticlesAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA0A1720BFBB0056C8C3 /* PHCornerParticlesAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PHCornerParticlesAnimation.mm; path = PixelCore/PHCornerParticlesAnimation.mm; sourceTree = SOURCE_ROOT; };
+		668EAA0B1720BFBB0056C8C3 /* PHCountdownAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHCountdownAnimation.h; path = PixelCore/PHCountdownAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA0C1720BFBB0056C8C3 /* PHCountdownAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHCountdownAnimation.m; path = PixelCore/PHCountdownAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA0D1720BFBB0056C8C3 /* PHDaftPixelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDaftPixelAnimation.h; path = PixelCore/PHDaftPixelAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA0E1720BFBB0056C8C3 /* PHDaftPixelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDaftPixelAnimation.m; path = PixelCore/PHDaftPixelAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA0F1720BFBB0056C8C3 /* PHDancingManAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDancingManAnimation.h; path = PixelCore/PHDancingManAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA101720BFBB0056C8C3 /* PHDancingManAnimation.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PHDancingManAnimation.mm; path = PixelCore/PHDancingManAnimation.mm; sourceTree = SOURCE_ROOT; };
+		668EAA111720BFBB0056C8C3 /* PHDJAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDJAnimation.h; path = PixelCore/PHDJAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA121720BFBB0056C8C3 /* PHDJAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDJAnimation.m; path = PixelCore/PHDJAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA131720BFBB0056C8C3 /* PHFireworksAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFireworksAnimation.h; path = PixelCore/PHFireworksAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA141720BFBB0056C8C3 /* PHFireworksAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFireworksAnimation.m; path = PixelCore/PHFireworksAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA151720BFBB0056C8C3 /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFlowerAnimation.h; path = PixelCore/PHFlowerAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA161720BFBB0056C8C3 /* PHFlowerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFlowerAnimation.m; path = PixelCore/PHFlowerAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA171720BFBB0056C8C3 /* PHFlyingFireballAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFlyingFireballAnimation.h; path = PixelCore/PHFlyingFireballAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA181720BFBB0056C8C3 /* PHFlyingFireballAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFlyingFireballAnimation.m; path = PixelCore/PHFlyingFireballAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA191720BFBB0056C8C3 /* PHFlyingRectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFlyingRectAnimation.h; path = PixelCore/PHFlyingRectAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA1A1720BFBB0056C8C3 /* PHFlyingRectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFlyingRectAnimation.m; path = PixelCore/PHFlyingRectAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA1B1720BFBB0056C8C3 /* PHGameOfLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHGameOfLifeAnimation.h; path = PixelCore/PHGameOfLifeAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA1C1720BFBB0056C8C3 /* PHGameOfLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHGameOfLifeAnimation.m; path = PixelCore/PHGameOfLifeAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA1D1720BFBB0056C8C3 /* PHGifAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHGifAnimation.h; path = PixelCore/PHGifAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA1E1720BFBB0056C8C3 /* PHGifAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHGifAnimation.m; path = PixelCore/PHGifAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA1F1720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHLaunchpadDemoAnimation.h; path = PixelCore/PHLaunchpadDemoAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA201720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHLaunchpadDemoAnimation.m; path = PixelCore/PHLaunchpadDemoAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA211720BFBB0056C8C3 /* PHLevelsHorizAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHLevelsHorizAnimation.h; path = PixelCore/PHLevelsHorizAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA221720BFBB0056C8C3 /* PHLevelsHorizAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHLevelsHorizAnimation.m; path = PixelCore/PHLevelsHorizAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA231720BFBB0056C8C3 /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHLinesAnimation.h; path = PixelCore/PHLinesAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA241720BFBB0056C8C3 /* PHLinesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHLinesAnimation.m; path = PixelCore/PHLinesAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA251720BFBB0056C8C3 /* PHMegamanAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMegamanAnimation.h; path = PixelCore/PHMegamanAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA261720BFBB0056C8C3 /* PHMegamanAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMegamanAnimation.m; path = PixelCore/PHMegamanAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA271720BFBB0056C8C3 /* PHMovingSawAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMovingSawAnimation.h; path = PixelCore/PHMovingSawAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA281720BFBB0056C8C3 /* PHMovingSawAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMovingSawAnimation.m; path = PixelCore/PHMovingSawAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA291720BFBB0056C8C3 /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMtFujiAnimation.h; path = PixelCore/PHMtFujiAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA2A1720BFBB0056C8C3 /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMtFujiAnimation.m; path = PixelCore/PHMtFujiAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA2B1720BFBB0056C8C3 /* PHNyanCatAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHNyanCatAnimation.h; path = PixelCore/PHNyanCatAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA2C1720BFBB0056C8C3 /* PHNyanCatAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHNyanCatAnimation.m; path = PixelCore/PHNyanCatAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA2D1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPikachuEmotingAnimation.h; path = PixelCore/PHPikachuEmotingAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA2E1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPikachuEmotingAnimation.m; path = PixelCore/PHPikachuEmotingAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA2F1720BFBB0056C8C3 /* PHPixelHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPixelHeartAnimation.h; path = PixelCore/PHPixelHeartAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA301720BFBB0056C8C3 /* PHPixelHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelHeartAnimation.m; path = PixelCore/PHPixelHeartAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA311720BFBB0056C8C3 /* PHPixelLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPixelLifeAnimation.h; path = PixelCore/PHPixelLifeAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA321720BFBB0056C8C3 /* PHPixelLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelLifeAnimation.m; path = PixelCore/PHPixelLifeAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA331720BFBB0056C8C3 /* PHPixelRainAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPixelRainAnimation.h; path = PixelCore/PHPixelRainAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA341720BFBB0056C8C3 /* PHPixelRainAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelRainAnimation.m; path = PixelCore/PHPixelRainAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA351720BFBB0056C8C3 /* PHProcessingAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHProcessingAnimation.h; path = PixelCore/PHProcessingAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA361720BFBB0056C8C3 /* PHProcessingAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHProcessingAnimation.m; path = PixelCore/PHProcessingAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA371720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPsychadelicBackgroundAnimation.h; path = PixelCore/PHPsychadelicBackgroundAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA381720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPsychadelicBackgroundAnimation.m; path = PixelCore/PHPsychadelicBackgroundAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA391720BFBB0056C8C3 /* PHRainbowHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRainbowHeartAnimation.h; path = PixelCore/PHRainbowHeartAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA3A1720BFBB0056C8C3 /* PHRainbowHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRainbowHeartAnimation.m; path = PixelCore/PHRainbowHeartAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA3B1720BFBB0056C8C3 /* PHRipplesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRipplesAnimation.h; path = PixelCore/PHRipplesAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA3C1720BFBB0056C8C3 /* PHRipplesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRipplesAnimation.m; path = PixelCore/PHRipplesAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA3D1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRotatingPlaneAnimation.h; path = PixelCore/PHRotatingPlaneAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA3E1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRotatingPlaneAnimation.m; path = PixelCore/PHRotatingPlaneAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA3F1720BFBB0056C8C3 /* PHRotatingSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRotatingSquaresAnimation.h; path = PixelCore/PHRotatingSquaresAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA401720BFBB0056C8C3 /* PHRotatingSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRotatingSquaresAnimation.m; path = PixelCore/PHRotatingSquaresAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA411720BFBB0056C8C3 /* PHSimpleMoteAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSimpleMoteAnimation.h; path = PixelCore/PHSimpleMoteAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA421720BFBB0056C8C3 /* PHSimpleMoteAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSimpleMoteAnimation.m; path = PixelCore/PHSimpleMoteAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA431720BFBB0056C8C3 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSineWaveAnimation.h; path = PixelCore/PHSineWaveAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA441720BFBB0056C8C3 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSineWaveAnimation.m; path = PixelCore/PHSineWaveAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA451720BFBB0056C8C3 /* PHSophJoyAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSophJoyAnimation.h; path = PixelCore/PHSophJoyAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA461720BFBB0056C8C3 /* PHSophJoyAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSophJoyAnimation.m; path = PixelCore/PHSophJoyAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA471720BFBB0056C8C3 /* PHSpectrumLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSpectrumLinesAnimation.h; path = PixelCore/PHSpectrumLinesAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA481720BFBB0056C8C3 /* PHSpectrumLinesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSpectrumLinesAnimation.m; path = PixelCore/PHSpectrumLinesAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA491720BFBB0056C8C3 /* PHSpectrumViewerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSpectrumViewerAnimation.h; path = PixelCore/PHSpectrumViewerAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA4A1720BFBB0056C8C3 /* PHSpectrumViewerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSpectrumViewerAnimation.m; path = PixelCore/PHSpectrumViewerAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA4B1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSpiralingSquareAnimation.h; path = PixelCore/PHSpiralingSquareAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA4C1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSpiralingSquareAnimation.m; path = PixelCore/PHSpiralingSquareAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA4D1720BFBB0056C8C3 /* PHSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSquaresAnimation.h; path = PixelCore/PHSquaresAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA4E1720BFBB0056C8C3 /* PHSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSquaresAnimation.m; path = PixelCore/PHSquaresAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA4F1720BFBB0056C8C3 /* PHTetrisAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHTetrisAnimation.h; path = PixelCore/PHTetrisAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA501720BFBB0056C8C3 /* PHTetrisAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHTetrisAnimation.m; path = PixelCore/PHTetrisAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA511720BFBB0056C8C3 /* PHTronAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHTronAnimation.h; path = PixelCore/PHTronAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA521720BFBB0056C8C3 /* PHTronAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHTronAnimation.m; path = PixelCore/PHTronAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAA531720BFBB0056C8C3 /* PHTunnelGameAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHTunnelGameAnimation.h; path = PixelCore/PHTunnelGameAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAA541720BFBB0056C8C3 /* PHTunnelGameAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHTunnelGameAnimation.m; path = PixelCore/PHTunnelGameAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAAB11720BFD40056C8C3 /* PHMirrorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMirrorAnimation.h; path = PixelCore/PHMirrorAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAAB21720BFD40056C8C3 /* PHMirrorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMirrorAnimation.m; path = PixelCore/PHMirrorAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAAB31720BFD40056C8C3 /* PHMotionBlurAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMotionBlurAnimation.h; path = PixelCore/PHMotionBlurAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAAB41720BFD40056C8C3 /* PHMotionBlurAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMotionBlurAnimation.m; path = PixelCore/PHMotionBlurAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAAB51720BFD40056C8C3 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHResetAnimation.h; path = PixelCore/PHResetAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAAB61720BFD40056C8C3 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHResetAnimation.m; path = PixelCore/PHResetAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAAB71720BFD40056C8C3 /* PHRotationAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRotationAnimation.h; path = PixelCore/PHRotationAnimation.h; sourceTree = SOURCE_ROOT; };
+		668EAAB81720BFD40056C8C3 /* PHRotationAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRotationAnimation.m; path = PixelCore/PHRotationAnimation.m; sourceTree = SOURCE_ROOT; };
+		668EAAC11720BFF40056C8C3 /* PHAffineTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHAffineTileFilter.h; path = PixelCore/PHAffineTileFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAC21720BFF40056C8C3 /* PHAffineTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHAffineTileFilter.m; path = PixelCore/PHAffineTileFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAC31720BFF40056C8C3 /* PHBloomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBloomFilter.h; path = PixelCore/PHBloomFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAC41720BFF40056C8C3 /* PHBloomFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBloomFilter.m; path = PixelCore/PHBloomFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAC51720BFF40056C8C3 /* PHBoxBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBoxBlurFilter.h; path = PixelCore/PHBoxBlurFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAC61720BFF40056C8C3 /* PHBoxBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBoxBlurFilter.m; path = PixelCore/PHBoxBlurFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAC71720BFF40056C8C3 /* PHBumpDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBumpDistortionFilter.h; path = PixelCore/PHBumpDistortionFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHBumpDistortionFilter.m; path = PixelCore/PHBumpDistortionFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDiscBlurFilter.h; path = PixelCore/PHDiscBlurFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDiscBlurFilter.m; path = PixelCore/PHDiscBlurFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDotScreenFilter.h; path = PixelCore/PHDotScreenFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAACC1720BFF40056C8C3 /* PHDotScreenFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDotScreenFilter.m; path = PixelCore/PHDotScreenFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAACD1720BFF40056C8C3 /* PHDrosteFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDrosteFilter.h; path = PixelCore/PHDrosteFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAACE1720BFF40056C8C3 /* PHDrosteFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDrosteFilter.m; path = PixelCore/PHDrosteFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAACF1720BFF40056C8C3 /* PHEdgesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHEdgesFilter.h; path = PixelCore/PHEdgesFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAD01720BFF40056C8C3 /* PHEdgesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHEdgesFilter.m; path = PixelCore/PHEdgesFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAD11720BFF40056C8C3 /* PHEdgeWorkFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHEdgeWorkFilter.h; path = PixelCore/PHEdgeWorkFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAD21720BFF40056C8C3 /* PHEdgeWorkFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHEdgeWorkFilter.m; path = PixelCore/PHEdgeWorkFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAD31720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHEightfoldReflectedTileFilter.h; path = PixelCore/PHEightfoldReflectedTileFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAD41720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHEightfoldReflectedTileFilter.m; path = PixelCore/PHEightfoldReflectedTileFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAD51720BFF40056C8C3 /* PHExposureAdjustFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHExposureAdjustFilter.h; path = PixelCore/PHExposureAdjustFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAD61720BFF40056C8C3 /* PHExposureAdjustFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHExposureAdjustFilter.m; path = PixelCore/PHExposureAdjustFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAD71720BFF40056C8C3 /* PHFalseColorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFalseColorFilter.h; path = PixelCore/PHFalseColorFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAAD81720BFF40056C8C3 /* PHFalseColorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFalseColorFilter.m; path = PixelCore/PHFalseColorFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAD91720BFF40056C8C3 /* PHFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFilter.h; path = PixelCore/PHFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAADA1720BFF40056C8C3 /* PHFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFilter.m; path = PixelCore/PHFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAADB1720BFF40056C8C3 /* PHHoleDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHHoleDistortionFilter.h; path = PixelCore/PHHoleDistortionFilter.h; sourceTree = SOURCE_ROOT; };
+		668EAADC1720BFF40056C8C3 /* PHHoleDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHHoleDistortionFilter.m; path = PixelCore/PHHoleDistortionFilter.m; sourceTree = SOURCE_ROOT; };
+		668EAAF91720C0090056C8C3 /* PHBox2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHBox2D.h; path = PixelCore/PHBox2D.h; sourceTree = SOURCE_ROOT; };
+		668EAAFA1720C0090056C8C3 /* PHBox2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PHBox2D.mm; path = PixelCore/PHBox2D.mm; sourceTree = SOURCE_ROOT; };
+		668EAAFB1720C0090056C8C3 /* PHDegrader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDegrader.h; path = PixelCore/PHDegrader.h; sourceTree = SOURCE_ROOT; };
+		668EAAFC1720C0090056C8C3 /* PHDegrader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDegrader.m; path = PixelCore/PHDegrader.m; sourceTree = SOURCE_ROOT; };
+		668EAAFD1720C0090056C8C3 /* PHMote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMote.h; path = PixelCore/PHMote.h; sourceTree = SOURCE_ROOT; };
+		668EAAFE1720C0090056C8C3 /* PHMote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMote.m; path = PixelCore/PHMote.m; sourceTree = SOURCE_ROOT; };
+		668EAAFF1720C0090056C8C3 /* PHSpritesheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHSpritesheet.h; path = PixelCore/PHSpritesheet.h; sourceTree = SOURCE_ROOT; };
+		668EAB001720C0090056C8C3 /* PHSpritesheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSpritesheet.m; path = PixelCore/PHSpritesheet.m; sourceTree = SOURCE_ROOT; };
+		668EAB0C1720C0770056C8C3 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		668EAB0D1720C0770056C8C3 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		66A13E33171D28020092E43D /* spectrumlines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spectrumlines.png; path = PixelDriver/resources/spectrumlines.png; sourceTree = "<group>"; };
 		66A13E35171D29FC0092E43D /* ripples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ripples.png; path = PixelDriver/resources/ripples.png; sourceTree = "<group>"; };
 		66A13E37171D2A130092E43D /* lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lines.png; path = PixelDriver/resources/lines.png; sourceTree = "<group>"; };
@@ -561,41 +713,19 @@
 		66A13E54171D2D9C0092E43D /* mirrortop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mirrortop.png; path = PixelDriver/resources/mirrortop.png; sourceTree = "<group>"; };
 		66A13E59171D2DE60092E43D /* eightfold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eightfold.png; path = PixelDriver/resources/eightfold.png; sourceTree = "<group>"; };
 		66A13E5B171D316D0092E43D /* strobe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = strobe.png; path = PixelDriver/resources/strobe.png; sourceTree = "<group>"; };
-		66A13E5D171D34230092E43D /* PHPixelLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelLifeAnimation.h; sourceTree = "<group>"; };
-		66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelLifeAnimation.m; sourceTree = "<group>"; };
-		66A13E60171DCAEB0092E43D /* PHBloomFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBloomFilter.h; sourceTree = "<group>"; };
-		66A13E61171DCAEC0092E43D /* PHBloomFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBloomFilter.m; sourceTree = "<group>"; };
 		66A13E63171DCC860092E43D /* bloom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bloom.png; path = PixelDriver/resources/bloom.png; sourceTree = "<group>"; };
-		66A13E65171DCCC30092E43D /* PHBumpDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBumpDistortionFilter.h; sourceTree = "<group>"; };
-		66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBumpDistortionFilter.m; sourceTree = "<group>"; };
 		66A13E68171DCE360092E43D /* bumpdistortion.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bumpdistortion.png; path = PixelDriver/resources/bumpdistortion.png; sourceTree = "<group>"; };
-		66A14DCB16F757220094150E /* PHMtFujiAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMtFujiAnimation.h; sourceTree = "<group>"; };
-		66A14DCC16F757220094150E /* PHMtFujiAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMtFujiAnimation.m; sourceTree = "<group>"; };
-		66A14DFF16FBCE930094150E /* PHLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLinesAnimation.h; sourceTree = "<group>"; };
-		66A14E0016FBCE950094150E /* PHLinesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLinesAnimation.m; sourceTree = "<group>"; };
 		66A14E0216FBDB340094150E /* PHMidCrossFadeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMidCrossFadeTransition.h; sourceTree = "<group>"; };
 		66A14E0316FBDB340094150E /* PHMidCrossFadeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMidCrossFadeTransition.m; sourceTree = "<group>"; };
-		66A26D52168847EC009F7B33 /* PHPixelHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelHeartAnimation.h; sourceTree = "<group>"; };
-		66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelHeartAnimation.m; sourceTree = "<group>"; };
-		66A26D701689190A009F7B33 /* PHGameOfLifeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGameOfLifeAnimation.h; sourceTree = "<group>"; };
-		66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGameOfLifeAnimation.m; sourceTree = "<group>"; };
 		66A26D7416892A2E009F7B33 /* PHWaveFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHWaveFormView.h; sourceTree = "<group>"; };
 		66A26D7516892A2E009F7B33 /* PHWaveFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHWaveFormView.m; sourceTree = "<group>"; };
-		66A64E8A1691437100A701BA /* PHAdventureTimeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAdventureTimeAnimation.h; sourceTree = "<group>"; };
-		66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAdventureTimeAnimation.m; sourceTree = "<group>"; };
-		66A64E8D1691441600A701BA /* PHPixelRainAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPixelRainAnimation.h; sourceTree = "<group>"; };
-		66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPixelRainAnimation.m; sourceTree = "<group>"; };
 		66A64E901691583600A701BA /* gifs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = gifs; sourceTree = "<group>"; };
-		66A64E92169158F400A701BA /* PHGifAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHGifAnimation.h; sourceTree = "<group>"; };
-		66A64E93169158F400A701BA /* PHGifAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHGifAnimation.m; sourceTree = "<group>"; };
 		66A64E961691693600A701BA /* SCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCConstants.h; sourceTree = "<group>"; };
 		66A64E971691693600A701BA /* SCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvent.h; sourceTree = "<group>"; };
 		66A64E981691693600A701BA /* SCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvent.m; sourceTree = "<group>"; };
 		66A64E991691693600A701BA /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
 		66A64E9A1691693600A701BA /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
 		66A64E9B1691693600A701BA /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
-		66A64E9E169176E400A701BA /* PHMirrorAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMirrorAnimation.h; sourceTree = "<group>"; };
-		66A64E9F169176E500A701BA /* PHMirrorAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMirrorAnimation.m; sourceTree = "<group>"; };
 		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
 		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
 		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
@@ -624,14 +754,6 @@
 		66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHShutterTransition.m; sourceTree = "<group>"; };
 		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
 		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
-		66B16FDB16AF69B2003CF908 /* PHRainbowHeartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRainbowHeartAnimation.h; sourceTree = "<group>"; };
-		66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRainbowHeartAnimation.m; sourceTree = "<group>"; };
-		66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSineWaveAnimation.h; sourceTree = "<group>"; };
-		66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSineWaveAnimation.m; sourceTree = "<group>"; };
-		66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPsychadelicBackgroundAnimation.h; sourceTree = "<group>"; };
-		66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPsychadelicBackgroundAnimation.m; sourceTree = "<group>"; };
-		66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCompositeAnimation.h; sourceTree = "<group>"; };
-		66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCompositeAnimation.m; sourceTree = "<group>"; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -645,10 +767,6 @@
 		66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgLxx.png; path = PixelDriver/resources/sliderbgLxx.png; sourceTree = "<group>"; };
 		66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxMx.png; path = PixelDriver/resources/sliderbgxMx.png; sourceTree = "<group>"; };
 		66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxxR.png; path = PixelDriver/resources/sliderbgxxR.png; sourceTree = "<group>"; };
-		66C62B81170680830061C424 /* PHSpiralingSquareAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpiralingSquareAnimation.h; sourceTree = "<group>"; };
-		66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpiralingSquareAnimation.m; sourceTree = "<group>"; };
-		66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBassPlate.h; sourceTree = "<group>"; };
-		66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBassPlate.m; sourceTree = "<group>"; };
 		66CF636816ACD4E80048228F /* PHDegraderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegraderView.h; sourceTree = "<group>"; };
 		66CF636916ACD4E80048228F /* PHDegraderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegraderView.m; sourceTree = "<group>"; };
 		66CF637716AD061E0048228F /* PHActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHActionsView.h; sourceTree = "<group>"; };
@@ -679,26 +797,6 @@
 		66D855BA171520E5000A861F /* PHCompositeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCompositeEditorView.h; sourceTree = "<group>"; };
 		66D855BB171520E5000A861F /* PHCompositeEditorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCompositeEditorView.m; sourceTree = "<group>"; };
 		66D855BD171524EE000A861F /* PHViewMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHViewMode.h; sourceTree = "<group>"; };
-		66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBoxBlurFilter.h; sourceTree = "<group>"; };
-		66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBoxBlurFilter.m; sourceTree = "<group>"; };
-		66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDiscBlurFilter.h; sourceTree = "<group>"; };
-		66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDiscBlurFilter.m; sourceTree = "<group>"; };
-		66DB8C7A17190654004ACAA2 /* PHDotScreenFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDotScreenFilter.h; sourceTree = "<group>"; };
-		66DB8C7B17190654004ACAA2 /* PHDotScreenFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDotScreenFilter.m; sourceTree = "<group>"; };
-		66DB8C7D171A70B5004ACAA2 /* PHFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFilter.h; sourceTree = "<group>"; };
-		66DB8C7E171A70B5004ACAA2 /* PHFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFilter.m; sourceTree = "<group>"; };
-		66DB8C80171A75FD004ACAA2 /* PHDrosteFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDrosteFilter.h; sourceTree = "<group>"; };
-		66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDrosteFilter.m; sourceTree = "<group>"; };
-		66DB8C83171A7E91004ACAA2 /* PHEdgesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEdgesFilter.h; sourceTree = "<group>"; };
-		66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEdgesFilter.m; sourceTree = "<group>"; };
-		66DB8C86171A8077004ACAA2 /* PHEdgeWorkFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEdgeWorkFilter.h; sourceTree = "<group>"; };
-		66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEdgeWorkFilter.m; sourceTree = "<group>"; };
-		66DB8C89171A817D004ACAA2 /* PHEightfoldReflectedTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHEightfoldReflectedTileFilter.h; sourceTree = "<group>"; };
-		66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHEightfoldReflectedTileFilter.m; sourceTree = "<group>"; };
-		66DB8C8F171A8509004ACAA2 /* PHExposureAdjustFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHExposureAdjustFilter.h; sourceTree = "<group>"; };
-		66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHExposureAdjustFilter.m; sourceTree = "<group>"; };
-		66DB8C92171A8636004ACAA2 /* PHFalseColorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFalseColorFilter.h; sourceTree = "<group>"; };
-		66DB8C93171A8637004ACAA2 /* PHFalseColorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFalseColorFilter.m; sourceTree = "<group>"; };
 		66DB8C95171A87F4004ACAA2 /* PHFlashTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlashTransition.h; sourceTree = "<group>"; };
 		66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlashTransition.m; sourceTree = "<group>"; };
 		66DB8C98171A8BE1004ACAA2 /* PHHolesTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHolesTransition.h; sourceTree = "<group>"; };
@@ -707,18 +805,10 @@
 		66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTick.m; sourceTree = "<group>"; };
 		66DB8C9E171B5482004ACAA2 /* PHHardwareState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHardwareState.h; sourceTree = "<group>"; };
 		66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHardwareState.m; sourceTree = "<group>"; };
-		66DB8CA1171B7301004ACAA2 /* PHSpectrumLinesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumLinesAnimation.h; sourceTree = "<group>"; };
-		66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpectrumLinesAnimation.m; sourceTree = "<group>"; };
 		66DB8CA4171BB4A9004ACAA2 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = PixelDriver/resources/camera.png; sourceTree = "<group>"; };
-		66DB8CA6171BB7A0004ACAA2 /* PHAffineTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAffineTileFilter.h; sourceTree = "<group>"; };
-		66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAffineTileFilter.m; sourceTree = "<group>"; };
 		66DB8CA9171BBB84004ACAA2 /* PHBarsSwipeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBarsSwipeTransition.h; sourceTree = "<group>"; };
 		66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBarsSwipeTransition.m; sourceTree = "<group>"; };
-		66DB8CAC171BBF21004ACAA2 /* PHRotatingSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHRotatingSquaresAnimation.h; sourceTree = "<group>"; };
-		66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHRotatingSquaresAnimation.m; sourceTree = "<group>"; };
 		66DB8CAF171BD2C6004ACAA2 /* PHHardwareState+System.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHHardwareState+System.h"; sourceTree = "<group>"; };
-		66DB8CB0171BD834004ACAA2 /* PHLaunchpadDemoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLaunchpadDemoAnimation.h; sourceTree = "<group>"; };
-		66DB8CB1171BD838004ACAA2 /* PHLaunchpadDemoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLaunchpadDemoAnimation.m; sourceTree = "<group>"; };
 		66DC7B4D1676FC2F00453E8F /* PixelDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PixelDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DC7B511676FC2F00453E8F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		66DC7B541676FC2F00453E8F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -743,23 +833,13 @@
 		66DC7B8216773BE200453E8F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		66DC7B8416773EE000453E8F /* PHUSBNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHUSBNotifier.h; sourceTree = "<group>"; };
 		66DC7B8516773EE000453E8F /* PHUSBNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHUSBNotifier.m; sourceTree = "<group>"; };
-		66DC7B8716773FC200453E8F /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
-		66DC7B8816773FC200453E8F /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		66DCB7A01717ADDD00205745 /* PHAnimationTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTileView.h; sourceTree = "<group>"; };
 		66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTileView.m; sourceTree = "<group>"; };
 		66DCB7A61717BE0C00205745 /* PHAnimationTileViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTileViewItem.h; sourceTree = "<group>"; };
 		66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTileViewItem.m; sourceTree = "<group>"; };
 		66DCB7A91717BE3E00205745 /* PHCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCollectionView.h; sourceTree = "<group>"; };
 		66DCB7AA1717BE3E00205745 /* PHCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCollectionView.m; sourceTree = "<group>"; };
-		66DF3F9216854C15008E8105 /* PHResetAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHResetAnimation.h; sourceTree = "<group>"; };
-		66DF3F9316854C15008E8105 /* PHResetAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHResetAnimation.m; sourceTree = "<group>"; };
-		66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowerAnimation.h; sourceTree = "<group>"; };
-		66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlowerAnimation.m; sourceTree = "<group>"; };
 		66F6640716854FA3001E77BC /* spritesheets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spritesheets; sourceTree = "<group>"; };
-		66F6640A16854FF8001E77BC /* PHMegamanAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMegamanAnimation.h; sourceTree = "<group>"; };
-		66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMegamanAnimation.m; sourceTree = "<group>"; };
-		66F6640E1685504F001E77BC /* PHSpritesheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpritesheet.h; sourceTree = "<group>"; };
-		66F6640F1685504F001E77BC /* PHSpritesheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSpritesheet.m; sourceTree = "<group>"; };
 		66FC91E216785FA100C02C59 /* slime.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = slime.qtz; path = QuartzCompositions/slime.qtz; sourceTree = SOURCE_ROOT; };
 		66FC91E6167863CB00C02C59 /* fire.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = fire.qtz; path = QuartzCompositions/fire.qtz; sourceTree = SOURCE_ROOT; };
 		66FC91E8167864B200C02C59 /* mouse.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = mouse.qtz; path = QuartzCompositions/mouse.qtz; sourceTree = SOURCE_ROOT; };
@@ -777,6 +857,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		668EA9EB1720BEB10056C8C3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				668EA9EF1720BEB20056C8C3 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		66DC7B4A1676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -786,6 +874,7 @@
 				662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */,
 				66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */,
 				6617FCF7171E8503006E0DF8 /* libbox2d.a in Frameworks */,
+				668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
 				66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */,
 			);
@@ -808,18 +897,11 @@
 		6617FAB4171E8073006E0DF8 /* box2d */ = {
 			isa = PBXGroup;
 			children = (
-				6617FC39171E8376006E0DF8 /* Box2D */,
-				6617FAB5171E8073006E0DF8 /* Supporting Files */,
-			);
-			path = box2d;
-			sourceTree = "<group>";
-		};
-		6617FAB5171E8073006E0DF8 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
 				6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */,
+				6617FC39171E8376006E0DF8 /* Box2D */,
 			);
-			name = "Supporting Files";
+			name = box2d;
+			path = ../box2d;
 			sourceTree = "<group>";
 		};
 		6617FC39171E8376006E0DF8 /* Box2D */ = {
@@ -1020,6 +1102,7 @@
 				66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */,
 			);
 			name = Transitions;
+			path = ../PixelDriver;
 			sourceTree = "<group>";
 		};
 		662CA845167FFF7800FC800F /* Animations */ = {
@@ -1028,100 +1111,101 @@
 				66F6640D16855005001E77BC /* Tools */,
 				669666E81709198D008A389E /* Filters */,
 				66A601D0171542A9005523C2 /* Pipes */,
-				662CA84A167FFFE400FC800F /* PHAnimation.h */,
-				668520E9168290B90063A95A /* PHAnimation.m */,
-				66BCF73116880B3500D2DF06 /* PHCompositeAnimation.h */,
-				66BCF73216880B3500D2DF06 /* PHCompositeAnimation.m */,
-				663C83A4168EE50E003B88A1 /* PHProcessingAnimation.h */,
-				663C83A5168EE50F003B88A1 /* PHProcessingAnimation.m */,
-				6637526C16843E15009A2F22 /* PHBasicSpectrumAnimation.h */,
-				6637526D16843E15009A2F22 /* PHBasicSpectrumAnimation.m */,
-				662CA847167FFFC800FC800F /* PHSpectrumViewerAnimation.h */,
-				662CA848167FFFC800FC800F /* PHSpectrumViewerAnimation.m */,
-				66CD3AC71682C0AB00C798E7 /* PHBassPlate.h */,
-				66CD3AC81682C0AB00C798E7 /* PHBassPlate.m */,
-				66753A99168486220092EDF0 /* PHFireworksAnimation.h */,
-				66753A9A168486220092EDF0 /* PHFireworksAnimation.m */,
-				66753A9D168499010092EDF0 /* PHFlyingFireballAnimation.h */,
-				66753A9E168499010092EDF0 /* PHFlyingFireballAnimation.m */,
-				66F6640A16854FF8001E77BC /* PHMegamanAnimation.h */,
-				66F6640B16854FF8001E77BC /* PHMegamanAnimation.m */,
-				66593C0E16859451003449FE /* PHPikachuEmotingAnimation.h */,
-				66593C0F16859451003449FE /* PHPikachuEmotingAnimation.m */,
-				66BCF6FF1686CB4500D2DF06 /* PHSineWaveAnimation.h */,
-				66BCF7001686CB4500D2DF06 /* PHSineWaveAnimation.m */,
-				66BCF7021686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.h */,
-				66BCF7031686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m */,
-				1E791A6F1688122E008106F3 /* PHLevelsHorizAnimation.h */,
-				1E791A711688123B008106F3 /* PHLevelsHorizAnimation.m */,
-				3A9AF24C1688369300C960E3 /* PHFlyingRectAnimation.h */,
-				3A9AF24D1688369300C960E3 /* PHFlyingRectAnimation.m */,
-				1E791A75168820BF008106F3 /* PHNyanCatAnimation.h */,
-				1E791A73168820AA008106F3 /* PHNyanCatAnimation.m */,
-				66A26D52168847EC009F7B33 /* PHPixelHeartAnimation.h */,
-				66A26D53168847EC009F7B33 /* PHPixelHeartAnimation.m */,
-				66A26D701689190A009F7B33 /* PHGameOfLifeAnimation.h */,
-				66A26D711689190A009F7B33 /* PHGameOfLifeAnimation.m */,
-				66393E6E168ADB9A002BD86F /* PHSimpleMoteAnimation.h */,
-				66393E6F168ADB9A002BD86F /* PHSimpleMoteAnimation.m */,
-				6693A306168BCF1B00DA2946 /* PHTunnelGameAnimation.h */,
-				6693A307168BCF1B00DA2946 /* PHTunnelGameAnimation.m */,
-				6693A309168C0EC900DA2946 /* PHCountdownAnimation.h */,
-				6693A30A168C0ECA00DA2946 /* PHCountdownAnimation.m */,
-				6693A30E168C264B00DA2946 /* PHRipplesAnimation.h */,
-				6693A30F168C264C00DA2946 /* PHRipplesAnimation.m */,
-				663C83AA168F0520003B88A1 /* PHDJAnimation.h */,
-				663C83AB168F0520003B88A1 /* PHDJAnimation.m */,
-				6693A311168FE0D600DA2946 /* PHSophJoyAnimation.h */,
-				6693A312168FE0D700DA2946 /* PHSophJoyAnimation.m */,
-				6693A314168FF0F500DA2946 /* PHCombAnimation.h */,
-				6693A315168FF0F600DA2946 /* PHCombAnimation.m */,
-				66A64E8A1691437100A701BA /* PHAdventureTimeAnimation.h */,
-				66A64E8B1691437100A701BA /* PHAdventureTimeAnimation.m */,
-				66A64E8D1691441600A701BA /* PHPixelRainAnimation.h */,
-				66A64E8E1691441600A701BA /* PHPixelRainAnimation.m */,
-				3A30C11A16916AD40068D3B4 /* PHMovingSawAnimation.h */,
-				3A30C11B16916AD40068D3B4 /* PHMovingSawAnimation.m */,
-				66A64E92169158F400A701BA /* PHGifAnimation.h */,
-				66A64E93169158F400A701BA /* PHGifAnimation.m */,
-				3AAC8C0216917F0100BC9E4B /* PHBassShooterAnimation.h */,
-				3AAC8C0316917F0100BC9E4B /* PHBassShooterAnimation.m */,
-				66F1D8C6169200D000A9E39B /* PHFlowerAnimation.h */,
-				66F1D8C7169200D000A9E39B /* PHFlowerAnimation.m */,
-				528E6FE91692230B0041976D /* PHDaftPixelAnimation.h */,
-				528E6FEA1692230B0041976D /* PHDaftPixelAnimation.m */,
-				661C6BE9169CF711006C6D9F /* PHRotatingPlaneAnimation.h */,
-				661C6BEA169CF711006C6D9F /* PHRotatingPlaneAnimation.m */,
-				66B16FDB16AF69B2003CF908 /* PHRainbowHeartAnimation.h */,
-				66B16FDC16AF69B2003CF908 /* PHRainbowHeartAnimation.m */,
-				661FFFED16B38D0D007CE102 /* PHSquaresAnimation.h */,
-				661FFFEE16B38D0D007CE102 /* PHSquaresAnimation.m */,
-				66A14DCB16F757220094150E /* PHMtFujiAnimation.h */,
-				66A14DCC16F757220094150E /* PHMtFujiAnimation.m */,
-				66A14DFF16FBCE930094150E /* PHLinesAnimation.h */,
-				66A14E0016FBCE950094150E /* PHLinesAnimation.m */,
-				665B44AF16FF0E3E009E8D28 /* PHTetrisAnimation.h */,
-				665B44B016FF0E3E009E8D28 /* PHTetrisAnimation.m */,
-				66C62B81170680830061C424 /* PHSpiralingSquareAnimation.h */,
-				66C62B82170680830061C424 /* PHSpiralingSquareAnimation.m */,
-				661FFFF116B4BD21007CE102 /* PHTronAnimation.h */,
-				661FFFF216B4BD21007CE102 /* PHTronAnimation.m */,
-				66DB8CA1171B7301004ACAA2 /* PHSpectrumLinesAnimation.h */,
-				66DB8CA2171B7303004ACAA2 /* PHSpectrumLinesAnimation.m */,
-				66DB8CAC171BBF21004ACAA2 /* PHRotatingSquaresAnimation.h */,
-				66DB8CAD171BBF25004ACAA2 /* PHRotatingSquaresAnimation.m */,
-				66DB8CB0171BD834004ACAA2 /* PHLaunchpadDemoAnimation.h */,
-				66DB8CB1171BD838004ACAA2 /* PHLaunchpadDemoAnimation.m */,
-				66A13E5D171D34230092E43D /* PHPixelLifeAnimation.h */,
-				66A13E5E171D34240092E43D /* PHPixelLifeAnimation.m */,
-				6617FAA2171E3566006E0DF8 /* PHBox2DAnimation.h */,
-				6617FAA3171E3566006E0DF8 /* PHBox2DAnimation.mm */,
-				6617FCF9171F316F006E0DF8 /* PHDancingManAnimation.h */,
-				6617FCFA171F316F006E0DF8 /* PHDancingManAnimation.mm */,
-				6617FCFF171F34F9006E0DF8 /* PHCornerParticlesAnimation.h */,
-				6617FD00171F34FA006E0DF8 /* PHCornerParticlesAnimation.mm */,
+				668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */,
+				668EA9FA1720BFBB0056C8C3 /* PHAdventureTimeAnimation.m */,
+				668EA9FB1720BFBB0056C8C3 /* PHAnimation.h */,
+				668EA9FC1720BFBB0056C8C3 /* PHAnimation.m */,
+				668EA9FD1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.h */,
+				668EA9FE1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m */,
+				668EA9FF1720BFBB0056C8C3 /* PHBassPlate.h */,
+				668EAA001720BFBB0056C8C3 /* PHBassPlate.m */,
+				668EAA011720BFBB0056C8C3 /* PHBassShooterAnimation.h */,
+				668EAA021720BFBB0056C8C3 /* PHBassShooterAnimation.m */,
+				668EAA031720BFBB0056C8C3 /* PHBox2DAnimation.h */,
+				668EAA041720BFBB0056C8C3 /* PHBox2DAnimation.mm */,
+				668EAA051720BFBB0056C8C3 /* PHCombAnimation.h */,
+				668EAA061720BFBB0056C8C3 /* PHCombAnimation.m */,
+				668EAA071720BFBB0056C8C3 /* PHCompositeAnimation.h */,
+				668EAA081720BFBB0056C8C3 /* PHCompositeAnimation.m */,
+				668EAA091720BFBB0056C8C3 /* PHCornerParticlesAnimation.h */,
+				668EAA0A1720BFBB0056C8C3 /* PHCornerParticlesAnimation.mm */,
+				668EAA0B1720BFBB0056C8C3 /* PHCountdownAnimation.h */,
+				668EAA0C1720BFBB0056C8C3 /* PHCountdownAnimation.m */,
+				668EAA0D1720BFBB0056C8C3 /* PHDaftPixelAnimation.h */,
+				668EAA0E1720BFBB0056C8C3 /* PHDaftPixelAnimation.m */,
+				668EAA0F1720BFBB0056C8C3 /* PHDancingManAnimation.h */,
+				668EAA101720BFBB0056C8C3 /* PHDancingManAnimation.mm */,
+				668EAA111720BFBB0056C8C3 /* PHDJAnimation.h */,
+				668EAA121720BFBB0056C8C3 /* PHDJAnimation.m */,
+				668EAA131720BFBB0056C8C3 /* PHFireworksAnimation.h */,
+				668EAA141720BFBB0056C8C3 /* PHFireworksAnimation.m */,
+				668EAA151720BFBB0056C8C3 /* PHFlowerAnimation.h */,
+				668EAA161720BFBB0056C8C3 /* PHFlowerAnimation.m */,
+				668EAA171720BFBB0056C8C3 /* PHFlyingFireballAnimation.h */,
+				668EAA181720BFBB0056C8C3 /* PHFlyingFireballAnimation.m */,
+				668EAA191720BFBB0056C8C3 /* PHFlyingRectAnimation.h */,
+				668EAA1A1720BFBB0056C8C3 /* PHFlyingRectAnimation.m */,
+				668EAA1B1720BFBB0056C8C3 /* PHGameOfLifeAnimation.h */,
+				668EAA1C1720BFBB0056C8C3 /* PHGameOfLifeAnimation.m */,
+				668EAA1D1720BFBB0056C8C3 /* PHGifAnimation.h */,
+				668EAA1E1720BFBB0056C8C3 /* PHGifAnimation.m */,
+				668EAA1F1720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.h */,
+				668EAA201720BFBB0056C8C3 /* PHLaunchpadDemoAnimation.m */,
+				668EAA211720BFBB0056C8C3 /* PHLevelsHorizAnimation.h */,
+				668EAA221720BFBB0056C8C3 /* PHLevelsHorizAnimation.m */,
+				668EAA231720BFBB0056C8C3 /* PHLinesAnimation.h */,
+				668EAA241720BFBB0056C8C3 /* PHLinesAnimation.m */,
+				668EAA251720BFBB0056C8C3 /* PHMegamanAnimation.h */,
+				668EAA261720BFBB0056C8C3 /* PHMegamanAnimation.m */,
+				668EAA271720BFBB0056C8C3 /* PHMovingSawAnimation.h */,
+				668EAA281720BFBB0056C8C3 /* PHMovingSawAnimation.m */,
+				668EAA291720BFBB0056C8C3 /* PHMtFujiAnimation.h */,
+				668EAA2A1720BFBB0056C8C3 /* PHMtFujiAnimation.m */,
+				668EAA2B1720BFBB0056C8C3 /* PHNyanCatAnimation.h */,
+				668EAA2C1720BFBB0056C8C3 /* PHNyanCatAnimation.m */,
+				668EAA2D1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.h */,
+				668EAA2E1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.m */,
+				668EAA2F1720BFBB0056C8C3 /* PHPixelHeartAnimation.h */,
+				668EAA301720BFBB0056C8C3 /* PHPixelHeartAnimation.m */,
+				668EAA311720BFBB0056C8C3 /* PHPixelLifeAnimation.h */,
+				668EAA321720BFBB0056C8C3 /* PHPixelLifeAnimation.m */,
+				668EAA331720BFBB0056C8C3 /* PHPixelRainAnimation.h */,
+				668EAA341720BFBB0056C8C3 /* PHPixelRainAnimation.m */,
+				668EAA351720BFBB0056C8C3 /* PHProcessingAnimation.h */,
+				668EAA361720BFBB0056C8C3 /* PHProcessingAnimation.m */,
+				668EAA371720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.h */,
+				668EAA381720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.m */,
+				668EAA391720BFBB0056C8C3 /* PHRainbowHeartAnimation.h */,
+				668EAA3A1720BFBB0056C8C3 /* PHRainbowHeartAnimation.m */,
+				668EAA3B1720BFBB0056C8C3 /* PHRipplesAnimation.h */,
+				668EAA3C1720BFBB0056C8C3 /* PHRipplesAnimation.m */,
+				668EAA3D1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.h */,
+				668EAA3E1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.m */,
+				668EAA3F1720BFBB0056C8C3 /* PHRotatingSquaresAnimation.h */,
+				668EAA401720BFBB0056C8C3 /* PHRotatingSquaresAnimation.m */,
+				668EAA411720BFBB0056C8C3 /* PHSimpleMoteAnimation.h */,
+				668EAA421720BFBB0056C8C3 /* PHSimpleMoteAnimation.m */,
+				668EAA431720BFBB0056C8C3 /* PHSineWaveAnimation.h */,
+				668EAA441720BFBB0056C8C3 /* PHSineWaveAnimation.m */,
+				668EAA451720BFBB0056C8C3 /* PHSophJoyAnimation.h */,
+				668EAA461720BFBB0056C8C3 /* PHSophJoyAnimation.m */,
+				668EAA471720BFBB0056C8C3 /* PHSpectrumLinesAnimation.h */,
+				668EAA481720BFBB0056C8C3 /* PHSpectrumLinesAnimation.m */,
+				668EAA491720BFBB0056C8C3 /* PHSpectrumViewerAnimation.h */,
+				668EAA4A1720BFBB0056C8C3 /* PHSpectrumViewerAnimation.m */,
+				668EAA4B1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.h */,
+				668EAA4C1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.m */,
+				668EAA4D1720BFBB0056C8C3 /* PHSquaresAnimation.h */,
+				668EAA4E1720BFBB0056C8C3 /* PHSquaresAnimation.m */,
+				668EAA4F1720BFBB0056C8C3 /* PHTetrisAnimation.h */,
+				668EAA501720BFBB0056C8C3 /* PHTetrisAnimation.m */,
+				668EAA511720BFBB0056C8C3 /* PHTronAnimation.h */,
+				668EAA521720BFBB0056C8C3 /* PHTronAnimation.m */,
+				668EAA531720BFBB0056C8C3 /* PHTunnelGameAnimation.h */,
+				668EAA541720BFBB0056C8C3 /* PHTunnelGameAnimation.m */,
 			);
 			name = Animations;
+			path = ../PixelDriver;
 			sourceTree = "<group>";
 		};
 		662F5914167849DA00ADE02C /* Quartz Compositions */ = {
@@ -1199,37 +1283,50 @@
 			name = Processing;
 			sourceTree = "<group>";
 		};
+		668EA9F01720BEB20056C8C3 /* PixelCore */ = {
+			isa = PBXGroup;
+			children = (
+				6617FAB4171E8073006E0DF8 /* box2d */,
+				662CA845167FFF7800FC800F /* Animations */,
+				661CC73116A780D4007F3900 /* Transitions */,
+				668EAB0C1720C0770056C8C3 /* Utilities.h */,
+				668EAB0D1720C0770056C8C3 /* Utilities.m */,
+				668EA9F21720BEB20056C8C3 /* PixelCore-Prefix.pch */,
+			);
+			path = PixelCore;
+			sourceTree = "<group>";
+		};
 		669666E81709198D008A389E /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				66DB8C7D171A70B5004ACAA2 /* PHFilter.h */,
-				66DB8C7E171A70B5004ACAA2 /* PHFilter.m */,
-				66DB8CA6171BB7A0004ACAA2 /* PHAffineTileFilter.h */,
-				66DB8CA7171BB7A1004ACAA2 /* PHAffineTileFilter.m */,
-				66A13E60171DCAEB0092E43D /* PHBloomFilter.h */,
-				66A13E61171DCAEC0092E43D /* PHBloomFilter.m */,
-				66DB8C741718FBA0004ACAA2 /* PHBoxBlurFilter.h */,
-				66DB8C751718FBA0004ACAA2 /* PHBoxBlurFilter.m */,
-				66A13E65171DCCC30092E43D /* PHBumpDistortionFilter.h */,
-				66A13E66171DCCC40092E43D /* PHBumpDistortionFilter.m */,
-				66DB8C7717190104004ACAA2 /* PHDiscBlurFilter.h */,
-				66DB8C7817190104004ACAA2 /* PHDiscBlurFilter.m */,
-				66DB8C7A17190654004ACAA2 /* PHDotScreenFilter.h */,
-				66DB8C7B17190654004ACAA2 /* PHDotScreenFilter.m */,
-				66DB8C80171A75FD004ACAA2 /* PHDrosteFilter.h */,
-				66DB8C81171A75FD004ACAA2 /* PHDrosteFilter.m */,
-				66DB8C83171A7E91004ACAA2 /* PHEdgesFilter.h */,
-				66DB8C84171A7E92004ACAA2 /* PHEdgesFilter.m */,
-				66DB8C86171A8077004ACAA2 /* PHEdgeWorkFilter.h */,
-				66DB8C87171A8077004ACAA2 /* PHEdgeWorkFilter.m */,
-				66DB8C89171A817D004ACAA2 /* PHEightfoldReflectedTileFilter.h */,
-				66DB8C8A171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m */,
-				66DB8C8F171A8509004ACAA2 /* PHExposureAdjustFilter.h */,
-				66DB8C90171A8509004ACAA2 /* PHExposureAdjustFilter.m */,
-				66DB8C92171A8636004ACAA2 /* PHFalseColorFilter.h */,
-				66DB8C93171A8637004ACAA2 /* PHFalseColorFilter.m */,
-				669666E9170919B0008A389E /* PHHoleDistortionFilter.h */,
-				669666EA170919B0008A389E /* PHHoleDistortionFilter.m */,
+				668EAAC11720BFF40056C8C3 /* PHAffineTileFilter.h */,
+				668EAAC21720BFF40056C8C3 /* PHAffineTileFilter.m */,
+				668EAAC31720BFF40056C8C3 /* PHBloomFilter.h */,
+				668EAAC41720BFF40056C8C3 /* PHBloomFilter.m */,
+				668EAAC51720BFF40056C8C3 /* PHBoxBlurFilter.h */,
+				668EAAC61720BFF40056C8C3 /* PHBoxBlurFilter.m */,
+				668EAAC71720BFF40056C8C3 /* PHBumpDistortionFilter.h */,
+				668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */,
+				668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */,
+				668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */,
+				668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */,
+				668EAACC1720BFF40056C8C3 /* PHDotScreenFilter.m */,
+				668EAACD1720BFF40056C8C3 /* PHDrosteFilter.h */,
+				668EAACE1720BFF40056C8C3 /* PHDrosteFilter.m */,
+				668EAACF1720BFF40056C8C3 /* PHEdgesFilter.h */,
+				668EAAD01720BFF40056C8C3 /* PHEdgesFilter.m */,
+				668EAAD11720BFF40056C8C3 /* PHEdgeWorkFilter.h */,
+				668EAAD21720BFF40056C8C3 /* PHEdgeWorkFilter.m */,
+				668EAAD31720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h */,
+				668EAAD41720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.m */,
+				668EAAD51720BFF40056C8C3 /* PHExposureAdjustFilter.h */,
+				668EAAD61720BFF40056C8C3 /* PHExposureAdjustFilter.m */,
+				668EAAD71720BFF40056C8C3 /* PHFalseColorFilter.h */,
+				668EAAD81720BFF40056C8C3 /* PHFalseColorFilter.m */,
+				668EAAD91720BFF40056C8C3 /* PHFilter.h */,
+				668EAADA1720BFF40056C8C3 /* PHFilter.m */,
+				668EAADB1720BFF40056C8C3 /* PHHoleDistortionFilter.h */,
+				668EAADC1720BFF40056C8C3 /* PHHoleDistortionFilter.m */,
 			);
 			name = Filters;
 			sourceTree = "<group>";
@@ -1237,14 +1334,14 @@
 		66A601D0171542A9005523C2 /* Pipes */ = {
 			isa = PBXGroup;
 			children = (
-				66DF3F9216854C15008E8105 /* PHResetAnimation.h */,
-				66DF3F9316854C15008E8105 /* PHResetAnimation.m */,
-				660D25981689B20000727312 /* PHRotationAnimation.h */,
-				660D25991689B20000727312 /* PHRotationAnimation.m */,
-				66A64E9E169176E400A701BA /* PHMirrorAnimation.h */,
-				66A64E9F169176E500A701BA /* PHMirrorAnimation.m */,
-				66565258171FACF100030D76 /* PHMotionBlurAnimation.h */,
-				66565259171FACF100030D76 /* PHMotionBlurAnimation.m */,
+				668EAAB11720BFD40056C8C3 /* PHMirrorAnimation.h */,
+				668EAAB21720BFD40056C8C3 /* PHMirrorAnimation.m */,
+				668EAAB31720BFD40056C8C3 /* PHMotionBlurAnimation.h */,
+				668EAAB41720BFD40056C8C3 /* PHMotionBlurAnimation.m */,
+				668EAAB51720BFD40056C8C3 /* PHResetAnimation.h */,
+				668EAAB61720BFD40056C8C3 /* PHResetAnimation.m */,
+				668EAAB71720BFD40056C8C3 /* PHRotationAnimation.h */,
+				668EAAB81720BFD40056C8C3 /* PHRotationAnimation.m */,
 			);
 			name = Pipes;
 			sourceTree = "<group>";
@@ -1410,12 +1507,12 @@
 				66DC7B711676FF6500453E8F /* README.md */,
 				66DC7B77167724C300453E8F /* target.xcconfig */,
 				66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */,
+				668EA9F01720BEB20056C8C3 /* PixelCore */,
 				66DC7B571676FC2F00453E8F /* src */,
 				66DC7B791677255D00453E8F /* Resources */,
 				66A8E013167C074100FBAFE8 /* FMOD */,
 				66A64E951691693600A701BA /* SCEvents */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
-				6617FAB4171E8073006E0DF8 /* box2d */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
 			);
@@ -1426,6 +1523,7 @@
 			children = (
 				66DC7B4D1676FC2F00453E8F /* PixelDriver.app */,
 				6617FAB2171E8073006E0DF8 /* libbox2d.a */,
+				668EA9EE1720BEB10056C8C3 /* libPixelCore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1456,8 +1554,6 @@
 		66DC7B571676FC2F00453E8F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				662CA845167FFF7800FC800F /* Animations */,
-				661CC73116A780D4007F3900 /* Transitions */,
 				0EEA867016921ABE009ACDF3 /* Overlays */,
 				66A8E037167D745F00FBAFE8 /* MIDI */,
 				66A8E029167C1FFC00FBAFE8 /* Display Link */,
@@ -1470,8 +1566,6 @@
 				6634E1F816A667AA00AD86B1 /* Pixel Driver */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
-				66DC7B8716773FC200453E8F /* Utilities.h */,
-				66DC7B8816773FC200453E8F /* Utilities.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
 			);
 			name = src;
@@ -1579,14 +1673,14 @@
 		66F6640D16855005001E77BC /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				6637526F16843E3C009A2F22 /* PHDegrader.h */,
-				6637527016843E3C009A2F22 /* PHDegrader.m */,
-				66393E67168AC819002BD86F /* PHMote.h */,
-				66393E68168AC819002BD86F /* PHMote.m */,
-				66F6640E1685504F001E77BC /* PHSpritesheet.h */,
-				66F6640F1685504F001E77BC /* PHSpritesheet.m */,
-				6617FCFC171F32DD006E0DF8 /* PHBox2D.h */,
-				6617FCFD171F32DD006E0DF8 /* PHBox2D.mm */,
+				668EAAF91720C0090056C8C3 /* PHBox2D.h */,
+				668EAAFA1720C0090056C8C3 /* PHBox2D.mm */,
+				668EAAFB1720C0090056C8C3 /* PHDegrader.h */,
+				668EAAFC1720C0090056C8C3 /* PHDegrader.m */,
+				668EAAFD1720C0090056C8C3 /* PHMote.h */,
+				668EAAFE1720C0090056C8C3 /* PHMote.m */,
+				668EAAFF1720C0090056C8C3 /* PHSpritesheet.h */,
+				668EAB001720C0090056C8C3 /* PHSpritesheet.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -1647,6 +1741,82 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		668EA9EC1720BEB10056C8C3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				668EAA551720BFBB0056C8C3 /* PHAdventureTimeAnimation.h in Headers */,
+				668EAA571720BFBB0056C8C3 /* PHAnimation.h in Headers */,
+				668EAA591720BFBB0056C8C3 /* PHBasicSpectrumAnimation.h in Headers */,
+				668EAA5B1720BFBB0056C8C3 /* PHBassPlate.h in Headers */,
+				668EAA5D1720BFBB0056C8C3 /* PHBassShooterAnimation.h in Headers */,
+				668EAA5F1720BFBB0056C8C3 /* PHBox2DAnimation.h in Headers */,
+				668EAA611720BFBB0056C8C3 /* PHCombAnimation.h in Headers */,
+				668EAA631720BFBB0056C8C3 /* PHCompositeAnimation.h in Headers */,
+				668EAA651720BFBB0056C8C3 /* PHCornerParticlesAnimation.h in Headers */,
+				668EAA671720BFBB0056C8C3 /* PHCountdownAnimation.h in Headers */,
+				668EAA691720BFBB0056C8C3 /* PHDaftPixelAnimation.h in Headers */,
+				668EAA6B1720BFBB0056C8C3 /* PHDancingManAnimation.h in Headers */,
+				668EAA6D1720BFBB0056C8C3 /* PHDJAnimation.h in Headers */,
+				668EAA6F1720BFBB0056C8C3 /* PHFireworksAnimation.h in Headers */,
+				668EAA711720BFBB0056C8C3 /* PHFlowerAnimation.h in Headers */,
+				668EAA731720BFBB0056C8C3 /* PHFlyingFireballAnimation.h in Headers */,
+				668EAA751720BFBC0056C8C3 /* PHFlyingRectAnimation.h in Headers */,
+				668EAA771720BFBC0056C8C3 /* PHGameOfLifeAnimation.h in Headers */,
+				668EAA791720BFBC0056C8C3 /* PHGifAnimation.h in Headers */,
+				668EAA7B1720BFBC0056C8C3 /* PHLaunchpadDemoAnimation.h in Headers */,
+				668EAA7D1720BFBC0056C8C3 /* PHLevelsHorizAnimation.h in Headers */,
+				668EAA7F1720BFBC0056C8C3 /* PHLinesAnimation.h in Headers */,
+				668EAA811720BFBC0056C8C3 /* PHMegamanAnimation.h in Headers */,
+				668EAA831720BFBC0056C8C3 /* PHMovingSawAnimation.h in Headers */,
+				668EAA851720BFBC0056C8C3 /* PHMtFujiAnimation.h in Headers */,
+				668EAA871720BFBC0056C8C3 /* PHNyanCatAnimation.h in Headers */,
+				668EAA891720BFBC0056C8C3 /* PHPikachuEmotingAnimation.h in Headers */,
+				668EAA8B1720BFBC0056C8C3 /* PHPixelHeartAnimation.h in Headers */,
+				668EAA8D1720BFBC0056C8C3 /* PHPixelLifeAnimation.h in Headers */,
+				668EAA8F1720BFBC0056C8C3 /* PHPixelRainAnimation.h in Headers */,
+				668EAA911720BFBC0056C8C3 /* PHProcessingAnimation.h in Headers */,
+				668EAA931720BFBC0056C8C3 /* PHPsychadelicBackgroundAnimation.h in Headers */,
+				668EAA951720BFBC0056C8C3 /* PHRainbowHeartAnimation.h in Headers */,
+				668EAA971720BFBC0056C8C3 /* PHRipplesAnimation.h in Headers */,
+				668EAA991720BFBC0056C8C3 /* PHRotatingPlaneAnimation.h in Headers */,
+				668EAA9B1720BFBC0056C8C3 /* PHRotatingSquaresAnimation.h in Headers */,
+				668EAA9D1720BFBC0056C8C3 /* PHSimpleMoteAnimation.h in Headers */,
+				668EAA9F1720BFBC0056C8C3 /* PHSineWaveAnimation.h in Headers */,
+				668EAAA11720BFBC0056C8C3 /* PHSophJoyAnimation.h in Headers */,
+				668EAAA31720BFBC0056C8C3 /* PHSpectrumLinesAnimation.h in Headers */,
+				668EAAA51720BFBC0056C8C3 /* PHSpectrumViewerAnimation.h in Headers */,
+				668EAAA71720BFBC0056C8C3 /* PHSpiralingSquareAnimation.h in Headers */,
+				668EAAA91720BFBC0056C8C3 /* PHSquaresAnimation.h in Headers */,
+				668EAAAB1720BFBC0056C8C3 /* PHTetrisAnimation.h in Headers */,
+				668EAAAD1720BFBC0056C8C3 /* PHTronAnimation.h in Headers */,
+				668EAAAF1720BFBC0056C8C3 /* PHTunnelGameAnimation.h in Headers */,
+				668EAAB91720BFD40056C8C3 /* PHMirrorAnimation.h in Headers */,
+				668EAABB1720BFD40056C8C3 /* PHMotionBlurAnimation.h in Headers */,
+				668EAABD1720BFD40056C8C3 /* PHResetAnimation.h in Headers */,
+				668EAABF1720BFD40056C8C3 /* PHRotationAnimation.h in Headers */,
+				668EAADD1720BFF40056C8C3 /* PHAffineTileFilter.h in Headers */,
+				668EAADF1720BFF40056C8C3 /* PHBloomFilter.h in Headers */,
+				668EAAE11720BFF40056C8C3 /* PHBoxBlurFilter.h in Headers */,
+				668EAAE31720BFF40056C8C3 /* PHBumpDistortionFilter.h in Headers */,
+				668EAAE51720BFF40056C8C3 /* PHDiscBlurFilter.h in Headers */,
+				668EAAE71720BFF40056C8C3 /* PHDotScreenFilter.h in Headers */,
+				668EAAE91720BFF40056C8C3 /* PHDrosteFilter.h in Headers */,
+				668EAAEB1720BFF40056C8C3 /* PHEdgesFilter.h in Headers */,
+				668EAAED1720BFF40056C8C3 /* PHEdgeWorkFilter.h in Headers */,
+				668EAAEF1720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h in Headers */,
+				668EAAF11720BFF40056C8C3 /* PHExposureAdjustFilter.h in Headers */,
+				668EAAF31720BFF40056C8C3 /* PHFalseColorFilter.h in Headers */,
+				668EAAF51720BFF40056C8C3 /* PHFilter.h in Headers */,
+				668EAAF71720BFF40056C8C3 /* PHHoleDistortionFilter.h in Headers */,
+				668EAB011720C0090056C8C3 /* PHBox2D.h in Headers */,
+				668EAB031720C0090056C8C3 /* PHDegrader.h in Headers */,
+				668EAB051720C0090056C8C3 /* PHMote.h in Headers */,
+				668EAB071720C0090056C8C3 /* PHSpritesheet.h in Headers */,
+				668EAB0E1720C0770056C8C3 /* Utilities.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1667,6 +1837,23 @@
 			productReference = 6617FAB2171E8073006E0DF8 /* libbox2d.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		668EA9ED1720BEB10056C8C3 /* PixelCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 668EA9F81720BEB20056C8C3 /* Build configuration list for PBXNativeTarget "PixelCore" */;
+			buildPhases = (
+				668EA9EA1720BEB10056C8C3 /* Sources */,
+				668EA9EB1720BEB10056C8C3 /* Frameworks */,
+				668EA9EC1720BEB10056C8C3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PixelCore;
+			productName = PixelCore;
+			productReference = 668EA9EE1720BEB10056C8C3 /* libPixelCore.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		66DC7B4C1676FC2F00453E8F /* PixelDriver */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66DC7B6B1676FC3000453E8F /* Build configuration list for PBXNativeTarget "PixelDriver" */;
@@ -1680,6 +1867,7 @@
 			);
 			dependencies = (
 				6617FB7B171E811F006E0DF8 /* PBXTargetDependency */,
+				668EAB0A1720C0230056C8C3 /* PBXTargetDependency */,
 			);
 			name = PixelDriver;
 			productName = PixelDriver;
@@ -1709,6 +1897,7 @@
 			targets = (
 				66DC7B4C1676FC2F00453E8F /* PixelDriver */,
 				6617FAB1171E8073006E0DF8 /* box2d */,
+				668EA9ED1720BEB10056C8C3 /* PixelCore */,
 			);
 		};
 /* End PBXProject section */
@@ -1852,6 +2041,82 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		668EA9EA1720BEB10056C8C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				668EAA561720BFBB0056C8C3 /* PHAdventureTimeAnimation.m in Sources */,
+				668EAA581720BFBB0056C8C3 /* PHAnimation.m in Sources */,
+				668EAA5A1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m in Sources */,
+				668EAA5C1720BFBB0056C8C3 /* PHBassPlate.m in Sources */,
+				668EAA5E1720BFBB0056C8C3 /* PHBassShooterAnimation.m in Sources */,
+				668EAA601720BFBB0056C8C3 /* PHBox2DAnimation.mm in Sources */,
+				668EAA621720BFBB0056C8C3 /* PHCombAnimation.m in Sources */,
+				668EAA641720BFBB0056C8C3 /* PHCompositeAnimation.m in Sources */,
+				668EAA661720BFBB0056C8C3 /* PHCornerParticlesAnimation.mm in Sources */,
+				668EAA681720BFBB0056C8C3 /* PHCountdownAnimation.m in Sources */,
+				668EAA6A1720BFBB0056C8C3 /* PHDaftPixelAnimation.m in Sources */,
+				668EAA6C1720BFBB0056C8C3 /* PHDancingManAnimation.mm in Sources */,
+				668EAA6E1720BFBB0056C8C3 /* PHDJAnimation.m in Sources */,
+				668EAA701720BFBB0056C8C3 /* PHFireworksAnimation.m in Sources */,
+				668EAA721720BFBB0056C8C3 /* PHFlowerAnimation.m in Sources */,
+				668EAA741720BFBB0056C8C3 /* PHFlyingFireballAnimation.m in Sources */,
+				668EAA761720BFBC0056C8C3 /* PHFlyingRectAnimation.m in Sources */,
+				668EAA781720BFBC0056C8C3 /* PHGameOfLifeAnimation.m in Sources */,
+				668EAA7A1720BFBC0056C8C3 /* PHGifAnimation.m in Sources */,
+				668EAA7C1720BFBC0056C8C3 /* PHLaunchpadDemoAnimation.m in Sources */,
+				668EAA7E1720BFBC0056C8C3 /* PHLevelsHorizAnimation.m in Sources */,
+				668EAA801720BFBC0056C8C3 /* PHLinesAnimation.m in Sources */,
+				668EAA821720BFBC0056C8C3 /* PHMegamanAnimation.m in Sources */,
+				668EAA841720BFBC0056C8C3 /* PHMovingSawAnimation.m in Sources */,
+				668EAA861720BFBC0056C8C3 /* PHMtFujiAnimation.m in Sources */,
+				668EAA881720BFBC0056C8C3 /* PHNyanCatAnimation.m in Sources */,
+				668EAA8A1720BFBC0056C8C3 /* PHPikachuEmotingAnimation.m in Sources */,
+				668EAA8C1720BFBC0056C8C3 /* PHPixelHeartAnimation.m in Sources */,
+				668EAA8E1720BFBC0056C8C3 /* PHPixelLifeAnimation.m in Sources */,
+				668EAA901720BFBC0056C8C3 /* PHPixelRainAnimation.m in Sources */,
+				668EAA921720BFBC0056C8C3 /* PHProcessingAnimation.m in Sources */,
+				668EAA941720BFBC0056C8C3 /* PHPsychadelicBackgroundAnimation.m in Sources */,
+				668EAA961720BFBC0056C8C3 /* PHRainbowHeartAnimation.m in Sources */,
+				668EAA981720BFBC0056C8C3 /* PHRipplesAnimation.m in Sources */,
+				668EAA9A1720BFBC0056C8C3 /* PHRotatingPlaneAnimation.m in Sources */,
+				668EAA9C1720BFBC0056C8C3 /* PHRotatingSquaresAnimation.m in Sources */,
+				668EAA9E1720BFBC0056C8C3 /* PHSimpleMoteAnimation.m in Sources */,
+				668EAAA01720BFBC0056C8C3 /* PHSineWaveAnimation.m in Sources */,
+				668EAAA21720BFBC0056C8C3 /* PHSophJoyAnimation.m in Sources */,
+				668EAAA41720BFBC0056C8C3 /* PHSpectrumLinesAnimation.m in Sources */,
+				668EAAA61720BFBC0056C8C3 /* PHSpectrumViewerAnimation.m in Sources */,
+				668EAAA81720BFBC0056C8C3 /* PHSpiralingSquareAnimation.m in Sources */,
+				668EAAAA1720BFBC0056C8C3 /* PHSquaresAnimation.m in Sources */,
+				668EAAAC1720BFBC0056C8C3 /* PHTetrisAnimation.m in Sources */,
+				668EAAAE1720BFBC0056C8C3 /* PHTronAnimation.m in Sources */,
+				668EAAB01720BFBC0056C8C3 /* PHTunnelGameAnimation.m in Sources */,
+				668EAABA1720BFD40056C8C3 /* PHMirrorAnimation.m in Sources */,
+				668EAABC1720BFD40056C8C3 /* PHMotionBlurAnimation.m in Sources */,
+				668EAABE1720BFD40056C8C3 /* PHResetAnimation.m in Sources */,
+				668EAAC01720BFD40056C8C3 /* PHRotationAnimation.m in Sources */,
+				668EAADE1720BFF40056C8C3 /* PHAffineTileFilter.m in Sources */,
+				668EAAE01720BFF40056C8C3 /* PHBloomFilter.m in Sources */,
+				668EAAE21720BFF40056C8C3 /* PHBoxBlurFilter.m in Sources */,
+				668EAAE41720BFF40056C8C3 /* PHBumpDistortionFilter.m in Sources */,
+				668EAAE61720BFF40056C8C3 /* PHDiscBlurFilter.m in Sources */,
+				668EAAE81720BFF40056C8C3 /* PHDotScreenFilter.m in Sources */,
+				668EAAEA1720BFF40056C8C3 /* PHDrosteFilter.m in Sources */,
+				668EAAEC1720BFF40056C8C3 /* PHEdgesFilter.m in Sources */,
+				668EAAEE1720BFF40056C8C3 /* PHEdgeWorkFilter.m in Sources */,
+				668EAAF01720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.m in Sources */,
+				668EAAF21720BFF40056C8C3 /* PHExposureAdjustFilter.m in Sources */,
+				668EAAF41720BFF40056C8C3 /* PHFalseColorFilter.m in Sources */,
+				668EAAF61720BFF40056C8C3 /* PHFilter.m in Sources */,
+				668EAAF81720BFF40056C8C3 /* PHHoleDistortionFilter.m in Sources */,
+				668EAB021720C0090056C8C3 /* PHBox2D.mm in Sources */,
+				668EAB041720C0090056C8C3 /* PHDegrader.m in Sources */,
+				668EAB061720C0090056C8C3 /* PHMote.m in Sources */,
+				668EAB081720C0090056C8C3 /* PHSpritesheet.m in Sources */,
+				668EAB0F1720C0770056C8C3 /* Utilities.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		66DC7B491676FC2F00453E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1862,7 +2127,6 @@
 				66DC7B7C167725E900453E8F /* PHWallView.m in Sources */,
 				66DC7B7F1677299300453E8F /* PHDriver.m in Sources */,
 				66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */,
-				66DC7B8916773FC200453E8F /* Utilities.m in Sources */,
 				662F591E16784B8900ADE02C /* PHQuartzRenderer.m in Sources */,
 				66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */,
 				66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */,
@@ -1870,58 +2134,20 @@
 				66A8E030167C259A00FBAFE8 /* PHBitmapPipeline.m in Sources */,
 				66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */,
 				66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */,
-				662CA849167FFFC800FC800F /* PHSpectrumViewerAnimation.m in Sources */,
-				668520EA168290B90063A95A /* PHAnimation.m in Sources */,
 				668520EE168292200063A95A /* PHSystemState.m in Sources */,
-				66CD3AC91682C0AB00C798E7 /* PHBassPlate.m in Sources */,
-				6637526E16843E16009A2F22 /* PHBasicSpectrumAnimation.m in Sources */,
-				6637527116843E3C009A2F22 /* PHDegrader.m in Sources */,
-				66753A9B168486220092EDF0 /* PHFireworksAnimation.m in Sources */,
-				66753A9F168499010092EDF0 /* PHFlyingFireballAnimation.m in Sources */,
-				66DF3F9416854C15008E8105 /* PHResetAnimation.m in Sources */,
-				66F6640C16854FF8001E77BC /* PHMegamanAnimation.m in Sources */,
-				66F664101685504F001E77BC /* PHSpritesheet.m in Sources */,
-				66593C1016859451003449FE /* PHPikachuEmotingAnimation.m in Sources */,
 				662DE54D1686854B00F300CE /* PHLaunchpadView.m in Sources */,
 				662DE5531686894B00F300CE /* PHLaunchpadWindow.m in Sources */,
 				662DE5701686AA9F00F300CE /* PHMIDIMessage.m in Sources */,
-				66BCF7011686CB4500D2DF06 /* PHSineWaveAnimation.m in Sources */,
-				66BCF7041686CEA600D2DF06 /* PHPsychadelicBackgroundAnimation.m in Sources */,
-				66BCF73316880B3500D2DF06 /* PHCompositeAnimation.m in Sources */,
-				1E791A721688123C008106F3 /* PHLevelsHorizAnimation.m in Sources */,
-				3A9AF24E1688369300C960E3 /* PHFlyingRectAnimation.m in Sources */,
-				1E791A74168820AB008106F3 /* PHNyanCatAnimation.m in Sources */,
-				66A26D54168847EC009F7B33 /* PHPixelHeartAnimation.m in Sources */,
-				66A26D721689190A009F7B33 /* PHGameOfLifeAnimation.m in Sources */,
 				66A26D7616892A2F009F7B33 /* PHWaveFormView.m in Sources */,
-				660D259A1689B20100727312 /* PHRotationAnimation.m in Sources */,
-				66393E69168AC819002BD86F /* PHMote.m in Sources */,
 				66393E6D168AD63E002BD86F /* PHMoteServer.m in Sources */,
-				66393E70168ADB9B002BD86F /* PHSimpleMoteAnimation.m in Sources */,
 				66393E7B168AEFC7002BD86F /* PHTooltipWindow.m in Sources */,
 				66393E7E168AEFFD002BD86F /* PHTooltipView.m in Sources */,
-				6693A308168BCF1B00DA2946 /* PHTunnelGameAnimation.m in Sources */,
-				6693A30B168C0ECA00DA2946 /* PHCountdownAnimation.m in Sources */,
-				6693A310168C264D00DA2946 /* PHRipplesAnimation.m in Sources */,
 				663C83A1168EC254003B88A1 /* PHProcessingServer.m in Sources */,
-				663C83A6168EE50F003B88A1 /* PHProcessingAnimation.m in Sources */,
 				663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */,
-				663C83AC168F0520003B88A1 /* PHDJAnimation.m in Sources */,
-				6693A313168FE0D800DA2946 /* PHSophJoyAnimation.m in Sources */,
-				6693A316168FF0F700DA2946 /* PHCombAnimation.m in Sources */,
 				0EEA867316921B24009ACDF3 /* PHOverlay.m in Sources */,
 				0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */,
-				66A64E8C1691437100A701BA /* PHAdventureTimeAnimation.m in Sources */,
-				66A64E8F1691441600A701BA /* PHPixelRainAnimation.m in Sources */,
-				3A30C11C16916AD40068D3B4 /* PHMovingSawAnimation.m in Sources */,
-				66A64E94169158F500A701BA /* PHGifAnimation.m in Sources */,
 				66A64E9C1691693600A701BA /* SCEvent.m in Sources */,
 				66A64E9D1691693600A701BA /* SCEvents.m in Sources */,
-				66A64EA0169176E600A701BA /* PHMirrorAnimation.m in Sources */,
-				3AAC8C0416917F0100BC9E4B /* PHBassShooterAnimation.m in Sources */,
-				66F1D8C8169200D000A9E39B /* PHFlowerAnimation.m in Sources */,
-				528E6FEB1692230B0041976D /* PHDaftPixelAnimation.m in Sources */,
-				661C6BEB169CF711006C6D9F /* PHRotatingPlaneAnimation.m in Sources */,
 				6634E1F616A6612300AD86B1 /* PHPixelDriverWindow.m in Sources */,
 				6634E1FE16A66C6700AD86B1 /* PHContainerView.m in Sources */,
 				662CB20F16A67708008F497B /* PHHeaderView.m in Sources */,
@@ -1950,47 +2176,17 @@
 				66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */,
 				66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */,
 				66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */,
-				66B16FDD16AF69B2003CF908 /* PHRainbowHeartAnimation.m in Sources */,
-				661FFFEF16B38D0D007CE102 /* PHSquaresAnimation.m in Sources */,
-				661FFFF316B4BD22007CE102 /* PHTronAnimation.m in Sources */,
 				6655AB6D16F74DF600B0ADA3 /* PHSystemTick.m in Sources */,
-				66A14DCD16F757220094150E /* PHMtFujiAnimation.m in Sources */,
-				66A14E0116FBCE970094150E /* PHLinesAnimation.m in Sources */,
 				66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */,
-				665B44B116FF0E3E009E8D28 /* PHTetrisAnimation.m in Sources */,
-				66C62B83170680830061C424 /* PHSpiralingSquareAnimation.m in Sources */,
-				669666EB170919B0008A389E /* PHHoleDistortionFilter.m in Sources */,
 				66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */,
 				66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */,
 				66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */,
 				66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */,
-				66DB8C761718FBA0004ACAA2 /* PHBoxBlurFilter.m in Sources */,
-				66DB8C7917190104004ACAA2 /* PHDiscBlurFilter.m in Sources */,
-				66DB8C7C17190654004ACAA2 /* PHDotScreenFilter.m in Sources */,
-				66DB8C7F171A70B5004ACAA2 /* PHFilter.m in Sources */,
-				66DB8C82171A75FD004ACAA2 /* PHDrosteFilter.m in Sources */,
-				66DB8C85171A7E92004ACAA2 /* PHEdgesFilter.m in Sources */,
-				66DB8C88171A8078004ACAA2 /* PHEdgeWorkFilter.m in Sources */,
-				66DB8C8B171A817E004ACAA2 /* PHEightfoldReflectedTileFilter.m in Sources */,
-				66DB8C91171A8509004ACAA2 /* PHExposureAdjustFilter.m in Sources */,
-				66DB8C94171A8637004ACAA2 /* PHFalseColorFilter.m in Sources */,
 				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
 				66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */,
 				66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */,
-				66DB8CA3171B7306004ACAA2 /* PHSpectrumLinesAnimation.m in Sources */,
-				66DB8CA8171BB7A2004ACAA2 /* PHAffineTileFilter.m in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
-				66DB8CAE171BBF2B004ACAA2 /* PHRotatingSquaresAnimation.m in Sources */,
-				66DB8CB2171BD83D004ACAA2 /* PHLaunchpadDemoAnimation.m in Sources */,
-				66A13E5F171D34260092E43D /* PHPixelLifeAnimation.m in Sources */,
-				66A13E62171DCAED0092E43D /* PHBloomFilter.m in Sources */,
-				66A13E67171DCCC50092E43D /* PHBumpDistortionFilter.m in Sources */,
-				6617FAA4171E3566006E0DF8 /* PHBox2DAnimation.mm in Sources */,
-				6617FCFB171F316F006E0DF8 /* PHDancingManAnimation.mm in Sources */,
-				6617FCFE171F32DD006E0DF8 /* PHBox2D.mm in Sources */,
-				6617FD01171F34FB006E0DF8 /* PHCornerParticlesAnimation.mm in Sources */,
-				6656525A171FACF100030D76 /* PHMotionBlurAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2001,6 +2197,11 @@
 			isa = PBXTargetDependency;
 			target = 6617FAB1171E8073006E0DF8 /* box2d */;
 			targetProxy = 6617FB7A171E811F006E0DF8 /* PBXContainerItemProxy */;
+		};
+		668EAB0A1720C0230056C8C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 668EA9ED1720BEB10056C8C3 /* PixelCore */;
+			targetProxy = 668EAB091720C0230056C8C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2057,6 +2258,32 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "box2d/box2d-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		668EA9F61720BEB20056C8C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PixelCore/PixelCore-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		668EA9F71720BEB20056C8C3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PixelCore/PixelCore-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2173,6 +2400,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		668EA9F81720BEB20056C8C3 /* Build configuration list for PBXNativeTarget "PixelCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				668EA9F61720BEB20056C8C3 /* Debug */,
+				668EA9F71720BEB20056C8C3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		66DC7B471676FC2F00453E8F /* Build configuration list for PBXProject "PixelDriver" */ = {
 			isa = XCConfigurationList;

@@ -20,6 +20,7 @@
 #import "PHDriver.h"
 #import "PHDegrader.h"
 #import "PHSpritesheet.h"
+#import "Utilities.h"
 
 // Categories
 extern NSString* const PHAnimationCategorySprites;
