@@ -281,6 +281,10 @@
 		668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 668EA9EE1720BEB10056C8C3 /* libPixelCore.a */; };
 		668EAB0E1720C0770056C8C3 /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAB0C1720C0770056C8C3 /* Utilities.h */; };
 		668EAB0F1720C0770056C8C3 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAB0D1720C0770056C8C3 /* Utilities.m */; };
+		668EAC9D1720C1D60056C8C3 /* PHAnimationTick.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAC991720C1D60056C8C3 /* PHAnimationTick.h */; };
+		668EAC9E1720C1D60056C8C3 /* PHAnimationTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAC9A1720C1D60056C8C3 /* PHAnimationTick.m */; };
+		668EAC9F1720C1D60056C8C3 /* PHHardwareState.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAC9B1720C1D60056C8C3 /* PHHardwareState.h */; };
+		668EACA01720C1D60056C8C3 /* PHHardwareState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAC9C1720C1D60056C8C3 /* PHHardwareState.m */; };
 		66A13E34171D28020092E43D /* spectrumlines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E33171D28020092E43D /* spectrumlines.png */; };
 		66A13E36171D29FC0092E43D /* ripples.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E35171D29FC0092E43D /* ripples.png */; };
 		66A13E38171D2A130092E43D /* lines.png in Resources */ = {isa = PBXBuildFile; fileRef = 66A13E37171D2A130092E43D /* lines.png */; };
@@ -347,8 +351,6 @@
 		66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D855BB171520E5000A861F /* PHCompositeEditorView.m */; };
 		66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */; };
 		66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C99171A8BE1004ACAA2 /* PHHolesTransition.m */; };
-		66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */; };
-		66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */; };
 		66DB8CA5171BB4A9004ACAA2 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 66DB8CA4171BB4A9004ACAA2 /* camera.png */; };
 		66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */; };
 		66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
@@ -693,6 +695,10 @@
 		668EAB001720C0090056C8C3 /* PHSpritesheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHSpritesheet.m; path = PixelCore/PHSpritesheet.m; sourceTree = SOURCE_ROOT; };
 		668EAB0C1720C0770056C8C3 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		668EAB0D1720C0770056C8C3 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		668EAC991720C1D60056C8C3 /* PHAnimationTick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTick.h; sourceTree = "<group>"; };
+		668EAC9A1720C1D60056C8C3 /* PHAnimationTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTick.m; sourceTree = "<group>"; };
+		668EAC9B1720C1D60056C8C3 /* PHHardwareState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHardwareState.h; sourceTree = "<group>"; };
+		668EAC9C1720C1D60056C8C3 /* PHHardwareState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHardwareState.m; sourceTree = "<group>"; };
 		66A13E33171D28020092E43D /* spectrumlines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spectrumlines.png; path = PixelDriver/resources/spectrumlines.png; sourceTree = "<group>"; };
 		66A13E35171D29FC0092E43D /* ripples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ripples.png; path = PixelDriver/resources/ripples.png; sourceTree = "<group>"; };
 		66A13E37171D2A130092E43D /* lines.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lines.png; path = PixelDriver/resources/lines.png; sourceTree = "<group>"; };
@@ -801,10 +807,6 @@
 		66DB8C96171A87F4004ACAA2 /* PHFlashTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlashTransition.m; sourceTree = "<group>"; };
 		66DB8C98171A8BE1004ACAA2 /* PHHolesTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHolesTransition.h; sourceTree = "<group>"; };
 		66DB8C99171A8BE1004ACAA2 /* PHHolesTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHolesTransition.m; sourceTree = "<group>"; };
-		66DB8C9B171B5355004ACAA2 /* PHAnimationTick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationTick.h; sourceTree = "<group>"; };
-		66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTick.m; sourceTree = "<group>"; };
-		66DB8C9E171B5482004ACAA2 /* PHHardwareState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHHardwareState.h; sourceTree = "<group>"; };
-		66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHHardwareState.m; sourceTree = "<group>"; };
 		66DB8CA4171BB4A9004ACAA2 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = camera.png; path = PixelDriver/resources/camera.png; sourceTree = "<group>"; };
 		66DB8CA9171BBB84004ACAA2 /* PHBarsSwipeTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHBarsSwipeTransition.h; sourceTree = "<group>"; };
 		66DB8CAA171BBB85004ACAA2 /* PHBarsSwipeTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHBarsSwipeTransition.m; sourceTree = "<group>"; };
@@ -1252,10 +1254,6 @@
 				6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */,
 				668520EC168292200063A95A /* PHSystemState.h */,
 				668520ED168292200063A95A /* PHSystemState.m */,
-				66DB8C9B171B5355004ACAA2 /* PHAnimationTick.h */,
-				66DB8C9C171B5355004ACAA2 /* PHAnimationTick.m */,
-				66DB8C9E171B5482004ACAA2 /* PHHardwareState.h */,
-				66DB8C9F171B5482004ACAA2 /* PHHardwareState.m */,
 				66DB8CAF171BD2C6004ACAA2 /* PHHardwareState+System.h */,
 			);
 			name = "Pixel Driver";
@@ -1289,11 +1287,23 @@
 				6617FAB4171E8073006E0DF8 /* box2d */,
 				662CA845167FFF7800FC800F /* Animations */,
 				661CC73116A780D4007F3900 /* Transitions */,
+				668EAC981720C1C30056C8C3 /* Tick */,
 				668EAB0C1720C0770056C8C3 /* Utilities.h */,
 				668EAB0D1720C0770056C8C3 /* Utilities.m */,
 				668EA9F21720BEB20056C8C3 /* PixelCore-Prefix.pch */,
 			);
 			path = PixelCore;
+			sourceTree = "<group>";
+		};
+		668EAC981720C1C30056C8C3 /* Tick */ = {
+			isa = PBXGroup;
+			children = (
+				668EAC991720C1D60056C8C3 /* PHAnimationTick.h */,
+				668EAC9A1720C1D60056C8C3 /* PHAnimationTick.m */,
+				668EAC9B1720C1D60056C8C3 /* PHHardwareState.h */,
+				668EAC9C1720C1D60056C8C3 /* PHHardwareState.m */,
+			);
+			name = Tick;
 			sourceTree = "<group>";
 		};
 		669666E81709198D008A389E /* Filters */ = {
@@ -1508,7 +1518,7 @@
 				66DC7B77167724C300453E8F /* target.xcconfig */,
 				66DC7B5F1676FC2F00453E8F /* PixelDriver-Prefix.pch */,
 				668EA9F01720BEB20056C8C3 /* PixelCore */,
-				66DC7B571676FC2F00453E8F /* src */,
+				66DC7B571676FC2F00453E8F /* PixelPusher */,
 				66DC7B791677255D00453E8F /* Resources */,
 				66A8E013167C074100FBAFE8 /* FMOD */,
 				66A64E951691693600A701BA /* SCEvents */,
@@ -1551,7 +1561,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		66DC7B571676FC2F00453E8F /* src */ = {
+		66DC7B571676FC2F00453E8F /* PixelPusher */ = {
 			isa = PBXGroup;
 			children = (
 				0EEA867016921ABE009ACDF3 /* Overlays */,
@@ -1568,7 +1578,7 @@
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
 			);
-			name = src;
+			name = PixelPusher;
 			path = PixelDriver;
 			sourceTree = "<group>";
 		};
@@ -1814,6 +1824,8 @@
 				668EAB051720C0090056C8C3 /* PHMote.h in Headers */,
 				668EAB071720C0090056C8C3 /* PHSpritesheet.h in Headers */,
 				668EAB0E1720C0770056C8C3 /* Utilities.h in Headers */,
+				668EAC9D1720C1D60056C8C3 /* PHAnimationTick.h in Headers */,
+				668EAC9F1720C1D60056C8C3 /* PHHardwareState.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2114,6 +2126,8 @@
 				668EAB061720C0090056C8C3 /* PHMote.m in Sources */,
 				668EAB081720C0090056C8C3 /* PHSpritesheet.m in Sources */,
 				668EAB0F1720C0770056C8C3 /* Utilities.m in Sources */,
+				668EAC9E1720C1D60056C8C3 /* PHAnimationTick.m in Sources */,
+				668EACA01720C1D60056C8C3 /* PHHardwareState.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2184,8 +2198,6 @@
 				66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */,
 				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
-				66DB8C9D171B5355004ACAA2 /* PHAnimationTick.m in Sources */,
-				66DB8CA0171B5482004ACAA2 /* PHHardwareState.m in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2408,6 +2420,7 @@
 				668EA9F71720BEB20056C8C3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		66DC7B471676FC2F00453E8F /* Build configuration list for PBXProject "PixelDriver" */ = {
 			isa = XCConfigurationList;
