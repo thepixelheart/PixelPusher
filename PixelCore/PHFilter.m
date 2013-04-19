@@ -116,6 +116,10 @@
   return NO;
 }
 
+- (BOOL)isGenerator {
+  return NO;
+}
+
 - (void)storeValue:(id)value forKey:(NSString *)key inFilter:(CIFilter *)filter {
   if (nil != value) {
     [filter setValue:value forKey:key];
@@ -159,7 +163,12 @@
   NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
   NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
   [NSGraphicsContext setCurrentContext:graphicsContext];
-  [result drawInRect:frame fromRect:sourceFrame operation:NSCompositeCopy fraction:1];
+  if ([self isGenerator]) {
+    frame = CGRectMake(-size.width / 2, -size.height / 2, size.width * 2, size.height * 2);
+    [result drawInRect:frame fromRect:frame operation:NSCompositeCopy fraction:1];
+  } else {
+    [result drawInRect:frame fromRect:sourceFrame operation:NSCompositeCopy fraction:1];
+  }
   [NSGraphicsContext setCurrentContext:previousContext];
 
   CGContextRestoreGState(cx);

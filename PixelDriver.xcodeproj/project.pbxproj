@@ -11,6 +11,8 @@
 		0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */; };
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
+		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
+		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -413,6 +415,8 @@
 		3A43C268171E6E33006A441E /* umano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = umano.png; path = PixelDriver/resources/umano.png; sourceTree = "<group>"; };
 		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
+		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
+		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		6617FAB2171E8073006E0DF8 /* libbox2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbox2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "box2d-Prefix.pch"; sourceTree = "<group>"; };
 		6617FC3A171E8376006E0DF8 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -1345,6 +1349,8 @@
 				668EAAC61720BFF40056C8C3 /* PHBoxBlurFilter.m */,
 				668EAAC71720BFF40056C8C3 /* PHBumpDistortionFilter.h */,
 				668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */,
+				660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */,
+				660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */,
 				668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */,
 				668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */,
 				668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */,
@@ -1864,6 +1870,7 @@
 				668EAC9F1720C1D60056C8C3 /* PHHardwareState.h in Headers */,
 				668EACBB1720CD5C0056C8C3 /* PHPixelTunnelAnimation.h in Headers */,
 				668EACC31720E0760056C8C3 /* PHSoundBoxAnimation.h in Headers */,
+				660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2176,6 +2183,7 @@
 				668EACA01720C1D60056C8C3 /* PHHardwareState.m in Sources */,
 				668EACBC1720CD5C0056C8C3 /* PHPixelTunnelAnimation.m in Sources */,
 				668EACC41720E0760056C8C3 /* PHSoundBoxAnimation.m in Sources */,
+				660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

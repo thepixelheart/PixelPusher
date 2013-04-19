@@ -21,6 +21,7 @@
 - (NSString *)filterName;
 
 - (BOOL)useCroppedImage;
+- (BOOL)isGenerator;
 - (id)wallCenterValue;
 
 - (id)radiusValue;

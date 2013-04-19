@@ -14,32 +14,7 @@
 // limitations under the License.
 //
 
-#import "PHBumpDistortionFilter.h"
+#import "PHFilter.h"
 
-@implementation PHBumpDistortionFilter
-
-- (NSString *)filterName {
-  return @"CIBumpDistortion";
-}
-
-- (id)centerValue {
-  return [self wallCenterValue];
-}
-
-- (id)radiusValue {
-  return @(self.bassDegrader.value * kWallWidth);
-}
-
-- (id)scaleValue {
-  return @(self.animationTick.hardwareState.fader * 2);
-}
-
-- (NSImage *)previewImage {
-  return [NSImage imageNamed:@"bumpdistortion"];
-}
-
-- (NSString *)tooltipName {
-  return @"Bump Distortion Filter";
-}
-
+@interface PHCheckerboardGeneratorFilter : PHFilter
 @end
