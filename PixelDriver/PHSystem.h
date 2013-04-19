@@ -28,6 +28,7 @@ typedef enum {
   PHSystemButtonPixelHeart = 1000,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
+  PHSystemButtonSwapFaderPositions,
   PHSystemButtonUmanoMode,
   PHSystemButtonLibrary,
   PHSystemButtonCompositeEditor,
@@ -76,6 +77,7 @@ extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
+extern NSString* const PHSystemFaderDidSwapNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -122,6 +124,7 @@ extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 
 // The percentage fade from left to right.
 @property (nonatomic, assign) CGFloat fade; // 0..1
+@property (nonatomic, assign) BOOL leftAnimationIsBottom; // YES by default
 
 // Actions
 

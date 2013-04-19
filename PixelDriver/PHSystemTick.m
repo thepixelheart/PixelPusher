@@ -104,15 +104,15 @@
   _editingCompositeContextRef = CGContextRetain(editingCompositeContextRef);
 }
 
-- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t {
+- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t flip:(BOOL)flip {
   CGContextRef wallPrepContext = [PHSystem createWallContext];
 
   CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
   [transition renderBitmapInContext:wallPrepContext
                                size:wallSize
-                        leftContext:_leftContextRef
-                       rightContext:_rightContextRef
-                                  t:t];
+                        leftContext:flip ? _rightContextRef : _leftContextRef
+                       rightContext:flip ? _leftContextRef : _rightContextRef
+                                  t:flip ? (1 - t) : t];
 
   CGContextRef wallContext = [PHSystem createWallContext];
   CGContextSetAlpha(wallContext, _masterFade);

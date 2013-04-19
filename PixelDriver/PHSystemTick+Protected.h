@@ -17,5 +17,5 @@
 #import "PHSystemTick.h"
 
 @interface PHSystemTick()
-- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t;
+- (void)updateWallContextWithTransition:(PHTransition *)transition t:(CGFloat)t flip:(BOOL)flip;
 @end

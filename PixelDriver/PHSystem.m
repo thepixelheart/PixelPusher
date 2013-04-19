@@ -47,6 +47,7 @@ NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDi
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
 NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
+NSString* const PHSystemFaderDidSwapNotification = @"PHSystemFaderDidSwapNotification";
 
 typedef enum {
   PHLaunchpadCompositeModeNone,
@@ -113,6 +114,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
 - (id)init {
   if ((self = [super init])) {
     _masterFade = 1;
+    _leftAnimationIsBottom = YES;
 
     NSMutableArray* categories = [[[PHAnimation allCategories] sortedArrayUsingComparator:
                                    ^NSComparisonResult(NSString* obj1, NSString* obj2) {
@@ -361,7 +363,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
     tick.editingCompositeContextRef = [[animationToContext objectForKey:[self keyForAnimation:_editingCompositeAnimation]] pointerValue];
   }
 
-  [tick updateWallContextWithTransition:_faderTransition t:_fade];
+  [tick updateWallContextWithTransition:_faderTransition t:_fade flip:!_leftAnimationIsBottom];
 
   NSTimeInterval strobeAge = [NSDate timeIntervalSinceReferenceDate] - _strobeDeathStartTime;
   if (_strobeOn || strobeAge < kStrobeAge) {
@@ -720,6 +722,11 @@ static const NSTimeInterval kFadeTimeLength = 3;
         _countdownOverlay = PHCountdownOverlayNone;
         _countdownTextIndex = arc4random_uniform(5);
       }
+      break;
+
+    case PHSystemButtonSwapFaderPositions:
+      extraNotificationName = PHSystemFaderDidSwapNotification;
+      _leftAnimationIsBottom = !_leftAnimationIsBottom;
       break;
 
     default:

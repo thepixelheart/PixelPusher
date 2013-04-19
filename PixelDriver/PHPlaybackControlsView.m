@@ -34,6 +34,13 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
   
   PHButton* _loadLeftButton;
   PHButton* _loadRightButton;
+
+  PHButton* _fadeLeftButton;
+  PHButton* _fadeRightButton;
+}
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -55,11 +62,19 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
     [_loadLeftButton setTitle:@"Load"];
     [self.contentView addSubview:_loadLeftButton];
 
-    _loadRightButton = [[PHButton alloc] init];
-    _loadRightButton.tag = PHSystemButtonLoadRight;
-    _loadRightButton.delegate = self;
-    [_loadRightButton setTitle:@"Load"];
-    [self.contentView addSubview:_loadRightButton];
+    _fadeLeftButton = [[PHButton alloc] init];
+    _fadeLeftButton.tag = PHSystemButtonSwapFaderPositions;
+    _fadeLeftButton.delegate = self;
+    [self.contentView addSubview:_fadeLeftButton];
+
+    _fadeRightButton = [[PHButton alloc] init];
+    _fadeRightButton.tag = PHSystemButtonSwapFaderPositions;
+    _fadeRightButton.delegate = self;
+    [self.contentView addSubview:_fadeRightButton];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(faderDidSwapNotification:) name:PHSystemFaderDidSwapNotification object:nil];
+    [self updateFaderButtons];
   }
   return self;
 }
@@ -73,6 +88,9 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
                                   kSliderWidth, kSliderHeight);
 
   [_loadLeftButton sizeToFit];
+  [_loadRightButton sizeToFit];
+  [_fadeLeftButton sizeToFit];
+  [_fadeRightButton sizeToFit];
 
   CGFloat width = boundsSize.width / 2 - PHPlaybackControlsWidth / 2;
   _loadLeftButton.frame = CGRectMake(floor((width - _loadLeftButton.frame.size.width) / 2),
@@ -80,17 +98,42 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
                                      _loadLeftButton.frame.size.width,
                                      _loadLeftButton.frame.size.height);
 
-  [_loadRightButton sizeToFit];
-
   _loadRightButton.frame = CGRectMake(boundsSize.width / 2 + PHPlaybackControlsWidth / 2
                                       + floor((width - _loadRightButton.frame.size.width) / 2),
                                       floor((boundsSize.height - _loadRightButton.frame.size.height) / 2),
                                       _loadRightButton.frame.size.width,
                                       _loadRightButton.frame.size.height);
+
+  _fadeLeftButton.frame = CGRectMake(CGRectGetMinX(_faderSlider.frame) - _fadeLeftButton.frame.size.width - 10,
+                                      floor((boundsSize.height - _fadeLeftButton.frame.size.height) / 2),
+                                      _fadeLeftButton.frame.size.width,
+                                      _fadeLeftButton.frame.size.height);
+
+  _fadeRightButton.frame = CGRectMake(CGRectGetMaxX(_faderSlider.frame) + 10,
+                                      floor((boundsSize.height - _fadeRightButton.frame.size.height) / 2),
+                                      _fadeRightButton.frame.size.width,
+                                      _fadeRightButton.frame.size.height);
 }
 
 - (void)faderSliderDidChange:(NSSlider *)slider {
   [PHSys() setFade:slider.floatValue];
+}
+
+- (void)updateFaderButtons {
+  if (PHSys().leftAnimationIsBottom) {
+    [_fadeLeftButton setTitle:@"Bottom"];
+    [_fadeRightButton setTitle:@"Top"];
+  } else {
+    [_fadeLeftButton setTitle:@"Top"];
+    [_fadeRightButton setTitle:@"Bottom"];
+  }
+  [_fadeLeftButton setState:NSOffState];
+  [_fadeRightButton setState:NSOffState];
+  [_fadeLeftButton setNeedsDisplay:YES];
+  [_fadeRightButton setNeedsDisplay:YES];
+  [_fadeRightButton layout];
+  [self setNeedsLayout:YES];
+  [self layout];
 }
 
 #pragma mark - PHButtonDelegate
@@ -101,6 +144,12 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
+}
+
+#pragma mark - Notifications
+
+- (void)faderDidSwapNotification:(NSNotification *)notification {
+  [self updateFaderButtons];
 }
 
 @end
