@@ -64,6 +64,7 @@
 #import "PHCornerParticlesAnimation.h"
 #import "PHMotionBlurAnimation.h"
 #import "PHPixelTunnelAnimation.h"
+#import "PHSoundBoxAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -208,6 +209,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFalseColorFilter animation],
     [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
+    [PHSoundBoxAnimation animation],
 
     // Animations
     [PHPixelHeartAnimation animation],
