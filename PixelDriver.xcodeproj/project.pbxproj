@@ -13,6 +13,10 @@
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
+		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
+		660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */; };
+		660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */; };
+		660589F4172212DD006572B8 /* circlesplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589F3172212DD006572B8 /* circlesplash.png */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -417,6 +421,10 @@
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
+		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
+		660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCircleSplashDistortionFilter.h; sourceTree = "<group>"; };
+		660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCircleSplashDistortionFilter.m; sourceTree = "<group>"; };
+		660589F3172212DD006572B8 /* circlesplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circlesplash.png; path = PixelDriver/resources/circlesplash.png; sourceTree = "<group>"; };
 		6617FAB2171E8073006E0DF8 /* libbox2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbox2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "box2d-Prefix.pch"; sourceTree = "<group>"; };
 		6617FC3A171E8376006E0DF8 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -1351,6 +1359,8 @@
 				668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */,
 				660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */,
 				660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */,
+				660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */,
+				660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */,
 				668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */,
 				668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */,
 				668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */,
@@ -1632,6 +1642,7 @@
 				668EACAA1720C7250056C8C3 /* countdown_2.png */,
 				668EACAB1720C7250056C8C3 /* countdown_3.png */,
 				668EACAF1720C72B0056C8C3 /* text_0.png */,
+				660589F3172212DD006572B8 /* circlesplash.png */,
 				668EACB01720C72B0056C8C3 /* text_1.png */,
 				668EACB11720C72B0056C8C3 /* text_2.png */,
 				668EACB21720C72B0056C8C3 /* text_3.png */,
@@ -1642,6 +1653,7 @@
 				66CF637D16AD2C9C0048228F /* 2.png */,
 				66CF637A16AD09FB0048228F /* pixelheart.png */,
 				66A13E68171DCE360092E43D /* bumpdistortion.png */,
+				660589ED17221079006572B8 /* checkerboardgenerator.png */,
 				66A13E3F171D2B770092E43D /* boxblur.png */,
 				66A13E41171D2BAD0092E43D /* discblur.png */,
 				661CC73C16A79E5B007F3900 /* left.png */,
@@ -1871,6 +1883,7 @@
 				668EACBB1720CD5C0056C8C3 /* PHPixelTunnelAnimation.h in Headers */,
 				668EACC31720E0760056C8C3 /* PHSoundBoxAnimation.h in Headers */,
 				660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */,
+				660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2032,6 +2045,8 @@
 				668EACB61720C72B0056C8C3 /* text_2.png in Resources */,
 				668EACB71720C72B0056C8C3 /* text_3.png in Resources */,
 				668EACB81720C72B0056C8C3 /* text_4.png in Resources */,
+				660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */,
+				660589F4172212DD006572B8 /* circlesplash.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2184,6 +2199,7 @@
 				668EACBC1720CD5C0056C8C3 /* PHPixelTunnelAnimation.m in Sources */,
 				668EACC41720E0760056C8C3 /* PHSoundBoxAnimation.m in Sources */,
 				660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */,
+				660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

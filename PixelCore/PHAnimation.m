@@ -72,6 +72,7 @@
 #import "PHBumpDistortionFilter.h"
 #import "PHBoxBlurFilter.h"
 #import "PHCheckerboardGeneratorFilter.h"
+#import "PHCircleSplashDistortionFilter.h"
 #import "PHDiscBlurFilter.h"
 #import "PHDotScreenFilter.h"
 #import "PHDrosteFilter.h"
@@ -201,6 +202,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHBloomFilter animation],
     [PHBoxBlurFilter animation],
     [PHCheckerboardGeneratorFilter animation],
+    [PHCircleSplashDistortionFilter animation],
     [PHDiscBlurFilter animation],
     [PHDotScreenFilter animation],
     [PHDrosteFilter animation],
