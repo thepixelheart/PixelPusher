@@ -17,6 +17,9 @@
 		660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */; };
 		660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */; };
 		660589F4172212DD006572B8 /* circlesplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589F3172212DD006572B8 /* circlesplash.png */; };
+		660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589F5172214B0006572B8 /* PHColorInvertFilter.h */; };
+		660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589F6172214B0006572B8 /* PHColorInvertFilter.m */; };
+		660589FA17221538006572B8 /* colorinvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589F917221538006572B8 /* colorinvert.png */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -425,6 +428,9 @@
 		660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCircleSplashDistortionFilter.h; sourceTree = "<group>"; };
 		660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCircleSplashDistortionFilter.m; sourceTree = "<group>"; };
 		660589F3172212DD006572B8 /* circlesplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circlesplash.png; path = PixelDriver/resources/circlesplash.png; sourceTree = "<group>"; };
+		660589F5172214B0006572B8 /* PHColorInvertFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHColorInvertFilter.h; sourceTree = "<group>"; };
+		660589F6172214B0006572B8 /* PHColorInvertFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHColorInvertFilter.m; sourceTree = "<group>"; };
+		660589F917221538006572B8 /* colorinvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = colorinvert.png; path = PixelDriver/resources/colorinvert.png; sourceTree = "<group>"; };
 		6617FAB2171E8073006E0DF8 /* libbox2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbox2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "box2d-Prefix.pch"; sourceTree = "<group>"; };
 		6617FC3A171E8376006E0DF8 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -1361,6 +1367,8 @@
 				660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */,
 				660589EF172210C2006572B8 /* PHCircleSplashDistortionFilter.h */,
 				660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */,
+				660589F5172214B0006572B8 /* PHColorInvertFilter.h */,
+				660589F6172214B0006572B8 /* PHColorInvertFilter.m */,
 				668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */,
 				668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */,
 				668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */,
@@ -1670,6 +1678,7 @@
 				66A13E59171D2DE60092E43D /* eightfold.png */,
 				66A13E4D171D2CA30092E43D /* falsecolor.png */,
 				66A13E35171D29FC0092E43D /* ripples.png */,
+				660589F917221538006572B8 /* colorinvert.png */,
 				66A13E4B171D2C7B0092E43D /* exposure.png */,
 				66BDB2AF16A6AA5700ED7C81 /* sliderLxx.png */,
 				66BDB2B016A6AA5700ED7C81 /* sliderxMx.png */,
@@ -1884,6 +1893,7 @@
 				668EACC31720E0760056C8C3 /* PHSoundBoxAnimation.h in Headers */,
 				660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */,
 				660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */,
+				660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2047,6 +2057,7 @@
 				668EACB81720C72B0056C8C3 /* text_4.png in Resources */,
 				660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */,
 				660589F4172212DD006572B8 /* circlesplash.png in Resources */,
+				660589FA17221538006572B8 /* colorinvert.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2200,6 +2211,7 @@
 				668EACC41720E0760056C8C3 /* PHSoundBoxAnimation.m in Sources */,
 				660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */,
 				660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */,
+				660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
