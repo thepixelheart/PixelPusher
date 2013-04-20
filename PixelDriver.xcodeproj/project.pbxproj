@@ -20,6 +20,8 @@
 		660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589F5172214B0006572B8 /* PHColorInvertFilter.h */; };
 		660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589F6172214B0006572B8 /* PHColorInvertFilter.m */; };
 		660589FA17221538006572B8 /* colorinvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589F917221538006572B8 /* colorinvert.png */; };
+		660589FD17221577006572B8 /* PHComicFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589FB17221576006572B8 /* PHComicFilter.h */; };
+		660589FE17221577006572B8 /* PHComicFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589FC17221576006572B8 /* PHComicFilter.m */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -431,6 +433,8 @@
 		660589F5172214B0006572B8 /* PHColorInvertFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHColorInvertFilter.h; sourceTree = "<group>"; };
 		660589F6172214B0006572B8 /* PHColorInvertFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHColorInvertFilter.m; sourceTree = "<group>"; };
 		660589F917221538006572B8 /* colorinvert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = colorinvert.png; path = PixelDriver/resources/colorinvert.png; sourceTree = "<group>"; };
+		660589FB17221576006572B8 /* PHComicFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHComicFilter.h; sourceTree = "<group>"; };
+		660589FC17221576006572B8 /* PHComicFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHComicFilter.m; sourceTree = "<group>"; };
 		6617FAB2171E8073006E0DF8 /* libbox2d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbox2d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6617FAB6171E8073006E0DF8 /* box2d-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "box2d-Prefix.pch"; sourceTree = "<group>"; };
 		6617FC3A171E8376006E0DF8 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
@@ -1369,6 +1373,8 @@
 				660589F0172210C2006572B8 /* PHCircleSplashDistortionFilter.m */,
 				660589F5172214B0006572B8 /* PHColorInvertFilter.h */,
 				660589F6172214B0006572B8 /* PHColorInvertFilter.m */,
+				660589FB17221576006572B8 /* PHComicFilter.h */,
+				660589FC17221576006572B8 /* PHComicFilter.m */,
 				668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */,
 				668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */,
 				668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */,
@@ -1894,6 +1900,7 @@
 				660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */,
 				660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */,
 				660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */,
+				660589FD17221577006572B8 /* PHComicFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2212,6 +2219,7 @@
 				660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */,
 				660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */,
 				660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */,
+				660589FE17221577006572B8 /* PHComicFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
