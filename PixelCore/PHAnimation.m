@@ -217,7 +217,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHFalseColorFilter animation],
     [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
-    [PHSoundBoxAnimation animation],
 
     // Animations
     [PHPixelHeartAnimation animation],
@@ -241,6 +240,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelLifeAnimation animation],
     [PHDancingManAnimation animation],
     [PHPixelTunnelAnimation animation],
+    [PHSoundBoxAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
