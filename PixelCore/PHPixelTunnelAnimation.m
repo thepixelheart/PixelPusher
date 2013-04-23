@@ -43,7 +43,7 @@
   CGFloat endRot = 0;
 
   CGPoint distanceToCenter = CGPointMake(center.x - start.x, center.y - start.y);
-  CGFloat radius = 1;
+  CGFloat radius = 0.5;
   while (radius <= kWallWidth / 2) {
     CGContextSaveGState(cx);
     CGFloat perc = radius / (kWallWidth / 2);
@@ -63,7 +63,7 @@
 
     CGContextSetStrokeColorWithColor(cx, [NSColor colorWithDeviceRed:red green:green blue:blue alpha:1].CGColor);
     CGContextStrokeRect(cx, rect);
-    radius++;
+    radius += 0.5;
     CGContextRestoreGState(cx);
   }
 

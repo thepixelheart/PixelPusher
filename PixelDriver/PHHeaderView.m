@@ -59,7 +59,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     [self.contentView addSubview:_umanoModeButton];
     
     _libraryButton = [[PHButton alloc] init];
-    _libraryButton.tag = PHSystemButtonUmanoMode;
+    _libraryButton.tag = PHSystemButtonLibrary;
     [_libraryButton setTitle:@"Library"];
     _libraryButton.delegate = self;
     [self.contentView addSubview:_libraryButton];
