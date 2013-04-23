@@ -340,8 +340,6 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   memcpy(&addr4, [addr bytes], [addr length]);
   _port = ntohs(addr4.sin_port);
 
-  NSLog(@"Port: %d", _port);
-
   _socketsource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, _ipv4cfsock, 0);
   if (nil == _socketsource) {
     NSLog(@"Failed to create socket source");
@@ -356,38 +354,6 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
   [_service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
   [_service publish];
-}
-
-#pragma mark - NSNetServiceBrowserDelegate
-
-- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)aNetServiceBrowser {
-  NSLog(@"Searching...");
-}
-
-- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)aNetServiceBrowser {
-  NSLog(@"Stopped searching.");
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
-  NSLog(@"Found domain! %@", domainString);
-}
-
-#pragma mark - NSNetServiceDelegate
-
-- (void)netServiceWillPublish:(NSNetService *)sender {
-  NSLog(@"will publish");
-}
-
-- (void)netServiceDidPublish:(NSNetService *)sender {
-  NSLog(@"Did publish");
-}
-
-- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-  NSLog(@"Did not publish %@", errorDict);
-}
-
-- (void)netServiceDidStop:(NSNetService *)sender {
-  NSLog(@"Service did stop");
 }
 
 - (void)main {
