@@ -18,6 +18,11 @@
 
 @class PHMoteState;
 
+typedef enum {
+  PHMoteStateControlEventUnknown,
+  PHMoteStateControlEventListAnimations,
+} PHMoteStateControlEvent;
+
 /**
  * What's a PixelMote?
  *
@@ -79,5 +84,7 @@
 @property (nonatomic, readonly, copy) NSString *text;
 
 @property (nonatomic, readonly) NSTimeInterval timestamp;
+
+@property (nonatomic, readonly) PHMoteStateControlEvent controlEvent;
 
 @end

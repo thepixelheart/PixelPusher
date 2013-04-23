@@ -25,4 +25,6 @@
 @property (nonatomic, assign) BOOL bIsTapped;
 @property (nonatomic, copy) NSString *text;
 
+@property (nonatomic, assign) PHMoteStateControlEvent controlEvent;
+
 @end

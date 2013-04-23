@@ -16,6 +16,10 @@
 
 #import "PHMoteServer.h"
 
+#import "AppDelegate.h"
+#import "PHAnimation.h"
+#import "PHSystem.h"
+
 #import "PHMote.h"
 #import "PHMote+Private.h"
 #import "PHMoteState+Private.h"
@@ -33,6 +37,7 @@ typedef enum {
   PHMoteMessageJoystickMoved,
   PHMoteMessageJoystickStopped,
   PHMoteMessageText,
+  PHMoteMessageControl,
   PHMoteMessageUnknown
 } PHMoteMessage;
 
@@ -89,9 +94,19 @@ typedef enum {
     } else if (byte == 't') {
       _message = PHMoteMessageText;
       _text = [NSMutableString string];
-      
+
+    } else if (byte == 'c') {
+      _message = PHMoteMessageControl;
+
     } else {
       NSLog(@"Unknown message type: %c", byte);
+    }
+
+  } else if (_message == PHMoteMessageControl) {
+    if (byte == 'l') {
+      PHMoteState* state = [latestState copy];
+      state.controlEvent = PHMoteStateControlEventListAnimations;
+      result = state;
     }
 
   } else if (_message == PHMoteMessageButtonPressed) {
@@ -164,6 +179,20 @@ typedef enum {
 
 @end
 
+@interface PHMoteStreams : NSObject
+@property (nonatomic, strong) NSInputStream* inputStream;
+@property (nonatomic, strong) NSOutputStream* outputStream;
+@end
+
+@implementation PHMoteStreams
+
+- (void)dealloc {
+  [_inputStream close];
+  [_outputStream close];
+}
+
+@end
+
 @interface PHMoteThread : NSThread <NSStreamDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate> {
   NSNetService *_service;
   NSNetServiceBrowser* _browser;
@@ -177,16 +206,26 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     CFSocketNativeHandle* socketHandle = (CFSocketNativeHandle *)data;
 
     CFReadStreamRef readStream;
-    CFStreamCreatePairWithSocket(nil, *socketHandle, &readStream, nil);
+    CFWriteStreamRef writeStream;
+    CFStreamCreatePairWithSocket(nil, *socketHandle, &readStream, &writeStream);
     NSInputStream* inputStream = (__bridge NSInputStream *)readStream;
+    NSOutputStream* outputStream = (__bridge NSOutputStream *)writeStream;
 
     PHMoteThread* thread = (__bridge PHMoteThread *)info;
     inputStream.delegate = thread;
+    outputStream.delegate = thread;
 
     [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
 
-    [thread.moteSockets addObject:inputStream];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream open];
+    
+    PHMoteStreams* streams = [[PHMoteStreams alloc] init];
+    streams.inputStream = inputStream;
+    streams.outputStream = outputStream;
+
+    [thread.moteSockets addObject:streams];
   }
 }
 
@@ -198,9 +237,6 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 }
 
 - (void)dealloc {
-  for (NSStream* stream in _moteSockets) {
-    [stream close];
-  }
   if (nil != _ipv4cfsock) {
     CFSocketInvalidate(_ipv4cfsock);
     _ipv4cfsock = nil;
@@ -234,7 +270,14 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
         [_streamToState removeObjectForKey:streamKey];
 
         [stream close];
-        [_moteSockets removeObject:stream];
+
+        NSArray* allStreams = [_moteSockets copy];
+        for (PHMoteStreams* streams in allStreams) {
+          if (streams.inputStream == stream
+              || streams.outputStream == stream) {
+            [_moteSockets removeObject:streams];
+          }
+        }
 
       } else if (eventCode & NSStreamEventHasBytesAvailable) {
         uint8_t bytes[kMaxPacketSize];
@@ -254,7 +297,48 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
           uint8_t byte = bytes[ix];
           id result = [state readByte:byte latestState:mote.lastState];
           if ([result isKindOfClass:[PHMoteState class]]) {
-            [mote addControllerState:result];
+            PHMoteState* state = result;
+            if (state.controlEvent == PHMoteStateControlEventListAnimations) {
+              for (PHMoteStreams* streams in _moteSockets) {
+                if (streams.inputStream == stream) {
+                  NSArray* allAnimations = [PHSys() compiledAnimations];
+                  NSMutableArray* animationDicts = [NSMutableArray array];
+                  for (PHAnimation* animation in allAnimations) {
+
+                    CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+                    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+                    [animation renderPreviewInContext:contextRef size:wallSize];
+
+                    CGImageRef previewImageRef = CGBitmapContextCreateImage(contextRef);
+                    CGContextRelease(contextRef);
+
+                    NSImage* image = [[NSImage alloc] initWithCGImage:previewImageRef size:wallSize];
+                    CGImageRelease(previewImageRef);
+
+                    [animationDicts addObject:@{
+                     @"name": animation.tooltipName,
+                     @"image": [image TIFFRepresentation]}];
+                  }
+
+                  NSMutableData *data = [[NSMutableData alloc] init];
+                  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+                  [archiver encodeObject:animationDicts];
+                  [archiver finishEncoding];
+
+                  NSMutableData *message = [[NSMutableData alloc] initWithData:[@"l" dataUsingEncoding:NSUTF8StringEncoding]];
+                  int32_t length = (int32_t)(data.length);
+                  [message appendBytes:&length length:sizeof(int32_t)];
+                  [message appendData:data];
+                  NSInteger bytesWritten = 0;
+                  while (bytesWritten < message.length) {
+                    bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
+                  }
+                }
+              }
+
+            } else {
+              [mote addControllerState:result];
+            }
 
           } else if ([result isKindOfClass:[NSString class]]) {
             NSArray* parts = [result componentsSeparatedByString:@","];
