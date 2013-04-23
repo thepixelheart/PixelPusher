@@ -164,7 +164,11 @@ typedef enum {
 
 @end
 
-@interface PHMoteThread : NSThread <NSStreamDelegate>
+@interface PHMoteThread : NSThread <NSStreamDelegate, NSNetServiceDelegate, NSNetServiceBrowserDelegate> {
+  NSNetService *_service;
+  NSNetServiceBrowser* _browser;
+  uint16_t _port;
+}
 @property (nonatomic, readonly) NSMutableArray* moteSockets;
 @end
 
@@ -299,20 +303,44 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     NSLog(@"Failed to create socket");
     return;
   }
-  struct sockaddr_in sin;
 
-  memset(&sin, 0, sizeof(sin));
-  sin.sin_len = sizeof(sin);
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(12345);
-  sin.sin_addr.s_addr= INADDR_ANY;
+  // Enable address reuse.
+  int yes = 1;
+  setsockopt(CFSocketGetNative(_ipv4cfsock),
+             SOL_SOCKET, SO_REUSEADDR,
+             (void *)&yes, sizeof(yes));
 
-  CFDataRef sincfd = CFDataCreate(kCFAllocatorDefault,
-                                  (UInt8 *)&sin,
-                                  sizeof(sin));
+  // set the packet size for send and receive
+  // cuts down on latency and such when sending
+  // small packets
+  uint8_t packetSize = 128;
+  setsockopt(CFSocketGetNative(_ipv4cfsock),
+             SOL_SOCKET, SO_SNDBUF,
+             (void *)&packetSize, sizeof(packetSize));
+  setsockopt(CFSocketGetNative(_ipv4cfsock),
+             SOL_SOCKET, SO_RCVBUF,
+             (void *)&packetSize, sizeof(packetSize));
 
-  CFSocketSetAddress(_ipv4cfsock, sincfd);
-  CFRelease(sincfd);
+  // set up the IPv4 endpoint; use port 0, so the kernel
+  // will choose an arbitrary port for us, which will be
+  // advertised through Bonjour
+  struct sockaddr_in addr4;
+  memset(&addr4, 0, sizeof(addr4));
+  addr4.sin_len = sizeof(addr4);
+  addr4.sin_family = AF_INET;
+  addr4.sin_port = 0; // since we set it to zero the kernel will assign one for us
+  addr4.sin_addr.s_addr = htonl(INADDR_ANY);
+
+  NSData *address4 = [NSData dataWithBytes:&addr4 length:sizeof(addr4)];
+
+  CFSocketSetAddress(_ipv4cfsock, (__bridge CFDataRef)address4);
+
+  // Get the port
+  NSData *addr = (__bridge NSData *)CFSocketCopyAddress(_ipv4cfsock);
+  memcpy(&addr4, [addr bytes], [addr length]);
+  _port = ntohs(addr4.sin_port);
+
+  NSLog(@"Port: %d", _port);
 
   _socketsource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, _ipv4cfsock, 0);
   if (nil == _socketsource) {
@@ -322,6 +350,44 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     return;
   }
   CFRunLoopAddSource(CFRunLoopGetCurrent(), _socketsource, kCFRunLoopDefaultMode);
+
+  _service = [[NSNetService alloc] initWithDomain:@"" type:@"_pixelmote._tcp." name:@"Pixel Mote Server" port:_port];
+  _service.delegate = self;
+
+  [_service scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+  [_service publish];
+}
+
+#pragma mark - NSNetServiceBrowserDelegate
+
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)aNetServiceBrowser {
+  NSLog(@"Searching...");
+}
+
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)aNetServiceBrowser {
+  NSLog(@"Stopped searching.");
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindDomain:(NSString *)domainString moreComing:(BOOL)moreComing {
+  NSLog(@"Found domain! %@", domainString);
+}
+
+#pragma mark - NSNetServiceDelegate
+
+- (void)netServiceWillPublish:(NSNetService *)sender {
+  NSLog(@"will publish");
+}
+
+- (void)netServiceDidPublish:(NSNetService *)sender {
+  NSLog(@"Did publish");
+}
+
+- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
+  NSLog(@"Did not publish %@", errorDict);
+}
+
+- (void)netServiceDidStop:(NSNetService *)sender {
+  NSLog(@"Service did stop");
 }
 
 - (void)main {
