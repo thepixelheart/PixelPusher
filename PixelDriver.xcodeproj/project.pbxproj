@@ -150,6 +150,9 @@
 		6651999D17261D4C0007EC96 /* PHKaleidoscopeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */; };
 		6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */; };
 		665199A017261E680007EC96 /* kaleidoscope.png in Resources */ = {isa = PBXBuildFile; fileRef = 6651999F17261E680007EC96 /* kaleidoscope.png */; };
+		665199A3172620A00007EC96 /* PHTriangleTileFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 665199A1172620A00007EC96 /* PHTriangleTileFilter.h */; };
+		665199A4172620A00007EC96 /* PHTriangleTileFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 665199A2172620A00007EC96 /* PHTriangleTileFilter.m */; };
+		665199A61726212C0007EC96 /* triangletile.png in Resources */ = {isa = PBXBuildFile; fileRef = 665199A51726212C0007EC96 /* triangletile.png */; };
 		6655AB6D16F74DF600B0ADA3 /* PHSystemTick.m in Sources */ = {isa = PBXBuildFile; fileRef = 6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */; };
 		6656525C171FAFA200030D76 /* motionblur.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525B171FAFA200030D76 /* motionblur.png */; };
 		6656525E171FB19C00030D76 /* bpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525D171FB19C00030D76 /* bpm.png */; };
@@ -586,6 +589,9 @@
 		6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHKaleidoscopeFilter.h; sourceTree = "<group>"; };
 		6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHKaleidoscopeFilter.m; sourceTree = "<group>"; };
 		6651999F17261E680007EC96 /* kaleidoscope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kaleidoscope.png; path = PixelDriver/resources/kaleidoscope.png; sourceTree = "<group>"; };
+		665199A1172620A00007EC96 /* PHTriangleTileFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHTriangleTileFilter.h; sourceTree = "<group>"; };
+		665199A2172620A00007EC96 /* PHTriangleTileFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHTriangleTileFilter.m; sourceTree = "<group>"; };
+		665199A51726212C0007EC96 /* triangletile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = triangletile.png; path = PixelDriver/resources/triangletile.png; sourceTree = "<group>"; };
 		6655AB6B16F74DF600B0ADA3 /* PHSystemTick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemTick.h; sourceTree = "<group>"; };
 		6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemTick.m; sourceTree = "<group>"; };
 		6655AB6E16F74E5D00B0ADA3 /* PHSystemTick+Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHSystemTick+Protected.h"; sourceTree = "<group>"; };
@@ -1403,6 +1409,8 @@
 				668EAADC1720BFF40056C8C3 /* PHHoleDistortionFilter.m */,
 				6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */,
 				6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */,
+				665199A1172620A00007EC96 /* PHTriangleTileFilter.h */,
+				665199A2172620A00007EC96 /* PHTriangleTileFilter.m */,
 			);
 			name = Filters;
 			sourceTree = "<group>";
@@ -1705,6 +1713,7 @@
 				66A13E47171D2C310092E43D /* edges.png */,
 				6651999F17261E680007EC96 /* kaleidoscope.png */,
 				66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */,
+				665199A51726212C0007EC96 /* triangletile.png */,
 				66A13E4F171D2CCA0092E43D /* hole.png */,
 				66BDB2B116A6AA5700ED7C81 /* sliderxxR.png */,
 				66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */,
@@ -1911,6 +1920,7 @@
 				660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */,
 				660589FD17221577006572B8 /* PHComicFilter.h in Headers */,
 				6651999D17261D4C0007EC96 /* PHKaleidoscopeFilter.h in Headers */,
+				665199A3172620A00007EC96 /* PHTriangleTileFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2076,6 +2086,7 @@
 				660589F4172212DD006572B8 /* circlesplash.png in Resources */,
 				660589FA17221538006572B8 /* colorinvert.png in Resources */,
 				665199A017261E680007EC96 /* kaleidoscope.png in Resources */,
+				665199A61726212C0007EC96 /* triangletile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2232,6 +2243,7 @@
 				660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */,
 				660589FE17221577006572B8 /* PHComicFilter.m in Sources */,
 				6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */,
+				665199A4172620A00007EC96 /* PHTriangleTileFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

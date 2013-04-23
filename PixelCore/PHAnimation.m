@@ -85,6 +85,7 @@
 #import "PHFalseColorFilter.h"
 #import "PHHoleDistortionFilter.h"
 #import "PHKaleidoscopeFilter.h"
+#import "PHTriangleTileFilter.h"
 
 #import "PHCompositeAnimation.h"
 
@@ -219,6 +220,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHBumpDistortionFilter animation],
     [PHHoleDistortionFilter animation],
     [PHKaleidoscopeFilter animation],
+    [PHTriangleTileFilter animation],
 
     // Animations
     [PHPixelHeartAnimation animation],
