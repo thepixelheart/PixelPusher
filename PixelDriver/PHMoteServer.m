@@ -118,6 +118,7 @@ typedef enum {
       state.controlEvent = PHMoteStateControlEventStopStreaming;
       result = state;
     }
+    _message = PHMoteMessageUnknown;
 
   } else if (_message == PHMoteMessageButtonPressed) {
     if (byte == 'a') {
