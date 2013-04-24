@@ -73,8 +73,10 @@ typedef enum {
 
 static const CGFloat kFaderTickLength = 0.007874;
 
-static const NSTimeInterval kIdleTimeLength = 5;
-static const NSTimeInterval kFadeTimeLength = 3;
+static const NSTimeInterval kIdleTimeMinLength = 3;
+static const NSTimeInterval kIdleTimeMaxLength = 10;
+static const NSTimeInterval kFadeTimeMinLength = 3;
+static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 @interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate>
 @end
@@ -98,6 +100,8 @@ static const NSTimeInterval kFadeTimeLength = 3;
   NSInteger _selectedCompositeLayer;
   
   NSTimeInterval _timerStart;
+  NSTimeInterval _idleTimeLength;
+  NSTimeInterval _fadeTimeLength;
   PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
@@ -279,7 +283,11 @@ static const NSTimeInterval kFadeTimeLength = 3;
             && !evaluatedObject.isPipeAnimation);
   }]];
   return allAnimation[arc4random_uniform(allAnimation.count)];
-  
+}
+
+- (PHTransition *)getRandomTrasition {
+  NSArray* allTransition = [PHTransition allTransitions];
+  return allTransition[arc4random_uniform(allTransition.count)];
 }
 
 - (PHSystemTick *)tick {
@@ -290,22 +298,25 @@ static const NSTimeInterval kFadeTimeLength = 3;
       case PHUmanoModeStatusFadingLeft:
       case PHUmanoModeStatusFadingRight:
         if (_umamoModeStatus == PHUmanoModeStatusFadingRight) {
-          [self setFade:1 - ([NSDate timeIntervalSinceReferenceDate] - _timerStart)/kFadeTimeLength];
+          [self setFade:1 - ([NSDate timeIntervalSinceReferenceDate] - _timerStart)/_fadeTimeLength];
         } else {
-          [self setFade:([NSDate timeIntervalSinceReferenceDate] - _timerStart)/kFadeTimeLength];
+          [self setFade:([NSDate timeIntervalSinceReferenceDate] - _timerStart)/_fadeTimeLength];
         }
-        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > kFadeTimeLength) {
+        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > _fadeTimeLength) {
           _timerStart = [NSDate timeIntervalSinceReferenceDate];
           if (_umamoModeStatus == PHUmanoModeStatusFadingRight) {
             _umamoModeStatus = PHUmanoModeStatusIdleRight;
           } else {
             _umamoModeStatus = PHUmanoModeStatusIdleLeft;
-          }
+          } 
+          _idleTimeLength = arc4random_uniform(kIdleTimeMaxLength - kIdleTimeMinLength) + kIdleTimeMinLength;
+          // Pick a random next transition
+          _faderTransition = [self getRandomTrasition];
         }
         break;
       case PHUmanoModeStatusIdleLeft:
       case PHUmanoModeStatusIdleRight:
-        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > kIdleTimeLength) {
+        if ([NSDate timeIntervalSinceReferenceDate] - _timerStart > _idleTimeLength) {
           _timerStart = [NSDate timeIntervalSinceReferenceDate];
           if (_umamoModeStatus == PHUmanoModeStatusIdleLeft) {
             _umamoModeStatus = PHUmanoModeStatusFadingRight;
@@ -314,6 +325,7 @@ static const NSTimeInterval kFadeTimeLength = 3;
             _umamoModeStatus = PHUmanoModeStatusFadingLeft;
             _rightAnimation = [self getRandomAnimation];
           }
+          _fadeTimeLength = arc4random_uniform(kFadeTimeMaxLength - kFadeTimeMinLength) + kFadeTimeMinLength;
         }
         break;
     }
