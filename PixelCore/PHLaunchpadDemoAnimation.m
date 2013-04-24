@@ -68,6 +68,21 @@ static const NSInteger kNumberOfLaunchpadRows = 8;
     }
   }
 
+  for (PHMote* mote in self.systemState.motes) {
+    for (NSValue* value in mote.xySinceLastFrame) {
+      CGPoint point = [value pointValue];
+      CGPoint scaledPoint = CGPointMake(floorf(point.x * (CGFloat)kNumberOfLaunchpadCols / (CGFloat)kWallWidth),
+                                        floorf(point.y * (CGFloat)kNumberOfLaunchpadRows / (CGFloat)kWallHeight));
+      PHLaunchpadValues* value = _launchpadValues[(NSInteger)scaledPoint.x + (NSInteger)scaledPoint.y * kNumberOfLaunchpadCols];
+      BOOL isPressed = YES;
+      CGFloat peak = isPressed ? 1 : 0;
+      [value.intensity tickWithPeak:peak];
+      if (isPressed) {
+        value.rotationOffset = ((CGFloat)arc4random_uniform(1000) / 1000.0 - 0.5) * 5;
+      }
+    }
+  }
+
   CGFloat colWidth = size.width / (CGFloat)kNumberOfLaunchpadCols;
   CGFloat rowHeight = size.height / (CGFloat)kNumberOfLaunchpadRows;
 

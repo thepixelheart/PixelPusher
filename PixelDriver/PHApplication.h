@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,8 @@
 // limitations under the License.
 //
 
-#import "PHMote.h"
+#import <Cocoa/Cocoa.h>
 
-// Private APIs
-@interface PHMoteState()
-
-@property (nonatomic, assign) CGFloat joystickDegrees;
-@property (nonatomic, assign) CGFloat joystickTilt;
-@property (nonatomic, assign) BOOL aIsTapped;
-@property (nonatomic, assign) BOOL bIsTapped;
-@property (nonatomic, copy) NSString *text;
-
-@property (nonatomic, assign) CGPoint xy;
-
-@property (nonatomic, assign) PHMoteStateControlEvent controlEvent;
+@interface PHApplication : NSApplication
 
 @end

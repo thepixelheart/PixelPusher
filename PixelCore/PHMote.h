@@ -70,6 +70,7 @@ typedef enum {
 
 // All of the states that were sent since the last animation tick.
 @property (nonatomic, readonly, copy) NSArray* statesSinceLastFrame; // Array of PHMoteState
+@property (nonatomic, readonly, copy) NSArray* xySinceLastFrame; // Array of NSValue<CGPoint>
 
 @end
 

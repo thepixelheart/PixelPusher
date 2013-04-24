@@ -19,13 +19,19 @@
 #import "PHMote+Private.h"
 #import "PHMoteState+Private.h"
 
-@implementation PHMoteState
+@implementation PHMoteState {
+  BOOL _isxy;
+}
 
 - (id)init {
   if ((self = [super init])) {
     _timestamp = [NSDate timeIntervalSinceReferenceDate];
   }
   return self;
+}
+
+- (BOOL)isXy {
+  return _isxy;
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -35,17 +41,28 @@
   copy->_aIsTapped = _aIsTapped;
   copy->_bIsTapped = _bIsTapped;
   copy->_text = _text;
+  copy->_controlEvent = _controlEvent;
+  copy->_isxy = _isxy;
+  copy->_xy = _xy;
   return copy;
+}
+
+- (void)setXy:(CGPoint)xy {
+  _xy = xy;
+  _isxy = YES;
 }
 
 @end
 
 @implementation PHMote {
   NSMutableArray* _states;
+  NSMutableArray* _xyValues;
 }
 
 - (id)initWithName:(NSString *)name identifier:(NSString *)identifier stream:(NSStream *)stream {
   if ((self = [super init])) {
+    _states = [NSMutableArray array];
+    _xyValues = [NSMutableArray array];
     _name = [name copy];
     _identifier = [identifier copy];
     _stream = stream;
@@ -57,7 +74,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
   PHMote* copy = [[[self class] allocWithZone:zone] init];
-  copy->_states = [_states copy];
+  copy->_states = [_states mutableCopy];
   copy->_name = _name;
   copy->_identifier = _identifier;
   copy->_numberOfTimesATapped = _numberOfTimesATapped;
@@ -67,6 +84,7 @@
   copy->_joystickDegrees = _joystickDegrees;
   copy->_joystickTilt = _joystickTilt;
   copy->_text = _text;
+  copy->_xyValues = [_xyValues mutableCopy];
   return copy;
 }
 
@@ -104,6 +122,18 @@
   } else if (state.controlEvent == PHMoteStateControlEventStopStreaming) {
     _streaming = NO;
   }
+
+  if ([state isXy]) {
+    [_xyValues addObject:[NSValue valueWithPoint:state.xy]];
+  }
+}
+
+- (NSArray *)statesSinceLastFrame {
+  return [_states copy];
+}
+
+- (NSArray *)xySinceLastFrame {
+  return [_xyValues copy];
 }
 
 - (void)tick {
@@ -111,6 +141,7 @@
   _numberOfTimesBTapped = 0;
   _text = nil;
   [_states removeAllObjects];
+  [_xyValues removeAllObjects];
 }
 
 - (void)clearText {

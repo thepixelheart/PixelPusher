@@ -157,6 +157,7 @@
 		6656525C171FAFA200030D76 /* motionblur.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525B171FAFA200030D76 /* motionblur.png */; };
 		6656525E171FB19C00030D76 /* bpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525D171FB19C00030D76 /* bpm.png */; };
 		66565260171FB21300030D76 /* nobpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525F171FB21300030D76 /* nobpm.png */; };
+		665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07A41727C6A900DD5D14 /* PHApplication.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
 		668EA9EF1720BEB20056C8C3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		668EAA551720BFBB0056C8C3 /* PHAdventureTimeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */; };
@@ -599,6 +600,8 @@
 		6656525B171FAFA200030D76 /* motionblur.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = motionblur.png; path = PixelDriver/resources/motionblur.png; sourceTree = "<group>"; };
 		6656525D171FB19C00030D76 /* bpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bpm.png; path = PixelDriver/resources/bpm.png; sourceTree = "<group>"; };
 		6656525F171FB21300030D76 /* nobpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nobpm.png; path = PixelDriver/resources/nobpm.png; sourceTree = "<group>"; };
+		665A07A31727C6A900DD5D14 /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
+		665A07A41727C6A900DD5D14 /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHSystemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemState.m; sourceTree = "<group>"; };
 		668EA9EE1720BEB10056C8C3 /* libPixelCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPixelCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1650,6 +1653,8 @@
 				6634E1F816A667AA00AD86B1 /* Pixel Driver */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
 				66DC7B641676FC2F00453E8F /* AppDelegate.m */,
+				665A07A31727C6A900DD5D14 /* PHApplication.h */,
+				665A07A41727C6A900DD5D14 /* PHApplication.m */,
 				66DC7B5D1676FC2F00453E8F /* main.m */,
 			);
 			name = PixelPusher;
@@ -2315,6 +2320,7 @@
 				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
+				665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
