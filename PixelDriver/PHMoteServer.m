@@ -38,6 +38,7 @@ typedef enum {
   PHMoteMessageButtonReleased,
   PHMoteMessageJoystickMoved,
   PHMoteMessageJoystickStopped,
+  PHMoteMessageXYPoint,
   PHMoteMessageText,
   PHMoteMessageControl,
   PHMoteMessageUnknown
@@ -99,6 +100,10 @@ typedef enum {
 
     } else if (byte == 'c') {
       _message = PHMoteMessageControl;
+
+    } else if (byte == 'x') {
+      _message = PHMoteMessageXYPoint;
+      _numberOfAdditionalBytes = 2;
 
     } else {
       NSLog(@"Unknown message type: %c", byte);
@@ -178,6 +183,13 @@ typedef enum {
         PHMoteState* state = [latestState copy];
         state.joystickDegrees = angle;
         state.joystickTilt = tilt;
+        result = state;
+      } else if (_message == PHMoteMessageXYPoint) {
+        uint8_t y = _additionalBytes[0];
+        uint8_t x = _additionalBytes[1];
+
+        PHMoteState* state = [latestState copy];
+        state.xy = CGPointMake(x, y);
         result = state;
       }
 
