@@ -408,14 +408,13 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 }
 
 - (void)didTickWithContextValue:(NSData *)message {
-  @synchronized(self) {
-    for (PHMoteStreams* streams in _moteSockets) {
-      if (streams.mote.streaming) {
-        if (streams.outputStream.streamStatus == NSStreamStatusOpen) {
-          NSInteger bytesWritten = 0;
-          while (bytesWritten < message.length) {
-            bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
-          }
+  for (PHMoteStreams* streams in _moteSockets) {
+    if (streams.mote.streaming) {
+      if (streams.outputStream.streamStatus == NSStreamStatusOpen
+          && streams.outputStream.hasSpaceAvailable) {
+        NSInteger bytesWritten = 0;
+        while (bytesWritten < message.length) {
+          bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
         }
       }
     }
@@ -427,7 +426,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
   BOOL anyStreaming = NO;
   for (PHMoteStreams* streams in _moteSockets) {
-    if (streams.mote.streaming && streams.outputStream.streamStatus == NSStreamStatusOpen) {
+    if (streams.mote.streaming && streams.outputStream.streamStatus == NSStreamStatusOpen
+        && streams.outputStream.hasSpaceAvailable) {
       anyStreaming = YES;
     }
   }
