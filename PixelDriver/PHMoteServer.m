@@ -19,6 +19,8 @@
 #import "AppDelegate.h"
 #import "PHAnimation.h"
 #import "PHSystem.h"
+#import "PHDisplayLink.h"
+#import "PHSystemTick.h"
 
 #import "PHMote.h"
 #import "PHMote+Private.h"
@@ -188,6 +190,7 @@ typedef enum {
 @end
 
 @interface PHMoteStreams : NSObject
+@property (nonatomic, strong) PHMote* mote;
 @property (nonatomic, strong) NSInputStream* inputStream;
 @property (nonatomic, strong) NSOutputStream* outputStream;
 @end
@@ -253,6 +256,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     CFRunLoopSourceInvalidate(_socketsource);
     _socketsource = nil;
   }
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)init {
@@ -356,6 +360,12 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
             NSArray* parts = [result componentsSeparatedByString:@","];
             NSString* name = [[parts subarrayWithRange:NSMakeRange(1, parts.count - 1)] componentsJoinedByString:@","];
             mote = [[PHMote alloc] initWithName:name identifier:parts[0] stream:stream];
+            for (PHMoteStreams* streams in _moteSockets) {
+              if (streams.inputStream == stream) {
+                streams.mote = mote;
+                break;
+              }
+            }
             [_streamToMote setObject:mote forKey:streamKey];
           }
         }
@@ -384,7 +394,48 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   }
 }
 
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  PHSystemTick* systemTick = notification.userInfo[PHDisplayLinkFiredSystemTickKey];
+
+  @synchronized(self) {
+    NSMutableData *message = nil;
+    for (PHMoteStreams* streams in _moteSockets) {
+      if (streams.mote.streaming) {
+        if (streams.outputStream.streamStatus == NSStreamStatusOpen) {
+          if (nil == message) {
+            CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+            CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+            
+            CGImageRef imageRef = CGBitmapContextCreateImage(systemTick.wallContextRef);
+            CGContextDrawImage(contextRef, CGRectMake(0, 0, wallSize.width, wallSize.height), imageRef);
+            CGImageRelease(imageRef);
+
+            imageRef = CGBitmapContextCreateImage(contextRef);
+            CGContextRelease(contextRef);
+
+            NSImage* image = [[NSImage alloc] initWithCGImage:imageRef size:CGSizeMake(kWallWidth, kWallHeight)];
+            CGImageRelease(imageRef);
+            NSData* data = [image TIFFRepresentation];
+
+            message = [[NSMutableData alloc] initWithData:[@"~" dataUsingEncoding:NSUTF8StringEncoding]];
+            int32_t length = (int32_t)(data.length);
+            [message appendBytes:&length length:sizeof(int32_t)];
+            [message appendData:data];
+          }
+          NSInteger bytesWritten = 0;
+          while (bytesWritten < message.length) {
+            bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
+          }
+        }
+      }
+    }
+  }
+}
+
 - (void)startListening {
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
+  
   CFSocketContext context;
   memset(&context, 0, sizeof(CFSocketContext));
   context.info = (__bridge void *)self;
