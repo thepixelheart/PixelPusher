@@ -272,7 +272,11 @@ static const NSTimeInterval kFadeTimeLength = 3;
 - (PHAnimation *)getRandomAnimation {
   NSArray* allAnimation = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
   allAnimation = [allAnimation filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(PHAnimation *evaluatedObject, NSDictionary *bindings) {
-    return (!([evaluatedObject.categories containsObject:PHAnimationCategoryFilters] && [evaluatedObject.categories containsObject:PHAnimationCategoryPipes]) || ![evaluatedObject isKindOfClass:[PHCompositeAnimation class]]);
+    return (((![evaluatedObject.categories containsObject:PHAnimationCategoryFilters]
+              && ![evaluatedObject.categories containsObject:PHAnimationCategoryPipes])
+             || [evaluatedObject isKindOfClass:[PHCompositeAnimation class]])
+            && ![evaluatedObject.categories containsObject:PHAnimationCategoryGames]
+            && !evaluatedObject.isPipeAnimation);
   }]];
   return allAnimation[arc4random_uniform(allAnimation.count)];
   
