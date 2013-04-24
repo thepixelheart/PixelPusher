@@ -258,6 +258,40 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
 
 #pragma mark - NSStreamDelegate
 
+- (void)sendAnimationListToStream:(PHMoteStreams *)streams {
+  NSArray* allAnimations = [PHSys() compiledAnimations];
+  NSMutableArray* animationDicts = [NSMutableArray array];
+  for (PHAnimation* animation in allAnimations) {
+    CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+    [animation renderPreviewInContext:contextRef size:wallSize];
+
+    CGImageRef previewImageRef = CGBitmapContextCreateImage(contextRef);
+    CGContextRelease(contextRef);
+
+    NSImage* image = [[NSImage alloc] initWithCGImage:previewImageRef size:wallSize];
+    CGImageRelease(previewImageRef);
+
+    [animationDicts addObject:@{
+     @"name": animation.tooltipName,
+     @"image": [image TIFFRepresentation]}];
+  }
+
+  NSMutableData *data = [[NSMutableData alloc] init];
+  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+  [archiver encodeObject:animationDicts];
+  [archiver finishEncoding];
+
+  NSMutableData *message = [[NSMutableData alloc] initWithData:[@"l" dataUsingEncoding:NSUTF8StringEncoding]];
+  int32_t length = (int32_t)(data.length);
+  [message appendBytes:&length length:sizeof(int32_t)];
+  [message appendData:data];
+  NSInteger bytesWritten = 0;
+  while (bytesWritten < message.length) {
+    bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
+  }
+}
+
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
   @synchronized(self) {
     if ([stream isKindOfClass:[NSInputStream class]]) {
@@ -301,38 +335,8 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
             if (state.controlEvent == PHMoteStateControlEventListAnimations) {
               for (PHMoteStreams* streams in _moteSockets) {
                 if (streams.inputStream == stream) {
-                  NSArray* allAnimations = [PHSys() compiledAnimations];
-                  NSMutableArray* animationDicts = [NSMutableArray array];
-                  for (PHAnimation* animation in allAnimations) {
-
-                    CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-                    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
-                    [animation renderPreviewInContext:contextRef size:wallSize];
-
-                    CGImageRef previewImageRef = CGBitmapContextCreateImage(contextRef);
-                    CGContextRelease(contextRef);
-
-                    NSImage* image = [[NSImage alloc] initWithCGImage:previewImageRef size:wallSize];
-                    CGImageRelease(previewImageRef);
-
-                    [animationDicts addObject:@{
-                     @"name": animation.tooltipName,
-                     @"image": [image TIFFRepresentation]}];
-                  }
-
-                  NSMutableData *data = [[NSMutableData alloc] init];
-                  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-                  [archiver encodeObject:animationDicts];
-                  [archiver finishEncoding];
-
-                  NSMutableData *message = [[NSMutableData alloc] initWithData:[@"l" dataUsingEncoding:NSUTF8StringEncoding]];
-                  int32_t length = (int32_t)(data.length);
-                  [message appendBytes:&length length:sizeof(int32_t)];
-                  [message appendData:data];
-                  NSInteger bytesWritten = 0;
-                  while (bytesWritten < message.length) {
-                    bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
-                  }
+                  [self sendAnimationListToStream:streams];
+                  break;
                 }
               }
 
