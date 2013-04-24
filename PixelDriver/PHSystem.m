@@ -503,6 +503,28 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
 }
 
+- (void)toggleUmanoMode {
+  [PHSys() setUmanoMode:![PHSys() umanoMode]];
+  if ([PHSys() umanoMode]) {
+    [self setViewMode:PHViewModeUmanoMode];
+    
+    if ([self fade] > 0.5) {
+      _umamoModeStatus = PHUmanoModeStatusIdleRight;
+      [self setFade:1];
+    } else {
+      _umamoModeStatus = PHUmanoModeStatusIdleLeft;
+      [self setFade:0];
+    }
+    _leftAnimation = [self getRandomAnimation];
+    _rightAnimation = [self getRandomAnimation];
+    _timerStart = [NSDate timeIntervalSinceReferenceDate];
+  } else {
+    [self setViewMode:PHViewModeLibrary];
+  }
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];  
+}
+
 - (void)setViewMode:(PHViewMode)viewMode {
   _viewMode = viewMode;
 
@@ -598,23 +620,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       break;
 
     case PHSystemButtonUmanoMode:
-      [PHSys() setUmanoMode:![PHSys() umanoMode]];
-      if ([PHSys() umanoMode]) {
-        [self setViewMode:PHViewModeUmanoMode];
-        
-        if ([self fade] > 0.5) {
-          _umamoModeStatus = PHUmanoModeStatusIdleRight;
-          [self setFade:1];
-        } else {
-          _umamoModeStatus = PHUmanoModeStatusIdleLeft;
-          [self setFade:0];
-        }
-        _leftAnimation = [self getRandomAnimation];
-        _rightAnimation = [self getRandomAnimation];
-        _timerStart = [NSDate timeIntervalSinceReferenceDate];
-      } else {
-        [self setViewMode:PHViewModeLibrary];
-      }
+      [self toggleUmanoMode];
       break;
 
     case PHSystemButtonTapBPM:

@@ -37,6 +37,7 @@
                                       @"1": @(PHSystemButton1),
                                       @"`": @(PHSystemButtonText),
                                       @"f": @(PHSystemButtonFullScreen),
+                                      @"u": @(PHSystemButtonUmanoMode),
                                       } mutableCopy];
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {

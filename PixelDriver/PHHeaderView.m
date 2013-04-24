@@ -75,6 +75,9 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     [_compositeEditorButton setTitle:@"Composite Editor"];
     _compositeEditorButton.delegate = self;
     [self.contentView addSubview:_compositeEditorButton];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didChangeViewStateNotification:) name:PHSystemViewStateChangedNotification object:nil];    
   }
   return self;
 }
@@ -120,17 +123,21 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
 - (void)didPressDownButton:(PHButton *)button {
   [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
-  if (((PHSystemControlIdentifier)button.tag) == PHSystemButtonUmanoMode) {
-    if ([PHSys() umanoMode]) {
-      [_umanoModeButton setTextColor:[NSColor orangeColor]];
-    } else {
-      [_umanoModeButton setTextColor:[NSColor whiteColor]];
-    }
-  }
 }
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
+
+#pragma mark - View Mode Notifications
+
+- (void)didChangeViewStateNotification:(NSNotification *)notification {
+  if ([PHSys() umanoMode]) {
+    [_umanoModeButton setTextColor:[NSColor orangeColor]];
+  } else {
+    [_umanoModeButton setTextColor:[NSColor whiteColor]];
+  }
+}
+
 
 @end
