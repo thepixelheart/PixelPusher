@@ -179,6 +179,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     
     // Umano mode OFF
     [self setUmanoMode:FALSE];
+    
+    // Fullscreen OFF
+    [self setFullscreenMode:FALSE];
 
     [self refreshLaunchpad];
   }
@@ -493,6 +496,13 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
           PHSystemValueKey: [NSNumber numberWithDouble:fade]}];
 }
 
+
+- (void)toggleFullscreen {
+  [self setFullscreenMode:![self fullscreenMode]];
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+}
+
 - (void)setViewMode:(PHViewMode)viewMode {
   _viewMode = viewMode;
 
@@ -630,7 +640,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     case PHSystemButtonText:
       _countdownOverlay = PHCountdownOverlayText;
       break;
-      
+    case PHSystemButtonFullScreen:
+      [self toggleFullscreen];
+      break;
     default:
       break;
   }

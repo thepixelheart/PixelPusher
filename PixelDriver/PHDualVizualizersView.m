@@ -52,6 +52,7 @@ static const CGFloat kPlaybackControlsHeight = 40;
   PHCompositeEditorView* _compositeEditorView;
 
   PHViewMode _viewMode;
+  BOOL _fullscreened;
 }
 
 - (void)dealloc {
@@ -61,6 +62,7 @@ static const CGFloat kPlaybackControlsHeight = 40;
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
     _viewMode = PHSys().viewMode;
+    _fullscreened = PHSys().fullscreenMode;
 
     self.wantsLayer = YES;
     [self.layer setBackgroundColor:PHBackgroundColor().CGColor];
@@ -217,7 +219,6 @@ static const CGFloat kPlaybackControlsHeight = 40;
       _prefsView = [[PHPrefsView alloc] init];
       [self addSubview:_prefsView];
       hideLibrary = YES;
-
     } else if (_viewMode == PHViewModeCompositeEditor) {
       _compositeEditorView = [[PHCompositeEditorView alloc] init];
       [self addSubview:_compositeEditorView];
@@ -228,6 +229,25 @@ static const CGFloat kPlaybackControlsHeight = 40;
 
     [_libraryView setHidden:hideLibrary];
     [_playbackControlsView setHidden:hidePlaybackControls];
+  }
+  BOOL newFullscreenMode = PHSys().fullscreenMode;
+  if (_fullscreened != newFullscreenMode) {
+    _fullscreened = newFullscreenMode;
+    if (newFullscreenMode) {
+      NSDictionary* options = [NSDictionary
+                               dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithBool:YES],
+                               NSFullScreenModeAllScreens, nil];
+      [_wallVisualizationView enterFullScreenMode:[NSScreen mainScreen]
+                         withOptions:options];
+      [_wallVisualizationView setFrame:[NSScreen mainScreen].frame];
+    } else {
+      NSDictionary* options = [NSDictionary
+                               dictionaryWithObjectsAndKeys:
+                               [NSNumber numberWithBool:NO],
+                               NSFullScreenModeAllScreens, nil];
+      [_wallVisualizationView exitFullScreenModeWithOptions:options];
+    }
   }
 }
 

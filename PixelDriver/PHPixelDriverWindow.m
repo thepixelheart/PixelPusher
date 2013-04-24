@@ -70,6 +70,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     @"2": @(PHSystemButton2),
     @"1": @(PHSystemButton1),
     @"`": @(PHSystemButtonText),
+    @"f": @(PHSystemButtonFullScreen),
   } mutableCopy];
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {

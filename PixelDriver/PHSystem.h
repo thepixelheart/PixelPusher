@@ -41,6 +41,7 @@ typedef enum {
   PHSystemButton2,
   PHSystemButton1,
   PHSystemButtonText,
+  PHSystemButtonFullScreen,
   
   // Composite Editor
   PHSystemButtonNewComposite,
@@ -131,8 +132,11 @@ extern NSString* const PHSystemFaderDidSwapNotification;
 // When enabled displays the Pixel Heart text over the current animation.
 @property (readonly, assign) BOOL overlayPixelHeart;
 
-// When enabled displays the Pixel Heart text over the current animation.
+// When enabled, auto fades animations
 @property (assign) BOOL umanoMode;
+
+// When eneabled, the final output view is fullscreened
+@property (assign) BOOL fullscreenMode;
 
 
 // Buttons
