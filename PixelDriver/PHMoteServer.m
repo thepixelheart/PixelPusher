@@ -407,34 +407,11 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
   }
 }
 
-- (void)displayLinkDidFire:(NSNotification *)notification {
-  PHSystemTick* systemTick = notification.userInfo[PHDisplayLinkFiredSystemTickKey];
-
+- (void)didTickWithContextValue:(NSData *)message {
   @synchronized(self) {
-    NSMutableData *message = nil;
     for (PHMoteStreams* streams in _moteSockets) {
       if (streams.mote.streaming) {
         if (streams.outputStream.streamStatus == NSStreamStatusOpen) {
-          if (nil == message) {
-            CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
-            CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
-            
-            CGImageRef imageRef = CGBitmapContextCreateImage(systemTick.wallContextRef);
-            CGContextDrawImage(contextRef, CGRectMake(0, 0, wallSize.width, wallSize.height), imageRef);
-            CGImageRelease(imageRef);
-
-            imageRef = CGBitmapContextCreateImage(contextRef);
-            CGContextRelease(contextRef);
-
-            NSImage* image = [[NSImage alloc] initWithCGImage:imageRef size:CGSizeMake(kWallWidth, kWallHeight)];
-            CGImageRelease(imageRef);
-            NSData* data = [image TIFFRepresentation];
-
-            message = [[NSMutableData alloc] initWithData:[@"~" dataUsingEncoding:NSUTF8StringEncoding]];
-            int32_t length = (int32_t)(data.length);
-            [message appendBytes:&length length:sizeof(int32_t)];
-            [message appendData:data];
-          }
           NSInteger bytesWritten = 0;
           while (bytesWritten < message.length) {
             bytesWritten += [streams.outputStream write:[message bytes] + bytesWritten maxLength:[message length] - bytesWritten];
@@ -443,6 +420,40 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
       }
     }
   }
+}
+
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  PHSystemTick* systemTick = notification.userInfo[PHDisplayLinkFiredSystemTickKey];
+
+  BOOL anyStreaming = NO;
+  for (PHMoteStreams* streams in _moteSockets) {
+    if (streams.mote.streaming && streams.outputStream.streamStatus == NSStreamStatusOpen) {
+      anyStreaming = YES;
+    }
+  }
+  if (!anyStreaming) {
+    return;
+  }
+
+  CGSize wallSize = CGSizeMake(kWallWidth, kWallHeight);
+  CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(wallSize);
+
+  CGImageRef imageRef = CGBitmapContextCreateImage(systemTick.wallContextRef);
+  CGContextDrawImage(contextRef, CGRectMake(0, 0, wallSize.width, wallSize.height), imageRef);
+  CGImageRelease(imageRef);
+
+  imageRef = CGBitmapContextCreateImage(contextRef);
+  CGContextRelease(contextRef);
+
+  NSImage* image = [[NSImage alloc] initWithCGImage:imageRef size:CGSizeMake(kWallWidth, kWallHeight)];
+  CGImageRelease(imageRef);
+  NSData* data = [image TIFFRepresentation];
+
+  NSMutableData *message = [[NSMutableData alloc] initWithData:[@"~" dataUsingEncoding:NSUTF8StringEncoding]];
+  int32_t length = (int32_t)(data.length);
+  [message appendBytes:&length length:sizeof(int32_t)];
+  [message appendData:data];
+  [self performSelector:@selector(didTickWithContextValue:) onThread:self withObject:message waitUntilDone:NO];
 }
 
 - (void)startListening {
