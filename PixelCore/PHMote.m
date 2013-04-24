@@ -98,6 +98,12 @@
   if (state.text.length) {
     _text = state.text;
   }
+
+  if (state.controlEvent == PHMoteStateControlEventStartStreaming) {
+    _streaming = YES;
+  } else if (state.controlEvent == PHMoteStateControlEventStopStreaming) {
+    _streaming = NO;
+  }
 }
 
 - (void)tick {
@@ -109,7 +115,5 @@
 
 - (void)clearText {
 }
-
-
 
 @end

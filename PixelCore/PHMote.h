@@ -21,6 +21,8 @@
 typedef enum {
   PHMoteStateControlEventUnknown,
   PHMoteStateControlEventListAnimations,
+  PHMoteStateControlEventStartStreaming,
+  PHMoteStateControlEventStopStreaming,
 } PHMoteStateControlEvent;
 
 /**

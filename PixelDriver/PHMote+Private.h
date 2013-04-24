@@ -27,5 +27,6 @@
 - (void)tick;
 
 @property (nonatomic, strong) PHMoteState* lastState;
+@property (nonatomic, assign) BOOL streaming;
 
 @end

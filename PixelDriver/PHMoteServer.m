@@ -107,6 +107,14 @@ typedef enum {
       PHMoteState* state = [latestState copy];
       state.controlEvent = PHMoteStateControlEventListAnimations;
       result = state;
+    } else if (byte == '+') {
+      PHMoteState* state = [latestState copy];
+      state.controlEvent = PHMoteStateControlEventStartStreaming;
+      result = state;
+    } else if (byte == '-') {
+      PHMoteState* state = [latestState copy];
+      state.controlEvent = PHMoteStateControlEventStopStreaming;
+      result = state;
     }
 
   } else if (_message == PHMoteMessageButtonPressed) {
