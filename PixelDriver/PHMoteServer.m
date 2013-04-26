@@ -519,6 +519,7 @@ void PHHandleHTTPConnection(CFSocketRef s, CFSocketCallBackType callbackType, CF
     return;
   }
   CFRunLoopAddSource(CFRunLoopGetCurrent(), _socketsource, kCFRunLoopDefaultMode);
+  NSLog(@"port: %d", _port);
 
   _service = [[NSNetService alloc] initWithDomain:@"" type:@"_pixelmote._tcp." name:@"Pixel Mote Server" port:_port];
   _service.delegate = self;
