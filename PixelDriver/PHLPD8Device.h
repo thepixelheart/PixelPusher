@@ -25,8 +25,8 @@
 
 @protocol PHLPD8DeviceDelegate <NSObject>
 
-- (void)volume:(NSInteger)volume didChangeValue:(CGFloat)value;
-- (void)buttonWasPressed:(NSInteger)button withVelocity:(CGFloat)velocity;
-- (void)buttonWasReleased:(NSInteger)button;
+- (void)lpd8:(PHLPD8Device *)lpd8 volume:(NSInteger)volume didChangeValue:(CGFloat)value;
+- (void)lpd8:(PHLPD8Device *)lpd8 buttonWasPressed:(NSInteger)button withVelocity:(CGFloat)velocity;
+- (void)lpd8:(PHLPD8Device *)lpd8 buttonWasReleased:(NSInteger)button;
 
 @end

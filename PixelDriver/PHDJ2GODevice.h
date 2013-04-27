@@ -92,10 +92,10 @@ typedef enum {
 
 @protocol PHDJ2GODeviceDelegate <NSObject>
 
-- (void)slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value;
-- (void)volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value;
-- (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction;
-- (void)buttonWasPressed:(PHDJ2GOButton)button;
-- (void)buttonWasReleased:(PHDJ2GOButton)button;
+- (void)dj2go:(PHDJ2GODevice *)dj2go slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value;
+- (void)dj2go:(PHDJ2GODevice *)dj2go volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value;
+- (void)dj2go:(PHDJ2GODevice *)dj2go knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction;
+- (void)dj2go:(PHDJ2GODevice *)dj2go buttonWasPressed:(PHDJ2GOButton)button;
+- (void)dj2go:(PHDJ2GODevice *)dj2go buttonWasReleased:(PHDJ2GOButton)button;
 
 @end

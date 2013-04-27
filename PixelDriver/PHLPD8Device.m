@@ -71,21 +71,21 @@ static NSString* const kHardwareName = @"LPD8";
 - (void)volume:(NSInteger)volume didChange:(CGFloat)value {
   _volumes[volume] = value;
 
-  [_delegate volume:volume didChangeValue:value];
+  [_delegate lpd8:self volume:volume didChangeValue:value];
 }
 
 - (void)buttonWasPressed:(NSInteger)button withVelocity:(CGFloat)velocity {
   _buttonVelocities[button] = velocity;
   _buttons[button] = YES;
 
-  [_delegate buttonWasPressed:button withVelocity:velocity];
+  [_delegate lpd8:self buttonWasPressed:button withVelocity:velocity];
 }
 
 - (void)buttonWasReleased:(NSInteger)button {
   _buttonVelocities[button] = 0;
   _buttons[button] = NO;
 
-  [_delegate buttonWasReleased:button];
+  [_delegate lpd8:self buttonWasReleased:button];
 }
 
 @end

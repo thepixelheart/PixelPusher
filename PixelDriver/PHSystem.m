@@ -79,7 +79,7 @@ static const NSTimeInterval kIdleTimeMaxLength = 10;
 static const NSTimeInterval kFadeTimeMinLength = 3;
 static const NSTimeInterval kFadeTimeMaxLength = 5;
 
-@interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate>
+@interface PHSystem() <PHDJ2GODeviceDelegate, PHLaunchpadDeviceDelegate, PHLPD8DeviceDelegate>
 @end
 
 @implementation PHSystem {
@@ -150,6 +150,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
     _lpd8 = [[PHLPD8Device alloc] init];
+    _lpd8.delegate = self;
 
     // Animations are playing by default.
     [_dj2go setButton:PHDJ2GOButtonLeftPlayPause ledStateEnabled:YES];
@@ -819,7 +820,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 #pragma mark - PHDJ2GODeviceDelegate
 
-- (void)slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value {
+- (void)dj2go:(PHDJ2GODevice *)dj2go slider:(PHDJ2GOSlider)slider didChangeValue:(CGFloat)value {
   switch (slider) {
     case PHDJ2GOSliderMid:
       [self setFade:value];
@@ -841,7 +842,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
-- (void)volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
+- (void)dj2go:(PHDJ2GODevice *)dj2go volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
   switch (volume) {
     case PHDJ2GOVolumeA:
       _hardwareLeft.volume = value;
@@ -858,7 +859,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
-- (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
+- (void)dj2go:(PHDJ2GODevice *)dj2go knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
   switch (knob) {
     case PHDJ2GOKnobBrowse:
       if (direction == PHDJ2GODirectionCw) {
@@ -879,7 +880,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
-- (void)buttonWasPressed:(PHDJ2GOButton)button {
+- (void)dj2go:(PHDJ2GODevice *)dj2go buttonWasPressed:(PHDJ2GOButton)button {
   switch (button) {
     case PHDJ2GOButtonLoadA:
       [self didPressButton:PHSystemButtonLoadLeft];
@@ -925,7 +926,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
-- (void)buttonWasReleased:(PHDJ2GOButton)button {
+- (void)dj2go:(PHDJ2GODevice *)dj2go buttonWasReleased:(PHDJ2GOButton)button {
   switch (button) {
     case PHDJ2GOButtonLoadA:
       [self didReleaseButton:PHSystemButtonLoadLeft];
@@ -1218,6 +1219,20 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     default:
       break;
   }
+}
+
+#pragma mark - PHLPD8DeviceDelegate
+
+- (void)lpd8:(PHLPD8Device *)lpd8 volume:(NSInteger)volume didChangeValue:(CGFloat)value {
+  NSLog(@"Volume %ld %f", volume, value);
+}
+
+- (void)lpd8:(PHLPD8Device *)lpd8 buttonWasPressed:(NSInteger)button withVelocity:(CGFloat)velocity {
+  NSLog(@"Button velocity %ld %f", button, velocity);
+}
+
+- (void)lpd8:(PHLPD8Device *)lpd8 buttonWasReleased:(NSInteger)button {
+  NSLog(@"Button released %ld", button);
 }
 
 - (void)setActiveCategory:(NSString *)activeCategory {

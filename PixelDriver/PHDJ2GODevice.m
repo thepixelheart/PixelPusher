@@ -91,29 +91,29 @@ static NSString* const kHardwareName = @"Numark DJ2Go";
 - (void)slider:(PHDJ2GOSlider)slider didChange:(CGFloat)value {
   _sliders[slider] = value;
 
-  [_delegate slider:slider didChangeValue:value];
+  [_delegate dj2go:self slider:slider didChangeValue:value];
 }
 
 - (void)volume:(PHDJ2GOVolume)volume didChange:(CGFloat)value {
   _volumes[volume] = value;
 
-  [_delegate volume:volume didChangeValue:value];
+  [_delegate dj2go:self volume:volume didChangeValue:value];
 }
 
 - (void)knob:(PHDJ2GOKnob)knob didRotate:(PHDJ2GODirection)direction {
-  [_delegate knob:knob didRotate:direction];
+  [_delegate dj2go:self knob:knob didRotate:direction];
 }
 
 - (void)buttonWasPressed:(PHDJ2GOButton)button {
   _buttons[button] = YES;
 
-  [_delegate buttonWasPressed:button];
+  [_delegate dj2go:self buttonWasPressed:button];
 }
 
 - (void)buttonWasReleased:(PHDJ2GOButton)button {
   _buttons[button] = NO;
 
-  [_delegate buttonWasReleased:button];
+  [_delegate dj2go:self buttonWasReleased:button];
 }
 
 - (void)setButton:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled {
