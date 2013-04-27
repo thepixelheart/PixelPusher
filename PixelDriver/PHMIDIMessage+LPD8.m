@@ -16,6 +16,58 @@
 
 #import "PHMIDIMessage+LPD8.h"
 
+const NSInteger kNumberOfVelocityButtons = 8;
+const NSInteger kNumberOfVolumes = 8;
+
 @implementation PHMIDIMessage (LPD8)
+
+- (PHLPD8MessageType)lpd8Type {
+  PHLPD8MessageType type = PHLPD8MessageTypeUnknown;
+
+  if (self.status == PHMIDIStatusNoteOn) {
+    type = PHLPD8MessageTypeVelocityButtonDown;
+
+  } else if (self.status == PHMIDIStatusNoteOff) {
+    type = PHLPD8MessageTypeVelocityButtonUp;
+
+  } else if (self.status == PHMIDIStatusControlChange) {
+    type = PHLPD8MessageTypeVolume;
+  }
+  return type;
+}
+
+- (NSInteger)lpd8VelocityButtonIndex {
+  switch (self.data1) {
+    case 0x28:
+      return 0;
+    case 0x29:
+      return 1;
+    case 0x2A:
+      return 2;
+    case 0x2B:
+      return 3;
+    case 0x24:
+      return 4;
+    case 0x25:
+      return 5;
+    case 0x26:
+      return 6;
+    case 0x27:
+      return 7;
+  }
+  return -1;
+}
+
+- (CGFloat)lpd8VelocityButtonIntensity {
+  return (CGFloat)self.data2 / 0x7F;
+}
+
+- (NSInteger)lpd8VolumeIndex {
+  return self.data1 - 1;
+}
+
+- (CGFloat)lpd8VolumeValue {
+  return (CGFloat)self.data2 / 0x7F;
+}
 
 @end

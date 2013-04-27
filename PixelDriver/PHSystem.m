@@ -29,6 +29,7 @@
 
 #import "PHLaunchpadDevice.h"
 #import "PHDJ2GODevice.h"
+#import "PHLPD8Device.h"
 
 #import <objc/runtime.h>
 #import <stdlib.h>
@@ -87,6 +88,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   // MIDI Devices (we only support one of each)
   PHLaunchpadDevice* _launchpad;
   PHDJ2GODevice* _dj2go;
+  PHLPD8Device* _lpd8;
 
   PHHardwareState *_hardwareLeft;
   PHHardwareState *_hardwareRight;
@@ -147,6 +149,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     _launchpad.delegate = self;
     _dj2go = [[PHDJ2GODevice alloc] init];
     _dj2go.delegate = self;
+    _lpd8 = [[PHLPD8Device alloc] init];
 
     // Animations are playing by default.
     [_dj2go setButton:PHDJ2GOButtonLeftPlayPause ledStateEnabled:YES];

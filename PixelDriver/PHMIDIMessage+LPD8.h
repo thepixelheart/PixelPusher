@@ -16,8 +16,27 @@
 
 #import "PHMIDIMessage.h"
 
+typedef enum {
+  PHLPD8MessageTypeVolume,
+  PHLPD8MessageTypeVelocityButtonDown,
+  PHLPD8MessageTypeVelocityButtonUp,
+
+  PHLPD8MessageTypeUnknown
+} PHLPD8MessageType;
+
+extern const NSInteger kNumberOfVelocityButtons;
+extern const NSInteger kNumberOfVolumes;
+
 @interface PHMIDIMessage (LPD8)
 
-// LPD8 messages
+- (PHLPD8MessageType)lpd8Type;
+
+// Velocity buttons
+- (NSInteger)lpd8VelocityButtonIndex;
+- (CGFloat)lpd8VelocityButtonIntensity;
+
+// Volume knobs
+- (NSInteger)lpd8VolumeIndex;
+- (CGFloat)lpd8VolumeValue;
 
 @end

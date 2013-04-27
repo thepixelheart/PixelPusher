@@ -18,6 +18,20 @@
 
 #import "PHMIDIHardware+Subclassing.h"
 
+static NSString* const kHardwareName = @"LPD8";
+
 @implementation PHLPD8Device
+
++ (NSString *)hardwareName {
+  return kHardwareName;
+}
+
+- (void)syncDeviceState {
+
+}
+
+- (void)didReceiveMIDIMessages:(NSArray *)messages {
+  NSLog(@"%@", messages);
+}
 
 @end
