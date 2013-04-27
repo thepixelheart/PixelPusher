@@ -16,31 +16,22 @@
 
 #import "PHDJ2GODevice.h"
 
+#import "PHMIDIHardware+Subclassing.h"
 #import "PHMIDIDriver.h"
 #import "PHMIDIDevice.h"
 #import "PHMIDIMessage+DJ2GO.h"
 
-static NSString* const kDeviceName = @"Numark DJ2Go";
+static NSString* const kHardwareName = @"Numark DJ2Go";
 
 @implementation PHDJ2GODevice {
-  PHMIDIDevice* _device;
-
   CGFloat _sliders[PHDJ2GOSliderCount];
   CGFloat _volumes[PHDJ2GOVolumeCount];
   BOOL _buttons[PHDJ2GOButtonCount];
   BOOL _buttonLEDs[PHDJ2GOButtonLEDCount];
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (id)init {
   if ((self = [super init])) {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(midiDevicesDidChangeNotification:)
-               name:PHMIDIDriverDevicesDidChangeNotification object:nil];
-
     memset(_sliders, 0, sizeof(CGFloat) * PHDJ2GOSliderCount);
     memset(_volumes, 0, sizeof(CGFloat) * PHDJ2GOVolumeCount);
     memset(_buttons, 0, sizeof(BOOL) * PHDJ2GOButtonCount);
@@ -49,35 +40,17 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
   return self;
 }
 
-#pragma mark - PHMIDIDriverDevicesDidChangeNotification
++ (NSString *)hardwareName {
+  return kHardwareName;
+}
 
-- (void)midiDevicesDidChangeNotification:(NSNotification *)notification {
-  NSDictionary* devices = notification.userInfo[PHMIDIDevicesKey];
-
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  if (nil != _device) {
-    [nc removeObserver:self name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
-  }
-
-  _device = devices[kDeviceName];
-
-  if (nil != _device) {
-    [nc addObserver:self selector:@selector(didReceiveMIDIMessages:) name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
-
-    [self syncDeviceState];
+- (void)syncDeviceState {
+  for (PHDJ2GOButton button = 0; button < PHDJ2GOButtonLEDCount; ++button) {
+    [self sendButtonColorMessage:button ledStateEnabled:_buttonLEDs[button]];
   }
 }
 
-#pragma mark - PHMIDIDeviceDidReceiveMessagesNotification
-
-- (void)didReceiveMIDIMessages:(NSNotification *)notification {
-  if ([NSThread currentThread] != [NSThread mainThread]) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self didReceiveMIDIMessages:notification];
-    });
-    return;
-  }
-  NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
+- (void)didReceiveMIDIMessages:(NSArray *)messages {
   for (PHMIDIMessage* message in messages) {
     PHDJ2GOMessageType type = message.dj2goType;
     switch (type) {
@@ -104,18 +77,12 @@ static NSString* const kDeviceName = @"Numark DJ2Go";
   }
 }
 
-- (void)syncDeviceState {
-  for (PHDJ2GOButton button = 0; button < PHDJ2GOButtonLEDCount; ++button) {
-    [self sendButtonColorMessage:button ledStateEnabled:_buttonLEDs[button]];
-  }
-}
-
 - (void)sendButtonColorMessage:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled {
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* msg = [[PHMIDIMessage alloc] initWithStatus:enabled ? PHMIDIStatusNoteOn : PHMIDIStatusNoteOff channel:0];
     msg.data1 = PHDJ2GOLEDButtonToByte[button];
     msg.data2 = 1;
-    [_device sendMessage:msg];
+    [self.device sendMessage:msg];
   }
 }
 

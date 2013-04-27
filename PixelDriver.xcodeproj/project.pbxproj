@@ -158,6 +158,10 @@
 		6656525E171FB19C00030D76 /* bpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525D171FB19C00030D76 /* bpm.png */; };
 		66565260171FB21300030D76 /* nobpm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6656525F171FB21300030D76 /* nobpm.png */; };
 		665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07A41727C6A900DD5D14 /* PHApplication.m */; };
+		665A07AD172B4DB000DD5D14 /* PHLPD8Device.h in Headers */ = {isa = PBXBuildFile; fileRef = 665A07AB172B4DB000DD5D14 /* PHLPD8Device.h */; };
+		665A07AF172B4DB800DD5D14 /* PHLPD8Device.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07AC172B4DB000DD5D14 /* PHLPD8Device.m */; };
+		665A07B2172B4DDB00DD5D14 /* PHMIDIMessage+LPD8.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07B1172B4DDA00DD5D14 /* PHMIDIMessage+LPD8.m */; };
+		665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07B4172B4E4600DD5D14 /* PHMIDIHardware.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
 		668EA9EF1720BEB20056C8C3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		668EAA551720BFBB0056C8C3 /* PHAdventureTimeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */; };
@@ -602,6 +606,13 @@
 		6656525F171FB21300030D76 /* nobpm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = nobpm.png; path = PixelDriver/resources/nobpm.png; sourceTree = "<group>"; };
 		665A07A31727C6A900DD5D14 /* PHApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHApplication.h; sourceTree = "<group>"; };
 		665A07A41727C6A900DD5D14 /* PHApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHApplication.m; sourceTree = "<group>"; };
+		665A07AB172B4DB000DD5D14 /* PHLPD8Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHLPD8Device.h; sourceTree = "<group>"; };
+		665A07AC172B4DB000DD5D14 /* PHLPD8Device.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHLPD8Device.m; sourceTree = "<group>"; };
+		665A07B0172B4DDA00DD5D14 /* PHMIDIMessage+LPD8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHMIDIMessage+LPD8.h"; sourceTree = "<group>"; };
+		665A07B1172B4DDA00DD5D14 /* PHMIDIMessage+LPD8.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHMIDIMessage+LPD8.m"; sourceTree = "<group>"; };
+		665A07B3172B4E4600DD5D14 /* PHMIDIHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIHardware.h; sourceTree = "<group>"; };
+		665A07B4172B4E4600DD5D14 /* PHMIDIHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIHardware.m; sourceTree = "<group>"; };
+		665A07B6172B4E8500DD5D14 /* PHMIDIHardware+Subclassing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHMIDIHardware+Subclassing.h"; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHSystemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemState.m; sourceTree = "<group>"; };
 		668EA9EE1720BEB10056C8C3 /* libPixelCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPixelCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1346,6 +1357,17 @@
 			name = Processing;
 			sourceTree = "<group>";
 		};
+		665A07AA172B4D9500DD5D14 /* LPD8 */ = {
+			isa = PBXGroup;
+			children = (
+				665A07AB172B4DB000DD5D14 /* PHLPD8Device.h */,
+				665A07AC172B4DB000DD5D14 /* PHLPD8Device.m */,
+				665A07B0172B4DDA00DD5D14 /* PHMIDIMessage+LPD8.h */,
+				665A07B1172B4DDA00DD5D14 /* PHMIDIMessage+LPD8.m */,
+			);
+			name = LPD8;
+			sourceTree = "<group>";
+		};
 		668EA9F01720BEB20056C8C3 /* PixelCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1502,8 +1524,12 @@
 				66CF638716AE2CAF0048228F /* PHMIDIDevice.m */,
 				662DE56E1686AA9F00F300CE /* PHMIDIMessage.h */,
 				662DE56F1686AA9F00F300CE /* PHMIDIMessage.m */,
+				665A07B3172B4E4600DD5D14 /* PHMIDIHardware.h */,
+				665A07B4172B4E4600DD5D14 /* PHMIDIHardware.m */,
+				665A07B6172B4E8500DD5D14 /* PHMIDIHardware+Subclassing.h */,
 				66CF63BB16AE8B9E0048228F /* DJ2GO */,
 				66CF639516AE47E40048228F /* Launchpad */,
+				665A07AA172B4D9500DD5D14 /* LPD8 */,
 			);
 			name = MIDI;
 			sourceTree = "<group>";
@@ -1926,6 +1952,7 @@
 				660589FD17221577006572B8 /* PHComicFilter.h in Headers */,
 				6651999D17261D4C0007EC96 /* PHKaleidoscopeFilter.h in Headers */,
 				665199A3172620A00007EC96 /* PHTriangleTileFilter.h in Headers */,
+				665A07AD172B4DB000DD5D14 /* PHLPD8Device.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2321,6 +2348,9 @@
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
 				665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */,
+				665A07AF172B4DB800DD5D14 /* PHLPD8Device.m in Sources */,
+				665A07B2172B4DDB00DD5D14 /* PHMIDIMessage+LPD8.m in Sources */,
+				665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

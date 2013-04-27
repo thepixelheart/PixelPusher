@@ -15,6 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PHMIDIHardware.h"
 
 // Notifications
 extern NSString* const PHLaunchpadDidReceiveStateChangeNotification;
@@ -85,7 +86,7 @@ extern const NSInteger PHLaunchpadButtonGridHeight;
 
 @protocol PHLaunchpadDeviceDelegate;
 
-@interface PHLaunchpadDevice : NSObject
+@interface PHLaunchpadDevice : PHMIDIHardware
 
 - (void)setButtonColor:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y;
 - (void)setButtonColor:(PHLaunchpadColor)color atButtonIndex:(NSInteger)buttonIndex;

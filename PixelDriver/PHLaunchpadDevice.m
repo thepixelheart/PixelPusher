@@ -16,6 +16,7 @@
 
 #import "PHLaunchpadDevice.h"
 
+#import "PHMIDIHardware+Subclassing.h"
 #import "PHMIDIMessage+Launchpad.h"
 #import "PHMIDIDriver.h"
 #import "PHMIDIDevice.h"
@@ -50,11 +51,9 @@ const Byte PHLaunchpadColorToByte[PHLaunchpadColorCount] = {
 #define PHBUTTONINDEXFROMGRIDXY(x, y) ((Byte)((((y) & 0x0F) << 4) + ((x) & 0x0F)))
 #define PHARRAYINDEXFROMGRIDXY(x, y) ((y) * PHLaunchpadButtonGridWidth + (x))
 
-static NSString* const kLaunchpadDeviceName = @"Launchpad";
+static NSString* const kHardwareName = @"Launchpad";
 
 @implementation PHLaunchpadDevice {
-  PHMIDIDevice* _device;
-
   BOOL _bufferFlipper;
   NSTimeInterval _lastFlashTimestamp;
   BOOL _flashingOn;
@@ -66,16 +65,8 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
   PHLaunchpadColor _sideButtonColor[PHLaunchpadSideButtonCount];
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (id)init {
   if ((self = [super init])) {
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(midiDevicesDidChangeNotification:)
-               name:PHMIDIDriverDevicesDidChangeNotification object:nil];
-
     memset(_buttonColor, 0, sizeof(PHLaunchpadColor) * [self numberOfButtons]);
     memset(_topButtonColor, 0, sizeof(PHLaunchpadColor) * PHLaunchpadTopButtonCount);
     memset(_sideButtonColor, 0, sizeof(PHLaunchpadColor) * PHLaunchpadSideButtonCount);
@@ -83,41 +74,21 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
   return self;
 }
 
-#pragma mark - Buttons
-
-- (NSInteger)numberOfButtons {
-  return PHLaunchpadButtonGridWidth * PHLaunchpadButtonGridHeight;
++ (NSString *)hardwareName {
+  return kHardwareName;
 }
 
-#pragma mark - PHMIDIDriverDevicesDidChangeNotification
+- (void)syncDeviceState {
+  [self reset];
+  [self enableFlashing];
+  [self startDoubleBuffering];
 
-- (void)midiDevicesDidChangeNotification:(NSNotification *)notification {
-  NSDictionary* devices = notification.userInfo[PHMIDIDevicesKey];
+  [self updateAllButtons];
 
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  if (nil != _device) {
-    [nc removeObserver:self name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
-  }
-
-  _device = devices[kLaunchpadDeviceName];
-
-  if (nil != _device) {
-    [nc addObserver:self selector:@selector(didReceiveMIDIMessages:) name:PHMIDIDeviceDidReceiveMessagesNotification object:_device];
-
-    [self syncDeviceState];
-  }
+  [self flipBuffer];
 }
 
-#pragma mark - PHMIDIDeviceDidReceiveMessagesNotification
-
-- (void)didReceiveMIDIMessages:(NSNotification *)notification {
-  if ([NSThread currentThread] != [NSThread mainThread]) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self didReceiveMIDIMessages:notification];
-    });
-    return;
-  }
-  NSArray* messages = notification.userInfo[PHMIDIMessagesKey];
+- (void)didReceiveMIDIMessages:(NSArray *)messages {
   for (PHMIDIMessage* message in messages) {
     PHLaunchpadEvent event = message.launchpadEvent;
     NSInteger buttonIndex = message.launchpadButtonIndex;
@@ -138,17 +109,12 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
         break;
     }
   }
-
 }
 
-- (void)syncDeviceState {
-  [self reset];
-  [self enableFlashing];
-  [self startDoubleBuffering];
+#pragma mark - Buttons
 
-  [self updateAllButtons];
-
-  [self flipBuffer];
+- (NSInteger)numberOfButtons {
+  return PHLaunchpadButtonGridWidth * PHLaunchpadButtonGridHeight;
 }
 
 - (void)updateAllButtons {
@@ -177,29 +143,29 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 #pragma mark - Messages
 
 - (void)sendButtonColorMessage:(PHLaunchpadColor)color atX:(NSInteger)x y:(NSInteger)y {
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* msg = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn channel:0];
     msg.data1 = PHBUTTONINDEXFROMGRIDXY(x, y);
     msg.data2 = PHLaunchpadColorToByte[color];
-    [_device sendMessage:msg];
+    [self.device sendMessage:msg];
   }
 }
 
 - (void)sendTopButtonColorMessage:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* msg = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange channel:0];
     msg.data1 = (buttonIndex & 0x0F) + 0x68;
     msg.data2 = PHLaunchpadColorToByte[color];
-    [_device sendMessage:msg];
+    [self.device sendMessage:msg];
   }
 }
 
 - (void)sendSideButtonColorMessage:(PHLaunchpadColor)color atIndex:(NSInteger)buttonIndex {
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* msg = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusNoteOn channel:0];
     msg.data1 = ((buttonIndex & 0x0F) << 4) | 0x08;
     msg.data2 = PHLaunchpadColorToByte[color];
-    [_device sendMessage:msg];
+    [self.device sendMessage:msg];
   }
 }
 
@@ -271,47 +237,47 @@ static NSString* const kLaunchpadDeviceName = @"Launchpad";
 - (void)enableFlashing {
   _flashingEnabled = YES;
 
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                            channel:0];
     message.data1 = 0;
     message.data2 = 0x28;
-    [_device sendMessage:message];
+    [self.device sendMessage:message];
   }
 }
 
 - (void)flipBuffer {
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                            channel:0];
     message.data1 = 0;
     message.data2 = (_bufferFlipper ? 0x31 : 0x34) | (_flashingEnabled ? 0x08 : 0);
     _bufferFlipper = !_bufferFlipper;
-    [_device sendMessage:message];
+    [self.device sendMessage:message];
   }
 }
 
 - (void)reset {
   _anyFlashers = NO;
 
-  if (_device) {
+  if (self.device) {
     PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                            channel:0];
     message.data1 = 0;
     message.data2 = 0;
-    [_device sendMessage:message];
+    [self.device sendMessage:message];
   }
 }
 
 - (void)tickFlashers {
   if (_anyFlashers && (0 == _lastFlashTimestamp || [NSDate timeIntervalSinceReferenceDate] - _lastFlashTimestamp > kFlashInterval)) {
-    if (_device) {
+    if (self.device) {
       PHMIDIMessage* message = [[PHMIDIMessage alloc] initWithStatus:PHMIDIStatusControlChange
                                                              channel:0];
       message.data1 = 0;
       message.data2 = _flashingOn ? 0x20 : 0x21;
       _flashingOn = !_flashingOn;
-      [_device sendMessage:message];
+      [self.device sendMessage:message];
     }
 
     _lastFlashTimestamp = [NSDate timeIntervalSinceReferenceDate];

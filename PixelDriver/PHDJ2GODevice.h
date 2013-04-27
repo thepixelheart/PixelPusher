@@ -15,6 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PHMIDIHardware.h"
 
 typedef enum {
   PHDJ2GOSliderLeft,
@@ -82,7 +83,7 @@ typedef enum {
 
 @protocol PHDJ2GODeviceDelegate;
 
-@interface PHDJ2GODevice : NSObject
+@interface PHDJ2GODevice : PHMIDIHardware
 @property (nonatomic, weak) id<PHDJ2GODeviceDelegate> delegate;
 
 - (void)setButton:(PHDJ2GOButton)button ledStateEnabled:(BOOL)enabled;
