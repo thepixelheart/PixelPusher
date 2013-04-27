@@ -17,5 +17,16 @@
 #import <Foundation/Foundation.h>
 #import "PHMIDIHardware.h"
 
+@protocol PHLPD8DeviceDelegate;
+
 @interface PHLPD8Device : PHMIDIHardware
+@property (nonatomic, weak) id<PHLPD8DeviceDelegate> delegate;
+@end
+
+@protocol PHLPD8DeviceDelegate <NSObject>
+
+- (void)volume:(NSInteger)volume didChangeValue:(CGFloat)value;
+- (void)buttonWasPressed:(NSInteger)button withVelocity:(CGFloat)velocity;
+- (void)buttonWasReleased:(NSInteger)button;
+
 @end

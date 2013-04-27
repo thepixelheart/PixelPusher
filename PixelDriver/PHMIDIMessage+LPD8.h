@@ -24,8 +24,10 @@ typedef enum {
   PHLPD8MessageTypeUnknown
 } PHLPD8MessageType;
 
-extern const NSInteger kNumberOfVelocityButtons;
-extern const NSInteger kNumberOfVolumes;
+typedef enum {
+  PHLPD8NumberOfVelocityButtons = 8,
+  PHLPD8NumberOfVolumes = 8,
+} PHLPD8InputCounts;
 
 @interface PHMIDIMessage (LPD8)
 

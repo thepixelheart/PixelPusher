@@ -16,9 +16,6 @@
 
 #import "PHMIDIMessage+LPD8.h"
 
-const NSInteger kNumberOfVelocityButtons = 8;
-const NSInteger kNumberOfVolumes = 8;
-
 @implementation PHMIDIMessage (LPD8)
 
 - (PHLPD8MessageType)lpd8Type {
