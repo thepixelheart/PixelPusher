@@ -180,7 +180,7 @@ PHSystem* PHSys() {
   _usbNotifier = [[PHUSBNotifier alloc] init];
   [self midiDriver];
 
-  _appWindow = [[PHPixelDriverWindow alloc] initWithContentRect:CGRectMake(0, 0, 400, 400)
+  _appWindow = [[PHPixelDriverWindow alloc] initWithContentRect:CGRectMake(0, 0, 1000, 700)
                                                       styleMask:(NSTitledWindowMask
                                                                  | NSClosableWindowMask
                                                                  | NSMiniaturizableWindowMask

@@ -238,7 +238,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (NSString *)pathForDiskStorage {
-  NSString* userGifsPath = @"~/Library/Application Support/PixelDriver/";
+  NSString* userGifsPath = @"~/Library/Application Support/PixelPusher/";
   return [userGifsPath stringByExpandingTildeInPath];
 }
 

@@ -2017,9 +2017,9 @@
 			productReference = 668EA9EE1720BEB10056C8C3 /* libPixelCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		66DC7B4C1676FC2F00453E8F /* PixelDriver */ = {
+		66DC7B4C1676FC2F00453E8F /* PixelPusher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 66DC7B6B1676FC3000453E8F /* Build configuration list for PBXNativeTarget "PixelDriver" */;
+			buildConfigurationList = 66DC7B6B1676FC3000453E8F /* Build configuration list for PBXNativeTarget "PixelPusher" */;
 			buildPhases = (
 				66DC7B491676FC2F00453E8F /* Sources */,
 				66DC7B4A1676FC2F00453E8F /* Frameworks */,
@@ -2032,7 +2032,7 @@
 				6617FB7B171E811F006E0DF8 /* PBXTargetDependency */,
 				668EAB0A1720C0230056C8C3 /* PBXTargetDependency */,
 			);
-			name = PixelDriver;
+			name = PixelPusher;
 			productName = PixelDriver;
 			productReference = 66DC7B4D1676FC2F00453E8F /* PixelDriver.app */;
 			productType = "com.apple.product-type.application";
@@ -2058,7 +2058,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				66DC7B4C1676FC2F00453E8F /* PixelDriver */,
+				66DC7B4C1676FC2F00453E8F /* PixelPusher */,
 				6617FAB1171E8073006E0DF8 /* box2d */,
 				668EA9ED1720BEB10056C8C3 /* PixelCore */,
 			);
@@ -2623,7 +2623,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		66DC7B6B1676FC3000453E8F /* Build configuration list for PBXNativeTarget "PixelDriver" */ = {
+		66DC7B6B1676FC3000453E8F /* Build configuration list for PBXNativeTarget "PixelPusher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				66DC7B6C1676FC3000453E8F /* Debug */,
