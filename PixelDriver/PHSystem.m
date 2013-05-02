@@ -34,6 +34,8 @@
 #import <objc/runtime.h>
 #import <stdlib.h>
 
+#import <FScript/FScript.h>
+
 static const NSTimeInterval kStrobeAge = 0.3;
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
@@ -120,6 +122,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (id)init {
   if ((self = [super init])) {
+
+    [[@"[sys log:'hello world']" asBlock] value];
+
     _masterFade = 1;
     _leftAnimationIsBottom = YES;
 

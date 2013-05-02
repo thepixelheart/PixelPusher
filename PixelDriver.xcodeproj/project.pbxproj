@@ -11,6 +11,7 @@
 		0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */; };
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
+		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -437,6 +438,7 @@
 		3A43C268171E6E33006A441E /* umano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = umano.png; path = PixelDriver/resources/umano.png; sourceTree = "<group>"; };
 		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
+		6603374F17331F57001090B7 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FScript.framework; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -955,6 +957,7 @@
 				668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
 				66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */,
+				6603375017331F57001090B7 /* FScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1650,6 +1653,7 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6603374F17331F57001090B7 /* FScript.framework */,
 				66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */,
 				662F591916784B3D00ADE02C /* OpenGL.framework */,
 				662F591716784B2F00ADE02C /* Quartz.framework */,
@@ -2143,7 +2147,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp fmod/libfmodex.dylib \"$TARGET_BUILD_DIR\"\n";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp fmod/libfmodex.dylib \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp -r FScript.framework \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2524,6 +2528,10 @@
 			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2536,7 +2544,7 @@
 					"\"$(SRCROOT)/fmod\"",
 					Box2D,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2547,6 +2555,10 @@
 			baseConfigurationReference = 66DC7B77167724C300453E8F /* target.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PixelDriver/PixelDriver-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2559,7 +2571,7 @@
 					"\"$(SRCROOT)/fmod\"",
 					Box2D,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
