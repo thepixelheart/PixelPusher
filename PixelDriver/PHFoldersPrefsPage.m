@@ -66,17 +66,7 @@ typedef enum {
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
 
   } else if (button.tag == PHFolderPrefIdResetComposites) {
-    NSString* compositeFile = [PHSys() pathForCompositeFile];
-    NSFileManager* fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:compositeFile]) {
-      [fm moveItemAtPath:compositeFile
-                  toPath:[compositeFile stringByAppendingFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]]
-                   error:nil];
-    }
-    NSString* latestCompositesPath = PHFilenameForResourcePath(@"composites-latest.plist");
-    [fm copyItemAtPath:latestCompositesPath toPath:compositeFile error:nil];
-
-    [PHSys() loadComposites];
+    [PHSys() restoreDefaultComposites];
   }
   [super didTapButton:button];
 }

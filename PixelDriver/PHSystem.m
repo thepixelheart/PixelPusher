@@ -173,6 +173,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [fm createDirectoryAtPath:diskStorage withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
+    [self restoreDefaultCompositesOverwiteExisting:NO];
     [self loadComposites];
 
     // Umano mode OFF
@@ -184,6 +185,27 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     [self refreshLaunchpad];
   }
   return self;
+}
+
+- (void)restoreDefaultCompositesOverwiteExisting:(BOOL)overwriteExisting {
+  NSString* compositeFile = [self pathForCompositeFile];
+  NSFileManager* fm = [NSFileManager defaultManager];
+  if ([fm fileExistsAtPath:compositeFile] && !overwriteExisting) {
+    return;
+  }
+  if ([fm fileExistsAtPath:compositeFile]) {
+    [fm moveItemAtPath:compositeFile
+                toPath:[compositeFile stringByAppendingFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]]
+                 error:nil];
+  }
+  NSString* latestCompositesPath = PHFilenameForResourcePath(@"composites-latest.plist");
+  [fm copyItemAtPath:latestCompositesPath toPath:compositeFile error:nil];
+
+  [self loadComposites];
+}
+
+- (void)restoreDefaultComposites {
+  [self restoreDefaultCompositesOverwiteExisting:YES];
 }
 
 - (void)loadComposites {
