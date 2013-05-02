@@ -23,6 +23,7 @@ typedef enum {
   PHFolderPrefIdGifs,
   PHFolderPrefIdScreenshots,
   PHFolderPrefIdComposites,
+  PHFolderPrefIdResetComposites,
 } PHFolderPrefId;
 
 @implementation PHFoldersPrefsPage
@@ -32,6 +33,7 @@ typedef enum {
     [self addRowWithLabel:@"Gifs Folder" buttonId:PHFolderPrefIdGifs];
     [self addRowWithLabel:@"Screenshots Folder" buttonId:PHFolderPrefIdScreenshots];
     [self addRowWithLabel:@"Composites File" buttonId:PHFolderPrefIdComposites];
+    [self addRowWithLabel:@"Reset Composites" buttonId:PHFolderPrefIdResetComposites];
   }
   return self;
 }
@@ -41,6 +43,9 @@ typedef enum {
       || buttonId == PHFolderPrefIdScreenshots
       || buttonId == PHFolderPrefIdComposites) {
     return @"Open in Finder";
+
+  } else if (buttonId == PHFolderPrefIdResetComposites) {
+    return @"Reset";
 
   } else {
     return nil;
@@ -59,6 +64,19 @@ typedef enum {
   } else if (button.tag == PHFolderPrefIdComposites) {
     NSArray *fileURLs = [NSArray arrayWithObjects:[NSURL fileURLWithPath:[PHSys() pathForCompositeFile]], nil];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+
+  } else if (button.tag == PHFolderPrefIdResetComposites) {
+    NSString* compositeFile = [PHSys() pathForCompositeFile];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:compositeFile]) {
+      [fm moveItemAtPath:compositeFile
+                  toPath:[compositeFile stringByAppendingFormat:@"%f", [NSDate timeIntervalSinceReferenceDate]]
+                   error:nil];
+    }
+    NSString* latestCompositesPath = PHFilenameForResourcePath(@"composites-latest.plist");
+    [fm copyItemAtPath:latestCompositesPath toPath:compositeFile error:nil];
+
+    [PHSys() loadComposites];
   }
   [super didTapButton:button];
 }

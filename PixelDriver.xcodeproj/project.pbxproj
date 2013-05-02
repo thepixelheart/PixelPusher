@@ -14,6 +14,7 @@
 		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
 		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
 		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
+		6603375817332C33001090B7 /* composites-latest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6603375717332C33001090B7 /* composites-latest.plist */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -445,6 +446,7 @@
 		660337521733282D001090B7 /* PHFoldersPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFoldersPrefsPage.m; sourceTree = "<group>"; };
 		6603375417332857001090B7 /* PHPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPrefsPage.h; sourceTree = "<group>"; };
 		6603375517332858001090B7 /* PHPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsPage.m; sourceTree = "<group>"; };
+		6603375717332C33001090B7 /* composites-latest.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "composites-latest.plist"; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -1719,6 +1721,7 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6603375717332C33001090B7 /* composites-latest.plist */,
 				668EACA91720C7250056C8C3 /* countdown_1.png */,
 				668EACAA1720C7250056C8C3 /* countdown_2.png */,
 				668EACAB1720C7250056C8C3 /* countdown_3.png */,
@@ -2140,6 +2143,7 @@
 				660589FA17221538006572B8 /* colorinvert.png in Resources */,
 				665199A017261E680007EC96 /* kaleidoscope.png in Resources */,
 				665199A61726212C0007EC96 /* triangletile.png in Resources */,
+				6603375817332C33001090B7 /* composites-latest.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

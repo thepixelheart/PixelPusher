@@ -173,20 +173,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [fm createDirectoryAtPath:diskStorage withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
-    NSString *compositesPath = [self pathForCompositeFile];
-    NSData *codedData = [NSData dataWithContentsOfFile:compositesPath];
+    [self loadComposites];
 
-    if (nil != codedData) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
-      _compositeAnimations = [[unarchiver decodeObject] mutableCopy];
-
-      if (_compositeAnimations.count > 0) {
-        _editingCompositeAnimation = _compositeAnimations[0];
-      }
-
-      [unarchiver finishDecoding];
-    }
-    
     // Umano mode OFF
     [self setUmanoMode:FALSE];
     
@@ -196,6 +184,25 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     [self refreshLaunchpad];
   }
   return self;
+}
+
+- (void)loadComposites {
+  NSString *compositesPath = [self pathForCompositeFile];
+  NSData *codedData = [NSData dataWithContentsOfFile:compositesPath];
+
+  if (nil != codedData) {
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
+    _compositeAnimations = [[unarchiver decodeObject] mutableCopy];
+
+    if (_compositeAnimations.count > 0) {
+      _editingCompositeAnimation = _compositeAnimations[0];
+    }
+
+    [unarchiver finishDecoding];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
+  }
 }
 
 - (void)saveComposites {

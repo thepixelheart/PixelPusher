@@ -44,7 +44,6 @@ PHSystem* PHSys();
 
 // Gifs
 @property (nonatomic, readonly) NSArray* gifs;
-- (NSString *)pathForUserGifs;
 
 // Called when a display link frame has completed.
 - (void)didTick;
