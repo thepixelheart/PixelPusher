@@ -39,4 +39,14 @@
   _lastTick = [NSDate timeIntervalSinceReferenceDate];
 }
 
+- (void)tickWithPeak:(CGFloat)peak delta:(CGFloat)delta {
+  if (_lastTick > 0) {
+    _value -= delta * _deltaPerSecond;
+  }
+
+  _value = MAX(_value, peak);
+
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
+}
+
 @end

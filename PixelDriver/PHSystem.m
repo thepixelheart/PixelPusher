@@ -109,6 +109,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSMutableArray* _compositeAnimations;
   BOOL _shouldTakeScreenshot;
   BOOL _strobeOn;
+  BOOL _off;
   NSTimeInterval _strobeDeathStartTime;
 
   PHCountdownOverlay _countdownOverlay;
@@ -388,6 +389,11 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   [tick updateWallContextWithTransition:_faderTransition t:_fade flip:!_leftAnimationIsBottom];
 
+  if (_off) {
+    CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor blackColor].CGColor);
+    CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+  }
+
   NSTimeInterval strobeAge = [NSDate timeIntervalSinceReferenceDate] - _strobeDeathStartTime;
   if (_strobeOn || strobeAge < kStrobeAge) {
     CGContextSaveGState(tick.wallContextRef);
@@ -397,16 +403,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor whiteColor].CGColor);
     CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
     CGContextRestoreGState(tick.wallContextRef);
-  }
-
-  if (_overlayPixelHeart) {
-    CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
-    CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
-    CGContextSetAlpha(tick.wallContextRef, 1);
-    CGContextDrawImage(tick.wallContextRef, CGRectMake(floorf((kWallWidth - textSize.width) / 2),
-                                                       floorf((kWallHeight - textSize.height) / 2),
-                                                       textSize.width, textSize.height), imageRef);
-    CGImageRelease(imageRef);
   }
 
   if (_countdownOverlay != PHCountdownOverlayNone) {
@@ -432,6 +428,16 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
       CGContextRestoreGState(tick.wallContextRef);
     }
+  }
+
+  if (_overlayPixelHeart) {
+    CGImageRef imageRef = [_pixelHeartTextSpritesheet imageAtX:0 y:0];
+    CGSize textSize = _pixelHeartTextSpritesheet.spriteSize;
+    CGContextSetAlpha(tick.wallContextRef, 1);
+    CGContextDrawImage(tick.wallContextRef, CGRectMake(floorf((kWallWidth - textSize.width) / 2),
+                                                       floorf((kWallHeight - textSize.height) / 2),
+                                                       textSize.width, textSize.height), imageRef);
+    CGImageRelease(imageRef);
   }
 
   if (_shouldTakeScreenshot) {
@@ -623,6 +629,12 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_launchpad flipBuffer];
       break;
 
+    case PHSystemButtonOff:
+      _off = YES;
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonVolume] + 1 atIndex:PHLaunchpadSideButtonVolume];
+      [_launchpad flipBuffer];
+      break;
+
     case PHSystemButtonUmanoMode:
       [self toggleUmanoMode];
       break;
@@ -725,6 +737,12 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       }
       break;
     }
+
+    case PHSystemButtonOff:
+      _off = NO;
+      [_launchpad setSideButtonColor:[self sideButtonColorForIndex:PHLaunchpadSideButtonVolume] atIndex:PHLaunchpadSideButtonVolume];
+      [_launchpad flipBuffer];
+      break;
 
     case PHSystemButtonStrobe:
       _strobeOn = NO;
@@ -1216,6 +1234,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       }
       break;
 
+    case PHLaunchpadSideButtonVolume:
+      if (pressed) {
+        [self didPressButton:PHSystemButtonOff];
+      } else {
+        [self didReleaseButton:PHSystemButtonOff];
+      }
+      break;
+
     default:
       break;
   }
@@ -1452,6 +1478,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     case PHLaunchpadSideButtonSolo:
       return PHLaunchpadColorRedDim;
+
+    case PHLaunchpadSideButtonVolume:
+      return PHLaunchpadColorAmberDim;
 
     case PHLaunchpadSideButtonTrackOn:
       return PHLaunchpadColorGreenDim;

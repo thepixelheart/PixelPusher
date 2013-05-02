@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,18 +12,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-#import <Foundation/Foundation.h>
+#import "PHAnimation.h"
 
-// A peak degrader that maxes out a value with each tick and degrades it over
-// time by some delta.
-@interface PHDegrader : NSObject
-
-@property (nonatomic, assign) CGFloat deltaPerSecond; // Default: 1
-@property (nonatomic, readonly) CGFloat value;
-
-- (void)tickWithPeak:(CGFloat)peak;
-- (void)tickWithPeak:(CGFloat)peak delta:(CGFloat)delta;
-
+@interface PHFlowyColorsAnimation : PHAnimation
 @end

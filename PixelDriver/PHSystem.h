@@ -35,6 +35,7 @@ typedef enum {
   PHSystemButtonPrefs,
   PHSystemButtonScreenshot,
   PHSystemButtonStrobe,
+  PHSystemButtonOff,
   PHSystemButtonTapBPM,
   PHSystemButtonClearBPM,
   PHSystemButton3,

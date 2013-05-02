@@ -61,7 +61,7 @@ static const NSInteger kNumberOfLaunchpadRows = 8;
       PHLaunchpadValues* value = _launchpadValues[ix + iy * kNumberOfLaunchpadCols];
       BOOL isPressed = [self.animationTick.hardwareState wasLaunchpadButtonPressedAtX:ix y:iy];
       CGFloat peak = isPressed ? 1 : 0;
-      [value.intensity tickWithPeak:peak];
+      [value.intensity tickWithPeak:peak delta:self.secondsSinceLastTick];
       if (isPressed) {
         value.rotationOffset = ((CGFloat)arc4random_uniform(1000) / 1000.0 - 0.5) * 5;
       }
