@@ -12,6 +12,8 @@
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
 		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
+		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
+		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -439,6 +441,10 @@
 		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
 		6603374F17331F57001090B7 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FScript.framework; sourceTree = "<group>"; };
+		660337511733282D001090B7 /* PHFoldersPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFoldersPrefsPage.h; sourceTree = "<group>"; };
+		660337521733282D001090B7 /* PHFoldersPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFoldersPrefsPage.m; sourceTree = "<group>"; };
+		6603375417332857001090B7 /* PHPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPrefsPage.h; sourceTree = "<group>"; };
+		6603375517332858001090B7 /* PHPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsPage.m; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -1608,8 +1614,12 @@
 			children = (
 				66D1DA5416AB80B000E8FE9F /* PHPrefsView.h */,
 				66D1DA5516AB80B000E8FE9F /* PHPrefsView.m */,
+				6603375417332857001090B7 /* PHPrefsPage.h */,
+				6603375517332858001090B7 /* PHPrefsPage.m */,
 				66D1DA5716AB828200E8FE9F /* PHAudioPrefsPage.h */,
 				66D1DA5816AB828200E8FE9F /* PHAudioPrefsPage.m */,
+				660337511733282D001090B7 /* PHFoldersPrefsPage.h */,
+				660337521733282D001090B7 /* PHFoldersPrefsPage.m */,
 			);
 			name = Prefs;
 			sourceTree = "<group>";
@@ -2363,6 +2373,8 @@
 				665A07AF172B4DB800DD5D14 /* PHLPD8Device.m in Sources */,
 				665A07B2172B4DDB00DD5D14 /* PHMIDIMessage+LPD8.m in Sources */,
 				665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */,
+				660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */,
+				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

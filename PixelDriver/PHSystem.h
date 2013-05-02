@@ -165,4 +165,9 @@ extern NSString* const PHSystemFaderDidSwapNotification;
 
 + (CGContextRef)createWallContext;
 
+// Paths
+- (NSString *)pathForCompositeFile;
+- (NSString *)pathForScreenshots;
+- (NSString *)pathForUserGifs;
+
 @end

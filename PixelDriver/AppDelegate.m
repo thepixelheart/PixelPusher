@@ -94,15 +94,10 @@ PHSystem* PHSys() {
   return [animations mutableCopy];
 }
 
-- (NSString *)pathForUserGifs {
-  NSString* userGifsPath = @"~/Library/Application Support/PixelDriver/gifs/";
-  return [userGifsPath stringByExpandingTildeInPath];
-}
-
 - (void)loadGifs {
   NSFileManager* fm = [NSFileManager defaultManager];
 
-  NSString* userGifsPath = [self pathForUserGifs];
+  NSString* userGifsPath = [PHSys() pathForUserGifs];
 
   NSString* gifsPath = PHFilenameForResourcePath(@"gifs");
   if ([fm fileExistsAtPath:userGifsPath] == NO) {
@@ -171,7 +166,7 @@ PHSystem* PHSys() {
 
   _fsEvents = [[SCEvents alloc] init];
   _fsEvents.delegate = self;
-  [_fsEvents startWatchingPaths:@[[self pathForUserGifs]]];
+  [_fsEvents startWatchingPaths:@[[PHSys() pathForUserGifs]]];
 
   [[self audioRecorder] toggleListening];
 

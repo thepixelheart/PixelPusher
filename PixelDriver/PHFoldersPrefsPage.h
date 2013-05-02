@@ -16,5 +16,5 @@
 
 #import "PHPrefsPage.h"
 
-@interface PHAudioPrefsPage : PHPrefsPage
+@interface PHFoldersPrefsPage : PHPrefsPage
 @end

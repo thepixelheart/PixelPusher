@@ -18,6 +18,7 @@
 
 #import "PHListView.h"
 #import "PHAudioPrefsPage.h"
+#import "PHFoldersPrefsPage.h"
 #import "PHSpectrumAnalyzerView.h"
 #import "PHWaveFormView.h"
 #import "PHDegraderView.h"
@@ -71,7 +72,8 @@ static const CGFloat kAudioWidth = 400;
     [_degraderView.contentView addSubview:degraderView];
 
     _nameToPrefsPageClass = @{
-      @"Audio": [PHAudioPrefsPage class]
+                              @"Audio": [PHAudioPrefsPage class],
+                              @"Folders": [PHFoldersPrefsPage class],
     };
 
     _prefPageNames = [_nameToPrefsPageClass.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2) {

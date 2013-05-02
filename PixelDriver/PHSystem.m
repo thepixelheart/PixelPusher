@@ -217,6 +217,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   return [[self pathForDiskStorage] stringByAppendingPathComponent:@"composites.plist"];
 }
 
+- (NSString *)pathForScreenshots {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"screenshots"];
+}
+
+- (NSString *)pathForUserGifs {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"gifs"];
+}
+
 + (CGContextRef)createRenderContext {
   CGSize wallSize = CGSizeMake(kWallWidth * 2, kWallHeight * 2);
 
@@ -471,8 +479,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [self saveComposites];
     }
 
-    NSString *path = [self pathForDiskStorage];
-    path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f", [NSDate timeIntervalSinceReferenceDate]]];
+    NSString *path = [self pathForScreenshots];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path] == NO) {
+      [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"screenshot_%.0f.bmp", [NSDate timeIntervalSinceReferenceDate]]];
     CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
     CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeBMP, 1, NULL);
     imageRef = CGBitmapContextCreateImage(contextRef);
