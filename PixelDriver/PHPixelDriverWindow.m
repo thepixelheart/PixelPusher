@@ -55,6 +55,54 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   return self;
 }
 
+- (void)sendEvent:(NSEvent *)theEvent {
+  BOOL didHandle = NO;
+
+  NSMutableDictionary* keyMappings = [@{
+                                      @" ": @(PHSystemButtonPixelHeart),
+                                      @"[": @(PHSystemButtonLoadLeft),
+                                      @"]": @(PHSystemButtonLoadRight),
+                                      @"p": @(PHSystemButtonPrefs),
+                                      @"l": @(PHSystemButtonLibrary),
+                                      @"c": @(PHSystemButtonCompositeEditor),
+                                      @"b": @(PHSystemButtonTapBPM),
+                                      @"3": @(PHSystemButton3),
+                                      @"2": @(PHSystemButton2),
+                                      @"1": @(PHSystemButton1),
+                                      @"`": @(PHSystemButtonText),
+                                      @"f": @(PHSystemButtonFullScreen),
+                                      @"u": @(PHSystemButtonUmanoMode),
+                                      } mutableCopy];
+
+  if (PHSys().viewMode == PHViewModeCompositeEditor) {
+    keyMappings[@"n"] = @(PHSystemButtonNewComposite);
+    keyMappings[@"51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
+    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
+  }
+
+  if ((theEvent.type ==
+       NSKeyDown || theEvent.type == NSKeyUp)
+      && (nil != keyMappings[theEvent.charactersIgnoringModifiers]
+          || nil != keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]])) {
+        id value = keyMappings[theEvent.charactersIgnoringModifiers];
+        if (nil == value) {
+          value = keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]];
+        }
+        PHSystemControlIdentifier button = [value intValue];
+        if (theEvent.type == NSKeyDown) {
+          [PHSys() didPressButton:button];
+        } else {
+          [PHSys() didReleaseButton:button];
+        }
+        
+        didHandle = YES;
+      }
+  
+  if (!didHandle) {
+    [super sendEvent:theEvent];
+  }
+}
+
 #pragma mark - Notifications
 
 - (void)systemSliderDidChange:(NSNotification *)notification {
