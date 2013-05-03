@@ -38,6 +38,9 @@
 #import "PHDualVizualizersView.h"
 #import "PHLaunchpadDevice.h"
 #import "PHDJ2GODevice.h"
+#import "PHScript.h"
+
+#import <FScript/FScript.h>
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -77,21 +80,77 @@ PHSystem* PHSys() {
   BOOL _showingTooltip;
 
   // Watching changes to the filesystem.
-  SCEvents* _fsEvents;
+  SCEvents* _gifFSEvents;
+  SCEvents* _scriptFSEvents;
+
+  NSMutableDictionary* _userScripts;
 }
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
 @synthesize gifs = _gifs;
 
-- (NSMutableArray *)createAnimations {
-  NSArray* animations = [PHAnimation allAnimations];
+- (id)init {
+  if ((self = [super init])) {
+    _userScripts = [NSMutableDictionary dictionary];
+  }
+  return self;
+}
 
-  for (PHAnimation* animation in animations) {
-    animation.systemState = self.animationDriver;
+- (void)loadScripts {
+  NSFileManager* fm = [NSFileManager defaultManager];
+
+  NSString* userPath = [PHSys() pathForUserScripts];
+
+  NSError* error = nil;
+  NSArray* filenames = nil;
+  NSString* preloadPath = PHFilenameForResourcePath(@"scripts");
+  if (![fm fileExistsAtPath:userPath]) {
+    [fm createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
   }
 
-  return [animations mutableCopy];
+  // Copy the packaged scripts into the user directory.
+  filenames = [fm contentsOfDirectoryAtPath:preloadPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+  for (NSString* filename in filenames) {
+    NSString* gifPath = [preloadPath stringByAppendingPathComponent:filename];
+    NSString* userGifPath = [userPath stringByAppendingPathComponent:filename];
+    [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
+  }
+
+  // Read all of the user scripts.
+  error = nil;
+  filenames = [fm contentsOfDirectoryAtPath:userPath error:&error];
+  if (nil != error) {
+    NSLog(@"Error: %@", error);
+    return;
+  }
+
+  NSMutableArray* scripts = [NSMutableArray array];
+  for (NSString* path in filenames) {
+    if ([path hasPrefix:@"."]) {
+      continue;
+    }
+    NSString* fullPath = [userPath stringByAppendingPathComponent:path];
+
+    NSString* string = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:&error];
+    if (nil != error) {
+      NSLog(@"Error: %@", error);
+      continue;
+    }
+
+    PHScript* script = _userScripts[fullPath];
+    if (nil == script) {
+      PHScript* script = [[PHScript alloc] initWithString:string sourceFile:fullPath];
+      _userScripts[fullPath] = script;
+    } else {
+      [script updateWithString:string];
+    }
+  }
+  _scripts = [scripts copy];
 }
 
 - (void)loadGifs {
@@ -99,23 +158,26 @@ PHSystem* PHSys() {
 
   NSString* userGifsPath = [PHSys() pathForUserGifs];
 
-  NSString* gifsPath = PHFilenameForResourcePath(@"gifs");
-  if ([fm fileExistsAtPath:userGifsPath] == NO) {
-    [fm createDirectoryAtPath:userGifsPath withIntermediateDirectories:YES attributes:nil error:nil];
-  }
-
   NSError* error = nil;
-  NSArray* filenames = [fm contentsOfDirectoryAtPath:gifsPath error:&error];
-  if (nil != error) {
-    NSLog(@"Error: %@", error);
-    return;
-  }
-  for (NSString* filename in filenames) {
-    NSString* gifPath = [gifsPath stringByAppendingPathComponent:filename];
-    NSString* userGifPath = [userGifsPath stringByAppendingPathComponent:filename];
-    [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
+  NSArray* filenames = nil;
+  NSString* gifsPath = PHFilenameForResourcePath(@"gifs");
+  if (![fm fileExistsAtPath:userGifsPath]) {
+    [fm createDirectoryAtPath:userGifsPath withIntermediateDirectories:YES attributes:nil error:nil];
+
+    // Copy the packaged gifs into the user directory.
+    filenames = [fm contentsOfDirectoryAtPath:gifsPath error:&error];
+    if (nil != error) {
+      NSLog(@"Error: %@", error);
+      return;
+    }
+    for (NSString* filename in filenames) {
+      NSString* gifPath = [gifsPath stringByAppendingPathComponent:filename];
+      NSString* userGifPath = [userGifsPath stringByAppendingPathComponent:filename];
+      [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
+    }
   }
 
+  // Read all of the user gifs.
   error = nil;
   filenames = [fm contentsOfDirectoryAtPath:userGifsPath error:&error];
   if (nil != error) {
@@ -124,6 +186,9 @@ PHSystem* PHSys() {
   }
   NSMutableArray* gifs = [NSMutableArray array];
   for (NSString* path in filenames) {
+    if ([path hasPrefix:@"."]) {
+      continue;
+    }
     NSString* fullPath = [userGifsPath stringByAppendingPathComponent:path];
     NSImage* image = [[NSImage alloc] initWithContentsOfFile:fullPath];
     if (!image.isValid && image.representations.count > 0) {
@@ -151,7 +216,11 @@ PHSystem* PHSys() {
 }
 
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
-  [self loadGifs];
+  if (_gifFSEvents == pathWatcher) {
+    [self loadGifs];
+  } else if (_scriptFSEvents == pathWatcher) {
+    [self loadScripts];
+  }
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
@@ -163,10 +232,15 @@ PHSystem* PHSys() {
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
   [self loadGifs];
+  [self loadScripts];
 
-  _fsEvents = [[SCEvents alloc] init];
-  _fsEvents.delegate = self;
-  [_fsEvents startWatchingPaths:@[[PHSys() pathForUserGifs]]];
+  _gifFSEvents = [[SCEvents alloc] init];
+  _gifFSEvents.delegate = self;
+  [_gifFSEvents startWatchingPaths:@[[PHSys() pathForUserGifs]]];
+
+  _scriptFSEvents = [[SCEvents alloc] init];
+  _scriptFSEvents.delegate = self;
+  [_scriptFSEvents startWatchingPaths:@[[PHSys() pathForUserScripts]]];
 
   [[self audioRecorder] toggleListening];
 

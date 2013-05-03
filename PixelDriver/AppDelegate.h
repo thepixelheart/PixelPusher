@@ -42,8 +42,9 @@ PHSystem* PHSys();
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
 
-// Gifs
+// User things
 @property (nonatomic, readonly) NSArray* gifs;
+@property (nonatomic, readonly) NSArray* scripts; // PHScript
 
 // Called when a display link frame has completed.
 - (void)didTick;

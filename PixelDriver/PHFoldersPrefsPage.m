@@ -20,6 +20,7 @@
 #import "PHSystem.h"
 
 typedef enum {
+  PHFolderPrefIdUserScripts,
   PHFolderPrefIdGifs,
   PHFolderPrefIdScreenshots,
   PHFolderPrefIdComposites,
@@ -30,6 +31,7 @@ typedef enum {
 
 - (id)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect])) {
+    [self addRowWithLabel:@"User Scripts Folder" buttonId:PHFolderPrefIdUserScripts];
     [self addRowWithLabel:@"Gifs Folder" buttonId:PHFolderPrefIdGifs];
     [self addRowWithLabel:@"Screenshots Folder" buttonId:PHFolderPrefIdScreenshots];
     [self addRowWithLabel:@"Composites File" buttonId:PHFolderPrefIdComposites];
@@ -39,7 +41,8 @@ typedef enum {
 }
 
 - (NSString *)titleForButtonId:(NSInteger)buttonId {
-  if (buttonId == PHFolderPrefIdGifs
+  if (buttonId == PHFolderPrefIdUserScripts
+      || buttonId == PHFolderPrefIdGifs
       || buttonId == PHFolderPrefIdScreenshots
       || buttonId == PHFolderPrefIdComposites) {
     return @"Open in Finder";
@@ -53,7 +56,11 @@ typedef enum {
 }
 
 - (void)didTapButton:(NSButton *)button {
-  if (button.tag == PHFolderPrefIdGifs) {
+  if (button.tag == PHFolderPrefIdUserScripts) {
+    NSArray *fileURLs = [NSArray arrayWithObjects:[NSURL fileURLWithPath:[PHSys() pathForUserScripts]], nil];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+    
+  } else if (button.tag == PHFolderPrefIdGifs) {
     NSArray *fileURLs = [NSArray arrayWithObjects:[NSURL fileURLWithPath:[PHSys() pathForUserGifs]], nil];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
 

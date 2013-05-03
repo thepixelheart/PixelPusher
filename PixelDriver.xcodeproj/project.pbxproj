@@ -15,6 +15,8 @@
 		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
 		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
 		6603375817332C33001090B7 /* composites-latest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6603375717332C33001090B7 /* composites-latest.plist */; };
+		6603375A17333217001090B7 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6603375917333217001090B7 /* scripts */; };
+		6603375E1733346C001090B7 /* PHScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375D1733346C001090B7 /* PHScript.m */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -447,6 +449,9 @@
 		6603375417332857001090B7 /* PHPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPrefsPage.h; sourceTree = "<group>"; };
 		6603375517332858001090B7 /* PHPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsPage.m; sourceTree = "<group>"; };
 		6603375717332C33001090B7 /* composites-latest.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "composites-latest.plist"; sourceTree = "<group>"; };
+		6603375917333217001090B7 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
+		6603375C1733346C001090B7 /* PHScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScript.h; sourceTree = "<group>"; };
+		6603375D1733346C001090B7 /* PHScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScript.m; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -981,6 +986,15 @@
 				0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */,
 			);
 			name = Overlays;
+			sourceTree = "<group>";
+		};
+		6603375B17333454001090B7 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				6603375C1733346C001090B7 /* PHScript.h */,
+				6603375D1733346C001090B7 /* PHScript.m */,
+			);
+			name = Scripts;
 			sourceTree = "<group>";
 		};
 		6617FAB4171E8073006E0DF8 /* box2d */ = {
@@ -1697,6 +1711,7 @@
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
 				663C839E168EC242003B88A1 /* Processing */,
+				6603375B17333454001090B7 /* Scripts */,
 				66DC7B80167738EB00453E8F /* Views */,
 				6634E1F816A667AA00AD86B1 /* Pixel Driver */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
@@ -1775,6 +1790,7 @@
 				66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */,
 				66A13E33171D28020092E43D /* spectrumlines.png */,
 				66A13E39171D2A5A0092E43D /* spiralingvortex.png */,
+				6603375917333217001090B7 /* scripts */,
 				66A64E901691583600A701BA /* gifs */,
 				66F6640716854FA3001E77BC /* spritesheets */,
 				663C83A2168ECD84003B88A1 /* fonts */,
@@ -2144,6 +2160,7 @@
 				665199A017261E680007EC96 /* kaleidoscope.png in Resources */,
 				665199A61726212C0007EC96 /* triangletile.png in Resources */,
 				6603375817332C33001090B7 /* composites-latest.plist in Resources */,
+				6603375A17333217001090B7 /* scripts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2379,6 +2396,7 @@
 				665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */,
 				660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */,
 				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
+				6603375E1733346C001090B7 /* PHScript.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

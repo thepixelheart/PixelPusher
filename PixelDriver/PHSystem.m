@@ -34,8 +34,6 @@
 #import <objc/runtime.h>
 #import <stdlib.h>
 
-#import <FScript/FScript.h>
-
 static const NSTimeInterval kStrobeAge = 0.3;
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
@@ -122,9 +120,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (id)init {
   if ((self = [super init])) {
-
-    [[@"[sys log:'hello world']" asBlock] value];
-
     _masterFade = 1;
     _leftAnimationIsBottom = YES;
 
@@ -166,11 +161,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
                                                           spriteSize:CGSizeMake(42, 7)];
 
     NSFileManager* fm = [NSFileManager defaultManager];
-
-    NSString* diskStorage = [self pathForDiskStorage];
-
-    if ([fm fileExistsAtPath:diskStorage] == NO) {
-      [fm createDirectoryAtPath:diskStorage withIntermediateDirectories:YES attributes:nil error:nil];
+    if ([fm fileExistsAtPath:[self pathForDiskStorage]] == NO) {
+      [fm createDirectoryAtPath:[self pathForDiskStorage] withIntermediateDirectories:YES attributes:nil error:nil];
     }
 
     [self restoreDefaultCompositesOverwiteExisting:NO];
@@ -252,6 +244,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (NSString *)pathForUserGifs {
   return [[self pathForDiskStorage] stringByAppendingPathComponent:@"gifs"];
+}
+
+- (NSString *)pathForUserScripts {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"scripts"];
 }
 
 + (CGContextRef)createRenderContext {

@@ -169,6 +169,7 @@ extern NSString* const PHSystemFaderDidSwapNotification;
 - (NSString *)pathForCompositeFile;
 - (NSString *)pathForScreenshots;
 - (NSString *)pathForUserGifs;
+- (NSString *)pathForUserScripts;
 - (void)restoreDefaultComposites;
 
 @end
