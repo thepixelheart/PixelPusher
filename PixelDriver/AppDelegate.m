@@ -154,6 +154,9 @@ PHSystem* PHSys() {
     }
   }
   _scripts = [_userScripts copy];
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemUserScriptsDidChangeNotification object:nil];
 }
 
 - (void)loadGifs {

@@ -17,6 +17,8 @@
 		6603375817332C33001090B7 /* composites-latest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6603375717332C33001090B7 /* composites-latest.plist */; };
 		6603375A17333217001090B7 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6603375917333217001090B7 /* scripts */; };
 		6603375E1733346C001090B7 /* PHScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375D1733346C001090B7 /* PHScript.m */; };
+		6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6603375F17333C85001090B7 /* PHScriptAnimation.h */; };
+		6603376317334430001090B7 /* PHScriptAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603376017333C86001090B7 /* PHScriptAnimation.m */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -452,6 +454,8 @@
 		6603375917333217001090B7 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		6603375C1733346C001090B7 /* PHScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScript.h; sourceTree = "<group>"; };
 		6603375D1733346C001090B7 /* PHScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScript.m; sourceTree = "<group>"; };
+		6603375F17333C85001090B7 /* PHScriptAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScriptAnimation.h; sourceTree = "<group>"; };
+		6603376017333C86001090B7 /* PHScriptAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScriptAnimation.m; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -1312,6 +1316,8 @@
 				668EAA541720BFBB0056C8C3 /* PHTunnelGameAnimation.m */,
 				665A07B7172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h */,
 				665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */,
+				6603375F17333C85001090B7 /* PHScriptAnimation.h */,
+				6603376017333C86001090B7 /* PHScriptAnimation.m */,
 			);
 			name = Animations;
 			path = ../PixelDriver;
@@ -1993,6 +1999,7 @@
 				665199A3172620A00007EC96 /* PHTriangleTileFilter.h in Headers */,
 				665A07AD172B4DB000DD5D14 /* PHLPD8Device.h in Headers */,
 				665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */,
+				6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2397,6 +2404,7 @@
 				660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */,
 				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
 				6603375E1733346C001090B7 /* PHScript.m in Sources */,
+				6603376317334430001090B7 /* PHScriptAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

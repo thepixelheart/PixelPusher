@@ -21,13 +21,15 @@
 static NSString* const kInitDelim = @"==initialization==";
 static NSString* const kAnimDelim = @"==animation==";
 
+@interface PHScript()
+@property (nonatomic, strong) FSInterpreter* interpreter;
+@end
+
 @implementation PHScript {
   NSString* _fullScript;
 
   NSString* _initScript;
   NSString* _animationScript;
-
-  FSInterpreter* _interpreter;
 }
 
 - (id)initWithString:(NSString *)string sourceFile:(NSString *)sourceFile {
@@ -66,15 +68,17 @@ static NSString* const kAnimDelim = @"==animation==";
   }
 
   if (startOfInit > 0) {
-    _initScript = [_fullScript substringWithRange:NSMakeRange(startOfInit, endOfInit - startOfInit)];
+    _initScript = [[_fullScript substringWithRange:NSMakeRange(startOfInit, endOfInit - startOfInit)]
+                   stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   }
   if (startOfAnim > 0) {
-    _animationScript = [_fullScript substringWithRange:NSMakeRange(startOfAnim, endOfAnim - startOfAnim)];
+    _animationScript = [[_fullScript substringWithRange:NSMakeRange(startOfAnim, endOfAnim - startOfAnim)]
+                        stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   }
 
   _interpreter = [[FSInterpreter alloc] init];
 
-  if (nil != _initScript) {
+  if (_initScript.length > 0) {
     FSInterpreterResult *execResult = [_interpreter execute:_initScript];
     if (![execResult isOK]) {
       NSLog(@"%@ , character %ld\n", [execResult errorMessage], [execResult errorRange].location);
@@ -83,13 +87,16 @@ static NSString* const kAnimDelim = @"==animation==";
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
-  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
-  [NSGraphicsContext setCurrentContext:graphicsContext];
+  if (_animationScript.length > 0) {
+    NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
+    NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
+    [NSGraphicsContext setCurrentContext:graphicsContext];
 
-  [_interpreter execute:_animationScript];
+    [_interpreter execute:_animationScript];
+    NSRectFill(CGRectMake(0, 0, size.width, size.height));
 
-  [NSGraphicsContext setCurrentContext:previousContext];
+    [NSGraphicsContext setCurrentContext:previousContext];
+  }
 }
 
 #pragma mark - Public Methods

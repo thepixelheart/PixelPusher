@@ -12,20 +12,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-#import <Foundation/Foundation.h>
+#import "PHAnimation.h"
 
-@class FSInterpreter;
+@class PHScript;
 
-@interface PHScript : NSObject
+@interface PHScriptAnimation : PHAnimation
 
-- (id)initWithString:(NSString *)string sourceFile:(NSString *)sourceFile;
-- (void)updateWithString:(NSString *)string;
-@property (nonatomic, readonly, copy) NSString* sourceFile;
++ (id)animationWithScript:(PHScript *)script;
 
-- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size;
-
-@property (nonatomic, readonly, strong) FSInterpreter* interpreter;
+@property (nonatomic, strong) PHScript* script;
 
 @end

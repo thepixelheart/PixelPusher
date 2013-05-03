@@ -80,6 +80,7 @@ extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 extern NSString* const PHSystemFaderDidSwapNotification;
+extern NSString* const PHSystemUserScriptsDidChangeNotification;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -95,6 +96,9 @@ extern NSString* const PHSystemFaderDidSwapNotification;
 
 // All composite animations that have been loaded from disk.
 @property (readonly, strong) NSArray* compositeAnimations;
+
+// All script animations that have been loaded from disk.
+@property (readonly, strong) NSDictionary* scriptAnimations;
 
 // Active Animations
 

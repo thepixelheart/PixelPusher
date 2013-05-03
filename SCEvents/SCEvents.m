@@ -33,7 +33,7 @@
 #import "pthread.h"
 
 // Constants
-static const CGFloat SCEventsDefaultNotificationLatency = 3.0;
+static const CGFloat SCEventsDefaultNotificationLatency = 0.3;
 static const NSUInteger SCEventsDefaultIgnoreEventsFromSubDirs = 1;
 
 /**

@@ -23,6 +23,8 @@
 #import "PHSystemTick+Protected.h"
 
 #import "PHCompositeAnimation.h"
+#import "PHScript.h"
+#import "PHScriptAnimation.h"
 
 #import "PHCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
@@ -49,6 +51,7 @@ NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveC
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
 NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
 NSString* const PHSystemFaderDidSwapNotification = @"PHSystemFaderDidSwapNotification";
+NSString* const PHSystemUserScriptsDidChangeNotification = @"PHSystemUserScriptsDidChangeNotification";
 
 typedef enum {
   PHLaunchpadCompositeModeNone,
@@ -107,6 +110,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
+  NSMutableDictionary* _scriptAnimations;
   BOOL _shouldTakeScreenshot;
   BOOL _strobeOn;
   BOOL _off;
@@ -117,6 +121,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 @synthesize fade = _fade, previewAnimation = _previewAnimation;
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (id)init {
   if ((self = [super init])) {
@@ -141,6 +149,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     }
 
     _compositeAnimations = [@[] mutableCopy];
+    _scriptAnimations = [@{} mutableCopy];
 
     _viewMode = PHViewModeLibrary;
     _focusedList = PHSystemTransitions;
@@ -167,6 +176,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     [self restoreDefaultCompositesOverwiteExisting:NO];
     [self loadComposites];
+    [self refreshScriptAnimations];
 
     // Umano mode OFF
     [self setUmanoMode:FALSE];
@@ -175,6 +185,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     [self setFullscreenMode:FALSE];
 
     [self refreshLaunchpad];
+
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(userScriptsDidChangeNotification:) name:PHSystemUserScriptsDidChangeNotification object:nil];
   }
   return self;
 }
@@ -201,6 +214,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (void)loadComposites {
+  _filteredAnimations = nil;
+
   NSString *compositesPath = [self pathForCompositeFile];
   NSData *codedData = [NSData dataWithContentsOfFile:compositesPath];
 
@@ -214,9 +229,39 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     [unarchiver finishDecoding];
 
+    [self refreshLaunchpad];
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
   }
+}
+
+- (void)userScriptsDidChangeNotification:(NSNotification *)notification {
+  [self refreshScriptAnimations];
+}
+
+- (void)refreshScriptAnimations {
+  _filteredAnimations = nil;
+
+  NSDictionary* scripts = [PHApp() scripts];
+
+  NSMutableArray* animationsToRemove = [NSMutableArray arrayWithArray:[_scriptAnimations allKeys]];
+  for (id key in scripts) {
+    PHScript* script = scripts[key];
+    PHScriptAnimation* animation = _scriptAnimations[key];
+    if (nil == animation) {
+      animation = [PHScriptAnimation animationWithScript:script];
+      _scriptAnimations[key] = animation;
+    } else {
+      [animationsToRemove removeObject:key];
+    }
+  }
+
+  // Remove dead animations.
+  for (id key in animationsToRemove) {
+    [_scriptAnimations removeObjectForKey:key];
+  }
+
+  [self refreshLaunchpad];
 }
 
 - (void)saveComposites {
@@ -1325,12 +1370,25 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
+- (NSArray *)allAnimations {
+  NSMutableArray* allAnimations = [NSMutableArray array];
+  [allAnimations addObjectsFromArray:_compiledAnimations];
+  [allAnimations addObjectsFromArray:_compositeAnimations];
+
+  NSArray* scriptAnimations = [_scriptAnimations.allValues sortedArrayUsingComparator:
+                               ^NSComparisonResult(PHScriptAnimation* obj1, PHScriptAnimation* obj2) {
+                                 return [obj1.script.sourceFile compare:obj2.script.sourceFile];
+                               }];
+  [allAnimations addObjectsFromArray:scriptAnimations];
+  return allAnimations;
+}
+
 - (NSArray *)filteredAnimations {
   if (nil != _filteredAnimations) {
     return _filteredAnimations;
   }
 
-  NSArray* allAnimations = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
+  NSArray* allAnimations = [self allAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
   if ([_activeCategory isEqualToString:@"All"]) {
