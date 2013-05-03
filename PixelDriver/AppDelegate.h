@@ -44,7 +44,7 @@ PHSystem* PHSys();
 
 // User things
 @property (nonatomic, readonly) NSArray* gifs;
-@property (nonatomic, readonly) NSArray* scripts; // PHScript
+@property (nonatomic, readonly) NSDictionary* scripts; // Path => PHScript
 
 // Called when a display link frame has completed.
 - (void)didTick;

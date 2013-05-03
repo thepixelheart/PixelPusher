@@ -129,7 +129,8 @@ PHSystem* PHSys() {
     return;
   }
 
-  NSMutableArray* scripts = [NSMutableArray array];
+  NSMutableArray* newScripts = [NSMutableArray array];
+  NSMutableArray* deletedScripts = [NSMutableArray arrayWithArray:[_userScripts allValues]];
   for (NSString* path in filenames) {
     if ([path hasPrefix:@"."]) {
       continue;
@@ -146,11 +147,13 @@ PHSystem* PHSys() {
     if (nil == script) {
       PHScript* script = [[PHScript alloc] initWithString:string sourceFile:fullPath];
       _userScripts[fullPath] = script;
+      [newScripts addObject:script];
     } else {
       [script updateWithString:string];
+      [deletedScripts removeObject:script];
     }
   }
-  _scripts = [scripts copy];
+  _scripts = [_userScripts copy];
 }
 
 - (void)loadGifs {
