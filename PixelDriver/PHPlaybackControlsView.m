@@ -62,6 +62,12 @@ const CGFloat PHPlaybackControlsWidth = kSliderWidth + 100;
     [_loadLeftButton setTitle:@"Load"];
     [self.contentView addSubview:_loadLeftButton];
 
+    _loadRightButton = [[PHButton alloc] init];
+    _loadRightButton.tag = PHSystemButtonLoadRight;
+    _loadRightButton.delegate = self;
+    [_loadRightButton setTitle:@"Load"];
+    [self.contentView addSubview:_loadRightButton];
+
     _fadeLeftButton = [[PHButton alloc] init];
     _fadeLeftButton.tag = PHSystemButtonSwapFaderPositions;
     _fadeLeftButton.delegate = self;

@@ -27,7 +27,14 @@
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  [_script.interpreter setObject:@(size.width) forIdentifier:@"kWallWidth"];
+  [_script.interpreter setObject:@(size.height) forIdentifier:@"kWallHeight"];
   [_script.interpreter setObject:self.bassDegrader forIdentifier:@"bassDegrader"];
+  [_script.interpreter setObject:self.hihatDegrader forIdentifier:@"hihatDegrader"];
+  [_script.interpreter setObject:self.vocalDegrader forIdentifier:@"vocalDegrader"];
+  [_script.interpreter setObject:self.snareDegrader forIdentifier:@"snareDegrader"];
+  [_script.interpreter setObject:[NSNumber numberWithDouble:self.secondsSinceLastTick]
+                   forIdentifier:@"secondsSinceLastTick"];
   [_script renderBitmapInContext:cx size:size];
 }
 
