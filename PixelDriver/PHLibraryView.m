@@ -23,6 +23,7 @@
 #import "PHListView.h"
 #import "PHAnimationsView.h"
 #import "PHWallView.h"
+#import "PHDisplayLink.h"
 
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
@@ -35,6 +36,8 @@ static const CGFloat kExplorerWidth = 200;
   PHListView* _transitionsView;
   PHAnimationsView* _animationsView;
   PHContainerView* _previewVisualizationView;
+  NSTextField* _tapBpmLabel;
+  NSTextField* _lastScriptErrorLabel;
 
   NSArray* _categories;
   NSArray* _transitions;
@@ -49,6 +52,22 @@ static const CGFloat kExplorerWidth = 200;
     // Preview vizualization
     _previewVisualizationView = [[PHContainerView alloc] initWithFrame:NSZeroRect];
     [self addSubview:_previewVisualizationView];
+
+    _tapBpmLabel = [[NSTextField alloc] init];
+    _tapBpmLabel.backgroundColor = [NSColor clearColor];
+    [_tapBpmLabel setBordered:NO];
+    [_tapBpmLabel setBezeled:NO];
+    [_tapBpmLabel setEditable:NO];
+    _tapBpmLabel.textColor = [NSColor whiteColor];
+
+    _lastScriptErrorLabel = [[NSTextField alloc] init];
+    [_lastScriptErrorLabel setBordered:NO];
+    [_lastScriptErrorLabel setBezeled:NO];
+    [_lastScriptErrorLabel setEditable:NO];
+    _lastScriptErrorLabel.textColor = [NSColor whiteColor];
+
+    [self addSubview:_tapBpmLabel];
+    [self addSubview:_lastScriptErrorLabel];
 
     PHWallView* wallView = [[PHWallView alloc] initWithFrame:_previewVisualizationView.contentView.bounds];
     wallView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
@@ -78,6 +97,7 @@ static const CGFloat kExplorerWidth = 200;
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
+    [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
   }
   return self;
 }
@@ -100,6 +120,23 @@ static const CGFloat kExplorerWidth = 200;
   _previewVisualizationView.frame = CGRectMake(CGRectGetMaxX(_animationsView.frame),
                                                floor((topEdge - previewHeight) / 2),
                                                kPreviewPaneWidth, previewHeight);
+
+  [self updateBpm];
+}
+
+- (void)updateBpm {
+  CGFloat bpm = PHSys().bpm;
+  if (bpm > 0) {
+    _tapBpmLabel.layer.hidden = NO;
+    _tapBpmLabel.stringValue = [NSString stringWithFormat:@"bpm: %.0f", [PHSys() bpm]];
+    [_tapBpmLabel sizeToFit];
+
+    _tapBpmLabel.frame = CGRectMake(self.bounds.size.width - _tapBpmLabel.frame.size.width, 0, _tapBpmLabel.frame.size.width, _tapBpmLabel.frame.size.height);
+  } else {
+    _tapBpmLabel.layer.hidden = YES;
+  }
+
+  self.layer.backgroundColor = PHSys().isBeating ? [NSColor colorWithDeviceWhite:0 alpha:0.1].CGColor : [NSColor clearColor].CGColor;
 }
 
 #pragma mark - PHListViewDelegate
@@ -139,6 +176,16 @@ static const CGFloat kExplorerWidth = 200;
 
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
   [_categoriesView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
+}
+
+- (void)displayLinkDidFire:(NSNotification *)notification {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self updateBpm];
+    });
+  } else {
+    [self updateBpm];
+  }
 }
 
 @end

@@ -385,6 +385,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   return allTransition[arc4random_uniform(allTransition.count)];
 }
 
+- (CGFloat)bpm {
+  return _hardwareLeft.bpm;
+}
+
+- (BOOL)isBeating {
+  return _hardwareLeft.isBeating;
+}
+
 - (PHSystemTick *)tick {
   PHSystemTick* tick = [[PHSystemTick alloc] initWithMasterFade:_masterFade];
   

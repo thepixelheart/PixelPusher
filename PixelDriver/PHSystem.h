@@ -133,6 +133,9 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 @property (nonatomic, assign) CGFloat fade; // 0..1
 @property (nonatomic, assign) BOOL leftAnimationIsBottom; // YES by default
 
+- (CGFloat)bpm;
+- (BOOL)isBeating;
+
 // Actions
 
 // When enabled displays the Pixel Heart text over the current animation.
