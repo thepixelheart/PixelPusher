@@ -26,6 +26,12 @@
   return animation;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+  PHScriptAnimation* animation = [[self.class allocWithZone:zone] init];
+  animation.script = self.script;
+  return animation;
+}
+
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   [_script.interpreter setObject:@(size.width) forIdentifier:@"kWallWidth"];
   [_script.interpreter setObject:@(size.height) forIdentifier:@"kWallHeight"];
@@ -36,6 +42,18 @@
   [_script.interpreter setObject:[NSNumber numberWithDouble:self.secondsSinceLastTick]
                    forIdentifier:@"secondsSinceLastTick"];
   [_script renderBitmapInContext:cx size:size];
+}
+
+- (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
+  [self renderBitmapInContext:cx size:size];
+}
+
+- (NSString *)tooltipName {
+  return [_script.sourceFile lastPathComponent];
+}
+
+- (NSArray *)categories {
+  return @[PHAnimationCategoryScripts];
 }
 
 @end

@@ -1,0 +1,33 @@
+"This sample script draws two circles that each react to different components of the music."
+==init==
+
+progressbass := 0.
+progressvocal := 100.
+
+==anim==
+
+"We determine the radius of the circle based on the size of thew all."
+"We scale the circle in the range 0.2-1.0 depending on the intensity of the bass."
+circleRadius := kWallHeight / 4 * ((bassDegrader value) * 0.8 + 0.2).
+circleDiameter := circleRadius * 2.
+
+"Increment our time progress based on the intensity of the bass."
+progressbass := progressbass + (secondsSinceLastTick * (bassDegrader value)).
+
+"Position our circle within the wall's dimensions and along a moving cos/sin curve."
+offsetx := (PHMath sin:progressbass * 3) * (kWallWidth / 2 - circleRadius * 2) + kWallWidth / 2.
+offsety := (PHMath cos:progressbass * 5) * (kWallHeight / 2 - circleRadius * 2) + kWallHeight / 2.
+
+(NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1) set.
+(renderer fillEllipse:((offsetx - circleRadius)<>(offsety - circleRadius) extent:circleDiameter<>circleDiameter)).
+
+circleRadius := kWallHeight / 4 * ((vocalDegrader value) * 0.8 + 0.2).
+circleDiameter := circleRadius * 2.
+
+progressvocal := progressvocal + (secondsSinceLastTick * (vocalDegrader value)).
+
+offsetx := (PHMath sin:progressvocal * 5) * (kWallWidth / 2 - circleRadius * 2) + kWallWidth / 2.
+offsety := (PHMath cos:progressvocal * 3) * (kWallHeight / 2 - circleRadius * 2) + kWallHeight / 2.
+
+(NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1) set.
+(renderer fillEllipse:((offsetx - circleRadius)<>(offsety - circleRadius) extent:circleDiameter<>circleDiameter)).

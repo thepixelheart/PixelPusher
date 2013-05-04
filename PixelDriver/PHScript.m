@@ -49,6 +49,29 @@ static NSString* const kAnimDelim = @"==anim==";
 
 @end
 
+@interface PHMath : NSObject
+@end
+
+@implementation PHMath
+
++ (CGFloat)sin:(CGFloat)value {
+  return sin(value);
+}
+
++ (CGFloat)cos:(CGFloat)value {
+  return cos(value);
+}
+
++ (CGFloat)tan:(CGFloat)value {
+  return tan(value);
+}
+
++ (CGFloat)sqrt:(CGFloat)value {
+  return sqrt(value);
+}
+
+@end
+
 @interface PHScript()
 @property (nonatomic, strong) FSInterpreter* interpreter;
 @end

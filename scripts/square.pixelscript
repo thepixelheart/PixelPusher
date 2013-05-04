@@ -1,5 +1,22 @@
-==Initialization==
+"This sample script draws four boxes that each react to different components of the music."
 
-==Animation==
+"We start by making sure that our boxes take up the full screen."
+boxWidth := kWallWidth / 4.
 
-[sys log:'hello world']
+"We want to make the boxes jump to the top of the screen, but no further."
+maxOffset := kWallHeight - boxWidth.
+
+(NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:1) set.
+
+"0,0 is the top-left corner of the Heart, so we have to flip our y offset to make the boxes bounce"
+"upwards."
+(renderer fillRect:(0<>((1 - (bassDegrader value)) * maxOffset) extent:boxWidth<>boxWidth)).
+
+(NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:1) set.
+(renderer fillRect:(boxWidth<>((1 - hihatDegrader value) * maxOffset) extent:boxWidth<>boxWidth)).
+
+(NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:1) set.
+(renderer fillRect:(boxWidth * 2<>((1 - vocalDegrader value) * maxOffset) extent:boxWidth<>boxWidth)).
+
+(NSColor colorWithDeviceRed:1 green:1 blue:0 alpha:1) set.
+(renderer fillRect:(boxWidth * 3<>((1 - snareDegrader value) * maxOffset) extent:boxWidth<>boxWidth)).

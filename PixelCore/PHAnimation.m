@@ -97,6 +97,7 @@ NSString* const PHAnimationCategoryPixelHeart = @"Pixel Heart";
 NSString* const PHAnimationCategoryShapes = @"Shapes";
 NSString* const PHAnimationCategoryTrippy = @"Trippy";
 NSString* const PHAnimationCategoryGames = @"Games";
+NSString* const PHAnimationCategoryScripts = @"Scripts";
 
 static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
@@ -291,7 +292,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     PHAnimationCategoryPixelHeart,
     PHAnimationCategoryShapes,
     PHAnimationCategoryTrippy,
-    PHAnimationCategoryGames
+    PHAnimationCategoryGames,
+    PHAnimationCategoryScripts
   ];
 }
 
