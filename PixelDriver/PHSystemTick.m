@@ -115,11 +115,15 @@
                                   t:flip ? (1 - t) : t];
 
   CGContextRef wallContext = [PHSystem createWallContext];
-  CGContextSetAlpha(wallContext, _masterFade);
-  CGImageRef prepImageRef = CGBitmapContextCreateImage(wallPrepContext);
-  CGContextDrawImage(wallContext, CGRectMake(0, 0, kWallWidth, kWallHeight), prepImageRef);
-  CGImageRelease(prepImageRef);
-  CGContextRelease(wallPrepContext);
+  CGContextSaveGState(wallContext);
+  {
+    CGContextSetAlpha(wallContext, _masterFade);
+    CGImageRef prepImageRef = CGBitmapContextCreateImage(wallPrepContext);
+    CGContextDrawImage(wallContext, CGRectMake(0, 0, kWallWidth, kWallHeight), prepImageRef);
+    CGImageRelease(prepImageRef);
+    CGContextRelease(wallPrepContext);
+  }
+  CGContextRestoreGState(wallContext);
 
   self.wallContextRef = wallContext;
 

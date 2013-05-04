@@ -37,6 +37,7 @@
 #import <stdlib.h>
 
 static const NSTimeInterval kStrobeAge = 0.3;
+static const NSTimeInterval kMinGifFrameDuration = 0.1;
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
@@ -118,6 +119,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   PHCountdownOverlay _countdownOverlay;
   NSInteger _countdownTextIndex;
+
+  NSMutableArray* _recordingImages;
+  NSTimeInterval _lastRecordedImageTime;
 }
 
 @synthesize fade = _fade, previewAnimation = _previewAnimation;
@@ -473,8 +477,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [tick updateWallContextWithTransition:_faderTransition t:_fade flip:!_leftAnimationIsBottom];
 
   if (_off) {
+    CGContextSaveGState(tick.wallContextRef);
     CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor blackColor].CGColor);
     CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+    CGContextRestoreGState(tick.wallContextRef);
   }
 
   NSTimeInterval strobeAge = [NSDate timeIntervalSinceReferenceDate] - _strobeDeathStartTime;
@@ -521,6 +527,26 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
                                                        floorf((kWallHeight - textSize.height) / 2),
                                                        textSize.width, textSize.height), imageRef);
     CGImageRelease(imageRef);
+  }
+
+  if (_recordingImages
+      && (0 == _lastRecordedImageTime
+          || ([NSDate timeIntervalSinceReferenceDate] - _lastRecordedImageTime) >= kMinGifFrameDuration)) {
+    CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
+    {
+      CGContextSetFillColorWithColor(contextRef, [NSColor blackColor].CGColor);
+      CGContextFillRect(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+      CGImageRef imageRef = CGBitmapContextCreateImage(tick.wallContextRef);
+      CGContextScaleCTM(contextRef, 1, -1);
+      CGContextTranslateCTM(contextRef, 0, -kWallHeight);
+      CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
+      CGImageRelease(imageRef);
+    }
+
+    CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
+    [_recordingImages addObject:[NSValue valueWithPointer:imageRef]];
+
+    _lastRecordedImageTime = [NSDate timeIntervalSinceReferenceDate];
   }
 
   if (_shouldTakeScreenshot) {
@@ -578,6 +604,53 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 
   return tick;
+}
+
+- (void)unloadRecording {
+  _lastRecordedImageTime = 0;
+  _recordingImages = nil;
+}
+
+- (void)finishRecording {
+  if (_recordingImages.count == 0) {
+    [self unloadRecording];
+    return;
+  }
+
+  NSArray* recordingImages = [_recordingImages copy];
+  _recordingImages = nil;
+
+  NSString *path = [self pathForScreenshots];
+
+  NSFileManager *fm = [NSFileManager defaultManager];
+  if ([fm fileExistsAtPath:path] == NO) {
+    [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+  }
+
+  path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"animation_%.0f.gif", [NSDate timeIntervalSinceReferenceDate]]];
+  CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
+  CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, [_recordingImages count], NULL);
+  NSDictionary *props = @{(NSString *) kCGImagePropertyGIFDictionary:
+                            @{(NSString *) kCGImagePropertyGIFDelayTime:[NSNumber numberWithFloat:kMinGifFrameDuration]}};
+
+  for (NSValue* value in recordingImages) {
+    CGImageRef imageRef = [value pointerValue];
+    CGImageDestinationAddImage(destination, imageRef, (__bridge CFDictionaryRef)(props));
+  }
+
+  if (!CGImageDestinationFinalize(destination)) {
+    NSLog(@"Failed to write image to %@", path);
+  }
+
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+
+  CFRelease(destination);
+
+  for (NSValue* value in recordingImages) {
+    CGImageRef imageRef = [value pointerValue];
+    CGImageRelease(imageRef);
+  }
+  [self unloadRecording];
 }
 
 #pragma mark - Button State
@@ -754,6 +827,12 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     case PHSystemButtonFullScreen:
       [self toggleFullscreen];
       break;
+
+    case PHSystemButtonRecord:
+      [self unloadRecording];
+      _recordingImages = [NSMutableArray array];
+      break;
+
     default:
       break;
   }
@@ -872,6 +951,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     case PHSystemButtonSwapFaderPositions:
       extraNotificationName = PHSystemFaderDidSwapNotification;
       _leftAnimationIsBottom = !_leftAnimationIsBottom;
+      break;
+
+    case PHSystemButtonRecord:
+      [self finishRecording];
       break;
 
     default:

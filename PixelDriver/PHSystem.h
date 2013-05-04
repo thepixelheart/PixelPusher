@@ -38,6 +38,7 @@ typedef enum {
   PHSystemButtonOff,
   PHSystemButtonTapBPM,
   PHSystemButtonClearBPM,
+  PHSystemButtonRecord,
   PHSystemButton3,
   PHSystemButton2,
   PHSystemButton1,
