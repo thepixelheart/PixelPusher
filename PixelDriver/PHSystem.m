@@ -630,13 +630,18 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   path = [path stringByAppendingPathComponent:[NSString stringWithFormat:@"animation_%.0f.gif", [NSDate timeIntervalSinceReferenceDate]]];
   CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:path];
   CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypeGIF, [_recordingImages count], NULL);
-  NSDictionary *props = @{(NSString *) kCGImagePropertyGIFDictionary:
-                            @{(NSString *) kCGImagePropertyGIFDelayTime:[NSNumber numberWithFloat:kMinGifFrameDuration]}};
+
 
   for (NSValue* value in recordingImages) {
     CGImageRef imageRef = [value pointerValue];
+    NSDictionary *props = @{(NSString *) kCGImagePropertyGIFDictionary:
+                              @{(NSString *)kCGImagePropertyGIFDelayTime:@(kMinGifFrameDuration)}};
     CGImageDestinationAddImage(destination, imageRef, (__bridge CFDictionaryRef)(props));
   }
+
+  NSDictionary* props = @{(NSString *) kCGImagePropertyGIFDictionary:
+                            @{(NSString *)kCGImagePropertyGIFLoopCount:@(0)}};
+  CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)(props));
 
   if (!CGImageDestinationFinalize(destination)) {
     NSLog(@"Failed to write image to %@", path);
