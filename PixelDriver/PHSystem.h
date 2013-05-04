@@ -147,6 +147,7 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 // When eneabled, the final output view is fullscreened
 @property (assign) BOOL fullscreenMode;
 
+@property (nonatomic, copy) NSString* lastScriptError;
 
 // Buttons
 

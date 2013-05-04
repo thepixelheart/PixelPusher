@@ -240,6 +240,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (void)userScriptsDidChangeNotification:(NSNotification *)notification {
+  _lastScriptError = nil;
   [self refreshScriptAnimations];
 }
 
@@ -391,6 +392,15 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (BOOL)isBeating {
   return _hardwareLeft.isBeating;
+}
+
+- (void)setLastScriptError:(NSString *)lastScriptError {
+  if ([NSThread currentThread] != [NSThread mainThread]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self setLastScriptError:lastScriptError];
+    });
+  }
+  _lastScriptError = [lastScriptError copy];
 }
 
 - (PHSystemTick *)tick {

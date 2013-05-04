@@ -61,6 +61,7 @@ static const CGFloat kExplorerWidth = 200;
     _tapBpmLabel.textColor = [NSColor whiteColor];
 
     _lastScriptErrorLabel = [[NSTextField alloc] init];
+    _lastScriptErrorLabel.backgroundColor = [NSColor clearColor];
     [_lastScriptErrorLabel setBordered:NO];
     [_lastScriptErrorLabel setBezeled:NO];
     [_lastScriptErrorLabel setEditable:NO];
@@ -125,6 +126,18 @@ static const CGFloat kExplorerWidth = 200;
 }
 
 - (void)updateBpm {
+  NSString* lastScriptError = PHSys().lastScriptError;
+  if (lastScriptError.length > 0) {
+    if (![_lastScriptErrorLabel.stringValue isEqualToString:lastScriptError]) {
+      _lastScriptErrorLabel.layer.hidden = NO;
+      _lastScriptErrorLabel.stringValue = lastScriptError;
+      _lastScriptErrorLabel.frame = CGRectMake(_previewVisualizationView.frame.origin.x, CGRectGetMaxY(_previewVisualizationView.frame), _previewVisualizationView.frame.size.width, self.bounds.size.height - CGRectGetMaxY(_previewVisualizationView.frame));
+    }
+
+  } else {
+    _lastScriptErrorLabel.layer.hidden = YES;
+  }
+
   CGFloat bpm = PHSys().bpm;
   if (bpm > 0) {
     _tapBpmLabel.layer.hidden = NO;

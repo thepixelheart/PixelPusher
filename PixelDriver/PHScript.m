@@ -17,6 +17,8 @@
 #import "PHScript.h"
 
 #import <FScript/FScript.h>
+#import "PHSystem.h"
+#import "AppDelegate.h"
 
 static NSString* const kInitDelim = @"==init==";
 static NSString* const kAnimDelim = @"==anim==";
@@ -136,7 +138,8 @@ static NSString* const kAnimDelim = @"==anim==";
     _globalVars = [NSMutableDictionary dictionary];
     FSInterpreterResult *execResult = [_interpreter execute:_initScript];
     if (![execResult isOK]) {
-      NSLog(@"%@ , character %ld\n", [execResult errorMessage], [execResult errorRange].location);
+      [PHSys() setLastScriptError:
+       [NSString stringWithFormat:@"%@ , character %ld\n", [execResult errorMessage], [execResult errorRange].location]];
     }
 
     for (NSString* identifier in [_interpreter identifiers]) {
@@ -160,7 +163,8 @@ static NSString* const kAnimDelim = @"==anim==";
     }
     FSInterpreterResult *execResult = [_interpreter execute:_animationScript];
     if (![execResult isOK]) {
-      NSLog(@"%@ , character %ld\n", [execResult errorMessage], [execResult errorRange].location);
+      [PHSys() setLastScriptError:
+       [NSString stringWithFormat:@"%@ , character %ld\n", [execResult errorMessage], [execResult errorRange].location]];
     } else {
       NSMutableDictionary* vars = [_globalVars copy];
       for (NSString* identifier in vars) {
