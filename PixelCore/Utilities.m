@@ -32,7 +32,7 @@ void PHAlert(NSString *message) {
 }
 
 NSString* PHFilenameForResourcePath(NSString* resourcePath) {
-  return [@"PixelPusher.app/Contents/Resources/" stringByAppendingPathComponent:resourcePath];
+  return [[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/"] stringByAppendingPathComponent:resourcePath];
 }
 
 CGContextRef PHCreate8BitBitmapContextWithSize(CGSize size) {
