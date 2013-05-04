@@ -85,15 +85,17 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
        NSKeyDown || theEvent.type == NSKeyUp)
       && (nil != keyMappings[theEvent.charactersIgnoringModifiers]
           || nil != keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]])) {
-        id value = keyMappings[theEvent.charactersIgnoringModifiers];
-        if (nil == value) {
-          value = keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]];
-        }
-        PHSystemControlIdentifier button = [value intValue];
-        if (theEvent.type == NSKeyDown) {
-          [PHSys() didPressButton:button];
-        } else {
-          [PHSys() didReleaseButton:button];
+        if (!theEvent.isARepeat) {
+          id value = keyMappings[theEvent.charactersIgnoringModifiers];
+          if (nil == value) {
+            value = keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]];
+          }
+          PHSystemControlIdentifier button = [value intValue];
+          if (theEvent.type == NSKeyDown) {
+            [PHSys() didPressButton:button];
+          } else {
+            [PHSys() didReleaseButton:button];
+          }
         }
         
         didHandle = YES;
