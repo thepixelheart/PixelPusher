@@ -49,6 +49,26 @@ static NSString* const kAnimDelim = @"==anim==";
   CGContextStrokeEllipseInRect(_cx, rect);
 }
 
+- (void)pushState {
+  CGContextSaveGState(_cx);
+}
+
+- (void)popState {
+  CGContextRestoreGState(_cx);
+}
+
+- (void)scale:(CGPoint)scale {
+  CGContextScaleCTM(_cx, scale.x, scale.y);
+}
+
+- (void)translate:(CGPoint)translation {
+  CGContextTranslateCTM(_cx, translation.x, translation.y);
+}
+
+- (void)rotateByRadians:(CGFloat)radians {
+  CGContextRotateCTM(_cx, radians);
+}
+
 @end
 
 @interface PHMath : NSObject

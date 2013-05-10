@@ -173,6 +173,8 @@
 		665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07B4172B4E4600DD5D14 /* PHMIDIHardware.m */; };
 		665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 665A07B7172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h */; };
 		665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */; };
+		66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */; };
+		66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
 		668EA9EF1720BEB20056C8C3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		668EAA551720BFBB0056C8C3 /* PHAdventureTimeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EA9F91720BFBB0056C8C3 /* PHAdventureTimeAnimation.h */; };
@@ -638,6 +640,8 @@
 		665A07B6172B4E8500DD5D14 /* PHMIDIHardware+Subclassing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHMIDIHardware+Subclassing.h"; sourceTree = "<group>"; };
 		665A07B7172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFlowyColorsAnimation.h; sourceTree = "<group>"; };
 		665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlowyColorsAnimation.m; sourceTree = "<group>"; };
+		66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScreenCaptureAnimation.h; sourceTree = "<group>"; };
+		66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScreenCaptureAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
 		668520ED168292200063A95A /* PHSystemState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHSystemState.m; sourceTree = "<group>"; };
 		668EA9EE1720BEB10056C8C3 /* libPixelCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPixelCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1320,6 +1324,8 @@
 				665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */,
 				6603375F17333C85001090B7 /* PHScriptAnimation.h */,
 				6603376017333C86001090B7 /* PHScriptAnimation.m */,
+				66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */,
+				66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */,
 			);
 			name = Animations;
 			path = ../PixelDriver;
@@ -2003,6 +2009,7 @@
 				665A07AD172B4DB000DD5D14 /* PHLPD8Device.h in Headers */,
 				665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */,
 				6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */,
+				66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2330,6 +2337,7 @@
 				6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */,
 				665199A4172620A00007EC96 /* PHTriangleTileFilter.m in Sources */,
 				665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */,
+				66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

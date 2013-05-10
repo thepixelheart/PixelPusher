@@ -66,6 +66,7 @@
 #import "PHPixelTunnelAnimation.h"
 #import "PHSoundBoxAnimation.h"
 #import "PHFlowyColorsAnimation.h"
+#import "PHScreenCaptureAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -248,6 +249,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelTunnelAnimation animation],
     [PHSoundBoxAnimation animation],
     [PHFlowyColorsAnimation animation],
+    [PHScreenCaptureAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

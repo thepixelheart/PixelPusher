@@ -617,6 +617,29 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     CFRelease(destination);
   }
 
+  /*
+  // Shift the pixel heart by 3 pixels
+  CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
+  {
+    CGContextSetFillColorWithColor(contextRef, [NSColor blackColor].CGColor);
+    CGContextFillRect(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+    CGImageRef imageRef = CGBitmapContextCreateImage(tick.wallContextRef);
+    CGContextTranslateCTM(contextRef, 3, 0);
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
+    CGImageRelease(imageRef);
+  }
+
+  CGContextSaveGState(tick.wallContextRef);
+  CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor blackColor].CGColor);
+  CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+  CGContextRestoreGState(tick.wallContextRef);
+
+  CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
+  CGContextDrawImage(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), imageRef);
+  CGImageRelease(imageRef);
+
+  CGContextRelease(contextRef);
+*/
   for (NSValue* value in animationToContext.allValues) {
     CGContextRelease([value pointerValue]);
   }
