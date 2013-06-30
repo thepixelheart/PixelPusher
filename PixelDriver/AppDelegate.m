@@ -88,6 +88,8 @@ PHSystem* PHSys() {
   SCEvents* _scriptFSEvents;
 
   NSMutableDictionary* _userScripts;
+
+  CGContextRef _depthBitmapContext;
 }
 
 @synthesize audioRecorder = _audioRecorder;
@@ -306,11 +308,44 @@ PHSystem* PHSys() {
 }
 
 - (CGContextRef)kinectColorBitmapContext {
-  return _kinectServer.colorBitmapContext;
+  return _depthBitmapContext;
 }
 
 - (void)tick {
   [_kinectServer tick];
+
+  if (_kinectServer.colorBitmapContext) {
+    const size_t kComponentsPerPixel = 4;
+    const size_t kBitsPerComponent = 8;
+    static const size_t kBufferWidth = 640;
+    static const size_t kBufferHeight = 480;
+    static const size_t kBytesPerRow = ((kBitsPerComponent * kBufferWidth) / 8) * kComponentsPerPixel;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+
+    if (_depthBitmapContext) {
+      CGContextRelease(_depthBitmapContext);
+    }
+
+    _depthBitmapContext = CGBitmapContextCreate(NULL, kBufferWidth, kBufferHeight, kBitsPerComponent, kBytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast);
+
+    uint8_t* rgbdata = CGBitmapContextGetData(_kinectServer.colorBitmapContext);
+    uint8_t* buffer = CGBitmapContextGetData(_depthBitmapContext);
+    memset(buffer, 255, 640 * 480 * sizeof(uint8_t) * 4);
+    for (int i = 0; i < 640 * 480; ++i) {
+      float scale = 1 - (float)_kinectServer.depthBuffer[i] / (float)(1 << 11);
+      if (scale > 0.3) {
+        scale = 1;
+      } else {
+        scale = scale / 0.3;
+      }
+      buffer[i * 4 + 0] = MAX(0, MIN(255, rgbdata[i * 4 + 0] * scale));
+      buffer[i * 4 + 1] = MAX(0, MIN(255, rgbdata[i * 4 + 1] * scale));
+      buffer[i * 4 + 2] = MAX(0, MIN(255, rgbdata[i * 4 + 2] * scale));
+      buffer[i * 4 + 3] = MAX(0, MIN(255, 255 * scale));
+    }
+
+    CGColorSpaceRelease(colorSpace);
+  }
 }
 
 - (void)didTick {

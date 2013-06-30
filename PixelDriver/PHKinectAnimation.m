@@ -20,15 +20,14 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   CGContextSaveGState(cx);
-  CGContextSetFillColorWithColor(cx, [NSColor blackColor].CGColor);
-  CGContextFillRect(cx, CGRectMake(0, 0, kWallWidth, kWallHeight));
 
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -kWallHeight);
 
   CGContextRef colorBitmapContext = self.systemState.kinectColorBitmapContext;
   CGImageRef colorImage = CGBitmapContextCreateImage(colorBitmapContext);
-  CGContextDrawImage(cx, CGRectMake(0, 0, kWallWidth, kWallHeight), colorImage);
+  CGContextDrawImage(cx, UIEdgeInsetRect(CGRectMake(0, 0, kWallWidth, kWallHeight),
+                                         NSEdgeInsetsMake(-1, -2, -4, -4)), colorImage);
   CGImageRelease(colorImage);
 
   CGContextRestoreGState(cx);
