@@ -38,12 +38,10 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
     PHDisplayLink* displayLink = (__bridge PHDisplayLink *)(displayLinkContext);
     NSArray* motes = [PHApp() allMotes];
     CGImageRef kinectColorImage = [PHApp() kinectColorImage];
-    CGImageRef kinectDepthImage = [PHApp() kinectDepthImage];
     [displayLink.systemState updateWithAudioRecorder:PHApp().audioRecorder
                                                motes:motes
                                                 gifs:PHApp().gifs
-                                    kinectColorImage:kinectColorImage
-                                    kinectDepthImage:kinectDepthImage];
+                                    kinectColorImage:kinectColorImage];
 
     NSMutableDictionary* userInfo = [@{
       PHDisplayLinkFiredDriverKey : displayLink.systemState

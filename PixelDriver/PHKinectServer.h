@@ -19,6 +19,5 @@
 @interface PHKinectServer : NSObject
 
 - (CGImageRef)colorImage; // Must release
-- (CGImageRef)depthImage; // Must release
 
 @end

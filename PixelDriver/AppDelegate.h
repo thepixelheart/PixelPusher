@@ -43,7 +43,6 @@ PHSystem* PHSys();
 - (NSArray *)allMotes; // Array of PHMote
 
 - (CGImageRef)kinectColorImage; // Must release
-- (CGImageRef)kinectDepthImage; // Must release
 
 // User things
 @property (nonatomic, readonly) NSArray* gifs;

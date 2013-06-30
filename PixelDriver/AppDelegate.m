@@ -309,10 +309,6 @@ PHSystem* PHSys() {
   return _kinectServer.colorImage;
 }
 
-- (CGImageRef)kinectDepthImage {
-  return _kinectServer.depthImage;
-}
-
 - (void)didTick {
   [_moteServer didTick];
 }

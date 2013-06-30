@@ -66,9 +66,6 @@ static const float notefreq[PHPitch_Count] = {
   if (_kinectColorImage) {
     CGImageRelease(_kinectColorImage);
   }
-  if (_kinectDepthImage) {
-    CGImageRelease(_kinectDepthImage);
-  }
 }
 
 - (id)init {
@@ -127,8 +124,7 @@ static const float notefreq[PHPitch_Count] = {
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
                            gifs:(NSArray *)gifs
-               kinectColorImage:(CGImageRef)kinectColorImage
-               kinectDepthImage:(CGImageRef)kinectDepthImage {
+               kinectColorImage:(CGImageRef)kinectColorImage {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
@@ -138,10 +134,6 @@ static const float notefreq[PHPitch_Count] = {
     CGImageRelease(_kinectColorImage);
   }
   _kinectColorImage = kinectColorImage;
-  if (_kinectDepthImage) {
-    CGImageRelease(_kinectDepthImage);
-  }
-  _kinectDepthImage = kinectDepthImage;
   
   _motes = [motes copy];
   _gifs = [gifs copy];
