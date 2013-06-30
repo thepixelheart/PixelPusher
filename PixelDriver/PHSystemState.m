@@ -62,6 +62,15 @@ static const float notefreq[PHPitch_Count] = {
 
 @implementation PHSystemState
 
+- (void)dealloc {
+  if (_kinectColorImage) {
+    CGImageRelease(_kinectColorImage);
+  }
+  if (_kinectDepthImage) {
+    CGImageRelease(_kinectDepthImage);
+  }
+}
+
 - (id)init {
   if ((self = [super init])) {
     [self resetScales];
@@ -117,11 +126,23 @@ static const float notefreq[PHPitch_Count] = {
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
-                           gifs:(NSArray *)gifs {
+                           gifs:(NSArray *)gifs
+               kinectColorImage:(CGImageRef)kinectColorImage
+               kinectDepthImage:(CGImageRef)kinectDepthImage {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
   [self updateActionsWithMotes:motes];
+
+  if (_kinectColorImage) {
+    CGImageRelease(_kinectColorImage);
+  }
+  _kinectColorImage = kinectColorImage;
+  if (_kinectDepthImage) {
+    CGImageRelease(_kinectDepthImage);
+  }
+  _kinectDepthImage = kinectDepthImage;
+  
   _motes = [motes copy];
   _gifs = [gifs copy];
 }
