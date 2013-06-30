@@ -26,8 +26,10 @@
   CGContextScaleCTM(cx, 1, -1);
   CGContextTranslateCTM(cx, 0, -kWallHeight);
 
-  CGImageRef colorImage = self.systemState.kinectColorImage;
+  CGContextRef colorBitmapContext = self.systemState.kinectColorBitmapContext;
+  CGImageRef colorImage = CGBitmapContextCreateImage(colorBitmapContext);
   CGContextDrawImage(cx, CGRectMake(0, 0, kWallWidth, kWallHeight), colorImage);
+  CGImageRelease(colorImage);
 
   CGContextRestoreGState(cx);
 }

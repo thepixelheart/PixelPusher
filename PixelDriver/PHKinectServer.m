@@ -30,7 +30,7 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
   freenect_device *f_dev;
   pthread_t freenect_thread;
 
-  CGImageRef _colorImage;
+  CGContextRef _colorBitmapContext;
 
 @public
 
@@ -40,8 +40,8 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 }
 
 - (void)dealloc {
-  if (_colorImage) {
-    CGImageRelease(_colorImage);
+  if (_colorBitmapContext) {
+    CGContextRelease(_colorBitmapContext);
   }
   if (depth_buffer) {
     free(depth_buffer);
@@ -121,10 +121,16 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 
   if (gtx) {
     @synchronized(self) {
-      if (_colorImage) {
-        CGImageRelease(_colorImage);
+      if (_colorBitmapContext) {
+        CGContextRelease(_colorBitmapContext);
       }
-      _colorImage = CGBitmapContextCreateImage(gtx);
+
+      CGContextRef colorBitmapContext = CGBitmapContextCreate(NULL, kBufferWidth, kBufferHeight, kBitsPerComponent, kBytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast);
+      CGImageRef colorImage = CGBitmapContextCreateImage(gtx);
+      CGContextDrawImage(colorBitmapContext, CGRectMake(0, 0, kBufferWidth, kBufferHeight), colorImage);
+      CGImageRelease(colorImage);
+
+      _colorBitmapContext = colorBitmapContext;
     }
   }
 
@@ -132,14 +138,14 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
   CGContextRelease(gtx);
 }
 
-- (void)getColorImage:(CGImageRef *)colorImage depthBuffer:(uint16_t **)depthBuffer {
+- (void)getColorBitmapContext:(CGContextRef *)colorBitmapContext depthBuffer:(uint16_t **)depthBuffer {
   @synchronized(self) {
     if (depth_buffer) {
-      *colorImage = CGImageRetain(_colorImage);
+      *colorBitmapContext = CGContextRetain(_colorBitmapContext);
       *depthBuffer = (uint16_t*)malloc(640*480*sizeof(uint16_t));
       memcpy(*depthBuffer, depth_buffer, 640*480*sizeof(uint16_t));
     } else {
-      *colorImage = nil;
+      *colorBitmapContext = nil;
       *depthBuffer = nil;
     }
   }
@@ -156,13 +162,13 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 @implementation PHKinectServer {
   PHKinectThread* _thread;
 
-  CGImageRef _lastColorImage;
+  CGContextRef _lastColorBitmapContext;
   uint16_t* _lastDepthBuffer;
 }
 
 - (void)dealloc {
-  if (_lastColorImage) {
-    CGImageRelease(_lastColorImage);
+  if (_lastColorBitmapContext) {
+    CGContextRelease(_lastColorBitmapContext);
   }
   if (_lastDepthBuffer) {
     free(_lastDepthBuffer);
@@ -179,17 +185,17 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 }
 
 - (void)tick {
-  if (_lastColorImage) {
-    CGImageRelease(_lastColorImage);
+  if (_lastColorBitmapContext) {
+    CGContextRelease(_lastColorBitmapContext);
   }
   if (_lastDepthBuffer) {
     free(_lastDepthBuffer);
   }
-  [_thread getColorImage:&_lastColorImage depthBuffer:&_lastDepthBuffer];
+  [_thread getColorBitmapContext:&_lastColorBitmapContext depthBuffer:&_lastDepthBuffer];
 }
 
-- (CGImageRef)colorImage {
-  return _lastColorImage;
+- (CGContextRef)colorBitmapContext {
+  return _lastColorBitmapContext;
 }
 
 - (uint16_t *)depthBuffer {

@@ -305,8 +305,8 @@ PHSystem* PHSys() {
   return _moteServer.allMotes;
 }
 
-- (CGImageRef)kinectColorImage {
-  return _kinectServer.colorImage;
+- (CGContextRef)kinectColorBitmapContext {
+  return _kinectServer.colorBitmapContext;
 }
 
 - (void)tick {

@@ -201,7 +201,7 @@ typedef enum {
 @property (nonatomic, readonly) NSArray* gifs;
 
 // Kinect
-@property (nonatomic, readonly) CGImageRef kinectColorImage;
+@property (nonatomic, readonly) CGContextRef kinectColorBitmapContext;
 
 @end
 
@@ -210,7 +210,7 @@ typedef enum {
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
                            gifs:(NSArray *)gifs
-               kinectColorImage:(CGImageRef)kinectColorImage;
+       kinectColorBitmapContext:(CGContextRef)kinectColorBitmapContext;
 
 // Forcefully resets the frequency scales back to their original (slightly too high)
 // values. This may be necessary when a song peaked out all of the values way too
