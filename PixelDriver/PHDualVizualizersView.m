@@ -56,7 +56,7 @@ static const CGFloat kPlaybackControlsHeight = 40;
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObject:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
