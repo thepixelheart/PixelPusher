@@ -40,6 +40,8 @@
 #import "PHDJ2GODevice.h"
 #import "PHScript.h"
 
+#include <libfreenect/libfreenect.h>
+
 #import <FScript/FScript.h>
 
 static const CGFloat kPixelHeartPixelSize = 16;
