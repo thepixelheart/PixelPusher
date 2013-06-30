@@ -367,6 +367,7 @@
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
 		66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
+		66AF78C3177FC7AF00E291F0 /* PHKinectServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AF78C2177FC7AF00E291F0 /* PHKinectServer.m */; };
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
@@ -855,6 +856,8 @@
 		66A8E038167D747400FBAFE8 /* PHMIDIDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMIDIDriver.h; sourceTree = "<group>"; };
 		66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMIDIDriver.m; sourceTree = "<group>"; };
 		66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		66AF78C1177FC7AF00E291F0 /* PHKinectServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHKinectServer.h; sourceTree = "<group>"; };
+		66AF78C2177FC7AF00E291F0 /* PHKinectServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHKinectServer.m; sourceTree = "<group>"; };
 		66B16F0916AEB246003CF908 /* PHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScrollView.h; sourceTree = "<group>"; };
 		66B16F0A16AEB246003CF908 /* PHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScrollView.m; sourceTree = "<group>"; };
 		66B16F0D16AF1B54003CF908 /* PHShutterTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHShutterTransition.h; sourceTree = "<group>"; };
@@ -1579,6 +1582,15 @@
 			name = MIDI;
 			sourceTree = "<group>";
 		};
+		66AF78C0177FC79800E291F0 /* Kinect */ = {
+			isa = PBXGroup;
+			children = (
+				66AF78C1177FC7AF00E291F0 /* PHKinectServer.h */,
+				66AF78C2177FC7AF00E291F0 /* PHKinectServer.m */,
+			);
+			name = Kinect;
+			sourceTree = "<group>";
+		};
 		66BDB2A516A6A2F800ED7C81 /* Generic Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -1724,6 +1736,7 @@
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
+				66AF78C0177FC79800E291F0 /* Kinect */,
 				663C839E168EC242003B88A1 /* Processing */,
 				6603375B17333454001090B7 /* Scripts */,
 				66DC7B80167738EB00453E8F /* Views */,
@@ -2417,6 +2430,7 @@
 				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
 				6603375E1733346C001090B7 /* PHScript.m in Sources */,
 				6603376317334430001090B7 /* PHScriptAnimation.m in Sources */,
+				66AF78C3177FC7AF00E291F0 /* PHKinectServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,6 +25,7 @@
 #import "PHUSBNotifier.h"
 #import "PHWallView.h"
 #import "Utilities.h"
+#import "PHKinectServer.h"
 #import "PHMote.h"
 #import "PHMoteServer.h"
 #import "PHPixelDriverWindow.h"
@@ -39,8 +40,6 @@
 #import "PHLaunchpadDevice.h"
 #import "PHDJ2GODevice.h"
 #import "PHScript.h"
-
-#include <libfreenect/libfreenect.h>
 
 #import <FScript/FScript.h>
 
@@ -74,6 +73,9 @@ PHSystem* PHSys() {
 
   // Controller server
   PHMoteServer* _moteServer;
+
+  // Kinect server
+  PHKinectServer* _kinectServer;
 
   // Processing server
   PHProcessingServer* _processingServer;
@@ -238,6 +240,7 @@ PHSystem* PHSys() {
   _system = [[PHSystem alloc] init];
 
   _moteServer = [[PHMoteServer alloc] init];
+  _kinectServer = [[PHKinectServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
   [self loadGifs];
   [self loadScripts];
