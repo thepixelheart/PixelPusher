@@ -42,6 +42,9 @@ PHSystem* PHSys();
 // Makes a copy of all connected motes and returns them.
 - (NSArray *)allMotes; // Array of PHMote
 
+- (CGImageRef)kinectColorImage; // Must release
+- (CGImageRef)kinectDepthImage; // Must release
+
 // User things
 @property (nonatomic, readonly) NSArray* gifs;
 @property (nonatomic, readonly) NSDictionary* scripts; // Path => PHScript

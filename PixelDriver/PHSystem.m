@@ -617,6 +617,21 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     CFRelease(destination);
   }
 
+  if (1) {
+    CGContextSaveGState(tick.wallContextRef);
+    CGContextSetFillColorWithColor(tick.wallContextRef, [NSColor blackColor].CGColor);
+    CGContextFillRect(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight));
+
+    CGContextScaleCTM(tick.wallContextRef, 1, -1);
+    CGContextTranslateCTM(tick.wallContextRef, 0, -kWallHeight);
+
+    CGImageRef colorImage = [PHApp() kinectColorImage];
+    CGContextDrawImage(tick.wallContextRef, CGRectMake(0, 0, kWallWidth, kWallHeight), colorImage);
+    CGImageRelease(colorImage);
+
+    CGContextRestoreGState(tick.wallContextRef);
+  }
+
   /*
   // Shift the pixel heart by 3 pixels
   CGContextRef contextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
