@@ -62,12 +62,6 @@ static const float notefreq[PHPitch_Count] = {
 
 @implementation PHSystemState
 
-- (void)dealloc {
-  if (_kinectColorImage) {
-    CGImageRelease(_kinectColorImage);
-  }
-}
-
 - (id)init {
   if ((self = [super init])) {
     [self resetScales];
@@ -130,9 +124,6 @@ static const float notefreq[PHPitch_Count] = {
   [self updateWaveWithAudio:audio];
   [self updateActionsWithMotes:motes];
 
-  if (_kinectColorImage) {
-    CGImageRelease(_kinectColorImage);
-  }
   _kinectColorImage = kinectColorImage;
   
   _motes = [motes copy];

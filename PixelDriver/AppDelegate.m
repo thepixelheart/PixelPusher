@@ -309,6 +309,10 @@ PHSystem* PHSys() {
   return _kinectServer.colorImage;
 }
 
+- (void)tick {
+  [_kinectServer tick];
+}
+
 - (void)didTick {
   [_moteServer didTick];
 }

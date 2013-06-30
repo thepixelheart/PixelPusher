@@ -57,7 +57,7 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 		return NO;
 	}
 
-	freenect_set_log_level(f_ctx, FREENECT_LOG_DEBUG);
+	freenect_set_log_level(f_ctx, FREENECT_LOG_WARNING);
 	freenect_select_subdevices(f_ctx, (freenect_device_flags)(FREENECT_DEVICE_CAMERA));
 
 	int nr_devices = freenect_num_devices (f_ctx);
@@ -132,12 +132,17 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
   CGContextRelease(gtx);
 }
 
-- (CGImageRef)colorImage {
-  CGImageRef colorImage = nil;
+- (void)getColorImage:(CGImageRef *)colorImage depthBuffer:(uint16_t **)depthBuffer {
   @synchronized(self) {
-    colorImage = CGImageRetain(_colorImage);
+    if (depth_buffer) {
+      *colorImage = CGImageRetain(_colorImage);
+      *depthBuffer = (uint16_t*)malloc(640*480*sizeof(uint16_t));
+      memcpy(*depthBuffer, depth_buffer, 640*480*sizeof(uint16_t));
+    } else {
+      *colorImage = nil;
+      *depthBuffer = nil;
+    }
   }
-  return colorImage;
 }
 
 - (void)main {
@@ -150,6 +155,18 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 
 @implementation PHKinectServer {
   PHKinectThread* _thread;
+
+  CGImageRef _lastColorImage;
+  uint16_t* _lastDepthBuffer;
+}
+
+- (void)dealloc {
+  if (_lastColorImage) {
+    CGImageRelease(_lastColorImage);
+  }
+  if (_lastDepthBuffer) {
+    free(_lastDepthBuffer);
+  }
 }
 
 - (id)init {
@@ -161,8 +178,22 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
   return self;
 }
 
+- (void)tick {
+  if (_lastColorImage) {
+    CGImageRelease(_lastColorImage);
+  }
+  if (_lastDepthBuffer) {
+    free(_lastDepthBuffer);
+  }
+  [_thread getColorImage:&_lastColorImage depthBuffer:&_lastDepthBuffer];
+}
+
 - (CGImageRef)colorImage {
-  return [_thread colorImage];
+  return _lastColorImage;
+}
+
+- (uint16_t *)depthBuffer {
+  return _lastDepthBuffer;
 }
 
 @end

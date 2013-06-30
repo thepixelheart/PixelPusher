@@ -43,10 +43,14 @@ PHSystem* PHSys();
 - (NSArray *)allMotes; // Array of PHMote
 
 - (CGImageRef)kinectColorImage; // Must release
+- (CGImageRef)kinectDepthImage; // Must release
 
 // User things
 @property (nonatomic, readonly) NSArray* gifs;
 @property (nonatomic, readonly) NSDictionary* scripts; // Path => PHScript
+
+// Called when a display link frame has started.
+- (void)tick;
 
 // Called when a display link frame has completed.
 - (void)didTick;

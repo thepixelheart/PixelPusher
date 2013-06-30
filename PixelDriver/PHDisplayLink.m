@@ -36,6 +36,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
                                     void* displayLinkContext) {
   @autoreleasepool {
     PHDisplayLink* displayLink = (__bridge PHDisplayLink *)(displayLinkContext);
+    [PHApp() tick];
     NSArray* motes = [PHApp() allMotes];
     CGImageRef kinectColorImage = [PHApp() kinectColorImage];
     [displayLink.systemState updateWithAudioRecorder:PHApp().audioRecorder

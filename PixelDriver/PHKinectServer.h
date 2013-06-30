@@ -18,6 +18,8 @@
 
 @interface PHKinectServer : NSObject
 
-- (CGImageRef)colorImage; // Must release
+- (void)tick;
+- (CGImageRef)colorImage;
+- (uint16_t *)depthBuffer;
 
 @end
