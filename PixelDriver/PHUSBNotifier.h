@@ -17,6 +17,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString* const PHFT232ConnectionStateDidChangeNotification;
+extern NSString* const PHKinectConnectionStateDidChangeNotification;
 
 @interface PHUSBNotifier : NSObject
 
