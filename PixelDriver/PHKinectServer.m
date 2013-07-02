@@ -16,6 +16,7 @@
 
 #import "PHKinectServer.h"
 
+#import "PHUSBNotifier.h"
 #include <pthread.h>
 #include <libfreenect/libfreenect.h>
 
@@ -152,9 +153,12 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
 }
 
 - (void)main {
+  NSLog(@"Looking...");
   if ([self startListening]) {
+    NSLog(@"Running...");
     [self doRunLoop];
   }
+  NSLog(@"Dying...");
 }
 
 @end
@@ -173,15 +177,25 @@ void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp);
   if (_lastDepthBuffer) {
     free(_lastDepthBuffer);
   }
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)init {
   if ((self = [super init])) {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kinectConnectionStateDidChangeNotification:) name:PHKinectConnectionStateDidChangeNotification object:nil];
     _thread = [[PHKinectThread alloc] init];
     _thread.threadPriority = 0.7;
     [_thread start];
   }
   return self;
+}
+
+- (void)kinectConnectionStateDidChangeNotification:(NSNotification *)notification {
+  if (![_thread isExecuting]) {
+    _thread = [[PHKinectThread alloc] init];
+    _thread.threadPriority = 0.7;
+    [_thread start];
+  }
 }
 
 - (void)tick {

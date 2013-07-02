@@ -1014,6 +1014,15 @@
 			name = Scripts;
 			sourceTree = "<group>";
 		};
+		660A2F55178296DF00B6F7E1 /* USB */ = {
+			isa = PBXGroup;
+			children = (
+				66DC7B8416773EE000453E8F /* PHUSBNotifier.h */,
+				66DC7B8516773EE000453E8F /* PHUSBNotifier.m */,
+			);
+			name = USB;
+			sourceTree = "<group>";
+		};
 		6617FAB4171E8073006E0DF8 /* box2d */ = {
 			isa = PBXGroup;
 			children = (
@@ -1740,6 +1749,7 @@
 				66A8E029167C1FFC00FBAFE8 /* Display Link */,
 				662F591B16784B7A00ADE02C /* Quartz Renderer */,
 				66A8E01E167C076A00FBAFE8 /* FMOD Recorder */,
+				660A2F55178296DF00B6F7E1 /* USB */,
 				66DC7B81167738F100453E8F /* FTDI Driver */,
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
 				66AF78C0177FC79800E291F0 /* Kinect */,
@@ -1865,8 +1875,6 @@
 			children = (
 				66DC7B7D1677299300453E8F /* PHDriver.h */,
 				66DC7B7E1677299300453E8F /* PHDriver.m */,
-				66DC7B8416773EE000453E8F /* PHUSBNotifier.h */,
-				66DC7B8516773EE000453E8F /* PHUSBNotifier.m */,
 			);
 			name = "FTDI Driver";
 			sourceTree = "<group>";
