@@ -15,5 +15,5 @@
 
 #import "PHAnimation.h"
 
-@interface PHLinesAnimation : PHAnimation
+@interface PHStaticAnimation : PHAnimation
 @end

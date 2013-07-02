@@ -158,6 +158,10 @@
 		663C83A9168EE542003B88A1 /* PHProcessingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 663C83A8168EE542003B88A1 /* PHProcessingSource.m */; };
 		66474124177FE16300E69F41 /* PHKinectAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66474122177FE16300E69F41 /* PHKinectAnimation.h */; };
 		66474125177FE16300E69F41 /* PHKinectAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66474123177FE16300E69F41 /* PHKinectAnimation.m */; };
+		664E8F341783761F00FF58A6 /* PHMandelbrotAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 664E8F321783761F00FF58A6 /* PHMandelbrotAnimation.h */; };
+		664E8F351783761F00FF58A6 /* PHMandelbrotAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E8F331783761F00FF58A6 /* PHMandelbrotAnimation.m */; };
+		664E8F381783778E00FF58A6 /* PHStaticAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 664E8F361783778E00FF58A6 /* PHStaticAnimation.h */; };
+		664E8F391783778E00FF58A6 /* PHStaticAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E8F371783778E00FF58A6 /* PHStaticAnimation.m */; };
 		6651999D17261D4C0007EC96 /* PHKaleidoscopeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */; };
 		6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */; };
 		665199A017261E680007EC96 /* kaleidoscope.png in Resources */ = {isa = PBXBuildFile; fileRef = 6651999F17261E680007EC96 /* kaleidoscope.png */; };
@@ -621,6 +625,10 @@
 		663C83A8168EE542003B88A1 /* PHProcessingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHProcessingSource.m; sourceTree = "<group>"; };
 		66474122177FE16300E69F41 /* PHKinectAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHKinectAnimation.h; sourceTree = "<group>"; };
 		66474123177FE16300E69F41 /* PHKinectAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHKinectAnimation.m; sourceTree = "<group>"; };
+		664E8F321783761F00FF58A6 /* PHMandelbrotAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMandelbrotAnimation.h; path = PixelCore/PHMandelbrotAnimation.h; sourceTree = SOURCE_ROOT; };
+		664E8F331783761F00FF58A6 /* PHMandelbrotAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMandelbrotAnimation.m; path = PixelCore/PHMandelbrotAnimation.m; sourceTree = SOURCE_ROOT; };
+		664E8F361783778E00FF58A6 /* PHStaticAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHStaticAnimation.h; path = PixelCore/PHStaticAnimation.h; sourceTree = SOURCE_ROOT; };
+		664E8F371783778E00FF58A6 /* PHStaticAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHStaticAnimation.m; path = PixelCore/PHStaticAnimation.m; sourceTree = SOURCE_ROOT; };
 		6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHKaleidoscopeFilter.h; sourceTree = "<group>"; };
 		6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHKaleidoscopeFilter.m; sourceTree = "<group>"; };
 		6651999F17261E680007EC96 /* kaleidoscope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kaleidoscope.png; path = PixelDriver/resources/kaleidoscope.png; sourceTree = "<group>"; };
@@ -1286,6 +1294,8 @@
 				668EAA221720BFBB0056C8C3 /* PHLevelsHorizAnimation.m */,
 				668EAA231720BFBB0056C8C3 /* PHLinesAnimation.h */,
 				668EAA241720BFBB0056C8C3 /* PHLinesAnimation.m */,
+				664E8F321783761F00FF58A6 /* PHMandelbrotAnimation.h */,
+				664E8F331783761F00FF58A6 /* PHMandelbrotAnimation.m */,
 				668EAA251720BFBB0056C8C3 /* PHMegamanAnimation.h */,
 				668EAA261720BFBB0056C8C3 /* PHMegamanAnimation.m */,
 				668EAA271720BFBB0056C8C3 /* PHMovingSawAnimation.h */,
@@ -1332,6 +1342,8 @@
 				668EAA4C1720BFBB0056C8C3 /* PHSpiralingSquareAnimation.m */,
 				668EAA4D1720BFBB0056C8C3 /* PHSquaresAnimation.h */,
 				668EAA4E1720BFBB0056C8C3 /* PHSquaresAnimation.m */,
+				664E8F361783778E00FF58A6 /* PHStaticAnimation.h */,
+				664E8F371783778E00FF58A6 /* PHStaticAnimation.m */,
 				668EAA4F1720BFBB0056C8C3 /* PHTetrisAnimation.h */,
 				668EAA501720BFBB0056C8C3 /* PHTetrisAnimation.m */,
 				668EAA511720BFBB0056C8C3 /* PHTronAnimation.h */,
@@ -1961,9 +1973,11 @@
 				668EAA5B1720BFBB0056C8C3 /* PHBassPlate.h in Headers */,
 				668EAA5D1720BFBB0056C8C3 /* PHBassShooterAnimation.h in Headers */,
 				668EAA5F1720BFBB0056C8C3 /* PHBox2DAnimation.h in Headers */,
+				664E8F341783761F00FF58A6 /* PHMandelbrotAnimation.h in Headers */,
 				668EAA611720BFBB0056C8C3 /* PHCombAnimation.h in Headers */,
 				668EAA631720BFBB0056C8C3 /* PHCompositeAnimation.h in Headers */,
 				668EAA651720BFBB0056C8C3 /* PHCornerParticlesAnimation.h in Headers */,
+				664E8F381783778E00FF58A6 /* PHStaticAnimation.h in Headers */,
 				668EAA671720BFBB0056C8C3 /* PHCountdownAnimation.h in Headers */,
 				668EAA691720BFBB0056C8C3 /* PHDaftPixelAnimation.h in Headers */,
 				668EAA6B1720BFBB0056C8C3 /* PHDancingManAnimation.h in Headers */,
@@ -2287,6 +2301,7 @@
 			files = (
 				668EAA561720BFBB0056C8C3 /* PHAdventureTimeAnimation.m in Sources */,
 				668EAA581720BFBB0056C8C3 /* PHAnimation.m in Sources */,
+				664E8F391783778E00FF58A6 /* PHStaticAnimation.m in Sources */,
 				668EAA5A1720BFBB0056C8C3 /* PHBasicSpectrumAnimation.m in Sources */,
 				668EAA5C1720BFBB0056C8C3 /* PHBassPlate.m in Sources */,
 				668EAA5E1720BFBB0056C8C3 /* PHBassShooterAnimation.m in Sources */,
@@ -2322,6 +2337,7 @@
 				668EAA9A1720BFBC0056C8C3 /* PHRotatingPlaneAnimation.m in Sources */,
 				668EAA9C1720BFBC0056C8C3 /* PHRotatingSquaresAnimation.m in Sources */,
 				668EAA9E1720BFBC0056C8C3 /* PHSimpleMoteAnimation.m in Sources */,
+				664E8F351783761F00FF58A6 /* PHMandelbrotAnimation.m in Sources */,
 				668EAAA01720BFBC0056C8C3 /* PHSineWaveAnimation.m in Sources */,
 				668EAAA21720BFBC0056C8C3 /* PHSophJoyAnimation.m in Sources */,
 				668EAAA41720BFBC0056C8C3 /* PHSpectrumLinesAnimation.m in Sources */,
