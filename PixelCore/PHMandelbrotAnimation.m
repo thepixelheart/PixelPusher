@@ -17,13 +17,17 @@
 
 #import <complex.h>
 
-static const double kZoomMin = 1;
-static const double kZoomMax = 0.0001;
+static const NSTimeInterval kBounceDuration = 30;
+static const double kZoomMin = 0.7;
+static const double kZoomMax = 0.00001;
 
 static const CGPoint kInterestingZoomPoints[] = {
-  {-.404, -0.249},
+  {0.85001, .7005},
+  {0.36, 1.0075},
+  {-1.249, 0.00999},
+  {-.40395, -0.24905},
   {-.215, 0.25},
-  {-1, 0}
+  {-1, 0},
 };
 
 @implementation PHMandelbrotAnimation {
@@ -41,7 +45,11 @@ static const CGPoint kInterestingZoomPoints[] = {
 }
 
 - (CGPoint)randomPoint {
-  return kInterestingZoomPoints[arc4random_uniform(sizeof(kInterestingZoomPoints) / sizeof(kInterestingZoomPoints[0]))];
+  CGPoint point = kInterestingZoomPoints[arc4random_uniform(sizeof(kInterestingZoomPoints) / sizeof(kInterestingZoomPoints[0]))];
+  if (arc4random_uniform(1000) < 500) {
+    point.y = -point.y;
+  }
+  return point;
 }
 
 - (id)init {
@@ -49,6 +57,7 @@ static const CGPoint kInterestingZoomPoints[] = {
     _bitmapContextRef = PHCreate8BitBitmapContextWithSize(CGSizeMake(kWallWidth, kWallHeight));
     _zoom = 1;
     _nextCenterOffset = [self randomPoint];
+    _centerOffset = _nextCenterOffset;
   }
   return self;
 }
@@ -64,8 +73,8 @@ static const CGPoint kInterestingZoomPoints[] = {
 
   double width = kMandelWidth * _zoom;
   double height = kMandelHeight * _zoom;
-  double x = kMandelCenterX + offset.x;
-  double y = kMandelCenterY + offset.y;
+  double x = kMandelCenterX + offset.x + cosf(_accum * .5) * 0.00001;
+  double y = kMandelCenterY + offset.y + sinf(_accum * 1.3) * 0.00001;
 
   double xa = x - width / 2;
   double xb = x + width / 2;
@@ -108,9 +117,11 @@ static const CGPoint kInterestingZoomPoints[] = {
       data[offset + 2] = b * 255;
       data[offset + 3] = 255;*/
 
-      data[offset + 0] = sqrtf(colorScale) * 255 * sin(_zoom) * 0.5 + 0.5;
-      data[offset + 1] = sqrtf(colorScale) * 255 * cos(_zoom) * 0.5 + 0.5;
-      data[offset + 2] = sqrtf(colorScale) * 255 * sin(_zoom) * cos(_zoom) * 0.5 + 0.5;
+      double perc = sinf(fmodf(_accum, kBounceDuration) / kBounceDuration * M_PI * 2) * 0.5 + 0.5;
+      double perc2 = sinf(_accum) * 0.5 + 0.5;
+      data[offset + 0] = sqrtf(colorScale) * 255 * perc;
+      data[offset + 1] = sqrtf(colorScale) * 255 * (1 - perc);
+      data[offset + 2] = sqrtf(colorScale) * 255 * perc2;
       data[offset + 3] = 255;
     }
   }
@@ -118,25 +129,31 @@ static const CGPoint kInterestingZoomPoints[] = {
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _accum += self.secondsSinceLastTick;
-  static const NSTimeInterval kBounceDuration = 20;
 
   double perc = fmodf(_accum, kBounceDuration) / kBounceDuration;
   // 0.5 is fully-zoomed, 1 is back at the origin
 
-  if (perc < 0.9) {
+  if (perc < 0.2) {
+    double interp = PHEaseOut(perc / 0.2) * 0.5 + 0.5;
+    CGPoint interpolated = CGPointMake((_nextCenterOffset.x - _centerOffset.x) * interp + _centerOffset.x,
+                                       (_nextCenterOffset.y - _centerOffset.y) * interp + _centerOffset.y);
+    [self renderFrameAtOffset:interpolated];
+
+  } else if (perc < 0.8) {
     _centerOffset = _nextCenterOffset;
     [self renderFrameAtOffset:_centerOffset];
+
   } else {
     if (CGPointEqualToPoint(_centerOffset, _nextCenterOffset)) {
       _nextCenterOffset = [self randomPoint];
     }
-    double interp = (perc - 0.9) / 0.1;
+    double interp = PHEaseIn((perc - 0.8) / 0.2) * 0.5;
     CGPoint interpolated = CGPointMake((_nextCenterOffset.x - _centerOffset.x) * interp + _centerOffset.x,
                                        (_nextCenterOffset.y - _centerOffset.y) * interp + _centerOffset.y);
     [self renderFrameAtOffset:interpolated];
   }
 
-  double oscillation = 1 - powf(cosf(perc * M_PI), 10);
+  double oscillation = 1 - powf(cosf(perc * M_PI), 6);
 
   _zoom = (kZoomMax - kZoomMin) * oscillation + kZoomMin;
 
