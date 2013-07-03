@@ -81,7 +81,7 @@ static const CGPoint kInterestingZoomPoints[] = {
   double ya = y - height / 2;
   double yb = y + height / 2;
 
-  static const int kMaxNumberOfIterations = 128;
+  static const int kMaxNumberOfIterations = 256;
   static const double kMandelbrotWidth = 48;
   static const double kMandelbrotHeight = 32;
 
