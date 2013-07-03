@@ -21,6 +21,48 @@ static const NSTimeInterval kBounceDuration = 30;
 static const double kZoomMin = 0.7;
 static const double kZoomMax = 0.00001;
 
+double fast_fmod(double value, int modulo) {
+  double remainder = value - floor(value);
+  return (double)((int)value % modulo) + remainder;
+}
+
+void HSVtoRGB(CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CGFloat* b) {
+  double c = 0.0, m = 0.0, x = 0.0;
+  h = fast_fmod(h, 360);
+  c = v * s;
+  x = c * (1.0 - fabs(fast_fmod(h / 60.0, 2) - 1.0));
+  m = v - c;
+  if (h >= 0.0 && h < 60.0) {
+    *r = c + m;
+    *g = x + m;
+    *b = m;
+  } else if (h >= 60.0 && h < 120.0) {
+    *r = x + m;
+    *g = c + m;
+    *b = m;
+  } else if (h >= 120.0 && h < 180.0) {
+    *r = m;
+    *g = c + m;
+    *b = x + m;
+  } else if (h >= 180.0 && h < 240.0) {
+    *r = m;
+    *g = x + m;
+    *b = c + m;
+  } else if (h >= 240.0 && h < 300.0) {
+    *r = x + m;
+    *g = m;
+    *b = c + m;
+  } else if (h >= 300.0 && h < 360.0) {
+    *r = c + m;
+    *g = m;
+    *b = x + m;
+  } else {
+    *r = m;
+    *g = m;
+    *b = m;
+  }
+}
+
 static const CGPoint kInterestingZoomPoints[] = {
   {0.85001, .7005},
   {0.36, 1.0075},
@@ -36,6 +78,7 @@ static const CGPoint kInterestingZoomPoints[] = {
   CGPoint _nextCenterOffset;
   double _zoom;
   NSTimeInterval _accum;
+  double _colorAccum;
 }
 
 - (void)dealloc {
@@ -85,50 +128,61 @@ static const CGPoint kInterestingZoomPoints[] = {
   static const double kMandelbrotWidth = 48;
   static const double kMandelbrotHeight = 32;
 
-  for (NSInteger iy = 0; iy < kWallHeight; ++iy) {
-    double y = (double)iy / (double)kWallHeight * kMandelbrotHeight;
-    double cy = y * (yb - ya) / ((double)kWallHeight - 1) + ya;
-    for (NSInteger ix = 0; ix < kWallWidth; ++ix) {
-      double x = (double)ix / (double)kWallWidth * kMandelbrotWidth;
-      double cx = x * (xb - xa) / ((double)kWallWidth - 1) + xa;
-      double _Complex c = cx + cy * I;
-      double _Complex z = 0;
+  for (double iy = 0; iy < kWallHeight; ++iy) {
+    for (double ix = 0; ix < kWallWidth; ++ix) {
 
-      NSInteger i;
-      for (i = 0; i < kMaxNumberOfIterations; ++i) {
-        if (cabs(z) > 2.0) {
-          break;
+      double rt = 0, gt = 0, bt = 0;
+      for (double xo = -0.5; xo <= 0.5; xo += 0.5) {
+        for (double yo = -0.5; yo <= 0.5; yo += 0.5) {
+          double y = (double)(iy + yo) / (double)kWallHeight * kMandelbrotHeight;
+          double cy = y * (yb - ya) / ((double)kWallHeight - 1) + ya;
+          double x = (double)(ix + xo) / (double)kWallWidth * kMandelbrotWidth;
+          double cx = x * (xb - xa) / ((double)kWallWidth - 1) + xa;
+
+          double _Complex c = cx + cy * I;
+          double _Complex z = 0;
+
+          NSInteger i;
+          for (i = 0; i < kMaxNumberOfIterations; ++i) {
+            double imag = cimag(z);
+            double real = creal(z);
+            if (imag * imag + real * real > 4.0) {
+              break;
+            }
+            z = z * z + c;
+          }
+
+          double colorScale = ((double)i / (double)kMaxNumberOfIterations);
+
+          CGFloat r,g,b;
+          HSVtoRGB((colorScale + 0.4 + _colorAccum) * 360, 1, i < kMaxNumberOfIterations ? 1 : 0.3, &r, &g, &b);
+
+          rt += r * 1 / 9;
+          gt += g * 1 / 9;
+          bt += b * 1 / 9;
         }
-        z = z * z + c;
       }
 
-      double colorScale = ((double)i / (double)kMaxNumberOfIterations);
-
       NSInteger offset = ix * 4 + iy * bytesPerRow;
-/*
-      NSColor* color = [NSColor colorWithDeviceHue:colorScale
-                                        saturation:1
-                                        brightness:1
-                                             alpha:1];
-      CGFloat r,g,b,a;
-      [color getRed:&r green:&g blue:&b alpha:&a];
-      data[offset + 0] = r * 255;
-      data[offset + 1] = g * 255;
-      data[offset + 2] = b * 255;
-      data[offset + 3] = 255;*/
 
-      double perc = sinf(fmodf(_accum, kBounceDuration) / kBounceDuration * M_PI * 2) * 0.5 + 0.5;
-      double perc2 = sinf(_accum) * 0.5 + 0.5;
-      data[offset + 0] = sqrtf(colorScale) * 255 * perc;
-      data[offset + 1] = sqrtf(colorScale) * 255 * (1 - perc);
-      data[offset + 2] = sqrtf(colorScale) * 255 * perc2;
+      data[offset + 0] = MAX(0, MIN(255, rt * 255));
+      data[offset + 1] = MAX(0, MIN(255, gt * 255));
+      data[offset + 2] = MAX(0, MIN(255, bt * 255));
       data[offset + 3] = 255;
+      /*
+       double perc = sinf(fmodf(_accum, kBounceDuration) / kBounceDuration * M_PI * 2) * 0.5 + 0.5;
+       double perc2 = sinf(_accum) * 0.5 + 0.5;
+       data[offset + 0] = sqrtf(colorScale) * 255 * perc;
+       data[offset + 1] = sqrtf(colorScale) * 255 * (1 - perc);
+       data[offset + 2] = sqrtf(colorScale) * 255 * perc2;
+       data[offset + 3] = 255;*/
     }
   }
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  _accum += self.secondsSinceLastTick;
+  _accum += self.secondsSinceLastTick * (self.bassDegrader.value * 5 + 1);
+  _colorAccum += self.secondsSinceLastTick * self.hihatDegrader.value * 0.8;
 
   double perc = fmodf(_accum, kBounceDuration) / kBounceDuration;
   // 0.5 is fully-zoomed, 1 is back at the origin
