@@ -139,9 +139,9 @@ static const CGFloat kPlaybackControlsHeight = 40;
   }
 
   CGFloat topEdge = self.bounds.size.height - kHeaderBarHeight - visualizerHeight;
-  _leftVisualizationView.frame = CGRectMake(floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
+  _leftVisualizationView.frame = CGRectMake(visualizerMaxWidth - visualizerWidth, topEdge,
                                             visualizerWidth, visualizerHeight);
-  _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2 + floorf((visualizerMaxWidth - visualizerWidth) / 2), topEdge,
+  _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2, topEdge,
                                              visualizerWidth, visualizerHeight);
 
   CGFloat wallWidth = CGRectGetMinX(_rightVisualizationView.frame) - CGRectGetMaxX(_leftVisualizationView.frame);
