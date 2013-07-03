@@ -54,6 +54,8 @@ typedef enum {
 
   PHSystemSliderFader,
 
+  PHSystemVolumeMaster,
+
   PHSystemAnimations,
   PHSystemTransitions,
   PHSystemAnimationGroups,
@@ -69,6 +71,7 @@ typedef enum {
 
 extern NSString* const PHSystemSliderMovedNotification;
 extern NSString* const PHSystemKnobTurnedNotification;
+extern NSString* const PHSystemVolumeChangedNotification;
 extern NSString* const PHSystemButtonPressedNotification;
 extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;

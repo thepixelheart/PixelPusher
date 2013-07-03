@@ -41,6 +41,7 @@ static const NSTimeInterval kMinGifFrameDuration = 0.1;
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
+NSString* const PHSystemVolumeChangedNotification = @"PHSystemVolumeChangedNotification";
 NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
@@ -783,6 +784,21 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   return _previewAnimation;
 }
 
+- (void)didChangeVolumeControl:(PHSystemControlIdentifier)control volume:(CGFloat)volume {
+  switch (control) {
+    case PHSystemVolumeMaster:
+      _masterFade = volume;
+      break;
+
+    default:
+      break;
+  }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemVolumeChangedNotification object:nil
+                  userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:control]}];
+}
+
 - (void)didPressButton:(PHSystemControlIdentifier)button {
   NSString *extraNotificationName = nil;
   
@@ -1087,7 +1103,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       _hardwareRight.volume = value;
       break;
     case PHDJ2GOVolumeMaster:
-      _masterFade = value;
+      [self didChangeVolumeControl:PHSystemVolumeMaster volume:value];
       break;
 
     default:
