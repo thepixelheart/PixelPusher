@@ -23,6 +23,7 @@
   transform = CGAffineTransformInvert(transform);
   CGContextConcatCTM(cx, transform);
   CGContextTranslateCTM(cx, size.width / 2, size.height / 2);
+  CGContextClipToRect(cx, CGRectMake(-size.width / 2, -size.height / 2, size.width * 2, size.height * 2));
 }
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {

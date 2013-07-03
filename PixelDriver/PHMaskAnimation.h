@@ -16,5 +16,5 @@
 
 #import "PHAnimation.h"
 
-@interface PHMotionBlurAnimation : PHAnimation
+@interface PHMaskAnimation : PHAnimation
 @end

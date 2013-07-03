@@ -162,6 +162,8 @@
 		664E8F351783761F00FF58A6 /* PHMandelbrotAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E8F331783761F00FF58A6 /* PHMandelbrotAnimation.m */; };
 		664E8F381783778E00FF58A6 /* PHStaticAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 664E8F361783778E00FF58A6 /* PHStaticAnimation.h */; };
 		664E8F391783778E00FF58A6 /* PHStaticAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E8F371783778E00FF58A6 /* PHStaticAnimation.m */; };
+		664E8F3C1783E48900FF58A6 /* PHMaskAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 664E8F3A1783E48900FF58A6 /* PHMaskAnimation.h */; };
+		664E8F3D1783E48900FF58A6 /* PHMaskAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E8F3B1783E48900FF58A6 /* PHMaskAnimation.m */; };
 		6651999D17261D4C0007EC96 /* PHKaleidoscopeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */; };
 		6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */; };
 		665199A017261E680007EC96 /* kaleidoscope.png in Resources */ = {isa = PBXBuildFile; fileRef = 6651999F17261E680007EC96 /* kaleidoscope.png */; };
@@ -629,6 +631,8 @@
 		664E8F331783761F00FF58A6 /* PHMandelbrotAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMandelbrotAnimation.m; path = PixelCore/PHMandelbrotAnimation.m; sourceTree = SOURCE_ROOT; };
 		664E8F361783778E00FF58A6 /* PHStaticAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHStaticAnimation.h; path = PixelCore/PHStaticAnimation.h; sourceTree = SOURCE_ROOT; };
 		664E8F371783778E00FF58A6 /* PHStaticAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHStaticAnimation.m; path = PixelCore/PHStaticAnimation.m; sourceTree = SOURCE_ROOT; };
+		664E8F3A1783E48900FF58A6 /* PHMaskAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHMaskAnimation.h; sourceTree = "<group>"; };
+		664E8F3B1783E48900FF58A6 /* PHMaskAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHMaskAnimation.m; sourceTree = "<group>"; };
 		6651999B17261D4C0007EC96 /* PHKaleidoscopeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHKaleidoscopeFilter.h; sourceTree = "<group>"; };
 		6651999C17261D4C0007EC96 /* PHKaleidoscopeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHKaleidoscopeFilter.m; sourceTree = "<group>"; };
 		6651999F17261E680007EC96 /* kaleidoscope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kaleidoscope.png; path = PixelDriver/resources/kaleidoscope.png; sourceTree = "<group>"; };
@@ -1526,6 +1530,8 @@
 				668EAAB61720BFD40056C8C3 /* PHResetAnimation.m */,
 				668EAAB71720BFD40056C8C3 /* PHRotationAnimation.h */,
 				668EAAB81720BFD40056C8C3 /* PHRotationAnimation.m */,
+				664E8F3A1783E48900FF58A6 /* PHMaskAnimation.h */,
+				664E8F3B1783E48900FF58A6 /* PHMaskAnimation.m */,
 			);
 			name = Pipes;
 			sourceTree = "<group>";
@@ -2032,6 +2038,7 @@
 				668EAAF11720BFF40056C8C3 /* PHExposureAdjustFilter.h in Headers */,
 				668EAAF31720BFF40056C8C3 /* PHFalseColorFilter.h in Headers */,
 				668EAAF51720BFF40056C8C3 /* PHFilter.h in Headers */,
+				664E8F3C1783E48900FF58A6 /* PHMaskAnimation.h in Headers */,
 				668EAAF71720BFF40056C8C3 /* PHHoleDistortionFilter.h in Headers */,
 				668EAB011720C0090056C8C3 /* PHBox2D.h in Headers */,
 				668EAB031720C0090056C8C3 /* PHDegrader.h in Headers */,
@@ -2328,6 +2335,7 @@
 				668EAA881720BFBC0056C8C3 /* PHNyanCatAnimation.m in Sources */,
 				668EAA8A1720BFBC0056C8C3 /* PHPikachuEmotingAnimation.m in Sources */,
 				668EAA8C1720BFBC0056C8C3 /* PHPixelHeartAnimation.m in Sources */,
+				664E8F3D1783E48900FF58A6 /* PHMaskAnimation.m in Sources */,
 				668EAA8E1720BFBC0056C8C3 /* PHPixelLifeAnimation.m in Sources */,
 				668EAA901720BFBC0056C8C3 /* PHPixelRainAnimation.m in Sources */,
 				668EAA921720BFBC0056C8C3 /* PHProcessingAnimation.m in Sources */,
