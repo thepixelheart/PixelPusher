@@ -182,4 +182,10 @@ static const CGPoint kInterestingZoomPoints[] = {
   return @"Mandelbrot";
 }
 
+- (NSArray *)categories {
+  return @[
+           PHAnimationCategoryTrippy
+           ];
+}
+
 @end
