@@ -16,6 +16,48 @@
 
 #import "Utilities.h"
 
+double fast_fmod(double value, int modulo) {
+  double remainder = value - floor(value);
+  return (double)((int)value % modulo) + remainder;
+}
+
+void HSVtoRGB(CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CGFloat* b) {
+  double c = 0.0, m = 0.0, x = 0.0;
+  h = fast_fmod(h, 360);
+  c = v * s;
+  x = c * (1.0 - fabs(fast_fmod(h / 60.0, 2) - 1.0));
+  m = v - c;
+  if (h >= 0.0 && h < 60.0) {
+    *r = c + m;
+    *g = x + m;
+    *b = m;
+  } else if (h >= 60.0 && h < 120.0) {
+    *r = x + m;
+    *g = c + m;
+    *b = m;
+  } else if (h >= 120.0 && h < 180.0) {
+    *r = m;
+    *g = c + m;
+    *b = x + m;
+  } else if (h >= 180.0 && h < 240.0) {
+    *r = m;
+    *g = x + m;
+    *b = c + m;
+  } else if (h >= 240.0 && h < 300.0) {
+    *r = x + m;
+    *g = m;
+    *b = c + m;
+  } else if (h >= 300.0 && h < 360.0) {
+    *r = c + m;
+    *g = m;
+    *b = x + m;
+  } else {
+    *r = m;
+    *g = m;
+    *b = m;
+  }
+}
+
 NSColor* PHBackgroundColor() {
   static NSColor* color = nil;
   if (nil == color) {
