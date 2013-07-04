@@ -1,5 +1,5 @@
 //
-// Copyright 2012 Jeff Verkoeyen
+// Copyright 2012-2013 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString* const PHFT232ConnectionStateDidChangeNotification;
-extern NSString* const PHKinectConnectionStateDidChangeNotification;
+@interface PHKinectServer : NSObject
 
-@interface PHUSBNotifier : NSObject
+- (void)tick;
+- (CGContextRef)colorBitmapContext;
+- (uint16_t *)depthBuffer;
 
 @end

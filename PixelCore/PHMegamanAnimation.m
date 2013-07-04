@@ -105,7 +105,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
   CGImageRef imageRef = nil;
 
   if (runningSpeed > 0) {
-    imageRef = [_runningAnimation imageRefAtCurrentTick];
+    imageRef = [_runningAnimation imageRefWithDelta:self.secondsSinceLastTick];
     _lastBlinkTime = [NSDate timeIntervalSinceReferenceDate];
   } else {
     if (!_isBlinking && _hasBeenLulling

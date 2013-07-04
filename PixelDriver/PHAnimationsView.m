@@ -50,8 +50,8 @@
       [NSColor colorWithDeviceWhite:0.15 alpha:1],
     ];
     _collectionView.allowsMultipleSelection = NO;
-    _collectionView.minItemSize = CGSizeMake(186, 124);
-    _collectionView.maxItemSize = CGSizeMake(450, 300);
+    _collectionView.minItemSize = CGSizeMake(48 * 3, 32 * 3);
+    _collectionView.maxItemSize = CGSizeMake(48 * 5, 32 * 5);
 
     [_collectionView setSelectionIndexes:[NSIndexSet indexSetWithIndex:0]];
 

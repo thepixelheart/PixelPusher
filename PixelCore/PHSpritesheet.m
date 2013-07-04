@@ -120,14 +120,13 @@
   [self addFrameAtX:x y:y duration:-1];
 }
 
-- (CGImageRef)imageRefAtCurrentTick {
+- (CGImageRef)imageRefWithDelta:(NSTimeInterval)delta {
   if (_frames.count == 0) {
     return nil;
   }
   PHSpriteAnimationFrame* frame = [_frames objectAtIndex:_currentFrameIndex];
 
   if (frame.duration >= 0 && _lastTick > 0) {
-    NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
     _currentFrameAge += delta * _animationScale;
 
     if (_animating && _currentFrameAge >= frame.duration) {
@@ -139,6 +138,15 @@
   _lastTick = [NSDate timeIntervalSinceReferenceDate];
 
   return [_spritesheet imageAtX:frame.x y:frame.y];
+}
+
+- (CGImageRef)imageRefAtCurrentTick {
+  NSTimeInterval delta = [NSDate timeIntervalSinceReferenceDate] - _lastTick;
+  CGImageRef imageRef = [self imageRefWithDelta:delta];
+
+  _lastTick = [NSDate timeIntervalSinceReferenceDate];
+
+  return imageRef;
 }
 
 - (void)setCurrentFrameIndex:(NSInteger)frameIndex {

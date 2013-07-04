@@ -25,6 +25,12 @@
 @class PHOpenGLView;
 
 typedef enum {
+  PHSystemDeckSpeed,
+
+  PHSystemDeck_NumberOfControls
+} PHSystemDeck;
+
+typedef enum {
   PHSystemButtonPixelHeart = 1000,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
@@ -54,6 +60,16 @@ typedef enum {
 
   PHSystemSliderFader,
 
+  PHSystemVolumeMaster,
+
+  // Left Deck
+  PHSystemLeftDeckStart,
+  PHSystemLeftDeckEnd = PHSystemLeftDeckStart + PHSystemDeck_NumberOfControls,
+
+  // Right Deck
+  PHSystemRightDeckStart,
+  PHSystemRightDeckEnd = PHSystemRightDeckStart + PHSystemDeck_NumberOfControls,
+
   PHSystemAnimations,
   PHSystemTransitions,
   PHSystemAnimationGroups,
@@ -69,6 +85,7 @@ typedef enum {
 
 extern NSString* const PHSystemSliderMovedNotification;
 extern NSString* const PHSystemKnobTurnedNotification;
+extern NSString* const PHSystemVolumeChangedNotification;
 extern NSString* const PHSystemButtonPressedNotification;
 extern NSString* const PHSystemButtonReleasedNotification;
 extern NSString* const PHSystemIdentifierKey;
@@ -82,6 +99,8 @@ extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 extern NSString* const PHSystemFaderDidSwapNotification;
 extern NSString* const PHSystemUserScriptsDidChangeNotification;
+
+@class PHHardwareState;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -129,6 +148,9 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 
 // Controller State
 
+// The master fade on the Heart.
+@property (nonatomic, assign) CGFloat masterFade;
+
 // The percentage fade from left to right.
 @property (nonatomic, assign) CGFloat fade; // 0..1
 @property (nonatomic, assign) BOOL leftAnimationIsBottom; // YES by default
@@ -148,6 +170,14 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 @property (assign) BOOL fullscreenMode;
 
 @property (nonatomic, copy) NSString* lastScriptError;
+
+// Decks
+@property (nonatomic, readonly, strong) PHHardwareState *hardwareLeft;
+@property (nonatomic, readonly, strong) PHHardwareState *hardwareRight;
+
+// Volume
+
+- (void)didChangeVolumeControl:(PHSystemControlIdentifier)control volume:(CGFloat)volume;
 
 // Buttons
 

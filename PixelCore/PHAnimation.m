@@ -63,10 +63,18 @@
 #import "PHDancingManAnimation.h"
 #import "PHCornerParticlesAnimation.h"
 #import "PHMotionBlurAnimation.h"
+#import "PHMaskAnimation.h"
 #import "PHPixelTunnelAnimation.h"
 #import "PHSoundBoxAnimation.h"
 #import "PHFlowyColorsAnimation.h"
 #import "PHScreenCaptureAnimation.h"
+#import "PHKinectAnimation.h"
+#import "PHMandelbrotAnimation.h"
+#import "PHStaticAnimation.h"
+#import "PHClockAnimation.h"
+#import "PHPixelHeartTextAnimation.h"
+#import "PHMarioAnimation.h"
+#import "PHDoLabAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -99,6 +107,7 @@ NSString* const PHAnimationCategoryShapes = @"Shapes";
 NSString* const PHAnimationCategoryTrippy = @"Trippy";
 NSString* const PHAnimationCategoryGames = @"Games";
 NSString* const PHAnimationCategoryScripts = @"Scripts";
+NSString* const PHAnimationCategoryLiB = @"LiB";
 
 static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
@@ -203,6 +212,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeTop],
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
     [PHMotionBlurAnimation animation],
+    [PHMaskAnimation animation],
 
     // Filters (commented out ones don't work)
     [PHAffineTileFilter animation],
@@ -227,6 +237,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     // Animations
     [PHPixelHeartAnimation animation],
+    [PHPixelHeartTextAnimation animation],
     [PHRainbowHeartAnimation animation],
     [PHGifAnimation animation],
     [PHCombAnimation animation],
@@ -250,6 +261,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSoundBoxAnimation animation],
     [PHFlowyColorsAnimation animation],
     [PHScreenCaptureAnimation animation],
+    [PHKinectAnimation animation],
+    [PHMandelbrotAnimation animation],
+    [PHStaticAnimation animation],
+    [PHClockAnimation animation],
+    [PHDoLabAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
@@ -257,6 +273,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHAdventureTimeAnimation animation],
     [PHSophJoyAnimation animation],
     [PHNyanCatAnimation animation],
+    [PHMarioAnimation animation],
 
     // Games
     [PHTronAnimation animation],
@@ -295,7 +312,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     PHAnimationCategoryShapes,
     PHAnimationCategoryTrippy,
     PHAnimationCategoryGames,
-    PHAnimationCategoryScripts
+    PHAnimationCategoryScripts,
+    PHAnimationCategoryLiB
   ];
 }
 

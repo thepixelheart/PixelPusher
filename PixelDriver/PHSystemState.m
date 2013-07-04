@@ -117,11 +117,15 @@ static const float notefreq[PHPitch_Count] = {
 
 - (void)updateWithAudioRecorder:(PHFMODRecorder *)audio
                           motes:(NSArray *)motes
-                           gifs:(NSArray *)gifs {
+                           gifs:(NSArray *)gifs
+       kinectColorBitmapContext:(CGContextRef)kinectColorBitmapContext {
   [self updateSpectrumWithAudio:audio];
   [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
   [self updateActionsWithMotes:motes];
+
+  _kinectColorBitmapContext = kinectColorBitmapContext;
+  
   _motes = [motes copy];
   _gifs = [gifs copy];
 }

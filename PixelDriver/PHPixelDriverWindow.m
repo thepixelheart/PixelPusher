@@ -18,6 +18,7 @@
 
 #import "AppDelegate.h"
 #import "PHHeaderView.h"
+#import "PHCircularSlider.h"
 #import "PHDualVizualizersView.h"
 #import "PHSystem.h"
 
@@ -50,6 +51,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
     [nc addObserver:self selector:@selector(systemButtonWasPressed:) name:PHSystemButtonPressedNotification object:nil];
     [nc addObserver:self selector:@selector(systemButtonWasReleased:) name:PHSystemButtonReleasedNotification object:nil];
     [nc addObserver:self selector:@selector(didRotateKnob:) name:PHSystemKnobTurnedNotification object:nil];
+    [nc addObserver:self selector:@selector(didChangeVolume:) name:PHSystemVolumeChangedNotification object:nil];
     [nc addObserver:self selector:@selector(focusDidChange:) name:PHSystemFocusDidChangeNotification object:nil];
   }
   return self;
@@ -77,18 +79,18 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {
     keyMappings[@"n"] = @(PHSystemButtonNewComposite);
-    keyMappings[@"51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
-    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
+    keyMappings[@"_51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
+    keyMappings[@"_36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
   }
 
   if ((theEvent.type ==
        NSKeyDown || theEvent.type == NSKeyUp)
       && (nil != keyMappings[theEvent.charactersIgnoringModifiers]
-          || nil != keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]])) {
+          || nil != keyMappings[[NSString stringWithFormat:@"_%d", theEvent.keyCode]])) {
         if (!theEvent.isARepeat) {
           id value = keyMappings[theEvent.charactersIgnoringModifiers];
           if (nil == value) {
-            value = keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]];
+            value = keyMappings[[NSString stringWithFormat:@"_%d", theEvent.keyCode]];
           }
           PHSystemControlIdentifier button = [value intValue];
           if (theEvent.type == NSKeyDown) {
@@ -125,6 +127,16 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
   NSButton* button = [self.contentView viewWithTag:identifier];
   [button setState:NSOffState];
+}
+
+- (void)didChangeVolume:(NSNotification *)notification {
+  PHSystemControlIdentifier identifier = [notification.userInfo[PHSystemIdentifierKey] intValue];
+  CGFloat volume = [notification.userInfo[PHSystemValueKey] doubleValue];
+
+  id view = [self.contentView viewWithTag:identifier];
+  if ([view isKindOfClass:[PHCircularSlider class]]) {
+    [(PHCircularSlider *)view setVolume:volume];
+  }
 }
 
 - (void)didRotateKnob:(NSNotification *)notification {

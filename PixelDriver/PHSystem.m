@@ -41,6 +41,7 @@ static const NSTimeInterval kMinGifFrameDuration = 0.1;
 
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
+NSString* const PHSystemVolumeChangedNotification = @"PHSystemVolumeChangedNotification";
 NSString* const PHSystemButtonPressedNotification = @"PHSystemButtonPressedNotification";
 NSString* const PHSystemButtonReleasedNotification = @"PHSystemButtonReleasedNotification";
 NSString* const PHSystemIdentifierKey = @"PHSystemIdentifierKey";
@@ -93,10 +94,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHLaunchpadDevice* _launchpad;
   PHDJ2GODevice* _dj2go;
   PHLPD8Device* _lpd8;
-
-  PHHardwareState *_hardwareLeft;
-  PHHardwareState *_hardwareRight;
-  CGFloat _masterFade;
 
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
@@ -783,6 +780,28 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   return _previewAnimation;
 }
 
+- (void)didChangeVolumeControl:(PHSystemControlIdentifier)control volume:(CGFloat)volume {
+  switch (control) {
+    case PHSystemVolumeMaster:
+      _masterFade = volume;
+      break;
+    case PHSystemLeftDeckStart + PHSystemDeckSpeed:
+      _hardwareLeft.volume = volume;
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckSpeed:
+      _hardwareRight.volume = volume;
+      break;
+
+    default:
+      break;
+  }
+
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemVolumeChangedNotification object:nil
+                  userInfo:@{PHSystemIdentifierKey : @(control),
+                             PHSystemValueKey : @(volume)}];
+}
+
 - (void)didPressButton:(PHSystemControlIdentifier)button {
   NSString *extraNotificationName = nil;
   
@@ -1081,13 +1100,13 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 - (void)dj2go:(PHDJ2GODevice *)dj2go volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
   switch (volume) {
     case PHDJ2GOVolumeA:
-      _hardwareLeft.volume = value;
+      [self didChangeVolumeControl:PHSystemLeftDeckStart + PHSystemDeckSpeed volume:value];
       break;
     case PHDJ2GOVolumeB:
-      _hardwareRight.volume = value;
+      [self didChangeVolumeControl:PHSystemRightDeckStart + PHSystemDeckSpeed volume:value];
       break;
     case PHDJ2GOVolumeMaster:
-      _masterFade = value;
+      [self didChangeVolumeControl:PHSystemVolumeMaster volume:value];
       break;
 
     default:

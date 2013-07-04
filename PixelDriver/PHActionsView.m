@@ -45,11 +45,12 @@
   [super layout];
 
   CGSize boundsSize = self.contentView.bounds.size;
-  CGSize buttonSize = CGSizeMake(floor(boundsSize.width / 4), floor(boundsSize.width / 4));
+  static const NSInteger kNumberOfButtonsPerRow = 5;
+  CGSize buttonSize = CGSizeMake(floor(boundsSize.width / kNumberOfButtonsPerRow), floor(boundsSize.width / kNumberOfButtonsPerRow));
   NSInteger ix = 0;
   for (PHButton* button in _buttons) {
-    CGRect frame = CGRectMake((ix % 4) * buttonSize.width, (ix / 4) * buttonSize.height, buttonSize.width, buttonSize.height);
-    if (ix == 3 && CGRectGetMaxX(frame) != boundsSize.width) {
+    CGRect frame = CGRectMake((ix % kNumberOfButtonsPerRow) * buttonSize.width, (ix / kNumberOfButtonsPerRow) * buttonSize.height, buttonSize.width, buttonSize.height);
+    if (ix == kNumberOfButtonsPerRow - 1 && CGRectGetMaxX(frame) != boundsSize.width) {
       // Rounding errors
       frame.size.width += boundsSize.width - CGRectGetMaxX(frame);
     }

@@ -152,8 +152,8 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     antonImageRef = [_antonSpritesheet imageAtX:2 y:0];
 
   } else if (_state == PHDJAnimationStateWalkDown) {
-    jeffImageRef = [_jeffWalkingAnimation imageRefAtCurrentTick];
-    antonImageRef = [_antonWalkingAnimation imageRefAtCurrentTick];
+    jeffImageRef = [_jeffWalkingAnimation imageRefWithDelta:self.secondsSinceLastTick];
+    antonImageRef = [_antonWalkingAnimation imageRefWithDelta:self.secondsSinceLastTick];
 
     spriteOffsetY = kStartingSpriteOffsetY + t * (kFinalSpriteOffsetY - kStartingSpriteOffsetY);
 
@@ -260,11 +260,11 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
     const CGFloat kTurntableOffsetY = 1;
     const CGFloat kTurntableSpacingX = 2;
     if (_state == PHDJAnimationStateTurnShitOn) {
-      imageRef = [_turntable1Animation imageRefAtCurrentTick];
+      imageRef = [_turntable1Animation imageRefWithDelta:self.secondsSinceLastTick];
 
     } else if (_state == PHDJAnimationStateMusicReactant) {
       _turntable1Animation.animationScale = self.hihatDegrader.value;
-      imageRef = [_turntable1Animation imageRefAtCurrentTick];
+      imageRef = [_turntable1Animation imageRefWithDelta:self.secondsSinceLastTick];
 
     } else {
       imageRef = [_recordSpritesheet imageAtX:0 y:0];
@@ -276,11 +276,11 @@ NSTimeInterval sDurations[PHDJAnimationState_Count] = {
 
     if (_state == PHDJAnimationStateTurnShitOn) {
       CGImageRelease(imageRef);
-      imageRef = [_turntable2Animation imageRefAtCurrentTick];
+      imageRef = [_turntable2Animation imageRefWithDelta:self.secondsSinceLastTick];
 
     } else if (_state == PHDJAnimationStateMusicReactant) {
       _turntable2Animation.animationScale = self.vocalDegrader.value;
-      imageRef = [_turntable2Animation imageRefAtCurrentTick];
+      imageRef = [_turntable2Animation imageRefWithDelta:self.secondsSinceLastTick];
     }
 
     CGContextDrawImage(cx, CGRectMake(size.width - spriteSize.width * 2 - kSurfaceInsetX - kTurntableInsetX - kTurntableSpacingX,

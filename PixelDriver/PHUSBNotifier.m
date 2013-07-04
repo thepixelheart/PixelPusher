@@ -22,13 +22,19 @@
 #import <mach/mach_port.h>
 
 NSString* const PHFT232ConnectionStateDidChangeNotification = @"PHFT232ConnectionStateDidChangeNotification";
+NSString* const PHKinectConnectionStateDidChangeNotification = @"PHKinectConnectionStateDidChangeNotification";
 
 // Most of this code ported from
 // http://developer.apple.com/library/mac/#documentation/DeviceDrivers/Conceptual/USBBook/USBDeviceInterfaces/USBDevInterfaces.html#//apple_ref/doc/uid/TP40002645-TPXREF101
 
+// Gathered from the System Information dialog.
 // FT232 USB IDs
 static const SInt32 kFT232USBVendor = 1027;
 static const SInt32 kFT232USBProduct = 24577;
+
+// Kinect USB IDs
+static const SInt32 kKinectUSBVendor = 0x045e;
+static const SInt32 kKinectUSBProduct = 0x02ae;
 
 void RawDeviceAdded(void *refCon, io_iterator_t iterator) {
   kern_return_t               kr;
@@ -70,15 +76,18 @@ void RawDeviceAdded(void *refCon, io_iterator_t iterator) {
     kr = (*dev)->GetDeviceVendor(dev, &vendor);
     kr = (*dev)->GetDeviceProduct(dev, &product);
     kr = (*dev)->GetDeviceReleaseNumber(dev, &release);
-    if ((vendor != kFT232USBVendor) || (product != kFT232USBProduct)) {
+    if ((vendor == kFT232USBVendor) && (product == kFT232USBProduct)) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:PHFT232ConnectionStateDidChangeNotification
+                                                          object:nil];
+
+    } else if (vendor == kKinectUSBVendor && product == kKinectUSBProduct) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:PHKinectConnectionStateDidChangeNotification
+                                                          object:nil];
+
+    } else {
       printf("Found unwanted device (vendor = %d, product = %d)\n",
              vendor, product);
-      (void) (*dev)->Release(dev);
-      continue;
     }
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:PHFT232ConnectionStateDidChangeNotification
-                                                        object:nil];
 
     kr = (*dev)->Release(dev);
   }
@@ -106,50 +115,61 @@ void RawDeviceRemoved(void *refCon, io_iterator_t iterator) {
   io_iterator_t _rawRemovedIter;
 }
 
+- (BOOL)listenForDeviceVendor:(SInt32)vendor product:(SInt32)product {
+  mach_port_t masterPort;
+  kern_return_t kr;
+  kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
+  if (kr || !masterPort) {
+    PHAlert(@"Can't listen to USB port changes :(");
+    return NO;
+  }
+
+  CFMutableDictionaryRef matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+  if (nil == matchingDict) {
+    PHAlert(@"Can't listen to USB port changes :(");
+    mach_port_deallocate(mach_task_self(), masterPort);
+    return NO;
+  }
+
+  CFDictionarySetValue(matchingDict, CFSTR(kUSBVendorName),
+                       CFNumberCreate(kCFAllocatorDefault,
+                                      kCFNumberSInt32Type, &vendor));
+  CFDictionarySetValue(matchingDict, CFSTR(kUSBProductName),
+                       CFNumberCreate(kCFAllocatorDefault,
+                                      kCFNumberSInt32Type, &product));
+
+  _notifyPort = IONotificationPortCreate(masterPort);
+  CFRunLoopSourceRef runLoopSource = IONotificationPortGetRunLoopSource(_notifyPort);
+  CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], runLoopSource, kCFRunLoopDefaultMode);
+
+  matchingDict = (CFMutableDictionaryRef)CFRetain(matchingDict);
+
+  kr = IOServiceAddMatchingNotification(_notifyPort,
+                                        kIOMatchedNotification, matchingDict,
+                                        RawDeviceAdded, NULL, &_rawAddedIter);
+  RawDeviceAdded(NULL, _rawAddedIter);
+
+  kr = IOServiceAddMatchingNotification(_notifyPort,
+                                        kIOTerminatedNotification, matchingDict,
+                                        RawDeviceRemoved, NULL, &_rawRemovedIter);
+  RawDeviceRemoved(NULL, _rawRemovedIter);
+
+  mach_port_deallocate(mach_task_self(), masterPort);
+  masterPort = 0;
+
+  return YES;
+}
+
 - (id)init {
   if ((self = [super init])) {
-    mach_port_t masterPort;
-    kern_return_t kr;
-    kr = IOMasterPort(MACH_PORT_NULL, &masterPort);
-    if (kr || !masterPort) {
-      PHAlert(@"Can't listen to USB port changes :(");
+    if (![self listenForDeviceVendor:kFT232USBVendor product:kFT232USBProduct]) {
       self = nil;
-      return self;
+      return nil;
     }
-
-    CFMutableDictionaryRef matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
-    if (nil == matchingDict) {
-      PHAlert(@"Can't listen to USB port changes :(");
-      mach_port_deallocate(mach_task_self(), masterPort);
+    if (![self listenForDeviceVendor:kKinectUSBVendor product:kKinectUSBProduct]) {
       self = nil;
-      return self;
+      return nil;
     }
-
-    CFDictionarySetValue(matchingDict, CFSTR(kUSBVendorName),
-                         CFNumberCreate(kCFAllocatorDefault,
-                                        kCFNumberSInt32Type, &kFT232USBVendor));
-    CFDictionarySetValue(matchingDict, CFSTR(kUSBProductName),
-                         CFNumberCreate(kCFAllocatorDefault,
-                                        kCFNumberSInt32Type, &kFT232USBProduct));
-
-    _notifyPort = IONotificationPortCreate(masterPort);
-    CFRunLoopSourceRef runLoopSource = IONotificationPortGetRunLoopSource(_notifyPort);
-    CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], runLoopSource, kCFRunLoopDefaultMode);
-
-    matchingDict = (CFMutableDictionaryRef)CFRetain(matchingDict);
-
-    kr = IOServiceAddMatchingNotification(_notifyPort,
-                                          kIOMatchedNotification, matchingDict,
-                                          RawDeviceAdded, NULL, &_rawAddedIter);
-    RawDeviceAdded(NULL, _rawAddedIter);
-
-    kr = IOServiceAddMatchingNotification(_notifyPort,
-                                          kIOTerminatedNotification, matchingDict,
-                                          RawDeviceRemoved, NULL, &_rawRemovedIter);
-    RawDeviceRemoved(NULL, _rawRemovedIter);
-
-    mach_port_deallocate(mach_task_self(), masterPort);
-    masterPort = 0;
   }
   return self;
 }

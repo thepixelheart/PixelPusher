@@ -138,7 +138,7 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
   CGSize pikachuSize = _pikachuSpritesheet.spriteSize;
 
   CGImageRef imageRef = nil;
-  imageRef = [_activeAnimation imageRefAtCurrentTick];
+  imageRef = [_activeAnimation imageRefWithDelta:self.secondsSinceLastTick];
   if (_isFrightened) {
     CGImageRelease(imageRef);
     imageRef = [_pikachuSpritesheet imageAtX:3 y:2];
