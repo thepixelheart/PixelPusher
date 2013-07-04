@@ -22,6 +22,11 @@ typedef enum {
   PHCircularSliderTrackingMode_Vertical
 } PHCircularSliderTrackingMode;
 
+@interface PHCircularSlider ()
+@property (nonatomic, weak) id target;
+@property (nonatomic, assign) SEL action;
+@end
+
 @implementation PHCircularSlider {
   NSImage* _backgroundImage;
   NSImage* _dotImage;
@@ -126,10 +131,12 @@ typedef enum {
 
     [self setFloatValue:_trackingStartValue + delta / 200];
     [self setNeedsDisplay:YES];
+
+    [self sendAction:self.action to:self.target];
   }
 }
 
-#pragma mark - Public Methods
+#pragma mark - Private Methods
 
 - (float)minValue {
   return 0;
@@ -137,13 +144,6 @@ typedef enum {
 
 - (float)maxValue {
   return 1;
-}
-
-- (void)setCircularSliderType:(PHCircularSliderType)circularSliderType {
-  _circularSliderType = circularSliderType;
-  if (circularSliderType == PHCircularSliderType_Volume) {
-  }
-  [self setNeedsDisplay:YES];
 }
 
 - (void)setFloatValue:(float)aFloat {
@@ -157,6 +157,23 @@ typedef enum {
 
 - (float)floatValue {
   return _floatValue;
+}
+
+#pragma mark - Public Methods
+
+- (void)setCircularSliderType:(PHCircularSliderType)circularSliderType {
+  _circularSliderType = circularSliderType;
+  if (circularSliderType == PHCircularSliderType_Volume) {
+  }
+  [self setNeedsDisplay:YES];
+}
+
+- (void)setVolume:(CGFloat)volume {
+  self.floatValue = volume;
+}
+
+- (CGFloat)volume {
+  return self.floatValue;
 }
 
 @end

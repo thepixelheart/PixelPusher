@@ -25,4 +25,7 @@ typedef enum {
 
 @property (nonatomic, assign) PHCircularSliderType circularSliderType; // Default: PHCircularSliderType_Volume
 
+// Available when circularSliderType == PHCircularSliderType_Volume
+@property (nonatomic, assign) CGFloat volume;
+
 @end

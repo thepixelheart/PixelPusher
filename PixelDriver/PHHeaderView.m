@@ -81,6 +81,9 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
     _masterFadeSlider = [[PHCircularSlider alloc] init];
     _masterFadeSlider.circularSliderType = PHCircularSliderType_Volume;
+    _masterFadeSlider.tag = PHSystemVolumeMaster;
+    _masterFadeSlider.target = self;
+    _masterFadeSlider.action = @selector(sliderDidChange:);
     [self.contentView addSubview:_masterFadeSlider];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -141,6 +144,12 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
 - (void)didReleaseButton:(PHButton *)button {
   [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
+}
+
+#pragma mark - PHCircularSlider
+
+- (void)sliderDidChange:(PHCircularSlider *)slider {
+  NSLog(@"%f", slider.volume);
 }
 
 #pragma mark - View Mode Notifications
