@@ -74,9 +74,6 @@ static const NSTimeInterval kTransitionDuration = 0.5;
     [bitmapImage setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithInt:currentFrame]];
 
     float duration = [[bitmapImage valueForProperty:NSImageCurrentFrameDuration] floatValue];
-    if (fabsf(duration - 0.1) < 0.0001) {
-      duration = 0.05;
-    }
     *nextFrameTick = duration;
   }
 
