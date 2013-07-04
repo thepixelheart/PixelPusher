@@ -152,6 +152,10 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 
 @property (nonatomic, copy) NSString* lastScriptError;
 
+// Volume
+
+- (void)didChangeVolumeControl:(PHSystemControlIdentifier)control volume:(CGFloat)volume;
+
 // Buttons
 
 - (void)didPressButton:(PHSystemControlIdentifier)button;

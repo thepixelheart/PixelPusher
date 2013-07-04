@@ -149,7 +149,9 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 #pragma mark - PHCircularSlider
 
 - (void)sliderDidChange:(PHCircularSlider *)slider {
-  NSLog(@"%f", slider.volume);
+  if (slider.circularSliderType == PHCircularSliderType_Volume) {
+    [PHSys() didChangeVolumeControl:(PHSystemControlIdentifier)slider.tag volume:slider.volume];
+  }
 }
 
 #pragma mark - View Mode Notifications
