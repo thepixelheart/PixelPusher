@@ -805,7 +805,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 - (void)didPressButton:(PHSystemControlIdentifier)button {
   NSString *extraNotificationName = nil;
   
-  switch (button) {
+  switch ((NSInteger)button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = YES;
       [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:YES];
@@ -898,6 +898,24 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       _recordingImages = [NSMutableArray array];
       break;
 
+    case PHSystemLeftDeckStart + PHSystemDeckAction1:
+      _hardwareLeft.isUserButton1Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];;
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckAction1:
+      _hardwareRight.isUserButton1Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+
+    case PHSystemLeftDeckStart + PHSystemDeckAction2:
+      _hardwareLeft.isUserButton2Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckAction2:
+      _hardwareRight.isUserButton2Pressed = YES;
+      [_dj2go setButton:button ledStateEnabled:YES];
+      break;
+
     default:
       break;
   }
@@ -912,7 +930,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 - (void)didReleaseButton:(PHSystemControlIdentifier)button {
   NSString *extraNotificationName = nil;
   
-  switch (button) {
+  switch ((NSInteger)button) {
     case PHSystemButtonPixelHeart:
       _overlayPixelHeart = NO;
       [_dj2go setButton:PHDJ2GOButtonLeftHeadphones ledStateEnabled:NO];
@@ -1011,6 +1029,24 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
         _countdownOverlay = PHCountdownOverlayNone;
         _countdownTextIndex = arc4random_uniform(5);
       }
+      break;
+
+    case PHSystemLeftDeckStart + PHSystemDeckAction1:
+      _hardwareLeft.isUserButton1Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckAction1:
+      _hardwareRight.isUserButton1Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+
+    case PHSystemLeftDeckStart + PHSystemDeckAction2:
+      _hardwareLeft.isUserButton2Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckAction2:
+      _hardwareRight.isUserButton2Pressed = NO;
+      [_dj2go setButton:button ledStateEnabled:NO];
       break;
 
     case PHSystemButtonSwapFaderPositions:
@@ -1136,7 +1172,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (void)dj2go:(PHDJ2GODevice *)dj2go buttonWasPressed:(PHDJ2GOButton)button {
-  switch (button) {
+  switch ((NSInteger)button) {
     case PHDJ2GOButtonLoadA:
       [self didPressButton:PHSystemButtonLoadLeft];
       break;
@@ -1158,21 +1194,17 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       break;
 
     case PHDJ2GOButtonLeftCue:
-      _hardwareLeft.isUserButton1Pressed = YES;
-      [_dj2go setButton:button ledStateEnabled:YES];
+      [self didPressButton:PHSystemLeftDeckStart + PHSystemDeckAction1];
       break;
     case PHDJ2GOButtonRightCue:
-      _hardwareRight.isUserButton1Pressed = YES;
-      [_dj2go setButton:button ledStateEnabled:YES];
+      [self didPressButton:PHSystemRightDeckStart + PHSystemDeckAction1];
       break;
 
     case PHDJ2GOButtonLeftSync:
-      _hardwareLeft.isUserButton2Pressed = YES;
-      [_dj2go setButton:button ledStateEnabled:YES];
+      [self didPressButton:PHSystemLeftDeckStart + PHSystemDeckAction2];
       break;
     case PHDJ2GOButtonRightSync:
-      _hardwareRight.isUserButton2Pressed = YES;
-      [_dj2go setButton:button ledStateEnabled:YES];
+      [self didPressButton:PHSystemRightDeckStart + PHSystemDeckAction2];
       break;
 
     default:
@@ -1211,21 +1243,17 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       break;
 
     case PHDJ2GOButtonLeftCue:
-      _hardwareLeft.isUserButton1Pressed = NO;
-      [_dj2go setButton:button ledStateEnabled:NO];
+      [self didReleaseButton:PHSystemLeftDeckStart + PHSystemDeckAction1];
       break;
     case PHDJ2GOButtonRightCue:
-      _hardwareRight.isUserButton1Pressed = NO;
-      [_dj2go setButton:button ledStateEnabled:NO];
+      [self didReleaseButton:PHSystemRightDeckStart + PHSystemDeckAction1];
       break;
 
     case PHDJ2GOButtonLeftSync:
-      _hardwareLeft.isUserButton2Pressed = NO;
-      [_dj2go setButton:button ledStateEnabled:NO];
+      [self didReleaseButton:PHSystemLeftDeckStart + PHSystemDeckAction2];
       break;
     case PHDJ2GOButtonRightSync:
-      _hardwareRight.isUserButton2Pressed = NO;
-      [_dj2go setButton:button ledStateEnabled:NO];
+      [self didReleaseButton:PHSystemRightDeckStart + PHSystemDeckAction2];
       break;
 
     default:

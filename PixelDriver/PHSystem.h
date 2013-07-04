@@ -26,6 +26,8 @@
 
 typedef enum {
   PHSystemDeckSpeed,
+  PHSystemDeckAction1,
+  PHSystemDeckAction2,
 
   PHSystemDeck_NumberOfControls
 } PHSystemDeck;

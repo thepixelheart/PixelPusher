@@ -30,6 +30,11 @@
 AppDelegate* PHApp();
 PHSystem* PHSys();
 
+@interface PHGif : NSObject
+@property (nonatomic, strong) NSImage* image;
+@property (nonatomic, copy) NSString* filename;
+@end
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (strong, readonly) PHSystem* system;

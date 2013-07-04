@@ -62,6 +62,9 @@ PHSystem* PHSys() {
   return PHApp().system;
 }
 
+@implementation PHGif
+@end
+
 @interface AppDelegate() <SCEventListenerProtocol>
 @end
 
@@ -212,7 +215,10 @@ PHSystem* PHSys() {
       continue;
     }
 
-    [gifs addObject:image];
+    PHGif* gif = [[PHGif alloc] init];
+    gif.image = image;
+    gif.filename = path;
+    [gifs addObject:gif];
   }
 
   for (NSUInteger i = 0; i < gifs.count; ++i) {

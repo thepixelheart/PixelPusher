@@ -75,6 +75,7 @@
 #import "PHPixelHeartTextAnimation.h"
 #import "PHMarioAnimation.h"
 #import "PHDoLabAnimation.h"
+#import "PHDancingGifsAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -240,6 +241,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHPixelHeartTextAnimation animation],
     [PHRainbowHeartAnimation animation],
     [PHGifAnimation animation],
+    [PHDancingGifsAnimation animation],
     [PHCombAnimation animation],
     [PHMovingSawAnimation animation],
     [PHBassShooterAnimation animation],

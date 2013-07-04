@@ -16,6 +16,8 @@
 
 #import "PHGifAnimation.h"
 
+#import "AppDelegate.h"
+
 static const NSInteger kWaitToChangeDurationMin = 400;
 static const NSInteger kWaitToChangeDurationMax = 800;
 static const NSTimeInterval kTransitionDuration = 0.5;
@@ -37,6 +39,8 @@ static const NSTimeInterval kTransitionDuration = 0.5;
 - (id)init {
   if ((self = [super init])) {
     _buttonWasntPressed = YES;
+    _nextFrameTick = CGFLOAT_MAX;
+    _nextFrameTickForPreviousGif = CGFLOAT_MAX;
   }
   return self;
 }
@@ -50,11 +54,13 @@ static const NSTimeInterval kTransitionDuration = 0.5;
   NSBitmapImageRep* bitmapImage = [[gif representations] objectAtIndex:0];
 
   int currentFrame = [[bitmapImage valueForProperty:NSImageCurrentFrame] intValue];
-  if (0 == *nextFrameTick) {
+  if (CGFLOAT_MAX == *nextFrameTick) {
     float duration = [[bitmapImage valueForProperty:NSImageCurrentFrameDuration] floatValue];
-    *nextFrameTick = [NSDate timeIntervalSinceReferenceDate] + duration;
+    *nextFrameTick = duration;
+  }
 
-  } else if ([NSDate timeIntervalSinceReferenceDate] >= *nextFrameTick) {
+  *nextFrameTick -= self.secondsSinceLastTick;
+  if (*nextFrameTick <= 0) {
     NSInteger numberOfFrames = [[bitmapImage valueForProperty:NSImageFrameCount] intValue];
     if (0 == numberOfFrames) {
       numberOfFrames = 1;
@@ -68,7 +74,10 @@ static const NSTimeInterval kTransitionDuration = 0.5;
     [bitmapImage setProperty:NSImageCurrentFrame withValue:[NSNumber numberWithInt:currentFrame]];
 
     float duration = [[bitmapImage valueForProperty:NSImageCurrentFrameDuration] floatValue];
-    *nextFrameTick = [NSDate timeIntervalSinceReferenceDate] + duration;
+    if (fabsf(duration - 0.1) < 0.0001) {
+      duration = 0.05;
+    }
+    *nextFrameTick = duration;
   }
 
   CGSize imageSize = bitmapImage.size;
@@ -89,6 +98,26 @@ static const NSTimeInterval kTransitionDuration = 0.5;
 
   [NSGraphicsContext restoreGraphicsState];
   CGContextRestoreGState(cx);
+}
+
+- (NSString *)filter {
+  return nil;
+}
+
+- (NSArray *)filteredGifs {
+  NSArray* allGifs = self.systemState.gifs;
+
+  NSString* filter = [self filter];
+  if (filter) {
+    return [allGifs filteredArrayUsingPredicate:
+            [NSPredicate predicateWithBlock:
+             ^BOOL(id evaluatedObject, NSDictionary *bindings) {
+               PHGif* gif = evaluatedObject;
+               return [gif.filename rangeOfString:filter].length > 0;
+             }]];
+  } else {
+    return allGifs;
+  }
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
@@ -120,7 +149,8 @@ static const NSTimeInterval kTransitionDuration = 0.5;
           && !self.animationTick.hardwareState.isUserButton1Pressed) {
         _previousGif = _activeGif;
       }
-      _activeGif = self.systemState.gifs[(_currentGifIndex + self.systemState.gifs.count) % self.systemState.gifs.count];
+      NSArray* filteredGifs = [self filteredGifs];
+      _activeGif = [filteredGifs[(_currentGifIndex % filteredGifs.count + filteredGifs.count) % filteredGifs.count] image];
       _transitionStartedAtTick = [NSDate timeIntervalSinceReferenceDate];
       _hasPlayedOnce = NO;
     }

@@ -17,12 +17,19 @@
 #import "PHDeckControlsView.h"
 
 #import "PHCircularSlider.h"
+#import "PHButton.h"
 #import "PHSystem.h"
 #import "AppDelegate.h"
 #import "PHHardwareState.h"
 
+@interface PHDeckControlsView () <PHButtonDelegate>
+@end
+
 @implementation PHDeckControlsView {
   PHCircularSlider* _speedSlider;
+
+  PHButton* _action1;
+  PHButton* _action2;
 }
 
 - (id)initWithSystemTagOffset:(NSInteger)tagOffset {
@@ -34,6 +41,18 @@
     _speedSlider.action = @selector(sliderDidChange:);
     [_speedSlider setToolTip:@"Speed"];
     [self.contentView addSubview:_speedSlider];
+
+    _action1 = [[PHButton alloc] init];
+    _action1.tag = PHSystemDeckAction1 + tagOffset;
+    _action1.delegate = self;
+    [_action1 setTitle:@"1"];
+    [self.contentView addSubview:_action1];
+
+    _action2 = [[PHButton alloc] init];
+    _action2.tag = PHSystemDeckAction2 + tagOffset;
+    _action2.delegate = self;
+    [_action2 setTitle:@"2"];
+    [self.contentView addSubview:_action2];
   }
   return self;
 }
@@ -42,6 +61,11 @@
   [super layout];
 
   [_speedSlider sizeToFit];
+  [_action1 sizeToFit];
+  [_action2 sizeToFit];
+
+  _action1.frame = CGRectMake(_speedSlider.frame.size.width + 5, 0, _action1.frame.size.width, _action1.frame.size.height);
+  _action2.frame = CGRectMake(CGRectGetMaxX(_action1.frame) + 5, 0, _action2.frame.size.width, _action2.frame.size.height);
 }
 
 #pragma mark - PHCircularSlider
@@ -56,6 +80,16 @@
 
 - (void)updateWithHardware:(PHHardwareState *)hardware {
   _speedSlider.volume = hardware.volume;
+}
+
+#pragma mark - PHButtonDelegate
+
+- (void)didPressDownButton:(PHButton *)button {
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
+}
+
+- (void)didReleaseButton:(PHButton *)button {
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
 
 @end
