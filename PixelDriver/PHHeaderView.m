@@ -85,6 +85,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     _masterFadeSlider.tag = PHSystemVolumeMaster;
     _masterFadeSlider.target = self;
     _masterFadeSlider.action = @selector(sliderDidChange:);
+    [_masterFadeSlider setToolTip:@"Master Fade"];
     [self.contentView addSubview:_masterFadeSlider];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
