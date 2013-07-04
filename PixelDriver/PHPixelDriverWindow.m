@@ -79,8 +79,8 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
 
   if (PHSys().viewMode == PHViewModeCompositeEditor) {
     keyMappings[@"n"] = @(PHSystemButtonNewComposite);
-    keyMappings[@"51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
-    keyMappings[@"36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
+    keyMappings[@"_51"] = @(PHSystemButtonClearCompositeActiveLayer); // Backspace
+    keyMappings[@"_36"] = @(PHSystemButtonLoadCompositeIntoActiveLayer); // Enter
   }
 
   if ((theEvent.type ==
@@ -90,7 +90,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
         if (!theEvent.isARepeat) {
           id value = keyMappings[theEvent.charactersIgnoringModifiers];
           if (nil == value) {
-            value = keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]];
+            value = keyMappings[[NSString stringWithFormat:@"_%d", theEvent.keyCode]];
           }
           PHSystemControlIdentifier button = [value intValue];
           if (theEvent.type == NSKeyDown) {
