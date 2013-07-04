@@ -240,8 +240,6 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHKaleidoscopeFilter animation],
     [PHTriangleTileFilter animation],
 
-    [PHSoundWaveAnimation animation],
-
     // Animations
     [PHPixelHeartAnimation animation],
     [PHPixelHeartTextAnimation animation],
@@ -275,6 +273,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHClockAnimation animation],
     [PHDoLabAnimation animation],
     [PHTwistedAnimation animation],
+    [PHSoundWaveAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
