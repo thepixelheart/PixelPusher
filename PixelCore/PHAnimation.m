@@ -72,6 +72,7 @@
 #import "PHMandelbrotAnimation.h"
 #import "PHStaticAnimation.h"
 #import "PHClockAnimation.h"
+#import "PHPixelHeartTextAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -234,6 +235,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
     // Animations
     [PHPixelHeartAnimation animation],
+    [PHPixelHeartTextAnimation animation],
     [PHRainbowHeartAnimation animation],
     [PHGifAnimation animation],
     [PHCombAnimation animation],

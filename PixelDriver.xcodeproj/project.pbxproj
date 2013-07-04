@@ -385,6 +385,8 @@
 		66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F11785037A0041107A /* PHDeckControlsView.m */; };
 		66BD06F517850C070041107A /* PHClockAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD06F317850C070041107A /* PHClockAnimation.h */; };
 		66BD06F617850C070041107A /* PHClockAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F417850C070041107A /* PHClockAnimation.m */; };
+		66BD06F917850ECB0041107A /* PHPixelHeartTextAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD06F717850ECB0041107A /* PHPixelHeartTextAnimation.h */; };
+		66BD06FA17850ECB0041107A /* PHPixelHeartTextAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F817850ECB0041107A /* PHPixelHeartTextAnimation.m */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -894,6 +896,8 @@
 		66BD06F11785037A0041107A /* PHDeckControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDeckControlsView.m; sourceTree = "<group>"; };
 		66BD06F317850C070041107A /* PHClockAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHClockAnimation.h; sourceTree = "<group>"; };
 		66BD06F417850C070041107A /* PHClockAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHClockAnimation.m; sourceTree = "<group>"; };
+		66BD06F717850ECB0041107A /* PHPixelHeartTextAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHPixelHeartTextAnimation.h; path = PixelCore/PHPixelHeartTextAnimation.h; sourceTree = SOURCE_ROOT; };
+		66BD06F817850ECB0041107A /* PHPixelHeartTextAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelHeartTextAnimation.m; path = PixelCore/PHPixelHeartTextAnimation.m; sourceTree = SOURCE_ROOT; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -1330,6 +1334,8 @@
 				668EAA2E1720BFBB0056C8C3 /* PHPikachuEmotingAnimation.m */,
 				668EAA2F1720BFBB0056C8C3 /* PHPixelHeartAnimation.h */,
 				668EAA301720BFBB0056C8C3 /* PHPixelHeartAnimation.m */,
+				66BD06F717850ECB0041107A /* PHPixelHeartTextAnimation.h */,
+				66BD06F817850ECB0041107A /* PHPixelHeartTextAnimation.m */,
 				668EAA311720BFBB0056C8C3 /* PHPixelLifeAnimation.h */,
 				668EAA321720BFBB0056C8C3 /* PHPixelLifeAnimation.m */,
 				668EAA331720BFBB0056C8C3 /* PHPixelRainAnimation.h */,
@@ -2054,6 +2060,7 @@
 				668EAAE51720BFF40056C8C3 /* PHDiscBlurFilter.h in Headers */,
 				668EAAE71720BFF40056C8C3 /* PHDotScreenFilter.h in Headers */,
 				668EAAE91720BFF40056C8C3 /* PHDrosteFilter.h in Headers */,
+				66BD06F917850ECB0041107A /* PHPixelHeartTextAnimation.h in Headers */,
 				66BD06F517850C070041107A /* PHClockAnimation.h in Headers */,
 				668EAAEB1720BFF40056C8C3 /* PHEdgesFilter.h in Headers */,
 				668EAAED1720BFF40056C8C3 /* PHEdgeWorkFilter.h in Headers */,
@@ -2372,6 +2379,7 @@
 				668EAA9E1720BFBC0056C8C3 /* PHSimpleMoteAnimation.m in Sources */,
 				664E8F351783761F00FF58A6 /* PHMandelbrotAnimation.m in Sources */,
 				668EAAA01720BFBC0056C8C3 /* PHSineWaveAnimation.m in Sources */,
+				66BD06FA17850ECB0041107A /* PHPixelHeartTextAnimation.m in Sources */,
 				668EAAA21720BFBC0056C8C3 /* PHSophJoyAnimation.m in Sources */,
 				668EAAA41720BFBC0056C8C3 /* PHSpectrumLinesAnimation.m in Sources */,
 				668EAAA61720BFBC0056C8C3 /* PHSpectrumViewerAnimation.m in Sources */,
