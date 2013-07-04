@@ -28,6 +28,7 @@
 #import "PHPrefsView.h"
 #import "PHCompositeEditorView.h"
 #import "PHActionsView.h"
+#import "PHDeckControlsView.h"
 
 static const CGFloat kHeaderBarHeight = 30;
 static const CGFloat kVisualizerMaxHeight = 300;
@@ -44,6 +45,9 @@ static const CGFloat kPlaybackControlsHeight = 40;
   PHContainerView* _rightVisualizationView;
   PHContainerView* _wallVisualizationView;
   PHActionsView* _actionsView;
+
+  PHDeckControlsView* _leftDeckControlsView;
+  PHDeckControlsView* _rightDeckControlsView;
 
   PHPlaybackControlsView* _playbackControlsView;
 
@@ -103,6 +107,13 @@ static const CGFloat kPlaybackControlsHeight = 40;
     wallView.systemContext = PHSystemContextWall;
     [_wallVisualizationView.contentView addSubview:wallView];
 
+    // Decks
+    _leftDeckControlsView = [[PHDeckControlsView alloc] init];
+    [self addSubview:_leftDeckControlsView];
+
+    _rightDeckControlsView = [[PHDeckControlsView alloc] init];
+    [self addSubview:_rightDeckControlsView];
+
     // Actions
     _actionsView = [[PHActionsView alloc] init];
     [self addSubview:_actionsView];
@@ -139,10 +150,12 @@ static const CGFloat kPlaybackControlsHeight = 40;
   }
 
   CGFloat topEdge = self.bounds.size.height - kHeaderBarHeight - visualizerHeight;
-  _leftVisualizationView.frame = CGRectMake(visualizerMaxWidth - visualizerWidth, topEdge,
+  _leftVisualizationView.frame = CGRectMake(midX - PHPlaybackControlsWidth / 2 - visualizerWidth, topEdge,
                                             visualizerWidth, visualizerHeight);
   _rightVisualizationView.frame = CGRectMake(midX + PHPlaybackControlsWidth / 2, topEdge,
                                              visualizerWidth, visualizerHeight);
+  _leftDeckControlsView.frame = CGRectMake(0, topEdge, CGRectGetMinX(_leftVisualizationView.frame), visualizerHeight);
+  _rightDeckControlsView.frame = CGRectMake(CGRectGetMaxX(_rightVisualizationView.frame), topEdge, self.bounds.size.width - CGRectGetMaxX(_rightVisualizationView.frame), visualizerHeight);
 
   CGFloat wallWidth = CGRectGetMinX(_rightVisualizationView.frame) - CGRectGetMaxX(_leftVisualizationView.frame);
   CGFloat wallHeight = wallWidth * visualizerAspectRatio;
