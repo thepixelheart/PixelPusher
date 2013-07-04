@@ -77,6 +77,7 @@
 #import "PHDoLabAnimation.h"
 #import "PHDancingGifsAnimation.h"
 #import "PHTrippyTunnelAnimation.h"
+#import "PHTwistedAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -270,6 +271,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHStaticAnimation animation],
     [PHClockAnimation animation],
     [PHDoLabAnimation animation],
+    [PHTwistedAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
