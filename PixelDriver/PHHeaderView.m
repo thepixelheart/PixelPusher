@@ -35,7 +35,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
   PHButton* _prefsButton;
   PHButton* _compositeEditorButton;
 
-  NSSlider* _masterFadeSlider;
+  PHCircularSlider* _masterFadeSlider;
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
@@ -80,8 +80,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
     [self.contentView addSubview:_compositeEditorButton];
 
     _masterFadeSlider = [[PHCircularSlider alloc] init];
-    [_masterFadeSlider setMinValue:0];
-    [_masterFadeSlider setMaxValue:1];
+    _masterFadeSlider.circularSliderType = PHCircularSliderType_Volume;
     [self.contentView addSubview:_masterFadeSlider];
 
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];

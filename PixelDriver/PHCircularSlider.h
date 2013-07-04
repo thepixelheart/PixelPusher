@@ -16,5 +16,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PHCircularSlider : NSSlider
+typedef enum {
+  PHCircularSliderType_Volume,
+  PHCircularSliderType_Knob
+} PHCircularSliderType;
+
+@interface PHCircularSlider : NSControl
+
+@property (nonatomic, assign) PHCircularSliderType circularSliderType; // Default: PHCircularSliderType_Volume
+
 @end

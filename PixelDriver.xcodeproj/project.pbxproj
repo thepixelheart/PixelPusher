@@ -380,6 +380,8 @@
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
+		66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06EC1784EE3B0041107A /* circularslider_knob.png */; };
+		66BD06EF1784EE3B0041107A /* circularslider.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06ED1784EE3B0041107A /* circularslider.png */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -883,6 +885,8 @@
 		66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHShutterTransition.m; sourceTree = "<group>"; };
 		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
 		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
+		66BD06EC1784EE3B0041107A /* circularslider_knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider_knob.png; path = PixelDriver/resources/circularslider_knob.png; sourceTree = "<group>"; };
+		66BD06ED1784EE3B0041107A /* circularslider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider.png; path = PixelDriver/resources/circularslider.png; sourceTree = "<group>"; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -1802,6 +1806,8 @@
 		66DC7B791677255D00453E8F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				66BD06EC1784EE3B0041107A /* circularslider_knob.png */,
+				66BD06ED1784EE3B0041107A /* circularslider.png */,
 				6603375717332C33001090B7 /* composites-latest.plist */,
 				668EACA91720C7250056C8C3 /* countdown_1.png */,
 				668EACAA1720C7250056C8C3 /* countdown_2.png */,
@@ -2206,10 +2212,12 @@
 				66A13E4E171D2CA30092E43D /* falsecolor.png in Resources */,
 				66A13E50171D2CCA0092E43D /* hole.png in Resources */,
 				66A13E55171D2D9C0092E43D /* mirrorbottom.png in Resources */,
+				66BD06EF1784EE3B0041107A /* circularslider.png in Resources */,
 				66A13E56171D2D9C0092E43D /* mirrorleft.png in Resources */,
 				66A13E57171D2D9C0092E43D /* mirrorright.png in Resources */,
 				66A13E58171D2D9C0092E43D /* mirrortop.png in Resources */,
 				66A13E5A171D2DE60092E43D /* eightfold.png in Resources */,
+				66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */,
 				66A13E5C171D316D0092E43D /* strobe.png in Resources */,
 				66A13E64171DCC860092E43D /* bloom.png in Resources */,
 				66A13E69171DCE360092E43D /* bumpdistortion.png in Resources */,
