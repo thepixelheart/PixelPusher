@@ -152,7 +152,7 @@ static const CGFloat kMinimumEnergyForExcite = 0.5;
     }
   }
 
-  CGImageRef imageRef = [_activeAnimation imageRefAtCurrentTick];
+  CGImageRef imageRef = [_activeAnimation imageRefWithDelta:self.secondsSinceLastTick];
   CGSize sophjoySize = _spritesheet.spriteSize;
   CGContextDrawImage(cx, CGRectMake(0, 0, sophjoySize.width, sophjoySize.height), imageRef);
   CGImageRelease(imageRef);

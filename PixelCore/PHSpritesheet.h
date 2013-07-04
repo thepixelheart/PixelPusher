@@ -37,6 +37,7 @@
 - (void)addStillFrameAtX:(NSInteger)x y:(NSInteger)y;
 
 - (CGImageRef)imageRefAtCurrentTick;
+- (CGImageRef)imageRefWithDelta:(NSTimeInterval)delta;
 
 @property (nonatomic, assign) BOOL repeats; // Default: YES
 @property (nonatomic, assign) BOOL bounces; // Default: NO

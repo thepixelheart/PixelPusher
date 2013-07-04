@@ -39,7 +39,7 @@
   CGFloat maxRadius = MIN(spriteSize.width, spriteSize.height) / 2;
 
   CGFloat value = self.bassDegrader.value;
-  CGImageRef imageRef = [_animation imageRefAtCurrentTick];
+  CGImageRef imageRef = [_animation imageRefWithDelta:self.secondsSinceLastTick];
   CGRect heartFrame = CGRectMake(floorf((size.width - spriteSize.width) / 2),
                                  floorf((size.height - spriteSize.height) / 2),
                                  spriteSize.width,

@@ -146,7 +146,7 @@ static const NSTimeInterval kTimeUntilSleeping = 4;
   CGSize nyancatSize = _nyancatSpritesheet.spriteSize;
 
   CGImageRef imageRef = nil;
-  imageRef = [_activeAnimation imageRefAtCurrentTick];
+  imageRef = [_activeAnimation imageRefWithDelta:self.secondsSinceLastTick];
   CGContextDrawImage(cx, CGRectMake(0, 0, nyancatSize.width, nyancatSize.height), imageRef);
 
   CGImageRelease(imageRef);

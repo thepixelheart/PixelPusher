@@ -73,6 +73,7 @@
 #import "PHStaticAnimation.h"
 #import "PHClockAnimation.h"
 #import "PHPixelHeartTextAnimation.h"
+#import "PHMarioAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -270,6 +271,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHAdventureTimeAnimation animation],
     [PHSophJoyAnimation animation],
     [PHNyanCatAnimation animation],
+    [PHMarioAnimation animation],
 
     // Games
     [PHTronAnimation animation],
