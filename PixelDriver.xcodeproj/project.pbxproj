@@ -383,6 +383,8 @@
 		66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06EC1784EE3B0041107A /* circularslider_knob.png */; };
 		66BD06EF1784EE3B0041107A /* circularslider.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06ED1784EE3B0041107A /* circularslider.png */; };
 		66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F11785037A0041107A /* PHDeckControlsView.m */; };
+		66BD06F517850C070041107A /* PHClockAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD06F317850C070041107A /* PHClockAnimation.h */; };
+		66BD06F617850C070041107A /* PHClockAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F417850C070041107A /* PHClockAnimation.m */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -890,6 +892,8 @@
 		66BD06ED1784EE3B0041107A /* circularslider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider.png; path = PixelDriver/resources/circularslider.png; sourceTree = "<group>"; };
 		66BD06F01785037A0041107A /* PHDeckControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDeckControlsView.h; sourceTree = "<group>"; };
 		66BD06F11785037A0041107A /* PHDeckControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDeckControlsView.m; sourceTree = "<group>"; };
+		66BD06F317850C070041107A /* PHClockAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHClockAnimation.h; sourceTree = "<group>"; };
+		66BD06F417850C070041107A /* PHClockAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHClockAnimation.m; sourceTree = "<group>"; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -1276,6 +1280,8 @@
 				668EAA021720BFBB0056C8C3 /* PHBassShooterAnimation.m */,
 				668EAA031720BFBB0056C8C3 /* PHBox2DAnimation.h */,
 				668EAA041720BFBB0056C8C3 /* PHBox2DAnimation.mm */,
+				66BD06F317850C070041107A /* PHClockAnimation.h */,
+				66BD06F417850C070041107A /* PHClockAnimation.m */,
 				668EAA051720BFBB0056C8C3 /* PHCombAnimation.h */,
 				668EAA061720BFBB0056C8C3 /* PHCombAnimation.m */,
 				668EAA071720BFBB0056C8C3 /* PHCompositeAnimation.h */,
@@ -2048,6 +2054,7 @@
 				668EAAE51720BFF40056C8C3 /* PHDiscBlurFilter.h in Headers */,
 				668EAAE71720BFF40056C8C3 /* PHDotScreenFilter.h in Headers */,
 				668EAAE91720BFF40056C8C3 /* PHDrosteFilter.h in Headers */,
+				66BD06F517850C070041107A /* PHClockAnimation.h in Headers */,
 				668EAAEB1720BFF40056C8C3 /* PHEdgesFilter.h in Headers */,
 				668EAAED1720BFF40056C8C3 /* PHEdgeWorkFilter.h in Headers */,
 				668EAAEF1720BFF40056C8C3 /* PHEightfoldReflectedTileFilter.h in Headers */,
@@ -2403,6 +2410,7 @@
 				668EACC41720E0760056C8C3 /* PHSoundBoxAnimation.m in Sources */,
 				660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */,
 				660589F2172210C2006572B8 /* PHCircleSplashDistortionFilter.m in Sources */,
+				66BD06F617850C070041107A /* PHClockAnimation.m in Sources */,
 				660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */,
 				660589FE17221577006572B8 /* PHComicFilter.m in Sources */,
 				6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */,

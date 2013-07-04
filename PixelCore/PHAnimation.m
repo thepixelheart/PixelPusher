@@ -71,6 +71,7 @@
 #import "PHKinectAnimation.h"
 #import "PHMandelbrotAnimation.h"
 #import "PHStaticAnimation.h"
+#import "PHClockAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -103,6 +104,7 @@ NSString* const PHAnimationCategoryShapes = @"Shapes";
 NSString* const PHAnimationCategoryTrippy = @"Trippy";
 NSString* const PHAnimationCategoryGames = @"Games";
 NSString* const PHAnimationCategoryScripts = @"Scripts";
+NSString* const PHAnimationCategoryLiB = @"LiB";
 
 static NSString* const kDefiningPropertiesKey = @"kDefiningPropertiesKey";
 
@@ -258,6 +260,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHKinectAnimation animation],
     [PHMandelbrotAnimation animation],
     [PHStaticAnimation animation],
+    [PHClockAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
@@ -303,7 +306,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     PHAnimationCategoryShapes,
     PHAnimationCategoryTrippy,
     PHAnimationCategoryGames,
-    PHAnimationCategoryScripts
+    PHAnimationCategoryScripts,
+    PHAnimationCategoryLiB
   ];
 }
 
