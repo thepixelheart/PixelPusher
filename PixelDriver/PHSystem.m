@@ -97,7 +97,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   PHHardwareState *_hardwareLeft;
   PHHardwareState *_hardwareRight;
-  CGFloat _masterFade;
 
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
@@ -796,7 +795,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemVolumeChangedNotification object:nil
-                  userInfo:@{PHSystemIdentifierKey : [NSNumber numberWithInt:control]}];
+                  userInfo:@{PHSystemIdentifierKey : @(control),
+                             PHSystemValueKey : @(volume)}];
 }
 
 - (void)didPressButton:(PHSystemControlIdentifier)button {

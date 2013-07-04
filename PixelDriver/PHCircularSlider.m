@@ -78,7 +78,7 @@ typedef enum {
     angle = M_PI - M_PI * 30. / 180. - fraction * (M_PI * 2 - M_PI * 60 / 180.0);
   }
   ;//  angle = (fraction * (2.0 * M_PI)) + M_PI;
-  float radius = (_backgroundImage.size.height / 4);
+  float radius = (_backgroundImage.size.height / 5);
   CGContextRotateCTM(cx, angle);
   NSPoint point = NSMakePoint(0, radius);
 
@@ -153,6 +153,7 @@ typedef enum {
   }
 
   _floatValue = aFloat;
+  [self setNeedsDisplay:YES];
 }
 
 - (float)floatValue {

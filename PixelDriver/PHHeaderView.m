@@ -81,6 +81,7 @@ static const NSEdgeInsets kLogoInsets = {kLogoInset, kLogoInset, kLogoInset, kLo
 
     _masterFadeSlider = [[PHCircularSlider alloc] init];
     _masterFadeSlider.circularSliderType = PHCircularSliderType_Volume;
+    _masterFadeSlider.volume = [PHSys() masterFade];
     _masterFadeSlider.tag = PHSystemVolumeMaster;
     _masterFadeSlider.target = self;
     _masterFadeSlider.action = @selector(sliderDidChange:);

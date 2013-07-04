@@ -132,6 +132,9 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 
 // Controller State
 
+// The master fade on the Heart.
+@property (nonatomic, assign) CGFloat masterFade;
+
 // The percentage fade from left to right.
 @property (nonatomic, assign) CGFloat fade; // 0..1
 @property (nonatomic, assign) BOOL leftAnimationIsBottom; // YES by default
