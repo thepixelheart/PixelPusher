@@ -86,7 +86,7 @@ static NSString* const kPixelDriverWindowFrameName = @"kPixelDriverWindowFrameNa
   if ((theEvent.type ==
        NSKeyDown || theEvent.type == NSKeyUp)
       && (nil != keyMappings[theEvent.charactersIgnoringModifiers]
-          || nil != keyMappings[[NSString stringWithFormat:@"%d", theEvent.keyCode]])) {
+          || nil != keyMappings[[NSString stringWithFormat:@"_%d", theEvent.keyCode]])) {
         if (!theEvent.isARepeat) {
           id value = keyMappings[theEvent.charactersIgnoringModifiers];
           if (nil == value) {

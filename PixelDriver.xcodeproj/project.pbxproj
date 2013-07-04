@@ -389,6 +389,8 @@
 		66BD06FA17850ECB0041107A /* PHPixelHeartTextAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F817850ECB0041107A /* PHPixelHeartTextAnimation.m */; };
 		66BD06FD178515430041107A /* PHMarioAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD06FB178515430041107A /* PHMarioAnimation.h */; };
 		66BD06FE178515430041107A /* PHMarioAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06FC178515430041107A /* PHMarioAnimation.m */; };
+		66BD070117852C1F0041107A /* PHDoLabAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD06FF17852C1F0041107A /* PHDoLabAnimation.h */; };
+		66BD070217852C1F0041107A /* PHDoLabAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD070017852C1F0041107A /* PHDoLabAnimation.m */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -902,6 +904,8 @@
 		66BD06F817850ECB0041107A /* PHPixelHeartTextAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHPixelHeartTextAnimation.m; path = PixelCore/PHPixelHeartTextAnimation.m; sourceTree = SOURCE_ROOT; };
 		66BD06FB178515430041107A /* PHMarioAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHMarioAnimation.h; path = PixelCore/PHMarioAnimation.h; sourceTree = SOURCE_ROOT; };
 		66BD06FC178515430041107A /* PHMarioAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHMarioAnimation.m; path = PixelCore/PHMarioAnimation.m; sourceTree = SOURCE_ROOT; };
+		66BD06FF17852C1F0041107A /* PHDoLabAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDoLabAnimation.h; path = PixelCore/PHDoLabAnimation.h; sourceTree = SOURCE_ROOT; };
+		66BD070017852C1F0041107A /* PHDoLabAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDoLabAnimation.m; path = PixelCore/PHDoLabAnimation.m; sourceTree = SOURCE_ROOT; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -1304,6 +1308,8 @@
 				668EAA101720BFBB0056C8C3 /* PHDancingManAnimation.mm */,
 				668EAA111720BFBB0056C8C3 /* PHDJAnimation.h */,
 				668EAA121720BFBB0056C8C3 /* PHDJAnimation.m */,
+				66BD06FF17852C1F0041107A /* PHDoLabAnimation.h */,
+				66BD070017852C1F0041107A /* PHDoLabAnimation.m */,
 				668EAA131720BFBB0056C8C3 /* PHFireworksAnimation.h */,
 				668EAA141720BFBB0056C8C3 /* PHFireworksAnimation.m */,
 				668EAA151720BFBB0056C8C3 /* PHFlowerAnimation.h */,
@@ -2086,6 +2092,7 @@
 				668EAC9F1720C1D60056C8C3 /* PHHardwareState.h in Headers */,
 				668EACBB1720CD5C0056C8C3 /* PHPixelTunnelAnimation.h in Headers */,
 				668EACC31720E0760056C8C3 /* PHSoundBoxAnimation.h in Headers */,
+				66BD070117852C1F0041107A /* PHDoLabAnimation.h in Headers */,
 				660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */,
 				660589F1172210C2006572B8 /* PHCircleSplashDistortionFilter.h in Headers */,
 				660589F7172214B1006572B8 /* PHColorInvertFilter.h in Headers */,
@@ -2430,6 +2437,7 @@
 				660589F8172214B1006572B8 /* PHColorInvertFilter.m in Sources */,
 				660589FE17221577006572B8 /* PHComicFilter.m in Sources */,
 				6651999E17261D4C0007EC96 /* PHKaleidoscopeFilter.m in Sources */,
+				66BD070217852C1F0041107A /* PHDoLabAnimation.m in Sources */,
 				665199A4172620A00007EC96 /* PHTriangleTileFilter.m in Sources */,
 				665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */,
 				66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */,
