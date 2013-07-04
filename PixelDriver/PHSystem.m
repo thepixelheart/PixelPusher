@@ -95,9 +95,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHDJ2GODevice* _dj2go;
   PHLPD8Device* _lpd8;
 
-  PHHardwareState *_hardwareLeft;
-  PHHardwareState *_hardwareRight;
-
   PHSystemControlIdentifier _focusedList;
   NSArray *_filteredAnimations;
   NSInteger _animationPage;
@@ -788,6 +785,12 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     case PHSystemVolumeMaster:
       _masterFade = volume;
       break;
+    case PHSystemLeftDeckStart + PHSystemDeckSpeed:
+      _hardwareLeft.volume = volume;
+      break;
+    case PHSystemRightDeckStart + PHSystemDeckSpeed:
+      _hardwareRight.volume = volume;
+      break;
 
     default:
       break;
@@ -1097,10 +1100,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 - (void)dj2go:(PHDJ2GODevice *)dj2go volume:(PHDJ2GOVolume)volume didChangeValue:(CGFloat)value {
   switch (volume) {
     case PHDJ2GOVolumeA:
-      _hardwareLeft.volume = value;
+      [self didChangeVolumeControl:PHSystemLeftDeckStart + PHSystemDeckSpeed volume:value];
       break;
     case PHDJ2GOVolumeB:
-      _hardwareRight.volume = value;
+      [self didChangeVolumeControl:PHSystemRightDeckStart + PHSystemDeckSpeed volume:value];
       break;
     case PHDJ2GOVolumeMaster:
       [self didChangeVolumeControl:PHSystemVolumeMaster volume:value];

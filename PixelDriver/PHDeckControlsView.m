@@ -16,6 +16,46 @@
 
 #import "PHDeckControlsView.h"
 
-@implementation PHDeckControlsView
+#import "PHCircularSlider.h"
+#import "PHSystem.h"
+#import "AppDelegate.h"
+#import "PHHardwareState.h"
+
+@implementation PHDeckControlsView {
+  PHCircularSlider* _speedSlider;
+}
+
+- (id)initWithSystemTagOffset:(NSInteger)tagOffset {
+  if ((self = [super initWithFrame:NSZeroRect])) {
+    _speedSlider = [[PHCircularSlider alloc] init];
+    _speedSlider.circularSliderType = PHCircularSliderType_Volume;
+    _speedSlider.tag = PHSystemDeckSpeed + tagOffset;
+    _speedSlider.target = self;
+    _speedSlider.action = @selector(sliderDidChange:);
+    [_speedSlider setToolTip:@"Speed"];
+    [self.contentView addSubview:_speedSlider];
+  }
+  return self;
+}
+
+- (void)layout {
+  [super layout];
+
+  [_speedSlider sizeToFit];
+}
+
+#pragma mark - PHCircularSlider
+
+- (void)sliderDidChange:(PHCircularSlider *)slider {
+  if (slider.circularSliderType == PHCircularSliderType_Volume) {
+    [PHSys() didChangeVolumeControl:(PHSystemControlIdentifier)slider.tag volume:slider.volume];
+  }
+}
+
+#pragma mark - Public Methods
+
+- (void)updateWithHardware:(PHHardwareState *)hardware {
+  _speedSlider.volume = hardware.volume;
+}
 
 @end

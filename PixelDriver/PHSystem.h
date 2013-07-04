@@ -25,6 +25,12 @@
 @class PHOpenGLView;
 
 typedef enum {
+  PHSystemDeckSpeed,
+
+  PHSystemDeck_NumberOfControls
+} PHSystemDeck;
+
+typedef enum {
   PHSystemButtonPixelHeart = 1000,
   PHSystemButtonLoadLeft,
   PHSystemButtonLoadRight,
@@ -56,6 +62,14 @@ typedef enum {
 
   PHSystemVolumeMaster,
 
+  // Left Deck
+  PHSystemLeftDeckStart,
+  PHSystemLeftDeckEnd = PHSystemLeftDeckStart + PHSystemDeck_NumberOfControls,
+
+  // Right Deck
+  PHSystemRightDeckStart,
+  PHSystemRightDeckEnd = PHSystemRightDeckStart + PHSystemDeck_NumberOfControls,
+
   PHSystemAnimations,
   PHSystemTransitions,
   PHSystemAnimationGroups,
@@ -85,6 +99,8 @@ extern NSString* const PHSystemActiveCategoryDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 extern NSString* const PHSystemFaderDidSwapNotification;
 extern NSString* const PHSystemUserScriptsDidChangeNotification;
+
+@class PHHardwareState;
 
 /**
  * The PHSystem class defines the global state of the Pixel Heart.
@@ -154,6 +170,10 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 @property (assign) BOOL fullscreenMode;
 
 @property (nonatomic, copy) NSString* lastScriptError;
+
+// Decks
+@property (nonatomic, readonly, strong) PHHardwareState *hardwareLeft;
+@property (nonatomic, readonly, strong) PHHardwareState *hardwareRight;
 
 // Volume
 

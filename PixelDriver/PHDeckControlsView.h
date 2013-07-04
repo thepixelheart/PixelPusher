@@ -18,5 +18,9 @@
 
 #import "PHContainerView.h"
 
+@class PHHardwareState;
+
 @interface PHDeckControlsView : PHContainerView
+- (id)initWithSystemTagOffset:(NSInteger)tagOffset;
+- (void)updateWithHardware:(PHHardwareState *)hardware;
 @end

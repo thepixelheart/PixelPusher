@@ -108,10 +108,12 @@ static const CGFloat kPlaybackControlsHeight = 40;
     [_wallVisualizationView.contentView addSubview:wallView];
 
     // Decks
-    _leftDeckControlsView = [[PHDeckControlsView alloc] init];
+    _leftDeckControlsView = [[PHDeckControlsView alloc] initWithSystemTagOffset:PHSystemLeftDeckStart];
+    [_leftDeckControlsView updateWithHardware:PHSys().hardwareLeft];
     [self addSubview:_leftDeckControlsView];
 
-    _rightDeckControlsView = [[PHDeckControlsView alloc] init];
+    _rightDeckControlsView = [[PHDeckControlsView alloc] initWithSystemTagOffset:PHSystemRightDeckStart];
+    [_rightDeckControlsView updateWithHardware:PHSys().hardwareRight];
     [self addSubview:_rightDeckControlsView];
 
     // Actions
@@ -156,6 +158,8 @@ static const CGFloat kPlaybackControlsHeight = 40;
                                              visualizerWidth, visualizerHeight);
   _leftDeckControlsView.frame = CGRectMake(0, topEdge, CGRectGetMinX(_leftVisualizationView.frame), visualizerHeight);
   _rightDeckControlsView.frame = CGRectMake(CGRectGetMaxX(_rightVisualizationView.frame), topEdge, self.bounds.size.width - CGRectGetMaxX(_rightVisualizationView.frame), visualizerHeight);
+  [_leftDeckControlsView layout];
+  [_rightDeckControlsView layout];
 
   CGFloat wallWidth = CGRectGetMinX(_rightVisualizationView.frame) - CGRectGetMaxX(_leftVisualizationView.frame);
   CGFloat wallHeight = wallWidth * visualizerAspectRatio;
