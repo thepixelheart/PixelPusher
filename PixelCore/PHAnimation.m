@@ -76,6 +76,7 @@
 #import "PHMarioAnimation.h"
 #import "PHDoLabAnimation.h"
 #import "PHDancingGifsAnimation.h"
+#import "PHTrippyTunnelAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -214,6 +215,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHMirrorAnimation animationWithType:PHMirrorAnimationTypeBottom],
     [PHMotionBlurAnimation animation],
     [PHMaskAnimation animation],
+    [PHTrippyTunnelAnimation animation],
 
     // Filters (commented out ones don't work)
     [PHAffineTileFilter animation],

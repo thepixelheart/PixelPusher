@@ -18,8 +18,8 @@
 
 #import "AppDelegate.h"
 
-static const NSInteger kWaitToChangeDurationMin = 400;
-static const NSInteger kWaitToChangeDurationMax = 800;
+static const NSInteger kWaitToChangeDurationMin = 1200;
+static const NSInteger kWaitToChangeDurationMax = 2000;
 static const NSTimeInterval kTransitionDuration = 0.5;
 
 @implementation PHGifAnimation {

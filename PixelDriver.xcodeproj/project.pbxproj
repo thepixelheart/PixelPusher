@@ -393,6 +393,9 @@
 		66BD070217852C1F0041107A /* PHDoLabAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD070017852C1F0041107A /* PHDoLabAnimation.m */; };
 		66BD070517853A300041107A /* PHDancingGifsAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD070317853A300041107A /* PHDancingGifsAnimation.h */; };
 		66BD070617853A300041107A /* PHDancingGifsAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD070417853A300041107A /* PHDancingGifsAnimation.m */; };
+		66BD070917855F3C0041107A /* PHTrippyTunnelAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BD070717855F3C0041107A /* PHTrippyTunnelAnimation.h */; };
+		66BD070A17855F3C0041107A /* PHTrippyTunnelAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD070817855F3C0041107A /* PHTrippyTunnelAnimation.m */; };
+		66BD070C1785647B0041107A /* trippytunnel.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD070B1785647B0041107A /* trippytunnel.png */; };
 		66BDB29E16A68ABC00ED7C81 /* PHDualVizualizersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */; };
 		66BDB2A916A6A33A00ED7C81 /* PHPlaybackControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2A816A6A33A00ED7C81 /* PHPlaybackControlsView.m */; };
 		66BDB2AC16A6A6EC00ED7C81 /* PHSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BDB2AB16A6A6EC00ED7C81 /* PHSlider.m */; };
@@ -910,6 +913,9 @@
 		66BD070017852C1F0041107A /* PHDoLabAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDoLabAnimation.m; path = PixelCore/PHDoLabAnimation.m; sourceTree = SOURCE_ROOT; };
 		66BD070317853A300041107A /* PHDancingGifsAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHDancingGifsAnimation.h; path = PixelCore/PHDancingGifsAnimation.h; sourceTree = SOURCE_ROOT; };
 		66BD070417853A300041107A /* PHDancingGifsAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHDancingGifsAnimation.m; path = PixelCore/PHDancingGifsAnimation.m; sourceTree = SOURCE_ROOT; };
+		66BD070717855F3C0041107A /* PHTrippyTunnelAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHTrippyTunnelAnimation.h; path = PixelCore/PHTrippyTunnelAnimation.h; sourceTree = SOURCE_ROOT; };
+		66BD070817855F3C0041107A /* PHTrippyTunnelAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHTrippyTunnelAnimation.m; path = PixelCore/PHTrippyTunnelAnimation.m; sourceTree = SOURCE_ROOT; };
+		66BD070B1785647B0041107A /* trippytunnel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = trippytunnel.png; path = PixelDriver/resources/trippytunnel.png; sourceTree = "<group>"; };
 		66BDB29C16A68ABC00ED7C81 /* PHDualVizualizersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDualVizualizersView.h; sourceTree = "<group>"; };
 		66BDB29D16A68ABC00ED7C81 /* PHDualVizualizersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDualVizualizersView.m; sourceTree = "<group>"; };
 		66BDB2A716A6A33A00ED7C81 /* PHPlaybackControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPlaybackControlsView.h; sourceTree = "<group>"; };
@@ -1574,6 +1580,8 @@
 				668EAAB81720BFD40056C8C3 /* PHRotationAnimation.m */,
 				664E8F3A1783E48900FF58A6 /* PHMaskAnimation.h */,
 				664E8F3B1783E48900FF58A6 /* PHMaskAnimation.m */,
+				66BD070717855F3C0041107A /* PHTrippyTunnelAnimation.h */,
+				66BD070817855F3C0041107A /* PHTrippyTunnelAnimation.m */,
 			);
 			name = Pipes;
 			sourceTree = "<group>";
@@ -1856,6 +1864,7 @@
 				668EACB31720C72B0056C8C3 /* text_4.png */,
 				3A43C268171E6E33006A441E /* umano.png */,
 				66CF637C16AD2C9C0048228F /* 1.png */,
+				66BD070B1785647B0041107A /* trippytunnel.png */,
 				66A13E5B171D316D0092E43D /* strobe.png */,
 				66CF637D16AD2C9C0048228F /* 2.png */,
 				66CF637A16AD09FB0048228F /* pixelheart.png */,
@@ -2034,6 +2043,7 @@
 				668EAA691720BFBB0056C8C3 /* PHDaftPixelAnimation.h in Headers */,
 				668EAA6B1720BFBB0056C8C3 /* PHDancingManAnimation.h in Headers */,
 				668EAA6D1720BFBB0056C8C3 /* PHDJAnimation.h in Headers */,
+				66BD070917855F3C0041107A /* PHTrippyTunnelAnimation.h in Headers */,
 				668EAA6F1720BFBB0056C8C3 /* PHFireworksAnimation.h in Headers */,
 				668EAA711720BFBB0056C8C3 /* PHFlowerAnimation.h in Headers */,
 				668EAA731720BFBB0056C8C3 /* PHFlyingFireballAnimation.h in Headers */,
@@ -2205,6 +2215,7 @@
 			files = (
 				66DC7B5C1676FC2F00453E8F /* InfoPlist.strings in Resources */,
 				66DC7B621676FC2F00453E8F /* Credits.rtf in Resources */,
+				66BD070C1785647B0041107A /* trippytunnel.png in Resources */,
 				66DC7B681676FC3000453E8F /* MainMenu.xib in Resources */,
 				662F5916167849E500ADE02C /* clouds.qtz in Resources */,
 				662F5920167858FD00ADE02C /* mesh.qtz in Resources */,
@@ -2430,6 +2441,7 @@
 				668EAAF61720BFF40056C8C3 /* PHFilter.m in Sources */,
 				668EAAF81720BFF40056C8C3 /* PHHoleDistortionFilter.m in Sources */,
 				668EAB021720C0090056C8C3 /* PHBox2D.mm in Sources */,
+				66BD070A17855F3C0041107A /* PHTrippyTunnelAnimation.m in Sources */,
 				668EAB041720C0090056C8C3 /* PHDegrader.m in Sources */,
 				668EAB061720C0090056C8C3 /* PHMote.m in Sources */,
 				668EAB081720C0090056C8C3 /* PHSpritesheet.m in Sources */,
