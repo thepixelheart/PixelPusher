@@ -1,3 +1,6 @@
 [submodule "p9813"]
 	path = p9813
 	url = git://github.com/ThePixelHeart/p9813.git
+[submodule "libfreenect"]
+	path = libfreenect
+	url = https://github.com/OpenKinect/libfreenect.git
