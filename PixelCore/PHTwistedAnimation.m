@@ -84,8 +84,8 @@
   _offsetAdvance3 -= self.secondsSinceLastTick * 0.05;
   _rotationAdvance3 -= self.secondsSinceLastTick * 0.01 * (self.vocalDegrader.value + 1) * cos(_offsetAdvance3 / 180);
   alpha = sqrt(self.vocalDegrader.value);
-  CGContextSetFillColorWithColor(cx, [NSColor colorWithRed:0 green:1 blue:0 alpha:alpha].CGColor);
-  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithRed:0.5 green:1 blue:0.5 alpha:alpha].CGColor);
+  CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:0 green:1 blue:0 alpha:alpha].CGColor);
+  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithDeviceRed:0.5 green:1 blue:0.5 alpha:alpha].CGColor);
   [self renderStrandInContext:cx
                          size:size
               radiusAmplifier:self.vocalDegrader.value
@@ -97,8 +97,8 @@
   _offsetAdvance2 -= self.secondsSinceLastTick * 0.02;
   _rotationAdvance2 -= self.secondsSinceLastTick * 0.05 * (self.hihatDegrader.value + 1) * cos(_offsetAdvance2 / 180);
   alpha = sqrt(self.hihatDegrader.value);
-  CGContextSetFillColorWithColor(cx, [NSColor colorWithRed:0 green:0 blue:1 alpha:alpha].CGColor);
-  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithRed:0.5 green:0.5 blue:1 alpha:alpha].CGColor);
+  CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:0 green:0 blue:1 alpha:alpha].CGColor);
+  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithDeviceRed:0.5 green:0.5 blue:1 alpha:alpha].CGColor);
   [self renderStrandInContext:cx
                          size:size
               radiusAmplifier:self.hihatDegrader.value
@@ -110,8 +110,8 @@
   _offsetAdvance += self.secondsSinceLastTick * 0.07;
   _rotationAdvance += self.secondsSinceLastTick * 0.1 * (self.bassDegrader.value + 1) * cos(_offsetAdvance / 180);
   alpha = sqrt(self.bassDegrader.value);
-  CGContextSetFillColorWithColor(cx, [NSColor colorWithRed:1 green:0 blue:0 alpha:alpha].CGColor);
-  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithRed:1 green:0.5 blue:0.5 alpha:alpha].CGColor);
+  CGContextSetFillColorWithColor(cx, [NSColor colorWithDeviceRed:1 green:0 blue:0 alpha:alpha].CGColor);
+  CGContextSetStrokeColorWithColor(cx, [NSColor colorWithDeviceRed:1 green:0.5 blue:0.5 alpha:alpha].CGColor);
   [self renderStrandInContext:cx
                          size:size
               radiusAmplifier:self.bassDegrader.value
