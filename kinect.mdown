@@ -1,0 +1,10 @@
+
+# Install CMake
+brew install cmake
+
+# Install libusb
+brew install libusb
+
+cmake .
+make
+sudo make install

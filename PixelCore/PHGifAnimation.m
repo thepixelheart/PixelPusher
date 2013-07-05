@@ -147,7 +147,9 @@ static const NSTimeInterval kTransitionDuration = 0.5;
         _previousGif = _activeGif;
       }
       NSArray* filteredGifs = [self filteredGifs];
-      _activeGif = [filteredGifs[(_currentGifIndex % filteredGifs.count + filteredGifs.count) % filteredGifs.count] image];
+      if (filteredGifs.count > 0) {
+        _activeGif = [filteredGifs[(_currentGifIndex % filteredGifs.count + filteredGifs.count) % filteredGifs.count] image];
+      }
       _transitionStartedAtTick = [NSDate timeIntervalSinceReferenceDate];
       _hasPlayedOnce = NO;
     }
