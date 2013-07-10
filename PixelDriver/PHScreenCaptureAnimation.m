@@ -45,20 +45,21 @@ static const CGWindowImageOption kImageOptions = (kCGWindowImageBoundsIgnoreFram
       }
     }
   } else if (_windowList.count > 0) {
-    _activeWindowNumber = [[_windowList lastObject][(NSString *)kCGWindowNumber] unsignedIntValue];
+    _activeWindowNumber = 866;//[[_windowList lastObject][(NSString *)kCGWindowNumber] unsignedIntValue];
   } else {
     _activeWindowNumber = 0;
   }
 }
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  if (_activeWindowNumber) {
+  CGContextSaveGState(cx);
+  if (_activeWindowNumber) {;
     CGImageRef windowImage = CGWindowListCreateImage(CGRectNull, kCGWindowListOptionIncludingWindow, _activeWindowNumber, kImageOptions);
     CGContextScaleCTM(cx, 1, -1);
-    CGContextTranslateCTM(cx, 0, -size.height);
-    CGContextDrawImage(cx, CGRectMake(0, 0, size.width, size.height), windowImage);
+    CGContextTranslateCTM(cx, 0, -size.height);;    CGContextDrawImage(cx, CGRectMake(0, -3, size.width, size.height + 5), windowImage);
     CGImageRelease(windowImage);
   }
+  CGContextRestoreGState(cx);
 }
 
 - (NSString *)tooltipName {

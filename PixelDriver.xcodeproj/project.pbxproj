@@ -380,6 +380,7 @@
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
+		66B17170178D544C003194A7 /* app.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 66B1716F178D544C003194A7 /* app.iconset */; };
 		66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06EC1784EE3B0041107A /* circularslider_knob.png */; };
 		66BD06EF1784EE3B0041107A /* circularslider.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06ED1784EE3B0041107A /* circularslider.png */; };
 		66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F11785037A0041107A /* PHDeckControlsView.m */; };
@@ -903,6 +904,7 @@
 		66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHShutterTransition.m; sourceTree = "<group>"; };
 		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
 		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
+		66B1716F178D544C003194A7 /* app.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = app.iconset; path = PixelDriver/resources/app.iconset; sourceTree = "<group>"; };
 		66BD06EC1784EE3B0041107A /* circularslider_knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider_knob.png; path = PixelDriver/resources/circularslider_knob.png; sourceTree = "<group>"; };
 		66BD06ED1784EE3B0041107A /* circularslider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider.png; path = PixelDriver/resources/circularslider.png; sourceTree = "<group>"; };
 		66BD06F01785037A0041107A /* PHDeckControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDeckControlsView.h; sourceTree = "<group>"; };
@@ -1910,6 +1912,7 @@
 				66A13E54171D2D9C0092E43D /* mirrortop.png */,
 				66A13E47171D2C310092E43D /* edges.png */,
 				6651999F17261E680007EC96 /* kaleidoscope.png */,
+				66B1716F178D544C003194A7 /* app.iconset */,
 				66BDB2B516A6ACC400ED7C81 /* sliderxMxHighlight.png */,
 				665199A51726212C0007EC96 /* triangletile.png */,
 				66A13E4F171D2CCA0092E43D /* hole.png */,
@@ -2306,6 +2309,7 @@
 				6603375817332C33001090B7 /* composites-latest.plist in Resources */,
 				6603375A17333217001090B7 /* scripts in Resources */,
 				662BFF9517348B4100F09D7B /* camera_record.png in Resources */,
+				66B17170178D544C003194A7 /* app.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
