@@ -80,7 +80,7 @@
 
   CGFloat alpha = 1;
 
-  _advance3 += self.secondsSinceLastTick * 180 / M_PI * 1.1;
+  _advance3 += self.secondsSinceLastTick * 180 / M_PI * 1.1 * (self.vocalDegrader.value + 1);
   _offsetAdvance3 -= self.secondsSinceLastTick * 0.05;
   _rotationAdvance3 -= self.secondsSinceLastTick * 0.01 * (self.vocalDegrader.value + 1) * cos(_offsetAdvance3 / 180);
   alpha = sqrt(self.vocalDegrader.value);
@@ -93,7 +93,7 @@
               rotationAdvance:_rotationAdvance3
                        offset:CGPointMake(sin(_offsetAdvance2 * 13) * 10, cos(_offsetAdvance3 * 7) * 10)];
 
-  _advance2 += self.secondsSinceLastTick * 180 / M_PI * 0.9;
+  _advance2 += self.secondsSinceLastTick * 180 / M_PI * 0.9 * (self.hihatDegrader.value + 1);
   _offsetAdvance2 -= self.secondsSinceLastTick * 0.02;
   _rotationAdvance2 -= self.secondsSinceLastTick * 0.05 * (self.hihatDegrader.value + 1) * cos(_offsetAdvance2 / 180);
   alpha = sqrt(self.hihatDegrader.value);
@@ -106,7 +106,7 @@
               rotationAdvance:_rotationAdvance2
                        offset:CGPointMake(cos(_offsetAdvance2 * 19) * 10, sin(_offsetAdvance2 * 13) * 10)];
 
-  _advance += self.secondsSinceLastTick * 180 / M_PI;
+  _advance += self.secondsSinceLastTick * 180 / M_PI * (self.bassDegrader.value + 1);
   _offsetAdvance += self.secondsSinceLastTick * 0.07;
   _rotationAdvance += self.secondsSinceLastTick * 0.1 * (self.bassDegrader.value + 1) * cos(_offsetAdvance / 180);
   alpha = sqrt(self.bassDegrader.value);

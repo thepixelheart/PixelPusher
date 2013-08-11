@@ -445,6 +445,8 @@
 		66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A11717ADDD00205745 /* PHAnimationTileView.m */; };
 		66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */; };
 		66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DCB7AA1717BE3E00205745 /* PHCollectionView.m */; };
+		66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66DD8B4C17B73B9E00CA103D /* PHFlippingSquaresAnimation.h */; };
+		66DD8B4F17B73B9E00CA103D /* PHFlippingSquaresAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DD8B4D17B73B9E00CA103D /* PHFlippingSquaresAnimation.m */; };
 		66F6640816854FA3001E77BC /* spritesheets in Resources */ = {isa = PBXBuildFile; fileRef = 66F6640716854FA3001E77BC /* spritesheets */; };
 		66FC91E316785FA100C02C59 /* slime.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E216785FA100C02C59 /* slime.qtz */; };
 		66FC91E7167863CB00C02C59 /* fire.qtz in Resources */ = {isa = PBXBuildFile; fileRef = 66FC91E6167863CB00C02C59 /* fire.qtz */; };
@@ -1007,6 +1009,8 @@
 		66DCB7A71717BE0D00205745 /* PHAnimationTileViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationTileViewItem.m; sourceTree = "<group>"; };
 		66DCB7A91717BE3E00205745 /* PHCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCollectionView.h; sourceTree = "<group>"; };
 		66DCB7AA1717BE3E00205745 /* PHCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCollectionView.m; sourceTree = "<group>"; };
+		66DD8B4C17B73B9E00CA103D /* PHFlippingSquaresAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFlippingSquaresAnimation.h; path = PixelCore/PHFlippingSquaresAnimation.h; sourceTree = SOURCE_ROOT; };
+		66DD8B4D17B73B9E00CA103D /* PHFlippingSquaresAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFlippingSquaresAnimation.m; path = PixelCore/PHFlippingSquaresAnimation.m; sourceTree = SOURCE_ROOT; };
 		66F6640716854FA3001E77BC /* spritesheets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = spritesheets; sourceTree = "<group>"; };
 		66FC91E216785FA100C02C59 /* slime.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = slime.qtz; path = QuartzCompositions/slime.qtz; sourceTree = SOURCE_ROOT; };
 		66FC91E6167863CB00C02C59 /* fire.qtz */ = {isa = PBXFileReference; lastKnownFileType = "video.quartz-composer"; name = fire.qtz; path = QuartzCompositions/fire.qtz; sourceTree = SOURCE_ROOT; };
@@ -1332,6 +1336,8 @@
 				66BD070017852C1F0041107A /* PHDoLabAnimation.m */,
 				668EAA131720BFBB0056C8C3 /* PHFireworksAnimation.h */,
 				668EAA141720BFBB0056C8C3 /* PHFireworksAnimation.m */,
+				66DD8B4C17B73B9E00CA103D /* PHFlippingSquaresAnimation.h */,
+				66DD8B4D17B73B9E00CA103D /* PHFlippingSquaresAnimation.m */,
 				668EAA151720BFBB0056C8C3 /* PHFlowerAnimation.h */,
 				668EAA161720BFBB0056C8C3 /* PHFlowerAnimation.m */,
 				668EAA171720BFBB0056C8C3 /* PHFlyingFireballAnimation.h */,
@@ -2137,6 +2143,7 @@
 				665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */,
 				6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */,
 				66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */,
+				66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2481,6 +2488,7 @@
 				665199A4172620A00007EC96 /* PHTriangleTileFilter.m in Sources */,
 				665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */,
 				66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */,
+				66DD8B4F17B73B9E00CA103D /* PHFlippingSquaresAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
