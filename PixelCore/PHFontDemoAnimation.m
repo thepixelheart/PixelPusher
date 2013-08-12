@@ -14,8 +14,14 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHFontDemoAnimation.h"
 
-@interface PHFont : NSObject
-+ (void)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx;
+#import "PHFont.h"
+
+@implementation PHFontDemoAnimation
+
+- (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
+  [PHFont renderString:@"Multiple\nLines" atPoint:CGPointZero inContext:cx];
+}
+
 @end

@@ -80,6 +80,7 @@
 #import "PHTwistedAnimation.h"
 #import "PHSoundWaveAnimation.h"
 #import "PHFlippingSquaresAnimation.h"
+#import "PHFontDemoAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -240,6 +241,8 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHHoleDistortionFilter animation],
     [PHKaleidoscopeFilter animation],
     [PHTriangleTileFilter animation],
+    
+    [PHFontDemoAnimation animation],
 
     // Animations
     [PHPixelHeartAnimation animation],

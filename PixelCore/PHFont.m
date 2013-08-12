@@ -20,6 +20,7 @@
 
 static NSImage* kFontImage = nil;
 
+// The characters in the image must be tightly packed by row.
 static const NSInteger kCharacterLocations[] = {
   'A','B','C','D','E','F','G','H','I',
   'J','K','L','M','N','O','P','Q','R',
@@ -33,6 +34,7 @@ static const NSInteger kNumberOfCharacters = sizeof(kCharacterLocations) / sizeo
 static CGRect kCharacterRects[kNumberOfCharacters];
 
 static const CGSize kStandardCharacterSize = {5,7};
+static const CGSize kStandardSpaceSize = {3,7};
 
 // Maps any ASCII character to their index in the kCharacterLocations array.
 static NSInteger kCharacterMap[256];
@@ -56,28 +58,70 @@ static NSInteger kCharacterMap[256];
   kCharacterRects[kCharacterMap['.']].size = CGSizeMake(3, 0);
   kCharacterRects[kCharacterMap[':']].size = CGSizeMake(3, 0);
 
-  CGRect rect = CGRectMake(0, 0, kStandardCharacterSize.width, kStandardCharacterSize.height);
+  CGPoint offset = CGPointZero;
   for (NSInteger ix = 0; ix < kNumberOfCharacters; ++ix) {
     CGRect characterRect = kCharacterRects[ix];
-    characterRect.origin = rect.origin;
+    characterRect.origin = offset;
 
     if (characterRect.size.width == 0) {
-      characterRect.size.width = rect.size.width;
+      characterRect.size.width = kStandardCharacterSize.width;
     }
     if (characterRect.size.height == 0) {
-      characterRect.size.height = rect.size.height;
+      characterRect.size.height = kStandardCharacterSize.height;
     }
 
-    if (CGRectGetMaxX(rect) > kFontImage.size.width) {
-      rect.origin.x = 0;
-      rect.origin.y += rect.size.height;
+    if (CGRectGetMaxX(characterRect) > kFontImage.size.width) {
+      characterRect.origin.x = 0;
+      characterRect.origin.y += characterRect.size.height;
+      offset = characterRect.origin;
     }
+
+    characterRect.origin.y = kFontImage.size.height - characterRect.origin.y - characterRect.size.height;
 
     kCharacterRects[ix] = characterRect;
-    rect.origin.x += characterRect.size.width;
-
-    rect.size = kStandardCharacterSize;
+    offset.x += characterRect.size.width;
   }
+}
+
++ (void)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx {
+  CGContextSaveGState(cx);
+  
+  string = [string uppercaseString];
+  
+  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
+  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
+  [NSGraphicsContext setCurrentContext:graphicsContext];
+
+  CGRect dstRect = CGRectMake(point.x, point.y, 0, 0);
+  for (NSInteger ix = 0; ix < string.length; ++ix) {
+    unichar character = [string characterAtIndex:ix];
+    CGRect srcRect = kCharacterRects[kCharacterMap[character]];
+    if (character == ' ') {
+      srcRect.size = kStandardSpaceSize;
+    } else if (character == '\n') {
+      dstRect.origin.x = point.x;
+      dstRect.origin.y -= kStandardCharacterSize.height - 1;
+      continue;
+    }
+
+    dstRect.size = srcRect.size;
+    
+    if (character != ' ') {
+      CGContextSaveGState(cx);
+      CGContextScaleCTM(cx, 1, -1);
+      CGContextTranslateCTM(cx, 0, -srcRect.size.height);
+
+      [kFontImage drawInRect:dstRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1];
+
+      CGContextRestoreGState(cx);
+    }
+
+    dstRect.origin.x += dstRect.size.width - 1;
+  }
+  
+  [NSGraphicsContext setCurrentContext:previousContext];
+
+  CGContextRestoreGState(cx);
 }
 
 @end

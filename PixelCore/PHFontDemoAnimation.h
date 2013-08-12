@@ -14,8 +14,7 @@
 // limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "PHAnimation.h"
 
-@interface PHFont : NSObject
-+ (void)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx;
+@interface PHFontDemoAnimation : PHAnimation
 @end

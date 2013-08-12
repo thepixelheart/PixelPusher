@@ -383,6 +383,8 @@
 		66B17170178D544C003194A7 /* app.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 66B1716F178D544C003194A7 /* app.iconset */; };
 		66B7511317B9889D00C5B01F /* PHFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 66B7511117B9889D00C5B01F /* PHFont.h */; };
 		66B7511417B9889D00C5B01F /* PHFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7511217B9889D00C5B01F /* PHFont.m */; };
+		66B7511717B991C900C5B01F /* PHFontDemoAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66B7511517B991C900C5B01F /* PHFontDemoAnimation.h */; };
+		66B7511817B991C900C5B01F /* PHFontDemoAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7511617B991C900C5B01F /* PHFontDemoAnimation.m */; };
 		66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06EC1784EE3B0041107A /* circularslider_knob.png */; };
 		66BD06EF1784EE3B0041107A /* circularslider.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06ED1784EE3B0041107A /* circularslider.png */; };
 		66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F11785037A0041107A /* PHDeckControlsView.m */; };
@@ -911,6 +913,8 @@
 		66B1716F178D544C003194A7 /* app.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = app.iconset; path = PixelDriver/resources/app.iconset; sourceTree = "<group>"; };
 		66B7511117B9889D00C5B01F /* PHFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFont.h; path = PixelCore/PHFont.h; sourceTree = SOURCE_ROOT; };
 		66B7511217B9889D00C5B01F /* PHFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFont.m; path = PixelCore/PHFont.m; sourceTree = SOURCE_ROOT; };
+		66B7511517B991C900C5B01F /* PHFontDemoAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFontDemoAnimation.h; path = PixelCore/PHFontDemoAnimation.h; sourceTree = SOURCE_ROOT; };
+		66B7511617B991C900C5B01F /* PHFontDemoAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFontDemoAnimation.m; path = PixelCore/PHFontDemoAnimation.m; sourceTree = SOURCE_ROOT; };
 		66BD06EC1784EE3B0041107A /* circularslider_knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider_knob.png; path = PixelDriver/resources/circularslider_knob.png; sourceTree = "<group>"; };
 		66BD06ED1784EE3B0041107A /* circularslider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider.png; path = PixelDriver/resources/circularslider.png; sourceTree = "<group>"; };
 		66BD06F01785037A0041107A /* PHDeckControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDeckControlsView.h; sourceTree = "<group>"; };
@@ -1348,6 +1352,8 @@
 				668EAA181720BFBB0056C8C3 /* PHFlyingFireballAnimation.m */,
 				668EAA191720BFBB0056C8C3 /* PHFlyingRectAnimation.h */,
 				668EAA1A1720BFBB0056C8C3 /* PHFlyingRectAnimation.m */,
+				66B7511517B991C900C5B01F /* PHFontDemoAnimation.h */,
+				66B7511617B991C900C5B01F /* PHFontDemoAnimation.m */,
 				668EAA1B1720BFBB0056C8C3 /* PHGameOfLifeAnimation.h */,
 				668EAA1C1720BFBB0056C8C3 /* PHGameOfLifeAnimation.m */,
 				668EAA1D1720BFBB0056C8C3 /* PHGifAnimation.h */,
@@ -2151,6 +2157,7 @@
 				66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */,
 				66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */,
 				66B7511317B9889D00C5B01F /* PHFont.h in Headers */,
+				66B7511717B991C900C5B01F /* PHFontDemoAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2497,6 +2504,7 @@
 				66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */,
 				66DD8B4F17B73B9E00CA103D /* PHFlippingSquaresAnimation.m in Sources */,
 				66B7511417B9889D00C5B01F /* PHFont.m in Sources */,
+				66B7511817B991C900C5B01F /* PHFontDemoAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
