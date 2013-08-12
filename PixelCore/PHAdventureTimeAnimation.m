@@ -16,6 +16,8 @@
 
 #import "PHAdventureTimeAnimation.h"
 
+#import "PHFont.h"
+
 static const NSTimeInterval kMinimumBlinkInterval = 3;
 
 @implementation PHAdventureTimeAnimation {
@@ -40,6 +42,7 @@ static const NSTimeInterval kMinimumBlinkInterval = 3;
 
 - (id)init {
     if ((self = [super init])) {
+      PHFont* font = [[PHFont alloc] init];
         _finnSpritesheet = [[PHSpritesheet alloc] initWithName:@"finn" spriteSize:CGSizeMake(21,24)];
        _tilesSpritesheet = [[PHSpritesheet alloc] initWithName:@"finn_bg" spriteSize:CGSizeMake(16, 16)];
         

@@ -381,6 +381,8 @@
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
 		66B17170178D544C003194A7 /* app.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 66B1716F178D544C003194A7 /* app.iconset */; };
+		66B7511317B9889D00C5B01F /* PHFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 66B7511117B9889D00C5B01F /* PHFont.h */; };
+		66B7511417B9889D00C5B01F /* PHFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B7511217B9889D00C5B01F /* PHFont.m */; };
 		66BD06EE1784EE3B0041107A /* circularslider_knob.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06EC1784EE3B0041107A /* circularslider_knob.png */; };
 		66BD06EF1784EE3B0041107A /* circularslider.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BD06ED1784EE3B0041107A /* circularslider.png */; };
 		66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BD06F11785037A0041107A /* PHDeckControlsView.m */; };
@@ -907,6 +909,8 @@
 		66B16FD716AF6450003CF908 /* PHNoiseTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHNoiseTransition.h; sourceTree = "<group>"; };
 		66B16FD816AF6450003CF908 /* PHNoiseTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHNoiseTransition.m; sourceTree = "<group>"; };
 		66B1716F178D544C003194A7 /* app.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = app.iconset; path = PixelDriver/resources/app.iconset; sourceTree = "<group>"; };
+		66B7511117B9889D00C5B01F /* PHFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHFont.h; path = PixelCore/PHFont.h; sourceTree = SOURCE_ROOT; };
+		66B7511217B9889D00C5B01F /* PHFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHFont.m; path = PixelCore/PHFont.m; sourceTree = SOURCE_ROOT; };
 		66BD06EC1784EE3B0041107A /* circularslider_knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider_knob.png; path = PixelDriver/resources/circularslider_knob.png; sourceTree = "<group>"; };
 		66BD06ED1784EE3B0041107A /* circularslider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = circularslider.png; path = PixelDriver/resources/circularslider.png; sourceTree = "<group>"; };
 		66BD06F01785037A0041107A /* PHDeckControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDeckControlsView.h; sourceTree = "<group>"; };
@@ -1984,6 +1988,8 @@
 				668EAAFE1720C0090056C8C3 /* PHMote.m */,
 				668EAAFF1720C0090056C8C3 /* PHSpritesheet.h */,
 				668EAB001720C0090056C8C3 /* PHSpritesheet.m */,
+				66B7511117B9889D00C5B01F /* PHFont.h */,
+				66B7511217B9889D00C5B01F /* PHFont.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -2144,6 +2150,7 @@
 				6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */,
 				66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */,
 				66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */,
+				66B7511317B9889D00C5B01F /* PHFont.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2489,6 +2496,7 @@
 				665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */,
 				66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */,
 				66DD8B4F17B73B9E00CA103D /* PHFlippingSquaresAnimation.m in Sources */,
+				66B7511417B9889D00C5B01F /* PHFont.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
