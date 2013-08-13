@@ -49,8 +49,8 @@
 
 + (NSArray *)allTransitions {
   return @[
-    [PHCrossFadeTransition transition],
     [PHMidCrossFadeTransition transition],
+    [PHCrossFadeTransition transition],
     [PHStarWarsTransition transition],
     [PHShutterTransition transition],
     [PHNoiseTransition transition],

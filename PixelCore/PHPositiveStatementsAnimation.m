@@ -36,7 +36,6 @@ static NSString* const kPositiveStatements[] = {
   @"Dancing",
   @"Ecstasy",
   @"Euphoria",
-  @"Expression",
   @"Friends",
   @"Happiness",
   @"Health",
@@ -45,8 +44,9 @@ static NSString* const kPositiveStatements[] = {
   @"Laughter",
   @"Love",
   @"Music",
-  @"Playa",
+  @"PixelHeart",
   @"Smiles",
+  @"xoxo",
 };
 
 @implementation PHPositiveStatementsAnimation {
@@ -117,6 +117,10 @@ static NSString* const kPositiveStatements[] = {
 
 - (void)renderPreviewInContext:(CGContextRef)cx size:(CGSize)size {
   [self renderBitmapInContext:cx size:size];
+}
+
+- (NSString *)tooltipName {
+  return @"Positive Statements";
 }
 
 @end

@@ -26,7 +26,7 @@
 #import "PHScript.h"
 #import "PHScriptAnimation.h"
 
-#import "PHCrossFadeTransition.h"
+#import "PHMidCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
 
 #import "PHLaunchpadDevice.h"
@@ -142,7 +142,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
     _allCategories = categories;
     _activeCategory = kAllLabel;
 
-    _faderTransition = [[PHCrossFadeTransition alloc] init];
+    _faderTransition = [[PHMidCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
     _hardwareRight = [[PHHardwareState alloc] init];
 

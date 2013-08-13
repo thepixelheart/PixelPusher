@@ -34,6 +34,7 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
   NSTimeInterval _nextSleepTime;
 
   CGFloat _hihatAbsorber;
+  CGFloat _snareAbsorber;
   CGFloat _vocalAbsorber;
   BOOL _hasBeenLulling;
   BOOL _isFrightened;
@@ -87,6 +88,7 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   _hihatAbsorber = _hihatAbsorber * 0.99 + self.systemState.hihatAmplitude * 0.01;
   _vocalAbsorber = _vocalAbsorber * 0.99 + self.systemState.vocalAmplitude * 0.01;
+  _snareAbsorber = _snareAbsorber * 0.99 + self.systemState.snareAmplitude * 0.01;
 
   _hasBeenLulling = _hasBeenLulling || (self.systemState.subBassAmplitude < 0.5);
 
@@ -98,10 +100,10 @@ static const NSTimeInterval kTimeUntilSleeping = 6;
     }
     if (_isFrightened) {
       nextAnimation = _sleepingAnimation;
-    } else if (_hihatAbsorber > 0.5 && _vocalAbsorber > 0.5) {
-      nextAnimation = _ecstaticAnimation;
-    } else if (_hihatAbsorber > 0.3) {
+    } else if (_snareAbsorber > 0.3 && _vocalAbsorber > 0.3) {
       nextAnimation = _happyAnimation;
+    } else if (_hihatAbsorber > 0.3) {
+      nextAnimation = _ecstaticAnimation;
     } else if (_vocalAbsorber > 0.3) {
       nextAnimation = _contentAnimation;
     } else {
