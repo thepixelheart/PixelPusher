@@ -11,6 +11,7 @@
 		0EEA867616921C98009ACDF3 /* PHScrollingTextOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */; };
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
+		6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6602D06617BAE07700406DE1 /* PHAnimationList.m */; };
 		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
 		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
 		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
@@ -485,6 +486,8 @@
 		3A43C268171E6E33006A441E /* umano.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = umano.png; path = PixelDriver/resources/umano.png; sourceTree = "<group>"; };
 		66021C2D16A935C300E99908 /* PHListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHListView.h; sourceTree = "<group>"; };
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
+		6602D06517BAE07600406DE1 /* PHAnimationList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationList.h; sourceTree = "<group>"; };
+		6602D06617BAE07700406DE1 /* PHAnimationList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationList.m; sourceTree = "<group>"; };
 		6603374F17331F57001090B7 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FScript.framework; sourceTree = "<group>"; };
 		660337511733282D001090B7 /* PHFoldersPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFoldersPrefsPage.h; sourceTree = "<group>"; };
 		660337521733282D001090B7 /* PHFoldersPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFoldersPrefsPage.m; sourceTree = "<group>"; };
@@ -1481,6 +1484,8 @@
 				661CC6B316A72D17007F3900 /* PHSystem.h */,
 				661CC6B416A72D17007F3900 /* PHSystem.m */,
 				6655AB6F16F74EA300B0ADA3 /* PHSystem+Protected.h */,
+				6602D06517BAE07600406DE1 /* PHAnimationList.h */,
+				6602D06617BAE07700406DE1 /* PHAnimationList.m */,
 				66D855BD171524EE000A861F /* PHViewMode.h */,
 				6655AB6B16F74DF600B0ADA3 /* PHSystemTick.h */,
 				6655AB6C16F74DF600B0ADA3 /* PHSystemTick.m */,
@@ -2587,6 +2592,7 @@
 				6603375E1733346C001090B7 /* PHScript.m in Sources */,
 				6603376317334430001090B7 /* PHScriptAnimation.m in Sources */,
 				66AF78C3177FC7AF00E291F0 /* PHKinectServer.m in Sources */,
+				6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
