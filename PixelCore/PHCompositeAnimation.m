@@ -23,6 +23,10 @@ static NSString* kScreenshotKey = @"kScreenshotKey";
 static const NSInteger kVersion = 2;
 const NSInteger PHNumberOfCompositeLayers = 8;
 
+@interface PHCompositeAnimation()
+@property (nonatomic, copy) NSString* guid;
+@end
+
 @implementation PHCompositeAnimation {
   PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
 }

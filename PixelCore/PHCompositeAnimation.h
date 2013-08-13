@@ -23,7 +23,6 @@ extern const NSInteger PHNumberOfCompositeLayers;
 + (id)animationWithLayers:(NSArray *)layers name:(NSString *)name;
 
 @property (nonatomic, copy) NSString* name;
-@property (nonatomic, copy) NSString* guid;
 @property (nonatomic, strong) NSImage* screenshot;
 
 - (void)setAnimation:(PHAnimation *)animation forLayer:(NSInteger)layer;

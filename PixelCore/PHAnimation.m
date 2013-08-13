@@ -376,6 +376,15 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   return immutablePath;
 }
 
+- (NSString *)guid {
+  id definingProperties = [self definingProperties];
+  if (definingProperties) {
+    return [[self className] stringByAppendingFormat:@"%@", definingProperties];
+  } else {
+    return [self className];
+  }
+}
+
 - (NSString *)tooltipName {
   return NSStringFromClass([self class]);
 }
