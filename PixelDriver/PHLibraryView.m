@@ -32,7 +32,7 @@ static const CGFloat kExplorerWidth = 200;
 @end
 
 @implementation PHLibraryView {
-  PHListView* _categoriesView;
+  PHListView* _listsView;
   PHListView* _transitionsView;
   PHAnimationsView* _animationsView;
   PHContainerView* _previewVisualizationView;
@@ -75,12 +75,12 @@ static const CGFloat kExplorerWidth = 200;
     wallView.systemContext = PHSystemContextPreview;
     [_previewVisualizationView.contentView addSubview:wallView];
 
-    _categoriesView = [[PHListView alloc] init];
-    _categoriesView.tag = PHSystemAnimationGroups;
-    _categoriesView.title = @"Categories";
-    _categoriesView.dataSource = self;
-    _categoriesView.delegate = self;
-    [self addSubview:_categoriesView];
+    _listsView = [[PHListView alloc] init];
+    _listsView.tag = PHSystemAnimationLists;
+    _listsView.title = @"Lists";
+    _listsView.dataSource = self;
+    _listsView.delegate = self;
+    [self addSubview:_listsView];
 
     _transitionsView = [[PHListView alloc] init];
     _transitionsView.title = @"Transitions";
@@ -110,8 +110,8 @@ static const CGFloat kExplorerWidth = 200;
   _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
 
-  _categoriesView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
-  [_categoriesView layout];
+  _listsView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
+  [_listsView layout];
 
   _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 2);
   [_transitionsView layout];
@@ -155,7 +155,7 @@ static const CGFloat kExplorerWidth = 200;
 #pragma mark - PHListViewDelegate
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
-  if (listView == _categoriesView) {
+  if (listView == _listsView) {
     [PHSys() setActiveCategory:_categories[index]];
 
   } else if (listView == _transitionsView) {
@@ -166,7 +166,7 @@ static const CGFloat kExplorerWidth = 200;
 #pragma mark - PHListViewDataSource
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
-  if (listView == _categoriesView) {
+  if (listView == _listsView) {
     return _categories.count;
   } else if (listView == _transitionsView) {
     return _transitions.count;
@@ -176,7 +176,7 @@ static const CGFloat kExplorerWidth = 200;
 }
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
-  if (listView == _categoriesView) {
+  if (listView == _listsView) {
     return _categories[index];
   } else if (listView == _transitionsView) {
     return [_transitions[index] tooltipName];
@@ -188,7 +188,7 @@ static const CGFloat kExplorerWidth = 200;
 #pragma mark - NSNotification
 
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
-  [_categoriesView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
+  [_listsView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {

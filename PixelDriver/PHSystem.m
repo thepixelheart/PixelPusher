@@ -39,6 +39,8 @@
 static const NSTimeInterval kStrobeAge = 0.3;
 static const NSTimeInterval kMinGifFrameDuration = 0.1;
 
+static NSString* const kAllLabel = @"All Animations";
+
 NSString* const PHSystemSliderMovedNotification = @"PHSystemSliderMovedNotification";
 NSString* const PHSystemKnobTurnedNotification = @"PHSystemKnobTurnedNotification";
 NSString* const PHSystemVolumeChangedNotification = @"PHSystemVolumeChangedNotification";
@@ -136,9 +138,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
                                    ^NSComparisonResult(NSString* obj1, NSString* obj2) {
                                      return [obj1 compare:obj2 ];
                                    }] mutableCopy];
-    [categories insertObject:@"All" atIndex:0];
+    [categories insertObject:kAllLabel atIndex:0];
     _allCategories = categories;
-    _activeCategory = @"All";
+    _activeCategory = kAllLabel;
 
     _faderTransition = [[PHCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
@@ -1567,7 +1569,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSArray* allAnimations = [self allAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
-  if ([_activeCategory isEqualToString:@"All"]) {
+  if ([_activeCategory isEqualToString:kAllLabel]) {
     for (PHAnimation* animation in allAnimations) {
       if ((![animation.categories containsObject:PHAnimationCategoryPipes]
            && ![animation.categories containsObject:PHAnimationCategoryFilters])

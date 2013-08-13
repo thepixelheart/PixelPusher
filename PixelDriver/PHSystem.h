@@ -74,7 +74,7 @@ typedef enum {
 
   PHSystemAnimations,
   PHSystemTransitions,
-  PHSystemAnimationGroups,
+  PHSystemAnimationLists,
   PHSystemComposites,
   PHSystemCompositeLayers,
 

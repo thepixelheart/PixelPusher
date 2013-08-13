@@ -317,15 +317,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
 
 + (NSArray *)allCategories {
   return @[
-    PHAnimationCategorySprites,
     PHAnimationCategoryPipes,
-    PHAnimationCategoryFilters,
-    PHAnimationCategoryPixelHeart,
-    PHAnimationCategoryShapes,
-    PHAnimationCategoryTrippy,
-    PHAnimationCategoryGames,
-    PHAnimationCategoryScripts,
-    PHAnimationCategoryLiB
   ];
 }
 
