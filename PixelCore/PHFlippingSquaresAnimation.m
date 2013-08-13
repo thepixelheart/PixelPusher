@@ -68,14 +68,14 @@
   
   NSColor* colors[4] = {
     [NSColor colorWithDeviceHue:cos(_bassAdvance * 0.03) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
-    [NSColor colorWithDeviceHue:cos(_hihatAdvance * 0.015) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
+    [NSColor colorWithDeviceHue:cos(-_hihatAdvance * 0.015) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
     [NSColor colorWithDeviceHue:cos(_vocalAdvance * 0.02) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
-    [NSColor colorWithDeviceHue:cos(_snareAdvance * 0.023) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
+    [NSColor colorWithDeviceHue:cos(-_snareAdvance * 0.023) * 0.5 + 0.5 saturation:1 brightness:1 alpha:1],
   };
   
   CGContextSetBlendMode(cx, kCGBlendModeLighten);
 
-  CGFloat squareSize = size.height / 6;
+  CGFloat squareSize = size.height / 6 + self.animationTick.hardwareState.fader * size.height / 4;
 
   for (CGFloat y = 0; y < size.height / (squareSize * 2); ++y) {
     for (CGFloat x = 0; x < size.width / (squareSize * 2); ++x) {
@@ -83,6 +83,11 @@
       
       NSInteger whichAdvance = _randomTiles[(NSInteger)(x + y * 100)];
       CGFloat advance = advances[whichAdvance];
+      
+      if ((NSInteger)(whichAdvance + x + y) % 2 == 0) {
+        advance = -advance;
+      }
+      advance += x * y + whichAdvance;
       
       CGFloat scale = sin(advance);
       CGFloat scale2 = cos(advance);

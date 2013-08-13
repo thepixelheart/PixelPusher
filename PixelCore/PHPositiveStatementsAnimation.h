@@ -16,5 +16,5 @@
 
 #import "PHAnimation.h"
 
-@interface PHFontDemoAnimation : PHAnimation
+@interface PHPositiveStatementsAnimation : PHAnimation
 @end

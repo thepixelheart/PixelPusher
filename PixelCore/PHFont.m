@@ -26,7 +26,7 @@ static const NSInteger kCharacterLocations[] = {
   'J','K','L','M','N','O','P','Q','R',
   'S','T','U','V','W','X','Y','Z','1',
   '2','3','4','5','6','7','8','9','0','.',
-  ':','+','-'
+  ':','+','-','\''
 };
 static const NSInteger kNumberOfCharacters = sizeof(kCharacterLocations) / sizeof(kCharacterLocations[0]);
 
@@ -58,6 +58,7 @@ static NSInteger kCharacterMap[256];
   kCharacterRects[kCharacterMap['1']].size = CGSizeMake(4, 0);
   kCharacterRects[kCharacterMap['.']].size = CGSizeMake(3, 0);
   kCharacterRects[kCharacterMap[':']].size = CGSizeMake(3, 0);
+  kCharacterRects[kCharacterMap['\'']].size = CGSizeMake(3, 0);
 
   CGPoint offset = CGPointZero;
   for (NSInteger ix = 0; ix < kNumberOfCharacters; ++ix) {
@@ -84,8 +85,31 @@ static NSInteger kCharacterMap[256];
   }
 }
 
-+ (CGSize)sizeOfString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx {
++ (CGFloat)offsetForPreviousCharacter:(unichar)previousCharacter character:(unichar)character {
+  if ((previousCharacter == 'L' && (character == '1' || character == 'Y' || character == '+' || character == 'T' || character == 'W'))
+      || (previousCharacter == 'T' && (character == 'M' || character == '-' || character == '.'))
+      || (previousCharacter == '-' && (character == 'T'))
+      || (previousCharacter == '+' && (character == '7' || character == 'T'))
+      || (previousCharacter == 'M' && character == 'T')
+      || (previousCharacter == 'V' && (character == '.'))
+      || (previousCharacter == 'W' && (character == '.'))
+      || (previousCharacter == '.' && (character == 'W'))
+      || (previousCharacter == 'Y' && character == 'J')) {
+    return -1;
+    
+  } else if ((previousCharacter == 'L' && (character == '\'' || character == '7' || character == '9' || character == '4' || character == '-'))
+             || (previousCharacter == '-' && (character == '7'))
+             || (previousCharacter == 'F' && (character == '.'))
+             || (previousCharacter == 'P' && (character == '.'))) {
+    return -2;
+  }
+
+  return 0;
+}
+
++ (CGSize)sizeOfString:(NSString *)string inRect:(CGRect)rect lineBreakMode:(NSLineBreakMode)lineBreakMode inContext:(CGContextRef)cx {
   string = [string uppercaseString];
+  rect.origin.y = -rect.origin.y;
 
   NSGraphicsContext* previousContext = nil;
   if (nil != cx) {
@@ -98,6 +122,9 @@ static NSInteger kCharacterMap[256];
 
   CGSize size = CGSizeMake(0, kStandardCharacterSize.height);
 
+  BOOL wordHasBeenChecked = NO;
+  unichar previousCharacter = 0;
+
   CGRect dstRect = CGRectMake(rect.origin.x, rect.origin.y, 0, 0);
   for (NSInteger ix = 0; ix < string.length; ++ix) {
     unichar character = [string characterAtIndex:ix];
@@ -106,21 +133,57 @@ static NSInteger kCharacterMap[256];
     // Invisible character codes.
     if (character == ' ') {
       srcRect.size = kStandardSpaceSize;
+      wordHasBeenChecked = NO;
 
     } else if (character == '\n') {
       dstRect.origin.x = rect.origin.x;
       dstRect.origin.y -= kStandardCharacterSize.height - 1;
       size.height += kStandardCharacterSize.height - 1;
+      previousCharacter = character;
       continue;
     }
 
     dstRect.size = srcRect.size;
 
-    if (CGRectGetMaxX(dstRect) > CGRectGetMaxX(rect)) {
-      dstRect.origin.x = rect.origin.x;
-      dstRect.origin.y -= kStandardCharacterSize.height - 1;
-      size.height += kStandardCharacterSize.height - 1;
+    if (lineBreakMode == NSLineBreakByCharWrapping) {
+      if (CGRectGetMaxX(dstRect) > CGRectGetMaxX(rect)) {
+        dstRect.origin.x = rect.origin.x;
+        dstRect.origin.y -= kStandardCharacterSize.height - 1;
+        size.height += kStandardCharacterSize.height - 1;
+      }
+    } else if (lineBreakMode == NSLineBreakByWordWrapping) {
+      if (!wordHasBeenChecked) {
+        CGFloat textRightEdge = CGRectGetMaxX(dstRect);
+        unichar lookaheadPreviousChar = character;
+        for (NSInteger ixLookahead = ix + 1;
+             ixLookahead < string.length && textRightEdge < CGRectGetMaxX(rect);
+             ++ixLookahead) {
+          unichar lookaheadCharacter = [string characterAtIndex:ixLookahead];
+          if (lookaheadCharacter == ' ') {
+            break;
+          }
+          CGRect lookaheadRect = kCharacterRects[kCharacterMap[lookaheadCharacter]];
+          textRightEdge += lookaheadRect.size.width - 1;
+
+          textRightEdge += [self offsetForPreviousCharacter:lookaheadPreviousChar character:lookaheadCharacter];
+          
+          lookaheadPreviousChar = lookaheadCharacter;
+        }
+        if (textRightEdge > CGRectGetMaxX(rect)) {
+          // Word won't fit.
+          dstRect.origin.x = rect.origin.x;
+          dstRect.origin.y -= kStandardCharacterSize.height - 1;
+          size.height += kStandardCharacterSize.height - 1;
+          
+          previousCharacter = character;
+          // This is a space, so skip it.
+          continue;
+        }
+        wordHasBeenChecked = YES;
+      }
     }
+    
+    dstRect.origin.x += [self offsetForPreviousCharacter:previousCharacter character:character];
 
     // Don't render invisible characters.
     if (nil != cx
@@ -137,6 +200,8 @@ static NSInteger kCharacterMap[256];
     size.width = MAX(size.width, rect.origin.x + CGRectGetMaxX(dstRect));
 
     dstRect.origin.x += dstRect.size.width - 1;
+    
+    previousCharacter = character;
   }
   
   if (nil != cx) {
@@ -152,19 +217,19 @@ static NSInteger kCharacterMap[256];
 }
 
 + (CGSize)sizeOfString:(NSString *)string {
-  return [self sizeOfString:string inRect:CGRectMake(0, 0, CGFLOAT_MAX, CGFLOAT_MAX) inContext:nil];
+  return [self sizeOfString:string inRect:CGRectMake(0, 0, CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping inContext:nil];
 }
 
 + (CGSize)sizeOfString:(NSString *)string withConstraints:(CGSize)constraints {
-  return [self sizeOfString:string inRect:CGRectMake(0, 0, constraints.width, constraints.height) inContext:nil];
+  return [self sizeOfString:string inRect:CGRectMake(0, 0, constraints.width, constraints.height) lineBreakMode:NSLineBreakByWordWrapping  inContext:nil];
 }
 
 + (CGSize)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx {
-  return [self sizeOfString:string inRect:CGRectMake(point.x, point.y, CGFLOAT_MAX, CGFLOAT_MAX) inContext:cx];
+  return [self sizeOfString:string inRect:CGRectMake(point.x, point.y, CGFLOAT_MAX, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping  inContext:cx];
 }
 
 + (CGSize)renderString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx {
-  return [self sizeOfString:string inRect:rect inContext:cx];
+  return [self sizeOfString:string inRect:rect lineBreakMode:NSLineBreakByWordWrapping  inContext:cx];
 }
 
 @end
