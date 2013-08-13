@@ -97,7 +97,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
       for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
         NSString *key = [self keyForAnimationAtIndex:ix];
         PHAnimation* animation = [decoder decodeObjectForKey:key];
-        if (nil != animation) {
+        if (nil != animation && [animation isKindOfClass:[PHAnimation class]]) {
           _layerAnimation[ix] = animation;
         }
       }
@@ -237,7 +237,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
   for (NSInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
 
     PHAnimation* animation = _layerAnimation[ix];
-    if (nil != animation) {
+    if (nil != animation && [animation isKindOfClass:[PHAnimation class]]) {
       [categories addObjectsFromArray:animation.categories];
     }
   }
