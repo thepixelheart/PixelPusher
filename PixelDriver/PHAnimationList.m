@@ -16,12 +16,39 @@
 
 #import "PHAnimationList.h"
 
+static NSString* kNameKey = @"kNameKey";
+static NSString* kGuidsKey = @"kGuidsKey";
+
 @implementation PHAnimationList
 
 - (id)init {
   if ((self = [super init])) {
     _name = @"<New List>";
     _guids = [NSMutableSet set];
+  }
+  return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+  PHAnimationList* animation = [[self.class allocWithZone:zone] init];
+  animation->_name = [_name copy];
+  animation->_guids = [_guids mutableCopy];
+  return animation;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  if (nil != _name) {
+    [coder encodeObject:_name forKey:kNameKey];
+  }
+  if (nil != _guids) {
+    [coder encodeObject:_guids forKey:kGuidsKey];
+  }
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+  if ((self = [self init])) {
+    _name = [[decoder decodeObjectForKey:kNameKey] copy];
+    _guids = [[decoder decodeObjectForKey:kGuidsKey] mutableCopy];
   }
   return self;
 }
