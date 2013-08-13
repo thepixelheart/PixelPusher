@@ -53,6 +53,7 @@ NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChange
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
+NSString* const PHSystemListsDidChangeNotification = @"PHSystemListsDidChangeNotification";
 NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
 NSString* const PHSystemFaderDidSwapNotification = @"PHSystemFaderDidSwapNotification";
 NSString* const PHSystemUserScriptsDidChangeNotification = @"PHSystemUserScriptsDidChangeNotification";
@@ -110,6 +111,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
+  NSMutableArray* _lists;
   NSMutableDictionary* _scriptAnimations;
   BOOL _shouldTakeScreenshot;
   BOOL _strobeOn;
@@ -179,6 +181,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     [self restoreDefaultCompositesOverwiteExisting:NO];
     [self loadComposites];
+    [self loadLists];
     [self refreshScriptAnimations];
 
     // Umano mode OFF
@@ -238,6 +241,20 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
+- (void)loadLists {
+  NSString *listsPath = [self pathForListsFile];
+  NSData *codedData = [NSData dataWithContentsOfFile:listsPath];
+  
+  if (nil != codedData) {
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
+    _lists = [[unarchiver decodeObject] mutableCopy];
+    [unarchiver finishDecoding];
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
+  }
+}
+
 - (void)userScriptsDidChangeNotification:(NSNotification *)notification {
   _lastScriptError = nil;
   [self refreshScriptAnimations];
@@ -268,6 +285,11 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [self refreshLaunchpad];
 }
 
+- (void)flushDataToDisk {
+  [self saveComposites];
+  [self saveLists];
+}
+
 - (void)saveComposites {
   NSMutableData *data = [[NSMutableData alloc] init];
   NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -278,6 +300,16 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [data writeToFile:compositesPath atomically:YES];
 }
 
+- (void)saveLists {
+  NSMutableData *data = [[NSMutableData alloc] init];
+  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+  [archiver encodeObject:_lists];
+  [archiver finishEncoding];
+  
+  NSString *path = [self pathForListsFile];
+  [data writeToFile:path atomically:YES];
+}
+
 - (NSString *)pathForDiskStorage {
   NSString* userGifsPath = @"~/Library/Application Support/PixelPusher/";
   return [userGifsPath stringByExpandingTildeInPath];
@@ -285,6 +317,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (NSString *)pathForCompositeFile {
   return [[self pathForDiskStorage] stringByAppendingPathComponent:@"composites.plist"];
+}
+
+- (NSString *)pathForListsFile {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"lists.plist"];
 }
 
 - (NSString *)pathForScreenshots {
@@ -589,7 +625,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       composite.screenshot = [[NSImage alloc] initWithCGImage:flippedImageRef
                                                          size:CGSizeMake(kWallWidth, kWallHeight)];
       CGImageRelease(flippedImageRef);
-      [self saveComposites];
+      [self flushDataToDisk];
     }
 
     NSString *path = [self pathForScreenshots];
@@ -953,7 +989,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_compositeAnimations addObject:animation];
       _filteredAnimations = nil;
       extraNotificationName = PHSystemCompositesDidChangeNotification;
-      [self saveComposites];
+      [self flushDataToDisk];
       break;
     }
     case PHSystemButtonDeleteComposite: {
@@ -1084,7 +1120,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
         _editingCompositeAnimation = nil;
       }
 
-      [self saveComposites];
+      [self flushDataToDisk];
 
       NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
       [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
@@ -1096,7 +1132,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSTextView *textView = (NSTextView *)alert.accessoryView;
   NSString *compositeName = textView.string;
   _editingCompositeAnimation.name = compositeName;
-  [self saveComposites];
+  [self flushDataToDisk];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
@@ -1105,7 +1141,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 - (void)didModifyActiveComposition {
   [self refreshTopButtons];
   [_launchpad flipBuffer];
-  [self saveComposites];
+  [self flushDataToDisk];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemActiveCompositeDidChangeNotification object:nil];

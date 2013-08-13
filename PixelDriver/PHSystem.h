@@ -103,6 +103,7 @@ extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 extern NSString* const PHSystemActiveCategoryDidChangeNotification;
+extern NSString* const PHSystemListsDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 extern NSString* const PHSystemFaderDidSwapNotification;
 extern NSString* const PHSystemUserScriptsDidChangeNotification;
