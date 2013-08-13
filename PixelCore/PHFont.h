@@ -19,6 +19,7 @@
 @interface PHFont : NSObject
 + (CGFloat)lineHeight;
 + (CGSize)sizeOfString:(NSString *)string;
++ (CGSize)sizeOfString:(NSString *)string withConstraints:(CGSize)constraints;
 + (CGSize)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx;
 + (CGSize)renderString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx;
 @end

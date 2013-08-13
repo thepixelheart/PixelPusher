@@ -22,7 +22,7 @@
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
   NSString* string = @"THis is a string that will expand everything";
-  CGSize fontSize = [PHFont sizeOfString:string];
+  CGSize fontSize = [PHFont sizeOfString:string withConstraints:size];
   CGContextSetFillColorWithColor(cx, [NSColor redColor].CGColor);
   CGContextFillRect(cx, CGRectMake(0, 0, fontSize.width, fontSize.height));
   [PHFont renderString:string inRect:CGRectMake(0, 0, size.width, size.height) inContext:cx];

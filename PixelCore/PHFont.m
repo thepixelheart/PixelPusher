@@ -155,6 +155,10 @@ static NSInteger kCharacterMap[256];
   return [self sizeOfString:string inRect:CGRectMake(0, 0, CGFLOAT_MAX, CGFLOAT_MAX) inContext:nil];
 }
 
++ (CGSize)sizeOfString:(NSString *)string withConstraints:(CGSize)constraints {
+  return [self sizeOfString:string inRect:CGRectMake(0, 0, constraints.width, constraints.height) inContext:nil];
+}
+
 + (CGSize)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx {
   return [self sizeOfString:string inRect:CGRectMake(point.x, point.y, CGFLOAT_MAX, CGFLOAT_MAX) inContext:cx];
 }
