@@ -17,6 +17,7 @@
 #import "PHLibraryView.h"
 
 #import "AppDelegate.h"
+#import "PHButton.h"
 #import "PHSystem.h"
 #import "PHAnimation.h"
 #import "PHTransition.h"
@@ -28,11 +29,12 @@
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
 
-@interface PHLibraryView() <PHListViewDelegate, PHListViewDataSource>
+@interface PHLibraryView() <PHButtonDelegate, PHListViewDelegate, PHListViewDataSource>
 @end
 
 @implementation PHLibraryView {
   PHListView* _listsView;
+  PHContainerView* _listActionsView;
   PHListView* _transitionsView;
   PHAnimationsView* _animationsView;
   PHContainerView* _previewVisualizationView;
@@ -81,6 +83,35 @@ static const CGFloat kExplorerWidth = 200;
     _listsView.dataSource = self;
     _listsView.delegate = self;
     [self addSubview:_listsView];
+    
+    _listActionsView = [[PHContainerView alloc] init];
+    
+    PHButton* newListButton = [[PHButton alloc] init];
+    newListButton.tag = PHSystemButtonNewList;
+    newListButton.delegate = self;
+    [newListButton setTitle:@"New"];
+    [_listActionsView.contentView addSubview:newListButton];
+    newListButton.frame = CGRectMake(4, 4, 0, 0);
+    [newListButton sizeToFit];
+    _listActionsView.frame = CGRectMake(0, 0, 0, newListButton.frame.size.height + 8);
+    
+    PHButton* renameListButton = [[PHButton alloc] init];
+    renameListButton.tag = PHSystemButtonRenameList;
+    renameListButton.delegate = self;
+    [renameListButton setTitle:@"Rename"];
+    [_listActionsView.contentView addSubview:renameListButton];
+    renameListButton.frame = CGRectMake(CGRectGetMaxX(newListButton.frame) + 4, 4, 0, 0);
+    [renameListButton sizeToFit];
+    
+    PHButton* deleteListButton = [[PHButton alloc] init];
+    deleteListButton.tag = PHSystemButtonDeleteList;
+    deleteListButton.delegate = self;
+    [deleteListButton setTitle:@"Delete"];
+    [_listActionsView.contentView addSubview:deleteListButton];
+    deleteListButton.frame = CGRectMake(CGRectGetMaxX(renameListButton.frame) + 4, 4, 0, 0);
+    [deleteListButton sizeToFit];
+
+    [self addSubview:_listActionsView];
 
     _transitionsView = [[PHListView alloc] init];
     _transitionsView.title = @"Transitions";
@@ -110,10 +141,13 @@ static const CGFloat kExplorerWidth = 200;
   _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
 
-  _listsView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
+  _listsView.frame = CGRectMake(0, topEdge * 1 / 4 + _listActionsView.frame.size.height, kExplorerWidth, topEdge * 3 / 4 - _listActionsView.frame.size.height);
   [_listsView layout];
+  
+  _listActionsView.frame = CGRectMake(0, topEdge * 1 / 4, kExplorerWidth, _listActionsView.frame.size.height);
+  [_listActionsView layout];
 
-  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 2);
+  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 4);
   [_transitionsView layout];
 
   CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
@@ -183,6 +217,16 @@ static const CGFloat kExplorerWidth = 200;
   } else {
     return nil;
   }
+}
+
+#pragma mark - PHButtonDelegate
+
+- (void)didPressDownButton:(PHButton *)button {
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
+}
+
+- (void)didReleaseButton:(PHButton *)button {
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
 }
 
 #pragma mark - NSNotification

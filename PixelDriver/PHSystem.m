@@ -81,8 +81,8 @@ typedef enum {
 
 static const CGFloat kFaderTickLength = 0.007874;
 
-static const NSTimeInterval kIdleTimeMinLength = 3;
-static const NSTimeInterval kIdleTimeMaxLength = 10;
+static const NSTimeInterval kIdleTimeMinLength = 10;
+static const NSTimeInterval kIdleTimeMaxLength = 20;
 static const NSTimeInterval kFadeTimeMinLength = 3;
 static const NSTimeInterval kFadeTimeMaxLength = 5;
 

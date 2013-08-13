@@ -59,6 +59,11 @@ typedef enum {
   PHSystemButtonRenameComposite,
   PHSystemButtonLoadCompositeIntoActiveLayer,
   PHSystemButtonClearCompositeActiveLayer,
+  
+  // List Editor
+  PHSystemButtonNewList,
+  PHSystemButtonRenameList,
+  PHSystemButtonDeleteList,
 
   PHSystemSliderFader,
 
