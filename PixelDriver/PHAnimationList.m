@@ -17,4 +17,13 @@
 #import "PHAnimationList.h"
 
 @implementation PHAnimationList
+
+- (id)init {
+  if ((self = [super init])) {
+    _name = @"<New List>";
+    _guids = [NSMutableSet set];
+  }
+  return self;
+}
+
 @end

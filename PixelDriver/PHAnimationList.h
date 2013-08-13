@@ -17,4 +17,6 @@
 #import <Foundation/Foundation.h>
 
 @interface PHAnimationList : NSObject
+@property (nonatomic, copy) NSString* name;
+@property (nonatomic, readonly, copy) NSMutableSet* guids;
 @end
