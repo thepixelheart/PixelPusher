@@ -53,6 +53,7 @@ static NSInteger kCharacterMap[256];
   }
 
   memset(kCharacterRects, 0, sizeof(kCharacterRects));
+  kCharacterRects[kCharacterMap['M']].size = CGSizeMake(7, 0);
   kCharacterRects[kCharacterMap['W']].size = CGSizeMake(7, 0);
   kCharacterRects[kCharacterMap['1']].size = CGSizeMake(4, 0);
   kCharacterRects[kCharacterMap['.']].size = CGSizeMake(3, 0);
@@ -83,45 +84,83 @@ static NSInteger kCharacterMap[256];
   }
 }
 
-+ (void)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx {
-  CGContextSaveGState(cx);
-  
++ (CGSize)sizeOfString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx {
   string = [string uppercaseString];
-  
-  NSGraphicsContext* previousContext = [NSGraphicsContext currentContext];
-  NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
-  [NSGraphicsContext setCurrentContext:graphicsContext];
 
-  CGRect dstRect = CGRectMake(point.x, point.y, 0, 0);
+  NSGraphicsContext* previousContext = nil;
+  if (nil != cx) {
+    CGContextSaveGState(cx);
+
+    previousContext = [NSGraphicsContext currentContext];
+    NSGraphicsContext* graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:cx flipped:NO];
+    [NSGraphicsContext setCurrentContext:graphicsContext];
+  }
+
+  CGSize size = CGSizeMake(0, kStandardCharacterSize.height);
+
+  CGRect dstRect = CGRectMake(rect.origin.x, rect.origin.y, 0, 0);
   for (NSInteger ix = 0; ix < string.length; ++ix) {
     unichar character = [string characterAtIndex:ix];
     CGRect srcRect = kCharacterRects[kCharacterMap[character]];
+
+    // Invisible character codes.
     if (character == ' ') {
       srcRect.size = kStandardSpaceSize;
+
     } else if (character == '\n') {
-      dstRect.origin.x = point.x;
+      dstRect.origin.x = rect.origin.x;
       dstRect.origin.y -= kStandardCharacterSize.height - 1;
+      size.height += kStandardCharacterSize.height - 1;
       continue;
     }
 
     dstRect.size = srcRect.size;
-    
-    if (character != ' ') {
+
+    if (CGRectGetMaxX(dstRect) > CGRectGetMaxX(rect)) {
+      dstRect.origin.x = rect.origin.x;
+      dstRect.origin.y -= kStandardCharacterSize.height - 1;
+      size.height += kStandardCharacterSize.height - 1;
+    }
+
+    // Don't render invisible characters.
+    if (nil != cx
+        && character != ' ') {
       CGContextSaveGState(cx);
       CGContextScaleCTM(cx, 1, -1);
       CGContextTranslateCTM(cx, 0, -srcRect.size.height);
-
+      
       [kFontImage drawInRect:dstRect fromRect:srcRect operation:NSCompositeSourceOver fraction:1];
-
+      
       CGContextRestoreGState(cx);
     }
+
+    size.width = MAX(size.width, rect.origin.x + CGRectGetMaxX(dstRect));
 
     dstRect.origin.x += dstRect.size.width - 1;
   }
   
-  [NSGraphicsContext setCurrentContext:previousContext];
+  if (nil != cx) {
+    [NSGraphicsContext setCurrentContext:previousContext];
+    CGContextRestoreGState(cx);
+  }
+  
+  return size;
+}
 
-  CGContextRestoreGState(cx);
++ (CGFloat)lineHeight {
+  return kStandardCharacterSize.height;
+}
+
++ (CGSize)sizeOfString:(NSString *)string {
+  return [self sizeOfString:string inRect:CGRectMake(0, 0, CGFLOAT_MAX, CGFLOAT_MAX) inContext:nil];
+}
+
++ (CGSize)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx {
+  return [self sizeOfString:string inRect:CGRectMake(point.x, point.y, CGFLOAT_MAX, CGFLOAT_MAX) inContext:cx];
+}
+
++ (CGSize)renderString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx {
+  return [self sizeOfString:string inRect:rect inContext:cx];
 }
 
 @end

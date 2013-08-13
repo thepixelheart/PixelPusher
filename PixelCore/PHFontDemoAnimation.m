@@ -21,7 +21,11 @@
 @implementation PHFontDemoAnimation
 
 - (void)renderBitmapInContext:(CGContextRef)cx size:(CGSize)size {
-  [PHFont renderString:@"Multiple\nLines" atPoint:CGPointZero inContext:cx];
+  NSString* string = @"THis is a string that will expand everything";
+  CGSize fontSize = [PHFont sizeOfString:string];
+  CGContextSetFillColorWithColor(cx, [NSColor redColor].CGColor);
+  CGContextFillRect(cx, CGRectMake(0, 0, fontSize.width, fontSize.height));
+  [PHFont renderString:string inRect:CGRectMake(0, 0, size.width, size.height) inContext:cx];
 }
 
 @end

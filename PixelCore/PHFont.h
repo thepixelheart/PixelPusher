@@ -17,5 +17,8 @@
 #import <Foundation/Foundation.h>
 
 @interface PHFont : NSObject
-+ (void)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx;
++ (CGFloat)lineHeight;
++ (CGSize)sizeOfString:(NSString *)string;
++ (CGSize)renderString:(NSString *)string atPoint:(CGPoint)point inContext:(CGContextRef)cx;
++ (CGSize)renderString:(NSString *)string inRect:(CGRect)rect inContext:(CGContextRef)cx;
 @end
