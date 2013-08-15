@@ -128,6 +128,7 @@ static const CGFloat kExplorerWidth = 200;
     _transitions = [PHTransition allTransitions];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(listsDidChangeNotification:) name:PHSystemListsDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
   }
@@ -211,7 +212,10 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
   if (listView == _listsView) {
-    return _categories[index];
+    id object = _categories[index];
+    if ([object isKindOfClass:[NSString class]]) {
+      
+    }
   } else if (listView == _transitionsView) {
     return [_transitions[index] tooltipName];
   } else {
@@ -231,7 +235,12 @@ static const CGFloat kExplorerWidth = 200;
 
 #pragma mark - NSNotification
 
+- (void)listsDidChangeNotification:(NSNotification *)notification {
+  [_listsView reloadData];
+}
+
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
+  _categories = [PHSys() allCategories];
   [_listsView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
 }
 

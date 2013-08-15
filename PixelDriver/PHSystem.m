@@ -23,6 +23,7 @@
 #import "PHSystemTick+Protected.h"
 
 #import "PHCompositeAnimation.h"
+#import "PHAnimationList.h"
 #import "PHScript.h"
 #import "PHScriptAnimation.h"
 
@@ -989,6 +990,13 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_compositeAnimations addObject:animation];
       _filteredAnimations = nil;
       extraNotificationName = PHSystemCompositesDidChangeNotification;
+      [self flushDataToDisk];
+      break;
+    }
+    case PHSystemButtonNewList: {
+      PHAnimationList* list = [[PHAnimationList alloc] init];
+      [_lists addObject:list];
+      extraNotificationName = PHSystemListsDidChangeNotification;
       [self flushDataToDisk];
       break;
     }
