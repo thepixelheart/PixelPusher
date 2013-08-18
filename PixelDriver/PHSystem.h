@@ -199,7 +199,7 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 
 @property (nonatomic, assign) PHViewMode viewMode;
 @property (nonatomic, readonly) NSArray* allLists;
-@property (nonatomic, copy) NSString* activeList;
+@property (nonatomic, strong) id activeList;
 @property (nonatomic, readonly) NSArray* filteredAnimations;
 
 // Ticking

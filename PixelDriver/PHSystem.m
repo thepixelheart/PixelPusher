@@ -1426,7 +1426,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
         NSArray* allLists = self.allLists;
         NSInteger currentIndex = [allLists indexOfObject:_activeList];
         currentIndex = (currentIndex - 1 + allLists.count) % allLists.count;
-        [self setActiveCategory:allLists[currentIndex]];
+        [self setActiveList:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1440,7 +1440,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
         NSArray* allLists = self.allLists;
         NSInteger currentIndex = [allLists indexOfObject:_activeList];
         currentIndex = (currentIndex + 1 + allLists.count) % allLists.count;
-        [self setActiveCategory:allLists[currentIndex]];
+        [self setActiveList:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1585,9 +1585,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSLog(@"Button released %ld", button);
 }
 
-- (void)setActiveCategory:(NSString *)activeCategory {
-  if (![_activeList isEqualToString:activeCategory]) {
-    _activeList = [activeCategory copy];
+- (void)setActiveList:(id)activeList {
+  if (activeList != _activeList) {
+    _activeList = activeList;
     _filteredAnimations = nil;
 
     NSInteger previewIndex = [self indexOfPreviewAnimation];
@@ -1626,7 +1626,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSArray* allAnimations = [self allAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
-  if ([_activeList isEqualToString:kAllLabel]) {
+  if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+    for (PHAnimation* animation in allAnimations) {
+      if ([[_activeList guids] containsObject:animation.guid]) {
+        [filteredArray addObject:animation];
+      }
+    }
+
+  } else if ([_activeList isEqualToString:kAllLabel]) {
     for (PHAnimation* animation in allAnimations) {
       if ((![animation.categories containsObject:PHAnimationCategoryPipes]
            && ![animation.categories containsObject:PHAnimationCategoryFilters])
