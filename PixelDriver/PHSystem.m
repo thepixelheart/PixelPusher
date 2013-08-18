@@ -1011,6 +1011,40 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [self flushDataToDisk];
       break;
     }
+    case PHSystemButtonDeleteList: {
+      if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:@"You're about to delete a list."];
+        [alert addButtonWithTitle:@"Cancel"];
+        [alert addButtonWithTitle:@"Kill it dead"];
+
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndDeleteListAlert:returnCode:contextInfo:)
+                            contextInfo:nil];
+      }
+      break;
+    }
+    case PHSystemButtonRenameList: {
+      if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setMessageText:@"What'cha callin' it?"];
+        NSTextView *textView = [[NSTextView alloc] init];
+        textView.frame = CGRectMake(0, 0, 200, 100);
+        if (nil != [_activeList name]) {
+          textView.string = [_activeList name];
+        }
+        [alert setAccessoryView:textView];
+        
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndRenamingListAlert:)
+                            contextInfo:nil];
+      }
+      break;
+    }
     case PHSystemButtonDeleteComposite: {
       if (nil != _editingCompositeAnimation) {
         NSAlert *alert = [[NSAlert alloc] init];
@@ -1126,6 +1160,18 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
+- (void)didEndDeleteListAlert:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+  if (returnCode == NSAlertSecondButtonReturn) {
+    [_lists removeObject:_activeList];
+    [self flushDataToDisk];
+    
+    _activeList = nil;
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
+  }
+}
+
 - (void)didEndDeleteAlert:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
   if (returnCode == NSAlertSecondButtonReturn) {
     NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
@@ -1155,6 +1201,16 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
+}
+
+- (void)didEndRenamingListAlert:(NSAlert *)alert {
+  NSTextView *textView = (NSTextView *)alert.accessoryView;
+  NSString *compositeName = textView.string;
+  [(PHAnimationList *)_activeList setName:compositeName];
+  [self flushDataToDisk];
+  
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
 }
 
 - (void)didModifyActiveComposition {
