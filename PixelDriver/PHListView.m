@@ -17,6 +17,7 @@
 #import "PHListView.h"
 
 #import "PHAnimation.h"
+#import "PHCollectionView.h" // For kAnimationKey
 #import "PHScrollView.h"
 
 @interface PHListCell : NSTextFieldCell
@@ -105,7 +106,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = PHBackgroundColor();
-
+    
     _scrollView = [[PHScrollView alloc] initWithFrame:self.contentView.bounds];
     _scrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     _scrollView.borderType = NSNoBorder;
@@ -137,6 +138,53 @@
 
 - (NSInteger)tag {
   return 0;
+}
+
+- (void)setIsDragDestination:(BOOL)isDragDestination {
+  _isDragDestination = isDragDestination;
+  
+  if (_isDragDestination) {
+    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSPasteboardTypeString, nil]];
+  } else {
+    [self unregisterDraggedTypes];
+  }
+}
+
+#pragma mark - NSDraggingDestination
+
+- (NSInteger)rowForDraggingInfo:(id<NSDraggingInfo>)draggingInfo {
+  CGPoint location = [draggingInfo draggingLocation];
+  CGPoint tableViewLocation = [_tableView convertPoint:location fromView:self.window.contentView];
+  return [_tableView rowAtPoint:tableViewLocation];
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
+  NSInteger row = [self rowForDraggingInfo:sender];
+  if (row >= 0 && row < [self numberOfRowsInTableView:_tableView]
+      && [_delegate listView:self canDropAtIndex:row]) {
+    return NSDragOperationCopy;
+  }
+  return NSDragOperationNone;
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+  NSPasteboard *pboard = [sender draggingPasteboard];
+  NSData *data = [pboard dataForType:NSStringPboardType];
+
+  NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+  PHAnimation *animation = [unarchiver decodeObjectForKey:kAnimationKey];
+
+  NSInteger row = [self rowForDraggingInfo:sender];
+  [_delegate listView:self didDropObject:animation atIndex:row];
+
+  return YES;
+}
+
+- (void)concludeDragOperation:(id <NSDraggingInfo>)sender {
+  
+}
+
+- (void)draggingEnded:(id <NSDraggingInfo>)sender {
 }
 
 #pragma mark - NSTableViewDataSource

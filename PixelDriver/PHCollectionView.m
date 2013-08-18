@@ -18,7 +18,7 @@
 
 #import "PHAnimation.h"
 
-static NSString* const kAnimationKey = @"kAnimationKey";
+NSString* const kAnimationKey = @"kAnimationKey";
 static NSString* const kSourceIndexKey = @"kSourceIndexKey";
 static NSString* const kSourceTagKey = @"kSourceTagKey";
 

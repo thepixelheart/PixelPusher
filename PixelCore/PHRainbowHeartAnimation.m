@@ -113,4 +113,8 @@
   return @[PHAnimationCategoryPixelHeart];
 }
 
+- (NSString *)tooltipName {
+  return @"Rainbow Heart";
+}
+
 @end

@@ -201,6 +201,7 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 @property (nonatomic, readonly) NSArray* allLists;
 @property (nonatomic, strong) id activeList;
 @property (nonatomic, readonly) NSArray* filteredAnimations;
+- (void)listDidChange;
 
 // Ticking
 

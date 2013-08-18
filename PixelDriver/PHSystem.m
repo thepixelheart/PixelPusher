@@ -1658,6 +1658,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   return filteredArray;
 }
 
+- (void)listDidChange {
+  [self saveLists];
+}
+
 - (void)updateFocus {
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   if ((_focusedList == PHSystemComposites || _focusedList == PHSystemCompositeLayers)

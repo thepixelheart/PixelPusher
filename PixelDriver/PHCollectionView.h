@@ -16,6 +16,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString* const kAnimationKey;
+
 @class PHAnimation;
 @protocol PHCollectionViewDragDestinationDelegate;
 

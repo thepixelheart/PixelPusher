@@ -21,6 +21,7 @@
 
 @interface PHListView : PHContainerView
 @property (nonatomic, assign) NSInteger tag;
+@property (nonatomic, assign) BOOL isDragDestination; // Default NO
 @property (nonatomic, weak) id<PHListViewDelegate> delegate;
 @property (nonatomic, weak) id<PHListViewDataSource> dataSource;
 
@@ -37,4 +38,8 @@
 @protocol PHListViewDelegate <NSObject>
 @required
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index;
+
+@optional
+- (BOOL)listView:(PHListView *)listView canDropAtIndex:(NSInteger)index;
+- (void)listView:(PHListView *)listView didDropObject:(id)object atIndex:(NSInteger)index;
 @end

@@ -79,6 +79,7 @@ static const CGFloat kExplorerWidth = 200;
     [_previewVisualizationView.contentView addSubview:wallView];
 
     _listsView = [[PHListView alloc] init];
+    _listsView.isDragDestination = YES;
     _listsView.tag = PHSystemAnimationLists;
     _listsView.title = @"Lists";
     _listsView.dataSource = self;
@@ -197,6 +198,15 @@ static const CGFloat kExplorerWidth = 200;
   } else if (listView == _transitionsView) {
     PHSys().faderTransition = _transitions[index];
   }
+}
+
+- (BOOL)listView:(PHListView *)listView canDropAtIndex:(NSInteger)index {
+  return [_lists[index] isKindOfClass:[PHAnimationList class]];
+}
+
+- (void)listView:(PHListView *)listView didDropObject:(id)object atIndex:(NSInteger)index {
+  [[_lists[index] guids] addObject:[object guid]];
+  [PHSys() listDidChange];
 }
 
 #pragma mark - PHListViewDataSource
