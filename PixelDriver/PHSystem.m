@@ -413,7 +413,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (PHAnimation *)getRandomAnimation {
-  NSArray* allAnimation = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
+  NSArray* allAnimation = _filteredAnimations;
   allAnimation = [allAnimation filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(PHAnimation *evaluatedObject, NSDictionary *bindings) {
     return (((![evaluatedObject.categories containsObject:PHAnimationCategoryFilters]
               && ![evaluatedObject.categories containsObject:PHAnimationCategoryPipes])
