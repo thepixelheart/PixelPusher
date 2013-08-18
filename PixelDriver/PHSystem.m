@@ -112,6 +112,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
+  NSArray* _categories;
   NSMutableArray* _lists;
   NSMutableDictionary* _scriptAnimations;
   BOOL _shouldTakeScreenshot;
@@ -142,8 +143,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
                                      return [obj1 compare:obj2 ];
                                    }] mutableCopy];
     [categories insertObject:kAllLabel atIndex:0];
-    _allCategories = categories;
-    _activeCategory = kAllLabel;
+    _categories = [categories copy];
+
+    _activeList = kAllLabel;
 
     _faderTransition = [[PHMidCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
@@ -156,6 +158,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     _compositeAnimations = [@[] mutableCopy];
     _scriptAnimations = [@{} mutableCopy];
+    
+    _lists = [NSMutableArray array];
 
     _viewMode = PHViewModeLibrary;
     _focusedList = PHSystemTransitions;
@@ -249,6 +253,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   if (nil != codedData) {
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
     _lists = [[unarchiver decodeObject] mutableCopy];
+    if (nil == _lists) {
+      _lists = [NSMutableArray array];
+    }
     [unarchiver finishDecoding];
     
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -786,6 +793,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+}
+
+- (NSArray *)allLists {
+  return [_categories arrayByAddingObjectsFromArray:_lists];
 }
 
 - (NSInteger)indexOfPreviewAnimation {
@@ -1412,9 +1423,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
 
       if (pressed) {
-        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
-        currentIndex = (currentIndex - 1 + _allCategories.count) % _allCategories.count;
-        [self setActiveCategory:_allCategories[currentIndex]];
+        NSArray* allLists = self.allLists;
+        NSInteger currentIndex = [allLists indexOfObject:_activeList];
+        currentIndex = (currentIndex - 1 + allLists.count) % allLists.count;
+        [self setActiveCategory:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1425,9 +1437,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
 
       if (pressed) {
-        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
-        currentIndex = (currentIndex + 1 + _allCategories.count) % _allCategories.count;
-        [self setActiveCategory:_allCategories[currentIndex]];
+        NSArray* allLists = self.allLists;
+        NSInteger currentIndex = [allLists indexOfObject:_activeList];
+        currentIndex = (currentIndex + 1 + allLists.count) % allLists.count;
+        [self setActiveCategory:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1573,8 +1586,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (void)setActiveCategory:(NSString *)activeCategory {
-  if (![_activeCategory isEqualToString:activeCategory]) {
-    _activeCategory = [activeCategory copy];
+  if (![_activeList isEqualToString:activeCategory]) {
+    _activeList = [activeCategory copy];
     _filteredAnimations = nil;
 
     NSInteger previewIndex = [self indexOfPreviewAnimation];
@@ -1613,7 +1626,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSArray* allAnimations = [self allAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
-  if ([_activeCategory isEqualToString:kAllLabel]) {
+  if ([_activeList isEqualToString:kAllLabel]) {
     for (PHAnimation* animation in allAnimations) {
       if ((![animation.categories containsObject:PHAnimationCategoryPipes]
            && ![animation.categories containsObject:PHAnimationCategoryFilters])
@@ -1624,12 +1637,12 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   } else {
     for (PHAnimation* animation in allAnimations) {
-      if (([_activeCategory isEqualToString:PHAnimationCategoryPipes]
-           || [_activeCategory isEqualToString:PHAnimationCategoryFilters])
+      if (([_activeList isEqualToString:PHAnimationCategoryPipes]
+           || [_activeList isEqualToString:PHAnimationCategoryFilters])
           && [animation isKindOfClass:[PHCompositeAnimation class]]) {
         continue;
       }
-      if ([animation.categories containsObject:_activeCategory]) {
+      if ([animation.categories containsObject:_activeList]) {
         [filteredArray addObject:animation];
       }
     }

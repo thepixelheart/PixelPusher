@@ -17,6 +17,7 @@
 #import "PHLibraryView.h"
 
 #import "AppDelegate.h"
+#import "PHAnimationList.h"
 #import "PHButton.h"
 #import "PHSystem.h"
 #import "PHAnimation.h"
@@ -41,7 +42,7 @@ static const CGFloat kExplorerWidth = 200;
   NSTextField* _tapBpmLabel;
   NSTextField* _lastScriptErrorLabel;
 
-  NSArray* _categories;
+  NSArray* _lists;
   NSArray* _transitions;
 }
 
@@ -124,7 +125,7 @@ static const CGFloat kExplorerWidth = 200;
     _animationsView = [[PHAnimationsView alloc] init];
     [self addSubview:_animationsView];
 
-    _categories = [PHSys() allCategories];
+    _lists = [PHSys() allLists];
     _transitions = [PHTransition allTransitions];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -191,7 +192,7 @@ static const CGFloat kExplorerWidth = 200;
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _listsView) {
-    [PHSys() setActiveCategory:_categories[index]];
+    [PHSys() setActiveList:_lists[index]];
 
   } else if (listView == _transitionsView) {
     PHSys().faderTransition = _transitions[index];
@@ -202,7 +203,7 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
   if (listView == _listsView) {
-    return _categories.count;
+    return _lists.count;
   } else if (listView == _transitionsView) {
     return _transitions.count;
   } else {
@@ -212,10 +213,13 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
   if (listView == _listsView) {
-    id object = _categories[index];
+    id object = _lists[index];
     if ([object isKindOfClass:[NSString class]]) {
-      
+      return object;
+    } else if ([object isKindOfClass:[PHAnimationList class]]) {
+      return [object name];
     }
+    return nil;
   } else if (listView == _transitionsView) {
     return [_transitions[index] tooltipName];
   } else {
@@ -236,12 +240,13 @@ static const CGFloat kExplorerWidth = 200;
 #pragma mark - NSNotification
 
 - (void)listsDidChangeNotification:(NSNotification *)notification {
+  _lists = [PHSys() allLists];
   [_listsView reloadData];
 }
 
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
-  _categories = [PHSys() allCategories];
-  [_listsView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
+  _lists = [PHSys() allLists];
+  [_listsView setSelectedIndex:[_lists indexOfObject:[PHSys() activeList]]];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {
