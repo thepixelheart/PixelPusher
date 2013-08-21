@@ -26,6 +26,7 @@
 } while(0)
 
 double fast_fmod(double value, int modulo);
+CGFloat farc4random_uniform(CGFloat range, CGFloat accuracy);
 void HSVtoRGB(CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CGFloat* b);
 NSColor* PHBackgroundColor();
 

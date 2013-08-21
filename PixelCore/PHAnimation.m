@@ -82,6 +82,7 @@
 #import "PHFlippingSquaresAnimation.h"
 #import "PHPositiveStatementsAnimation.h"
 #import "PHColorSpliceAnimation.h"
+#import "PHRaindropRipplesAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -280,6 +281,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSoundWaveAnimation animation],    
     [PHFlippingSquaresAnimation animation],
     [PHPositiveStatementsAnimation animation],
+    [PHRaindropRipplesAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],

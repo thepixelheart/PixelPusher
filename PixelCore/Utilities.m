@@ -21,6 +21,10 @@ double fast_fmod(double value, int modulo) {
   return (double)((int)value % modulo) + remainder;
 }
 
+CGFloat farc4random_uniform(CGFloat range, CGFloat accuracy) {
+  return ((CGFloat)arc4random_uniform(range * accuracy)) / accuracy;
+}
+
 void HSVtoRGB(CGFloat h, CGFloat s, CGFloat v, CGFloat* r, CGFloat* g, CGFloat* b) {
   double c = 0.0, m = 0.0, x = 0.0;
   h = fast_fmod(h, 360);

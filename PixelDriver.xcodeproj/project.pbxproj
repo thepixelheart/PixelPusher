@@ -418,6 +418,9 @@
 		66BDB2BA16A6AFF700ED7C81 /* sliderbgLxx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */; };
 		66BDB2BB16A6AFF700ED7C81 /* sliderbgxMx.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */; };
 		66BDB2BC16A6AFF700ED7C81 /* sliderbgxxR.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */; };
+		66BF6E1717C4C05700CB9B8E /* PHRaindropRipplesAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66BF6E1517C4C05700CB9B8E /* PHRaindropRipplesAnimation.h */; };
+		66BF6E1817C4C05700CB9B8E /* PHRaindropRipplesAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66BF6E1617C4C05700CB9B8E /* PHRaindropRipplesAnimation.m */; };
+		66BF6E1A17C4C74400CB9B8E /* rainsplash.png in Resources */ = {isa = PBXBuildFile; fileRef = 66BF6E1917C4C74400CB9B8E /* rainsplash.png */; };
 		66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF636916ACD4E80048228F /* PHDegraderView.m */; };
 		66CF637916AD061E0048228F /* PHActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66CF637816AD061E0048228F /* PHActionsView.m */; };
 		66CF637B16AD09FB0048228F /* pixelheart.png in Resources */ = {isa = PBXBuildFile; fileRef = 66CF637A16AD09FB0048228F /* pixelheart.png */; };
@@ -956,6 +959,9 @@
 		66BDB2B716A6AFF700ED7C81 /* sliderbgLxx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgLxx.png; path = PixelDriver/resources/sliderbgLxx.png; sourceTree = "<group>"; };
 		66BDB2B816A6AFF700ED7C81 /* sliderbgxMx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxMx.png; path = PixelDriver/resources/sliderbgxMx.png; sourceTree = "<group>"; };
 		66BDB2B916A6AFF700ED7C81 /* sliderbgxxR.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sliderbgxxR.png; path = PixelDriver/resources/sliderbgxxR.png; sourceTree = "<group>"; };
+		66BF6E1517C4C05700CB9B8E /* PHRaindropRipplesAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHRaindropRipplesAnimation.h; path = PixelCore/PHRaindropRipplesAnimation.h; sourceTree = SOURCE_ROOT; };
+		66BF6E1617C4C05700CB9B8E /* PHRaindropRipplesAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHRaindropRipplesAnimation.m; path = PixelCore/PHRaindropRipplesAnimation.m; sourceTree = SOURCE_ROOT; };
+		66BF6E1917C4C74400CB9B8E /* rainsplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rainsplash.png; path = PixelDriver/resources/rainsplash.png; sourceTree = "<group>"; };
 		66CF636816ACD4E80048228F /* PHDegraderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHDegraderView.h; sourceTree = "<group>"; };
 		66CF636916ACD4E80048228F /* PHDegraderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHDegraderView.m; sourceTree = "<group>"; };
 		66CF637716AD061E0048228F /* PHActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHActionsView.h; sourceTree = "<group>"; };
@@ -1405,6 +1411,8 @@
 				668EAA381720BFBB0056C8C3 /* PHPsychadelicBackgroundAnimation.m */,
 				668EAA391720BFBB0056C8C3 /* PHRainbowHeartAnimation.h */,
 				668EAA3A1720BFBB0056C8C3 /* PHRainbowHeartAnimation.m */,
+				66BF6E1517C4C05700CB9B8E /* PHRaindropRipplesAnimation.h */,
+				66BF6E1617C4C05700CB9B8E /* PHRaindropRipplesAnimation.m */,
 				668EAA3B1720BFBB0056C8C3 /* PHRipplesAnimation.h */,
 				668EAA3C1720BFBB0056C8C3 /* PHRipplesAnimation.m */,
 				668EAA3D1720BFBB0056C8C3 /* PHRotatingPlaneAnimation.h */,
@@ -1894,6 +1902,7 @@
 				66BD06ED1784EE3B0041107A /* circularslider.png */,
 				6603375717332C33001090B7 /* composites-latest.plist */,
 				668EACA91720C7250056C8C3 /* countdown_1.png */,
+				66BF6E1917C4C74400CB9B8E /* rainsplash.png */,
 				668EACAA1720C7250056C8C3 /* countdown_2.png */,
 				662BFF9417348B4100F09D7B /* camera_record.png */,
 				668EACAB1720C7250056C8C3 /* countdown_3.png */,
@@ -2170,6 +2179,7 @@
 				66B7511317B9889D00C5B01F /* PHFont.h in Headers */,
 				66B7511B17BABDB200C5B01F /* PHPositiveStatementsAnimation.h in Headers */,
 				6602D06A17C07C3C00406DE1 /* PHColorSpliceAnimation.h in Headers */,
+				66BF6E1717C4C05700CB9B8E /* PHRaindropRipplesAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2343,6 +2353,7 @@
 				6603375A17333217001090B7 /* scripts in Resources */,
 				662BFF9517348B4100F09D7B /* camera_record.png in Resources */,
 				66B17170178D544C003194A7 /* app.iconset in Resources */,
+				66BF6E1A17C4C74400CB9B8E /* rainsplash.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2518,6 +2529,7 @@
 				66B7511417B9889D00C5B01F /* PHFont.m in Sources */,
 				66B7511C17BABDB200C5B01F /* PHPositiveStatementsAnimation.m in Sources */,
 				6602D06B17C07C3C00406DE1 /* PHColorSpliceAnimation.m in Sources */,
+				66BF6E1817C4C05700CB9B8E /* PHRaindropRipplesAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
