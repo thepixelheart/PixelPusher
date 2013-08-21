@@ -12,6 +12,8 @@
 		3A43C269171E6E33006A441E /* umano.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A43C268171E6E33006A441E /* umano.png */; };
 		66021C2F16A935C400E99908 /* PHListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66021C2E16A935C400E99908 /* PHListView.m */; };
 		6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6602D06617BAE07700406DE1 /* PHAnimationList.m */; };
+		6602D06A17C07C3C00406DE1 /* PHColorSpliceAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6602D06817C07C3C00406DE1 /* PHColorSpliceAnimation.h */; };
+		6602D06B17C07C3C00406DE1 /* PHColorSpliceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6602D06917C07C3C00406DE1 /* PHColorSpliceAnimation.m */; };
 		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
 		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
 		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
@@ -488,6 +490,8 @@
 		66021C2E16A935C400E99908 /* PHListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHListView.m; sourceTree = "<group>"; };
 		6602D06517BAE07600406DE1 /* PHAnimationList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHAnimationList.h; sourceTree = "<group>"; };
 		6602D06617BAE07700406DE1 /* PHAnimationList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHAnimationList.m; sourceTree = "<group>"; };
+		6602D06817C07C3C00406DE1 /* PHColorSpliceAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHColorSpliceAnimation.h; path = PixelCore/PHColorSpliceAnimation.h; sourceTree = SOURCE_ROOT; };
+		6602D06917C07C3C00406DE1 /* PHColorSpliceAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PHColorSpliceAnimation.m; path = PixelCore/PHColorSpliceAnimation.m; sourceTree = SOURCE_ROOT; };
 		6603374F17331F57001090B7 /* FScript.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FScript.framework; sourceTree = "<group>"; };
 		660337511733282D001090B7 /* PHFoldersPrefsPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFoldersPrefsPage.h; sourceTree = "<group>"; };
 		660337521733282D001090B7 /* PHFoldersPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFoldersPrefsPage.m; sourceTree = "<group>"; };
@@ -1617,6 +1621,8 @@
 				664E8F3B1783E48900FF58A6 /* PHMaskAnimation.m */,
 				66BD070717855F3C0041107A /* PHTrippyTunnelAnimation.h */,
 				66BD070817855F3C0041107A /* PHTrippyTunnelAnimation.m */,
+				6602D06817C07C3C00406DE1 /* PHColorSpliceAnimation.h */,
+				6602D06917C07C3C00406DE1 /* PHColorSpliceAnimation.m */,
 			);
 			name = Pipes;
 			sourceTree = "<group>";
@@ -2163,6 +2169,7 @@
 				66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */,
 				66B7511317B9889D00C5B01F /* PHFont.h in Headers */,
 				66B7511B17BABDB200C5B01F /* PHPositiveStatementsAnimation.h in Headers */,
+				6602D06A17C07C3C00406DE1 /* PHColorSpliceAnimation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2510,6 +2517,7 @@
 				66DD8B4F17B73B9E00CA103D /* PHFlippingSquaresAnimation.m in Sources */,
 				66B7511417B9889D00C5B01F /* PHFont.m in Sources */,
 				66B7511C17BABDB200C5B01F /* PHPositiveStatementsAnimation.m in Sources */,
+				6602D06B17C07C3C00406DE1 /* PHColorSpliceAnimation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

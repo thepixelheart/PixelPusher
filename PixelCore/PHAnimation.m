@@ -81,6 +81,7 @@
 #import "PHSoundWaveAnimation.h"
 #import "PHFlippingSquaresAnimation.h"
 #import "PHPositiveStatementsAnimation.h"
+#import "PHColorSpliceAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -237,10 +238,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHEightfoldReflectedTileFilter animation],
     [PHExposureAdjustFilter animation],
     [PHFalseColorFilter animation],
-    [PHBumpDistortionFilter animation],
-    [PHHoleDistortionFilter animation],
+//    [PHBumpDistortionFilter animation],
+//    [PHHoleDistortionFilter animation],
     [PHKaleidoscopeFilter animation],
     [PHTriangleTileFilter animation],
+    [PHColorSpliceAnimation animation],
     
     // Animations
     [PHPixelHeartAnimation animation],
