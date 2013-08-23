@@ -59,6 +59,11 @@ typedef enum {
   PHSystemButtonRenameComposite,
   PHSystemButtonLoadCompositeIntoActiveLayer,
   PHSystemButtonClearCompositeActiveLayer,
+  
+  // List Editor
+  PHSystemButtonNewList,
+  PHSystemButtonRenameList,
+  PHSystemButtonDeleteList,
 
   PHSystemSliderFader,
 
@@ -98,6 +103,7 @@ extern NSString* const PHSystemViewStateChangedNotification;
 extern NSString* const PHSystemCompositesDidChangeNotification;
 extern NSString* const PHSystemActiveCompositeDidChangeNotification;
 extern NSString* const PHSystemActiveCategoryDidChangeNotification;
+extern NSString* const PHSystemListsDidChangeNotification;
 extern NSString* const PHSystemPreviewAnimationDidChangeNotification;
 extern NSString* const PHSystemFaderDidSwapNotification;
 extern NSString* const PHSystemUserScriptsDidChangeNotification;
@@ -192,9 +198,10 @@ extern NSString* const PHSystemUserScriptsDidChangeNotification;
 // Editor State
 
 @property (nonatomic, assign) PHViewMode viewMode;
-@property (nonatomic, readonly) NSArray* allCategories; // Sorted
-@property (nonatomic, copy) NSString* activeCategory;
+@property (nonatomic, readonly) NSArray* allLists;
+@property (nonatomic, strong) id activeList;
 @property (nonatomic, readonly) NSArray* filteredAnimations;
+- (void)listDidChange;
 
 // Ticking
 

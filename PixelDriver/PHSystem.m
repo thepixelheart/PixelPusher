@@ -23,6 +23,7 @@
 #import "PHSystemTick+Protected.h"
 
 #import "PHCompositeAnimation.h"
+#import "PHAnimationList.h"
 #import "PHScript.h"
 #import "PHScriptAnimation.h"
 
@@ -53,6 +54,7 @@ NSString* const PHSystemViewStateChangedNotification = @"PHSystemViewStateChange
 NSString* const PHSystemCompositesDidChangeNotification = @"PHSystemCompositesDidChangeNotification";
 NSString* const PHSystemActiveCompositeDidChangeNotification = @"PHSystemActiveCompositeDidChangeNotification";
 NSString* const PHSystemActiveCategoryDidChangeNotification = @"PHSystemActiveCategoryDidChangeNotification";
+NSString* const PHSystemListsDidChangeNotification = @"PHSystemListsDidChangeNotification";
 NSString* const PHSystemPreviewAnimationDidChangeNotification = @"PHSystemPreviewAnimationDidChangeNotification";
 NSString* const PHSystemFaderDidSwapNotification = @"PHSystemFaderDidSwapNotification";
 NSString* const PHSystemUserScriptsDidChangeNotification = @"PHSystemUserScriptsDidChangeNotification";
@@ -81,8 +83,8 @@ typedef enum {
 
 static const CGFloat kFaderTickLength = 0.007874;
 
-static const NSTimeInterval kIdleTimeMinLength = 3;
-static const NSTimeInterval kIdleTimeMaxLength = 10;
+static const NSTimeInterval kIdleTimeMinLength = 10;
+static const NSTimeInterval kIdleTimeMaxLength = 20;
 static const NSTimeInterval kFadeTimeMinLength = 3;
 static const NSTimeInterval kFadeTimeMaxLength = 5;
 
@@ -110,6 +112,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   PHUmanoModeStatus _umamoModeStatus;
 
   NSMutableArray* _compositeAnimations;
+  NSArray* _categories;
+  NSMutableArray* _lists;
   NSMutableDictionary* _scriptAnimations;
   BOOL _shouldTakeScreenshot;
   BOOL _strobeOn;
@@ -139,8 +143,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
                                      return [obj1 compare:obj2 ];
                                    }] mutableCopy];
     [categories insertObject:kAllLabel atIndex:0];
-    _allCategories = categories;
-    _activeCategory = kAllLabel;
+    _categories = [categories copy];
+
+    _activeList = kAllLabel;
 
     _faderTransition = [[PHMidCrossFadeTransition alloc] init];
     _hardwareLeft = [[PHHardwareState alloc] init];
@@ -153,6 +158,8 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     _compositeAnimations = [@[] mutableCopy];
     _scriptAnimations = [@{} mutableCopy];
+    
+    _lists = [NSMutableArray array];
 
     _viewMode = PHViewModeLibrary;
     _focusedList = PHSystemTransitions;
@@ -179,6 +186,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
     [self restoreDefaultCompositesOverwiteExisting:NO];
     [self loadComposites];
+    [self loadLists];
     [self refreshScriptAnimations];
 
     // Umano mode OFF
@@ -238,6 +246,23 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
+- (void)loadLists {
+  NSString *listsPath = [self pathForListsFile];
+  NSData *codedData = [NSData dataWithContentsOfFile:listsPath];
+  
+  if (nil != codedData) {
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:codedData];
+    _lists = [[unarchiver decodeObject] mutableCopy];
+    if (nil == _lists) {
+      _lists = [NSMutableArray array];
+    }
+    [unarchiver finishDecoding];
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
+  }
+}
+
 - (void)userScriptsDidChangeNotification:(NSNotification *)notification {
   _lastScriptError = nil;
   [self refreshScriptAnimations];
@@ -268,6 +293,11 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [self refreshLaunchpad];
 }
 
+- (void)flushDataToDisk {
+  [self saveComposites];
+  [self saveLists];
+}
+
 - (void)saveComposites {
   NSMutableData *data = [[NSMutableData alloc] init];
   NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
@@ -278,6 +308,16 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   [data writeToFile:compositesPath atomically:YES];
 }
 
+- (void)saveLists {
+  NSMutableData *data = [[NSMutableData alloc] init];
+  NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+  [archiver encodeObject:_lists];
+  [archiver finishEncoding];
+  
+  NSString *path = [self pathForListsFile];
+  [data writeToFile:path atomically:YES];
+}
+
 - (NSString *)pathForDiskStorage {
   NSString* userGifsPath = @"~/Library/Application Support/PixelPusher/";
   return [userGifsPath stringByExpandingTildeInPath];
@@ -285,6 +325,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (NSString *)pathForCompositeFile {
   return [[self pathForDiskStorage] stringByAppendingPathComponent:@"composites.plist"];
+}
+
+- (NSString *)pathForListsFile {
+  return [[self pathForDiskStorage] stringByAppendingPathComponent:@"lists.plist"];
 }
 
 - (NSString *)pathForScreenshots {
@@ -369,7 +413,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 }
 
 - (PHAnimation *)getRandomAnimation {
-  NSArray* allAnimation = [_compiledAnimations arrayByAddingObjectsFromArray:_compositeAnimations];
+  NSArray* allAnimation = _filteredAnimations;
   allAnimation = [allAnimation filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(PHAnimation *evaluatedObject, NSDictionary *bindings) {
     return (((![evaluatedObject.categories containsObject:PHAnimationCategoryFilters]
               && ![evaluatedObject.categories containsObject:PHAnimationCategoryPipes])
@@ -589,7 +633,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       composite.screenshot = [[NSImage alloc] initWithCGImage:flippedImageRef
                                                          size:CGSizeMake(kWallWidth, kWallHeight)];
       CGImageRelease(flippedImageRef);
-      [self saveComposites];
+      [self flushDataToDisk];
     }
 
     NSString *path = [self pathForScreenshots];
@@ -749,6 +793,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemViewStateChangedNotification object:nil userInfo:nil];
+}
+
+- (NSArray *)allLists {
+  return [_categories arrayByAddingObjectsFromArray:_lists];
 }
 
 - (NSInteger)indexOfPreviewAnimation {
@@ -953,7 +1001,48 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_compositeAnimations addObject:animation];
       _filteredAnimations = nil;
       extraNotificationName = PHSystemCompositesDidChangeNotification;
-      [self saveComposites];
+      [self flushDataToDisk];
+      break;
+    }
+    case PHSystemButtonNewList: {
+      PHAnimationList* list = [[PHAnimationList alloc] init];
+      [_lists addObject:list];
+      extraNotificationName = PHSystemListsDidChangeNotification;
+      [self flushDataToDisk];
+      break;
+    }
+    case PHSystemButtonDeleteList: {
+      if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:@"You're about to delete a list."];
+        [alert addButtonWithTitle:@"Cancel"];
+        [alert addButtonWithTitle:@"Kill it dead"];
+
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndDeleteListAlert:returnCode:contextInfo:)
+                            contextInfo:nil];
+      }
+      break;
+    }
+    case PHSystemButtonRenameList: {
+      if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        [alert setMessageText:@"What'cha callin' it?"];
+        NSTextView *textView = [[NSTextView alloc] init];
+        textView.frame = CGRectMake(0, 0, 200, 100);
+        if (nil != [_activeList name]) {
+          textView.string = [_activeList name];
+        }
+        [alert setAccessoryView:textView];
+        
+        [alert beginSheetModalForWindow:nil
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndRenamingListAlert:)
+                            contextInfo:nil];
+      }
       break;
     }
     case PHSystemButtonDeleteComposite: {
@@ -1071,6 +1160,18 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   }
 }
 
+- (void)didEndDeleteListAlert:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
+  if (returnCode == NSAlertSecondButtonReturn) {
+    [_lists removeObject:_activeList];
+    [self flushDataToDisk];
+    
+    _activeList = nil;
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
+  }
+}
+
 - (void)didEndDeleteAlert:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
   if (returnCode == NSAlertSecondButtonReturn) {
     NSInteger indexOfEditingObject = [_compositeAnimations indexOfObject:_editingCompositeAnimation];
@@ -1084,7 +1185,7 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
         _editingCompositeAnimation = nil;
       }
 
-      [self saveComposites];
+      [self flushDataToDisk];
 
       NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
       [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
@@ -1096,16 +1197,26 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSTextView *textView = (NSTextView *)alert.accessoryView;
   NSString *compositeName = textView.string;
   _editingCompositeAnimation.name = compositeName;
-  [self saveComposites];
+  [self flushDataToDisk];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemCompositesDidChangeNotification object:nil];
 }
 
+- (void)didEndRenamingListAlert:(NSAlert *)alert {
+  NSTextView *textView = (NSTextView *)alert.accessoryView;
+  NSString *compositeName = textView.string;
+  [(PHAnimationList *)_activeList setName:compositeName];
+  [self flushDataToDisk];
+  
+  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+  [nc postNotificationName:PHSystemListsDidChangeNotification object:nil];
+}
+
 - (void)didModifyActiveComposition {
   [self refreshTopButtons];
   [_launchpad flipBuffer];
-  [self saveComposites];
+  [self flushDataToDisk];
 
   NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:PHSystemActiveCompositeDidChangeNotification object:nil];
@@ -1368,9 +1479,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
 
       if (pressed) {
-        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
-        currentIndex = (currentIndex - 1 + _allCategories.count) % _allCategories.count;
-        [self setActiveCategory:_allCategories[currentIndex]];
+        NSArray* allLists = self.allLists;
+        NSInteger currentIndex = [allLists indexOfObject:_activeList];
+        currentIndex = (currentIndex - 1 + allLists.count) % allLists.count;
+        [self setActiveList:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1381,9 +1493,10 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
       [_launchpad setTopButtonColor:pressed ? PHLaunchpadColorGreenBright :PHLaunchpadColorGreenDim atIndex:button];
 
       if (pressed) {
-        NSInteger currentIndex = [_allCategories indexOfObject:_activeCategory];
-        currentIndex = (currentIndex + 1 + _allCategories.count) % _allCategories.count;
-        [self setActiveCategory:_allCategories[currentIndex]];
+        NSArray* allLists = self.allLists;
+        NSInteger currentIndex = [allLists indexOfObject:_activeList];
+        currentIndex = (currentIndex + 1 + allLists.count) % allLists.count;
+        [self setActiveList:allLists[currentIndex]];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonLeftArrow];
         [self refreshTopButtonColorAtIndex:PHLaunchpadTopButtonRightArrow];
       }
@@ -1528,9 +1641,9 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSLog(@"Button released %ld", button);
 }
 
-- (void)setActiveCategory:(NSString *)activeCategory {
-  if (![_activeCategory isEqualToString:activeCategory]) {
-    _activeCategory = [activeCategory copy];
+- (void)setActiveList:(id)activeList {
+  if (activeList != _activeList) {
+    _activeList = activeList;
     _filteredAnimations = nil;
 
     NSInteger previewIndex = [self indexOfPreviewAnimation];
@@ -1569,7 +1682,14 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSArray* allAnimations = [self allAnimations];
 
   NSMutableArray* filteredArray = [NSMutableArray array];
-  if ([_activeCategory isEqualToString:kAllLabel]) {
+  if ([_activeList isKindOfClass:[PHAnimationList class]]) {
+    for (PHAnimation* animation in allAnimations) {
+      if ([[_activeList guids] containsObject:animation.guid]) {
+        [filteredArray addObject:animation];
+      }
+    }
+
+  } else if ([_activeList isEqualToString:kAllLabel]) {
     for (PHAnimation* animation in allAnimations) {
       if ((![animation.categories containsObject:PHAnimationCategoryPipes]
            && ![animation.categories containsObject:PHAnimationCategoryFilters])
@@ -1580,18 +1700,22 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
   } else {
     for (PHAnimation* animation in allAnimations) {
-      if (([_activeCategory isEqualToString:PHAnimationCategoryPipes]
-           || [_activeCategory isEqualToString:PHAnimationCategoryFilters])
+      if (([_activeList isEqualToString:PHAnimationCategoryPipes]
+           || [_activeList isEqualToString:PHAnimationCategoryFilters])
           && [animation isKindOfClass:[PHCompositeAnimation class]]) {
         continue;
       }
-      if ([animation.categories containsObject:_activeCategory]) {
+      if ([animation.categories containsObject:_activeList]) {
         [filteredArray addObject:animation];
       }
     }
   }
   _filteredAnimations = filteredArray;
   return filteredArray;
+}
+
+- (void)listDidChange {
+  [self saveLists];
 }
 
 - (void)updateFocus {

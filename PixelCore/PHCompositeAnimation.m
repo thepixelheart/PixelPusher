@@ -18,9 +18,14 @@
 
 static NSString* kNameKey = @"kNameKey";
 static NSString* kVersionKey = @"kVersionKey";
+static NSString* kGUIDKey = @"kGUIDKey";
 static NSString* kScreenshotKey = @"kScreenshotKey";
-static const NSInteger kVersion = 1;
+static const NSInteger kVersion = 2;
 const NSInteger PHNumberOfCompositeLayers = 8;
+
+@interface PHCompositeAnimation()
+@property (nonatomic, copy) NSString* guid;
+@end
 
 @implementation PHCompositeAnimation {
   PHAnimation* _layerAnimation[PHNumberOfCompositeLayers];
@@ -73,6 +78,7 @@ const NSInteger PHNumberOfCompositeLayers = 8;
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:_name forKey:kNameKey];
   [coder encodeObject:@(kVersion) forKey:kVersionKey];
+  [coder encodeObject:_guid forKey:kGUIDKey];
   [coder encodeObject:_screenshot forKey:kScreenshotKey];
 
   for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
@@ -92,8 +98,16 @@ const NSInteger PHNumberOfCompositeLayers = 8;
     if (nil != versionValue) {
       version = [versionValue intValue];
     }
+    
+    if (version < 2) {
+      CFUUIDRef myUUID = CFUUIDCreate(kCFAllocatorDefault);
+      _guid = (NSString *)CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, myUUID));
+      version = 2;
+    } else {
+      _guid = [decoder decodeObjectForKey:kGUIDKey];
+    }
 
-    if (version == 1) {
+    if (version >= 1) {
       for (NSUInteger ix = 0; ix < PHNumberOfCompositeLayers; ++ix) {
         NSString *key = [self keyForAnimationAtIndex:ix];
         PHAnimation* animation = [decoder decodeObjectForKey:key];

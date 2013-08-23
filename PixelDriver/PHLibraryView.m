@@ -17,6 +17,8 @@
 #import "PHLibraryView.h"
 
 #import "AppDelegate.h"
+#import "PHAnimationList.h"
+#import "PHButton.h"
 #import "PHSystem.h"
 #import "PHAnimation.h"
 #import "PHTransition.h"
@@ -28,18 +30,19 @@
 static const CGFloat kPreviewPaneWidth = 300;
 static const CGFloat kExplorerWidth = 200;
 
-@interface PHLibraryView() <PHListViewDelegate, PHListViewDataSource>
+@interface PHLibraryView() <PHButtonDelegate, PHListViewDelegate, PHListViewDataSource>
 @end
 
 @implementation PHLibraryView {
   PHListView* _listsView;
+  PHContainerView* _listActionsView;
   PHListView* _transitionsView;
   PHAnimationsView* _animationsView;
   PHContainerView* _previewVisualizationView;
   NSTextField* _tapBpmLabel;
   NSTextField* _lastScriptErrorLabel;
 
-  NSArray* _categories;
+  NSArray* _lists;
   NSArray* _transitions;
 }
 
@@ -76,11 +79,41 @@ static const CGFloat kExplorerWidth = 200;
     [_previewVisualizationView.contentView addSubview:wallView];
 
     _listsView = [[PHListView alloc] init];
+    _listsView.isDragDestination = YES;
     _listsView.tag = PHSystemAnimationLists;
     _listsView.title = @"Lists";
     _listsView.dataSource = self;
     _listsView.delegate = self;
     [self addSubview:_listsView];
+    
+    _listActionsView = [[PHContainerView alloc] init];
+    
+    PHButton* newListButton = [[PHButton alloc] init];
+    newListButton.tag = PHSystemButtonNewList;
+    newListButton.delegate = self;
+    [newListButton setTitle:@"New"];
+    [_listActionsView.contentView addSubview:newListButton];
+    newListButton.frame = CGRectMake(4, 4, 0, 0);
+    [newListButton sizeToFit];
+    _listActionsView.frame = CGRectMake(0, 0, 0, newListButton.frame.size.height + 8);
+    
+    PHButton* renameListButton = [[PHButton alloc] init];
+    renameListButton.tag = PHSystemButtonRenameList;
+    renameListButton.delegate = self;
+    [renameListButton setTitle:@"Rename"];
+    [_listActionsView.contentView addSubview:renameListButton];
+    renameListButton.frame = CGRectMake(CGRectGetMaxX(newListButton.frame) + 4, 4, 0, 0);
+    [renameListButton sizeToFit];
+    
+    PHButton* deleteListButton = [[PHButton alloc] init];
+    deleteListButton.tag = PHSystemButtonDeleteList;
+    deleteListButton.delegate = self;
+    [deleteListButton setTitle:@"Delete"];
+    [_listActionsView.contentView addSubview:deleteListButton];
+    deleteListButton.frame = CGRectMake(CGRectGetMaxX(renameListButton.frame) + 4, 4, 0, 0);
+    [deleteListButton sizeToFit];
+
+    [self addSubview:_listActionsView];
 
     _transitionsView = [[PHListView alloc] init];
     _transitionsView.title = @"Transitions";
@@ -93,10 +126,11 @@ static const CGFloat kExplorerWidth = 200;
     _animationsView = [[PHAnimationsView alloc] init];
     [self addSubview:_animationsView];
 
-    _categories = [PHSys() allCategories];
+    _lists = [PHSys() allLists];
     _transitions = [PHTransition allTransitions];
 
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(listsDidChangeNotification:) name:PHSystemListsDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(activeCategoryDidChangeNotification:) name:PHSystemActiveCategoryDidChangeNotification object:nil];
     [nc addObserver:self selector:@selector(displayLinkDidFire:) name:PHDisplayLinkFiredNotification object:nil];
   }
@@ -110,10 +144,13 @@ static const CGFloat kExplorerWidth = 200;
   _animationsView.frame = CGRectMake(kExplorerWidth, 0, self.bounds.size.width - kPreviewPaneWidth - kExplorerWidth, topEdge);
   [_animationsView layout];
 
-  _listsView.frame = CGRectMake(0, topEdge / 2, kExplorerWidth, topEdge / 2);
+  _listsView.frame = CGRectMake(0, topEdge * 1 / 4 + _listActionsView.frame.size.height, kExplorerWidth, topEdge * 3 / 4 - _listActionsView.frame.size.height);
   [_listsView layout];
+  
+  _listActionsView.frame = CGRectMake(0, topEdge * 1 / 4, kExplorerWidth, _listActionsView.frame.size.height);
+  [_listActionsView layout];
 
-  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 2);
+  _transitionsView.frame = CGRectMake(0, 0, kExplorerWidth, topEdge / 4);
   [_transitionsView layout];
 
   CGFloat visualizerAspectRatio = (CGFloat)kWallHeight / (CGFloat)kWallWidth;
@@ -156,18 +193,27 @@ static const CGFloat kExplorerWidth = 200;
 
 - (void)listView:(PHListView *)listView didSelectRowAtIndex:(NSInteger)index {
   if (listView == _listsView) {
-    [PHSys() setActiveCategory:_categories[index]];
+    [PHSys() setActiveList:_lists[index]];
 
   } else if (listView == _transitionsView) {
     PHSys().faderTransition = _transitions[index];
   }
 }
 
+- (BOOL)listView:(PHListView *)listView canDropAtIndex:(NSInteger)index {
+  return [_lists[index] isKindOfClass:[PHAnimationList class]];
+}
+
+- (void)listView:(PHListView *)listView didDropObject:(id)object atIndex:(NSInteger)index {
+  [[_lists[index] guids] addObject:[object guid]];
+  [PHSys() listDidChange];
+}
+
 #pragma mark - PHListViewDataSource
 
 - (NSInteger)numberOfRowsInListView:(PHListView *)listView {
   if (listView == _listsView) {
-    return _categories.count;
+    return _lists.count;
   } else if (listView == _transitionsView) {
     return _transitions.count;
   } else {
@@ -177,7 +223,13 @@ static const CGFloat kExplorerWidth = 200;
 
 - (NSString *)listView:(PHListView *)listView stringForRowAtIndex:(NSInteger)index {
   if (listView == _listsView) {
-    return _categories[index];
+    id object = _lists[index];
+    if ([object isKindOfClass:[NSString class]]) {
+      return object;
+    } else if ([object isKindOfClass:[PHAnimationList class]]) {
+      return [object name];
+    }
+    return nil;
   } else if (listView == _transitionsView) {
     return [_transitions[index] tooltipName];
   } else {
@@ -185,10 +237,26 @@ static const CGFloat kExplorerWidth = 200;
   }
 }
 
+#pragma mark - PHButtonDelegate
+
+- (void)didPressDownButton:(PHButton *)button {
+  [PHSys() didPressButton:(PHSystemControlIdentifier)button.tag];
+}
+
+- (void)didReleaseButton:(PHButton *)button {
+  [PHSys() didReleaseButton:(PHSystemControlIdentifier)button.tag];
+}
+
 #pragma mark - NSNotification
 
+- (void)listsDidChangeNotification:(NSNotification *)notification {
+  _lists = [PHSys() allLists];
+  [_listsView reloadData];
+}
+
 - (void)activeCategoryDidChangeNotification:(NSNotification *)notification {
-  [_listsView setSelectedIndex:[_categories indexOfObject:[PHSys() activeCategory]]];
+  _lists = [PHSys() allLists];
+  [_listsView setSelectedIndex:[_lists indexOfObject:[PHSys() activeList]]];
 }
 
 - (void)displayLinkDidFire:(NSNotification *)notification {

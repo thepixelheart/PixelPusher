@@ -81,6 +81,8 @@
 #import "PHSoundWaveAnimation.h"
 #import "PHFlippingSquaresAnimation.h"
 #import "PHPositiveStatementsAnimation.h"
+#import "PHColorSpliceAnimation.h"
+#import "PHRaindropRipplesAnimation.h"
 
 // Filters
 #import "PHAffineTileFilter.h"
@@ -237,10 +239,11 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHEightfoldReflectedTileFilter animation],
     [PHExposureAdjustFilter animation],
     [PHFalseColorFilter animation],
-    [PHBumpDistortionFilter animation],
-    [PHHoleDistortionFilter animation],
+//    [PHBumpDistortionFilter animation],
+//    [PHHoleDistortionFilter animation],
     [PHKaleidoscopeFilter animation],
     [PHTriangleTileFilter animation],
+    [PHColorSpliceAnimation animation],
     
     // Animations
     [PHPixelHeartAnimation animation],
@@ -278,6 +281,7 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
     [PHSoundWaveAnimation animation],    
     [PHFlippingSquaresAnimation animation],
     [PHPositiveStatementsAnimation animation],
+    [PHRaindropRipplesAnimation animation],
 
     // Sprites
     [PHMegamanAnimation animation],
@@ -374,6 +378,15 @@ static PHAdditionalAnimationBlock sAdditionalAnimationBlock = nil;
   }
 
   return immutablePath;
+}
+
+- (NSString *)guid {
+  id definingProperties = [self definingProperties];
+  if (definingProperties) {
+    return [[self className] stringByAppendingFormat:@"%@", definingProperties];
+  } else {
+    return [self className];
+  }
 }
 
 - (NSString *)tooltipName {

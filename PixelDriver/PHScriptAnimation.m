@@ -56,4 +56,8 @@
   return @[PHAnimationCategoryScripts];
 }
 
+- (NSString *)guid {
+  return [[self className] stringByAppendingFormat:@"%@", _script.sourceFile];
+}
+
 @end
