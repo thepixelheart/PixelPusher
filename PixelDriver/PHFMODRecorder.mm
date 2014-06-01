@@ -157,18 +157,6 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
     result = _system->init(8, FMOD_INIT_NORMAL, 0);
     INITCHECKFMODRESULT(result);
-
-    FMOD_CREATESOUNDEXINFO exinfo;
-    memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
-
-    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-    exinfo.numchannels = 2;
-    exinfo.defaultfrequency = 44100;
-    exinfo.format = FMOD_SOUND_FORMAT_PCM16;
-    exinfo.length = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * kRecordingDuration;
-
-    result = _system->createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound);
-    INITCHECKFMODRESULT(result);
   }
   return self;
 }
@@ -181,9 +169,30 @@ static const unsigned int kRecordingDuration = 60 * 5;
   _listening = !_listening;
 
   if (_listening) {
-    FMOD_RESULT result = _system->recordStart(_recordDriverIndex, _sound, YES);
+    if (nil != _sound) {
+      _sound->release();
+      _sound = NULL;
+    }
+
+    FMOD_CREATESOUNDEXINFO exinfo;
+    memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
+
+    // http://stackoverflow.com/questions/6025955/playback-and-listen-to-recording-device-in-fmod
+    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
+    exinfo.numchannels = 2;
+    exinfo.defaultfrequency = 44100;
+    exinfo.format = FMOD_SOUND_FORMAT_PCM16;
+    exinfo.length = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * kRecordingDuration;
+
+    FMOD_RESULT result = _system->createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound);
+    if (result != FMOD_OK) {
+      NSLog(@"Failed to create sound");
+      return;
+    }
+
+    result = _system->recordStart(_recordDriverIndex, _sound, YES);
     if (result == FMOD_OK) {
-      usleep(25 * 1000);
+      usleep(100 * 1000);
       [self startPlaying];
     } else {
       [self stopListening];
