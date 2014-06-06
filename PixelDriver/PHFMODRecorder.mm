@@ -177,6 +177,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
     FMOD_CREATESOUNDEXINFO exinfo;
     memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
 
+    // http://katyscode.wordpress.com/2013/11/24/cutting-your-teeth-on-fmod-part-6-recording-and-visualizing-sound-card-output/
     // http://stackoverflow.com/questions/6025955/playback-and-listen-to-recording-device-in-fmod
     exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
     exinfo.numchannels = 2;
