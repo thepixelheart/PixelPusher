@@ -123,7 +123,7 @@
 			#include "CAHostTimeBase.h"
 			#define	DebugMsg(inFormat, ...)	DebugPrintf("%17qd: " inFormat, CAHostTimeBase::GetCurrentTimeInNanos(), ## __VA_ARGS__) FlushRtn
 		#else
-			#define	DebugMsg(inFormat, ...)	printf(inFormat, ## __VA_ARGS__) FlushRtn
+			#define	DebugMsg(inFormat, ...)	printf(inFormat "\n", ## __VA_ARGS__) FlushRtn
 		#endif
 	#endif
 	void	DebugPrint(const char *fmt, ...);	// can be used like printf

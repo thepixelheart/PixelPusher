@@ -452,23 +452,6 @@ OSStatus CAPlayThrough::SetupBuffers()
 	checkErr(err);
     bufferSizeBytes = bufferSizeFrames * sizeof(Float32);
 
-  {
-    if (floatBuffers) {
-      free(floatBuffers);
-      floatBuffers = NULL;
-    }
-    delete converter;
-
-    UInt32 bufferSizeBytes = bufferSizeFrames * mInputDevice.mFormat.mBytesPerFrame;
-    converter              = new AEFloatConverter(mInputDevice.mFormat);
-    floatBuffers           = (float**)malloc(sizeof(float*)*mInputDevice.mFormat.mChannelsPerFrame);
-    assert(floatBuffers);
-    for ( int i=0; i < mInputDevice.mFormat.mChannelsPerFrame; i++ ) {
-      floatBuffers[i] = (float*)malloc(bufferSizeBytes);
-      assert(floatBuffers[i]);
-    }
-  }
-		
 	//Get the Stream Format (Output client side)
 	propertySize = sizeof(asbd_dev1_in);
 	err = AudioUnitGetProperty(mInputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 1, &asbd_dev1_in, &propertySize);
@@ -550,7 +533,24 @@ OSStatus CAPlayThrough::SetupBuffers()
 	//Alloc ring buffer that will hold data between the two audio devices
 	mBuffer = new CARingBuffer();	
 	mBuffer->Allocate(asbd.mChannelsPerFrame, asbd.mBytesPerFrame, bufferSizeFrames * 20);
-	
+
+  {
+    if (floatBuffers) {
+      free(floatBuffers);
+      floatBuffers = NULL;
+    }
+    delete converter;
+
+    UInt32 bufferSizeBytes = bufferSizeFrames * asbd.mBytesPerFrame;
+    converter              = new AEFloatConverter(asbd);
+    floatBuffers           = (float**)malloc(sizeof(float*)*asbd.mChannelsPerFrame);
+    assert(floatBuffers);
+    for ( int i=0; i < asbd.mChannelsPerFrame; i++ ) {
+      floatBuffers[i] = (float*)malloc(bufferSizeBytes);
+      assert(floatBuffers[i]);
+    }
+  }
+
     return err;
 }
 
@@ -590,7 +590,7 @@ OSStatus CAPlayThrough::InputProc(void *inRefCon,
                             This->mInputBuffer,
                             This->floatBuffers,
                             inNumberFrames);
-    This->postNotification();
+    This->postNotification(This->floatBuffers, inNumberFrames);
 
 		err = This->mBuffer->Store(This->mInputBuffer, Float64(inNumberFrames), SInt64(inTimeStamp->mSampleTime));
 	}	

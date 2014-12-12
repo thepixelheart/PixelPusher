@@ -86,7 +86,7 @@ bool AEFloatConverterToFloat(AEFloatConverter* THIS, AudioBufferList *sourceBuff
       sourceBuffer->mBuffers[i].mDataByteSize = frames * THIS->_sourceAudioDescription.mBytesPerFrame;
     }
 
-    for ( int i=0; i<THIS->_scratchFloatBufferList->mNumberBuffers; i++ ) {
+    for ( int i = 0; i < THIS->_scratchFloatBufferList->mNumberBuffers; i++ ) {
       THIS->_scratchFloatBufferList->mBuffers[i].mData = targetBuffers[i];
       THIS->_scratchFloatBufferList->mBuffers[i].mDataByteSize = frames * sizeof(float);
     }
@@ -104,6 +104,9 @@ bool AEFloatConverterToFloat(AEFloatConverter* THIS, AudioBufferList *sourceBuff
     }
 
     if ( !checkResult(result, "AudioConverterConvertComplexBuffer") ) {
+      char message[5] = {0};
+      *(UInt32*) message = CFSwapInt32HostToBig(result);
+      printf("%s", message);
       return false;
     }
 

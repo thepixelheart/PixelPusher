@@ -20,7 +20,7 @@ public:
   AudioDeviceID GetInputDeviceID()	{ return mInputDevice.mID;	}
   AudioDeviceID GetOutputDeviceID()	{ return mOutputDevice.mID; }
 
-  void postNotification();
+  void postNotification(float **buffer, UInt32 bufferSize);
 
 private:
   OSStatus SetupGraph(AudioDeviceID out);

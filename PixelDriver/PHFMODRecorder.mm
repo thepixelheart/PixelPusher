@@ -17,6 +17,7 @@
 #import "PHFMODRecorder.h"
 
 #import "CAPlayThrough.h"
+#import "CAPlayThroughObjc.h"
 #import "AudioDeviceList.h"
 
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
@@ -33,6 +34,8 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 - (void)dealloc {
   delete _inputDeviceList;
   delete _outputDeviceList;
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)init {
@@ -87,6 +90,8 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
       _recordDriverIndex = 0;
       [prefs setValue:_recordDriverNames[0] forKey:kRecordingDriverNameUserDefaultsKey];
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioUpdateNotification:) name:kAudioBufferNotification object:nil];
   }
   return self;
 }
@@ -202,6 +207,16 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setFloat:volume forKey:PHInfoPanelVolumeLevelKey];
+}
+
+#pragma mark - Notifications
+
+- (void)audioUpdateNotification:(NSNotification *)notification {
+  float** buffer = (float **)[notification.userInfo[kAudioBufferKey] pointerValue];
+  UInt32 bufferSize = [notification.userInfo[kAudioBufferSizeKey] intValue];
+  UInt32 numberOfChannels = [notification.userInfo[kAudioNumberOfChannelsKey] intValue];
+
+  NSLog(@"%d %d", bufferSize, numberOfChannels);
 }
 
 @end

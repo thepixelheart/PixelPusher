@@ -728,6 +728,7 @@
 		666AC4D81A3AB518009DEE22 /* AEFloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AEFloatConverter.cpp; sourceTree = "<group>"; };
 		666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CAPlayThrough.mm; sourceTree = "<group>"; };
 		666AC4DF1A3ABA00009DEE22 /* CAPlayThroughInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPlayThroughInternal.h; sourceTree = "<group>"; };
+		666AC4E01A3ABEBD009DEE22 /* CAPlayThroughObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPlayThroughObjc.h; sourceTree = "<group>"; };
 		66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScreenCaptureAnimation.h; sourceTree = "<group>"; };
 		66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScreenCaptureAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
@@ -1577,6 +1578,7 @@
 				666AC4DF1A3ABA00009DEE22 /* CAPlayThroughInternal.h */,
 				666AC4BE1A3AA665009DEE22 /* CAPlayThrough.cpp */,
 				666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */,
+				666AC4E01A3ABEBD009DEE22 /* CAPlayThroughObjc.h */,
 				666AC4C01A3AA665009DEE22 /* PublicUtility */,
 			);
 			name = CAPlayThrough;
