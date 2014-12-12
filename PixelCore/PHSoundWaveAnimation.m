@@ -32,7 +32,7 @@
   _colorAdvance += self.secondsSinceLastTick;
   CGContextSaveGState(cx);
 
-  NSInteger numberOfWaveDataValues = self.systemState.numberOfWaveDataValues / 3;
+  NSInteger numberOfWaveDataValues = self.systemState.numberOfWaveDataValues;
   float* unifiedWaveData = self.systemState.unifiedWaveData + self.systemState.numberOfWaveDataValues - numberOfWaveDataValues;
   NSInteger numberOfValuesPerStep = floorf(numberOfWaveDataValues / size.width);
 
@@ -53,7 +53,7 @@
     } else {
       value = _values[(int)ix];
     }
-    CGPoint position = CGPointMake(ix, value * size.height + size.height / 2);
+    CGPoint position = CGPointMake(ix, value * size.height * 0.8 + size.height / 2);
     if (ix == 0) {
       CGContextMoveToPoint(cx, position.x, position.y);
     } else {
