@@ -155,11 +155,6 @@ typedef enum {
 @property (nonatomic, readonly) float* rightSpectrum;
 @property (nonatomic, readonly) NSInteger numberOfSpectrumValues;
 
-@property (nonatomic, readonly) float* highResUnifiedSpectrum;
-@property (nonatomic, readonly) float* highResLeftSpectrum;
-@property (nonatomic, readonly) float* highResRightSpectrum;
-@property (nonatomic, readonly) NSInteger numberOfHighResSpectrumValues;
-
 @property (nonatomic, readonly) float* unifiedWaveData;
 @property (nonatomic, readonly) float* leftWaveData;
 @property (nonatomic, readonly) float* rightWaveData;
@@ -180,7 +175,6 @@ typedef enum {
 // This can be used to calculate an average over a specific Hz range in the
 // spectrum and is what the amplitude values below use.
 - (float)hzPerSpectrumValue;
-- (float)hzPerHighResSpectrumValue;
 
 // Processed values
 // Each of these values is from 0..1, with 1 being peak amplitude.

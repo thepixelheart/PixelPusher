@@ -78,10 +78,6 @@ static const float notefreq[PHPitch_Count] = {
   return [self nyquist] / (float)_numberOfSpectrumValues;
 }
 
-- (float)hzPerHighResSpectrumValue {
-  return [self nyquist] / (float)_numberOfHighResSpectrumValues;
-}
-
 - (float)amplitudeOfSpectrumWithRange:(PHFrequencyRange)range scale:(CGFloat *)scale {
   if (!_unifiedSpectrum) {
     return 0;
@@ -123,7 +119,6 @@ static const float notefreq[PHPitch_Count] = {
                            gifs:(NSArray *)gifs
        kinectColorBitmapContext:(CGContextRef)kinectColorBitmapContext {
   [self updateSpectrumWithAudio:audio];
-  [self updateHighResSpectrumWithAudio:audio];
   [self updateWaveWithAudio:audio];
   [self updateActionsWithMotes:motes];
 
@@ -152,25 +147,20 @@ static const float notefreq[PHPitch_Count] = {
   _hihatAmplitude = [self amplitudeOfSpectrumWithRange:kHihatRange scale:&_hihatScale];
   _vocalAmplitude = [self amplitudeOfSpectrumWithRange:kVocalRange scale:&_vocalScale];
   _snareAmplitude = [self amplitudeOfSpectrumWithRange:kSnareRange scale:&_snareScale];
-}
-
-- (void)updateHighResSpectrumWithAudio:(PHFMODRecorder *)audio {
-  [audio getHighResSpectrumLeft:&_highResLeftSpectrum right:&_highResRightSpectrum unified:&_highResUnifiedSpectrum];
-  _numberOfHighResSpectrumValues = audio.numberOfHighResSpectrumValues;
 
   // First find the loudest frequency, ignoring the bass.
   float max = 0;
   NSInteger indexOfMax = 0;
 
-  float hzPerSpectrumValue = [self hzPerHighResSpectrumValue];
+  float hzPerSpectrumValue = [self hzPerSpectrumValue];
   NSInteger leftEdge = floorf(kPitchDetectionRange.start / hzPerSpectrumValue);
   NSInteger rightEdge = floorf(kPitchDetectionRange.end / hzPerSpectrumValue);
 
-  for (NSInteger ix = MIN(_numberOfHighResSpectrumValues, leftEdge);
-       ix < MIN(_numberOfHighResSpectrumValues, rightEdge);
+  for (NSInteger ix = MIN(_numberOfSpectrumValues, leftEdge);
+       ix < MIN(_numberOfSpectrumValues, rightEdge);
        ++ix) {
-    if (_highResUnifiedSpectrum[ix] > 0.01f && _highResUnifiedSpectrum[ix] > max) {
-      max = _highResUnifiedSpectrum[ix];
+    if (_unifiedSpectrum[ix] > 0.01f && _unifiedSpectrum[ix] > max) {
+      max = _unifiedSpectrum[ix];
       indexOfMax = ix;
     }
   }

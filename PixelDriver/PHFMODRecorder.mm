@@ -290,14 +290,6 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   return [[_channels firstObject] numberOfValues];
 }
 
-- (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-
-}
-
-- (NSInteger)numberOfHighResSpectrumValues {
-  return 0;
-}
-
 - (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference {
 
 }
