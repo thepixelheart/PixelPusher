@@ -40,8 +40,8 @@ static const CGFloat kMinRadius = 2;
 
   _colorAdvance += self.secondsSinceLastTick * 0.3;
 
-  NSInteger numberOfSpectrumValues = self.systemState.numberOfHighResSpectrumValues * 0.5;
-  float* spectrumValues = self.systemState.highResUnifiedSpectrum;
+  NSInteger numberOfSpectrumValues = self.systemState.numberOfSpectrumValues * 0.5;
+  float* spectrumValues = self.systemState.unifiedSpectrum;
   NSInteger numberOfValuesPerStep = floorf(numberOfSpectrumValues / kNumberOfSteps);
 
   CGFloat stepSize = M_PI * 2 / (CGFloat)kNumberOfSteps;

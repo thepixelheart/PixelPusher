@@ -16,217 +16,249 @@
 
 #import "PHFMODRecorder.h"
 
-#import "fmod.hpp"
-#import "fmod_errors.h"
+#import "CAPlayThrough.h"
+#import "CAPlayThroughObjc.h"
+#import "AudioDeviceList.h"
 
-static const NSInteger kNumberOfSpectrumValues = (1 << 11);
-static const NSInteger kNumberOfHighResSpectrumValues = (1 << 13);
-static const NSInteger kNumberOfWaveDataValues = 16384;
-
-#define INITCHECKFMODRESULT(result) do {\
-  if (result != FMOD_OK) { \
-    NSLog(@"Failed to initialize FMOD recorder: %s", FMOD_ErrorString(result)); \
-    self = nil; \
-    return self; \
-  } \
-} while(0)
+#import <Accelerate/Accelerate.h>
 
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
-static const unsigned int kRecordingDuration = 60 * 5;
 
-@implementation PHFMODRecorder {
-  FMOD::System* _system;
-  FMOD::Sound* _sound;
-  FMOD::Channel* _channel;
-  BOOL _listening;
+@interface PHChannelFft : NSObject
+@end
 
-  float _leftSpectrum[kNumberOfSpectrumValues];
-  float _rightSpectrum[kNumberOfSpectrumValues];
-  float _unifiedSpectrum[kNumberOfSpectrumValues];
+@implementation PHChannelFft {
+  COMPLEX_SPLIT _A;
+  FFTSetup      _FFTSetup;
+  BOOL          _isFFTSetup;
+  vDSP_Length   _log2n;
+  int _nOver2;
 
-  float _leftHighResSpectrum[kNumberOfHighResSpectrumValues];
-  float _rightHighResSpectrum[kNumberOfHighResSpectrumValues];
-  float _unifiedHighResSpectrum[kNumberOfHighResSpectrumValues];
-
-  float _leftWaveData[kNumberOfWaveDataValues];
-  float _rightWaveData[kNumberOfWaveDataValues];
-  float _unifiedWaveData[kNumberOfWaveDataValues];
-  float _differenceWaveData[kNumberOfWaveDataValues];
+  float *_window;
+  float *_amplitudes;
+  float *_waveform;
 }
 
 - (void)dealloc {
-  if (nil != _sound) {
-    _sound->release();
+  if (_FFTSetup) {
+    vDSP_destroy_fftsetup(_FFTSetup);
   }
-  if (nil != _system) {
-    _system->release();
+  if (_A.realp) {
+    free(_A.realp);
   }
+  if (_A.imagp) {
+    free(_A.imagp);
+  }
+  if (_amplitudes) {
+    free(_amplitudes);
+  }
+  if (_window) {
+    free(_window);
+  }
+  if (_waveform) {
+    free(_waveform);
+  }
+}
+
+- (float *)amplitudes {
+  return _amplitudes;
+}
+
+- (float *)waveform {
+  return _waveform;
+}
+
+- (int)numberOfValues {
+  return _nOver2;
+}
+
+- (int)numberOfWaveFormValues {
+  return _nOver2 * 2;
+}
+
+/**
+ Adapted from http://batmobile.blogs.ilrt.org/fourier-transforms-on-an-iphone/
+ */
+-(void)createFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
+  // Setup the length
+  _log2n = log2f(bufferSize);
+
+  // Calculate the weights array. This is a one-off operation.
+  _FFTSetup = vDSP_create_fftsetup(_log2n, FFT_RADIX2);
+
+  // For an FFT, numSamples must be a power of 2, i.e. is always even
+  _nOver2 = bufferSize/2;
+
+  // Populate *window with the values for a hamming window function
+  _window = (float *)malloc(sizeof(float)*bufferSize);
+  vDSP_hamm_window(_window, bufferSize, 0);
+
+  // Define complex buffer
+  _A.realp = (float *) malloc(_nOver2*sizeof(float));
+  _A.imagp = (float *) malloc(_nOver2*sizeof(float));
+
+  _amplitudes = (float *)malloc(sizeof(float)*_nOver2);
+  _waveform = (float *)malloc(sizeof(float)*bufferSize);
+}
+
+- (void)updateFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
+  if (!_FFTSetup) {
+    [self createFFTWithBufferSize:bufferSize withAudioData:data];
+  }
+
+  // Window the samples
+  vDSP_vmul(data, 1, _window, 1, data, 1, bufferSize);
+
+  // Pack samples:
+  // C(re) -> A[n], C(im) -> A[n+1]
+  vDSP_ctoz((COMPLEX*)data, 2, &_A, 1, _nOver2);
+
+  // Perform a forward FFT using fftSetup and A
+  // Results are returned in A
+  vDSP_fft_zrip(_FFTSetup, &_A, 1, _log2n, FFT_FORWARD);
+
+  for(int i=0; i<_nOver2; i++) {
+    float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
+    _amplitudes[i] = mag;
+  }
+
+#if 0
+  // Update the frequency domain plot
+  [self.audioPlotFreq updateBuffer:amp
+                    withBufferSize:nOver2];
+#endif
+}
+
+@end
+
+@implementation PHFMODRecorder {
+  AudioDeviceList* _inputDeviceList;
+  AudioDeviceList* _outputDeviceList;
+
+  NSArray *_channels;
+
+  CAPlayThroughHost* _playThroughHost;
+}
+
+- (void)dealloc {
+  delete _inputDeviceList;
+  delete _outputDeviceList;
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (id)init {
   if ((self = [super init])) {
     _volume = 1;
+    _playbackDriverIndex = -1;
+    _recordDriverIndex = -1;
 
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:PHInfoPanelVolumeLevelKey]) {
       _volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
     }
 
-    FMOD_RESULT result = FMOD::System_Create(&_system);
-    INITCHECKFMODRESULT(result);
+    _inputDeviceList = new AudioDeviceList(true);
+    _outputDeviceList = new AudioDeviceList(false);
 
-    unsigned int version;
-    result = _system->getVersion(&version);
-    INITCHECKFMODRESULT(result);
-
-    if (version < FMOD_VERSION) {
-      printf("Using an old version of FMOD %08x. This program requires %08x\n", version, FMOD_VERSION);
-      self = nil;
-      return self;
-    }
-
-
-    // Playback drivers.
-
-    int numberOfDrivers = 0;
-    result = _system->getNumDrivers(&numberOfDrivers);
-    INITCHECKFMODRESULT(result);
+    _playbackDriverNames = [self devicesNamesFromList:_outputDeviceList];
+    _recordDriverNames = [self devicesNamesFromList:_inputDeviceList];
 
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    // Output device
     NSString* playbackDriverName = [prefs valueForKey:kPlaybackDriverNameUserDefaultsKey];
     if (nil == playbackDriverName) {
       playbackDriverName = @"Built-in Output";
     }
-
-    NSMutableArray *driverNames = [NSMutableArray array];
-    for (int ix = 0; ix < numberOfDrivers; ++ix) {
-      char name[256];
-
-      result = _system->getDriverInfo(ix, name, 256, 0);
-      INITCHECKFMODRESULT(result);
-      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
-      if ([playbackDriverName isEqualToString:driverName]) {
+    for (int ix = 0; ix < _playbackDriverNames.count; ++ix) {
+      if ([_playbackDriverNames[ix] isEqualToString:playbackDriverName]) {
         _playbackDriverIndex = ix;
       }
-      [driverNames addObject:driverName];
     }
-    _playbackDriverNames = [driverNames copy];
 
-    if (nil == playbackDriverName) {
+    if (_playbackDriverIndex < 0 && _playbackDriverNames.count > 0) {
+      // Couldn't find the driver. Pick the first.
       _playbackDriverIndex = 0;
       [prefs setValue:_recordDriverNames[0] forKey:kPlaybackDriverNameUserDefaultsKey];
     }
 
-    result = _system->setDriver(_playbackDriverIndex);
-    INITCHECKFMODRESULT(result);
-
-
-    // Recording drivers.
-
-    numberOfDrivers = 0;
-    result = _system->getRecordNumDrivers(&numberOfDrivers);
-    INITCHECKFMODRESULT(result);
-
+    // Input device
     NSString* recordingDriverName = [prefs valueForKey:kRecordingDriverNameUserDefaultsKey];
     if (nil == recordingDriverName) {
       recordingDriverName = @"Soundflower (2ch)";
     }
-
-    driverNames = [NSMutableArray array];
-    for (int ix = 0; ix < numberOfDrivers; ++ix) {
-      char name[256];
-
-      result = _system->getRecordDriverInfo(ix, name, 256, 0);
-      INITCHECKFMODRESULT(result);
-      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
-      if ([recordingDriverName isEqualToString:driverName]) {
+    for (int ix = 0; ix < _recordDriverNames.count; ++ix) {
+      if ([_recordDriverNames[ix] isEqualToString:recordingDriverName]) {
         _recordDriverIndex = ix;
       }
-      [driverNames addObject:driverName];
     }
-    _recordDriverNames = [driverNames copy];
 
-    if (nil == recordingDriverName) {
+    if (_recordDriverIndex < 0 && _recordDriverNames.count > 0) {
+      // Couldn't find the driver. Pick the first.
       _recordDriverIndex = 0;
       [prefs setValue:_recordDriverNames[0] forKey:kRecordingDriverNameUserDefaultsKey];
     }
-    [prefs removeObjectForKey:kRecordingDriverNameUserDefaultsKey];
-    [prefs removeObjectForKey:kPlaybackDriverNameUserDefaultsKey];
 
-    result = _system->init(8, FMOD_INIT_NORMAL, 0);
-    INITCHECKFMODRESULT(result);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioUpdateNotification:) name:kAudioBufferNotification object:nil];
   }
   return self;
 }
 
+- (AudioDeviceID)inputDevice {
+  AudioDeviceList::DeviceList &thelist = _inputDeviceList->GetList();
+  return thelist[_recordDriverIndex].mID;
+}
+
+- (AudioDeviceID)outputDevice {
+  AudioDeviceList::DeviceList &thelist = _outputDeviceList->GetList();
+  return thelist[_playbackDriverIndex].mID;
+}
+
+- (NSArray *)devicesNamesFromList:(AudioDeviceList *)deviceList {
+  AudioDeviceList::DeviceList &thelist = deviceList->GetList();
+  NSMutableArray *names = [NSMutableArray array];
+  int index = 0;
+  for (AudioDeviceList::DeviceList::iterator i = thelist.begin(); i != thelist.end(); ++i, ++index) {
+    [names addObject:[NSString stringWithCString: (*i).mName encoding:NSASCIIStringEncoding]];
+  }
+  return names;
+}
+
 - (BOOL)isListening {
-  return _listening;
+  return _playThroughHost && _playThroughHost->IsRunning();
 }
 
 - (void)toggleListening {
-  _listening = !_listening;
-
-  if (_listening) {
-    if (nil != _sound) {
-      _sound->release();
-      _sound = NULL;
-    }
-
-    FMOD_CREATESOUNDEXINFO exinfo;
-    memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
-
-    // http://katyscode.wordpress.com/2013/11/24/cutting-your-teeth-on-fmod-part-6-recording-and-visualizing-sound-card-output/
-    // http://stackoverflow.com/questions/6025955/playback-and-listen-to-recording-device-in-fmod
-    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-    exinfo.numchannels = 2;
-    exinfo.defaultfrequency = 44100;
-    exinfo.format = FMOD_SOUND_FORMAT_PCM16;
-    exinfo.length = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * kRecordingDuration;
-
-    FMOD_RESULT result = _system->createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound);
-    if (result != FMOD_OK) {
-      NSLog(@"Failed to create sound");
-      return;
-    }
-
-    result = _system->recordStart(_recordDriverIndex, _sound, YES);
-    if (result == FMOD_OK) {
-      usleep(100 * 1000);
-      [self startPlaying];
-    } else {
-      [self stopListening];
-    }
+  if ([self isListening]) {
+    [self stopListening];
 
   } else {
-    [self stopListening];
+    [self startListening];
   }
 }
 
-- (void)startPlaying {
-  if (_listening) {
-    if (_channel) {
-      _channel->stop();
-      _channel = nil;
+- (void)startListening {
+  if (!_playThroughHost) {
+    _playThroughHost = new CAPlayThroughHost([self inputDevice], [self outputDevice]);
+
+  } else {
+    if (_playThroughHost->PlayThroughExists()) {
+      _playThroughHost->DeletePlayThrough();
     }
 
-    _sound->setMode(FMOD_LOOP_NORMAL);
-    FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
-    _channel->setVolume(_volume * _volume * _volume * _volume);
-    if (result != FMOD_OK) {
-      [self stopListening];
-    }
+    _playThroughHost->CreatePlayThrough([self inputDevice], [self outputDevice]);
   }
+
+	_playThroughHost->Start();
 }
 
 - (void)stopListening {
-  _listening = NO;
-  if (_channel) {
-    _channel->stop();
-    _channel = nil;
+  if (_playThroughHost && _playThroughHost->IsRunning()) {
+    _playThroughHost->Stop();
   }
-  _system->recordStop(_recordDriverIndex);
 }
 
 - (void)setPlaybackDriverIndex:(int)playbackDriverIndex {
@@ -237,9 +269,7 @@ static const unsigned int kRecordingDuration = 60 * 5;
            forKey:kPlaybackDriverNameUserDefaultsKey];
   [prefs synchronize];
 
-  _system->setDriver(_playbackDriverIndex);
-
-  if (_listening) {
+  if ([self isListening]) {
     [self stopListening];
     [self toggleListening];
   }
@@ -253,72 +283,38 @@ static const unsigned int kRecordingDuration = 60 * 5;
            forKey:kRecordingDriverNameUserDefaultsKey];
   [prefs synchronize];
 
-  if (_listening) {
+  if ([self isListening]) {
     [self stopListening];
     [self toggleListening];
   }
 }
 
 - (void)getSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-  memset(_leftSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
-  memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
-
-  _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-  _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-
-  for (NSInteger ix = 0; ix < kNumberOfSpectrumValues; ++ix) {
-    _unifiedSpectrum[ix] = (_leftSpectrum[ix] + _rightSpectrum[ix]) / 2;
+  if (_channels.count > 0) {
+    *left = [_channels[0] amplitudes];
+    *unified = [_channels[0] amplitudes];
   }
-
-  *left = _leftSpectrum;
-  *right = _rightSpectrum;
-  *unified = _unifiedSpectrum;
+  if (_channels.count > 1) {
+    *right = [_channels[1] amplitudes];
+  }
 }
 
 - (NSInteger)numberOfSpectrumValues {
-  return kNumberOfSpectrumValues;
-}
-
-- (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-  memset(_leftHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
-  memset(_rightHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
-
-  _channel->getSpectrum(_leftHighResSpectrum, kNumberOfHighResSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-  _channel->getSpectrum(_rightHighResSpectrum, kNumberOfHighResSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-
-  for (NSInteger ix = 0; ix < kNumberOfHighResSpectrumValues; ++ix) {
-    _unifiedHighResSpectrum[ix] = (_leftHighResSpectrum[ix] + _rightHighResSpectrum[ix]) / 2;
-  }
-
-  *left = _leftHighResSpectrum;
-  *right = _rightHighResSpectrum;
-  *unified = _unifiedHighResSpectrum;
-}
-
-- (NSInteger)numberOfHighResSpectrumValues {
-  return kNumberOfHighResSpectrumValues;
+  return [[_channels firstObject] numberOfValues];
 }
 
 - (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference {
-  memset(_leftWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
-  memset(_rightWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
-
-  _channel->getWaveData(_leftWaveData, kNumberOfWaveDataValues, 0);
-  _channel->getWaveData(_rightWaveData, kNumberOfWaveDataValues, 1);
-
-  for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
-    _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;
-    _differenceWaveData[ix] = fabsf(fabsf(_leftWaveData[ix]) - fabsf(_rightWaveData[ix]));
+  if (_channels.count > 0) {
+    *left = [_channels[0] waveform];
+    *unified = [_channels[0] waveform];
   }
-
-  *left = _leftWaveData;
-  *right = _rightWaveData;
-  *unified = _unifiedWaveData;
-  *difference = _differenceWaveData;
+  if (_channels.count > 1) {
+    *right = [_channels[1] waveform];
+  }
 }
 
 - (NSInteger)numberOfWaveDataValues {
-  return kNumberOfWaveDataValues;
+  return [[_channels firstObject] numberOfWaveFormValues];
 }
 
 - (void)setVolume:(float)volume {
@@ -326,9 +322,31 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setFloat:volume forKey:PHInfoPanelVolumeLevelKey];
+}
 
-  if (nil != _channel) {
-    _channel->setVolume(_volume * _volume * _volume * _volume);
+#pragma mark - Notifications
+
+- (void)audioUpdateNotification:(NSNotification *)notification {
+  float** buffer = (float **)[notification.userInfo[kAudioBufferKey] pointerValue];
+  UInt32 bufferSize = [notification.userInfo[kAudioBufferSizeKey] intValue];
+  UInt32 numberOfChannels = [notification.userInfo[kAudioNumberOfChannelsKey] intValue];
+
+  @synchronized(self) {
+    if (_channels.count != numberOfChannels) {
+      NSMutableArray* channels = [NSMutableArray array];
+      for (NSInteger ix = 0; ix < numberOfChannels; ++ix) {
+        [channels addObject:[PHChannelFft new]];
+      }
+      _channels = channels;
+    }
+  }
+
+  for (NSInteger ix = 0; ix < numberOfChannels; ++ix) {
+    PHChannelFft *channelFft = _channels[ix];
+    @synchronized(channelFft) {
+      [channelFft updateFFTWithBufferSize:bufferSize withAudioData:buffer[ix]];
+      memcpy([channelFft waveform], buffer[ix], sizeof(float) * [channelFft numberOfWaveFormValues]);
+    }
   }
 }
 
