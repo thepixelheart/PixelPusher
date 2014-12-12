@@ -94,6 +94,8 @@ private:
 							   AudioBufferList *	ioData);
 											
 	AudioUnit mInputUnit;
+
+  float           **floatBuffers;
 	AudioBufferList *mInputBuffer;
 	AudioDevice mInputDevice, mOutputDevice;
 	CARingBuffer *mBuffer;
@@ -164,6 +166,8 @@ OSStatus CAPlayThrough::Init(AudioDeviceID input, AudioDeviceID output)
 	
 	//Add latency between the two devices
 	ComputeThruOffset();
+
+  floatBuffers = NULL;
 		
 	return err;	
 }
@@ -513,6 +517,22 @@ OSStatus CAPlayThrough::SetupBuffers()
 	err = AudioUnitGetProperty(mInputUnit, kAudioDevicePropertyBufferFrameSize, kAudioUnitScope_Global, 0, &bufferSizeFrames, &propertySize);
 	checkErr(err);
     bufferSizeBytes = bufferSizeFrames * sizeof(Float32);
+
+  {
+    if (floatBuffers) {
+      free(floatBuffers);
+      floatBuffers = NULL;
+    }
+
+    UInt32 bufferSizeBytes = bufferSizeFrames * mInputDevice.mFormat.mBytesPerFrame;
+    //converter              = [[AEFloatConverter alloc] initWithSourceFormat:streamFormat];
+    floatBuffers           = (float**)malloc(sizeof(float*)*mInputDevice.mFormat.mChannelsPerFrame);
+    assert(floatBuffers);
+    for ( int i=0; i < mInputDevice.mFormat.mChannelsPerFrame; i++ ) {
+      floatBuffers[i] = (float*)malloc(bufferSizeBytes);
+      assert(floatBuffers[i]);
+    }
+  }
 		
 	//Get the Stream Format (Output client side)
 	propertySize = sizeof(asbd_dev1_in);
