@@ -43,7 +43,7 @@
   CGContextMoveToPoint(cx, 0, size.height / 2);
   CGContextSetInterpolationQuality(cx, kCGInterpolationNone);
 
-  CGFloat scale = 2;
+  CGFloat scale = 1;
   int bucketSize = floorf(((CGFloat)numberOfWaveDataValues) / size.width) / scale;
   for (int ix = 0; ix < size.width * scale; ++ix) {
     CGFloat total = 0;
@@ -51,7 +51,7 @@
       total += waveData[iy];
     }
     total /= (CGFloat)bucketSize;
-    CGContextAddLineToPoint(cx, (CGFloat)ix / scale, total * size.height / 2 + size.height / 2);
+    CGContextAddLineToPoint(cx, (CGFloat)ix / scale, total * size.height + size.height / 2);
   }
 
   NSColor* color = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];

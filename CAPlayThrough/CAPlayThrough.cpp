@@ -47,6 +47,7 @@
 
 #include "CAPlayThrough.h"
 #include "CAPlayThroughInternal.h"
+#include <mutex>
 
 #pragma mark ---Public Methods---
 
@@ -55,6 +56,7 @@
 CAPlayThrough::CAPlayThrough(AudioDeviceID input, AudioDeviceID output):
 mBuffer(NULL),
 floatBuffers(NULL),
+converter(NULL),
 mFirstInputTime(-1),
 mFirstOutputTime(-1),
 mInToOutSampleOffset(0)
@@ -111,6 +113,7 @@ void CAPlayThrough::Cleanup()
 	Stop();
 
   delete converter;
+  converter = NULL;
 
 	delete mBuffer;
 	mBuffer = 0;
@@ -572,8 +575,9 @@ OSStatus CAPlayThrough::InputProc(void *inRefCon,
 									AudioBufferList * ioData)
 {
     OSStatus err = noErr;
-	
+
 	CAPlayThrough *This = (CAPlayThrough *)inRefCon;
+  This->mutex.lock();
 	if (This->mFirstInputTime < 0.)
 		This->mFirstInputTime = inTimeStamp->mSampleTime;
 		
@@ -594,7 +598,9 @@ OSStatus CAPlayThrough::InputProc(void *inRefCon,
     This->postNotification(This->floatBuffers, inNumberFrames);
 
 		err = This->mBuffer->Store(This->mInputBuffer, Float64(inNumberFrames), SInt64(inTimeStamp->mSampleTime));
-	}	
+	}
+
+  This->mutex.unlock();
 
 	return err;
 }
@@ -707,10 +713,12 @@ void CAPlayThroughHost::DeletePlayThrough()
 {
 	if(mPlayThrough)
 	{
+    mPlayThrough->mutex.lock();
 		mPlayThrough->Stop();
 		RemoveDeviceListeners(mPlayThrough->GetInputDeviceID());
         dispatch_release(StreamListenerQueue);
         StreamListenerQueue = NULL;
+    mPlayThrough->mutex.unlock();
 		delete mPlayThrough;
 		mPlayThrough = NULL;
 	}

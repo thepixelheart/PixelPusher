@@ -46,7 +46,7 @@ static OSStatus complexInputDataProc(AudioConverterRef             inAudioConver
                                      AudioStreamPacketDescription  **outDataPacketDescription,
                                      void                          *inUserData);
 
-AEFloatConverter::AEFloatConverter(AudioStreamBasicDescription sourceFormat) {
+AEFloatConverter::AEFloatConverter(AudioStreamBasicDescription sourceFormat) : _toFloatConverter(NULL), _fromFloatConverter(NULL), _scratchFloatBufferList(NULL) {
   _floatAudioDescription.mFormatID          = kAudioFormatLinearPCM;
   _floatAudioDescription.mFormatFlags       = kAudioFormatFlagIsFloat | kAudioFormatFlagIsPacked | kAudioFormatFlagIsNonInterleaved;
   _floatAudioDescription.mChannelsPerFrame  = sourceFormat.mChannelsPerFrame;

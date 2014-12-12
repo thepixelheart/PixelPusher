@@ -148,6 +148,10 @@ static const float notefreq[PHPitch_Count] = {
   _vocalAmplitude = [self amplitudeOfSpectrumWithRange:kVocalRange scale:&_vocalScale];
   _snareAmplitude = [self amplitudeOfSpectrumWithRange:kSnareRange scale:&_snareScale];
 
+  if (!_unifiedSpectrum) {
+    return;
+  }
+
   // First find the loudest frequency, ignoring the bass.
   float max = 0;
   NSInteger indexOfMax = 0;

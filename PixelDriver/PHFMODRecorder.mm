@@ -38,6 +38,7 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 
   float *_window;
   float *_amplitudes;
+  float *_waveform;
 }
 
 - (void)dealloc {
@@ -56,14 +57,25 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   if (_window) {
     free(_window);
   }
+  if (_waveform) {
+    free(_waveform);
+  }
 }
 
 - (float *)amplitudes {
   return _amplitudes;
 }
 
+- (float *)waveform {
+  return _waveform;
+}
+
 - (int)numberOfValues {
   return _nOver2;
+}
+
+- (int)numberOfWaveFormValues {
+  return _nOver2 * 2;
 }
 
 /**
@@ -88,6 +100,7 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   _A.imagp = (float *) malloc(_nOver2*sizeof(float));
 
   _amplitudes = (float *)malloc(sizeof(float)*_nOver2);
+  _waveform = (float *)malloc(sizeof(float)*bufferSize);
 }
 
 - (void)updateFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
@@ -291,11 +304,17 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 }
 
 - (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference {
-
+  if (_channels.count > 0) {
+    *left = [_channels[0] waveform];
+    *unified = [_channels[0] waveform];
+  }
+  if (_channels.count > 1) {
+    *right = [_channels[1] waveform];
+  }
 }
 
 - (NSInteger)numberOfWaveDataValues {
-  return 0;
+  return [[_channels firstObject] numberOfWaveFormValues];
 }
 
 - (void)setVolume:(float)volume {
@@ -324,7 +343,10 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 
   for (NSInteger ix = 0; ix < numberOfChannels; ++ix) {
     PHChannelFft *channelFft = _channels[ix];
-    [channelFft updateFFTWithBufferSize:bufferSize withAudioData:buffer[ix]];
+    @synchronized(channelFft) {
+      [channelFft updateFFTWithBufferSize:bufferSize withAudioData:buffer[ix]];
+      memcpy([channelFft waveform], buffer[ix], sizeof(float) * [channelFft numberOfWaveFormValues]);
+    }
   }
 }
 

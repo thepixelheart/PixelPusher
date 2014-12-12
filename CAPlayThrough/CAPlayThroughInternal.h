@@ -2,6 +2,8 @@
 #include "CAPlayThrough.h"
 #include "AEFloatConverter.h"
 
+#include <mutex>
+
 // we define the class here so that is is not accessible from any object aside from CAPlayThroughManager
 class CAPlayThrough
 {
@@ -21,6 +23,8 @@ public:
   AudioDeviceID GetOutputDeviceID()	{ return mOutputDevice.mID; }
 
   void postNotification(float **buffer, UInt32 bufferSize);
+
+  std::mutex mutex;
 
 private:
   OSStatus SetupGraph(AudioDeviceID out);
