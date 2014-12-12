@@ -16,12 +16,22 @@
 
 #import "PHFMODRecorder.h"
 
+#import "AudioDeviceList.h"
+
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
 
 @implementation PHFMODRecorder {
   BOOL _listening;
+
+  AudioDeviceList *_inputDeviceList;
+  AudioDeviceList	*_outputDeviceList;
+}
+
+- (void)dealloc {
+  delete _inputDeviceList;
+  delete _outputDeviceList;
 }
 
 - (id)init {
@@ -33,8 +43,23 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
       _volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
     }
 
+    _inputDeviceList = new AudioDeviceList(true);
+    _outputDeviceList = new AudioDeviceList(false);
+
+    _playbackDriverNames = [self devicesNamesFromList:_outputDeviceList];
+    _recordDriverNames = [self devicesNamesFromList:_inputDeviceList];
   }
   return self;
+}
+
+- (NSArray *)devicesNamesFromList:(AudioDeviceList *)deviceList {
+  AudioDeviceList::DeviceList &thelist = deviceList->GetList();
+  NSMutableArray *names = [NSMutableArray array];
+  int index = 0;
+  for (AudioDeviceList::DeviceList::iterator i = thelist.begin(); i != thelist.end(); ++i, ++index) {
+    [names addObject:[NSString stringWithCString: (*i).mName encoding:NSASCIIStringEncoding]];
+  }
+  return names;
 }
 
 - (BOOL)isListening {

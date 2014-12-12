@@ -83,6 +83,9 @@ static const float notefreq[PHPitch_Count] = {
 }
 
 - (float)amplitudeOfSpectrumWithRange:(PHFrequencyRange)range scale:(CGFloat *)scale {
+  if (!_unifiedSpectrum) {
+    return 0;
+  }
   float hzPerSpectrumValue = [self hzPerSpectrumValue];
 
   float amplitude = 0;
