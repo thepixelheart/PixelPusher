@@ -46,6 +46,7 @@
 */ 
 
 #include "CAPlayThrough.h"
+#include "AEFloatConverter.h"
 
 #pragma mark -- CAPlayThrough
 
@@ -95,7 +96,9 @@ private:
 											
 	AudioUnit mInputUnit;
 
+  AEFloatConverter *converter;
   float           **floatBuffers;
+
 	AudioBufferList *mInputBuffer;
 	AudioDevice mInputDevice, mOutputDevice;
 	CARingBuffer *mBuffer;
@@ -176,7 +179,9 @@ void CAPlayThrough::Cleanup()
 {
 	//clean up
 	Stop();
-									
+
+  delete converter;
+
 	delete mBuffer;
 	mBuffer = 0;
 	if(mInputBuffer){
@@ -523,9 +528,10 @@ OSStatus CAPlayThrough::SetupBuffers()
       free(floatBuffers);
       floatBuffers = NULL;
     }
+    delete converter;
 
     UInt32 bufferSizeBytes = bufferSizeFrames * mInputDevice.mFormat.mBytesPerFrame;
-    //converter              = [[AEFloatConverter alloc] initWithSourceFormat:streamFormat];
+    converter              = new AEFloatConverter(mInputDevice.mFormat);
     floatBuffers           = (float**)malloc(sizeof(float*)*mInputDevice.mFormat.mChannelsPerFrame);
     assert(floatBuffers);
     for ( int i=0; i < mInputDevice.mFormat.mChannelsPerFrame; i++ ) {
