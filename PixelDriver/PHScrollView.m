@@ -17,4 +17,5 @@
 #import "PHScrollView.h"
 
 @implementation PHScrollView
+@synthesize tag;
 @end
