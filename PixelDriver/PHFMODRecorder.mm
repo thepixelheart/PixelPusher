@@ -48,17 +48,6 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   }
 }
 
-- (float)MAP:(float)value
-    leftMin:(float)leftMin
-    leftMax:(float)leftMax
-   rightMin:(float)rightMin
-   rightMax:(float)rightMax {
-  float leftSpan    = leftMax  - leftMin;
-  float rightSpan   = rightMax - rightMin;
-  float valueScaled = ( value  - leftMin ) / leftSpan;
-  return rightMin + (valueScaled * rightSpan);
-}
-
 /**
  Adapted from http://batmobile.blogs.ilrt.org/fourier-transforms-on-an-iphone/
  */
@@ -103,18 +92,10 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 
   // Convert COMPLEX_SPLIT A result to magnitudes
   float amp[nOver2];
-  float maxMag = 0;
 
   for(int i=0; i<nOver2; i++) {
-    // Calculate the magnitude
     float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
-    maxMag = mag > maxMag ? mag : maxMag;
-  }
-  for(int i=0; i<nOver2; i++) {
-    // Calculate the magnitude
-    float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
-    // Bind the value to be less than 1.0 to fit in the graph
-    amp[i] = [self MAP:mag leftMin:0.0 leftMax:maxMag rightMin:0.0 rightMax:1.0];
+    amp[i] = mag;
   }
 
 #if 0
