@@ -185,6 +185,14 @@
 		665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 665A07B7172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h */; };
 		665A07BA172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */; };
 		665B00AA178438EF0071474F /* PHCircularSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 665B00A9178438EF0071474F /* PHCircularSlider.m */; };
+		666AC4CA1A3AA665009DEE22 /* AudioDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4BA1A3AA665009DEE22 /* AudioDevice.cpp */; };
+		666AC4CB1A3AA665009DEE22 /* AudioDeviceList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4BC1A3AA665009DEE22 /* AudioDeviceList.cpp */; };
+		666AC4CC1A3AA665009DEE22 /* CAPlayThrough.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4BE1A3AA665009DEE22 /* CAPlayThrough.cpp */; };
+		666AC4CD1A3AA665009DEE22 /* CARingBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4C61A3AA665009DEE22 /* CARingBuffer.cpp */; };
+		666AC4CE1A3AA665009DEE22 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4C81A3AA665009DEE22 /* CAStreamBasicDescription.cpp */; };
+		666AC4D11A3AA6B5009DEE22 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4CF1A3AA6B5009DEE22 /* AudioToolbox.framework */; };
+		666AC4D21A3AA6B5009DEE22 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4D01A3AA6B5009DEE22 /* AudioUnit.framework */; };
+		666AC4D41A3AA909009DEE22 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4D31A3AA909009DEE22 /* CoreAudio.framework */; };
 		66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */; };
 		66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
@@ -696,6 +704,24 @@
 		665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHFlowyColorsAnimation.m; sourceTree = "<group>"; };
 		665B00A8178438EF0071474F /* PHCircularSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCircularSlider.h; sourceTree = "<group>"; };
 		665B00A9178438EF0071474F /* PHCircularSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCircularSlider.m; sourceTree = "<group>"; };
+		666AC4BA1A3AA665009DEE22 /* AudioDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDevice.cpp; sourceTree = "<group>"; };
+		666AC4BB1A3AA665009DEE22 /* AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDevice.h; sourceTree = "<group>"; };
+		666AC4BC1A3AA665009DEE22 /* AudioDeviceList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioDeviceList.cpp; sourceTree = "<group>"; };
+		666AC4BD1A3AA665009DEE22 /* AudioDeviceList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioDeviceList.h; sourceTree = "<group>"; };
+		666AC4BE1A3AA665009DEE22 /* CAPlayThrough.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAPlayThrough.cpp; sourceTree = "<group>"; };
+		666AC4BF1A3AA665009DEE22 /* CAPlayThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAPlayThrough.h; sourceTree = "<group>"; };
+		666AC4C11A3AA665009DEE22 /* CAAtomic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAAtomic.h; sourceTree = "<group>"; };
+		666AC4C21A3AA665009DEE22 /* CAAutoDisposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAAutoDisposer.h; sourceTree = "<group>"; };
+		666AC4C31A3AA665009DEE22 /* CABitOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CABitOperations.h; sourceTree = "<group>"; };
+		666AC4C41A3AA665009DEE22 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		666AC4C51A3AA665009DEE22 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		666AC4C61A3AA665009DEE22 /* CARingBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CARingBuffer.cpp; sourceTree = "<group>"; };
+		666AC4C71A3AA665009DEE22 /* CARingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CARingBuffer.h; sourceTree = "<group>"; };
+		666AC4C81A3AA665009DEE22 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		666AC4C91A3AA665009DEE22 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		666AC4CF1A3AA6B5009DEE22 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		666AC4D01A3AA6B5009DEE22 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		666AC4D31A3AA909009DEE22 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScreenCaptureAnimation.h; sourceTree = "<group>"; };
 		66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScreenCaptureAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
@@ -1052,6 +1078,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666AC4D41A3AA909009DEE22 /* CoreAudio.framework in Frameworks */,
+				666AC4D11A3AA6B5009DEE22 /* AudioToolbox.framework in Frameworks */,
+				666AC4D21A3AA6B5009DEE22 /* AudioUnit.framework in Frameworks */,
 				66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */,
 				662F591A16784B3D00ADE02C /* OpenGL.framework in Frameworks */,
 				662F591816784B2F00ADE02C /* Quartz.framework in Frameworks */,
@@ -1531,6 +1560,37 @@
 			name = LPD8;
 			sourceTree = "<group>";
 		};
+		666AC4B91A3AA62C009DEE22 /* CAPlayThrough */ = {
+			isa = PBXGroup;
+			children = (
+				666AC4BB1A3AA665009DEE22 /* AudioDevice.h */,
+				666AC4BA1A3AA665009DEE22 /* AudioDevice.cpp */,
+				666AC4BD1A3AA665009DEE22 /* AudioDeviceList.h */,
+				666AC4BC1A3AA665009DEE22 /* AudioDeviceList.cpp */,
+				666AC4BF1A3AA665009DEE22 /* CAPlayThrough.h */,
+				666AC4BE1A3AA665009DEE22 /* CAPlayThrough.cpp */,
+				666AC4C01A3AA665009DEE22 /* PublicUtility */,
+			);
+			name = CAPlayThrough;
+			path = ../CAPlayThrough;
+			sourceTree = "<group>";
+		};
+		666AC4C01A3AA665009DEE22 /* PublicUtility */ = {
+			isa = PBXGroup;
+			children = (
+				666AC4C11A3AA665009DEE22 /* CAAtomic.h */,
+				666AC4C21A3AA665009DEE22 /* CAAutoDisposer.h */,
+				666AC4C31A3AA665009DEE22 /* CABitOperations.h */,
+				666AC4C41A3AA665009DEE22 /* CADebugMacros.h */,
+				666AC4C51A3AA665009DEE22 /* CAMath.h */,
+				666AC4C61A3AA665009DEE22 /* CARingBuffer.cpp */,
+				666AC4C71A3AA665009DEE22 /* CARingBuffer.h */,
+				666AC4C81A3AA665009DEE22 /* CAStreamBasicDescription.cpp */,
+				666AC4C91A3AA665009DEE22 /* CAStreamBasicDescription.h */,
+			);
+			path = PublicUtility;
+			sourceTree = "<group>";
+		};
 		668EA9F01720BEB20056C8C3 /* PixelCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1640,6 +1700,7 @@
 		66A8E01E167C076A00FBAFE8 /* FMOD Recorder */ = {
 			isa = PBXGroup;
 			children = (
+				666AC4B91A3AA62C009DEE22 /* CAPlayThrough */,
 				66A8E01F167C078700FBAFE8 /* PHFMODRecorder.h */,
 				66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */,
 			);
@@ -1811,6 +1872,9 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				666AC4D31A3AA909009DEE22 /* CoreAudio.framework */,
+				666AC4CF1A3AA6B5009DEE22 /* AudioToolbox.framework */,
+				666AC4D01A3AA6B5009DEE22 /* AudioUnit.framework */,
 				6603374F17331F57001090B7 /* FScript.framework */,
 				66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */,
 				662F591916784B3D00ADE02C /* OpenGL.framework */,
@@ -2343,7 +2407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp fmod/libfmodex.dylib \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp -r FScript.framework \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ninstall_name_tool -change ./libfmodex.dylib \"@executable_path/../Frameworks/libfmodex.dylib\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/MacOS/PixelPusher\"\n\n";
+			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp -r FScript.framework \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2551,10 +2615,12 @@
 				665B00AA178438EF0071474F /* PHCircularSlider.m in Sources */,
 				66021C2F16A935C400E99908 /* PHListView.m in Sources */,
 				66D1DA4D16AB7C5400E8FE9F /* PHButton.m in Sources */,
+				666AC4CB1A3AA665009DEE22 /* AudioDeviceList.cpp in Sources */,
 				66D1DA5116AB7E3C00E8FE9F /* PHLibraryView.m in Sources */,
 				66D1DA5616AB80B000E8FE9F /* PHPrefsView.m in Sources */,
 				66D1DA5916AB828200E8FE9F /* PHAudioPrefsPage.m in Sources */,
 				66CF636A16ACD4E80048228F /* PHDegraderView.m in Sources */,
+				666AC4CD1A3AA665009DEE22 /* CARingBuffer.cpp in Sources */,
 				66CF637916AD061E0048228F /* PHActionsView.m in Sources */,
 				66CF638216AD3BE00048228F /* PHMIDIMessage+Launchpad.m in Sources */,
 				66CF638516AD3CD30048228F /* PHMIDIClient.m in Sources */,
@@ -2566,14 +2632,17 @@
 				66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */,
 				66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */,
 				66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */,
+				666AC4CA1A3AA665009DEE22 /* AudioDevice.cpp in Sources */,
 				6655AB6D16F74DF600B0ADA3 /* PHSystemTick.m in Sources */,
 				66A14E0416FBDB340094150E /* PHMidCrossFadeTransition.m in Sources */,
 				66D855BC171520E5000A861F /* PHCompositeEditorView.m in Sources */,
 				66DCB7A21717ADDD00205745 /* PHAnimationTileView.m in Sources */,
 				66DCB7A81717BE0E00205745 /* PHAnimationTileViewItem.m in Sources */,
+				666AC4CE1A3AA665009DEE22 /* CAStreamBasicDescription.cpp in Sources */,
 				66DCB7AB1717BE3E00205745 /* PHCollectionView.m in Sources */,
 				66DB8C97171A87F4004ACAA2 /* PHFlashTransition.m in Sources */,
 				66DB8C9A171A8BE2004ACAA2 /* PHHolesTransition.m in Sources */,
+				666AC4CC1A3AA665009DEE22 /* CAPlayThrough.cpp in Sources */,
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
 				665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */,
 				665A07AF172B4DB800DD5D14 /* PHLPD8Device.m in Sources */,
@@ -2715,8 +2784,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Box2D;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2740,7 +2807,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Box2D;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2765,7 +2831,6 @@
 					"$(inherited)",
 					Box2D,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-lftd2xx",
 					"-lfreenect",
@@ -2795,7 +2860,6 @@
 					"$(inherited)",
 					Box2D,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-lftd2xx",
 					"-lfreenect",
