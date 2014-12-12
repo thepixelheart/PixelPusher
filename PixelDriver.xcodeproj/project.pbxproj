@@ -371,7 +371,6 @@
 		66A64E911691583600A701BA /* gifs in Resources */ = {isa = PBXBuildFile; fileRef = 66A64E901691583600A701BA /* gifs */; };
 		66A64E9C1691693600A701BA /* SCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E981691693600A701BA /* SCEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		66A64E9D1691693600A701BA /* SCEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A64E9B1691693600A701BA /* SCEvents.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */; };
 		66A8E021167C078700FBAFE8 /* PHFMODRecorder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */; };
 		66A8E025167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E024167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.m */; };
 		66A8E02C167C202B00FBAFE8 /* PHDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E02B167C202B00FBAFE8 /* PHDisplayLink.m */; };
@@ -890,15 +889,6 @@
 		66A64E991691693600A701BA /* SCEventListenerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEventListenerProtocol.h; sourceTree = "<group>"; };
 		66A64E9A1691693600A701BA /* SCEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCEvents.h; sourceTree = "<group>"; };
 		66A64E9B1691693600A701BA /* SCEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCEvents.m; sourceTree = "<group>"; };
-		66A8E014167C074F00FBAFE8 /* fmod_codec.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_codec.h; path = fmod/fmod_codec.h; sourceTree = "<group>"; };
-		66A8E015167C074F00FBAFE8 /* fmod_dsp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_dsp.h; path = fmod/fmod_dsp.h; sourceTree = "<group>"; };
-		66A8E016167C074F00FBAFE8 /* fmod_errors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_errors.h; path = fmod/fmod_errors.h; sourceTree = "<group>"; };
-		66A8E017167C074F00FBAFE8 /* fmod_memoryinfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_memoryinfo.h; path = fmod/fmod_memoryinfo.h; sourceTree = "<group>"; };
-		66A8E018167C074F00FBAFE8 /* fmod_output.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod_output.h; path = fmod/fmod_output.h; sourceTree = "<group>"; };
-		66A8E019167C074F00FBAFE8 /* fmod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fmod.h; path = fmod/fmod.h; sourceTree = "<group>"; };
-		66A8E01A167C074F00FBAFE8 /* fmod.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = fmod.hpp; path = fmod/fmod.hpp; sourceTree = "<group>"; };
-		66A8E01B167C074F00FBAFE8 /* fmodex.chm */ = {isa = PBXFileReference; lastKnownFileType = file; name = fmodex.chm; path = fmod/fmodex.chm; sourceTree = "<group>"; };
-		66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = fmod/libfmodex.dylib; sourceTree = "<group>"; };
 		66A8E01F167C078700FBAFE8 /* PHFMODRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHFMODRecorder.h; sourceTree = "<group>"; };
 		66A8E020167C078700FBAFE8 /* PHFMODRecorder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PHFMODRecorder.mm; sourceTree = "<group>"; };
 		66A8E023167C0E3900FBAFE8 /* PHSpectrumAnalyzerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSpectrumAnalyzerView.h; sourceTree = "<group>"; };
@@ -1069,7 +1059,6 @@
 				6617FCF7171E8503006E0DF8 /* libbox2d.a in Frameworks */,
 				668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
-				66A8E01D167C075800FBAFE8 /* libfmodex.dylib in Frameworks */,
 				6603375017331F57001090B7 /* FScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1648,22 +1637,6 @@
 			path = SCEvents;
 			sourceTree = "<group>";
 		};
-		66A8E013167C074100FBAFE8 /* FMOD */ = {
-			isa = PBXGroup;
-			children = (
-				66A8E014167C074F00FBAFE8 /* fmod_codec.h */,
-				66A8E015167C074F00FBAFE8 /* fmod_dsp.h */,
-				66A8E016167C074F00FBAFE8 /* fmod_errors.h */,
-				66A8E017167C074F00FBAFE8 /* fmod_memoryinfo.h */,
-				66A8E018167C074F00FBAFE8 /* fmod_output.h */,
-				66A8E019167C074F00FBAFE8 /* fmod.h */,
-				66A8E01A167C074F00FBAFE8 /* fmod.hpp */,
-				66A8E01B167C074F00FBAFE8 /* fmodex.chm */,
-				66A8E01C167C074F00FBAFE8 /* libfmodex.dylib */,
-			);
-			name = FMOD;
-			sourceTree = "<group>";
-		};
 		66A8E01E167C076A00FBAFE8 /* FMOD Recorder */ = {
 			isa = PBXGroup;
 			children = (
@@ -1818,7 +1791,6 @@
 				668EA9F01720BEB20056C8C3 /* PixelCore */,
 				66DC7B571676FC2F00453E8F /* PixelPusher */,
 				66DC7B791677255D00453E8F /* Resources */,
-				66A8E013167C074100FBAFE8 /* FMOD */,
 				66A64E951691693600A701BA /* SCEvents */,
 				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
@@ -2791,7 +2763,6 @@
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/fmod\"",
 					Box2D,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -2822,7 +2793,6 @@
 				INFOPLIST_FILE = "PixelDriver/PixelDriver-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/fmod\"",
 					Box2D,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;

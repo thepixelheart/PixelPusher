@@ -16,53 +16,12 @@
 
 #import "PHFMODRecorder.h"
 
-#import "fmod.hpp"
-#import "fmod_errors.h"
-
-static const NSInteger kNumberOfSpectrumValues = (1 << 11);
-static const NSInteger kNumberOfHighResSpectrumValues = (1 << 13);
-static const NSInteger kNumberOfWaveDataValues = 16384;
-
-#define INITCHECKFMODRESULT(result) do {\
-  if (result != FMOD_OK) { \
-    NSLog(@"Failed to initialize FMOD recorder: %s", FMOD_ErrorString(result)); \
-    self = nil; \
-    return self; \
-  } \
-} while(0)
-
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
-static const unsigned int kRecordingDuration = 60 * 5;
 
 @implementation PHFMODRecorder {
-  FMOD::System* _system;
-  FMOD::Sound* _sound;
-  FMOD::Channel* _channel;
   BOOL _listening;
-
-  float _leftSpectrum[kNumberOfSpectrumValues];
-  float _rightSpectrum[kNumberOfSpectrumValues];
-  float _unifiedSpectrum[kNumberOfSpectrumValues];
-
-  float _leftHighResSpectrum[kNumberOfHighResSpectrumValues];
-  float _rightHighResSpectrum[kNumberOfHighResSpectrumValues];
-  float _unifiedHighResSpectrum[kNumberOfHighResSpectrumValues];
-
-  float _leftWaveData[kNumberOfWaveDataValues];
-  float _rightWaveData[kNumberOfWaveDataValues];
-  float _unifiedWaveData[kNumberOfWaveDataValues];
-  float _differenceWaveData[kNumberOfWaveDataValues];
-}
-
-- (void)dealloc {
-  if (nil != _sound) {
-    _sound->release();
-  }
-  if (nil != _system) {
-    _system->release();
-  }
 }
 
 - (id)init {
@@ -74,89 +33,6 @@ static const unsigned int kRecordingDuration = 60 * 5;
       _volume = [defaults floatForKey:PHInfoPanelVolumeLevelKey];
     }
 
-    FMOD_RESULT result = FMOD::System_Create(&_system);
-    INITCHECKFMODRESULT(result);
-
-    unsigned int version;
-    result = _system->getVersion(&version);
-    INITCHECKFMODRESULT(result);
-
-    if (version < FMOD_VERSION) {
-      printf("Using an old version of FMOD %08x. This program requires %08x\n", version, FMOD_VERSION);
-      self = nil;
-      return self;
-    }
-
-
-    // Playback drivers.
-
-    int numberOfDrivers = 0;
-    result = _system->getNumDrivers(&numberOfDrivers);
-    INITCHECKFMODRESULT(result);
-
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSString* playbackDriverName = [prefs valueForKey:kPlaybackDriverNameUserDefaultsKey];
-    if (nil == playbackDriverName) {
-      playbackDriverName = @"Built-in Output";
-    }
-
-    NSMutableArray *driverNames = [NSMutableArray array];
-    for (int ix = 0; ix < numberOfDrivers; ++ix) {
-      char name[256];
-
-      result = _system->getDriverInfo(ix, name, 256, 0);
-      INITCHECKFMODRESULT(result);
-      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
-      if ([playbackDriverName isEqualToString:driverName]) {
-        _playbackDriverIndex = ix;
-      }
-      [driverNames addObject:driverName];
-    }
-    _playbackDriverNames = [driverNames copy];
-
-    if (nil == playbackDriverName) {
-      _playbackDriverIndex = 0;
-      [prefs setValue:_recordDriverNames[0] forKey:kPlaybackDriverNameUserDefaultsKey];
-    }
-
-    result = _system->setDriver(_playbackDriverIndex);
-    INITCHECKFMODRESULT(result);
-
-
-    // Recording drivers.
-
-    numberOfDrivers = 0;
-    result = _system->getRecordNumDrivers(&numberOfDrivers);
-    INITCHECKFMODRESULT(result);
-
-    NSString* recordingDriverName = [prefs valueForKey:kRecordingDriverNameUserDefaultsKey];
-    if (nil == recordingDriverName) {
-      recordingDriverName = @"Soundflower (2ch)";
-    }
-
-    driverNames = [NSMutableArray array];
-    for (int ix = 0; ix < numberOfDrivers; ++ix) {
-      char name[256];
-
-      result = _system->getRecordDriverInfo(ix, name, 256, 0);
-      INITCHECKFMODRESULT(result);
-      NSString* driverName = [NSString stringWithCString:name encoding:NSASCIIStringEncoding];
-      if ([recordingDriverName isEqualToString:driverName]) {
-        _recordDriverIndex = ix;
-      }
-      [driverNames addObject:driverName];
-    }
-    _recordDriverNames = [driverNames copy];
-
-    if (nil == recordingDriverName) {
-      _recordDriverIndex = 0;
-      [prefs setValue:_recordDriverNames[0] forKey:kRecordingDriverNameUserDefaultsKey];
-    }
-    [prefs removeObjectForKey:kRecordingDriverNameUserDefaultsKey];
-    [prefs removeObjectForKey:kPlaybackDriverNameUserDefaultsKey];
-
-    result = _system->init(8, FMOD_INIT_NORMAL, 0);
-    INITCHECKFMODRESULT(result);
   }
   return self;
 }
@@ -169,35 +45,6 @@ static const unsigned int kRecordingDuration = 60 * 5;
   _listening = !_listening;
 
   if (_listening) {
-    if (nil != _sound) {
-      _sound->release();
-      _sound = NULL;
-    }
-
-    FMOD_CREATESOUNDEXINFO exinfo;
-    memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
-
-    // http://katyscode.wordpress.com/2013/11/24/cutting-your-teeth-on-fmod-part-6-recording-and-visualizing-sound-card-output/
-    // http://stackoverflow.com/questions/6025955/playback-and-listen-to-recording-device-in-fmod
-    exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
-    exinfo.numchannels = 2;
-    exinfo.defaultfrequency = 44100;
-    exinfo.format = FMOD_SOUND_FORMAT_PCM16;
-    exinfo.length = exinfo.defaultfrequency * sizeof(short) * exinfo.numchannels * kRecordingDuration;
-
-    FMOD_RESULT result = _system->createSound(0, FMOD_2D | FMOD_SOFTWARE | FMOD_OPENUSER, &exinfo, &_sound);
-    if (result != FMOD_OK) {
-      NSLog(@"Failed to create sound");
-      return;
-    }
-
-    result = _system->recordStart(_recordDriverIndex, _sound, YES);
-    if (result == FMOD_OK) {
-      usleep(100 * 1000);
-      [self startPlaying];
-    } else {
-      [self stopListening];
-    }
 
   } else {
     [self stopListening];
@@ -206,27 +53,11 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
 - (void)startPlaying {
   if (_listening) {
-    if (_channel) {
-      _channel->stop();
-      _channel = nil;
-    }
-
-    _sound->setMode(FMOD_LOOP_NORMAL);
-    FMOD_RESULT result = _system->playSound(FMOD_CHANNEL_REUSE, _sound, false, &_channel);
-    _channel->setVolume(_volume * _volume * _volume * _volume);
-    if (result != FMOD_OK) {
-      [self stopListening];
-    }
   }
 }
 
 - (void)stopListening {
   _listening = NO;
-  if (_channel) {
-    _channel->stop();
-    _channel = nil;
-  }
-  _system->recordStop(_recordDriverIndex);
 }
 
 - (void)setPlaybackDriverIndex:(int)playbackDriverIndex {
@@ -236,8 +67,6 @@ static const unsigned int kRecordingDuration = 60 * 5;
   [prefs setValue:[_playbackDriverNames objectAtIndex:_playbackDriverIndex]
            forKey:kPlaybackDriverNameUserDefaultsKey];
   [prefs synchronize];
-
-  _system->setDriver(_playbackDriverIndex);
 
   if (_listening) {
     [self stopListening];
@@ -260,65 +89,27 @@ static const unsigned int kRecordingDuration = 60 * 5;
 }
 
 - (void)getSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-  memset(_leftSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
-  memset(_rightSpectrum, 0, sizeof(float) * kNumberOfSpectrumValues);
 
-  _channel->getSpectrum(_leftSpectrum, kNumberOfSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-  _channel->getSpectrum(_rightSpectrum, kNumberOfSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-
-  for (NSInteger ix = 0; ix < kNumberOfSpectrumValues; ++ix) {
-    _unifiedSpectrum[ix] = (_leftSpectrum[ix] + _rightSpectrum[ix]) / 2;
-  }
-
-  *left = _leftSpectrum;
-  *right = _rightSpectrum;
-  *unified = _unifiedSpectrum;
 }
 
 - (NSInteger)numberOfSpectrumValues {
-  return kNumberOfSpectrumValues;
+  return 0;
 }
 
 - (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-  memset(_leftHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
-  memset(_rightHighResSpectrum, 0, sizeof(float) * kNumberOfHighResSpectrumValues);
 
-  _channel->getSpectrum(_leftHighResSpectrum, kNumberOfHighResSpectrumValues, 0, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-  _channel->getSpectrum(_rightHighResSpectrum, kNumberOfHighResSpectrumValues, 1, FMOD_DSP_FFT_WINDOW_TRIANGLE);
-
-  for (NSInteger ix = 0; ix < kNumberOfHighResSpectrumValues; ++ix) {
-    _unifiedHighResSpectrum[ix] = (_leftHighResSpectrum[ix] + _rightHighResSpectrum[ix]) / 2;
-  }
-
-  *left = _leftHighResSpectrum;
-  *right = _rightHighResSpectrum;
-  *unified = _unifiedHighResSpectrum;
 }
 
 - (NSInteger)numberOfHighResSpectrumValues {
-  return kNumberOfHighResSpectrumValues;
+  return 0;
 }
 
 - (void)getWaveLeft:(float **)left right:(float **)right unified:(float **)unified difference:(float **)difference {
-  memset(_leftWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
-  memset(_rightWaveData, 0, sizeof(float) * kNumberOfWaveDataValues);
 
-  _channel->getWaveData(_leftWaveData, kNumberOfWaveDataValues, 0);
-  _channel->getWaveData(_rightWaveData, kNumberOfWaveDataValues, 1);
-
-  for (NSInteger ix = 0; ix < kNumberOfWaveDataValues; ++ix) {
-    _unifiedWaveData[ix] = (_leftWaveData[ix] + _rightWaveData[ix]) / 2;
-    _differenceWaveData[ix] = fabsf(fabsf(_leftWaveData[ix]) - fabsf(_rightWaveData[ix]));
-  }
-
-  *left = _leftWaveData;
-  *right = _rightWaveData;
-  *unified = _unifiedWaveData;
-  *difference = _differenceWaveData;
 }
 
 - (NSInteger)numberOfWaveDataValues {
-  return kNumberOfWaveDataValues;
+  return 0;
 }
 
 - (void)setVolume:(float)volume {
@@ -326,10 +117,6 @@ static const unsigned int kRecordingDuration = 60 * 5;
 
   NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
   [defaults setFloat:volume forKey:PHInfoPanelVolumeLevelKey];
-
-  if (nil != _channel) {
-    _channel->setVolume(_volume * _volume * _volume * _volume);
-  }
 }
 
 @end
