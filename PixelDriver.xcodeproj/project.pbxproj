@@ -194,6 +194,7 @@
 		666AC4D21A3AA6B5009DEE22 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4D01A3AA6B5009DEE22 /* AudioUnit.framework */; };
 		666AC4D41A3AA909009DEE22 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4D31A3AA909009DEE22 /* CoreAudio.framework */; };
 		666AC4D91A3AB518009DEE22 /* AEFloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4D81A3AB518009DEE22 /* AEFloatConverter.cpp */; };
+		666AC4DE1A3AB9B6009DEE22 /* CAPlayThrough.mm in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */; };
 		66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */; };
 		66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
@@ -725,6 +726,8 @@
 		666AC4D31A3AA909009DEE22 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		666AC4D71A3AB518009DEE22 /* AEFloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEFloatConverter.h; sourceTree = "<group>"; };
 		666AC4D81A3AB518009DEE22 /* AEFloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AEFloatConverter.cpp; sourceTree = "<group>"; };
+		666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CAPlayThrough.mm; sourceTree = "<group>"; };
+		666AC4DF1A3ABA00009DEE22 /* CAPlayThroughInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPlayThroughInternal.h; sourceTree = "<group>"; };
 		66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScreenCaptureAnimation.h; sourceTree = "<group>"; };
 		66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScreenCaptureAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
@@ -1571,7 +1574,9 @@
 				666AC4BD1A3AA665009DEE22 /* AudioDeviceList.h */,
 				666AC4BC1A3AA665009DEE22 /* AudioDeviceList.cpp */,
 				666AC4BF1A3AA665009DEE22 /* CAPlayThrough.h */,
+				666AC4DF1A3ABA00009DEE22 /* CAPlayThroughInternal.h */,
 				666AC4BE1A3AA665009DEE22 /* CAPlayThrough.cpp */,
+				666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */,
 				666AC4C01A3AA665009DEE22 /* PublicUtility */,
 			);
 			name = CAPlayThrough;
@@ -2660,6 +2665,7 @@
 				66DB8CAB171BBB85004ACAA2 /* PHBarsSwipeTransition.m in Sources */,
 				665A07A51727C6A900DD5D14 /* PHApplication.m in Sources */,
 				665A07AF172B4DB800DD5D14 /* PHLPD8Device.m in Sources */,
+				666AC4DE1A3AB9B6009DEE22 /* CAPlayThrough.mm in Sources */,
 				665A07B2172B4DDB00DD5D14 /* PHMIDIMessage+LPD8.m in Sources */,
 				665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */,
 				660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */,

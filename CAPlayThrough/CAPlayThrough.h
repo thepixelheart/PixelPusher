@@ -79,10 +79,10 @@ public:
 	void		CreatePlayThrough(AudioDeviceID input, AudioDeviceID output);
 	void		DeletePlayThrough();
 	bool		PlayThroughExists();
-	
+
 	OSStatus	Start();
 	OSStatus	Stop();
-	Boolean		IsRunning();    
+	Boolean		IsRunning();
 
 private:
 	CAPlayThrough* GetPlayThrough() { return mPlayThrough; }
