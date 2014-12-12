@@ -195,6 +195,7 @@
 		666AC4D41A3AA909009DEE22 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4D31A3AA909009DEE22 /* CoreAudio.framework */; };
 		666AC4D91A3AB518009DEE22 /* AEFloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4D81A3AB518009DEE22 /* AEFloatConverter.cpp */; };
 		666AC4DE1A3AB9B6009DEE22 /* CAPlayThrough.mm in Sources */ = {isa = PBXBuildFile; fileRef = 666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */; };
+		666AC4E21A3ACED3009DEE22 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666AC4E11A3ACED3009DEE22 /* Accelerate.framework */; };
 		66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */; };
 		66813E09173DA7A3009367A5 /* PHScreenCaptureAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */; };
 		668520EE168292200063A95A /* PHSystemState.m in Sources */ = {isa = PBXBuildFile; fileRef = 668520ED168292200063A95A /* PHSystemState.m */; };
@@ -729,6 +730,7 @@
 		666AC4DD1A3AB9B6009DEE22 /* CAPlayThrough.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CAPlayThrough.mm; sourceTree = "<group>"; };
 		666AC4DF1A3ABA00009DEE22 /* CAPlayThroughInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPlayThroughInternal.h; sourceTree = "<group>"; };
 		666AC4E01A3ABEBD009DEE22 /* CAPlayThroughObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAPlayThroughObjc.h; sourceTree = "<group>"; };
+		666AC4E11A3ACED3009DEE22 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScreenCaptureAnimation.h; sourceTree = "<group>"; };
 		66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScreenCaptureAnimation.m; sourceTree = "<group>"; };
 		668520EC168292200063A95A /* PHSystemState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHSystemState.h; sourceTree = "<group>"; };
@@ -1085,6 +1087,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666AC4E21A3ACED3009DEE22 /* Accelerate.framework in Frameworks */,
 				666AC4D41A3AA909009DEE22 /* CoreAudio.framework in Frameworks */,
 				666AC4D11A3AA6B5009DEE22 /* AudioToolbox.framework in Frameworks */,
 				666AC4D21A3AA6B5009DEE22 /* AudioUnit.framework in Frameworks */,
@@ -1892,6 +1895,7 @@
 		66DC7B501676FC2F00453E8F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				666AC4E11A3ACED3009DEE22 /* Accelerate.framework */,
 				666AC4D31A3AA909009DEE22 /* CoreAudio.framework */,
 				666AC4CF1A3AA6B5009DEE22 /* AudioToolbox.framework */,
 				666AC4D01A3AA6B5009DEE22 /* AudioUnit.framework */,

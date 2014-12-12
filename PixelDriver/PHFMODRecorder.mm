@@ -20,13 +20,117 @@
 #import "CAPlayThroughObjc.h"
 #import "AudioDeviceList.h"
 
+#import <Accelerate/Accelerate.h>
+
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
 static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNameUserDefaultsKey";
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
 
+@interface PHChannelFft : NSObject
+@end
+
+@implementation PHChannelFft {
+  COMPLEX_SPLIT _A;
+  FFTSetup      _FFTSetup;
+  BOOL          _isFFTSetup;
+  vDSP_Length   _log2n;
+}
+
+- (void)dealloc {
+  if (_FFTSetup) {
+    vDSP_destroy_fftsetup(_FFTSetup);
+  }
+  if (_A.realp) {
+    free(_A.realp);
+  }
+  if (_A.imagp) {
+    free(_A.imagp);
+  }
+}
+
+- (float)MAP:(float)value
+    leftMin:(float)leftMin
+    leftMax:(float)leftMax
+   rightMin:(float)rightMin
+   rightMax:(float)rightMax {
+  float leftSpan    = leftMax  - leftMin;
+  float rightSpan   = rightMax - rightMin;
+  float valueScaled = ( value  - leftMin ) / leftSpan;
+  return rightMin + (valueScaled * rightSpan);
+}
+
+/**
+ Adapted from http://batmobile.blogs.ilrt.org/fourier-transforms-on-an-iphone/
+ */
+-(void)createFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
+
+  // Setup the length
+  _log2n = log2f(bufferSize);
+
+  // Calculate the weights array. This is a one-off operation.
+  _FFTSetup = vDSP_create_fftsetup(_log2n, FFT_RADIX2);
+
+  // For an FFT, numSamples must be a power of 2, i.e. is always even
+  int nOver2 = bufferSize/2;
+
+  // Populate *window with the values for a hamming window function
+  float *window = (float *)malloc(sizeof(float)*bufferSize);
+  vDSP_hamm_window(window, bufferSize, 0);
+  // Window the samples
+  vDSP_vmul(data, 1, window, 1, data, 1, bufferSize);
+
+  // Define complex buffer
+  _A.realp = (float *) malloc(nOver2*sizeof(float));
+  _A.imagp = (float *) malloc(nOver2*sizeof(float));
+
+}
+
+- (void)updateFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
+  if (!_FFTSetup) {
+    [self createFFTWithBufferSize:bufferSize withAudioData:data];
+  }
+
+  // For an FFT, numSamples must be a power of 2, i.e. is always even
+  int nOver2 = bufferSize/2;
+
+  // Pack samples:
+  // C(re) -> A[n], C(im) -> A[n+1]
+  vDSP_ctoz((COMPLEX*)data, 2, &_A, 1, nOver2);
+
+  // Perform a forward FFT using fftSetup and A
+  // Results are returned in A
+  vDSP_fft_zrip(_FFTSetup, &_A, 1, _log2n, FFT_FORWARD);
+
+  // Convert COMPLEX_SPLIT A result to magnitudes
+  float amp[nOver2];
+  float maxMag = 0;
+
+  for(int i=0; i<nOver2; i++) {
+    // Calculate the magnitude
+    float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
+    maxMag = mag > maxMag ? mag : maxMag;
+  }
+  for(int i=0; i<nOver2; i++) {
+    // Calculate the magnitude
+    float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
+    // Bind the value to be less than 1.0 to fit in the graph
+    amp[i] = [self MAP:mag leftMin:0.0 leftMax:maxMag rightMin:0.0 rightMax:1.0];
+  }
+
+#if 0
+  // Update the frequency domain plot
+  [self.audioPlotFreq updateBuffer:amp
+                    withBufferSize:nOver2];
+#endif
+}
+
+@end
+
 @implementation PHFMODRecorder {
   AudioDeviceList* _inputDeviceList;
   AudioDeviceList* _outputDeviceList;
+
+  NSArray *_channels;
 
   CAPlayThroughHost* _playThroughHost;
 }
@@ -216,7 +320,20 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   UInt32 bufferSize = [notification.userInfo[kAudioBufferSizeKey] intValue];
   UInt32 numberOfChannels = [notification.userInfo[kAudioNumberOfChannelsKey] intValue];
 
-  NSLog(@"%d %d", bufferSize, numberOfChannels);
+  @synchronized(self) {
+    if (_channels.count != numberOfChannels) {
+      NSMutableArray* channels = [NSMutableArray array];
+      for (NSInteger ix = 0; ix < numberOfChannels; ++ix) {
+        [channels addObject:[PHChannelFft new]];
+      }
+      _channels = channels;
+    }
+  }
+
+  for (NSInteger ix = 0; ix < numberOfChannels; ++ix) {
+    PHChannelFft *channelFft = _channels[ix];
+    [channelFft updateFFTWithBufferSize:bufferSize withAudioData:buffer[ix]];
+  }
 }
 
 @end
