@@ -501,13 +501,15 @@ OSStatus CAPlayThrough::CallbackSetup()
 OSStatus CAPlayThrough::SetupBuffers()
 {
 	OSStatus err = noErr;
-	UInt32 bufferSizeFrames,bufferSizeBytes,propsize;
+	UInt32 bufferSizeFrames = 1 << 12,bufferSizeBytes,propsize;
 	
 	CAStreamBasicDescription asbd,asbd_dev1_in,asbd_dev2_out;			
 	Float64 rate=0;
-	
+
+
 	//Get the size of the IO buffer(s)
 	UInt32 propertySize = sizeof(bufferSizeFrames);
+  err = AudioUnitSetProperty(mInputUnit, kAudioDevicePropertyBufferFrameSize, kAudioUnitScope_Global, 0, &bufferSizeFrames, propertySize);
 	err = AudioUnitGetProperty(mInputUnit, kAudioDevicePropertyBufferFrameSize, kAudioUnitScope_Global, 0, &bufferSizeFrames, &propertySize);
 	checkErr(err);
     bufferSizeBytes = bufferSizeFrames * sizeof(Float32);
