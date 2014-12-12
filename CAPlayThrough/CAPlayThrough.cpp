@@ -101,8 +101,6 @@ OSStatus CAPlayThrough::Init(AudioDeviceID input, AudioDeviceID output)
 	//Add latency between the two devices
 	ComputeThruOffset();
 
-  floatBuffers = NULL;
-		
 	return err;	
 }
 

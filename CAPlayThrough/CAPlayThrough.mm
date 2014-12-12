@@ -1,5 +1,7 @@
 #include "CAPlayThroughInternal.h"
 
-void CAPlayThrough::postNotification() {
+#import <Cocoa/Cocoa.h>
 
+void CAPlayThrough::postNotification() {
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"playthrough" object:nil];
 }
