@@ -16,6 +16,7 @@
 
 #import "PHFMODRecorder.h"
 
+#import "CAPlayThrough.h"
 #import "AudioDeviceList.h"
 
 static NSString* const PHInfoPanelVolumeLevelKey = @"PHInfoPanelVolumeLevelKey";
@@ -23,10 +24,10 @@ static NSString* const kPlaybackDriverNameUserDefaultsKey = @"kPlaybackDriverNam
 static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverNameUserDefaultsKey";
 
 @implementation PHFMODRecorder {
-  BOOL _listening;
+  AudioDeviceList* _inputDeviceList;
+  AudioDeviceList* _outputDeviceList;
 
-  AudioDeviceList *_inputDeviceList;
-  AudioDeviceList	*_outputDeviceList;
+  CAPlayThroughHost* _playThroughHost;
 }
 
 - (void)dealloc {
@@ -37,6 +38,8 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 - (id)init {
   if ((self = [super init])) {
     _volume = 1;
+    _playbackDriverIndex = -1;
+    _recordDriverIndex = -1;
 
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults objectForKey:PHInfoPanelVolumeLevelKey]) {
@@ -48,8 +51,54 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 
     _playbackDriverNames = [self devicesNamesFromList:_outputDeviceList];
     _recordDriverNames = [self devicesNamesFromList:_inputDeviceList];
+
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+
+    // Output device
+    NSString* playbackDriverName = [prefs valueForKey:kPlaybackDriverNameUserDefaultsKey];
+    if (nil == playbackDriverName) {
+      playbackDriverName = @"Built-in Output";
+    }
+    for (int ix = 0; ix < _playbackDriverNames.count; ++ix) {
+      if ([_playbackDriverNames[ix] isEqualToString:playbackDriverName]) {
+        _playbackDriverIndex = ix;
+      }
+    }
+
+    if (_playbackDriverIndex < 0 && _playbackDriverNames.count > 0) {
+      // Couldn't find the driver. Pick the first.
+      _playbackDriverIndex = 0;
+      [prefs setValue:_recordDriverNames[0] forKey:kPlaybackDriverNameUserDefaultsKey];
+    }
+
+    // Input device
+    NSString* recordingDriverName = [prefs valueForKey:kRecordingDriverNameUserDefaultsKey];
+    if (nil == recordingDriverName) {
+      recordingDriverName = @"Soundflower (2ch)";
+    }
+    for (int ix = 0; ix < _recordDriverNames.count; ++ix) {
+      if ([_recordDriverNames[ix] isEqualToString:recordingDriverName]) {
+        _recordDriverIndex = ix;
+      }
+    }
+
+    if (_recordDriverIndex < 0 && _recordDriverNames.count > 0) {
+      // Couldn't find the driver. Pick the first.
+      _recordDriverIndex = 0;
+      [prefs setValue:_recordDriverNames[0] forKey:kRecordingDriverNameUserDefaultsKey];
+    }
   }
   return self;
+}
+
+- (AudioDeviceID)inputDevice {
+  AudioDeviceList::DeviceList &thelist = _inputDeviceList->GetList();
+  return thelist[_recordDriverIndex].mID;
+}
+
+- (AudioDeviceID)outputDevice {
+  AudioDeviceList::DeviceList &thelist = _outputDeviceList->GetList();
+  return thelist[_playbackDriverIndex].mID;
 }
 
 - (NSArray *)devicesNamesFromList:(AudioDeviceList *)deviceList {
@@ -63,26 +112,37 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 }
 
 - (BOOL)isListening {
-  return _listening;
+  return _playThroughHost && _playThroughHost->IsRunning();
 }
 
 - (void)toggleListening {
-  _listening = !_listening;
-
-  if (_listening) {
+  if ([self isListening]) {
+    [self stopListening];
 
   } else {
-    [self stopListening];
+    [self startListening];
   }
 }
 
-- (void)startPlaying {
-  if (_listening) {
+- (void)startListening {
+  if (!_playThroughHost) {
+    _playThroughHost = new CAPlayThroughHost([self inputDevice], [self outputDevice]);
+
+  } else {
+    if (_playThroughHost->PlayThroughExists()) {
+      _playThroughHost->DeletePlayThrough();
+    }
+
+    _playThroughHost->CreatePlayThrough([self inputDevice], [self outputDevice]);
   }
+
+	_playThroughHost->Start();
 }
 
 - (void)stopListening {
-  _listening = NO;
+  if (_playThroughHost && _playThroughHost->IsRunning()) {
+    _playThroughHost->Stop();
+  }
 }
 
 - (void)setPlaybackDriverIndex:(int)playbackDriverIndex {
@@ -93,7 +153,7 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
            forKey:kPlaybackDriverNameUserDefaultsKey];
   [prefs synchronize];
 
-  if (_listening) {
+  if ([self isListening]) {
     [self stopListening];
     [self toggleListening];
   }
@@ -107,7 +167,7 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
            forKey:kRecordingDriverNameUserDefaultsKey];
   [prefs synchronize];
 
-  if (_listening) {
+  if ([self isListening]) {
     [self stopListening];
     [self toggleListening];
   }
