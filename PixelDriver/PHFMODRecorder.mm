@@ -34,6 +34,10 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   FFTSetup      _FFTSetup;
   BOOL          _isFFTSetup;
   vDSP_Length   _log2n;
+  int _nOver2;
+
+  float *_window;
+  float *_amplitudes;
 }
 
 - (void)dealloc {
@@ -46,13 +50,26 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   if (_A.imagp) {
     free(_A.imagp);
   }
+  if (_amplitudes) {
+    free(_amplitudes);
+  }
+  if (_window) {
+    free(_window);
+  }
+}
+
+- (float *)amplitudes {
+  return _amplitudes;
+}
+
+- (int)numberOfValues {
+  return _nOver2;
 }
 
 /**
  Adapted from http://batmobile.blogs.ilrt.org/fourier-transforms-on-an-iphone/
  */
 -(void)createFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
-
   // Setup the length
   _log2n = log2f(bufferSize);
 
@@ -60,18 +77,17 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
   _FFTSetup = vDSP_create_fftsetup(_log2n, FFT_RADIX2);
 
   // For an FFT, numSamples must be a power of 2, i.e. is always even
-  int nOver2 = bufferSize/2;
+  _nOver2 = bufferSize/2;
 
   // Populate *window with the values for a hamming window function
-  float *window = (float *)malloc(sizeof(float)*bufferSize);
-  vDSP_hamm_window(window, bufferSize, 0);
-  // Window the samples
-  vDSP_vmul(data, 1, window, 1, data, 1, bufferSize);
+  _window = (float *)malloc(sizeof(float)*bufferSize);
+  vDSP_hamm_window(_window, bufferSize, 0);
 
   // Define complex buffer
-  _A.realp = (float *) malloc(nOver2*sizeof(float));
-  _A.imagp = (float *) malloc(nOver2*sizeof(float));
+  _A.realp = (float *) malloc(_nOver2*sizeof(float));
+  _A.imagp = (float *) malloc(_nOver2*sizeof(float));
 
+  _amplitudes = (float *)malloc(sizeof(float)*_nOver2);
 }
 
 - (void)updateFFTWithBufferSize:(float)bufferSize withAudioData:(float*)data {
@@ -79,23 +95,20 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
     [self createFFTWithBufferSize:bufferSize withAudioData:data];
   }
 
-  // For an FFT, numSamples must be a power of 2, i.e. is always even
-  int nOver2 = bufferSize/2;
+  // Window the samples
+  vDSP_vmul(data, 1, _window, 1, data, 1, bufferSize);
 
   // Pack samples:
   // C(re) -> A[n], C(im) -> A[n+1]
-  vDSP_ctoz((COMPLEX*)data, 2, &_A, 1, nOver2);
+  vDSP_ctoz((COMPLEX*)data, 2, &_A, 1, _nOver2);
 
   // Perform a forward FFT using fftSetup and A
   // Results are returned in A
   vDSP_fft_zrip(_FFTSetup, &_A, 1, _log2n, FFT_FORWARD);
 
-  // Convert COMPLEX_SPLIT A result to magnitudes
-  float amp[nOver2];
-
-  for(int i=0; i<nOver2; i++) {
+  for(int i=0; i<_nOver2; i++) {
     float mag = _A.realp[i]*_A.realp[i]+_A.imagp[i]*_A.imagp[i];
-    amp[i] = mag;
+    _amplitudes[i] = mag;
   }
 
 #if 0
@@ -264,11 +277,17 @@ static NSString* const kRecordingDriverNameUserDefaultsKey = @"kRecordingDriverN
 }
 
 - (void)getSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {
-
+  if (_channels.count > 0) {
+    *left = [_channels[0] amplitudes];
+    *unified = [_channels[0] amplitudes];
+  }
+  if (_channels.count > 1) {
+    *right = [_channels[1] amplitudes];
+  }
 }
 
 - (NSInteger)numberOfSpectrumValues {
-  return 0;
+  return [[_channels firstObject] numberOfValues];
 }
 
 - (void)getHighResSpectrumLeft:(float **)left right:(float **)right unified:(float **)unified {

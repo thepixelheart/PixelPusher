@@ -45,8 +45,6 @@
   }
   if (max > 0) {
     int windowSize = numberOfSpectrumValues / size.width;
-    //float nyquist = 44100 / 2;
-    //float bandHz = nyquist / (float)numberOfSpectrumValues;
 
     NSColor* color = [NSColor colorWithDeviceRed:0.5 green:0.5 blue:0.5 alpha:1];
     CGContextSetFillColorWithColor(cx, color.CGColor);
@@ -54,7 +52,7 @@
       float total = 0;
 
       for (int is = ix * windowSize; is < (ix + 1) * windowSize; ++is) {
-        float decibels = 100.0f * log10f(spectrum[is] + 1.0f);
+        float decibels = .5f * log10f(spectrum[is] + 1.0f);
         total += decibels;
       }
       //float hz = ((float)ix / size.width) * (float)numberOfSpectrumValues * bandHz;

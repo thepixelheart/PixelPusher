@@ -54,6 +54,7 @@
 #pragma mark ---CAPlayThrough Methods---
 CAPlayThrough::CAPlayThrough(AudioDeviceID input, AudioDeviceID output):
 mBuffer(NULL),
+floatBuffers(NULL),
 mFirstInputTime(-1),
 mFirstOutputTime(-1),
 mInToOutSampleOffset(0)
@@ -439,7 +440,7 @@ OSStatus CAPlayThrough::CallbackSetup()
 OSStatus CAPlayThrough::SetupBuffers()
 {
 	OSStatus err = noErr;
-	UInt32 bufferSizeFrames = 1 << 12,bufferSizeBytes,propsize;
+	UInt32 bufferSizeFrames = 1 << 11,bufferSizeBytes,propsize;
 	
 	CAStreamBasicDescription asbd,asbd_dev1_in,asbd_dev2_out;			
 	Float64 rate=0;

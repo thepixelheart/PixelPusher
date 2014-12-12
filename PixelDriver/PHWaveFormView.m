@@ -34,7 +34,6 @@
     waveData = driver.differenceWaveData;
   }
   if (nil == waveData) {
-    NSLog(@"No wave data found");
     return;
   }
 
