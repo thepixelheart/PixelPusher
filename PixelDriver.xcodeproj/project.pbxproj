@@ -389,7 +389,6 @@
 		66A8E036167D731C00FBAFE8 /* PHBitmapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E035167D731C00FBAFE8 /* PHBitmapView.m */; };
 		66A8E03A167D747400FBAFE8 /* PHMIDIDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8E039167D747400FBAFE8 /* PHMIDIDriver.m */; };
 		66A8E03C167D748400FBAFE8 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A8E03B167D748400FBAFE8 /* CoreMIDI.framework */; };
-		66AF78C3177FC7AF00E291F0 /* PHKinectServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 66AF78C2177FC7AF00E291F0 /* PHKinectServer.m */; };
 		66B16F0B16AEB246003CF908 /* PHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0A16AEB246003CF908 /* PHScrollView.m */; };
 		66B16F0F16AF1B54003CF908 /* PHShutterTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16F0E16AF1B54003CF908 /* PHShutterTransition.m */; };
 		66B16FD916AF6450003CF908 /* PHNoiseTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 66B16FD816AF6450003CF908 /* PHNoiseTransition.m */; };
@@ -2678,7 +2677,6 @@
 				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
 				6603375E1733346C001090B7 /* PHScript.m in Sources */,
 				6603376317334430001090B7 /* PHScriptAnimation.m in Sources */,
-				66AF78C3177FC7AF00E291F0 /* PHKinectServer.m in Sources */,
 				6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2857,11 +2855,9 @@
 					"$(inherited)",
 					Box2D,
 				);
-				OTHER_LDFLAGS = (
-					"-lftd2xx",
-					"-lfreenect",
-				);
+				OTHER_LDFLAGS = "-lftd2xx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2886,11 +2882,9 @@
 					"$(inherited)",
 					Box2D,
 				);
-				OTHER_LDFLAGS = (
-					"-lftd2xx",
-					"-lfreenect",
-				);
+				OTHER_LDFLAGS = "-lftd2xx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
