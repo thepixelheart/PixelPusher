@@ -1,746 +1,421 @@
-/* ========================================================================================== */
-/* FMOD Ex - DSP header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2014.      */
-/*                                                                                            */
-/* Use this header if you are interested in delving deeper into the FMOD software mixing /    */
-/* DSP engine.  In this header you can find parameter structures for FMOD system reigstered   */
-/* DSP effects and generators.                                                                */
-/* Also use this header if you are wanting to develop your own DSP plugin to use with FMOD's  */
-/* dsp system.  With this header you can make your own DSP plugin that FMOD can               */
-/* register and use.  See the documentation and examples on how to make a working plugin.     */
-/*                                                                                            */
-/* ========================================================================================== */
-
+/* ======================================================================================== */
+/* FMOD Core API - DSP header file.                                                         */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2022.                               */
+/*                                                                                          */
+/* Use this header if you are wanting to develop your own DSP plugin to use with FMODs      */
+/* dsp system.  With this header you can make your own DSP plugin that FMOD can             */
+/* register and use.  See the documentation and examples on how to make a working plugin.   */
+/*                                                                                          */
+/* For more detail visit:                                                                   */
+/* https://fmod.com/resources/documentation-api?version=2.0&page=plugin-api-dsp.html        */
+/* =========================================================================================*/
 #ifndef _FMOD_DSP_H
 #define _FMOD_DSP_H
 
-typedef struct FMOD_DSP_STATE FMOD_DSP_STATE;
+#include "fmod_dsp_effects.h"
 
-/* 
-    DSP callbacks
-*/
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_CREATECALLBACK)     (FMOD_DSP_STATE *dsp_state);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_RELEASECALLBACK)    (FMOD_DSP_STATE *dsp_state);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_RESETCALLBACK)      (FMOD_DSP_STATE *dsp_state);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_READCALLBACK)       (FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int outchannels);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_SETPOSITIONCALLBACK)(FMOD_DSP_STATE *dsp_state, unsigned int pos);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_SETPARAMCALLBACK)   (FMOD_DSP_STATE *dsp_state, int index, float value);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_GETPARAMCALLBACK)   (FMOD_DSP_STATE *dsp_state, int index, float *value, char *valuestr);
-typedef FMOD_RESULT (F_CALLBACK *FMOD_DSP_DIALOGCALLBACK)     (FMOD_DSP_STATE *dsp_state, void *hwnd, int show);
+typedef struct FMOD_DSP_STATE        FMOD_DSP_STATE;
+typedef struct FMOD_DSP_BUFFER_ARRAY FMOD_DSP_BUFFER_ARRAY;
+typedef struct FMOD_COMPLEX          FMOD_COMPLEX;
 
 /*
-[ENUM]
-[
-    [DESCRIPTION]   
-    These definitions can be used for creating FMOD defined special effects or DSP units.
-
-    [REMARKS]
-    To get them to be active, first create the unit, then add it somewhere into the DSP network, either at the front of the network near the soundcard unit to affect the global output (by using System::getDSPHead), or on a single channel (using Channel::getDSPHead).
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]
-    System::createDSPByType
-]
+    DSP Constants
 */
+#define FMOD_PLUGIN_SDK_VERSION             110
+#define FMOD_DSP_GETPARAM_VALUESTR_LENGTH   32
+
 typedef enum
 {
-    FMOD_DSP_TYPE_UNKNOWN,            /* This unit was created via a non FMOD plugin so has an unknown purpose. */
-    FMOD_DSP_TYPE_MIXER,              /* This unit does nothing but take inputs and mix them together then feed the result to the soundcard unit. */
-    FMOD_DSP_TYPE_OSCILLATOR,         /* This unit generates sine/square/saw/triangle or noise tones. */
-    FMOD_DSP_TYPE_LOWPASS,            /* This unit filters sound using a high quality, resonant lowpass filter algorithm but consumes more CPU time. */
-    FMOD_DSP_TYPE_ITLOWPASS,          /* This unit filters sound using a resonant lowpass filter algorithm that is used in Impulse Tracker, but with limited cutoff range (0 to 8060hz). */
-    FMOD_DSP_TYPE_HIGHPASS,           /* This unit filters sound using a resonant highpass filter algorithm. */
-    FMOD_DSP_TYPE_ECHO,               /* This unit produces an echo on the sound and fades out at the desired rate. */
-    FMOD_DSP_TYPE_FLANGE,             /* This unit produces a flange effect on the sound. */
-    FMOD_DSP_TYPE_DISTORTION,         /* This unit distorts the sound. */
-    FMOD_DSP_TYPE_NORMALIZE,          /* This unit normalizes or amplifies the sound to a certain level. */
-    FMOD_DSP_TYPE_PARAMEQ,            /* This unit attenuates or amplifies a selected frequency range. */
-    FMOD_DSP_TYPE_PITCHSHIFT,         /* This unit bends the pitch of a sound without changing the speed of playback. */
-    FMOD_DSP_TYPE_CHORUS,             /* This unit produces a chorus effect on the sound. */
-    FMOD_DSP_TYPE_VSTPLUGIN,          /* This unit allows the use of Steinberg VST plugins */
-    FMOD_DSP_TYPE_WINAMPPLUGIN,       /* This unit allows the use of Nullsoft Winamp plugins */
-    FMOD_DSP_TYPE_ITECHO,             /* This unit produces an echo on the sound and fades out at the desired rate as is used in Impulse Tracker. */
-    FMOD_DSP_TYPE_COMPRESSOR,         /* This unit implements dynamic compression (linked multichannel, wideband) */
-    FMOD_DSP_TYPE_SFXREVERB,          /* This unit implements SFX reverb */
-    FMOD_DSP_TYPE_LOWPASS_SIMPLE,     /* This unit filters sound using a simple lowpass with no resonance, but has flexible cutoff and is fast. */
-    FMOD_DSP_TYPE_DELAY,              /* This unit produces different delays on individual channels of the sound. */
-    FMOD_DSP_TYPE_TREMOLO,            /* This unit produces a tremolo / chopper effect on the sound. */
-    FMOD_DSP_TYPE_LADSPAPLUGIN,       /* This unit allows the use of LADSPA standard plugins. */
-    FMOD_DSP_TYPE_HIGHPASS_SIMPLE,    /* This unit filters sound using a simple highpass with no resonance, but has flexible cutoff and is fast. */
-    FMOD_DSP_TYPE_HARDWARE = 1000,    /* Offset that platform specific FMOD_HARDWARE DSPs will start at. */
-    FMOD_DSP_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
-} FMOD_DSP_TYPE;
+    FMOD_DSP_PROCESS_PERFORM,
+    FMOD_DSP_PROCESS_QUERY
+} FMOD_DSP_PROCESS_OPERATION;
 
+typedef enum FMOD_DSP_PAN_SURROUND_FLAGS
+{
+    FMOD_DSP_PAN_SURROUND_DEFAULT = 0,
+    FMOD_DSP_PAN_SURROUND_ROTATION_NOT_BIASED = 1,
+
+    FMOD_DSP_PAN_SURROUND_FLAGS_FORCEINT = 65536
+} FMOD_DSP_PAN_SURROUND_FLAGS;
+
+typedef enum
+{
+    FMOD_DSP_PARAMETER_TYPE_FLOAT,
+    FMOD_DSP_PARAMETER_TYPE_INT,
+    FMOD_DSP_PARAMETER_TYPE_BOOL,
+    FMOD_DSP_PARAMETER_TYPE_DATA,
+
+    FMOD_DSP_PARAMETER_TYPE_MAX,
+    FMOD_DSP_PARAMETER_TYPE_FORCEINT = 65536
+} FMOD_DSP_PARAMETER_TYPE;
+
+typedef enum
+{
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_LINEAR,
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO,
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR,
+
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_FORCEINT = 65536
+} FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE;
+
+typedef enum
+{
+    FMOD_DSP_PARAMETER_DATA_TYPE_USER = 0,
+    FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN = -1,
+    FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES = -2,
+    FMOD_DSP_PARAMETER_DATA_TYPE_SIDECHAIN = -3,
+    FMOD_DSP_PARAMETER_DATA_TYPE_FFT = -4,
+    FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES_MULTI = -5,
+    FMOD_DSP_PARAMETER_DATA_TYPE_ATTENUATION_RANGE = -6,
+} FMOD_DSP_PARAMETER_DATA_TYPE;
 
 /*
-[STRUCTURE] 
-[
-    [DESCRIPTION]
-    Structure to define a parameter for a DSP unit.
-
-    [REMARKS]
-    Members marked with [r] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
-    Members marked with [w] mean the variable can be written to.  The user can set the value.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]    
-    System::createDSP
-    DSP::setParameter
-]
+    DSP Callbacks
 */
-typedef struct FMOD_DSP_PARAMETERDESC
-{
-    float       min;                                /* [w] Minimum value of the parameter (ie 100.0). */
-    float       max;                                /* [w] Maximum value of the parameter (ie 22050.0). */
-    float       defaultval;                         /* [w] Default value of parameter. */
-    char        name[16];                           /* [w] Name of the parameter to be displayed (ie "Cutoff frequency"). */
-    char        label[16];                          /* [w] Short string to be put next to value to denote the unit type (ie "hz"). */
-    const char *description;                        /* [w] Description of the parameter to be displayed as a help item / tooltip for this parameter. */
-} FMOD_DSP_PARAMETERDESC;
-
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_CREATE_CALLBACK)                    (FMOD_DSP_STATE *dsp_state);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_RELEASE_CALLBACK)                   (FMOD_DSP_STATE *dsp_state);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_RESET_CALLBACK)                     (FMOD_DSP_STATE *dsp_state);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_READ_CALLBACK)                      (FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int *outchannels);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PROCESS_CALLBACK)                   (FMOD_DSP_STATE *dsp_state, unsigned int length, const FMOD_DSP_BUFFER_ARRAY *inbufferarray, FMOD_DSP_BUFFER_ARRAY *outbufferarray, FMOD_BOOL inputsidle, FMOD_DSP_PROCESS_OPERATION op);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SETPOSITION_CALLBACK)               (FMOD_DSP_STATE *dsp_state, unsigned int pos);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SHOULDIPROCESS_CALLBACK)            (FMOD_DSP_STATE *dsp_state, FMOD_BOOL inputsidle, unsigned int length, FMOD_CHANNELMASK inmask, int inchannels, FMOD_SPEAKERMODE speakermode);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SETPARAM_FLOAT_CALLBACK)            (FMOD_DSP_STATE *dsp_state, int index, float value);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SETPARAM_INT_CALLBACK)              (FMOD_DSP_STATE *dsp_state, int index, int value);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SETPARAM_BOOL_CALLBACK)             (FMOD_DSP_STATE *dsp_state, int index, FMOD_BOOL value);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SETPARAM_DATA_CALLBACK)             (FMOD_DSP_STATE *dsp_state, int index, void *data, unsigned int length);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETPARAM_FLOAT_CALLBACK)            (FMOD_DSP_STATE *dsp_state, int index, float *value, char *valuestr);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETPARAM_INT_CALLBACK)              (FMOD_DSP_STATE *dsp_state, int index, int *value, char *valuestr);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETPARAM_BOOL_CALLBACK)             (FMOD_DSP_STATE *dsp_state, int index, FMOD_BOOL *value, char *valuestr);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETPARAM_DATA_CALLBACK)             (FMOD_DSP_STATE *dsp_state, int index, void **data, unsigned int *length, char *valuestr);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SYSTEM_REGISTER_CALLBACK)           (FMOD_DSP_STATE *dsp_state);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK)         (FMOD_DSP_STATE *dsp_state);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_SYSTEM_MIX_CALLBACK)                (FMOD_DSP_STATE *dsp_state, int stage);
 
 /*
-[STRUCTURE] 
-[
-    [DESCRIPTION]
-    When creating a DSP unit, declare one of these and provide the relevant callbacks and name for FMOD to use when it creates and uses a DSP unit of this type.
-
-    [REMARKS]
-    <br>
-    Members marked with [r] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
-    Members marked with [w] mean the variable can be written to.  The user can set the value.<br>
-    <br>
-    IMPORTANT: The 'paramdesc' member should point to static memory, as FMOD references the data internally using the pointer provided.  Do not store these parameter description structures on the stack, or in heap memory that is freed while FMOD is using it.<br>
-    <br>
-    There are 2 different ways to change a parameter in this architecture.<br>
-    One is to use DSP::setParameter / DSP::getParameter.  This is platform independant and is dynamic, so new unknown plugins can have their parameters enumerated and used.<br>
-    The other is to use DSP::showConfigDialog.  This is platform specific and requires a GUI, and will display a dialog box to configure the plugin.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]    
-    System::createDSP
-    FMOD_DSP_STATE
-]
+    DSP Functions
 */
-typedef struct FMOD_DSP_DESCRIPTION
-{
-    char                         name[32];           /* [w] Name of the unit to be displayed in the network. */
-    unsigned int                 version;            /* [w] Plugin writer's version number. */
-    int                          channels;           /* [w] Number of channels.  Use 0 to process whatever number of channels is currently in the network.  >0 would be mostly used if the unit is a unit that only generates sound. */
-    FMOD_DSP_CREATECALLBACK      create;             /* [w] Create callback.  This is called when DSP unit is created.  Can be null. */
-    FMOD_DSP_RELEASECALLBACK     release;            /* [w] Release callback.  This is called just before the unit is freed so the user can do any cleanup needed for the unit.  Can be null. */
-    FMOD_DSP_RESETCALLBACK       reset;              /* [w] Reset callback.  This is called by the user to reset any history buffers that may need resetting for a filter, when it is to be used or re-used for the first time to its initial clean state.  Use to avoid clicks or artifacts. */
-    FMOD_DSP_READCALLBACK        read;               /* [w] Read callback.  Processing is done here.  Can be null. */
-    FMOD_DSP_SETPOSITIONCALLBACK setposition;        /* [w] Set position callback.  This is called if the unit wants to update its position info but not process data, or reset a cursor position internally if it is reading data from a certain source.  Can be null. */
-
-    int                          numparameters;      /* [w] Number of parameters used in this filter.  The user finds this with DSP::getNumParameters */
-    FMOD_DSP_PARAMETERDESC      *paramdesc;          /* [w] Variable number of parameter structures. */
-    FMOD_DSP_SETPARAMCALLBACK    setparameter;       /* [w] This is called when the user calls DSP::setParameter.  Can be null. */
-    FMOD_DSP_GETPARAMCALLBACK    getparameter;       /* [w] This is called when the user calls DSP::getParameter.  Can be null. */
-    FMOD_DSP_DIALOGCALLBACK      config;             /* [w] This is called when the user calls DSP::showConfigDialog.  Can be used to display a dialog to configure the filter.  Can be null. */
-    int                          configwidth;        /* [w] Width of config dialog graphic if there is one.  0 otherwise.*/
-    int                          configheight;       /* [w] Height of config dialog graphic if there is one.  0 otherwise.*/
-    void                        *userdata;           /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the DSP unit during creation.  Access via DSP::getUserData. */
-} FMOD_DSP_DESCRIPTION;
-
+typedef void *      (F_CALL *FMOD_DSP_ALLOC_FUNC)                         (unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
+typedef void *      (F_CALL *FMOD_DSP_REALLOC_FUNC)                       (void *ptr, unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr);
+typedef void        (F_CALL *FMOD_DSP_FREE_FUNC)                          (void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr);
+typedef void        (F_CALL *FMOD_DSP_LOG_FUNC)                           (FMOD_DEBUG_FLAGS level, const char *file, int line, const char *function, const char *string, ...);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETSAMPLERATE_FUNC)                 (FMOD_DSP_STATE *dsp_state, int *rate);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETBLOCKSIZE_FUNC)                  (FMOD_DSP_STATE *dsp_state, unsigned int *blocksize);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETSPEAKERMODE_FUNC)                (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE *speakermode_mixer, FMOD_SPEAKERMODE *speakermode_output);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETCLOCK_FUNC)                      (FMOD_DSP_STATE *dsp_state, unsigned long long *clock, unsigned int *offset, unsigned int *length);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETLISTENERATTRIBUTES_FUNC)         (FMOD_DSP_STATE *dsp_state, int *numlisteners, FMOD_3D_ATTRIBUTES *attributes);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_GETUSERDATA_FUNC)                   (FMOD_DSP_STATE *dsp_state, void **userdata);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_DFT_FFTREAL_FUNC)                   (FMOD_DSP_STATE *dsp_state, int size, const float *signal, FMOD_COMPLEX* dft, const float *window, int signalhop);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_DFT_IFFTREAL_FUNC)                  (FMOD_DSP_STATE *dsp_state, int size, const FMOD_COMPLEX *dft, float* signal, const float *window, int signalhop);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_SUMMONOMATRIX_FUNC)             (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE sourceSpeakerMode, float lowFrequencyGain, float overallGain, float *matrix);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC)           (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE sourceSpeakerMode, float pan, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC)         (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE sourceSpeakerMode, FMOD_SPEAKERMODE targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix, FMOD_DSP_PAN_SURROUND_FLAGS flags);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC)   (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE targetSpeakerMode, float direction, float extent, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC) (FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+typedef FMOD_RESULT (F_CALL *FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC)            (FMOD_DSP_STATE *dsp_state, FMOD_DSP_PAN_3D_ROLLOFF_TYPE rolloff, float distance, float mindistance, float maxdistance, float *gain);
 
 /*
-[STRUCTURE] 
-[
-    [DESCRIPTION]
-    DSP plugin structure that is passed into each callback.
-
-    [REMARKS]
-    Members marked with [r] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
-    Members marked with [w] mean the variable can be written to.  The user can set the value.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]
-    FMOD_DSP_DESCRIPTION
-]
+    DSP Structures
 */
-struct FMOD_DSP_STATE
+struct FMOD_DSP_BUFFER_ARRAY
 {
-    FMOD_DSP      *instance;      /* [r] Handle to the DSP hand the user created.  Not to be modified.  C++ users cast to FMOD::DSP to use.  */
-    void          *plugindata;    /* [w] Plugin writer created data the output author wants to attach to this object. */
-	unsigned short speakermask;	  /* [w] Specifies which speakers the DSP effect is active on */
+    int                numbuffers;
+    int               *buffernumchannels;
+    FMOD_CHANNELMASK  *bufferchannelmask;
+    float            **buffers;
+    FMOD_SPEAKERMODE   speakermode;
 };
 
-
-/*
-    ===================================================================================================
-
-    FMOD built in effect parameters.  
-    Use DSP::setParameter with these enums for the 'index' parameter.
-
-    ===================================================================================================
-*/
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_OSCILLATOR filter.
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
+struct FMOD_COMPLEX
 {
-    FMOD_DSP_OSCILLATOR_TYPE,   /* Waveform type.  0 = sine.  1 = square. 2 = sawup. 3 = sawdown. 4 = triangle. 5 = noise.  */
-    FMOD_DSP_OSCILLATOR_RATE    /* Frequency of the sinewave in hz.  1.0 to 22000.0.  Default = 220.0. */
-} FMOD_DSP_OSCILLATOR;
+    float real;
+    float imag;
+};
 
+typedef struct FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR
+{
+    int     numpoints;
+    float  *pointparamvalues;
+    float  *pointpositions;
+} FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR;
+
+typedef struct FMOD_DSP_PARAMETER_FLOAT_MAPPING
+{
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE               type;
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR   piecewiselinearmapping;
+} FMOD_DSP_PARAMETER_FLOAT_MAPPING;
+
+typedef struct FMOD_DSP_PARAMETER_DESC_FLOAT
+{
+    float                               min;
+    float                               max;
+    float                               defaultval;
+    FMOD_DSP_PARAMETER_FLOAT_MAPPING    mapping;
+} FMOD_DSP_PARAMETER_DESC_FLOAT;
+
+typedef struct FMOD_DSP_PARAMETER_DESC_INT
+{
+    int                 min;
+    int                 max;
+    int                 defaultval;
+    FMOD_BOOL           goestoinf;
+    const char* const*  valuenames;
+} FMOD_DSP_PARAMETER_DESC_INT;
+
+typedef struct FMOD_DSP_PARAMETER_DESC_BOOL
+{
+    FMOD_BOOL           defaultval;
+    const char* const*  valuenames;
+} FMOD_DSP_PARAMETER_DESC_BOOL;
+
+typedef struct FMOD_DSP_PARAMETER_DESC_DATA
+{
+    int datatype;
+} FMOD_DSP_PARAMETER_DESC_DATA;
+
+typedef struct FMOD_DSP_PARAMETER_DESC
+{
+    FMOD_DSP_PARAMETER_TYPE type;
+    char                    name[16];
+    char                    label[16];
+    const char             *description;
+
+    union
+    {
+        FMOD_DSP_PARAMETER_DESC_FLOAT   floatdesc;
+        FMOD_DSP_PARAMETER_DESC_INT     intdesc;
+        FMOD_DSP_PARAMETER_DESC_BOOL    booldesc;
+        FMOD_DSP_PARAMETER_DESC_DATA    datadesc;
+    };
+} FMOD_DSP_PARAMETER_DESC;
+
+typedef struct FMOD_DSP_PARAMETER_OVERALLGAIN
+{
+    float linear_gain;
+    float linear_gain_additive;
+} FMOD_DSP_PARAMETER_OVERALLGAIN;
+
+typedef struct FMOD_DSP_PARAMETER_3DATTRIBUTES
+{
+    FMOD_3D_ATTRIBUTES relative;
+    FMOD_3D_ATTRIBUTES absolute;
+} FMOD_DSP_PARAMETER_3DATTRIBUTES;
+
+typedef struct FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI
+{
+    int                numlisteners;
+    FMOD_3D_ATTRIBUTES relative[FMOD_MAX_LISTENERS];
+    float              weight[FMOD_MAX_LISTENERS];
+    FMOD_3D_ATTRIBUTES absolute;
+} FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI;
+
+typedef struct FMOD_DSP_PARAMETER_ATTENUATION_RANGE
+{
+    float min;
+    float max;
+} FMOD_DSP_PARAMETER_ATTENUATION_RANGE;
+
+typedef struct FMOD_DSP_PARAMETER_SIDECHAIN
+{
+    FMOD_BOOL sidechainenable;
+} FMOD_DSP_PARAMETER_SIDECHAIN;
+
+typedef struct FMOD_DSP_PARAMETER_FFT
+{
+    int     length;
+    int     numchannels;
+    float  *spectrum[32];
+} FMOD_DSP_PARAMETER_FFT;
+
+typedef struct FMOD_DSP_DESCRIPTION
+{
+    unsigned int                        pluginsdkversion;
+    char                                name[32];
+    unsigned int                        version;
+    int                                 numinputbuffers;
+    int                                 numoutputbuffers;
+    FMOD_DSP_CREATE_CALLBACK            create;
+    FMOD_DSP_RELEASE_CALLBACK           release;
+    FMOD_DSP_RESET_CALLBACK             reset;
+    FMOD_DSP_READ_CALLBACK              read;
+    FMOD_DSP_PROCESS_CALLBACK           process;
+    FMOD_DSP_SETPOSITION_CALLBACK       setposition;
+
+    int                                 numparameters;
+    FMOD_DSP_PARAMETER_DESC           **paramdesc;
+    FMOD_DSP_SETPARAM_FLOAT_CALLBACK    setparameterfloat;
+    FMOD_DSP_SETPARAM_INT_CALLBACK      setparameterint;
+    FMOD_DSP_SETPARAM_BOOL_CALLBACK     setparameterbool;
+    FMOD_DSP_SETPARAM_DATA_CALLBACK     setparameterdata;
+    FMOD_DSP_GETPARAM_FLOAT_CALLBACK    getparameterfloat;
+    FMOD_DSP_GETPARAM_INT_CALLBACK      getparameterint;
+    FMOD_DSP_GETPARAM_BOOL_CALLBACK     getparameterbool;
+    FMOD_DSP_GETPARAM_DATA_CALLBACK     getparameterdata;
+    FMOD_DSP_SHOULDIPROCESS_CALLBACK    shouldiprocess;
+    void                               *userdata;
+
+    FMOD_DSP_SYSTEM_REGISTER_CALLBACK   sys_register;
+    FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;
+    FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;
+
+} FMOD_DSP_DESCRIPTION;
+
+typedef struct FMOD_DSP_STATE_DFT_FUNCTIONS
+{
+    FMOD_DSP_DFT_FFTREAL_FUNC  fftreal;
+    FMOD_DSP_DFT_IFFTREAL_FUNC inversefftreal;
+} FMOD_DSP_STATE_DFT_FUNCTIONS;
+
+typedef struct FMOD_DSP_STATE_PAN_FUNCTIONS
+{
+    FMOD_DSP_PAN_SUMMONOMATRIX_FUNC             summonomatrix;
+    FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC           sumstereomatrix;
+    FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC         sumsurroundmatrix;
+    FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC   summonotosurroundmatrix;
+    FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC sumstereotosurroundmatrix;
+    FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC            getrolloffgain;
+} FMOD_DSP_STATE_PAN_FUNCTIONS;
+
+typedef struct FMOD_DSP_STATE_FUNCTIONS
+{
+    FMOD_DSP_ALLOC_FUNC                 alloc;
+    FMOD_DSP_REALLOC_FUNC               realloc;
+    FMOD_DSP_FREE_FUNC                  free;
+    FMOD_DSP_GETSAMPLERATE_FUNC         getsamplerate;
+    FMOD_DSP_GETBLOCKSIZE_FUNC          getblocksize;
+    FMOD_DSP_STATE_DFT_FUNCTIONS       *dft;
+    FMOD_DSP_STATE_PAN_FUNCTIONS       *pan;
+    FMOD_DSP_GETSPEAKERMODE_FUNC        getspeakermode;
+    FMOD_DSP_GETCLOCK_FUNC              getclock;
+    FMOD_DSP_GETLISTENERATTRIBUTES_FUNC getlistenerattributes;
+    FMOD_DSP_LOG_FUNC                   log;
+    FMOD_DSP_GETUSERDATA_FUNC           getuserdata;
+} FMOD_DSP_STATE_FUNCTIONS;
+
+struct FMOD_DSP_STATE
+{
+    void                     *instance;
+    void                     *plugindata;
+    FMOD_CHANNELMASK          channelmask;
+    FMOD_SPEAKERMODE          source_speakermode;
+    float                    *sidechaindata;
+    int                       sidechainchannels;
+    FMOD_DSP_STATE_FUNCTIONS *functions;
+    int                       systemobject;
+};
+
+typedef struct FMOD_DSP_METERING_INFO
+{
+    int   numsamples;
+    float peaklevel[32];
+    float rmslevel[32];
+    short numchannels;
+} FMOD_DSP_METERING_INFO;
 
 /*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_LOWPASS filter.
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
+    DSP Macros
 */
-typedef enum
-{
-    FMOD_DSP_LOWPASS_CUTOFF,    /* Lowpass cutoff frequency in hz.   10.0 to 22000.0.  Default = 5000.0. */
-    FMOD_DSP_LOWPASS_RESONANCE  /* Lowpass resonance Q value. 1.0 to 10.0.  Default = 1.0. */
-} FMOD_DSP_LOWPASS;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_ITLOWPASS filter.<br>
-    This is different to the default FMOD_DSP_TYPE_ITLOWPASS filter in that it uses a different quality algorithm and is 
-    the filter used to produce the correct sounding playback in .IT files.<br> 
-    FMOD Ex's .IT playback uses this filter.<br>
-
-    [REMARKS]
-    Note! This filter actually has a limited cutoff frequency below the specified maximum, due to its limited design, 
-    so for a more  open range filter use FMOD_DSP_LOWPASS or if you don't mind not having resonance, 
-    FMOD_DSP_LOWPASS_SIMPLE.<br>
-    The effective maximum cutoff is about 8060hz.
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_ITLOWPASS_CUTOFF,    /* Lowpass cutoff frequency in hz.  1.0 to 22000.0.  Default = 5000.0/ */
-    FMOD_DSP_ITLOWPASS_RESONANCE  /* Lowpass resonance Q value.  0.0 to 127.0.  Default = 1.0. */
-} FMOD_DSP_ITLOWPASS;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_HIGHPASS filter.
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_HIGHPASS_CUTOFF,    /* Highpass cutoff frequency in hz.  1.0 to output 22000.0.  Default = 5000.0. */
-    FMOD_DSP_HIGHPASS_RESONANCE  /* Highpass resonance Q value.  1.0 to 10.0.  Default = 1.0. */
-} FMOD_DSP_HIGHPASS;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_ECHO filter.
-
-    [REMARKS]
-    Note.  Every time the delay is changed, the plugin re-allocates the echo buffer.  This means the echo will dissapear at that time while it refills its new buffer.<br>
-    Larger echo delays result in larger amounts of memory allocated.<br>
-    <br>
-    '<i>maxchannels</i>' also dictates the amount of memory allocated.  By default, the maxchannels value is 0.  If FMOD is set to stereo, the echo unit will allocate enough memory for 2 channels.  If it is 5.1, it will allocate enough memory for a 6 channel echo, etc.<br>
-    If the echo effect is only ever applied to the global mix (ie it was added with System::addDSP), then 0 is the value to set as it will be enough to handle all speaker modes.<br>
-    When the echo is added to a channel (ie Channel::addDSP) then the channel count that comes in could be anything from 1 to 8 possibly.  It is only in this case where you might want to increase the channel count above the output's channel count.<br>
-    If a channel echo is set to a lower number than the sound's channel count that is coming in, it will not echo the sound.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_ECHO_DELAY,       /* Echo delay in ms.  10  to 5000.  Default = 500. */
-    FMOD_DSP_ECHO_DECAYRATIO,  /* Echo decay per delay.  0 to 1.  1.0 = No decay, 0.0 = total decay (ie simple 1 line delay).  Default = 0.5. */
-    FMOD_DSP_ECHO_MAXCHANNELS, /* Maximum channels supported.  0 to 16.  0 = same as fmod's default output polyphony, 1 = mono, 2 = stereo etc.  See remarks for more.  Default = 0.  It is suggested to leave at 0! */
-    FMOD_DSP_ECHO_DRYMIX,      /* Volume of original signal to pass to output.  0.0 to 1.0. Default = 1.0. */
-    FMOD_DSP_ECHO_WETMIX       /* Volume of echo signal to pass to output.  0.0 to 1.0. Default = 1.0. */
-} FMOD_DSP_ECHO;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_DELAY filter.
-
-    [REMARKS]
-    Note.  Every time MaxDelay is changed, the plugin re-allocates the delay buffer.  This means the delay will dissapear at that time while it refills its new buffer.<br>
-    A larger MaxDelay results in larger amounts of memory allocated.<br>
-    Channel delays above MaxDelay will be clipped to MaxDelay and the delay buffer will not be resized.<br>
-    <br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_DELAY_CH0,      /* Channel #0 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH1,      /* Channel #1 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH2,      /* Channel #2 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH3,      /* Channel #3 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH4,      /* Channel #4 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH5,      /* Channel #5 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH6,      /* Channel #6 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH7,      /* Channel #7 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH8,      /* Channel #8 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH9,      /* Channel #9 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH10,     /* Channel #10 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH11,     /* Channel #11 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH12,     /* Channel #12 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH13,     /* Channel #13 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH14,     /* Channel #14 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_CH15,     /* Channel #15 Delay in ms.  0  to 10000.  Default = 0. */
-    FMOD_DSP_DELAY_MAXDELAY  /* Maximum delay in ms.  0  to 10000.  Default = 10. */
-} FMOD_DSP_DELAY;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_FLANGE filter.
-
-    [REMARKS]
-    Flange is an effect where the signal is played twice at the same time, and one copy slides back and forth creating a whooshing or flanging effect.<br>
-    As there are 2 copies of the same signal, by default each signal is given 50% mix, so that the total is not louder than the original unaffected signal.<br>
-    <br>
-    Flange depth is a percentage of a 10ms shift from the original signal.  Anything above 10ms is not considered flange because to the ear it begins to 'echo' so 10ms is the highest value possible.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_FLANGE_DRYMIX,      /* Volume of original signal to pass to output.  0.0 to 1.0. Default = 0.45. */
-    FMOD_DSP_FLANGE_WETMIX,      /* Volume of flange signal to pass to output.  0.0 to 1.0. Default = 0.55. */
-    FMOD_DSP_FLANGE_DEPTH,       /* Flange depth (percentage of 40ms delay).  0.01 to 1.0.  Default = 1.0. */
-    FMOD_DSP_FLANGE_RATE         /* Flange speed in hz.  0.0 to 20.0.  Default = 0.1. */
-} FMOD_DSP_FLANGE;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_TREMOLO filter.
-
-    [REMARKS]
-    The tremolo effect varies the amplitude of a sound. Depending on the settings, this unit can produce a tremolo, chopper or auto-pan effect.<br>
-    <br>
-    The shape of the LFO (low freq. oscillator) can morphed between sine, triangle and sawtooth waves using the FMOD_DSP_TREMOLO_SHAPE and FMOD_DSP_TREMOLO_SKEW parameters.<br>
-    FMOD_DSP_TREMOLO_DUTY and FMOD_DSP_TREMOLO_SQUARE are useful for a chopper-type effect where the first controls the on-time duration and second controls the flatness of the envelope.<br>
-    FMOD_DSP_TREMOLO_SPREAD varies the LFO phase between channels to get an auto-pan effect. This works best with a sine shape LFO.<br>
-    The LFO can be synchronized using the FMOD_DSP_TREMOLO_PHASE parameter which sets its instantaneous phase.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_TREMOLO_FREQUENCY,     /* LFO frequency in Hz.  0.1 to 20.  Default = 4. */
-    FMOD_DSP_TREMOLO_DEPTH,         /* Tremolo depth.  0 to 1.  Default = 0. */
-    FMOD_DSP_TREMOLO_SHAPE,         /* LFO shape morph between triangle and sine.  0 to 1.  Default = 0. */
-    FMOD_DSP_TREMOLO_SKEW,          /* Time-skewing of LFO cycle.  -1 to 1.  Default = 0. */
-    FMOD_DSP_TREMOLO_DUTY,          /* LFO on-time.  0 to 1.  Default = 0.5. */
-    FMOD_DSP_TREMOLO_SQUARE,        /* Flatness of the LFO shape.  0 to 1.  Default = 0. */
-    FMOD_DSP_TREMOLO_PHASE,         /* Instantaneous LFO phase.  0 to 1.  Default = 0. */
-    FMOD_DSP_TREMOLO_SPREAD         /* Rotation / auto-pan effect.  -1 to 1.  Default = 0. */
-} FMOD_DSP_TREMOLO;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_DISTORTION filter.
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_DISTORTION_LEVEL    /* Distortion value.  0.0 to 1.0.  Default = 0.5. */
-} FMOD_DSP_DISTORTION;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_NORMALIZE filter.
-
-    [REMARKS]
-    Normalize amplifies the sound based on the maximum peaks within the signal.<br>
-    For example if the maximum peaks in the signal were 50% of the bandwidth, it would scale the whole sound by 2.<br>
-    The lower threshold value makes the normalizer ignores peaks below a certain point, to avoid over-amplification if a loud signal suddenly came in, and also to avoid amplifying to maximum things like background hiss.<br>
-    <br>
-    Because FMOD is a realtime audio processor, it doesn't have the luxury of knowing the peak for the whole sound (ie it can't see into the future), so it has to process data as it comes in.<br>
-    To avoid very sudden changes in volume level based on small samples of new data, fmod fades towards the desired amplification which makes for smooth gain control.  The fadetime parameter can control this.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_NORMALIZE_FADETIME,    /* Time to ramp the silence to full in ms.  0.0 to 20000.0. Default = 5000.0. */
-    FMOD_DSP_NORMALIZE_THRESHHOLD,  /* Lower volume range threshold to ignore.  0.0 to 1.0.  Default = 0.1.  Raise higher to stop amplification of very quiet signals. */
-    FMOD_DSP_NORMALIZE_MAXAMP       /* Maximum amplification allowed.  1.0 to 100000.0.  Default = 20.0.  1.0 = no amplifaction, higher values allow more boost. */
-} FMOD_DSP_NORMALIZE;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_PARAMEQ filter.
-
-    [REMARKS]
-    Parametric EQ is a bandpass filter that attenuates or amplifies a selected frequency and its neighbouring frequencies.<br>
-    <br>
-    To create a multi-band EQ create multiple FMOD_DSP_TYPE_PARAMEQ units and set each unit to different frequencies, for example 1000hz, 2000hz, 4000hz, 8000hz, 16000hz with a range of 1 octave each.<br>
-    <br>
-    When a frequency has its gain set to 1.0, the sound will be unaffected and represents the original signal exactly.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_PARAMEQ_CENTER,     /* Frequency center.  20.0 to 22000.0.  Default = 8000.0. */
-    FMOD_DSP_PARAMEQ_BANDWIDTH,  /* Octave range around the center frequency to filter.  0.2 to 5.0.  Default = 1.0. */
-    FMOD_DSP_PARAMEQ_GAIN        /* Frequency Gain.  0.05 to 3.0.  Default = 1.0.  */
-} FMOD_DSP_PARAMEQ;
-
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_PITCHSHIFT filter.
-
-    [REMARKS]
-    This pitch shifting unit can be used to change the pitch of a sound without speeding it up or slowing it down.<br>
-    It can also be used for time stretching or scaling, for example if the pitch was doubled, and the frequency of the sound was halved, the pitch of the sound would sound correct but it would be twice as slow.<br>
-    <br>
-    <b>Warning!</b> This filter is very computationally expensive!  Similar to a vocoder, it requires several overlapping FFT and IFFT's to produce smooth output, and can require around 440mhz for 1 stereo 48khz signal using the default settings.<br>
-    Reducing the signal to mono will half the cpu usage.<br>
-    Reducing this will lower audio quality, but what settings to use are largely dependant on the sound being played.  A noisy polyphonic signal will need higher fft size compared to a speaking voice for example.<br>
-    <br>
-    This pitch shifter is based on the pitch shifter code at http://www.dspdimension.com, written by Stephan M. Bernsee.<br>
-    The original code is COPYRIGHT 1999-2003 Stephan M. Bernsee <smb@dspdimension.com>.<br>
-    <br>
-    '<i>maxchannels</i>' dictates the amount of memory allocated.  By default, the maxchannels value is 0.  If FMOD is set to stereo, the pitch shift unit will allocate enough memory for 2 channels.  If it is 5.1, it will allocate enough memory for a 6 channel pitch shift, etc.<br>
-    If the pitch shift effect is only ever applied to the global mix (ie it was added with System::addDSP), then 0 is the value to set as it will be enough to handle all speaker modes.<br>
-    When the pitch shift is added to a channel (ie Channel::addDSP) then the channel count that comes in could be anything from 1 to 8 possibly.  It is only in this case where you might want to increase the channel count above the output's channel count.<br>
-    If a channel pitch shift is set to a lower number than the sound's channel count that is coming in, it will not pitch shift the sound.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_PITCHSHIFT_PITCH,       /* Pitch value.  0.5 to 2.0.  Default = 1.0. 0.5 = one octave down, 2.0 = one octave up.  1.0 does not change the pitch. */
-    FMOD_DSP_PITCHSHIFT_FFTSIZE,     /* FFT window size.  256, 512, 1024, 2048, 4096.  Default = 1024.  Increase this to reduce 'smearing'.  This effect is a warbling sound similar to when an mp3 is encoded at very low bitrates. */
-    FMOD_DSP_PITCHSHIFT_OVERLAP,     /* Removed.  Do not use.  FMOD now uses 4 overlaps and cannot be changed. */
-    FMOD_DSP_PITCHSHIFT_MAXCHANNELS  /* Maximum channels supported.  0 to 16.  0 = same as fmod's default output polyphony, 1 = mono, 2 = stereo etc.  See remarks for more.  Default = 0.  It is suggested to leave at 0! */
-} FMOD_DSP_PITCHSHIFT;
-
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_CHORUS filter.
-
-    [REMARKS]
-    Chrous is an effect where the sound is more 'spacious' due to 1 to 3 versions of the sound being played along side the original signal but with the pitch of each copy modulating on a sine wave.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_CHORUS_DRYMIX,   /* Volume of original signal to pass to output.  0.0 to 1.0. Default = 0.5. */
-    FMOD_DSP_CHORUS_WETMIX1,  /* Volume of 1st chorus tap.  0.0 to 1.0.  Default = 0.5. */
-    FMOD_DSP_CHORUS_WETMIX2,  /* Volume of 2nd chorus tap. This tap is 90 degrees out of phase of the first tap.  0.0 to 1.0.  Default = 0.5. */
-    FMOD_DSP_CHORUS_WETMIX3,  /* Volume of 3rd chorus tap. This tap is 90 degrees out of phase of the second tap.  0.0 to 1.0.  Default = 0.5. */
-    FMOD_DSP_CHORUS_DELAY,    /* Chorus delay in ms.  0.1 to 100.0.  Default = 40.0 ms. */
-    FMOD_DSP_CHORUS_RATE,     /* Chorus modulation rate in hz.  0.0 to 20.0.  Default = 0.8 hz. */
-    FMOD_DSP_CHORUS_DEPTH     /* Chorus modulation depth.  0.0 to 1.0.  Default = 0.03. */
-} FMOD_DSP_CHORUS;
-
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_ITECHO filter.<br>
-    This is effectively a software based echo filter that emulates the DirectX DMO echo effect.  Impulse tracker files can support this, and FMOD will produce the effect on ANY platform, not just those that support DirectX effects!<br>
-
-    [REMARKS]
-    Note.  Every time the delay is changed, the plugin re-allocates the echo buffer.  This means the echo will dissapear at that time while it refills its new buffer.<br>
-    Larger echo delays result in larger amounts of memory allocated.<br>
-    <br>
-    As this is a stereo filter made mainly for IT playback, it is targeted for stereo signals.<br>
-    With mono signals only the FMOD_DSP_ITECHO_LEFTDELAY is used.<br>
-    For multichannel signals (>2) there will be no echo on those channels.<br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::SetParameter
-    DSP::GetParameter
-    FMOD_DSP_TYPE
-    System::addDSP
-]
-*/
-typedef enum
-{
-    FMOD_DSP_ITECHO_WETDRYMIX,      /* Ratio of wet (processed) signal to dry (unprocessed) signal. Must be in the range from 0.0 through 100.0 (all wet). The default value is 50. */
-    FMOD_DSP_ITECHO_FEEDBACK,       /* Percentage of output fed back into input, in the range from 0.0 through 100.0. The default value is 50. */
-    FMOD_DSP_ITECHO_LEFTDELAY,      /* Delay for left channel, in milliseconds, in the range from 1.0 through 2000.0. The default value is 500 ms. */
-    FMOD_DSP_ITECHO_RIGHTDELAY,     /* Delay for right channel, in milliseconds, in the range from 1.0 through 2000.0. The default value is 500 ms. */
-    FMOD_DSP_ITECHO_PANDELAY        /* Value that specifies whether to swap left and right delays with each successive echo. The default value is zero, meaning no swap. Possible values are defined as 0.0 (equivalent to FALSE) and 1.0 (equivalent to TRUE).  CURRENTLY NOT SUPPORTED. */
-} FMOD_DSP_ITECHO;
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_COMPRESSOR unit.
-    This is a simple linked multichannel software limiter that is uniform across the whole spectrum.<br>
-
-    [REMARKS]
-    The limiter is not guaranteed to catch every peak above the threshold level,
-    because it cannot apply gain reduction instantaneously - the time delay is
-    determined by the attack time. However setting the attack time too short will
-    distort the sound, so it is a compromise. High level peaks can be avoided by
-    using a short attack time - but not too short, and setting the threshold a few
-    decibels below the critical level.
-    <br>
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::SetParameter
-    DSP::GetParameter
-    FMOD_DSP_TYPE
-    System::addDSP
-]
-*/
-typedef enum
-{
-    FMOD_DSP_COMPRESSOR_THRESHOLD,  /* Threshold level (dB) in the range from -60 through 0. The default value is 0. */ 
-    FMOD_DSP_COMPRESSOR_ATTACK,     /* Gain reduction attack time (milliseconds), in the range from 10 through 200. The default value is 50. */
-    FMOD_DSP_COMPRESSOR_RELEASE,    /* Gain reduction release time (milliseconds), in the range from 20 through 1000. The default value is 50. */
-    FMOD_DSP_COMPRESSOR_GAINMAKEUP  /* Make-up gain (dB) applied after limiting, in the range from 0 through 30. The default value is 0. */
-} FMOD_DSP_COMPRESSOR;
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_SFXREVERB unit.<br>
-    
-    [REMARKS]
-    This is a high quality I3DL2 based reverb.<br>
-    On top of the I3DL2 property set, "Dry Level" is also included to allow the dry mix to be changed.<br>
-    <br>
-    These properties can be set with presets in FMOD_REVERB_PRESETS.
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::SetParameter
-    DSP::GetParameter
-    FMOD_DSP_TYPE
-    System::addDSP
-    FMOD_REVERB_PRESETS
-]
-*/
-typedef enum
-{
-    FMOD_DSP_SFXREVERB_DRYLEVEL,            /* Dry Level      : Mix level of dry signal in output in mB.  Ranges from -10000.0 to 0.0.  Default is 0. */
-    FMOD_DSP_SFXREVERB_ROOM,                /* Room           : Room effect level at low frequencies in mB.  Ranges from -10000.0 to 0.0.  Default is -10000.0. */
-    FMOD_DSP_SFXREVERB_ROOMHF,              /* Room HF        : Room effect high-frequency level re. low frequency level in mB.  Ranges from -10000.0 to 0.0.  Default is 0.0. */
-    FMOD_DSP_SFXREVERB_DECAYTIME,           /* Decay Time     : Reverberation decay time at low-frequencies in seconds.  Ranges from 0.1 to 20.0. Default is 1.0. */
-    FMOD_DSP_SFXREVERB_DECAYHFRATIO,        /* Decay HF Ratio : High-frequency to low-frequency decay time ratio.  Ranges from 0.1 to 2.0. Default is 0.5. */
-    FMOD_DSP_SFXREVERB_REFLECTIONSLEVEL,    /* Reflections    : Early reflections level relative to room effect in mB.  Ranges from -10000.0 to 1000.0.  Default is -10000.0. */
-    FMOD_DSP_SFXREVERB_REFLECTIONSDELAY,    /* Reflect Delay  : Delay time of first reflection in seconds.  Ranges from 0.0 to 0.3.  Default is 0.02. */
-    FMOD_DSP_SFXREVERB_REVERBLEVEL,         /* Reverb         : Late reverberation level relative to room effect in mB.  Ranges from -10000.0 to 2000.0.  Default is 0.0. */
-    FMOD_DSP_SFXREVERB_REVERBDELAY,         /* Reverb Delay   : Late reverberation delay time relative to first reflection in seconds.  Ranges from 0.0 to 0.1.  Default is 0.04. */
-    FMOD_DSP_SFXREVERB_DIFFUSION,           /* Diffusion      : Reverberation diffusion (echo density) in percent.  Ranges from 0.0 to 100.0.  Default is 100.0. */
-    FMOD_DSP_SFXREVERB_DENSITY,             /* Density        : Reverberation density (modal density) in percent.  Ranges from 0.0 to 100.0.  Default is 100.0. */
-    FMOD_DSP_SFXREVERB_HFREFERENCE,         /* HF Reference   : Reference high frequency in Hz.  Ranges from 20.0 to 20000.0. Default is 5000.0. */
-    FMOD_DSP_SFXREVERB_ROOMLF,              /* Room LF        : Room effect low-frequency level in mB.  Ranges from -10000.0 to 0.0.  Default is 0.0. */
-    FMOD_DSP_SFXREVERB_LFREFERENCE          /* LF Reference   : Reference low-frequency in Hz.  Ranges from 20.0 to 1000.0. Default is 250.0. */
-} FMOD_DSP_SFXREVERB;
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_LOWPASS_SIMPLE filter.<br>
-    This is a very simple low pass filter, based on two single-pole RC time-constant modules.
-    The emphasis is on speed rather than accuracy, so this should not be used for task requiring critical filtering.<br> 
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_LOWPASS_SIMPLE_CUTOFF     /* Lowpass cutoff frequency in hz.  10.0 to 22000.0.  Default = 5000.0 */
-} FMOD_DSP_LOWPASS_SIMPLE;
-
-/*
-[ENUM]
-[  
-    [DESCRIPTION]   
-    Parameter types for the FMOD_DSP_TYPE_HIGHPASS_SIMPLE filter.<br>
-    This is a very simple single-order high pass filter.
-    The emphasis is on speed rather than accuracy, so this should not be used for task requiring critical filtering.<br> 
-
-    [REMARKS]
-
-    [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox360, PlayStation Portable, PlayStation 3, Wii, iPhone, 3GS, NGP, Android
-
-    [SEE_ALSO]      
-    DSP::setParameter
-    DSP::getParameter
-    FMOD_DSP_TYPE
-]
-*/
-typedef enum
-{
-    FMOD_DSP_HIGHPASS_SIMPLE_CUTOFF     /* Highpass cutoff frequency in hz.  10.0 to 22000.0.  Default = 1000.0 */
-} FMOD_DSP_HIGHPASS_SIMPLE;
+#define FMOD_DSP_INIT_PARAMDESC_FLOAT(_paramstruct, _name, _label, _description, _min, _max, _defaultval) \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
+    strncpy((_paramstruct).name,  _name,  15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).floatdesc.min          = _min; \
+    (_paramstruct).floatdesc.max          = _max; \
+    (_paramstruct).floatdesc.defaultval   = _defaultval; \
+    (_paramstruct).floatdesc.mapping.type = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO;
+
+#define FMOD_DSP_INIT_PARAMDESC_FLOAT_WITH_MAPPING(_paramstruct, _name, _label, _description, _defaultval, _values, _positions); \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_FLOAT; \
+    strncpy((_paramstruct).name,  _name , 15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).floatdesc.min          = _values[0]; \
+    (_paramstruct).floatdesc.max          = _values[sizeof(_values) / sizeof(float) - 1]; \
+    (_paramstruct).floatdesc.defaultval   = _defaultval; \
+    (_paramstruct).floatdesc.mapping.type = FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR; \
+    (_paramstruct).floatdesc.mapping.piecewiselinearmapping.numpoints = sizeof(_values) / sizeof(float); \
+    (_paramstruct).floatdesc.mapping.piecewiselinearmapping.pointparamvalues = _values; \
+    (_paramstruct).floatdesc.mapping.piecewiselinearmapping.pointpositions = _positions;
+
+#define FMOD_DSP_INIT_PARAMDESC_INT(_paramstruct, _name, _label, _description, _min, _max, _defaultval, _goestoinf, _valuenames) \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_INT; \
+    strncpy((_paramstruct).name,  _name , 15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).intdesc.min          = _min; \
+    (_paramstruct).intdesc.max          = _max; \
+    (_paramstruct).intdesc.defaultval   = _defaultval; \
+    (_paramstruct).intdesc.goestoinf    = _goestoinf; \
+    (_paramstruct).intdesc.valuenames   = _valuenames;
+
+#define FMOD_DSP_INIT_PARAMDESC_INT_ENUMERATED(_paramstruct, _name, _label, _description, _defaultval, _valuenames) \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_INT; \
+    strncpy((_paramstruct).name,  _name , 15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).intdesc.min          = 0; \
+    (_paramstruct).intdesc.max          = sizeof(_valuenames) / sizeof(char*) - 1; \
+    (_paramstruct).intdesc.defaultval   = _defaultval; \
+    (_paramstruct).intdesc.goestoinf    = false; \
+    (_paramstruct).intdesc.valuenames   = _valuenames;
+
+#define FMOD_DSP_INIT_PARAMDESC_BOOL(_paramstruct, _name, _label, _description, _defaultval, _valuenames) \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_BOOL; \
+    strncpy((_paramstruct).name,  _name , 15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).booldesc.defaultval   = _defaultval; \
+    (_paramstruct).booldesc.valuenames   = _valuenames;
+
+#define FMOD_DSP_INIT_PARAMDESC_DATA(_paramstruct, _name, _label, _description, _datatype) \
+    memset(&(_paramstruct), 0, sizeof(_paramstruct)); \
+    (_paramstruct).type         = FMOD_DSP_PARAMETER_TYPE_DATA; \
+    strncpy((_paramstruct).name,  _name , 15); \
+    strncpy((_paramstruct).label, _label, 15); \
+    (_paramstruct).description  = _description; \
+    (_paramstruct).datadesc.datatype     = _datatype;
+
+#define FMOD_DSP_ALLOC(_state, _size) \
+    (_state)->functions->alloc(_size, FMOD_MEMORY_NORMAL, __FILE__)
+#define FMOD_DSP_REALLOC(_state, _ptr, _size) \
+    (_state)->functions->realloc(_ptr, _size, FMOD_MEMORY_NORMAL, __FILE__)
+#define FMOD_DSP_FREE(_state, _ptr) \
+    (_state)->functions->free(_ptr, FMOD_MEMORY_NORMAL, __FILE__)
+#define FMOD_DSP_LOG(_state, _level, _location, _format, ...) \
+    (_state)->functions->log(_level, __FILE__, __LINE__, _location, _format, __VA_ARGS__)
+#define FMOD_DSP_GETSAMPLERATE(_state, _rate) \
+    (_state)->functions->getsamplerate(_state, _rate)
+#define FMOD_DSP_GETBLOCKSIZE(_state, _blocksize) \
+    (_state)->functions->getblocksize(_state, _blocksize)
+#define FMOD_DSP_GETSPEAKERMODE(_state, _speakermodemix, _speakermodeout) \
+    (_state)->functions->getspeakermode(_state, _speakermodemix, _speakermodeout)
+#define FMOD_DSP_GETCLOCK(_state, _clock, _offset, _length) \
+    (_state)->functions->getclock(_state, _clock, _offset, _length)
+#define FMOD_DSP_GETLISTENERATTRIBUTES(_state, _numlisteners, _attributes) \
+    (_state)->functions->getlistenerattributes(_state, _numlisteners, _attributes)
+#define FMOD_DSP_GETUSERDATA(_state, _userdata) \
+    (_state)->functions->getuserdata(_state, _userdata)
+#define FMOD_DSP_DFT_FFTREAL(_state, _size, _signal, _dft, _window, _signalhop) \
+    (_state)->functions->dft->fftreal(_state, _size, _signal, _dft, _window, _signalhop)
+#define FMOD_DSP_DFT_IFFTREAL(_state, _size, _dft, _signal, _window, _signalhop) \
+    (_state)->functions->dft->inversefftreal(_state, _size, _dft, _signal, _window, _signalhop)
+#define FMOD_DSP_PAN_SUMMONOMATRIX(_state, _sourcespeakermode, _lowfrequencygain, _overallgain, _matrix) \
+    (_state)->functions->pan->summonomatrix(_state, _sourcespeakermode, _lowfrequencygain, _overallgain, _matrix)
+#define FMOD_DSP_PAN_SUMSTEREOMATRIX(_state, _sourcespeakermode, _pan, _lowfrequencygain, _overallgain, _matrixhop, _matrix) \
+    (_state)->functions->pan->sumstereomatrix(_state, _sourcespeakermode, _pan, _lowfrequencygain, _overallgain, _matrixhop, _matrix)
+#define FMOD_DSP_PAN_SUMSURROUNDMATRIX(_state, _sourcespeakermode, _targetspeakermode, _direction, _extent, _rotation, _lowfrequencygain, _overallgain, _matrixhop, _matrix, _flags) \
+    (_state)->functions->pan->sumsurroundmatrix(_state, _sourcespeakermode, _targetspeakermode, _direction, _extent, _rotation, _lowfrequencygain, _overallgain, _matrixhop, _matrix, _flags)
+#define FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX(_state, _targetspeakermode, _direction, _extent, _lowfrequencygain, _overallgain, _matrixhop, _matrix) \
+    (_state)->functions->pan->summonotosurroundmatrix(_state, _targetspeakermode, _direction, _extent, _lowfrequencygain, _overallgain, _matrixhop, _matrix)
+#define FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX(_state, _targetspeakermode, _direction, _extent, _rotation, _lowfrequencygain, _overallgain, matrixhop, _matrix) \
+    (_state)->functions->pan->sumstereotosurroundmatrix(_state, _targetspeakermode, _direction, _extent, _rotation, _lowfrequencygain, _overallgain, matrixhop, _matrix)
+#define FMOD_DSP_PAN_GETROLLOFFGAIN(_state, _rolloff, _distance, _mindistance, _maxdistance, _gain) \
+    (_state)->functions->pan->getrolloffgain(_state, _rolloff, _distance, _mindistance, _maxdistance, _gain)
 
 #endif
 

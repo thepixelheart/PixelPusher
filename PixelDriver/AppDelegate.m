@@ -38,9 +38,6 @@
 #import "PHDualVizualizersView.h"
 #import "PHLaunchpadDevice.h"
 #import "PHDJ2GODevice.h"
-#import "PHScript.h"
-
-#import <FScript/FScript.h>
 
 static const CGFloat kPixelHeartPixelSize = 16;
 static const CGFloat kPreviewPixelSize = 8;
@@ -86,83 +83,12 @@ PHSystem* PHSys() {
   SCEvents* _gifFSEvents;
   SCEvents* _scriptFSEvents;
 
-  NSMutableDictionary* _userScripts;
-
   CGContextRef _depthBitmapContext;
 }
 
 @synthesize audioRecorder = _audioRecorder;
 @synthesize midiDriver = _midiDriver;
 @synthesize gifs = _gifs;
-
-- (id)init {
-  if ((self = [super init])) {
-    _userScripts = [NSMutableDictionary dictionary];
-  }
-  return self;
-}
-
-- (void)loadScripts {
-  NSFileManager* fm = [NSFileManager defaultManager];
-
-  NSString* userPath = [PHSys() pathForUserScripts];
-
-  NSError* error = nil;
-  NSArray* filenames = nil;
-  NSString* preloadPath = PHFilenameForResourcePath(@"scripts");
-  if (![fm fileExistsAtPath:userPath]) {
-    [fm createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
-  }
-
-  // Copy the packaged scripts into the user directory.
-  filenames = [fm contentsOfDirectoryAtPath:preloadPath error:&error];
-  if (nil != error) {
-    NSLog(@"Error: %@", error);
-    return;
-  }
-  for (NSString* filename in filenames) {
-    NSString* gifPath = [preloadPath stringByAppendingPathComponent:filename];
-    NSString* userGifPath = [userPath stringByAppendingPathComponent:filename];
-    [fm copyItemAtPath:gifPath toPath:userGifPath error:nil];
-  }
-
-  // Read all of the user scripts.
-  error = nil;
-  filenames = [fm contentsOfDirectoryAtPath:userPath error:&error];
-  if (nil != error) {
-    NSLog(@"Error: %@", error);
-    return;
-  }
-
-  NSMutableArray* newScripts = [NSMutableArray array];
-  NSMutableArray* deletedScripts = [NSMutableArray arrayWithArray:[_userScripts allValues]];
-  for (NSString* path in filenames) {
-    if ([path hasPrefix:@"."]) {
-      continue;
-    }
-    NSString* fullPath = [userPath stringByAppendingPathComponent:path];
-
-    NSString* string = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:&error];
-    if (nil != error) {
-      NSLog(@"Error: %@", error);
-      continue;
-    }
-
-    PHScript* script = _userScripts[fullPath];
-    if (nil == script) {
-      PHScript* script = [[PHScript alloc] initWithString:string sourceFile:fullPath];
-      _userScripts[fullPath] = script;
-      [newScripts addObject:script];
-    } else {
-      [script updateWithString:string];
-      [deletedScripts removeObject:script];
-    }
-  }
-  _scripts = [_userScripts copy];
-
-  NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-  [nc postNotificationName:PHSystemUserScriptsDidChangeNotification object:nil];
-}
 
 - (void)loadGifs {
   NSFileManager* fm = [NSFileManager defaultManager];
@@ -232,8 +158,6 @@ PHSystem* PHSys() {
 - (void)pathWatcher:(SCEvents *)pathWatcher eventOccurred:(SCEvent *)event {
   if (_gifFSEvents == pathWatcher) {
     [self loadGifs];
-  } else if (_scriptFSEvents == pathWatcher) {
-    [self loadScripts];
   }
 }
 
@@ -246,7 +170,6 @@ PHSystem* PHSys() {
   _moteServer = [[PHMoteServer alloc] init];
   _processingServer = [[PHProcessingServer alloc] init];
   [self loadGifs];
-  [self loadScripts];
 
   _gifFSEvents = [[SCEvents alloc] init];
   _gifFSEvents.delegate = self;

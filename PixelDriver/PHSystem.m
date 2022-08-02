@@ -24,8 +24,6 @@
 
 #import "PHCompositeAnimation.h"
 #import "PHAnimationList.h"
-#import "PHScript.h"
-#import "PHScriptAnimation.h"
 
 #import "PHMidCrossFadeTransition.h"
 #import "PHStarWarsTransition.h"
@@ -270,25 +268,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
 
 - (void)refreshScriptAnimations {
   _filteredAnimations = nil;
-
-  NSDictionary* scripts = [PHApp() scripts];
-
-  NSMutableArray* animationsToRemove = [NSMutableArray arrayWithArray:[_scriptAnimations allKeys]];
-  for (id key in scripts) {
-    PHScript* script = scripts[key];
-    PHScriptAnimation* animation = _scriptAnimations[key];
-    if (nil == animation) {
-      animation = [PHScriptAnimation animationWithScript:script];
-      _scriptAnimations[key] = animation;
-    } else {
-      [animationsToRemove removeObject:key];
-    }
-  }
-
-  // Remove dead animations.
-  for (id key in animationsToRemove) {
-    [_scriptAnimations removeObjectForKey:key];
-  }
 
   [self refreshLaunchpad];
 }
@@ -1665,12 +1644,6 @@ static const NSTimeInterval kFadeTimeMaxLength = 5;
   NSMutableArray* allAnimations = [NSMutableArray array];
   [allAnimations addObjectsFromArray:_compiledAnimations];
   [allAnimations addObjectsFromArray:_compositeAnimations];
-
-  NSArray* scriptAnimations = [_scriptAnimations.allValues sortedArrayUsingComparator:
-                               ^NSComparisonResult(PHScriptAnimation* obj1, PHScriptAnimation* obj2) {
-                                 return [obj1.script.sourceFile compare:obj2.script.sourceFile];
-                               }];
-  [allAnimations addObjectsFromArray:scriptAnimations];
   return allAnimations;
 }
 

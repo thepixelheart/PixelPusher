@@ -14,14 +14,10 @@
 		6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6602D06617BAE07700406DE1 /* PHAnimationList.m */; };
 		6602D06A17C07C3C00406DE1 /* PHColorSpliceAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6602D06817C07C3C00406DE1 /* PHColorSpliceAnimation.h */; };
 		6602D06B17C07C3C00406DE1 /* PHColorSpliceAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6602D06917C07C3C00406DE1 /* PHColorSpliceAnimation.m */; };
-		6603375017331F57001090B7 /* FScript.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6603374F17331F57001090B7 /* FScript.framework */; };
 		660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 660337521733282D001090B7 /* PHFoldersPrefsPage.m */; };
 		6603375617332858001090B7 /* PHPrefsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375517332858001090B7 /* PHPrefsPage.m */; };
 		6603375817332C33001090B7 /* composites-latest.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6603375717332C33001090B7 /* composites-latest.plist */; };
 		6603375A17333217001090B7 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 6603375917333217001090B7 /* scripts */; };
-		6603375E1733346C001090B7 /* PHScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603375D1733346C001090B7 /* PHScript.m */; };
-		6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 6603375F17333C85001090B7 /* PHScriptAnimation.h */; };
-		6603376317334430001090B7 /* PHScriptAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6603376017333C86001090B7 /* PHScriptAnimation.m */; };
 		660589EB17220D11006572B8 /* PHCheckerboardGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */; };
 		660589EC17220D11006572B8 /* PHCheckerboardGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */; };
 		660589EE17221079006572B8 /* checkerboardgenerator.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589ED17221079006572B8 /* checkerboardgenerator.png */; };
@@ -33,6 +29,7 @@
 		660589FA17221538006572B8 /* colorinvert.png in Resources */ = {isa = PBXBuildFile; fileRef = 660589F917221538006572B8 /* colorinvert.png */; };
 		660589FD17221577006572B8 /* PHComicFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 660589FB17221576006572B8 /* PHComicFilter.h */; };
 		660589FE17221577006572B8 /* PHComicFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 660589FC17221576006572B8 /* PHComicFilter.m */; };
+		6616D4FD2898D3FA00462092 /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */; };
 		6617FAB3171E8073006E0DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B511676FC2F00453E8F /* Cocoa.framework */; };
 		6617FC9C171E8376006E0DF8 /* Box2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 6617FC3A171E8376006E0DF8 /* Box2D.h */; };
 		6617FC9D171E8376006E0DF8 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6617FC3C171E8376006E0DF8 /* b2BroadPhase.cpp */; };
@@ -307,7 +304,6 @@
 		668EAAE11720BFF40056C8C3 /* PHBoxBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC51720BFF40056C8C3 /* PHBoxBlurFilter.h */; };
 		668EAAE21720BFF40056C8C3 /* PHBoxBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC61720BFF40056C8C3 /* PHBoxBlurFilter.m */; };
 		668EAAE31720BFF40056C8C3 /* PHBumpDistortionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC71720BFF40056C8C3 /* PHBumpDistortionFilter.h */; };
-		668EAAE41720BFF40056C8C3 /* PHBumpDistortionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAAC81720BFF40056C8C3 /* PHBumpDistortionFilter.m */; };
 		668EAAE51720BFF40056C8C3 /* PHDiscBlurFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAAC91720BFF40056C8C3 /* PHDiscBlurFilter.h */; };
 		668EAAE61720BFF40056C8C3 /* PHDiscBlurFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 668EAACA1720BFF40056C8C3 /* PHDiscBlurFilter.m */; };
 		668EAAE71720BFF40056C8C3 /* PHDotScreenFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 668EAACB1720BFF40056C8C3 /* PHDotScreenFilter.h */; };
@@ -456,7 +452,6 @@
 		66DC7B621676FC2F00453E8F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B601676FC2F00453E8F /* Credits.rtf */; };
 		66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B641676FC2F00453E8F /* AppDelegate.m */; };
 		66DC7B681676FC3000453E8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66DC7B661676FC3000453E8F /* MainMenu.xib */; };
-		66DC7B751676FFE400453E8F /* p9813.c in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B731676FFE400453E8F /* p9813.c */; };
 		66DC7B7C167725E900453E8F /* PHWallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7B167725E900453E8F /* PHWallView.m */; };
 		66DC7B7F1677299300453E8F /* PHDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66DC7B7E1677299300453E8F /* PHDriver.m */; };
 		66DC7B8316773BE200453E8F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DC7B8216773BE200453E8F /* IOKit.framework */; };
@@ -511,10 +506,6 @@
 		6603375517332858001090B7 /* PHPrefsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefsPage.m; sourceTree = "<group>"; };
 		6603375717332C33001090B7 /* composites-latest.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "composites-latest.plist"; sourceTree = "<group>"; };
 		6603375917333217001090B7 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
-		6603375C1733346C001090B7 /* PHScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScript.h; sourceTree = "<group>"; };
-		6603375D1733346C001090B7 /* PHScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScript.m; sourceTree = "<group>"; };
-		6603375F17333C85001090B7 /* PHScriptAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHScriptAnimation.h; sourceTree = "<group>"; };
-		6603376017333C86001090B7 /* PHScriptAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHScriptAnimation.m; sourceTree = "<group>"; };
 		660589E917220D11006572B8 /* PHCheckerboardGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHCheckerboardGeneratorFilter.h; sourceTree = "<group>"; };
 		660589EA17220D11006572B8 /* PHCheckerboardGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHCheckerboardGeneratorFilter.m; sourceTree = "<group>"; };
 		660589ED17221079006572B8 /* checkerboardgenerator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checkerboardgenerator.png; path = PixelDriver/resources/checkerboardgenerator.png; sourceTree = "<group>"; };
@@ -1038,8 +1029,6 @@
 		66DC7B641676FC2F00453E8F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		66DC7B671676FC3000453E8F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		66DC7B711676FF6500453E8F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		66DC7B731676FFE400453E8F /* p9813.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = p9813.c; path = p9813/p9813.c; sourceTree = SOURCE_ROOT; };
-		66DC7B741676FFE400453E8F /* p9813.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = p9813.h; path = p9813/p9813.h; sourceTree = SOURCE_ROOT; };
 		66DC7B77167724C300453E8F /* target.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = target.xcconfig; sourceTree = "<group>"; };
 		66DC7B7A167725E900453E8F /* PHWallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHWallView.h; sourceTree = "<group>"; };
 		66DC7B7B167725E900453E8F /* PHWallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHWallView.m; sourceTree = "<group>"; };
@@ -1097,7 +1086,6 @@
 				6617FCF7171E8503006E0DF8 /* libbox2d.a in Frameworks */,
 				668EAB0B1720C02B0056C8C3 /* libPixelCore.a in Frameworks */,
 				66DC7B521676FC2F00453E8F /* Cocoa.framework in Frameworks */,
-				6603375017331F57001090B7 /* FScript.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,15 +1101,6 @@
 				0EEA867516921C98009ACDF3 /* PHScrollingTextOverlay.m */,
 			);
 			name = Overlays;
-			sourceTree = "<group>";
-		};
-		6603375B17333454001090B7 /* Scripts */ = {
-			isa = PBXGroup;
-			children = (
-				6603375C1733346C001090B7 /* PHScript.h */,
-				6603375D1733346C001090B7 /* PHScript.m */,
-			);
-			name = Scripts;
 			sourceTree = "<group>";
 		};
 		660A2F55178296DF00B6F7E1 /* USB */ = {
@@ -1476,8 +1455,6 @@
 				66BD070E17856BCF0041107A /* PHTwistedAnimation.m */,
 				665A07B7172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h */,
 				665A07B8172B5C1C00DD5D14 /* PHFlowyColorsAnimation.m */,
-				6603375F17333C85001090B7 /* PHScriptAnimation.h */,
-				6603376017333C86001090B7 /* PHScriptAnimation.m */,
 				66813E06173DA7A3009367A5 /* PHScreenCaptureAnimation.h */,
 				66813E07173DA7A3009367A5 /* PHScreenCaptureAnimation.m */,
 			);
@@ -1875,7 +1852,6 @@
 				66DC7B571676FC2F00453E8F /* PixelPusher */,
 				66DC7B791677255D00453E8F /* Resources */,
 				66A64E951691693600A701BA /* SCEvents */,
-				66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */,
 				66DC7B501676FC2F00453E8F /* Frameworks */,
 				66DC7B4E1676FC2F00453E8F /* Products */,
 			);
@@ -1932,7 +1908,6 @@
 				66393E78168AE4E3002BD86F /* Pixel Mote */,
 				66AF78C0177FC79800E291F0 /* Kinect */,
 				663C839E168EC242003B88A1 /* Processing */,
-				6603375B17333454001090B7 /* Scripts */,
 				66DC7B80167738EB00453E8F /* Views */,
 				6634E1F816A667AA00AD86B1 /* Pixel Driver */,
 				66DC7B631676FC2F00453E8F /* AppDelegate.h */,
@@ -1943,15 +1918,6 @@
 			);
 			name = PixelPusher;
 			path = PixelDriver;
-			sourceTree = "<group>";
-		};
-		66DC7B761676FFE600453E8F /* p9813 - USB<->FTDI Driver */ = {
-			isa = PBXGroup;
-			children = (
-				66DC7B741676FFE400453E8F /* p9813.h */,
-				66DC7B731676FFE400453E8F /* p9813.c */,
-			);
-			name = "p9813 - USB<->FTDI Driver";
 			sourceTree = "<group>";
 		};
 		66DC7B791677255D00453E8F /* Resources */ = {
@@ -2232,7 +2198,6 @@
 				665199A3172620A00007EC96 /* PHTriangleTileFilter.h in Headers */,
 				665A07AD172B4DB000DD5D14 /* PHLPD8Device.h in Headers */,
 				665A07B9172B5C1C00DD5D14 /* PHFlowyColorsAnimation.h in Headers */,
-				6603376117333C86001090B7 /* PHScriptAnimation.h in Headers */,
 				66813E08173DA7A3009367A5 /* PHScreenCaptureAnimation.h in Headers */,
 				66DD8B4E17B73B9E00CA103D /* PHFlippingSquaresAnimation.h in Headers */,
 				66B7511317B9889D00C5B01F /* PHFont.h in Headers */,
@@ -2286,7 +2251,6 @@
 				66DC7B491676FC2F00453E8F /* Sources */,
 				66DC7B4A1676FC2F00453E8F /* Frameworks */,
 				66DC7B4B1676FC2F00453E8F /* Resources */,
-				66A8E022167C0B8700FBAFE8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2313,6 +2277,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 66DC7B421676FC2F00453E8F;
@@ -2417,22 +2382,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		66A8E022167C0B8700FBAFE8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\ncp -r FScript.framework \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks\"\n\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6617FAAE171E8073006E0DF8 /* Sources */ = {
@@ -2552,7 +2501,6 @@
 				668EAADE1720BFF40056C8C3 /* PHAffineTileFilter.m in Sources */,
 				668EAAE01720BFF40056C8C3 /* PHBloomFilter.m in Sources */,
 				668EAAE21720BFF40056C8C3 /* PHBoxBlurFilter.m in Sources */,
-				668EAAE41720BFF40056C8C3 /* PHBumpDistortionFilter.m in Sources */,
 				668EAAE61720BFF40056C8C3 /* PHDiscBlurFilter.m in Sources */,
 				668EAAE81720BFF40056C8C3 /* PHDotScreenFilter.m in Sources */,
 				668EAAEA1720BFF40056C8C3 /* PHDrosteFilter.m in Sources */,
@@ -2598,7 +2546,6 @@
 			files = (
 				66DC7B5E1676FC2F00453E8F /* main.m in Sources */,
 				66DC7B651676FC2F00453E8F /* AppDelegate.m in Sources */,
-				66DC7B751676FFE400453E8F /* p9813.c in Sources */,
 				66DC7B7C167725E900453E8F /* PHWallView.m in Sources */,
 				66DC7B7F1677299300453E8F /* PHDriver.m in Sources */,
 				66DC7B8616773EE000453E8F /* PHUSBNotifier.m in Sources */,
@@ -2649,6 +2596,7 @@
 				66CF638516AD3CD30048228F /* PHMIDIClient.m in Sources */,
 				66CF638816AE2CAF0048228F /* PHMIDIDevice.m in Sources */,
 				66CF639316AE44B60048228F /* PHLaunchpadDevice.m in Sources */,
+				6616D4FD2898D3FA00462092 /* PHBumpDistortionFilter.m in Sources */,
 				66CF63BF16AE8BB40048228F /* PHDJ2GODevice.m in Sources */,
 				66CF63C216AE8EB60048228F /* PHMIDIMessage+DJ2GO.m in Sources */,
 				66BD06F21785037A0041107A /* PHDeckControlsView.m in Sources */,
@@ -2675,8 +2623,6 @@
 				665A07B5172B4E4700DD5D14 /* PHMIDIHardware.m in Sources */,
 				660337531733282D001090B7 /* PHFoldersPrefsPage.m in Sources */,
 				6603375617332858001090B7 /* PHPrefsPage.m in Sources */,
-				6603375E1733346C001090B7 /* PHScript.m in Sources */,
-				6603376317334430001090B7 /* PHScriptAnimation.m in Sources */,
 				6602D06717BAE07700406DE1 /* PHAnimationList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2808,6 +2754,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Box2D;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2831,6 +2778,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = Box2D;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2855,9 +2803,8 @@
 					"$(inherited)",
 					Box2D,
 				);
-				OTHER_LDFLAGS = "-lftd2xx";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2882,9 +2829,8 @@
 					"$(inherited)",
 					Box2D,
 				);
-				OTHER_LDFLAGS = "-lftd2xx";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx10.9;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
